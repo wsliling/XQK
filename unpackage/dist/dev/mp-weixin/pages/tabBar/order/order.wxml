@@ -1,0 +1,1 @@
+<view><tabbar vue-id="129d8c71-1" current="{{3}}" bind:__l="__l"></tabbar></view>

@@ -1,23 +1,26 @@
 <template>
 	<view>
-		<waterfall></waterfall>
+		<tabbar :current="2"></tabbar>
 	</view>
 </template>
 
 <script>
-	import waterfall from '@/components/waterfall'
+	import tabbar from '@/components/tabbar.vue';
 	export default {
 		components: {
-			waterfall
+			tabbar
 		},
 		data() {
 			return {
 				
-			};
+			}
+		},
+		methods: {
+			
 		}
 	}
 </script>
 
-<style lang="scss">
+<style>
 
 </style>

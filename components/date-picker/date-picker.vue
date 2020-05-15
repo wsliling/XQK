@@ -2,22 +2,44 @@
 	<view>
 		<view class="order-time" @tap="showCalendar()" v-if="!modal">
 			<view class="time-viewer" v-if="singleDate">{{ choiceDate[0].year }}年{{ choiceDate[0].month }}月{{ choiceDate[0].day }}日</view>
-			<view class="time-viewer" v-else>
-				<text class="goInHotel">入住</text>
-				<text class="date-wrappper">{{ choiceDate[0].month }}月{{ choiceDate[0].day }}日</text>
-				<text class="goInHotel2" v-if="choiceDate[0].year + '' + choiceDate[0].month + '' + choiceDate[0].day == today">今天</text>
-				<text class="left-hotel">离店</text>
-				<text class="date-wrappper">{{ choiceDate[1].month }}月{{ choiceDate[1].day }}日</text>
-				<text
-					class="goInHotel2"
-					v-if="choiceDate[choiceDate.length - 1].year + '' + choiceDate[choiceDate.length - 1].month + '' + choiceDate[choiceDate.length - 1].day == tomorrow"
-				>
-					明天
-				</text>
+			<view class="time-viewer flex-between" v-else>
+				<view class="flex-column">
+					<text class="mintxt">入住</text>
+					<text class="date-wrappper">{{ choiceDate[0].month }}月{{ choiceDate[0].day }}日</text>
+					<text class="goInHotel2" v-if="choiceDate[0].year + '' + choiceDate[0].month + '' + choiceDate[0].day == today">今天</text>
+				</view>
 				<text class="sumCount">{{ dayCount2 }}</text>
+				<view class="flex-column">
+					<text class="mintxt">离店</text>
+					<text class="date-wrappper">{{ choiceDate[1].month }}月{{ choiceDate[1].day }}日</text>
+					<text
+						class="goInHotel2"
+						v-if="choiceDate[choiceDate.length - 1].year + '' + choiceDate[choiceDate.length - 1].month + '' + choiceDate[choiceDate.length - 1].day == tomorrow"
+					>
+						明天
+					</text>
+				</view>
+				<view class="flex-column" @click.stop="changeNum">
+					<text class="mintxt">人数</text>
+					<text class="date-wrappper">{{peopleNum}}人</text>
+				</view>
 			</view>
 		</view>
-
+		<view class="number-layer" v-if="showNumlayer">
+			<view class="layer-white-space" @tap="cancel"></view>
+			<view class="layer-content-number">
+				<view class="h4">
+					修改入住人数
+				</view>
+				<view class="numbox">
+					<input type="text" v-model="inputNum" />
+				</view>
+				<view class="btns flex-between">
+					<view class="btn btn_1 c_999" @click="cancel">取消</view>
+					<view class="btn btn_2" @click="confirm">确定</view>	
+				</view>
+			</view>
+		</view>
 		<view class="calendar-layer" :animation="animationData" :class="isShow_H5 ? 'show' : 'hide'">
 			<!-- 遮罩层 -->
 			<view class="layer-white-space" @tap="hideCalendar(false)"></view>
@@ -182,7 +204,10 @@ export default {
 			bak_dayCount: 1,
 			isShow_H5: '', //用于表示H5平台显示隐藏状态
 			isShow_NoH5: false, //用于表示非H5平台显示隐藏状态
-			tmpWeekArr: {} //临时数组
+			tmpWeekArr: {}, //临时数组
+			peopleNum:1,//显示数字
+			inputNum:1,//输入数字
+			showNumlayer:false,
 		};
 	},
 	props: {
@@ -232,6 +257,16 @@ export default {
 		}
 	},
 	methods: {
+		changeNum(){
+			this.showNumlayer=true;
+		},
+		cancel(){
+			this.showNumlayer=false;
+		},
+		confirm(){
+			this.showNumlayer=false;
+			this.peopleNum=this.inputNum;
+		},
 		//补0
 		pad(num, n) {
 			return Array(n - ('' + num).length + 1).join(0) + num;
@@ -858,12 +893,12 @@ export default {
 * 主题颜色请修改这里
 * 
 * */
-$themeColor: #f93f4a;
+$themeColor: #5cc69a;
 
 /**
  * 补班的日子的文字颜色
  */
-$workdayColor: #0c978d;
+$workdayColor: #f0ad4e;
 
 /*  #ifndef  H5  */
 view {
@@ -878,12 +913,65 @@ uni-view {
 }
 
 /*  #endif  */
-
+.number-layer{
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1110;
+	.layer-content-number{
+		position: fixed;
+		width: 600upx;
+		top: 50%;
+		left: 50%;
+		margin: -140upx 0 0 -300upx;
+		background: #fff;
+		border-radius: 12upx;
+		overflow: hidden;
+		z-index: 1111;
+		display: flex;
+		flex-direction: column;
+		.h4{
+			justify-content: center;
+			padding: 20upx;
+			font-size: 32upx;
+		}
+		.numbox{
+			justify-content: center;
+			height: 80upx;
+			width: 240upx;
+			border: 1px solid #ddd;
+			border-radius: 8upx;
+			margin: 0 auto;
+			input{
+				font-size: 30upx;
+				text-align: center;
+				height: 100%;
+				width: 100%;
+			}
+		}
+		.btns{
+			border-top: 1px solid #eee;
+			margin-top: 20upx;
+			.btn{
+				height: 80upx;
+				width: 50%;
+				justify-content: center;
+				align-items: center;
+			}
+			.btn_2{
+				border-left: 1px solid #eee;
+				color: $themeColor;
+			}
+		}
+	}
+}
 .layer-white-space {
 	position: fixed;
 	height: 100%;
 	width: 100%;
-	background-color: #ccc;
+	background-color: #000;
 	opacity: 0.5;
 }
 
@@ -1233,11 +1321,12 @@ uni-view {
 .order-time {
 	position: relative;
 	width: 100%;
-	padding: 25upx 15upx;
+	padding: 20upx 0;
 }
 
 .time-viewer {
 	align-items: center;
+	width: 100%;
 }
 
 .order-time::after {
@@ -1251,8 +1340,7 @@ uni-view {
 	transform: scaleY(0.5);
 }
 
-.goInHotel {
-	margin-left: 20upx;
+.mintxt {
 	font-size: 26upx;
 	color: gray;
 }
@@ -1268,17 +1356,8 @@ uni-view {
 	font-size: 32upx;
 	color: black;
 }
-
-.left-hotel {
-	margin-left: 40upx;
-	font-size: 26upx;
-	color: gray;
-}
-
 .order-time .sumCount {
-	color: #6495ed;
-	float: right;
-	margin-right: 15upx;
+	color: gray;
 	font-size: 26upx;
 }
 </style>
