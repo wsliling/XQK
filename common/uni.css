@@ -161,7 +161,7 @@ image{ width: 100%;}
 .uni-bold{font-weight:bold;}
 .red{ color: #F0370B !important;}
 .c_999{ color: #999;}
-.c_theme{color: $primary;}
+.c_theme{color: #5cc69a;}
 .c_blue{color: #5e729a;}
 .fz12{ font-size: 24upx !important;}
 .fz12 span{font-size: 24upx !important;}
@@ -689,7 +689,6 @@ radio-group label, checkbox-group label{
 
 /* 九宫格 */
 .uni-grid-9 {
-	background: #f2f2f2;
 	width: 750upx;
 	display: flex;
 	flex-direction: row;

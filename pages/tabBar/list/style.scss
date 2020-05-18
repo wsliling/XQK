@@ -1,0 +1,67 @@
+.xylist{
+	display: flex;
+	width: 100%;
+	flex-wrap: wrap;
+	flex-direction: row;
+	padding-left: 20upx;
+	.left-list,.right-list{
+		width: 50%;
+	}
+	.item{
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		padding-right: 20upx;
+		margin-bottom: 20upx;
+		.itembox{
+			background-color: #fff;
+			border-radius: 12upx;
+			overflow: hidden;
+			box-shadow: 0 4upx 12upx rgba(0,0,0,0.1);
+		}
+		.imgbox{
+			height: auto;
+			position: relative;
+			.like{
+				position: absolute;
+				top: 12upx;
+				right: 20upx;
+				.iconfont.bg{
+					color: #fff;
+					font-size: 36upx;
+					position: relative;
+					line-height: 1;
+					.iconfont{
+						position: absolute;
+						font-size: 32upx;
+						color: #999;
+						line-height: 1;
+						top: 2upx;
+						left: 2upx;
+					}
+					.iconfont.active{
+						color: #ff6766;
+					}
+				}
+				.num{ color: #fff; margin-left: 10upx;}
+			}
+		}
+		.txtbox{
+			padding: 20upx;
+			.title{
+				line-height: 1.4;
+			}
+			.tx{
+				image{ height: 48upx; width: 48upx; border-radius: 50%; margin-right: 10upx; background-color: #eee;}
+				text{
+					font-size: 24upx;
+					color: #555;
+				}
+			}
+			.zan{
+				font-size: 24upx;
+				color: #555;
+			}
+		}
+	}
+}

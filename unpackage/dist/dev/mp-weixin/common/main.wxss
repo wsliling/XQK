@@ -210,7 +210,7 @@ image{ width: 100%;}
 .uni-bold{font-weight:bold;}
 .red{ color: #F0370B !important;}
 .c_999{ color: #999;}
-.c_theme{color: $primary;}
+.c_theme{color: #5cc69a;}
 .c_blue{color: #5e729a;}
 .fz12{ font-size: 24rpx !important;}
 .fz12 ._span{font-size: 24rpx !important;}
@@ -818,7 +818,6 @@ radio-group label, checkbox-group label{
 }
 /* 九宫格 */
 .uni-grid-9 {
-	background: #f2f2f2;
 	width: 750rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -2872,7 +2871,7 @@ textarea {
   font-size: 40rpx;
 }
 .border_bottom {
-  border-bottom: 1rpx solid #ffffff;
+  border-bottom: 1rpx solid #eee;
 }
 .pw3 {
   padding: 0 30rpx;

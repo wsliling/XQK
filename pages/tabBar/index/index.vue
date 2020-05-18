@@ -164,20 +164,23 @@
 				<image class="bgimg" src="/static/popCouponbg.png" mode="widthFix"></image>
 				<view class="couponlist">
 					<view class="item flex" v-for="(item,index) in 3" :key="index">
-						<view class="left">
-							<view class="money">
+						<view class="left flex-column">
+							<view class="money flex-center">
 								<text class="num">10</text>元
 							</view>
 						</view>
 						<view class="right flex-between">
 							<view>
-								<view class="txt">满300可用</view>
-								<view class="txt b">全场通用</view>
+								<view class="title">满300可用</view>
+								<view class="desc">全场通用</view>
 							</view>
 							<view class="btn_re">
 								立即领取
 							</view>
 						</view>
+					</view>
+					<view class="getAll">
+						<image src="/static/rec_btn.png" mode="widthFix"></image>
 					</view>
 				</view>
 				<view class="close iconfont icon-guanbi" @click="hideCoupon"></view>
@@ -203,7 +206,7 @@
 				//初始日期
 				initStartDate: '2019-12-06',
 				initEndDate: '2019-12-07',
-				showCoupon:true,
+				showCoupon:false,
 			}
 		},
 		components: {
@@ -211,7 +214,10 @@
 			calendar
 		},
 		onLoad() {
-
+			
+		},
+		onShow(){
+			
 		},
 		onBackPress() {
 			if (this.showCaledar !== false) {
@@ -220,6 +226,7 @@
 			}
 		},
 		methods: {
+			
 			changeSwiper(e){
 				this.currentSwiper=e.detail.current;
 			},
