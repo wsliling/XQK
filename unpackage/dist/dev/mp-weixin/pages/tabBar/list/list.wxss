@@ -24,6 +24,40 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.search.data-v-2d78289c {
+  padding: 10rpx 30rpx 20rpx;
+}
+.search .searchbox.data-v-2d78289c {
+  height: 64rpx;
+  background: #f2f2f2;
+  border-radius: 32rpx;
+  padding: 0 20rpx;
+}
+.search .searchbox .iconfont.data-v-2d78289c {
+  color: #999;
+  font-size: 36rpx;
+  line-height: 1;
+  margin-right: 10rpx;
+}
+.search .searchbox .txt.data-v-2d78289c {
+  color: #999;
+  font-size: 26rpx;
+}
+.fubuBtn.data-v-2d78289c {
+  position: fixed;
+  right: 20rpx;
+  bottom: 110rpx;
+  width: 80rpx;
+  height: 80rpx;
+  text-align: center;
+  line-height: 80rpx;
+  color: #fff;
+  background: #5cc69a;
+  border-radius: 50%;
+  -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
+  z-index: 11;
+}
 .xylist.data-v-2d78289c {
   display: -webkit-box;
   display: -webkit-flex;
@@ -67,6 +101,7 @@
   position: absolute;
   top: 12rpx;
   right: 20rpx;
+  z-index: 2;
 }
 .xylist .item .imgbox .like .iconfont.bg.data-v-2d78289c {
   color: #fff;
@@ -109,5 +144,15 @@
 .xylist .item .txtbox .zan.data-v-2d78289c {
   font-size: 24rpx;
   color: #555;
+}
+.xylist .item .txtbox .zan.active.data-v-2d78289c {
+  color: #5cc69a;
+}
+.xylist .item .txtbox .zan.active .iconfont.active.data-v-2d78289c {
+  color: #5cc69a;
+}
+.xylist .item .txtbox .author.data-v-2d78289c {
+  display: block;
+  max-width: 160rpx;
 }
 

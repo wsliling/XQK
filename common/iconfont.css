@@ -12,12 +12,20 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.icon-wodeguanzhu:before {
-  content: "\e60f";
+.icon-totop:before {
+  content: "\e614";
+}
+
+.icon-fapiao:before {
+  content: "\e60a";
+}
+
+.icon-guanzhu:before {
+  content: "\e610";
 }
 
 .icon-youhuiquan:before {
-  content: "\e606";
+  content: "\e8c0";
 }
 
 .icon-kefu:before {
@@ -26,10 +34,6 @@
 
 .icon-help:before {
   content: "\e604";
-}
-
-.icon-fapiao:before {
-  content: "\e683";
 }
 
 .icon-anquan1:before {
@@ -76,11 +80,7 @@
   content: "\e61d";
 }
 
-.icon-sousuo1:before {
-  content: "\e60c";
-}
-
-.icon-iconset0418:before {
+.icon-arrowup:before {
   content: "\e729";
 }
 
@@ -180,10 +180,6 @@
   content: "\e6d3";
 }
 
-.icon-goods:before {
-  content: "\e61e";
-}
-
 .icon-sousuo:before {
   content: "\e633";
 }
@@ -262,13 +258,5 @@
 
 .icon-jiantouxia:before {
   content: "\e62a";
-}
-
-.icon-share:before {
-  content: "\e605";
-}
-
-.icon-gou2:before {
-  content: "\e63b";
 }
 

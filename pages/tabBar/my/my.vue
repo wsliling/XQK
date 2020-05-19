@@ -61,7 +61,7 @@
 						</view>
 						<view class="item">
 							<view class="iconImg">
-								<view class="iconfont icon-wodeguanzhu"></view>
+								<view class="iconfont icon-guanzhu"></view>
 							</view>
 							<view class="txt">我的关注</view>
 						</view>
@@ -134,6 +134,7 @@
 </template>
 
 <script>
+	import {post,get,toLogin} from '@/common/util.js';
 	import tabbar from '@/components/tabbar.vue';
 	export default {
 		components: {

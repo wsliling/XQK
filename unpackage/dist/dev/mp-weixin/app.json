@@ -4,13 +4,14 @@
     "pages/tabBar/list/list",
     "pages/tabBar/xingkong/xingkong",
     "pages/tabBar/order/order",
-    "pages/tabBar/my/my"
+    "pages/tabBar/my/my",
+    "pages/chooseCity/chooseCity"
   ],
   "subPackages": [],
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "星球客",
-    "navigationBarBackgroundColor": "#F8F8F8",
+    "navigationBarBackgroundColor": "#ffffff",
     "backgroundColor": "#F8F8F8"
   },
   "tabBar": {
@@ -53,5 +54,5 @@
     ]
   },
   "usingComponents": {},
-  "sitemapLocation": "sitemap87.json"
+  "sitemapLocation": "sitemap35.json"
 }

@@ -1,3 +1,30 @@
+.search{
+	padding: 10upx 30upx 20upx;
+	.searchbox{
+		height: 64upx;
+		background: #f2f2f2;
+		border-radius: 32upx;
+		padding: 0 20upx;
+		.iconfont{ color: #999;font-size: 36upx; line-height: 1; margin-right: 10upx;}
+		.txt{
+			color: #999; font-size: 26upx;
+		}
+	}
+}
+.fubuBtn{
+	position: fixed;
+	right: 20upx;
+	bottom: 110upx;
+    width: 80upx;
+    height: 80upx;
+	text-align: center;
+	line-height: 80upx;
+	color: #fff;
+	background: $primary;
+	border-radius: 50%;
+	box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
+    z-index: 11;
+}
 .xylist{
 	display: flex;
 	width: 100%;
@@ -26,6 +53,7 @@
 				position: absolute;
 				top: 12upx;
 				right: 20upx;
+				z-index: 2;
 				.iconfont.bg{
 					color: #fff;
 					font-size: 36upx;
@@ -62,6 +90,13 @@
 				font-size: 24upx;
 				color: #555;
 			}
+			.zan.active{
+				color: $primary;
+				.iconfont.active{
+					color: $primary;
+				}
+			}
+			.author{ display: block; max-width: 160upx;}
 		}
 	}
 }

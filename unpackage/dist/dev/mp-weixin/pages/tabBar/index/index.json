@@ -3,6 +3,7 @@
   "navigationBarTitleText": "星球客",
   "usingComponents": {
     "tabbar": "/components/tabbar",
-    "calendar": "/components/date-picker/date-picker"
+    "calendar": "/components/date-picker/date-picker",
+    "wpicker": "/components/w-picker/w-picker"
   }
 }

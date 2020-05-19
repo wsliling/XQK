@@ -12,6 +12,9 @@
 .pages-tabBar-cart-cart .uni-page-head-btn,
 .pages-Article-artPost-artPost .uni-page-head-btn{ margin: 0 16upx;}
 .pages-tabBar-cart-cart .uni-page-head{border-bottom: 1px solid #eee;}
+.uni-tabbar .uni-tabbar__item:nth-child(4) .uni-tabbar__icon{
+	height: 80upx; width: 80upx; margin-top: -26upx;
+}
 view{
 	
 }
@@ -1973,4 +1976,19 @@ radio-group label, checkbox-group label{
 }
 .pd15{padding: 0 30upx;}
 /* 返回顶部 */
-.topbtn{ height: 100upx; width: 100upx; background: url(http://www.sc-mall.nethttp://shop.dadanyipin.com/static/top.png) center center; background-size: cover; position: fixed; right: 10upx; bottom: 110upx; z-index: 99;}
+.topbtn{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	height: 80upx;
+	width: 80upx;
+	border-radius: 50%;
+	position: fixed;
+	right: 20upx;
+	bottom: 200upx;
+	z-index: 99;
+	border: 1px solid #ddd;
+	background: rgba(255,255,255,.8);
+	color: #333;
+}

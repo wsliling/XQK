@@ -14,18 +14,18 @@
 			</view>
 		</view>
 		<view class="searchXQ uni-bg-white uni-mb10">
-			<view class="item item-start flex-between">
+			<view class="item item-start flex-between" @click="tolink('/pages/chooseCity/chooseCity')">
 				<view class="item-l">
-					萍乡市
+					{{cityname}}
 				</view>
-				<view class="item-r flex-column">
+				<view class="item-r flex-column" @click.stop="getlocationNow">
 					<view class="iconfont icon-dingwei"></view>
 					<view class="fz12 c_999">当前定位</view>
 				</view>
 			</view>
-			<view class="item item-end flex-start">
+			<view class="item item-end flex-start" @click="onClassify">
 				<view class="item-l uni-ellipsis c_999">
-					江西萍乡武功山5A级景区
+					{{classifyDefault}}
 				</view>
 				<view class="iconfont icon-arrow_down-copy"></view>
 			</view>
@@ -157,6 +157,17 @@
 				查看更多星语
 			</view>
 		</view>
+		<!-- 景点选择 -->
+		<wpicker
+			mode="selector"
+			:level="1" 
+			:defaultVal="classifyDefault"
+			@confirm="pickerclassOk"
+			ref="selector"
+			:selectList="classifyList"
+			themeColor="#5cc69a"
+			>
+		</wpicker>
 		<!--优惠弹窗-->
 		<view class="popCoupon" v-if="showCoupon">
 			<view class="mask"></view>
@@ -192,11 +203,18 @@
 </template>
 
 <script>
+	import {post,get,toLogin} from '@/common/util.js';
 	import tabbar from '@/components/tabbar.vue';
 	import calendar from '@/components/date-picker/date-picker';
+	// #ifdef H5
+	import {MP} from '@/common/map.js';//h5百度定位
+	// #endif
+	import wpicker from "@/components/w-picker/w-picker.vue";
 	export default {
 		data() {
 			return {
+				userId: "",
+				token: "",
 				currentSwiper :0,
 				showCaledar: false,
 				dateStr: '',
@@ -207,17 +225,74 @@
 				initStartDate: '2019-12-06',
 				initEndDate: '2019-12-07',
 				showCoupon:false,
+				cityname:"",//定位城市
+				nowCity:"",//当前城市
+				AreaCode:"",//区域国家码
+				AreaType:0,//1不限市，区
+				classifyDefault:'深圳华侨城5A级景区',
+				classifyList:[
+						{
+							label:"深圳华侨城5A级景区",
+							value:"1",
+						},
+						{
+							label:"深圳华小梅沙度假区",
+							value:"2",
+						},
+						{
+							label:"深圳华梧桐山景区",
+							value:"3",
+						}
+					],
 			}
 		},
 		components: {
 			tabbar,
-			calendar
+			calendar,
+			wpicker
 		},
 		onLoad() {
-			
+			this.userId = uni.getStorageSync("userId");
+			this.token = uni.getStorageSync("token");
+			var _this=this
+			// #ifdef APP-PLUS||MP-WEIXIN
+			uni.getLocation({
+			    type: 'wgs84',
+				geocode: true,
+			    success: function (res) {console.log(res)
+					// #ifdef APP-PLUS
+					var city=res.address.city.replace(/市/,'')
+					uni.setStorageSync('cityname',city)
+					_this.cityname=city;
+					_this.nowCity=city;
+					_this.getAreaCode(city);
+					
+					// #endif
+					// #ifdef MP-WEIXIN
+					_this.wxGetCity(res.longitude,res.latitude)
+					// #endif
+			        // console.log(res);
+			    }
+			});
+			// #endif
+			//百度定位
+			// #ifdef H5
+			MP(0).then(BMap => {
+				var _this=this
+				let myCity = new BMap.LocalCity()
+				myCity.get(function (res) {
+					var city=res.name.replace(/市/,'')
+					uni.setStorageSync('cityname',city)
+					_this.cityname=city;
+					_this.nowCity=city;
+					_this.getAreaCode(city)
+				})
+			})
+			// #endif
 		},
 		onShow(){
-			
+			this.cityname=uni.getStorageSync("cityname");
+			this.getAreaCode(this.cityname);
 		},
 		onBackPress() {
 			if (this.showCaledar !== false) {
@@ -226,7 +301,20 @@
 			}
 		},
 		methods: {
-			
+			//跳转
+			tolink(Url,islogin) {
+				if(islogin=="login"){
+					if(toLogin()){
+						uni.navigateTo({
+							url: Url
+						})
+					}
+				}else{
+					uni.navigateTo({
+						url: Url
+					})
+				}
+			},
 			changeSwiper(e){
 				this.currentSwiper=e.detail.current;
 			},
@@ -243,7 +331,58 @@
 			},
 			hideCoupon(){
 				this.showCoupon=false;
-			}
+			},
+			// 定位当前城市
+			getlocationNow(){
+				this.cityname=this.nowCity;
+				this.getAreaCode(this.nowCity);
+			},
+			//小程序解析经纬度获取城市
+			// #ifdef MP-WEIXIN
+			wxGetCity(lon,lat){
+				var _this=this
+				wx.request({
+					url:'https://api.map.baidu.com/reverse_geocoding/v3/?ak=3wwDKCk09o6hU0PK1605QUXOCBqGVHGx&location=' + lat + ',' + lon + '&output=json&coordtype=wgs84ll',
+					data: {},
+					header: {
+						'content-type': 'application/json' // 默认值
+					},
+					success (res) {
+						 console.log("res")
+					     console.log(res)
+						var cityname=res.data.result.addressComponent.city.replace(/市/,'')
+						uni.setStorageSync('cityname',cityname)
+						_this.cityname=cityname
+						_this.getAreaCode(cityname)
+					}
+				})
+			},
+			// #endif
+			async getAreaCode(name) {
+				if(name&&name!='全国'){
+					let result = await post("Area/GetCityCode", {
+						Name:name
+					});
+					if (result.code === 0) {
+						this.AreaCode = result.data.Code;
+						this.AreaType = 1;
+					}
+				}else if(name=='全国'){
+					this.AreaCode = "";
+					this.AreaType = 0;
+				}else{
+					this.AreaCode = "";
+					this.AreaType = 0;
+				}
+				uni.setStorageSync('AreaCode',this.AreaCode);
+			},
+			// 选择分类
+			onClassify(){
+				this.$refs['selector'].show();
+			},
+			pickerclassOk(e){
+				this.classifyDefault=e.result;
+			},
 		}
 	}
 </script>

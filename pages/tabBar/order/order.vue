@@ -104,21 +104,35 @@
 				</view>
 			</view>
 		</view>
+		<view class="uni-tab-bar-loading" v-if="hasData"><uni-load-more :loadingType="loadingType"></uni-load-more></view>
+		<noData :isShow="noDataIsShow"></noData>
 		<view style="height: 120upx;"></view>
 		<tabbar :current="3"></tabbar>
 	</view>
 </template>
 
 <script>
+	import {post,get,toLogin} from '@/common/util.js';
 	import tabbar from '@/components/tabbar.vue';
+	import noData from '@/components/noData.vue'; //暂无数据
+	import uniLoadMore from '@/components/uni-load-more.vue'; //加载更多
 	export default {
 		components: {
-			tabbar
+			tabbar,
+			noData,
+			uniLoadMore
 		},
 		data() {
 			return {
 				tabList:[{id:0,name:'全部订单'},{id:1,name:'有效订单'},{id:2,name:'待支付'}],
 				tabIndex:0,
+				hasData: false,
+				noDataIsShow: false,
+				loadingType: 0, //0加载前，1加载中，2没有更多了
+				pageSize:6,
+				page: 1,
+				isLoad: false,
+				datalist:[],//数据
 			}
 		},
 		onShow() {
