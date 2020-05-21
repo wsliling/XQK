@@ -17,7 +17,7 @@
 			</view>
 		</view>
 		<view class="searchXQ uni-bg-white uni-mb10">
-			<view class="item item-start flex-between" @click="tolink('/pages/chooseCity/chooseCity')">
+			<view class="item item-start flex-between" @click="navigate('location/cityList')">
 				<view class="item-l">
 					{{cityname}}
 				</view>
@@ -206,7 +206,7 @@
 </template>
 
 <script>
-	import {post,get,toLogin} from '@/common/util.js';
+	import {post,get,navigate,judgeLogin} from '@/utils';
 	import tabbar from '@/components/tabbar.vue';
 	import calendar from '@/components/date-picker/date-picker';
 	// #ifdef H5
@@ -216,6 +216,7 @@
 	export default {
 		data() {
 			return {
+				navigate,
 				userId: "",
 				token: "",
 				currentSwiper :0,
@@ -314,7 +315,7 @@
 			//跳转
 			tolink(Url,islogin) {
 				if(islogin=="login"){
-					if(toLogin()){
+					if(judgeLogin()){
 						uni.navigateTo({
 							url: Url
 						})
