@@ -1,3 +1,13 @@
+.scan{ 
+	position: absolute; top: 50upx; left: 30upx; z-index: 9;
+	height: 76upx; width: 76upx; background: rgba(0,0,0,.4);
+	border-radius: 50%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	color: #fff;
+}
 .index_swiper {
 	position: relative;
 	.swiper{

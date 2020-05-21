@@ -14,15 +14,15 @@
 		border-bottom: 1px solid #eee;
 		&.active{
 			color:$primary;
-			position: relative;
-			&:after{
-				position: absolute;
-				content:'';bottom:0;
-				width:80upx;
-				left:50%;height:4upx;background: $primary;
-				transform: translateX(-50%);
-			}
 		}
+	}
+	.bb_line{
+		position: absolute;
+		bottom: 0;
+		transition: all .2s;
+		height: 4upx;
+		width:80upx;
+		background-color: $primary
 	}
 }
 .order_item{

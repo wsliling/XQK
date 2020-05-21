@@ -1,6 +1,6 @@
 {
-  "navigationStyle": "custom",
   "navigationBarTitleText": "星球客",
+  "navigationStyle": "custom",
   "usingComponents": {
     "tabbar": "/components/tabbar",
     "calendar": "/components/date-picker/date-picker",

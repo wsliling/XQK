@@ -43,7 +43,10 @@
 .uni-tabbar .uni-tabbar__item:nth-child(4) .uni-tabbar__icon{
 	height: 80rpx; width: 80rpx; margin-top: -26rpx;
 }
-view{
+.pages-tabBar-index-index .uni-page-head-transparent .uni-page-head-btn{
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
 }
 progress, checkbox-group{
 	width: 100%;

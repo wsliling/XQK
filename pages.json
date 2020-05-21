@@ -3,8 +3,26 @@
 		{
 			"path": "pages/tabBar/index/index",
 			"style": {
-				"navigationStyle":"custom",
-				"navigationBarTitleText": "星球客"
+				"navigationBarTitleText": "星球客",
+				// #ifdef MP
+				"navigationStyle": "custom",
+				// #endif
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": {
+						"type": "transparent",
+						"buttons": [{
+								"fontSrc": "/static/uni.ttf",
+								"text": "\ue612",
+								"fontSize": "24",
+								"color": "#303133",
+								// "width": "46px",
+								"float": "left"
+								// "background": "rgba(0,0,0,0)"
+							}
+						]
+					}
+				}
 			}
 		}
         ,{

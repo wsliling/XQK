@@ -1,7 +1,8 @@
 <template>
 	<view class="order">
-		<view class="uni-bg-white tabList flex">
+		<view class="uni-bg-white tabList flex p_re">
 			<view v-for="(item,index) in tabList" :key="index" class="item" :class="{'active':item.id==tabIndex}"  @click="cliTab(item.id)">{{item.name}}</view>
+			<view class="bb_line" :style="'left:'+tabStyle+'rpx'"></view>
 		</view>
 		<view class="list" style="padding-top: 80upx;">
 			<view class="order_item">
@@ -138,6 +139,11 @@
 		onShow() {
 			
 		},
+		 computed: {
+		    tabStyle(){
+		      return ((750/this.tabList.length)*this.tabIndex)+(((750/this.tabList.length)-80)/2)
+		    }
+		  },
 		methods: {
 			goUrl(url){
 			  uni.navigateTo({

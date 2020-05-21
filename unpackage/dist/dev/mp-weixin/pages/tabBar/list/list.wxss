@@ -144,6 +144,7 @@
 .xylist .item .txtbox .zan.data-v-2d78289c {
   font-size: 24rpx;
   color: #555;
+  line-height: 1.1;
 }
 .xylist .item .txtbox .zan.active.data-v-2d78289c {
   color: #5cc69a;

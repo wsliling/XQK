@@ -1,5 +1,8 @@
 <template>
 	<view class="content uni-bg-white">
+		<!-- #ifdef MP -->
+		<view class="scan uni-icon uni-icon-scan" @click="scan"></view>
+		<!-- #endif -->
 		<!--轮播图-->
 		<view class="index_swiper">
 			<swiper class="swiper" :indicator-dots="false" autoplay :interval="5000" :duration="500" @change="changeSwiper">
@@ -301,6 +304,13 @@
 			}
 		},
 		methods: {
+			scan() {
+				uni.scanCode({
+					success:function(res){
+						console.log(JSON.stringify(res));
+					}
+				});
+			},
 			//跳转
 			tolink(Url,islogin) {
 				if(islogin=="login"){
@@ -383,7 +393,20 @@
 			pickerclassOk(e){
 				this.classifyDefault=e.result;
 			},
+		},
+		// #ifndef MP
+		//点击导航栏 buttons 时触发
+		onNavigationBarButtonTap(e) {
+			const index = e.index;
+			if (index === 0) {
+				uni.showToast({
+					title: "点击了扫描",
+					icon: "none",
+					duration: 2000
+				});
+			}
 		}
+		// #endif
 	}
 </script>
 
