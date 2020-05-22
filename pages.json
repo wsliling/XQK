@@ -94,7 +94,7 @@
 		,{
 		    "path" : "pages/tabBar/my/security",
 		    "style" : {
-				"navigationBarTitleText": "安全中心"
+				"navigationBarTitleText": "星球客旅行保障"
 			}
 		}
         ,{
