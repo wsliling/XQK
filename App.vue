@@ -18,6 +18,7 @@
 	@import './common/uni.css';
 	@import './common/iconfont.css';
 	@import './common/common.scss';
+	@import './common/style/main.scss';
 	@import './components/uParse/src/wxParse.css';
 	/* 以下样式用于 hello uni-app 演示所需 */
 	page {

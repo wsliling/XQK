@@ -5,7 +5,7 @@
     "pages/tabBar/xingkong/xingkong",
     "pages/tabBar/order/order",
     "pages/tabBar/my/my",
-    "pages/chooseCity/chooseCity"
+    "pages/location/cityList"
   ],
   "subPackages": [],
   "window": {
@@ -53,6 +53,10 @@
       }
     ]
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap79.json"
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置接口的效果展示"
+    }
+  },
+  "usingComponents": {}
 }

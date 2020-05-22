@@ -128,8 +128,7 @@ image{ width: 100%;}
 	height: 88rpx;
 	line-height: 88rpx;
 	color: #BEBEBE;
-	-webkit-box-sizing: border-box;
-	        box-sizing: border-box;
+	box-sizing: border-box;
 	border-bottom: 2rpx solid #D8D8D8;
 }
 .uni-page-body {
@@ -146,8 +145,7 @@ image{ width: 100%;}
 .uni-pd10{
 	width: 100%;
 	padding:20rpx;
-	-webkit-box-sizing: border-box;
-	        box-sizing: border-box;
+	box-sizing: border-box;
 }
 .uni-word {
 	text-align: center;
@@ -375,8 +373,7 @@ radio-group label, checkbox-group label{
 	border-radius: 8rpx;
 	margin:20rpx 0;
 	position: relative;
-	-webkit-box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, .3);
-	        box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, .3);
+	box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, .3);
 }
 .uni-card-content {
 	font-size: 30rpx;
@@ -642,8 +639,7 @@ radio-group label, checkbox-group label{
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
-	-webkit-box-sizing: border-box;
-	        box-sizing: border-box;
+	box-sizing: border-box;
 	width: 100%;
 	-webkit-box-flex: 1;
 	-webkit-flex: 1;
@@ -663,7 +659,7 @@ radio-group label, checkbox-group label{
 }
 .uni-list-cell-navigate.uni-navigate-right:after {
 	font-family: uniicons;
-	content: '\e583';
+	content: '\E583';
 	position: absolute;
 	right: 30rpx;
 	top: 50%;
@@ -673,7 +669,7 @@ radio-group label, checkbox-group label{
 }
 .uni-list-cell-navigate.uni-navigate-bottom:after {
 	font-family: uniicons;
-	content: '\e581';
+	content: '\E581';
 	position: absolute;
 	right: 20rpx;
 	top: 50%;
@@ -683,7 +679,7 @@ radio-group label, checkbox-group label{
 }
 .uni-list-cell-navigate.uni-navigate-bottom.uni-active::after {
 	font-family: uniicons;
-	content: '\e580';
+	content: '\E580';
 	position: absolute;
 	right: 20rpx;
 	top: 50%;
@@ -701,8 +697,7 @@ radio-group label, checkbox-group label{
 	background: #eee;
 }
 .uni-list.uni-collapse {
-	-webkit-box-sizing: border-box;
-	        box-sizing: border-box;
+	box-sizing: border-box;
 	height: 0;
 	overflow: hidden;
 }
@@ -725,8 +720,7 @@ radio-group label, checkbox-group label{
 	-webkit-flex: 1;
 	        flex: 1;
 	width: 100%;
-	-webkit-box-sizing: border-box;
-	        box-sizing: border-box;
+	box-sizing: border-box;
 	-webkit-box-orient: horizontal;
 	-webkit-box-direction: normal;
 	-webkit-flex-direction: row;
@@ -757,8 +751,7 @@ radio-group label, checkbox-group label{
 /* 图文列表 */
 .uni-media-list {
 	padding: 22rpx 30rpx;
-	-webkit-box-sizing: border-box;
-	        box-sizing: border-box;
+	box-sizing: border-box;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -855,8 +848,7 @@ radio-group label, checkbox-group label{
 	border-bottom: 2rpx solid;
 	border-right: 2rpx solid;
 	border-color: #eee;
-	-webkit-box-sizing: border-box;
-	        box-sizing: border-box;
+	box-sizing: border-box;
 }
 .no-border-right {
 	border-right: none;
@@ -997,7 +989,7 @@ radio-group label, checkbox-group label{
 .feedback-quick:after {
 	font-family: uniicons;
 	font-size: 40rpx;
-	content: '\e581';
+	content: '\E581';
 	position: absolute;
 	right: 0;
 	top: 50%;
@@ -1013,8 +1005,7 @@ radio-group label, checkbox-group label{
 	font-size: 34rpx;
 	line-height: 50rpx;
 	width: 100%;
-	-webkit-box-sizing: border-box;
-	        box-sizing: border-box;
+	box-sizing: border-box;
 	padding: 20rpx 30rpx 0;
 }
 .feedback-input {
@@ -1036,13 +1027,13 @@ radio-group label, checkbox-group label{
 	margin-left: 20rpx;
 }
 .feedback-star:after {
-	content: '\e408';
+	content: '\E408';
 }
 .feedback-star.active {
 	color: #FFB400;
 }
 .feedback-star.active:after {
-	content: '\e438';
+	content: '\E438';
 }
 .feedback-submit {
 	background: #007AFF;
@@ -1160,8 +1151,7 @@ radio-group label, checkbox-group label{
 .uni-swiper-tab .active .s{
 	color: #ff6f00;
 	border-bottom: 4rpx solid #ff6f00;
-	-webkit-box-sizing: content-box;
-	        box-sizing: content-box;
+	box-sizing: content-box;
 }
 .uni-tab-bar .swiper-box {
 	-webkit-box-flex: 1;
@@ -1180,6 +1170,7 @@ radio-group label, checkbox-group label{
 .index .uni-swiper-tab{
 	position: static;
 } */
+
 .uni-tab-bar-loading{
 	padding:20rpx 0;
 }
@@ -1300,16 +1291,14 @@ radio-group label, checkbox-group label{
 		        flex-direction: row;
 		position: relative;
 		padding-bottom: 20rpx;
-		-webkit-box-sizing: border-box;
-		        box-sizing: border-box;
+		box-sizing: border-box;
 		overflow: hidden;
 }
 .uni-timeline-item .uni-timeline-item-keynode {
 		width: 160rpx;
 		-webkit-flex-shrink: 0;
 		        flex-shrink: 0;
-		-webkit-box-sizing: border-box;
-		        box-sizing: border-box;
+		box-sizing: border-box;
 		padding-right: 20rpx;
 		text-align: right;
 		line-height: 65rpx;
@@ -1374,272 +1363,272 @@ radio-group label, checkbox-group label{
 	color: #795548;
 }
 .uni-icon-contact:before {
-	content: '\e100';
+	content: '\E100';
 }
 .uni-icon-person:before {
-	content: '\e101';
+	content: '\E101';
 }
 .uni-icon-personadd:before {
-	content: '\e102';
+	content: '\E102';
 }
 .uni-icon-contact-filled:before {
-	content: '\e130';
+	content: '\E130';
 }
 .uni-icon-person-filled:before {
-	content: '\e131';
+	content: '\E131';
 }
 .uni-icon-personadd-filled:before {
-	content: '\e132';
+	content: '\E132';
 }
 .uni-icon-phone:before {
-	content: '\e200';
+	content: '\E200';
 }
 .uni-icon-email:before {
-	content: '\e201';
+	content: '\E201';
 }
 .uni-icon-chatbubble:before {
-	content: '\e202';
+	content: '\E202';
 }
 .uni-icon-chatboxes:before {
-	content: '\e203';
+	content: '\E203';
 }
 .uni-icon-phone-filled:before {
-	content: '\e230';
+	content: '\E230';
 }
 .uni-icon-email-filled:before {
-	content: '\e231';
+	content: '\E231';
 }
 .uni-icon-chatbubble-filled:before {
-	content: '\e232';
+	content: '\E232';
 }
 .uni-icon-chatboxes-filled:before {
-	content: '\e233';
+	content: '\E233';
 }
 .uni-icon-weibo:before {
-	content: '\e260';
+	content: '\E260';
 }
 .uni-icon-weixin:before {
-	content: '\e261';
+	content: '\E261';
 }
 .uni-icon-pengyouquan:before {
-	content: '\e262';
+	content: '\E262';
 }
 .uni-icon-chat:before {
-	content: '\e263';
+	content: '\E263';
 }
 .uni-icon-qq:before {
-	content: '\e264';
+	content: '\E264';
 }
 .uni-icon-videocam:before {
-	content: '\e300';
+	content: '\E300';
 }
 .uni-icon-camera:before {
-	content: '\e301';
+	content: '\E301';
 }
 .uni-icon-mic:before {
-	content: '\e302';
+	content: '\E302';
 }
 .uni-icon-location:before {
-	content: '\e303';
+	content: '\E303';
 }
 .uni-icon-mic-filled:before,
 .uni-icon-speech:before {
-	content: '\e332';
+	content: '\E332';
 }
 .uni-icon-location-filled:before {
-	content: '\e333';
+	content: '\E333';
 }
 .uni-icon-micoff:before {
-	content: '\e360';
+	content: '\E360';
 }
 .uni-icon-image:before {
-	content: '\e363';
+	content: '\E363';
 }
 .uni-icon-map:before {
-	content: '\e364';
+	content: '\E364';
 }
 .uni-icon-compose:before {
-	content: '\e400';
+	content: '\E400';
 }
 .uni-icon-trash:before {
-	content: '\e401';
+	content: '\E401';
 }
 .uni-icon-upload:before {
-	content: '\e402';
+	content: '\E402';
 }
 .uni-icon-download:before {
-	content: '\e403';
+	content: '\E403';
 }
 .uni-icon-close:before {
-	content: '\e404';
+	content: '\E404';
 }
 .uni-icon-redo:before {
-	content: '\e405';
+	content: '\E405';
 }
 .uni-icon-undo:before {
-	content: '\e406';
+	content: '\E406';
 }
 .uni-icon-refresh:before {
-	content: '\e407';
+	content: '\E407';
 }
 .uni-icon-star:before {
-	content: '\e408';
+	content: '\E408';
 }
 .uni-icon-plus:before {
-	content: '\e409';
+	content: '\E409';
 }
 .uni-icon-minus:before {
-	content: '\e410';
+	content: '\E410';
 }
 .uni-icon-circle:before,
 .uni-icon-checkbox:before {
-	content: '\e411';
+	content: '\E411';
 }
 .uni-icon-close-filled:before,
 .uni-icon-clear:before {
-	content: '\e434';
+	content: '\E434';
 }
 .uni-icon-refresh-filled:before {
-	content: '\e437';
+	content: '\E437';
 }
 .uni-icon-star-filled:before {
-	content: '\e438';
+	content: '\E438';
 }
 .uni-icon-plus-filled:before {
-	content: '\e439';
+	content: '\E439';
 }
 .uni-icon-minus-filled:before {
-	content: '\e440';
+	content: '\E440';
 }
 .uni-icon-circle-filled:before {
-	content: '\e441';
+	content: '\E441';
 }
 .uni-icon-checkbox-filled:before {
-	content: '\e442';
+	content: '\E442';
 }
 .uni-icon-closeempty:before {
-	content: '\e460';
+	content: '\E460';
 }
 .uni-icon-refreshempty:before {
-	content: '\e461';
+	content: '\E461';
 }
 .uni-icon-reload:before {
-	content: '\e462';
+	content: '\E462';
 }
 .uni-icon-starhalf:before {
-	content: '\e463';
+	content: '\E463';
 }
 .uni-icon-spinner:before {
-	content: '\e464';
+	content: '\E464';
 }
 .uni-icon-spinner-cycle:before {
-	content: '\e465';
+	content: '\E465';
 }
 .uni-icon-search:before {
-	content: '\e466';
+	content: '\E466';
 }
 .uni-icon-plusempty:before {
-	content: '\e468';
+	content: '\E468';
 }
 .uni-icon-forward:before {
-	content: '\e470';
+	content: '\E470';
 }
 .uni-icon-back:before,
 .uni-icon-left-nav:before {
-	content: '\e471';
+	content: '\E471';
 }
 .uni-icon-checkmarkempty:before {
-	content: '\e472';
+	content: '\E472';
 }
 .uni-icon-home:before {
-	content: '\e500';
+	content: '\E500';
 }
 .uni-icon-navigate:before {
-	content: '\e501';
+	content: '\E501';
 }
 .uni-icon-gear:before {
-	content: '\e502';
+	content: '\E502';
 }
 .uni-icon-paperplane:before {
-	content: '\e503';
+	content: '\E503';
 }
 .uni-icon-info:before {
-	content: '\e504';
+	content: '\E504';
 }
 .uni-icon-help:before {
-	content: '\e505';
+	content: '\E505';
 }
 .uni-icon-locked:before {
-	content: '\e506';
+	content: '\E506';
 }
 .uni-icon-more:before {
-	content: '\e507';
+	content: '\E507';
 }
 .uni-icon-flag:before {
-	content: '\e508';
+	content: '\E508';
 }
 .uni-icon-home-filled:before {
-	content: '\e530';
+	content: '\E530';
 }
 .uni-icon-gear-filled:before {
-	content: '\e532';
+	content: '\E532';
 }
 .uni-icon-info-filled:before {
-	content: '\e534';
+	content: '\E534';
 }
 .uni-icon-help-filled:before {
-	content: '\e535';
+	content: '\E535';
 }
 .uni-icon-more-filled:before {
-	content: '\e537';
+	content: '\E537';
 }
 .uni-icon-settings:before {
-	content: '\e560';
+	content: '\E560';
 }
 .uni-icon-list:before {
-	content: '\e562';
+	content: '\E562';
 }
 .uni-icon-bars:before {
-	content: '\e563';
+	content: '\E563';
 }
 .uni-icon-loop:before {
-	content: '\e565';
+	content: '\E565';
 }
 .uni-icon-paperclip:before {
-	content: '\e567';
+	content: '\E567';
 }
 .uni-icon-eye:before {
-	content: '\e568';
+	content: '\E568';
 }
 .uni-icon-arrowup:before {
-	content: '\e580';
+	content: '\E580';
 }
 .uni-icon-arrowdown:before {
-	content: '\e581';
+	content: '\E581';
 }
 .uni-icon-arrowleft:before {
-	content: '\e582';
+	content: '\E582';
 }
 .uni-icon-arrowright:before {
-	content: '\e583';
+	content: '\E583';
 }
 .uni-icon-arrowthinup:before {
-	content: '\e584';
+	content: '\E584';
 }
 .uni-icon-arrowthindown:before {
-	content: '\e585';
+	content: '\E585';
 }
 .uni-icon-arrowthinleft:before {
-	content: '\e586';
+	content: '\E586';
 }
 .uni-icon-arrowthinright:before {
-	content: '\e587';
+	content: '\E587';
 }
 .uni-icon-pulldown:before {
-	content: '\e588';
+	content: '\E588';
 }
 .uni-icon-scan:before {
-    content: "\e612";
+    content: "\E612";
 }
 /* 分界线 */
 .uni-divider{
@@ -1946,8 +1935,7 @@ radio-group label, checkbox-group label{
 	-webkit-box-pack: justify;
 	-webkit-justify-content: space-between;
 	justify-content: space-between;
-	-webkit-box-sizing: border-box;
-	        box-sizing: border-box;
+	box-sizing: border-box;
 	-webkit-transition-property: all;
 	transition-property: all;
 }
@@ -1997,6 +1985,7 @@ radio-group label, checkbox-group label{
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+/* 
 .flex {
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -2005,6 +1994,7 @@ radio-group label, checkbox-group label{
 	display: -o-flex;
 	display: flex;
 }
+
 .flexAlignCneter {
 	-webkit-box-align: center;
 	-webkit-align-items: center;
@@ -2013,6 +2003,7 @@ radio-group label, checkbox-group label{
 	-o-align-items: center;
 	align-items: center;
 }
+
 .flexAlignBaseline {
 	-webkit-box-align: baseline;
 	-webkit-align-items: baseline;
@@ -2021,6 +2012,7 @@ radio-group label, checkbox-group label{
 	-o-align-items: baseline;
 	align-items: baseline;
 }
+
 .flexAlignStart {
 	-webkit-box-align: flex-start;
 	-webkit-align-items: flex-start;
@@ -2030,79 +2022,28 @@ radio-group label, checkbox-group label{
 	align-items: flex-start;
 }
 .flex-between{
-	display: -webkit-box;
-	display: -webkit-flex;
 	display: flex;
-	-webkit-box-orient: horizontal;
-	-webkit-box-direction: normal;
-	-webkit-flex-direction: row;
-	        flex-direction: row;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
-	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
-	        justify-content: space-between;
-}
-.flex-center{
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-orient: horizontal;
-	-webkit-box-direction: normal;
-	-webkit-flex-direction: row;
-	        flex-direction: row;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
-	-webkit-box-pack: center;
-	-webkit-justify-content: center;
-	        justify-content: center;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
 }
 .flex-start{
-	display: -webkit-box;
-	display: -webkit-flex;
 	display: flex;
-	-webkit-box-orient: horizontal;
-	-webkit-box-direction: normal;
-	-webkit-flex-direction: row;
-	        flex-direction: row;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
-	-webkit-box-pack: start;
-	-webkit-justify-content: flex-start;
-	        justify-content: flex-start;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
 }
 .flex-end{
-	display: -webkit-box;
-	display: -webkit-flex;
 	display: flex;
-	-webkit-box-orient: horizontal;
-	-webkit-box-direction: normal;
-	-webkit-flex-direction: row;
-	        flex-direction: row;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
-	-webkit-box-pack: end;
-	-webkit-justify-content: flex-end;
-	        justify-content: flex-end;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-end;
 }
 .flex-column{
-	display: -webkit-box;
-	display: -webkit-flex;
 	display: flex;
-	-webkit-box-orient: vertical;
-	-webkit-box-direction: normal;
-	-webkit-flex-direction: column;
-	        flex-direction: column;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
-	-webkit-box-pack: center;
-	-webkit-justify-content: center;
-	        justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center; 
 }
 .flex1 {
 	-webkit-box-flex: 1;
@@ -2112,7 +2053,7 @@ radio-group label, checkbox-group label{
 	-ms-flex: 1;
 	-o-flex: 1;
 	overflow: hidden;
-}
+} */
 .top0{
 	top:0;
 }
@@ -2157,190 +2098,190 @@ radio-group label, checkbox-group label{
   -moz-osx-font-smoothing: grayscale;
 }
 .icon-totop:before {
-  content: "\e614";
+  content: "\E614";
 }
 .icon-fapiao:before {
-  content: "\e60a";
+  content: "\E60A";
 }
 .icon-guanzhu:before {
-  content: "\e610";
+  content: "\E610";
 }
 .icon-youhuiquan:before {
-  content: "\e8c0";
+  content: "\E8C0";
 }
 .icon-kefu:before {
-  content: "\e603";
+  content: "\E603";
 }
 .icon-help:before {
-  content: "\e604";
+  content: "\E604";
 }
 .icon-anquan1:before {
-  content: "\ec4d";
+  content: "\EC4D";
 }
 .icon-youjian:before {
-  content: "\e655";
+  content: "\E655";
 }
 .icon-shezhi:before {
-  content: "\e60e";
+  content: "\E60E";
 }
 .icon-xiaoxi:before {
-  content: "\e68a";
+  content: "\E68A";
 }
 .icon-fankui:before {
-  content: "\e616";
+  content: "\E616";
 }
 .icon-weizhi:before {
-  content: "\e7e6";
+  content: "\E7E6";
 }
 .icon-guanbi:before {
-  content: "\e664";
+  content: "\E664";
 }
 .icon-you:before {
-  content: "\e73d";
+  content: "\E73D";
 }
 .icon-dingwei:before {
-  content: "\e619";
+  content: "\E619";
 }
 .icon-aixin:before {
-  content: "\e641";
+  content: "\E641";
 }
 .icon-zan:before {
-  content: "\e61d";
+  content: "\E61D";
 }
 .icon-arrowup:before {
-  content: "\e729";
+  content: "\E729";
 }
 .icon-collect:before {
-  content: "\e629";
+  content: "\E629";
 }
 .icon-zan1:before {
-  content: "\e62e";
+  content: "\E62E";
 }
 .icon-shijian:before {
-  content: "\e620";
+  content: "\E620";
 }
 .icon-haoyou:before {
-  content: "\e624";
+  content: "\E624";
 }
 .icon-home:before {
-  content: "\e677";
+  content: "\E677";
 }
 .icon-dianpu:before {
-  content: "\e642";
+  content: "\E642";
 }
 .icon-anquan:before {
-  content: "\e640";
+  content: "\E640";
 }
 .icon-aixin2:before {
-  content: "\e602";
+  content: "\E602";
 }
 .icon-weixin1:before {
-  content: "\e62c";
+  content: "\E62C";
 }
 .icon-gou1:before {
-  content: "\e608";
+  content: "\E608";
 }
 .icon-nv:before {
-  content: "\e62d";
+  content: "\E62D";
 }
 .icon-nan:before {
-  content: "\e628";
+  content: "\E628";
 }
 .icon-send:before {
-  content: "\e622";
+  content: "\E622";
 }
 .icon-shouhuodizhi:before {
-  content: "\e625";
+  content: "\E625";
 }
 .icon-dizhi:before {
-  content: "\e63e";
+  content: "\E63E";
 }
 .icon-suo:before {
-  content: "\e66b";
+  content: "\E66B";
 }
 .icon-xiaoxi1:before {
-  content: "\e62b";
+  content: "\E62B";
 }
 .icon-arrow:before {
-  content: "\e61c";
+  content: "\E61C";
 }
 .icon-close:before {
-  content: "\e600";
+  content: "\E600";
 }
 .icon-shouji:before {
-  content: "\e672";
+  content: "\E672";
 }
 .icon-wushuju:before {
-  content: "\e627";
+  content: "\E627";
 }
 .icon-collect1:before {
-  content: "\e618";
+  content: "\E618";
 }
 .icon-pinglun1:before {
-  content: "\e671";
+  content: "\E671";
 }
 .icon-xiangji:before {
-  content: "\e6d3";
+  content: "\E6D3";
 }
 .icon-sousuo:before {
-  content: "\e633";
+  content: "\E633";
 }
 .icon-bianji:before {
-  content: "\e621";
+  content: "\E621";
 }
 .icon-bianji1:before {
-  content: "\e611";
+  content: "\E611";
 }
 .icon-gongkai:before {
-  content: "\e66d";
+  content: "\E66D";
 }
 .icon-biaoqing:before {
-  content: "\e615";
+  content: "\E615";
 }
 .icon-shuangjiantouxia:before {
-  content: "\e714";
+  content: "\E714";
 }
 .icon-fenxiang:before {
-  content: "\e72f";
+  content: "\E72F";
 }
 .icon-mima:before {
-  content: "\e62f";
+  content: "\E62F";
 }
 .icon-ziyuanxhdpi:before {
-  content: "\e648";
+  content: "\E648";
 }
 .icon-cha:before {
-  content: "\e601";
+  content: "\E601";
 }
 .icon-aixin1:before {
-  content: "\e85c";
+  content: "\E85C";
 }
 .icon-fenxiang1:before {
-  content: "\e71a";
+  content: "\E71A";
 }
 .icon-eye:before {
-  content: "\e7d0";
+  content: "\E7D0";
 }
 .icon-cart:before {
-  content: "\e66e";
+  content: "\E66E";
 }
 .icon-caidan:before {
-  content: "\e607";
+  content: "\E607";
 }
 .icon-zh1:before {
-  content: "\e60d";
+  content: "\E60D";
 }
 .icon-gou:before {
-  content: "\e634";
+  content: "\E634";
 }
 .icon-arrow_r:before {
-  content: "\e7dc";
+  content: "\E7DC";
 }
 .icon-arrow_down-copy:before {
-  content: "\e7dd";
+  content: "\E7DD";
 }
 .icon-jiantouxia:before {
-  content: "\e62a";
+  content: "\E62A";
 }
 /**
  * author: Di (微信小程序开发工程师)
@@ -2489,7 +2430,7 @@ radio-group label, checkbox-group label{
 .wxParse .blockquote {
   margin: 10rpx 0;
   padding: 22rpx 0 22rpx 22rpx;
-  font-family: Courier, Calibri, "宋体";
+  font-family: Courier, Calibri, "\5B8B\4F53";
   background: #f5f5f5;
   border-left: 6rpx solid #dbdbdb;
 }
@@ -2597,8 +2538,7 @@ radio-group label, checkbox-group label{
     opacity: 1;
 }
 view {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
   font-size: 28rpx;
@@ -2625,10 +2565,10 @@ textarea {
   text-decoration: none;
 }
 ._a:hover {
-  text-decoration: none;
+    text-decoration: none;
 }
 ._a ._span {
-  color: #ffffff;
+    color: #ffffff;
 }
 .color_red {
   color: #5cc69a;
@@ -2787,19 +2727,19 @@ textarea {
   height: 100%;
 }
 .icon-sj::before {
-  content: "";
-  width: 0;
-  height: 0;
-  display: inline-block;
-  border: 6rpx solid #999;
-  border-top-color: transparent;
-  border-right-color: transparent;
+    content: "";
+    width: 0;
+    height: 0;
+    display: inline-block;
+    border: 6rpx solid #999;
+    border-top-color: transparent;
+    border-right-color: transparent;
 }
 .icon-sj.sj-down::before {
-  -webkit-transform: rotate(-45deg);
-          transform: rotate(-45deg);
-  top: -6rpx;
-  position: relative;
+    -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+    top: -6rpx;
+    position: relative;
 }
 .icon-gou {
   display: inline-block;
@@ -2809,14 +2749,14 @@ textarea {
   position: relative;
 }
 .icon-gou::before {
-  content: "";
-  position: absolute;
-  width: 30rpx;
-  height: 10rpx;
-  border-left: 2rpx solid #ff952e;
-  border-bottom: 2rpx solid #ff952e;
-  -webkit-transform: rotate(-50deg);
-          transform: rotate(-50deg);
+    content: "";
+    position: absolute;
+    width: 30rpx;
+    height: 10rpx;
+    border-left: 2rpx solid #ff952e;
+    border-bottom: 2rpx solid #ff952e;
+    -webkit-transform: rotate(-50deg);
+            transform: rotate(-50deg);
 }
 .twoArrow {
   display: inline-block;
@@ -2825,66 +2765,66 @@ textarea {
   position: relative;
 }
 .twoArrow::before, .twoArrow::after {
-  content: "";
-  position: absolute;
-  width: 16rpx;
-  height: 16rpx;
-  border-left: 1rpx solid #939393;
-  border-bottom: 1rpx solid #939393;
-  left: 16rpx;
+    content: "";
+    position: absolute;
+    width: 16rpx;
+    height: 16rpx;
+    border-left: 1rpx solid #939393;
+    border-bottom: 1rpx solid #939393;
+    left: 16rpx;
 }
 .twoArrow.twoArrow-down::before, .twoArrow.twoArrow-down::after {
-  -webkit-transform: rotate(-45deg);
-          transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
 }
 .twoArrow.twoArrow-down::before {
-  top: 8rpx;
+    top: 8rpx;
 }
 .twoArrow.twoArrow-down::after {
-  top: 20rpx;
+    top: 20rpx;
 }
 .twoArrow.twoArrow-right::before, .twoArrow.twoArrow-right::after {
-  -webkit-transform: rotate(225deg);
-          transform: rotate(225deg);
+    -webkit-transform: rotate(225deg);
+            transform: rotate(225deg);
 }
 .twoArrow.twoArrow-right::before {
-  top: 8rpx;
+    top: 8rpx;
 }
 .twoArrow.twoArrow-right::after {
-  top: 20rpx;
+    top: 20rpx;
 }
 .twoArrow.twoArrow-up::before, .twoArrow.twoArrow-up::after {
-  -webkit-transform: rotate(135deg);
-          transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+            transform: rotate(135deg);
 }
 .twoArrow.twoArrow-up::before {
-  top: 14rpx;
+    top: 14rpx;
 }
 .twoArrow.twoArrow-up::after {
-  top: 26rpx;
+    top: 26rpx;
 }
 .handleNumber {
   display: inline-block;
   text-align: center;
 }
 .handleNumber ._span {
-  display: inline-block;
-  vertical-align: top;
+    display: inline-block;
+    vertical-align: top;
 }
 .handleNumber .btn {
-  width: 50uupx;
-  height: 50uupx;
-  line-height: 44rpx;
-  background: #f5f5f5;
-  position: relative;
-  border-radius: 4rpx;
-  font-size: 40rpx;
-  color: #999;
+    width: 50uupx;
+    height: 50uupx;
+    line-height: 44rpx;
+    background: #f5f5f5;
+    position: relative;
+    border-radius: 4rpx;
+    font-size: 40rpx;
+    color: #999;
 }
 .handleNumber .num {
-  width: 70rpx;
-  height: 50rpx;
-  line-height: 50rpx;
+    width: 70rpx;
+    height: 50rpx;
+    line-height: 50rpx;
 }
 .sup {
   display: inline-block;
@@ -2925,8 +2865,7 @@ textarea {
   margin-right: 20rpx;
 }
 .boxSize {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 .text_left {
   text-align: left;
@@ -3009,10 +2948,10 @@ textarea {
   background: #ffffff;
 }
 .mask_model .mask_title {
-  padding: 30rpx;
+    padding: 30rpx;
 }
 .mask_model .mask_title .mask_info {
-  font-size: 35rpx;
+      font-size: 35rpx;
 }
 .weui-cells {
   background-color: #fff;
@@ -3020,17 +2959,17 @@ textarea {
   line-height: 1.8;
 }
 .weui-cells .icon-arrow {
-  margin-right: -16rpx;
+    margin-right: -16rpx;
 }
 .weui-cells.icon__weui-cells .icon-menu {
-  width: 80rpx;
-  height: 80rpx;
-  margin-right: 20rpx;
+    width: 80rpx;
+    height: 80rpx;
+    margin-right: 20rpx;
 }
 .weui-cells.selectCard__weui-cells .icon-card {
-  width: 40rpx;
-  height: 40rpx;
-  margin-right: 18rpx;
+    width: 40rpx;
+    height: 40rpx;
+    margin-right: 18rpx;
 }
 .weui-cell {
   padding: 20rpx 30rpx;
@@ -3075,6 +3014,296 @@ textarea {
 }
 .wd_wdd {
   width: 100%;
+}
+page {
+  color: #333;
+  background: #f5f5f5;
+  font-size: 28rpx;
+  width: 100%;
+}
+view {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+._a {
+  text-decoration: none;
+  color: inherit;
+}
+image {
+  vertical-align: middle;
+}
+.wmain {
+  max-width: 1200rpx;
+  margin: 0 auto;
+}
+.width100 {
+  max-width: 100%;
+}
+._h1 {
+  font-size: 32rpx;
+}
+._h3 {
+  font-size: 26rpx;
+}
+._h4 {
+  font-size: 22rpx;
+}
+._h5 {
+  font-size: 18rpx;
+}
+.font0 {
+  font-size: 0;
+}
+.gap20 {
+  background: #f5f5f5;
+  height: 20rpx;
+  width: 100%;
+}
+.bgfff {
+  background: #fff;
+  min-height: 100vh;
+}
+.btn-min {
+  background: #5cc69a;
+  color: #fff;
+  display: inline-block;
+  line-height: 30rpx;
+  padding: 0 20rpx;
+  -webkit-transition: all .2s;
+  transition: all .2s;
+  cursor: pointer;
+  border: 1rpx solid #5cc69a;
+}
+.btn-min:hover {
+    background: #fff;
+    color: #5cc69a;
+    border: 1rpx solid #5cc69a;
+}
+.btn-max {
+  background: #5cc69a;
+  color: #fff;
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  border-radius: 10rpx;
+  text-align: center;
+}
+.cursor {
+  cursor: pointer;
+}
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-overflow: -o-ellipsis-lastline;
+  width: 100%;
+}
+.ellipsis-col2 {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-overflow: -o-ellipsis-lastline;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.m20 {
+  margin: 20rpx;
+}
+.mt20 {
+  margin-top: 20rpx;
+}
+.mt30 {
+  margin-top: 30rpx;
+}
+.mlr20 {
+  margin: 0 20rpx;
+}
+.mlr30 {
+  margin-left: 30rpx;
+  margin-right: 30rpx;
+}
+.pl30 {
+  padding-left: 30rpx;
+}
+.plr30 {
+  padding: 0 30rpx;
+}
+.flex-center {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+.flex-start {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+}
+.flex-end {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: end;
+  -webkit-align-items: flex-end;
+  align-items: flex-end;
+}
+.flex-end-center {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: end;
+  -webkit-align-items: flex-end;
+  align-items: flex-end;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+.flex-start-between {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+.flex-center-end {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+}
+.flex-center-center {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+.flex-center-between {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+.flex-column-center {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+.flex-column-start {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+}
+.flex-column-start-between {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+.flex-column-end {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  -webkit-box-align: end;
+  -webkit-align-items: flex-end;
+  align-items: flex-end;
+}
+.flex-column-center-center {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+.flex-column-center-end {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+}
+.flex-column-center-between {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
 }
 /* 以下样式用于 hello uni-app 演示所需 */
 page {

@@ -17,16 +17,16 @@
 			</view>
 		</view>
 		<view class="searchXQ uni-bg-white uni-mb10">
-			<view class="item item-start flex-between" @click="navigate('location/cityList')">
+			<view class="item item-start flex-center-between" @click="navigate('location/cityList')">
 				<view class="item-l">
-					{{cityname}}
+					{{cityName}}
 				</view>
-				<view class="item-r flex-column" @click.stop="getlocationNow">
+				<view class="item-r flex-center" @click.stop="getlocationNow">
 					<view class="iconfont icon-dingwei"></view>
 					<view class="fz12 c_999">当前定位</view>
 				</view>
 			</view>
-			<view class="item item-end flex-start" @click="onClassify">
+			<view class="item item-end flex-center-between" @click="onClassify">
 				<view class="item-l uni-ellipsis c_999">
 					{{classifyDefault}}
 				</view>
@@ -40,7 +40,7 @@
 		<!-- 了解星球客 -->
 		<view class="ljXQ pd15 uni-mb10">
 			<view class="index_hd uni-mb10">
-				<view class="flex-between">
+				<view class="flex-center-between">
 					<view class="title">
 						了解星球客
 					</view>
@@ -207,12 +207,14 @@
 
 <script>
 	import {post,get,navigate,judgeLogin} from '@/utils';
+	import {hasPosition} from '@/utils/location'
 	import tabbar from '@/components/tabbar.vue';
 	import calendar from '@/components/date-picker/date-picker';
 	// #ifdef H5
 	import {MP} from '@/common/map.js';//h5百度定位
 	// #endif
 	import wpicker from "@/components/w-picker/w-picker.vue";
+	import { mapState, mapMutations } from "vuex"; //vuex辅助函数
 	export default {
 		data() {
 			return {
@@ -229,8 +231,8 @@
 				initStartDate: '2019-12-06',
 				initEndDate: '2019-12-07',
 				showCoupon:false,
-				cityname:"",//定位城市
 				nowCity:"",//当前城市
+				upCityName:'',//可改变的cityname
 				AreaCode:"",//区域国家码
 				AreaType:0,//1不限市，区
 				classifyDefault:'深圳华侨城5A级景区',
@@ -255,48 +257,17 @@
 			calendar,
 			wpicker
 		},
+		computed:{
+			...mapState(['lng','lat','cityName'])
+		},
 		onLoad() {
+			this.getPosition();
 			this.userId = uni.getStorageSync("userId");
 			this.token = uni.getStorageSync("token");
-			var _this=this
-			// #ifdef APP-PLUS||MP-WEIXIN
-			uni.getLocation({
-			    type: 'wgs84',
-				geocode: true,
-			    success: function (res) {console.log(res)
-					// #ifdef APP-PLUS
-					var city=res.address.city.replace(/市/,'')
-					uni.setStorageSync('cityname',city)
-					_this.cityname=city;
-					_this.nowCity=city;
-					_this.getAreaCode(city);
-					
-					// #endif
-					// #ifdef MP-WEIXIN
-					_this.wxGetCity(res.longitude,res.latitude)
-					// #endif
-			        // console.log(res);
-			    }
-			});
-			// #endif
-			//百度定位
-			// #ifdef H5
-			MP(0).then(BMap => {
-				var _this=this
-				let myCity = new BMap.LocalCity()
-				myCity.get(function (res) {
-					var city=res.name.replace(/市/,'')
-					uni.setStorageSync('cityname',city)
-					_this.cityname=city;
-					_this.nowCity=city;
-					_this.getAreaCode(city)
-				})
-			})
-			// #endif
 		},
 		onShow(){
-			this.cityname=uni.getStorageSync("cityname");
-			this.getAreaCode(this.cityname);
+			this.getAreaCode();
+			console.log(this.cityName,'更新的定位')
 		},
 		onBackPress() {
 			if (this.showCaledar !== false) {
@@ -305,6 +276,19 @@
 			}
 		},
 		methods: {
+			...mapMutations(['update']),
+			// 获取定位
+			getPosition(){
+				hasPosition().then(res=>{
+					this.update({
+						lat: res.lat,
+						lng: res.lng,
+						cityName:res.address_component.city
+					});
+					this.nowCity = this.cityName;
+					console.log(this.lat,this.lng,this.cityName,'lacation')
+				});
+			},
 			scan() {
 				uni.scanCode({
 					success:function(res){
@@ -345,31 +329,13 @@
 			},
 			// 定位当前城市
 			getlocationNow(){
-				this.cityname=this.nowCity;
-				this.getAreaCode(this.nowCity);
+				this.update({cityName:this.nowCity})
+				this.getAreaCode();
 			},
-			//小程序解析经纬度获取城市
-			// #ifdef MP-WEIXIN
-			wxGetCity(lon,lat){
-				var _this=this
-				wx.request({
-					url:'https://api.map.baidu.com/reverse_geocoding/v3/?ak=3wwDKCk09o6hU0PK1605QUXOCBqGVHGx&location=' + lat + ',' + lon + '&output=json&coordtype=wgs84ll',
-					data: {},
-					header: {
-						'content-type': 'application/json' // 默认值
-					},
-					success (res) {
-						 console.log("res")
-					     console.log(res)
-						var cityname=res.data.result.addressComponent.city.replace(/市/,'')
-						uni.setStorageSync('cityname',cityname)
-						_this.cityname=cityname
-						_this.getAreaCode(cityname)
-					}
-				})
-			},
-			// #endif
-			async getAreaCode(name) {
+			async getAreaCode() {
+				if(this.cityName === this.upCityName)return;
+				this.upCityName = this.cityName;
+				const name = this.cityName;
 				if(name&&name!='全国'){
 					let result = await post("Area/GetCityCode", {
 						Name:name

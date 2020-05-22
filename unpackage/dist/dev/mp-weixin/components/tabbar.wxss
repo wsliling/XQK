@@ -1,5 +1,5 @@
 
-.TabBar.data-v-0731f21e {
+.TabBar.data-v-31e0bbf4 {
     position: fixed;
     bottom: 0;
 	left: 0;
@@ -17,7 +17,7 @@
             align-items: center;
 	z-index: 9;
 }
-.tab.data-v-0731f21e {
+.tab.data-v-31e0bbf4 {
     display: -webkit-box;
     display: -webkit-flex;
     display: flex;
@@ -29,21 +29,21 @@
     -webkit-align-items: center;
             align-items: center;
 }
-.imgsize.data-v-0731f21e {
+.imgsize.data-v-31e0bbf4 {
     width: 48rpx;
     height: 48rpx;
 	margin-top: 10rpx;
 }
-.addimgsize.data-v-0731f21e {
+.addimgsize.data-v-31e0bbf4 {
     width: 80rpx;
     height: 80rpx;
     margin-top: -30rpx;
 }
-.text.data-v-0731f21e {
+.text.data-v-31e0bbf4 {
     font-size: 12px;
 	color: #8a8a8a;
 }
-.text.active.data-v-0731f21e{
+.text.active.data-v-31e0bbf4{
 	color: #5cc69a;
 }
 

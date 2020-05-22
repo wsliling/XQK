@@ -7,41 +7,44 @@ export default new Vuex.Store({
     state:{
         // token:'',
         // userId:'',
-        cardId: "",
-        selectCard: {
-            url: '',
-            status: false
-        },
-        cardInfo: { //选择的银行名称id
-            id: "",
-            bankLogo: "",
-            bankName: ""
-        },
-		peopleInfo: { //业主信息
-		    ContactName:"",//业主姓名
-		    Tel:"",//业主电话
-		    IsSalesOffice:null,//去过或咨询售楼处 1-有 0-没有
-		},
-        selectMyCard: {
-            url: '',
-            status: false
-        },
-        myCardInfo: { //选择我的银行卡
-            id: "",
-            bankLogo: "",
-            bankCardName: "",
-            bankCardNo: ""
-        },
-        //是否为vip
-        IsVip:0,
-        //认证专家身份
-        exportData:{
-            UserRname:"",
-            Idcard:"",
-            IdcardPositive:"",
-            IdcardNegative:"",
-            IdcardInHand:"",
-        }
+        // cardId: "",
+        // selectCard: {
+        //     url: '',
+        //     status: false
+        // },
+        // cardInfo: { //选择的银行名称id
+        //     id: "",
+        //     bankLogo: "",
+        //     bankName: ""
+        // },
+		// peopleInfo: { //业主信息
+		//     ContactName:"",//业主姓名
+		//     Tel:"",//业主电话
+		//     IsSalesOffice:null,//去过或咨询售楼处 1-有 0-没有
+		// },
+        // selectMyCard: {
+        //     url: '',
+        //     status: false
+        // },
+        // myCardInfo: { //选择我的银行卡
+        //     id: "",
+        //     bankLogo: "",
+        //     bankCardName: "",
+        //     bankCardNo: ""
+        // },
+        // //是否为vip
+        // IsVip:0,
+        // //认证专家身份
+        // exportData:{
+        //     UserRname:"",
+        //     Idcard:"",
+        //     IdcardPositive:"",
+        //     IdcardNegative:"",
+        //     IdcardInHand:"",
+        // }
+        cityName:'',//城市名称
+        lng:'',
+        lat:'',
     },
     getters:{
         getToken(state){
