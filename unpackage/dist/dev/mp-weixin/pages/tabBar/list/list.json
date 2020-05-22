@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "星语",
-  "usingComponents": {
-    "tabbar": "/components/tabbar"
-  }
-}
