@@ -18,10 +18,10 @@
 		</view>
 		<view class="searchXQ uni-bg-white uni-mb10">
 			<view class="item item-start flex-center-between" @click="navigate('location/cityList')">
-				<view class="item-l">
+				<view class="item-l location-name">
 					{{cityName}}
 				</view>
-				<view class="item-r flex-center" @click.stop="getlocationNow">
+				<view class="item-r flex-column-center" @click.stop="getlocationNow">
 					<view class="iconfont icon-dingwei"></view>
 					<view class="fz12 c_999">当前定位</view>
 				</view>
