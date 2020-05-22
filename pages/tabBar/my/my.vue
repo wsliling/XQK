@@ -79,37 +79,38 @@
 				<view class="section_hd">更多服务</view>
 				<view class="section_bd">
 					<view class="li_33">
-						<view class="item">
+						<view class="item" @click="tolick('/pages/tabBar/my/coupon')">
 							<view class="iconImg">
 								<view class="iconfont icon-youhuiquan"></view>
 							</view>
 							<view class="txt">优惠券</view>
 						</view>
-						<view class="item">
+						<view class="item" @click="tolick('/pages/tabBar/my/invoiceList')">
 							<view class="iconImg">
 								<view class="iconfont icon-fapiao"></view>
 							</view>
 							<view class="txt">发票中心</view>
+				
 						</view>
-						<view class="item">
+						<view class="item" @click="tolick('/pages/tabBar/my/myAppraise')">
 							<view class="iconImg">
 								<view class="iconfont icon-bianji"></view>
 							</view>
 							<view class="txt">我要评价</view>
 						</view>
-						<view class="item">
+						<view class="item" @click="tolick('/pages/tabBar/my/gethelp')">
 							<view class="iconImg">
 								<view class="iconfont icon-help"></view>
 							</view>
 							<view class="txt">获取帮助</view>
 						</view>
-						<view class="item">
+						<view class="item" @click="tolick('/pages/tabBar/my/feedback')">
 							<view class="iconImg">
 								<view class="iconfont icon-fankui"></view>
 							</view>
 							<view class="txt">意见反馈</view>
 						</view>
-						<view class="item">
+						<view class="item" @click="tolick('/pages/tabBar/my/security')">
 							<view class="iconImg">
 								<view class="iconfont icon-anquan1"></view>
 							</view>
@@ -146,7 +147,11 @@
 			}
 		},
 		methods: {
-			
+			tolick(url){
+				uni.navigateTo({
+					url:url
+				})
+			},
 		}
 	}
 </script>

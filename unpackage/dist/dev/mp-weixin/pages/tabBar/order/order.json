@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "订单",
-  "usingComponents": {
-    "tabbar": "/components/tabbar",
-    "no-data": "/components/noData",
-    "uni-load-more": "/components/uni-load-more"
-  }
-}

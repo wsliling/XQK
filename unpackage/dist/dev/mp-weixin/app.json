@@ -5,7 +5,10 @@
     "pages/tabBar/xingkong/xingkong",
     "pages/tabBar/order/order",
     "pages/tabBar/my/my",
-    "pages/location/cityList"
+    "pages/tabBar/my/coupon",
+    "pages/tabBar/my/addInvoice",
+    "pages/tabBar/my/invoiceList",
+    "pages/chooseCity/chooseCity"
   ],
   "subPackages": [],
   "window": {
@@ -52,11 +55,6 @@
         "text": "我的"
       }
     ]
-  },
-  "permission": {
-    "scope.userLocation": {
-      "desc": "你的位置信息将用于小程序位置接口的效果展示"
-    }
   },
   "usingComponents": {}
 }

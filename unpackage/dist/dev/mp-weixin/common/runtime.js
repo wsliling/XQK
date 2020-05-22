@@ -104,11 +104,11 @@
 /******/
 /******/
 /******/ 		// mini-css-extract-plugin CSS loading
-/******/ 		var cssChunks = {"components/w-picker/w-picker":1,"components/date-picker/date-picker":1,"components/tabbar":1,"components/noData":1,"components/uni-load-more":1,"components/uni-search-bar/uni-search-bar":1,"components/uni-icons/uni-icons":1};
+/******/ 		var cssChunks = {"components/w-picker/w-picker":1,"components/date-picker/date-picker":1,"components/tabbar":1,"components/noData":1,"components/uni-load-more":1};
 /******/ 		if(installedCssChunks[chunkId]) promises.push(installedCssChunks[chunkId]);
 /******/ 		else if(installedCssChunks[chunkId] !== 0 && cssChunks[chunkId]) {
 /******/ 			promises.push(installedCssChunks[chunkId] = new Promise(function(resolve, reject) {
-/******/ 				var href = "" + ({"components/w-picker/w-picker":"components/w-picker/w-picker","components/date-picker/date-picker":"components/date-picker/date-picker","components/tabbar":"components/tabbar","components/noData":"components/noData","components/uni-load-more":"components/uni-load-more","components/uni-search-bar/uni-search-bar":"components/uni-search-bar/uni-search-bar","components/uni-icons/uni-icons":"components/uni-icons/uni-icons"}[chunkId]||chunkId) + ".wxss";
+/******/ 				var href = "" + ({"components/w-picker/w-picker":"components/w-picker/w-picker","components/date-picker/date-picker":"components/date-picker/date-picker","components/tabbar":"components/tabbar","components/noData":"components/noData","components/uni-load-more":"components/uni-load-more"}[chunkId]||chunkId) + ".wxss";
 /******/ 				var fullhref = __webpack_require__.p + href;
 /******/ 				var existingLinkTags = document.getElementsByTagName("link");
 /******/ 				for(var i = 0; i < existingLinkTags.length; i++) {
@@ -129,6 +129,7 @@
 /******/ 				linkTag.onerror = function(event) {
 /******/ 					var request = event && event.target && event.target.src || fullhref;
 /******/ 					var err = new Error("Loading CSS chunk " + chunkId + " failed.\n(" + request + ")");
+/******/ 					err.code = "CSS_CHUNK_LOAD_FAILED";
 /******/ 					err.request = request;
 /******/ 					delete installedCssChunks[chunkId]
 /******/ 					linkTag.parentNode.removeChild(linkTag)

@@ -8,7 +8,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.createApp = createApp;exports.createComponent = createComponent;exports.createPage = createPage;exports.default = void 0;var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _slicedToArray(arr, i) {return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();}function _nonIterableRest() {throw new TypeError("Invalid attempt to destructure non-iterable instance");}function _iterableToArrayLimit(arr, i) {var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i["return"] != null) _i["return"]();} finally {if (_d) throw _e;}}return _arr;}function _arrayWithHoles(arr) {if (Array.isArray(arr)) return arr;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance");}function _iterableToArray(iter) {if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) {for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {arr2[i] = arr[i];}return arr2;}}
+Object.defineProperty(exports, "__esModule", { value: true });exports.createApp = createApp;exports.createComponent = createComponent;exports.createPage = createPage;exports.default = void 0;var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _slicedToArray(arr, i) {return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();}function _nonIterableRest() {throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _iterableToArrayLimit(arr, i) {if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i["return"] != null) _i["return"]();} finally {if (_d) throw _e;}}return _arr;}function _arrayWithHoles(arr) {if (Array.isArray(arr)) return arr;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(n);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}
 
 var _toString = Object.prototype.toString;
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -241,17 +241,23 @@ var promiseInterceptor = {
 
 
 var SYNC_API_RE =
-/^\$|restoreGlobal|getCurrentSubNVue|getMenuButtonBoundingClientRect|^report|interceptors|Interceptor$|getSubNVueById|requireNativePlugin|upx2px|hideKeyboard|canIUse|^create|Sync$|Manager$|base64ToArrayBuffer|arrayBufferToBase64/;
+/^\$|sendNativeEvent|restoreGlobal|getCurrentSubNVue|getMenuButtonBoundingClientRect|^report|interceptors|Interceptor$|getSubNVueById|requireNativePlugin|upx2px|hideKeyboard|canIUse|^create|Sync$|Manager$|base64ToArrayBuffer|arrayBufferToBase64/;
 
 var CONTEXT_API_RE = /^create|Manager$/;
 
-var CALLBACK_API_RE = /^on/;
+// Context例外情况
+var CONTEXT_API_RE_EXC = ['createBLEConnection'];
+
+// 同步例外情况
+var ASYNC_API = ['createBLEConnection'];
+
+var CALLBACK_API_RE = /^on|^off/;
 
 function isContextApi(name) {
-  return CONTEXT_API_RE.test(name);
+  return CONTEXT_API_RE.test(name) && CONTEXT_API_RE_EXC.indexOf(name) === -1;
 }
 function isSyncApi(name) {
-  return SYNC_API_RE.test(name);
+  return SYNC_API_RE.test(name) && ASYNC_API.indexOf(name) === -1;
 }
 
 function isCallbackApi(name) {
@@ -276,6 +282,19 @@ function shouldPromise(name) {
   return true;
 }
 
+/* eslint-disable no-extend-native */
+if (!Promise.prototype.finally) {
+  Promise.prototype.finally = function (callback) {
+    var promise = this.constructor;
+    return this.then(
+    function (value) {return promise.resolve(callback()).then(function () {return value;});},
+    function (reason) {return promise.resolve(callback()).then(function () {
+        throw reason;
+      });});
+
+  };
+}
+
 function promisify(name, api) {
   if (!shouldPromise(name)) {
     return api;
@@ -289,18 +308,6 @@ function promisify(name, api) {
         success: resolve,
         fail: reject })].concat(
       params));
-      /* eslint-disable no-extend-native */
-      if (!Promise.prototype.finally) {
-        Promise.prototype.finally = function (callback) {
-          var promise = this.constructor;
-          return this.then(
-          function (value) {return promise.resolve(callback()).then(function () {return value;});},
-          function (reason) {return promise.resolve(callback()).then(function () {
-              throw reason;
-            });});
-
-        };
-      }
     })));
   };
 }
@@ -351,14 +358,12 @@ var interceptors = {
   promiseInterceptor: promiseInterceptor };
 
 
-
-
 var baseApi = /*#__PURE__*/Object.freeze({
   __proto__: null,
   upx2px: upx2px,
-  interceptors: interceptors,
   addInterceptor: addInterceptor,
-  removeInterceptor: removeInterceptor });
+  removeInterceptor: removeInterceptor,
+  interceptors: interceptors });
 
 
 var previewImage = {
@@ -601,8 +606,6 @@ var eventApi = /*#__PURE__*/Object.freeze({
   $emit: $emit });
 
 
-
-
 var api = /*#__PURE__*/Object.freeze({
   __proto__: null });
 
@@ -717,10 +720,10 @@ function initVueComponent(Vue, vueOptions) {
   var VueComponent;
   if (isFn(vueOptions)) {
     VueComponent = vueOptions;
-    vueOptions = VueComponent.extendOptions;
   } else {
     VueComponent = Vue.extend(vueOptions);
   }
+  vueOptions = VueComponent.options;
   return [VueComponent, vueOptions];
 }
 
@@ -754,7 +757,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -789,14 +792,14 @@ function createObserver(name) {
 }
 
 function initBehaviors(vueOptions, initBehavior) {
-  var vueBehaviors = vueOptions['behaviors'];
-  var vueExtends = vueOptions['extends'];
-  var vueMixins = vueOptions['mixins'];
+  var vueBehaviors = vueOptions.behaviors;
+  var vueExtends = vueOptions.extends;
+  var vueMixins = vueOptions.mixins;
 
-  var vueProps = vueOptions['props'];
+  var vueProps = vueOptions.props;
 
   if (!vueProps) {
-    vueOptions['props'] = vueProps = [];
+    vueOptions.props = vueProps = [];
   }
 
   var behaviors = [];
@@ -808,11 +811,11 @@ function initBehaviors(vueOptions, initBehavior) {
           vueProps.push('name');
           vueProps.push('value');
         } else {
-          vueProps['name'] = {
+          vueProps.name = {
             type: String,
             default: '' };
 
-          vueProps['value'] = {
+          vueProps.value = {
             type: [String, Number, Boolean, Array, Object, Date],
             default: '' };
 
@@ -881,7 +884,7 @@ function initProperties(props) {var isBehavior = arguments.length > 1 && argumen
     Object.keys(props).forEach(function (key) {
       var opts = props[key];
       if (isPlainObject(opts)) {// title:{type:String,default:''}
-        var value = opts['default'];
+        var value = opts.default;
         if (isFn(value)) {
           value = value();
         }
@@ -918,6 +921,11 @@ function wrapper$1(event) {
 
   if (!hasOwn(event, 'detail')) {
     event.detail = {};
+  }
+
+  if (hasOwn(event, 'markerId')) {
+    event.detail = typeof event.detail === 'object' ? event.detail : {};
+    event.detail.markerId = event.markerId;
   }
 
   if (isPlainObject(event.detail)) {
@@ -1072,11 +1080,11 @@ function handleEvent(event) {var _this = this;
   // [['tap',[['handle',[1,2,a]],['handle1',[1,2,a]]]]]
   var dataset = (event.currentTarget || event.target).dataset;
   if (!dataset) {
-    return console.warn("\u4E8B\u4EF6\u4FE1\u606F\u4E0D\u5B58\u5728");
+    return console.warn('事件信息不存在');
   }
   var eventOpts = dataset.eventOpts || dataset['event-opts']; // 支付宝 web-view 组件 dataset 非驼峰
   if (!eventOpts) {
-    return console.warn("\u4E8B\u4EF6\u4FE1\u606F\u4E0D\u5B58\u5728");
+    return console.warn('事件信息不存在');
   }
 
   // [['handle',[1,2,a]],['handle1',[1,2,a]]]
@@ -1327,15 +1335,16 @@ function parseBaseComponent(vueComponentOptions)
 {var _ref5 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},isPage = _ref5.isPage,initRelation = _ref5.initRelation;var _initVueComponent =
   initVueComponent(_vue.default, vueComponentOptions),_initVueComponent2 = _slicedToArray(_initVueComponent, 2),VueComponent = _initVueComponent2[0],vueOptions = _initVueComponent2[1];
 
-  var options = {
+  var options = _objectSpread({
     multipleSlots: true,
-    addGlobalClass: true };
+    addGlobalClass: true },
+  vueOptions.options || {});
 
 
   {
     // 微信 multipleSlots 部分情况有 bug，导致内容顺序错乱 如 u-list，提供覆盖选项
-    if (vueOptions['mp-weixin'] && vueOptions['mp-weixin']['options']) {
-      Object.assign(options, vueOptions['mp-weixin']['options']);
+    if (vueOptions['mp-weixin'] && vueOptions['mp-weixin'].options) {
+      Object.assign(options, vueOptions['mp-weixin'].options);
     }
   }
 
@@ -1400,6 +1409,10 @@ function parseBaseComponent(vueComponentOptions)
       __e: handleEvent } };
 
 
+  // externalClasses
+  if (vueOptions.externalClasses) {
+    componentOptions.externalClasses = vueOptions.externalClasses;
+  }
 
   if (Array.isArray(vueOptions.wxsCallMethods)) {
     vueOptions.wxsCallMethods.forEach(function (callMethod) {
@@ -1551,113 +1564,7 @@ uni$1;exports.default = _default;
 
 /***/ }),
 
-/***/ 125:
-/*!****************************************************!*\
-  !*** E:/project/XQK/components/uni-icons/icons.js ***!
-  \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = {
-  'contact': "\uE100",
-  'person': "\uE101",
-  'personadd': "\uE102",
-  'contact-filled': "\uE130",
-  'person-filled': "\uE131",
-  'personadd-filled': "\uE132",
-  'phone': "\uE200",
-  'email': "\uE201",
-  'chatbubble': "\uE202",
-  'chatboxes': "\uE203",
-  'phone-filled': "\uE230",
-  'email-filled': "\uE231",
-  'chatbubble-filled': "\uE232",
-  'chatboxes-filled': "\uE233",
-  'weibo': "\uE260",
-  'weixin': "\uE261",
-  'pengyouquan': "\uE262",
-  'chat': "\uE263",
-  'qq': "\uE264",
-  'videocam': "\uE300",
-  'camera': "\uE301",
-  'mic': "\uE302",
-  'location': "\uE303",
-  'mic-filled': "\uE332",
-  'speech': "\uE332",
-  'location-filled': "\uE333",
-  'micoff': "\uE360",
-  'image': "\uE363",
-  'map': "\uE364",
-  'compose': "\uE400",
-  'trash': "\uE401",
-  'upload': "\uE402",
-  'download': "\uE403",
-  'close': "\uE404",
-  'redo': "\uE405",
-  'undo': "\uE406",
-  'refresh': "\uE407",
-  'star': "\uE408",
-  'plus': "\uE409",
-  'minus': "\uE410",
-  'circle': "\uE411",
-  'checkbox': "\uE411",
-  'close-filled': "\uE434",
-  'clear': "\uE434",
-  'refresh-filled': "\uE437",
-  'star-filled': "\uE438",
-  'plus-filled': "\uE439",
-  'minus-filled': "\uE440",
-  'circle-filled': "\uE441",
-  'checkbox-filled': "\uE442",
-  'closeempty': "\uE460",
-  'refreshempty': "\uE461",
-  'reload': "\uE462",
-  'starhalf': "\uE463",
-  'spinner': "\uE464",
-  'spinner-cycle': "\uE465",
-  'search': "\uE466",
-  'plusempty': "\uE468",
-  'forward': "\uE470",
-  'back': "\uE471",
-  'left-nav': "\uE471",
-  'checkmarkempty': "\uE472",
-  'home': "\uE500",
-  'navigate': "\uE501",
-  'gear': "\uE502",
-  'paperplane': "\uE503",
-  'info': "\uE504",
-  'help': "\uE505",
-  'locked': "\uE506",
-  'more': "\uE507",
-  'flag': "\uE508",
-  'home-filled': "\uE530",
-  'gear-filled': "\uE532",
-  'info-filled': "\uE534",
-  'help-filled': "\uE535",
-  'more-filled': "\uE537",
-  'settings': "\uE560",
-  'list': "\uE562",
-  'bars': "\uE563",
-  'loop': "\uE565",
-  'paperclip': "\uE567",
-  'eye': "\uE568",
-  'arrowup': "\uE580",
-  'arrowdown': "\uE581",
-  'arrowleft': "\uE582",
-  'arrowright': "\uE583",
-  'arrowthinup': "\uE584",
-  'arrowthindown': "\uE585",
-  'arrowthinleft': "\uE586",
-  'arrowthinright': "\uE587",
-  'pulldown': "\uE588",
-  'closefill': "\uE589",
-  'sound': "\uE590",
-  'scan': "\uE612" };exports.default = _default;
-
-/***/ }),
-
-/***/ 14:
+/***/ 10:
 /*!**********************************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
   \**********************************************************************************************************/
@@ -1692,7 +1599,15 @@ function normalizeComponent (
 
   // fixed by xxxxxx auto components
   if (components) {
-    options.components = Object.assign(components, options.components || {})
+    if (!options.components) {
+      options.components = {}
+    }
+    var hasOwn = Object.prototype.hasOwnProperty
+    for (var name in components) {
+      if (hasOwn.call(components, name) && !hasOwn.call(options.components, name)) {
+        options.components[name] = components[name]
+      }
+    }
   }
   // fixed by xxxxxx renderjs
   if (renderjs) {
@@ -1778,13428 +1693,10 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 15:
-/*!*************************************!*\
-  !*** E:/project/XQK/store/index.js ***!
-  \*************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ 16));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-_vue.default.use(_vuex.default);var _default =
-
-new _vuex.default.Store({
-  state: {
-    // token:'',
-    // userId:'',
-    // cardId: "",
-    // selectCard: {
-    //     url: '',
-    //     status: false
-    // },
-    // cardInfo: { //选择的银行名称id
-    //     id: "",
-    //     bankLogo: "",
-    //     bankName: ""
-    // },
-    // peopleInfo: { //业主信息
-    //     ContactName:"",//业主姓名
-    //     Tel:"",//业主电话
-    //     IsSalesOffice:null,//去过或咨询售楼处 1-有 0-没有
-    // },
-    // selectMyCard: {
-    //     url: '',
-    //     status: false
-    // },
-    // myCardInfo: { //选择我的银行卡
-    //     id: "",
-    //     bankLogo: "",
-    //     bankCardName: "",
-    //     bankCardNo: ""
-    // },
-    // //是否为vip
-    // IsVip:0,
-    // //认证专家身份
-    // exportData:{
-    //     UserRname:"",
-    //     Idcard:"",
-    //     IdcardPositive:"",
-    //     IdcardNegative:"",
-    //     IdcardInHand:"",
-    // }
-    cityName: '', //城市名称
-    lng: '',
-    lat: '' },
-
-  getters: {
-    getToken: function getToken(state) {
-      if (!state.token && wx.getStorageSync('token')) {
-        state.token = wx.getStorageSync('token');
-      }
-      return state.token;
-    },
-    getUserId: function getUserId(state) {
-      if (!state.userId && wx.getStorageSync('userId')) {
-        state.userId = wx.getStorageSync('userId');
-      }
-      return state.userId;
-    } },
-
-  mutations: {
-    /**
-                * 在main.js例引入
-                * import store from './store/index'
-                * 把store挂载到全局
-                * Vue.prototype.$store = store;
-                */
-
-    /**
-                    * 这里设置一个统一的方法,大部分用的vuex都是简单的改变一些状态,不需要写过多的mutations
-                    * 使用方法 例:
-                    * this.$store.update({"cityName":"北京"})
-                    * this.$store.commit('update',{"cityName":"北京"})
-                    * 
-                    *  config需要传入对象
-                    * @param {*} state 
-                    * @param {*Object} config 
-                    */
-    update: function update(state, config) {
-      Object.keys(config).map(function (item, key) {
-        state[item] = config[item];
-      });
-    },
-    // 设置选择银行名称
-    setSelectCard: function setSelectCard(state, params) {
-      state.selectCard = params;
-    },
-    // 设置选择我的银行卡
-    setSelectMyCard: function setSelectMyCard(state, params) {
-      state.selectMyCard = params;
-    } } });exports.default = _default;
-
-/***/ }),
-
-/***/ 16:
-/*!********************************************!*\
-  !*** ./node_modules/vuex/dist/vuex.esm.js ***!
-  \********************************************/
-/*! exports provided: Store, install, mapState, mapMutations, mapGetters, mapActions, createNamespacedHelpers, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Store", function() { return Store; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "install", function() { return install; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapState", function() { return mapState; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapMutations", function() { return mapMutations; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapGetters", function() { return mapGetters; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapActions", function() { return mapActions; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createNamespacedHelpers", function() { return createNamespacedHelpers; });
-/**
- * vuex v3.0.1
- * (c) 2017 Evan You
- * @license MIT
- */
-var applyMixin = function (Vue) {
-  var version = Number(Vue.version.split('.')[0]);
-
-  if (version >= 2) {
-    Vue.mixin({ beforeCreate: vuexInit });
-  } else {
-    // override init and inject vuex init procedure
-    // for 1.x backwards compatibility.
-    var _init = Vue.prototype._init;
-    Vue.prototype._init = function (options) {
-      if ( options === void 0 ) options = {};
-
-      options.init = options.init
-        ? [vuexInit].concat(options.init)
-        : vuexInit;
-      _init.call(this, options);
-    };
-  }
-
-  /**
-   * Vuex init hook, injected into each instances init hooks list.
-   */
-
-  function vuexInit () {
-    var options = this.$options;
-    // store injection
-    if (options.store) {
-      this.$store = typeof options.store === 'function'
-        ? options.store()
-        : options.store;
-    } else if (options.parent && options.parent.$store) {
-      this.$store = options.parent.$store;
-    }
-  }
-};
-
-var devtoolHook =
-  typeof window !== 'undefined' &&
-  window.__VUE_DEVTOOLS_GLOBAL_HOOK__;
-
-function devtoolPlugin (store) {
-  if (!devtoolHook) { return }
-
-  store._devtoolHook = devtoolHook;
-
-  devtoolHook.emit('vuex:init', store);
-
-  devtoolHook.on('vuex:travel-to-state', function (targetState) {
-    store.replaceState(targetState);
-  });
-
-  store.subscribe(function (mutation, state) {
-    devtoolHook.emit('vuex:mutation', mutation, state);
-  });
-}
-
-/**
- * Get the first item that pass the test
- * by second argument function
- *
- * @param {Array} list
- * @param {Function} f
- * @return {*}
- */
-/**
- * Deep copy the given object considering circular structure.
- * This function caches all nested objects and its copies.
- * If it detects circular structure, use cached copy to avoid infinite loop.
- *
- * @param {*} obj
- * @param {Array<Object>} cache
- * @return {*}
- */
-
-
-/**
- * forEach for object
- */
-function forEachValue (obj, fn) {
-  Object.keys(obj).forEach(function (key) { return fn(obj[key], key); });
-}
-
-function isObject (obj) {
-  return obj !== null && typeof obj === 'object'
-}
-
-function isPromise (val) {
-  return val && typeof val.then === 'function'
-}
-
-function assert (condition, msg) {
-  if (!condition) { throw new Error(("[vuex] " + msg)) }
-}
-
-var Module = function Module (rawModule, runtime) {
-  this.runtime = runtime;
-  this._children = Object.create(null);
-  this._rawModule = rawModule;
-  var rawState = rawModule.state;
-  this.state = (typeof rawState === 'function' ? rawState() : rawState) || {};
-};
-
-var prototypeAccessors$1 = { namespaced: { configurable: true } };
-
-prototypeAccessors$1.namespaced.get = function () {
-  return !!this._rawModule.namespaced
-};
-
-Module.prototype.addChild = function addChild (key, module) {
-  this._children[key] = module;
-};
-
-Module.prototype.removeChild = function removeChild (key) {
-  delete this._children[key];
-};
-
-Module.prototype.getChild = function getChild (key) {
-  return this._children[key]
-};
-
-Module.prototype.update = function update (rawModule) {
-  this._rawModule.namespaced = rawModule.namespaced;
-  if (rawModule.actions) {
-    this._rawModule.actions = rawModule.actions;
-  }
-  if (rawModule.mutations) {
-    this._rawModule.mutations = rawModule.mutations;
-  }
-  if (rawModule.getters) {
-    this._rawModule.getters = rawModule.getters;
-  }
-};
-
-Module.prototype.forEachChild = function forEachChild (fn) {
-  forEachValue(this._children, fn);
-};
-
-Module.prototype.forEachGetter = function forEachGetter (fn) {
-  if (this._rawModule.getters) {
-    forEachValue(this._rawModule.getters, fn);
-  }
-};
-
-Module.prototype.forEachAction = function forEachAction (fn) {
-  if (this._rawModule.actions) {
-    forEachValue(this._rawModule.actions, fn);
-  }
-};
-
-Module.prototype.forEachMutation = function forEachMutation (fn) {
-  if (this._rawModule.mutations) {
-    forEachValue(this._rawModule.mutations, fn);
-  }
-};
-
-Object.defineProperties( Module.prototype, prototypeAccessors$1 );
-
-var ModuleCollection = function ModuleCollection (rawRootModule) {
-  // register root module (Vuex.Store options)
-  this.register([], rawRootModule, false);
-};
-
-ModuleCollection.prototype.get = function get (path) {
-  return path.reduce(function (module, key) {
-    return module.getChild(key)
-  }, this.root)
-};
-
-ModuleCollection.prototype.getNamespace = function getNamespace (path) {
-  var module = this.root;
-  return path.reduce(function (namespace, key) {
-    module = module.getChild(key);
-    return namespace + (module.namespaced ? key + '/' : '')
-  }, '')
-};
-
-ModuleCollection.prototype.update = function update$1 (rawRootModule) {
-  update([], this.root, rawRootModule);
-};
-
-ModuleCollection.prototype.register = function register (path, rawModule, runtime) {
-    var this$1 = this;
-    if ( runtime === void 0 ) runtime = true;
-
-  if (true) {
-    assertRawModule(path, rawModule);
-  }
-
-  var newModule = new Module(rawModule, runtime);
-  if (path.length === 0) {
-    this.root = newModule;
-  } else {
-    var parent = this.get(path.slice(0, -1));
-    parent.addChild(path[path.length - 1], newModule);
-  }
-
-  // register nested modules
-  if (rawModule.modules) {
-    forEachValue(rawModule.modules, function (rawChildModule, key) {
-      this$1.register(path.concat(key), rawChildModule, runtime);
-    });
-  }
-};
-
-ModuleCollection.prototype.unregister = function unregister (path) {
-  var parent = this.get(path.slice(0, -1));
-  var key = path[path.length - 1];
-  if (!parent.getChild(key).runtime) { return }
-
-  parent.removeChild(key);
-};
-
-function update (path, targetModule, newModule) {
-  if (true) {
-    assertRawModule(path, newModule);
-  }
-
-  // update target module
-  targetModule.update(newModule);
-
-  // update nested modules
-  if (newModule.modules) {
-    for (var key in newModule.modules) {
-      if (!targetModule.getChild(key)) {
-        if (true) {
-          console.warn(
-            "[vuex] trying to add a new module '" + key + "' on hot reloading, " +
-            'manual reload is needed'
-          );
-        }
-        return
-      }
-      update(
-        path.concat(key),
-        targetModule.getChild(key),
-        newModule.modules[key]
-      );
-    }
-  }
-}
-
-var functionAssert = {
-  assert: function (value) { return typeof value === 'function'; },
-  expected: 'function'
-};
-
-var objectAssert = {
-  assert: function (value) { return typeof value === 'function' ||
-    (typeof value === 'object' && typeof value.handler === 'function'); },
-  expected: 'function or object with "handler" function'
-};
-
-var assertTypes = {
-  getters: functionAssert,
-  mutations: functionAssert,
-  actions: objectAssert
-};
-
-function assertRawModule (path, rawModule) {
-  Object.keys(assertTypes).forEach(function (key) {
-    if (!rawModule[key]) { return }
-
-    var assertOptions = assertTypes[key];
-
-    forEachValue(rawModule[key], function (value, type) {
-      assert(
-        assertOptions.assert(value),
-        makeAssertionMessage(path, key, type, value, assertOptions.expected)
-      );
-    });
-  });
-}
-
-function makeAssertionMessage (path, key, type, value, expected) {
-  var buf = key + " should be " + expected + " but \"" + key + "." + type + "\"";
-  if (path.length > 0) {
-    buf += " in module \"" + (path.join('.')) + "\"";
-  }
-  buf += " is " + (JSON.stringify(value)) + ".";
-  return buf
-}
-
-var Vue; // bind on install
-
-var Store = function Store (options) {
-  var this$1 = this;
-  if ( options === void 0 ) options = {};
-
-  // Auto install if it is not done yet and `window` has `Vue`.
-  // To allow users to avoid auto-installation in some cases,
-  // this code should be placed here. See #731
-  if (!Vue && typeof window !== 'undefined' && window.Vue) {
-    install(window.Vue);
-  }
-
-  if (true) {
-    assert(Vue, "must call Vue.use(Vuex) before creating a store instance.");
-    assert(typeof Promise !== 'undefined', "vuex requires a Promise polyfill in this browser.");
-    assert(this instanceof Store, "Store must be called with the new operator.");
-  }
-
-  var plugins = options.plugins; if ( plugins === void 0 ) plugins = [];
-  var strict = options.strict; if ( strict === void 0 ) strict = false;
-
-  var state = options.state; if ( state === void 0 ) state = {};
-  if (typeof state === 'function') {
-    state = state() || {};
-  }
-
-  // store internal state
-  this._committing = false;
-  this._actions = Object.create(null);
-  this._actionSubscribers = [];
-  this._mutations = Object.create(null);
-  this._wrappedGetters = Object.create(null);
-  this._modules = new ModuleCollection(options);
-  this._modulesNamespaceMap = Object.create(null);
-  this._subscribers = [];
-  this._watcherVM = new Vue();
-
-  // bind commit and dispatch to self
-  var store = this;
-  var ref = this;
-  var dispatch = ref.dispatch;
-  var commit = ref.commit;
-  this.dispatch = function boundDispatch (type, payload) {
-    return dispatch.call(store, type, payload)
-  };
-  this.commit = function boundCommit (type, payload, options) {
-    return commit.call(store, type, payload, options)
-  };
-
-  // strict mode
-  this.strict = strict;
-
-  // init root module.
-  // this also recursively registers all sub-modules
-  // and collects all module getters inside this._wrappedGetters
-  installModule(this, state, [], this._modules.root);
-
-  // initialize the store vm, which is responsible for the reactivity
-  // (also registers _wrappedGetters as computed properties)
-  resetStoreVM(this, state);
-
-  // apply plugins
-  plugins.forEach(function (plugin) { return plugin(this$1); });
-
-  if (Vue.config.devtools) {
-    devtoolPlugin(this);
-  }
-};
-
-var prototypeAccessors = { state: { configurable: true } };
-
-prototypeAccessors.state.get = function () {
-  return this._vm._data.$$state
-};
-
-prototypeAccessors.state.set = function (v) {
-  if (true) {
-    assert(false, "Use store.replaceState() to explicit replace store state.");
-  }
-};
-
-Store.prototype.commit = function commit (_type, _payload, _options) {
-    var this$1 = this;
-
-  // check object-style commit
-  var ref = unifyObjectStyle(_type, _payload, _options);
-    var type = ref.type;
-    var payload = ref.payload;
-    var options = ref.options;
-
-  var mutation = { type: type, payload: payload };
-  var entry = this._mutations[type];
-  if (!entry) {
-    if (true) {
-      console.error(("[vuex] unknown mutation type: " + type));
-    }
-    return
-  }
-  this._withCommit(function () {
-    entry.forEach(function commitIterator (handler) {
-      handler(payload);
-    });
-  });
-  this._subscribers.forEach(function (sub) { return sub(mutation, this$1.state); });
-
-  if (
-     true &&
-    options && options.silent
-  ) {
-    console.warn(
-      "[vuex] mutation type: " + type + ". Silent option has been removed. " +
-      'Use the filter functionality in the vue-devtools'
-    );
-  }
-};
-
-Store.prototype.dispatch = function dispatch (_type, _payload) {
-    var this$1 = this;
-
-  // check object-style dispatch
-  var ref = unifyObjectStyle(_type, _payload);
-    var type = ref.type;
-    var payload = ref.payload;
-
-  var action = { type: type, payload: payload };
-  var entry = this._actions[type];
-  if (!entry) {
-    if (true) {
-      console.error(("[vuex] unknown action type: " + type));
-    }
-    return
-  }
-
-  this._actionSubscribers.forEach(function (sub) { return sub(action, this$1.state); });
-
-  return entry.length > 1
-    ? Promise.all(entry.map(function (handler) { return handler(payload); }))
-    : entry[0](payload)
-};
-
-Store.prototype.subscribe = function subscribe (fn) {
-  return genericSubscribe(fn, this._subscribers)
-};
-
-Store.prototype.subscribeAction = function subscribeAction (fn) {
-  return genericSubscribe(fn, this._actionSubscribers)
-};
-
-Store.prototype.watch = function watch (getter, cb, options) {
-    var this$1 = this;
-
-  if (true) {
-    assert(typeof getter === 'function', "store.watch only accepts a function.");
-  }
-  return this._watcherVM.$watch(function () { return getter(this$1.state, this$1.getters); }, cb, options)
-};
-
-Store.prototype.replaceState = function replaceState (state) {
-    var this$1 = this;
-
-  this._withCommit(function () {
-    this$1._vm._data.$$state = state;
-  });
-};
-
-Store.prototype.registerModule = function registerModule (path, rawModule, options) {
-    if ( options === void 0 ) options = {};
-
-  if (typeof path === 'string') { path = [path]; }
-
-  if (true) {
-    assert(Array.isArray(path), "module path must be a string or an Array.");
-    assert(path.length > 0, 'cannot register the root module by using registerModule.');
-  }
-
-  this._modules.register(path, rawModule);
-  installModule(this, this.state, path, this._modules.get(path), options.preserveState);
-  // reset store to update getters...
-  resetStoreVM(this, this.state);
-};
-
-Store.prototype.unregisterModule = function unregisterModule (path) {
-    var this$1 = this;
-
-  if (typeof path === 'string') { path = [path]; }
-
-  if (true) {
-    assert(Array.isArray(path), "module path must be a string or an Array.");
-  }
-
-  this._modules.unregister(path);
-  this._withCommit(function () {
-    var parentState = getNestedState(this$1.state, path.slice(0, -1));
-    Vue.delete(parentState, path[path.length - 1]);
-  });
-  resetStore(this);
-};
-
-Store.prototype.hotUpdate = function hotUpdate (newOptions) {
-  this._modules.update(newOptions);
-  resetStore(this, true);
-};
-
-Store.prototype._withCommit = function _withCommit (fn) {
-  var committing = this._committing;
-  this._committing = true;
-  fn();
-  this._committing = committing;
-};
-
-Object.defineProperties( Store.prototype, prototypeAccessors );
-
-function genericSubscribe (fn, subs) {
-  if (subs.indexOf(fn) < 0) {
-    subs.push(fn);
-  }
-  return function () {
-    var i = subs.indexOf(fn);
-    if (i > -1) {
-      subs.splice(i, 1);
-    }
-  }
-}
-
-function resetStore (store, hot) {
-  store._actions = Object.create(null);
-  store._mutations = Object.create(null);
-  store._wrappedGetters = Object.create(null);
-  store._modulesNamespaceMap = Object.create(null);
-  var state = store.state;
-  // init all modules
-  installModule(store, state, [], store._modules.root, true);
-  // reset vm
-  resetStoreVM(store, state, hot);
-}
-
-function resetStoreVM (store, state, hot) {
-  var oldVm = store._vm;
-
-  // bind store public getters
-  store.getters = {};
-  var wrappedGetters = store._wrappedGetters;
-  var computed = {};
-  forEachValue(wrappedGetters, function (fn, key) {
-    // use computed to leverage its lazy-caching mechanism
-    computed[key] = function () { return fn(store); };
-    Object.defineProperty(store.getters, key, {
-      get: function () { return store._vm[key]; },
-      enumerable: true // for local getters
-    });
-  });
-
-  // use a Vue instance to store the state tree
-  // suppress warnings just in case the user has added
-  // some funky global mixins
-  var silent = Vue.config.silent;
-  Vue.config.silent = true;
-  store._vm = new Vue({
-    data: {
-      $$state: state
-    },
-    computed: computed
-  });
-  Vue.config.silent = silent;
-
-  // enable strict mode for new vm
-  if (store.strict) {
-    enableStrictMode(store);
-  }
-
-  if (oldVm) {
-    if (hot) {
-      // dispatch changes in all subscribed watchers
-      // to force getter re-evaluation for hot reloading.
-      store._withCommit(function () {
-        oldVm._data.$$state = null;
-      });
-    }
-    Vue.nextTick(function () { return oldVm.$destroy(); });
-  }
-}
-
-function installModule (store, rootState, path, module, hot) {
-  var isRoot = !path.length;
-  var namespace = store._modules.getNamespace(path);
-
-  // register in namespace map
-  if (module.namespaced) {
-    store._modulesNamespaceMap[namespace] = module;
-  }
-
-  // set state
-  if (!isRoot && !hot) {
-    var parentState = getNestedState(rootState, path.slice(0, -1));
-    var moduleName = path[path.length - 1];
-    store._withCommit(function () {
-      Vue.set(parentState, moduleName, module.state);
-    });
-  }
-
-  var local = module.context = makeLocalContext(store, namespace, path);
-
-  module.forEachMutation(function (mutation, key) {
-    var namespacedType = namespace + key;
-    registerMutation(store, namespacedType, mutation, local);
-  });
-
-  module.forEachAction(function (action, key) {
-    var type = action.root ? key : namespace + key;
-    var handler = action.handler || action;
-    registerAction(store, type, handler, local);
-  });
-
-  module.forEachGetter(function (getter, key) {
-    var namespacedType = namespace + key;
-    registerGetter(store, namespacedType, getter, local);
-  });
-
-  module.forEachChild(function (child, key) {
-    installModule(store, rootState, path.concat(key), child, hot);
-  });
-}
-
-/**
- * make localized dispatch, commit, getters and state
- * if there is no namespace, just use root ones
- */
-function makeLocalContext (store, namespace, path) {
-  var noNamespace = namespace === '';
-
-  var local = {
-    dispatch: noNamespace ? store.dispatch : function (_type, _payload, _options) {
-      var args = unifyObjectStyle(_type, _payload, _options);
-      var payload = args.payload;
-      var options = args.options;
-      var type = args.type;
-
-      if (!options || !options.root) {
-        type = namespace + type;
-        if ( true && !store._actions[type]) {
-          console.error(("[vuex] unknown local action type: " + (args.type) + ", global type: " + type));
-          return
-        }
-      }
-
-      return store.dispatch(type, payload)
-    },
-
-    commit: noNamespace ? store.commit : function (_type, _payload, _options) {
-      var args = unifyObjectStyle(_type, _payload, _options);
-      var payload = args.payload;
-      var options = args.options;
-      var type = args.type;
-
-      if (!options || !options.root) {
-        type = namespace + type;
-        if ( true && !store._mutations[type]) {
-          console.error(("[vuex] unknown local mutation type: " + (args.type) + ", global type: " + type));
-          return
-        }
-      }
-
-      store.commit(type, payload, options);
-    }
-  };
-
-  // getters and state object must be gotten lazily
-  // because they will be changed by vm update
-  Object.defineProperties(local, {
-    getters: {
-      get: noNamespace
-        ? function () { return store.getters; }
-        : function () { return makeLocalGetters(store, namespace); }
-    },
-    state: {
-      get: function () { return getNestedState(store.state, path); }
-    }
-  });
-
-  return local
-}
-
-function makeLocalGetters (store, namespace) {
-  var gettersProxy = {};
-
-  var splitPos = namespace.length;
-  Object.keys(store.getters).forEach(function (type) {
-    // skip if the target getter is not match this namespace
-    if (type.slice(0, splitPos) !== namespace) { return }
-
-    // extract local getter type
-    var localType = type.slice(splitPos);
-
-    // Add a port to the getters proxy.
-    // Define as getter property because
-    // we do not want to evaluate the getters in this time.
-    Object.defineProperty(gettersProxy, localType, {
-      get: function () { return store.getters[type]; },
-      enumerable: true
-    });
-  });
-
-  return gettersProxy
-}
-
-function registerMutation (store, type, handler, local) {
-  var entry = store._mutations[type] || (store._mutations[type] = []);
-  entry.push(function wrappedMutationHandler (payload) {
-    handler.call(store, local.state, payload);
-  });
-}
-
-function registerAction (store, type, handler, local) {
-  var entry = store._actions[type] || (store._actions[type] = []);
-  entry.push(function wrappedActionHandler (payload, cb) {
-    var res = handler.call(store, {
-      dispatch: local.dispatch,
-      commit: local.commit,
-      getters: local.getters,
-      state: local.state,
-      rootGetters: store.getters,
-      rootState: store.state
-    }, payload, cb);
-    if (!isPromise(res)) {
-      res = Promise.resolve(res);
-    }
-    if (store._devtoolHook) {
-      return res.catch(function (err) {
-        store._devtoolHook.emit('vuex:error', err);
-        throw err
-      })
-    } else {
-      return res
-    }
-  });
-}
-
-function registerGetter (store, type, rawGetter, local) {
-  if (store._wrappedGetters[type]) {
-    if (true) {
-      console.error(("[vuex] duplicate getter key: " + type));
-    }
-    return
-  }
-  store._wrappedGetters[type] = function wrappedGetter (store) {
-    return rawGetter(
-      local.state, // local state
-      local.getters, // local getters
-      store.state, // root state
-      store.getters // root getters
-    )
-  };
-}
-
-function enableStrictMode (store) {
-  store._vm.$watch(function () { return this._data.$$state }, function () {
-    if (true) {
-      assert(store._committing, "Do not mutate vuex store state outside mutation handlers.");
-    }
-  }, { deep: true, sync: true });
-}
-
-function getNestedState (state, path) {
-  return path.length
-    ? path.reduce(function (state, key) { return state[key]; }, state)
-    : state
-}
-
-function unifyObjectStyle (type, payload, options) {
-  if (isObject(type) && type.type) {
-    options = payload;
-    payload = type;
-    type = type.type;
-  }
-
-  if (true) {
-    assert(typeof type === 'string', ("Expects string as the type, but found " + (typeof type) + "."));
-  }
-
-  return { type: type, payload: payload, options: options }
-}
-
-function install (_Vue) {
-  if (Vue && _Vue === Vue) {
-    if (true) {
-      console.error(
-        '[vuex] already installed. Vue.use(Vuex) should be called only once.'
-      );
-    }
-    return
-  }
-  Vue = _Vue;
-  applyMixin(Vue);
-}
-
-var mapState = normalizeNamespace(function (namespace, states) {
-  var res = {};
-  normalizeMap(states).forEach(function (ref) {
-    var key = ref.key;
-    var val = ref.val;
-
-    res[key] = function mappedState () {
-      var state = this.$store.state;
-      var getters = this.$store.getters;
-      if (namespace) {
-        var module = getModuleByNamespace(this.$store, 'mapState', namespace);
-        if (!module) {
-          return
-        }
-        state = module.context.state;
-        getters = module.context.getters;
-      }
-      return typeof val === 'function'
-        ? val.call(this, state, getters)
-        : state[val]
-    };
-    // mark vuex getter for devtools
-    res[key].vuex = true;
-  });
-  return res
-});
-
-var mapMutations = normalizeNamespace(function (namespace, mutations) {
-  var res = {};
-  normalizeMap(mutations).forEach(function (ref) {
-    var key = ref.key;
-    var val = ref.val;
-
-    res[key] = function mappedMutation () {
-      var args = [], len = arguments.length;
-      while ( len-- ) args[ len ] = arguments[ len ];
-
-      var commit = this.$store.commit;
-      if (namespace) {
-        var module = getModuleByNamespace(this.$store, 'mapMutations', namespace);
-        if (!module) {
-          return
-        }
-        commit = module.context.commit;
-      }
-      return typeof val === 'function'
-        ? val.apply(this, [commit].concat(args))
-        : commit.apply(this.$store, [val].concat(args))
-    };
-  });
-  return res
-});
-
-var mapGetters = normalizeNamespace(function (namespace, getters) {
-  var res = {};
-  normalizeMap(getters).forEach(function (ref) {
-    var key = ref.key;
-    var val = ref.val;
-
-    val = namespace + val;
-    res[key] = function mappedGetter () {
-      if (namespace && !getModuleByNamespace(this.$store, 'mapGetters', namespace)) {
-        return
-      }
-      if ( true && !(val in this.$store.getters)) {
-        console.error(("[vuex] unknown getter: " + val));
-        return
-      }
-      return this.$store.getters[val]
-    };
-    // mark vuex getter for devtools
-    res[key].vuex = true;
-  });
-  return res
-});
-
-var mapActions = normalizeNamespace(function (namespace, actions) {
-  var res = {};
-  normalizeMap(actions).forEach(function (ref) {
-    var key = ref.key;
-    var val = ref.val;
-
-    res[key] = function mappedAction () {
-      var args = [], len = arguments.length;
-      while ( len-- ) args[ len ] = arguments[ len ];
-
-      var dispatch = this.$store.dispatch;
-      if (namespace) {
-        var module = getModuleByNamespace(this.$store, 'mapActions', namespace);
-        if (!module) {
-          return
-        }
-        dispatch = module.context.dispatch;
-      }
-      return typeof val === 'function'
-        ? val.apply(this, [dispatch].concat(args))
-        : dispatch.apply(this.$store, [val].concat(args))
-    };
-  });
-  return res
-});
-
-var createNamespacedHelpers = function (namespace) { return ({
-  mapState: mapState.bind(null, namespace),
-  mapGetters: mapGetters.bind(null, namespace),
-  mapMutations: mapMutations.bind(null, namespace),
-  mapActions: mapActions.bind(null, namespace)
-}); };
-
-function normalizeMap (map) {
-  return Array.isArray(map)
-    ? map.map(function (key) { return ({ key: key, val: key }); })
-    : Object.keys(map).map(function (key) { return ({ key: key, val: map[key] }); })
-}
-
-function normalizeNamespace (fn) {
-  return function (namespace, map) {
-    if (typeof namespace !== 'string') {
-      map = namespace;
-      namespace = '';
-    } else if (namespace.charAt(namespace.length - 1) !== '/') {
-      namespace += '/';
-    }
-    return fn(namespace, map)
-  }
-}
-
-function getModuleByNamespace (store, helper, namespace) {
-  var module = store._modulesNamespaceMap[namespace];
-  if ( true && !module) {
-    console.error(("[vuex] module namespace not found in " + helper + "(): " + namespace));
-  }
-  return module
-}
-
-var index_esm = {
-  Store: Store,
-  install: install,
-  version: '3.0.1',
-  mapState: mapState,
-  mapMutations: mapMutations,
-  mapGetters: mapGetters,
-  mapActions: mapActions,
-  createNamespacedHelpers: createNamespacedHelpers
-};
-
-
-/* harmony default export */ __webpack_exports__["default"] = (index_esm);
-
-
-/***/ }),
-
-/***/ 2:
-/*!******************************************************************************************!*\
-  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js ***!
-  \******************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(global) {/*!
- * Vue.js v2.6.11
- * (c) 2014-2019 Evan You
- * Released under the MIT License.
- */
-/*  */
-
-var emptyObject = Object.freeze({});
-
-// These helpers produce better VM code in JS engines due to their
-// explicitness and function inlining.
-function isUndef (v) {
-  return v === undefined || v === null
-}
-
-function isDef (v) {
-  return v !== undefined && v !== null
-}
-
-function isTrue (v) {
-  return v === true
-}
-
-function isFalse (v) {
-  return v === false
-}
-
-/**
- * Check if value is primitive.
- */
-function isPrimitive (value) {
-  return (
-    typeof value === 'string' ||
-    typeof value === 'number' ||
-    // $flow-disable-line
-    typeof value === 'symbol' ||
-    typeof value === 'boolean'
-  )
-}
-
-/**
- * Quick object check - this is primarily used to tell
- * Objects from primitive values when we know the value
- * is a JSON-compliant type.
- */
-function isObject (obj) {
-  return obj !== null && typeof obj === 'object'
-}
-
-/**
- * Get the raw type string of a value, e.g., [object Object].
- */
-var _toString = Object.prototype.toString;
-
-function toRawType (value) {
-  return _toString.call(value).slice(8, -1)
-}
-
-/**
- * Strict object type check. Only returns true
- * for plain JavaScript objects.
- */
-function isPlainObject (obj) {
-  return _toString.call(obj) === '[object Object]'
-}
-
-function isRegExp (v) {
-  return _toString.call(v) === '[object RegExp]'
-}
-
-/**
- * Check if val is a valid array index.
- */
-function isValidArrayIndex (val) {
-  var n = parseFloat(String(val));
-  return n >= 0 && Math.floor(n) === n && isFinite(val)
-}
-
-function isPromise (val) {
-  return (
-    isDef(val) &&
-    typeof val.then === 'function' &&
-    typeof val.catch === 'function'
-  )
-}
-
-/**
- * Convert a value to a string that is actually rendered.
- */
-function toString (val) {
-  return val == null
-    ? ''
-    : Array.isArray(val) || (isPlainObject(val) && val.toString === _toString)
-      ? JSON.stringify(val, null, 2)
-      : String(val)
-}
-
-/**
- * Convert an input value to a number for persistence.
- * If the conversion fails, return original string.
- */
-function toNumber (val) {
-  var n = parseFloat(val);
-  return isNaN(n) ? val : n
-}
-
-/**
- * Make a map and return a function for checking if a key
- * is in that map.
- */
-function makeMap (
-  str,
-  expectsLowerCase
-) {
-  var map = Object.create(null);
-  var list = str.split(',');
-  for (var i = 0; i < list.length; i++) {
-    map[list[i]] = true;
-  }
-  return expectsLowerCase
-    ? function (val) { return map[val.toLowerCase()]; }
-    : function (val) { return map[val]; }
-}
-
-/**
- * Check if a tag is a built-in tag.
- */
-var isBuiltInTag = makeMap('slot,component', true);
-
-/**
- * Check if an attribute is a reserved attribute.
- */
-var isReservedAttribute = makeMap('key,ref,slot,slot-scope,is');
-
-/**
- * Remove an item from an array.
- */
-function remove (arr, item) {
-  if (arr.length) {
-    var index = arr.indexOf(item);
-    if (index > -1) {
-      return arr.splice(index, 1)
-    }
-  }
-}
-
-/**
- * Check whether an object has the property.
- */
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-function hasOwn (obj, key) {
-  return hasOwnProperty.call(obj, key)
-}
-
-/**
- * Create a cached version of a pure function.
- */
-function cached (fn) {
-  var cache = Object.create(null);
-  return (function cachedFn (str) {
-    var hit = cache[str];
-    return hit || (cache[str] = fn(str))
-  })
-}
-
-/**
- * Camelize a hyphen-delimited string.
- */
-var camelizeRE = /-(\w)/g;
-var camelize = cached(function (str) {
-  return str.replace(camelizeRE, function (_, c) { return c ? c.toUpperCase() : ''; })
-});
-
-/**
- * Capitalize a string.
- */
-var capitalize = cached(function (str) {
-  return str.charAt(0).toUpperCase() + str.slice(1)
-});
-
-/**
- * Hyphenate a camelCase string.
- */
-var hyphenateRE = /\B([A-Z])/g;
-var hyphenate = cached(function (str) {
-  return str.replace(hyphenateRE, '-$1').toLowerCase()
-});
-
-/**
- * Simple bind polyfill for environments that do not support it,
- * e.g., PhantomJS 1.x. Technically, we don't need this anymore
- * since native bind is now performant enough in most browsers.
- * But removing it would mean breaking code that was able to run in
- * PhantomJS 1.x, so this must be kept for backward compatibility.
- */
-
-/* istanbul ignore next */
-function polyfillBind (fn, ctx) {
-  function boundFn (a) {
-    var l = arguments.length;
-    return l
-      ? l > 1
-        ? fn.apply(ctx, arguments)
-        : fn.call(ctx, a)
-      : fn.call(ctx)
-  }
-
-  boundFn._length = fn.length;
-  return boundFn
-}
-
-function nativeBind (fn, ctx) {
-  return fn.bind(ctx)
-}
-
-var bind = Function.prototype.bind
-  ? nativeBind
-  : polyfillBind;
-
-/**
- * Convert an Array-like object to a real Array.
- */
-function toArray (list, start) {
-  start = start || 0;
-  var i = list.length - start;
-  var ret = new Array(i);
-  while (i--) {
-    ret[i] = list[i + start];
-  }
-  return ret
-}
-
-/**
- * Mix properties into target object.
- */
-function extend (to, _from) {
-  for (var key in _from) {
-    to[key] = _from[key];
-  }
-  return to
-}
-
-/**
- * Merge an Array of Objects into a single Object.
- */
-function toObject (arr) {
-  var res = {};
-  for (var i = 0; i < arr.length; i++) {
-    if (arr[i]) {
-      extend(res, arr[i]);
-    }
-  }
-  return res
-}
-
-/* eslint-disable no-unused-vars */
-
-/**
- * Perform no operation.
- * Stubbing args to make Flow happy without leaving useless transpiled code
- * with ...rest (https://flow.org/blog/2017/05/07/Strict-Function-Call-Arity/).
- */
-function noop (a, b, c) {}
-
-/**
- * Always return false.
- */
-var no = function (a, b, c) { return false; };
-
-/* eslint-enable no-unused-vars */
-
-/**
- * Return the same value.
- */
-var identity = function (_) { return _; };
-
-/**
- * Check if two values are loosely equal - that is,
- * if they are plain objects, do they have the same shape?
- */
-function looseEqual (a, b) {
-  if (a === b) { return true }
-  var isObjectA = isObject(a);
-  var isObjectB = isObject(b);
-  if (isObjectA && isObjectB) {
-    try {
-      var isArrayA = Array.isArray(a);
-      var isArrayB = Array.isArray(b);
-      if (isArrayA && isArrayB) {
-        return a.length === b.length && a.every(function (e, i) {
-          return looseEqual(e, b[i])
-        })
-      } else if (a instanceof Date && b instanceof Date) {
-        return a.getTime() === b.getTime()
-      } else if (!isArrayA && !isArrayB) {
-        var keysA = Object.keys(a);
-        var keysB = Object.keys(b);
-        return keysA.length === keysB.length && keysA.every(function (key) {
-          return looseEqual(a[key], b[key])
-        })
-      } else {
-        /* istanbul ignore next */
-        return false
-      }
-    } catch (e) {
-      /* istanbul ignore next */
-      return false
-    }
-  } else if (!isObjectA && !isObjectB) {
-    return String(a) === String(b)
-  } else {
-    return false
-  }
-}
-
-/**
- * Return the first index at which a loosely equal value can be
- * found in the array (if value is a plain object, the array must
- * contain an object of the same shape), or -1 if it is not present.
- */
-function looseIndexOf (arr, val) {
-  for (var i = 0; i < arr.length; i++) {
-    if (looseEqual(arr[i], val)) { return i }
-  }
-  return -1
-}
-
-/**
- * Ensure a function is called only once.
- */
-function once (fn) {
-  var called = false;
-  return function () {
-    if (!called) {
-      called = true;
-      fn.apply(this, arguments);
-    }
-  }
-}
-
-var ASSET_TYPES = [
-  'component',
-  'directive',
-  'filter'
-];
-
-var LIFECYCLE_HOOKS = [
-  'beforeCreate',
-  'created',
-  'beforeMount',
-  'mounted',
-  'beforeUpdate',
-  'updated',
-  'beforeDestroy',
-  'destroyed',
-  'activated',
-  'deactivated',
-  'errorCaptured',
-  'serverPrefetch'
-];
-
-/*  */
-
-
-
-var config = ({
-  /**
-   * Option merge strategies (used in core/util/options)
-   */
-  // $flow-disable-line
-  optionMergeStrategies: Object.create(null),
-
-  /**
-   * Whether to suppress warnings.
-   */
-  silent: false,
-
-  /**
-   * Show production mode tip message on boot?
-   */
-  productionTip: "development" !== 'production',
-
-  /**
-   * Whether to enable devtools
-   */
-  devtools: "development" !== 'production',
-
-  /**
-   * Whether to record perf
-   */
-  performance: false,
-
-  /**
-   * Error handler for watcher errors
-   */
-  errorHandler: null,
-
-  /**
-   * Warn handler for watcher warns
-   */
-  warnHandler: null,
-
-  /**
-   * Ignore certain custom elements
-   */
-  ignoredElements: [],
-
-  /**
-   * Custom user key aliases for v-on
-   */
-  // $flow-disable-line
-  keyCodes: Object.create(null),
-
-  /**
-   * Check if a tag is reserved so that it cannot be registered as a
-   * component. This is platform-dependent and may be overwritten.
-   */
-  isReservedTag: no,
-
-  /**
-   * Check if an attribute is reserved so that it cannot be used as a component
-   * prop. This is platform-dependent and may be overwritten.
-   */
-  isReservedAttr: no,
-
-  /**
-   * Check if a tag is an unknown element.
-   * Platform-dependent.
-   */
-  isUnknownElement: no,
-
-  /**
-   * Get the namespace of an element
-   */
-  getTagNamespace: noop,
-
-  /**
-   * Parse the real tag name for the specific platform.
-   */
-  parsePlatformTagName: identity,
-
-  /**
-   * Check if an attribute must be bound using property, e.g. value
-   * Platform-dependent.
-   */
-  mustUseProp: no,
-
-  /**
-   * Perform updates asynchronously. Intended to be used by Vue Test Utils
-   * This will significantly reduce performance if set to false.
-   */
-  async: true,
-
-  /**
-   * Exposed for legacy reasons
-   */
-  _lifecycleHooks: LIFECYCLE_HOOKS
-});
-
-/*  */
-
-/**
- * unicode letters used for parsing html tags, component names and property paths.
- * using https://www.w3.org/TR/html53/semantics-scripting.html#potentialcustomelementname
- * skipping \u10000-\uEFFFF due to it freezing up PhantomJS
- */
-var unicodeRegExp = /a-zA-Z\u00B7\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u037D\u037F-\u1FFF\u200C-\u200D\u203F-\u2040\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD/;
-
-/**
- * Check if a string starts with $ or _
- */
-function isReserved (str) {
-  var c = (str + '').charCodeAt(0);
-  return c === 0x24 || c === 0x5F
-}
-
-/**
- * Define a property.
- */
-function def (obj, key, val, enumerable) {
-  Object.defineProperty(obj, key, {
-    value: val,
-    enumerable: !!enumerable,
-    writable: true,
-    configurable: true
-  });
-}
-
-/**
- * Parse simple path.
- */
-var bailRE = new RegExp(("[^" + (unicodeRegExp.source) + ".$_\\d]"));
-function parsePath (path) {
-  if (bailRE.test(path)) {
-    return
-  }
-  var segments = path.split('.');
-  return function (obj) {
-    for (var i = 0; i < segments.length; i++) {
-      if (!obj) { return }
-      obj = obj[segments[i]];
-    }
-    return obj
-  }
-}
-
-/*  */
-
-// can we use __proto__?
-var hasProto = '__proto__' in {};
-
-// Browser environment sniffing
-var inBrowser = typeof window !== 'undefined';
-var inWeex = typeof WXEnvironment !== 'undefined' && !!WXEnvironment.platform;
-var weexPlatform = inWeex && WXEnvironment.platform.toLowerCase();
-var UA = inBrowser && window.navigator.userAgent.toLowerCase();
-var isIE = UA && /msie|trident/.test(UA);
-var isIE9 = UA && UA.indexOf('msie 9.0') > 0;
-var isEdge = UA && UA.indexOf('edge/') > 0;
-var isAndroid = (UA && UA.indexOf('android') > 0) || (weexPlatform === 'android');
-var isIOS = (UA && /iphone|ipad|ipod|ios/.test(UA)) || (weexPlatform === 'ios');
-var isChrome = UA && /chrome\/\d+/.test(UA) && !isEdge;
-var isPhantomJS = UA && /phantomjs/.test(UA);
-var isFF = UA && UA.match(/firefox\/(\d+)/);
-
-// Firefox has a "watch" function on Object.prototype...
-var nativeWatch = ({}).watch;
-if (inBrowser) {
-  try {
-    var opts = {};
-    Object.defineProperty(opts, 'passive', ({
-      get: function get () {
-      }
-    })); // https://github.com/facebook/flow/issues/285
-    window.addEventListener('test-passive', null, opts);
-  } catch (e) {}
-}
-
-// this needs to be lazy-evaled because vue may be required before
-// vue-server-renderer can set VUE_ENV
-var _isServer;
-var isServerRendering = function () {
-  if (_isServer === undefined) {
-    /* istanbul ignore if */
-    if (!inBrowser && !inWeex && typeof global !== 'undefined') {
-      // detect presence of vue-server-renderer and avoid
-      // Webpack shimming the process
-      _isServer = global['process'] && global['process'].env.VUE_ENV === 'server';
-    } else {
-      _isServer = false;
-    }
-  }
-  return _isServer
-};
-
-// detect devtools
-var devtools = inBrowser && window.__VUE_DEVTOOLS_GLOBAL_HOOK__;
-
-/* istanbul ignore next */
-function isNative (Ctor) {
-  return typeof Ctor === 'function' && /native code/.test(Ctor.toString())
-}
-
-var hasSymbol =
-  typeof Symbol !== 'undefined' && isNative(Symbol) &&
-  typeof Reflect !== 'undefined' && isNative(Reflect.ownKeys);
-
-var _Set;
-/* istanbul ignore if */ // $flow-disable-line
-if (typeof Set !== 'undefined' && isNative(Set)) {
-  // use native Set when available.
-  _Set = Set;
-} else {
-  // a non-standard Set polyfill that only works with primitive keys.
-  _Set = /*@__PURE__*/(function () {
-    function Set () {
-      this.set = Object.create(null);
-    }
-    Set.prototype.has = function has (key) {
-      return this.set[key] === true
-    };
-    Set.prototype.add = function add (key) {
-      this.set[key] = true;
-    };
-    Set.prototype.clear = function clear () {
-      this.set = Object.create(null);
-    };
-
-    return Set;
-  }());
-}
-
-/*  */
-
-var warn = noop;
-var tip = noop;
-var generateComponentTrace = (noop); // work around flow check
-var formatComponentName = (noop);
-
-if (true) {
-  var hasConsole = typeof console !== 'undefined';
-  var classifyRE = /(?:^|[-_])(\w)/g;
-  var classify = function (str) { return str
-    .replace(classifyRE, function (c) { return c.toUpperCase(); })
-    .replace(/[-_]/g, ''); };
-
-  warn = function (msg, vm) {
-    var trace = vm ? generateComponentTrace(vm) : '';
-
-    if (config.warnHandler) {
-      config.warnHandler.call(null, msg, vm, trace);
-    } else if (hasConsole && (!config.silent)) {
-      console.error(("[Vue warn]: " + msg + trace));
-    }
-  };
-
-  tip = function (msg, vm) {
-    if (hasConsole && (!config.silent)) {
-      console.warn("[Vue tip]: " + msg + (
-        vm ? generateComponentTrace(vm) : ''
-      ));
-    }
-  };
-
-  formatComponentName = function (vm, includeFile) {
-    {
-      if(vm.$scope && vm.$scope.is){
-        return vm.$scope.is
-      }
-    }
-    if (vm.$root === vm) {
-      return '<Root>'
-    }
-    var options = typeof vm === 'function' && vm.cid != null
-      ? vm.options
-      : vm._isVue
-        ? vm.$options || vm.constructor.options
-        : vm;
-    var name = options.name || options._componentTag;
-    var file = options.__file;
-    if (!name && file) {
-      var match = file.match(/([^/\\]+)\.vue$/);
-      name = match && match[1];
-    }
-
-    return (
-      (name ? ("<" + (classify(name)) + ">") : "<Anonymous>") +
-      (file && includeFile !== false ? (" at " + file) : '')
-    )
-  };
-
-  var repeat = function (str, n) {
-    var res = '';
-    while (n) {
-      if (n % 2 === 1) { res += str; }
-      if (n > 1) { str += str; }
-      n >>= 1;
-    }
-    return res
-  };
-
-  generateComponentTrace = function (vm) {
-    if (vm._isVue && vm.$parent) {
-      var tree = [];
-      var currentRecursiveSequence = 0;
-      while (vm) {
-        if (tree.length > 0) {
-          var last = tree[tree.length - 1];
-          if (last.constructor === vm.constructor) {
-            currentRecursiveSequence++;
-            vm = vm.$parent;
-            continue
-          } else if (currentRecursiveSequence > 0) {
-            tree[tree.length - 1] = [last, currentRecursiveSequence];
-            currentRecursiveSequence = 0;
-          }
-        }
-        tree.push(vm);
-        vm = vm.$parent;
-      }
-      return '\n\nfound in\n\n' + tree
-        .map(function (vm, i) { return ("" + (i === 0 ? '---> ' : repeat(' ', 5 + i * 2)) + (Array.isArray(vm)
-            ? ((formatComponentName(vm[0])) + "... (" + (vm[1]) + " recursive calls)")
-            : formatComponentName(vm))); })
-        .join('\n')
-    } else {
-      return ("\n\n(found in " + (formatComponentName(vm)) + ")")
-    }
-  };
-}
-
-/*  */
-
-var uid = 0;
-
-/**
- * A dep is an observable that can have multiple
- * directives subscribing to it.
- */
-var Dep = function Dep () {
-  // fixed by xxxxxx (nvue vuex)
-  /* eslint-disable no-undef */
-  if(typeof SharedObject !== 'undefined'){
-    this.id = SharedObject.uid++;
-  } else {
-    this.id = uid++;
-  }
-  this.subs = [];
-};
-
-Dep.prototype.addSub = function addSub (sub) {
-  this.subs.push(sub);
-};
-
-Dep.prototype.removeSub = function removeSub (sub) {
-  remove(this.subs, sub);
-};
-
-Dep.prototype.depend = function depend () {
-  if (Dep.SharedObject.target) {
-    Dep.SharedObject.target.addDep(this);
-  }
-};
-
-Dep.prototype.notify = function notify () {
-  // stabilize the subscriber list first
-  var subs = this.subs.slice();
-  if ( true && !config.async) {
-    // subs aren't sorted in scheduler if not running async
-    // we need to sort them now to make sure they fire in correct
-    // order
-    subs.sort(function (a, b) { return a.id - b.id; });
-  }
-  for (var i = 0, l = subs.length; i < l; i++) {
-    subs[i].update();
-  }
-};
-
-// The current target watcher being evaluated.
-// This is globally unique because only one watcher
-// can be evaluated at a time.
-// fixed by xxxxxx (nvue shared vuex)
-/* eslint-disable no-undef */
-Dep.SharedObject = typeof SharedObject !== 'undefined' ? SharedObject : {};
-Dep.SharedObject.target = null;
-Dep.SharedObject.targetStack = [];
-
-function pushTarget (target) {
-  Dep.SharedObject.targetStack.push(target);
-  Dep.SharedObject.target = target;
-}
-
-function popTarget () {
-  Dep.SharedObject.targetStack.pop();
-  Dep.SharedObject.target = Dep.SharedObject.targetStack[Dep.SharedObject.targetStack.length - 1];
-}
-
-/*  */
-
-var VNode = function VNode (
-  tag,
-  data,
-  children,
-  text,
-  elm,
-  context,
-  componentOptions,
-  asyncFactory
-) {
-  this.tag = tag;
-  this.data = data;
-  this.children = children;
-  this.text = text;
-  this.elm = elm;
-  this.ns = undefined;
-  this.context = context;
-  this.fnContext = undefined;
-  this.fnOptions = undefined;
-  this.fnScopeId = undefined;
-  this.key = data && data.key;
-  this.componentOptions = componentOptions;
-  this.componentInstance = undefined;
-  this.parent = undefined;
-  this.raw = false;
-  this.isStatic = false;
-  this.isRootInsert = true;
-  this.isComment = false;
-  this.isCloned = false;
-  this.isOnce = false;
-  this.asyncFactory = asyncFactory;
-  this.asyncMeta = undefined;
-  this.isAsyncPlaceholder = false;
-};
-
-var prototypeAccessors = { child: { configurable: true } };
-
-// DEPRECATED: alias for componentInstance for backwards compat.
-/* istanbul ignore next */
-prototypeAccessors.child.get = function () {
-  return this.componentInstance
-};
-
-Object.defineProperties( VNode.prototype, prototypeAccessors );
-
-var createEmptyVNode = function (text) {
-  if ( text === void 0 ) text = '';
-
-  var node = new VNode();
-  node.text = text;
-  node.isComment = true;
-  return node
-};
-
-function createTextVNode (val) {
-  return new VNode(undefined, undefined, undefined, String(val))
-}
-
-// optimized shallow clone
-// used for static nodes and slot nodes because they may be reused across
-// multiple renders, cloning them avoids errors when DOM manipulations rely
-// on their elm reference.
-function cloneVNode (vnode) {
-  var cloned = new VNode(
-    vnode.tag,
-    vnode.data,
-    // #7975
-    // clone children array to avoid mutating original in case of cloning
-    // a child.
-    vnode.children && vnode.children.slice(),
-    vnode.text,
-    vnode.elm,
-    vnode.context,
-    vnode.componentOptions,
-    vnode.asyncFactory
-  );
-  cloned.ns = vnode.ns;
-  cloned.isStatic = vnode.isStatic;
-  cloned.key = vnode.key;
-  cloned.isComment = vnode.isComment;
-  cloned.fnContext = vnode.fnContext;
-  cloned.fnOptions = vnode.fnOptions;
-  cloned.fnScopeId = vnode.fnScopeId;
-  cloned.asyncMeta = vnode.asyncMeta;
-  cloned.isCloned = true;
-  return cloned
-}
-
-/*
- * not type checking this file because flow doesn't play well with
- * dynamically accessing methods on Array prototype
- */
-
-var arrayProto = Array.prototype;
-var arrayMethods = Object.create(arrayProto);
-
-var methodsToPatch = [
-  'push',
-  'pop',
-  'shift',
-  'unshift',
-  'splice',
-  'sort',
-  'reverse'
-];
-
-/**
- * Intercept mutating methods and emit events
- */
-methodsToPatch.forEach(function (method) {
-  // cache original method
-  var original = arrayProto[method];
-  def(arrayMethods, method, function mutator () {
-    var args = [], len = arguments.length;
-    while ( len-- ) args[ len ] = arguments[ len ];
-
-    var result = original.apply(this, args);
-    var ob = this.__ob__;
-    var inserted;
-    switch (method) {
-      case 'push':
-      case 'unshift':
-        inserted = args;
-        break
-      case 'splice':
-        inserted = args.slice(2);
-        break
-    }
-    if (inserted) { ob.observeArray(inserted); }
-    // notify change
-    ob.dep.notify();
-    return result
-  });
-});
-
-/*  */
-
-var arrayKeys = Object.getOwnPropertyNames(arrayMethods);
-
-/**
- * In some cases we may want to disable observation inside a component's
- * update computation.
- */
-var shouldObserve = true;
-
-function toggleObserving (value) {
-  shouldObserve = value;
-}
-
-/**
- * Observer class that is attached to each observed
- * object. Once attached, the observer converts the target
- * object's property keys into getter/setters that
- * collect dependencies and dispatch updates.
- */
-var Observer = function Observer (value) {
-  this.value = value;
-  this.dep = new Dep();
-  this.vmCount = 0;
-  def(value, '__ob__', this);
-  if (Array.isArray(value)) {
-    if (hasProto) {
-      {// fixed by xxxxxx 微信小程序使用 plugins 之后，数组方法被直接挂载到了数组对象上，需要执行 copyAugment 逻辑
-        if(value.push !== value.__proto__.push){
-          copyAugment(value, arrayMethods, arrayKeys);
-        } else {
-          protoAugment(value, arrayMethods);
-        }
-      }
-    } else {
-      copyAugment(value, arrayMethods, arrayKeys);
-    }
-    this.observeArray(value);
-  } else {
-    this.walk(value);
-  }
-};
-
-/**
- * Walk through all properties and convert them into
- * getter/setters. This method should only be called when
- * value type is Object.
- */
-Observer.prototype.walk = function walk (obj) {
-  var keys = Object.keys(obj);
-  for (var i = 0; i < keys.length; i++) {
-    defineReactive$$1(obj, keys[i]);
-  }
-};
-
-/**
- * Observe a list of Array items.
- */
-Observer.prototype.observeArray = function observeArray (items) {
-  for (var i = 0, l = items.length; i < l; i++) {
-    observe(items[i]);
-  }
-};
-
-// helpers
-
-/**
- * Augment a target Object or Array by intercepting
- * the prototype chain using __proto__
- */
-function protoAugment (target, src) {
-  /* eslint-disable no-proto */
-  target.__proto__ = src;
-  /* eslint-enable no-proto */
-}
-
-/**
- * Augment a target Object or Array by defining
- * hidden properties.
- */
-/* istanbul ignore next */
-function copyAugment (target, src, keys) {
-  for (var i = 0, l = keys.length; i < l; i++) {
-    var key = keys[i];
-    def(target, key, src[key]);
-  }
-}
-
-/**
- * Attempt to create an observer instance for a value,
- * returns the new observer if successfully observed,
- * or the existing observer if the value already has one.
- */
-function observe (value, asRootData) {
-  if (!isObject(value) || value instanceof VNode) {
-    return
-  }
-  var ob;
-  if (hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {
-    ob = value.__ob__;
-  } else if (
-    shouldObserve &&
-    !isServerRendering() &&
-    (Array.isArray(value) || isPlainObject(value)) &&
-    Object.isExtensible(value) &&
-    !value._isVue
-  ) {
-    ob = new Observer(value);
-  }
-  if (asRootData && ob) {
-    ob.vmCount++;
-  }
-  return ob
-}
-
-/**
- * Define a reactive property on an Object.
- */
-function defineReactive$$1 (
-  obj,
-  key,
-  val,
-  customSetter,
-  shallow
-) {
-  var dep = new Dep();
-
-  var property = Object.getOwnPropertyDescriptor(obj, key);
-  if (property && property.configurable === false) {
-    return
-  }
-
-  // cater for pre-defined getter/setters
-  var getter = property && property.get;
-  var setter = property && property.set;
-  if ((!getter || setter) && arguments.length === 2) {
-    val = obj[key];
-  }
-
-  var childOb = !shallow && observe(val);
-  Object.defineProperty(obj, key, {
-    enumerable: true,
-    configurable: true,
-    get: function reactiveGetter () {
-      var value = getter ? getter.call(obj) : val;
-      if (Dep.SharedObject.target) { // fixed by xxxxxx
-        dep.depend();
-        if (childOb) {
-          childOb.dep.depend();
-          if (Array.isArray(value)) {
-            dependArray(value);
-          }
-        }
-      }
-      return value
-    },
-    set: function reactiveSetter (newVal) {
-      var value = getter ? getter.call(obj) : val;
-      /* eslint-disable no-self-compare */
-      if (newVal === value || (newVal !== newVal && value !== value)) {
-        return
-      }
-      /* eslint-enable no-self-compare */
-      if ( true && customSetter) {
-        customSetter();
-      }
-      // #7981: for accessor properties without setter
-      if (getter && !setter) { return }
-      if (setter) {
-        setter.call(obj, newVal);
-      } else {
-        val = newVal;
-      }
-      childOb = !shallow && observe(newVal);
-      dep.notify();
-    }
-  });
-}
-
-/**
- * Set a property on an object. Adds the new property and
- * triggers change notification if the property doesn't
- * already exist.
- */
-function set (target, key, val) {
-  if ( true &&
-    (isUndef(target) || isPrimitive(target))
-  ) {
-    warn(("Cannot set reactive property on undefined, null, or primitive value: " + ((target))));
-  }
-  if (Array.isArray(target) && isValidArrayIndex(key)) {
-    target.length = Math.max(target.length, key);
-    target.splice(key, 1, val);
-    return val
-  }
-  if (key in target && !(key in Object.prototype)) {
-    target[key] = val;
-    return val
-  }
-  var ob = (target).__ob__;
-  if (target._isVue || (ob && ob.vmCount)) {
-     true && warn(
-      'Avoid adding reactive properties to a Vue instance or its root $data ' +
-      'at runtime - declare it upfront in the data option.'
-    );
-    return val
-  }
-  if (!ob) {
-    target[key] = val;
-    return val
-  }
-  defineReactive$$1(ob.value, key, val);
-  ob.dep.notify();
-  return val
-}
-
-/**
- * Delete a property and trigger change if necessary.
- */
-function del (target, key) {
-  if ( true &&
-    (isUndef(target) || isPrimitive(target))
-  ) {
-    warn(("Cannot delete reactive property on undefined, null, or primitive value: " + ((target))));
-  }
-  if (Array.isArray(target) && isValidArrayIndex(key)) {
-    target.splice(key, 1);
-    return
-  }
-  var ob = (target).__ob__;
-  if (target._isVue || (ob && ob.vmCount)) {
-     true && warn(
-      'Avoid deleting properties on a Vue instance or its root $data ' +
-      '- just set it to null.'
-    );
-    return
-  }
-  if (!hasOwn(target, key)) {
-    return
-  }
-  delete target[key];
-  if (!ob) {
-    return
-  }
-  ob.dep.notify();
-}
-
-/**
- * Collect dependencies on array elements when the array is touched, since
- * we cannot intercept array element access like property getters.
- */
-function dependArray (value) {
-  for (var e = (void 0), i = 0, l = value.length; i < l; i++) {
-    e = value[i];
-    e && e.__ob__ && e.__ob__.dep.depend();
-    if (Array.isArray(e)) {
-      dependArray(e);
-    }
-  }
-}
-
-/*  */
-
-/**
- * Option overwriting strategies are functions that handle
- * how to merge a parent option value and a child option
- * value into the final value.
- */
-var strats = config.optionMergeStrategies;
-
-/**
- * Options with restrictions
- */
-if (true) {
-  strats.el = strats.propsData = function (parent, child, vm, key) {
-    if (!vm) {
-      warn(
-        "option \"" + key + "\" can only be used during instance " +
-        'creation with the `new` keyword.'
-      );
-    }
-    return defaultStrat(parent, child)
-  };
-}
-
-/**
- * Helper that recursively merges two data objects together.
- */
-function mergeData (to, from) {
-  if (!from) { return to }
-  var key, toVal, fromVal;
-
-  var keys = hasSymbol
-    ? Reflect.ownKeys(from)
-    : Object.keys(from);
-
-  for (var i = 0; i < keys.length; i++) {
-    key = keys[i];
-    // in case the object is already observed...
-    if (key === '__ob__') { continue }
-    toVal = to[key];
-    fromVal = from[key];
-    if (!hasOwn(to, key)) {
-      set(to, key, fromVal);
-    } else if (
-      toVal !== fromVal &&
-      isPlainObject(toVal) &&
-      isPlainObject(fromVal)
-    ) {
-      mergeData(toVal, fromVal);
-    }
-  }
-  return to
-}
-
-/**
- * Data
- */
-function mergeDataOrFn (
-  parentVal,
-  childVal,
-  vm
-) {
-  if (!vm) {
-    // in a Vue.extend merge, both should be functions
-    if (!childVal) {
-      return parentVal
-    }
-    if (!parentVal) {
-      return childVal
-    }
-    // when parentVal & childVal are both present,
-    // we need to return a function that returns the
-    // merged result of both functions... no need to
-    // check if parentVal is a function here because
-    // it has to be a function to pass previous merges.
-    return function mergedDataFn () {
-      return mergeData(
-        typeof childVal === 'function' ? childVal.call(this, this) : childVal,
-        typeof parentVal === 'function' ? parentVal.call(this, this) : parentVal
-      )
-    }
-  } else {
-    return function mergedInstanceDataFn () {
-      // instance merge
-      var instanceData = typeof childVal === 'function'
-        ? childVal.call(vm, vm)
-        : childVal;
-      var defaultData = typeof parentVal === 'function'
-        ? parentVal.call(vm, vm)
-        : parentVal;
-      if (instanceData) {
-        return mergeData(instanceData, defaultData)
-      } else {
-        return defaultData
-      }
-    }
-  }
-}
-
-strats.data = function (
-  parentVal,
-  childVal,
-  vm
-) {
-  if (!vm) {
-    if (childVal && typeof childVal !== 'function') {
-       true && warn(
-        'The "data" option should be a function ' +
-        'that returns a per-instance value in component ' +
-        'definitions.',
-        vm
-      );
-
-      return parentVal
-    }
-    return mergeDataOrFn(parentVal, childVal)
-  }
-
-  return mergeDataOrFn(parentVal, childVal, vm)
-};
-
-/**
- * Hooks and props are merged as arrays.
- */
-function mergeHook (
-  parentVal,
-  childVal
-) {
-  var res = childVal
-    ? parentVal
-      ? parentVal.concat(childVal)
-      : Array.isArray(childVal)
-        ? childVal
-        : [childVal]
-    : parentVal;
-  return res
-    ? dedupeHooks(res)
-    : res
-}
-
-function dedupeHooks (hooks) {
-  var res = [];
-  for (var i = 0; i < hooks.length; i++) {
-    if (res.indexOf(hooks[i]) === -1) {
-      res.push(hooks[i]);
-    }
-  }
-  return res
-}
-
-LIFECYCLE_HOOKS.forEach(function (hook) {
-  strats[hook] = mergeHook;
-});
-
-/**
- * Assets
- *
- * When a vm is present (instance creation), we need to do
- * a three-way merge between constructor options, instance
- * options and parent options.
- */
-function mergeAssets (
-  parentVal,
-  childVal,
-  vm,
-  key
-) {
-  var res = Object.create(parentVal || null);
-  if (childVal) {
-     true && assertObjectType(key, childVal, vm);
-    return extend(res, childVal)
-  } else {
-    return res
-  }
-}
-
-ASSET_TYPES.forEach(function (type) {
-  strats[type + 's'] = mergeAssets;
-});
-
-/**
- * Watchers.
- *
- * Watchers hashes should not overwrite one
- * another, so we merge them as arrays.
- */
-strats.watch = function (
-  parentVal,
-  childVal,
-  vm,
-  key
-) {
-  // work around Firefox's Object.prototype.watch...
-  if (parentVal === nativeWatch) { parentVal = undefined; }
-  if (childVal === nativeWatch) { childVal = undefined; }
-  /* istanbul ignore if */
-  if (!childVal) { return Object.create(parentVal || null) }
-  if (true) {
-    assertObjectType(key, childVal, vm);
-  }
-  if (!parentVal) { return childVal }
-  var ret = {};
-  extend(ret, parentVal);
-  for (var key$1 in childVal) {
-    var parent = ret[key$1];
-    var child = childVal[key$1];
-    if (parent && !Array.isArray(parent)) {
-      parent = [parent];
-    }
-    ret[key$1] = parent
-      ? parent.concat(child)
-      : Array.isArray(child) ? child : [child];
-  }
-  return ret
-};
-
-/**
- * Other object hashes.
- */
-strats.props =
-strats.methods =
-strats.inject =
-strats.computed = function (
-  parentVal,
-  childVal,
-  vm,
-  key
-) {
-  if (childVal && "development" !== 'production') {
-    assertObjectType(key, childVal, vm);
-  }
-  if (!parentVal) { return childVal }
-  var ret = Object.create(null);
-  extend(ret, parentVal);
-  if (childVal) { extend(ret, childVal); }
-  return ret
-};
-strats.provide = mergeDataOrFn;
-
-/**
- * Default strategy.
- */
-var defaultStrat = function (parentVal, childVal) {
-  return childVal === undefined
-    ? parentVal
-    : childVal
-};
-
-/**
- * Validate component names
- */
-function checkComponents (options) {
-  for (var key in options.components) {
-    validateComponentName(key);
-  }
-}
-
-function validateComponentName (name) {
-  if (!new RegExp(("^[a-zA-Z][\\-\\.0-9_" + (unicodeRegExp.source) + "]*$")).test(name)) {
-    warn(
-      'Invalid component name: "' + name + '". Component names ' +
-      'should conform to valid custom element name in html5 specification.'
-    );
-  }
-  if (isBuiltInTag(name) || config.isReservedTag(name)) {
-    warn(
-      'Do not use built-in or reserved HTML elements as component ' +
-      'id: ' + name
-    );
-  }
-}
-
-/**
- * Ensure all props option syntax are normalized into the
- * Object-based format.
- */
-function normalizeProps (options, vm) {
-  var props = options.props;
-  if (!props) { return }
-  var res = {};
-  var i, val, name;
-  if (Array.isArray(props)) {
-    i = props.length;
-    while (i--) {
-      val = props[i];
-      if (typeof val === 'string') {
-        name = camelize(val);
-        res[name] = { type: null };
-      } else if (true) {
-        warn('props must be strings when using array syntax.');
-      }
-    }
-  } else if (isPlainObject(props)) {
-    for (var key in props) {
-      val = props[key];
-      name = camelize(key);
-      res[name] = isPlainObject(val)
-        ? val
-        : { type: val };
-    }
-  } else if (true) {
-    warn(
-      "Invalid value for option \"props\": expected an Array or an Object, " +
-      "but got " + (toRawType(props)) + ".",
-      vm
-    );
-  }
-  options.props = res;
-}
-
-/**
- * Normalize all injections into Object-based format
- */
-function normalizeInject (options, vm) {
-  var inject = options.inject;
-  if (!inject) { return }
-  var normalized = options.inject = {};
-  if (Array.isArray(inject)) {
-    for (var i = 0; i < inject.length; i++) {
-      normalized[inject[i]] = { from: inject[i] };
-    }
-  } else if (isPlainObject(inject)) {
-    for (var key in inject) {
-      var val = inject[key];
-      normalized[key] = isPlainObject(val)
-        ? extend({ from: key }, val)
-        : { from: val };
-    }
-  } else if (true) {
-    warn(
-      "Invalid value for option \"inject\": expected an Array or an Object, " +
-      "but got " + (toRawType(inject)) + ".",
-      vm
-    );
-  }
-}
-
-/**
- * Normalize raw function directives into object format.
- */
-function normalizeDirectives (options) {
-  var dirs = options.directives;
-  if (dirs) {
-    for (var key in dirs) {
-      var def$$1 = dirs[key];
-      if (typeof def$$1 === 'function') {
-        dirs[key] = { bind: def$$1, update: def$$1 };
-      }
-    }
-  }
-}
-
-function assertObjectType (name, value, vm) {
-  if (!isPlainObject(value)) {
-    warn(
-      "Invalid value for option \"" + name + "\": expected an Object, " +
-      "but got " + (toRawType(value)) + ".",
-      vm
-    );
-  }
-}
-
-/**
- * Merge two option objects into a new one.
- * Core utility used in both instantiation and inheritance.
- */
-function mergeOptions (
-  parent,
-  child,
-  vm
-) {
-  if (true) {
-    checkComponents(child);
-  }
-
-  if (typeof child === 'function') {
-    child = child.options;
-  }
-
-  normalizeProps(child, vm);
-  normalizeInject(child, vm);
-  normalizeDirectives(child);
-
-  // Apply extends and mixins on the child options,
-  // but only if it is a raw options object that isn't
-  // the result of another mergeOptions call.
-  // Only merged options has the _base property.
-  if (!child._base) {
-    if (child.extends) {
-      parent = mergeOptions(parent, child.extends, vm);
-    }
-    if (child.mixins) {
-      for (var i = 0, l = child.mixins.length; i < l; i++) {
-        parent = mergeOptions(parent, child.mixins[i], vm);
-      }
-    }
-  }
-
-  var options = {};
-  var key;
-  for (key in parent) {
-    mergeField(key);
-  }
-  for (key in child) {
-    if (!hasOwn(parent, key)) {
-      mergeField(key);
-    }
-  }
-  function mergeField (key) {
-    var strat = strats[key] || defaultStrat;
-    options[key] = strat(parent[key], child[key], vm, key);
-  }
-  return options
-}
-
-/**
- * Resolve an asset.
- * This function is used because child instances need access
- * to assets defined in its ancestor chain.
- */
-function resolveAsset (
-  options,
-  type,
-  id,
-  warnMissing
-) {
-  /* istanbul ignore if */
-  if (typeof id !== 'string') {
-    return
-  }
-  var assets = options[type];
-  // check local registration variations first
-  if (hasOwn(assets, id)) { return assets[id] }
-  var camelizedId = camelize(id);
-  if (hasOwn(assets, camelizedId)) { return assets[camelizedId] }
-  var PascalCaseId = capitalize(camelizedId);
-  if (hasOwn(assets, PascalCaseId)) { return assets[PascalCaseId] }
-  // fallback to prototype chain
-  var res = assets[id] || assets[camelizedId] || assets[PascalCaseId];
-  if ( true && warnMissing && !res) {
-    warn(
-      'Failed to resolve ' + type.slice(0, -1) + ': ' + id,
-      options
-    );
-  }
-  return res
-}
-
-/*  */
-
-
-
-function validateProp (
-  key,
-  propOptions,
-  propsData,
-  vm
-) {
-  var prop = propOptions[key];
-  var absent = !hasOwn(propsData, key);
-  var value = propsData[key];
-  // boolean casting
-  var booleanIndex = getTypeIndex(Boolean, prop.type);
-  if (booleanIndex > -1) {
-    if (absent && !hasOwn(prop, 'default')) {
-      value = false;
-    } else if (value === '' || value === hyphenate(key)) {
-      // only cast empty string / same name to boolean if
-      // boolean has higher priority
-      var stringIndex = getTypeIndex(String, prop.type);
-      if (stringIndex < 0 || booleanIndex < stringIndex) {
-        value = true;
-      }
-    }
-  }
-  // check default value
-  if (value === undefined) {
-    value = getPropDefaultValue(vm, prop, key);
-    // since the default value is a fresh copy,
-    // make sure to observe it.
-    var prevShouldObserve = shouldObserve;
-    toggleObserving(true);
-    observe(value);
-    toggleObserving(prevShouldObserve);
-  }
-  if (
-    true
-  ) {
-    assertProp(prop, key, value, vm, absent);
-  }
-  return value
-}
-
-/**
- * Get the default value of a prop.
- */
-function getPropDefaultValue (vm, prop, key) {
-  // no default, return undefined
-  if (!hasOwn(prop, 'default')) {
-    return undefined
-  }
-  var def = prop.default;
-  // warn against non-factory defaults for Object & Array
-  if ( true && isObject(def)) {
-    warn(
-      'Invalid default value for prop "' + key + '": ' +
-      'Props with type Object/Array must use a factory function ' +
-      'to return the default value.',
-      vm
-    );
-  }
-  // the raw prop value was also undefined from previous render,
-  // return previous default value to avoid unnecessary watcher trigger
-  if (vm && vm.$options.propsData &&
-    vm.$options.propsData[key] === undefined &&
-    vm._props[key] !== undefined
-  ) {
-    return vm._props[key]
-  }
-  // call factory function for non-Function types
-  // a value is Function if its prototype is function even across different execution context
-  return typeof def === 'function' && getType(prop.type) !== 'Function'
-    ? def.call(vm)
-    : def
-}
-
-/**
- * Assert whether a prop is valid.
- */
-function assertProp (
-  prop,
-  name,
-  value,
-  vm,
-  absent
-) {
-  if (prop.required && absent) {
-    warn(
-      'Missing required prop: "' + name + '"',
-      vm
-    );
-    return
-  }
-  if (value == null && !prop.required) {
-    return
-  }
-  var type = prop.type;
-  var valid = !type || type === true;
-  var expectedTypes = [];
-  if (type) {
-    if (!Array.isArray(type)) {
-      type = [type];
-    }
-    for (var i = 0; i < type.length && !valid; i++) {
-      var assertedType = assertType(value, type[i]);
-      expectedTypes.push(assertedType.expectedType || '');
-      valid = assertedType.valid;
-    }
-  }
-
-  if (!valid) {
-    warn(
-      getInvalidTypeMessage(name, value, expectedTypes),
-      vm
-    );
-    return
-  }
-  var validator = prop.validator;
-  if (validator) {
-    if (!validator(value)) {
-      warn(
-        'Invalid prop: custom validator check failed for prop "' + name + '".',
-        vm
-      );
-    }
-  }
-}
-
-var simpleCheckRE = /^(String|Number|Boolean|Function|Symbol)$/;
-
-function assertType (value, type) {
-  var valid;
-  var expectedType = getType(type);
-  if (simpleCheckRE.test(expectedType)) {
-    var t = typeof value;
-    valid = t === expectedType.toLowerCase();
-    // for primitive wrapper objects
-    if (!valid && t === 'object') {
-      valid = value instanceof type;
-    }
-  } else if (expectedType === 'Object') {
-    valid = isPlainObject(value);
-  } else if (expectedType === 'Array') {
-    valid = Array.isArray(value);
-  } else {
-    valid = value instanceof type;
-  }
-  return {
-    valid: valid,
-    expectedType: expectedType
-  }
-}
-
-/**
- * Use function string name to check built-in types,
- * because a simple equality check will fail when running
- * across different vms / iframes.
- */
-function getType (fn) {
-  var match = fn && fn.toString().match(/^\s*function (\w+)/);
-  return match ? match[1] : ''
-}
-
-function isSameType (a, b) {
-  return getType(a) === getType(b)
-}
-
-function getTypeIndex (type, expectedTypes) {
-  if (!Array.isArray(expectedTypes)) {
-    return isSameType(expectedTypes, type) ? 0 : -1
-  }
-  for (var i = 0, len = expectedTypes.length; i < len; i++) {
-    if (isSameType(expectedTypes[i], type)) {
-      return i
-    }
-  }
-  return -1
-}
-
-function getInvalidTypeMessage (name, value, expectedTypes) {
-  var message = "Invalid prop: type check failed for prop \"" + name + "\"." +
-    " Expected " + (expectedTypes.map(capitalize).join(', '));
-  var expectedType = expectedTypes[0];
-  var receivedType = toRawType(value);
-  var expectedValue = styleValue(value, expectedType);
-  var receivedValue = styleValue(value, receivedType);
-  // check if we need to specify expected value
-  if (expectedTypes.length === 1 &&
-      isExplicable(expectedType) &&
-      !isBoolean(expectedType, receivedType)) {
-    message += " with value " + expectedValue;
-  }
-  message += ", got " + receivedType + " ";
-  // check if we need to specify received value
-  if (isExplicable(receivedType)) {
-    message += "with value " + receivedValue + ".";
-  }
-  return message
-}
-
-function styleValue (value, type) {
-  if (type === 'String') {
-    return ("\"" + value + "\"")
-  } else if (type === 'Number') {
-    return ("" + (Number(value)))
-  } else {
-    return ("" + value)
-  }
-}
-
-function isExplicable (value) {
-  var explicitTypes = ['string', 'number', 'boolean'];
-  return explicitTypes.some(function (elem) { return value.toLowerCase() === elem; })
-}
-
-function isBoolean () {
-  var args = [], len = arguments.length;
-  while ( len-- ) args[ len ] = arguments[ len ];
-
-  return args.some(function (elem) { return elem.toLowerCase() === 'boolean'; })
-}
-
-/*  */
-
-function handleError (err, vm, info) {
-  // Deactivate deps tracking while processing error handler to avoid possible infinite rendering.
-  // See: https://github.com/vuejs/vuex/issues/1505
-  pushTarget();
-  try {
-    if (vm) {
-      var cur = vm;
-      while ((cur = cur.$parent)) {
-        var hooks = cur.$options.errorCaptured;
-        if (hooks) {
-          for (var i = 0; i < hooks.length; i++) {
-            try {
-              var capture = hooks[i].call(cur, err, vm, info) === false;
-              if (capture) { return }
-            } catch (e) {
-              globalHandleError(e, cur, 'errorCaptured hook');
-            }
-          }
-        }
-      }
-    }
-    globalHandleError(err, vm, info);
-  } finally {
-    popTarget();
-  }
-}
-
-function invokeWithErrorHandling (
-  handler,
-  context,
-  args,
-  vm,
-  info
-) {
-  var res;
-  try {
-    res = args ? handler.apply(context, args) : handler.call(context);
-    if (res && !res._isVue && isPromise(res) && !res._handled) {
-      res.catch(function (e) { return handleError(e, vm, info + " (Promise/async)"); });
-      // issue #9511
-      // avoid catch triggering multiple times when nested calls
-      res._handled = true;
-    }
-  } catch (e) {
-    handleError(e, vm, info);
-  }
-  return res
-}
-
-function globalHandleError (err, vm, info) {
-  if (config.errorHandler) {
-    try {
-      return config.errorHandler.call(null, err, vm, info)
-    } catch (e) {
-      // if the user intentionally throws the original error in the handler,
-      // do not log it twice
-      if (e !== err) {
-        logError(e, null, 'config.errorHandler');
-      }
-    }
-  }
-  logError(err, vm, info);
-}
-
-function logError (err, vm, info) {
-  if (true) {
-    warn(("Error in " + info + ": \"" + (err.toString()) + "\""), vm);
-  }
-  /* istanbul ignore else */
-  if ((inBrowser || inWeex) && typeof console !== 'undefined') {
-    console.error(err);
-  } else {
-    throw err
-  }
-}
-
-/*  */
-
-var callbacks = [];
-var pending = false;
-
-function flushCallbacks () {
-  pending = false;
-  var copies = callbacks.slice(0);
-  callbacks.length = 0;
-  for (var i = 0; i < copies.length; i++) {
-    copies[i]();
-  }
-}
-
-// Here we have async deferring wrappers using microtasks.
-// In 2.5 we used (macro) tasks (in combination with microtasks).
-// However, it has subtle problems when state is changed right before repaint
-// (e.g. #6813, out-in transitions).
-// Also, using (macro) tasks in event handler would cause some weird behaviors
-// that cannot be circumvented (e.g. #7109, #7153, #7546, #7834, #8109).
-// So we now use microtasks everywhere, again.
-// A major drawback of this tradeoff is that there are some scenarios
-// where microtasks have too high a priority and fire in between supposedly
-// sequential events (e.g. #4521, #6690, which have workarounds)
-// or even between bubbling of the same event (#6566).
-var timerFunc;
-
-// The nextTick behavior leverages the microtask queue, which can be accessed
-// via either native Promise.then or MutationObserver.
-// MutationObserver has wider support, however it is seriously bugged in
-// UIWebView in iOS >= 9.3.3 when triggered in touch event handlers. It
-// completely stops working after triggering a few times... so, if native
-// Promise is available, we will use it:
-/* istanbul ignore next, $flow-disable-line */
-if (typeof Promise !== 'undefined' && isNative(Promise)) {
-  var p = Promise.resolve();
-  timerFunc = function () {
-    p.then(flushCallbacks);
-    // In problematic UIWebViews, Promise.then doesn't completely break, but
-    // it can get stuck in a weird state where callbacks are pushed into the
-    // microtask queue but the queue isn't being flushed, until the browser
-    // needs to do some other work, e.g. handle a timer. Therefore we can
-    // "force" the microtask queue to be flushed by adding an empty timer.
-    if (isIOS) { setTimeout(noop); }
-  };
-} else if (!isIE && typeof MutationObserver !== 'undefined' && (
-  isNative(MutationObserver) ||
-  // PhantomJS and iOS 7.x
-  MutationObserver.toString() === '[object MutationObserverConstructor]'
-)) {
-  // Use MutationObserver where native Promise is not available,
-  // e.g. PhantomJS, iOS7, Android 4.4
-  // (#6466 MutationObserver is unreliable in IE11)
-  var counter = 1;
-  var observer = new MutationObserver(flushCallbacks);
-  var textNode = document.createTextNode(String(counter));
-  observer.observe(textNode, {
-    characterData: true
-  });
-  timerFunc = function () {
-    counter = (counter + 1) % 2;
-    textNode.data = String(counter);
-  };
-} else if (typeof setImmediate !== 'undefined' && isNative(setImmediate)) {
-  // Fallback to setImmediate.
-  // Technically it leverages the (macro) task queue,
-  // but it is still a better choice than setTimeout.
-  timerFunc = function () {
-    setImmediate(flushCallbacks);
-  };
-} else {
-  // Fallback to setTimeout.
-  timerFunc = function () {
-    setTimeout(flushCallbacks, 0);
-  };
-}
-
-function nextTick (cb, ctx) {
-  var _resolve;
-  callbacks.push(function () {
-    if (cb) {
-      try {
-        cb.call(ctx);
-      } catch (e) {
-        handleError(e, ctx, 'nextTick');
-      }
-    } else if (_resolve) {
-      _resolve(ctx);
-    }
-  });
-  if (!pending) {
-    pending = true;
-    timerFunc();
-  }
-  // $flow-disable-line
-  if (!cb && typeof Promise !== 'undefined') {
-    return new Promise(function (resolve) {
-      _resolve = resolve;
-    })
-  }
-}
-
-/*  */
-
-/* not type checking this file because flow doesn't play well with Proxy */
-
-var initProxy;
-
-if (true) {
-  var allowedGlobals = makeMap(
-    'Infinity,undefined,NaN,isFinite,isNaN,' +
-    'parseFloat,parseInt,decodeURI,decodeURIComponent,encodeURI,encodeURIComponent,' +
-    'Math,Number,Date,Array,Object,Boolean,String,RegExp,Map,Set,JSON,Intl,' +
-    'require' // for Webpack/Browserify
-  );
-
-  var warnNonPresent = function (target, key) {
-    warn(
-      "Property or method \"" + key + "\" is not defined on the instance but " +
-      'referenced during render. Make sure that this property is reactive, ' +
-      'either in the data option, or for class-based components, by ' +
-      'initializing the property. ' +
-      'See: https://vuejs.org/v2/guide/reactivity.html#Declaring-Reactive-Properties.',
-      target
-    );
-  };
-
-  var warnReservedPrefix = function (target, key) {
-    warn(
-      "Property \"" + key + "\" must be accessed with \"$data." + key + "\" because " +
-      'properties starting with "$" or "_" are not proxied in the Vue instance to ' +
-      'prevent conflicts with Vue internals. ' +
-      'See: https://vuejs.org/v2/api/#data',
-      target
-    );
-  };
-
-  var hasProxy =
-    typeof Proxy !== 'undefined' && isNative(Proxy);
-
-  if (hasProxy) {
-    var isBuiltInModifier = makeMap('stop,prevent,self,ctrl,shift,alt,meta,exact');
-    config.keyCodes = new Proxy(config.keyCodes, {
-      set: function set (target, key, value) {
-        if (isBuiltInModifier(key)) {
-          warn(("Avoid overwriting built-in modifier in config.keyCodes: ." + key));
-          return false
-        } else {
-          target[key] = value;
-          return true
-        }
-      }
-    });
-  }
-
-  var hasHandler = {
-    has: function has (target, key) {
-      var has = key in target;
-      var isAllowed = allowedGlobals(key) ||
-        (typeof key === 'string' && key.charAt(0) === '_' && !(key in target.$data));
-      if (!has && !isAllowed) {
-        if (key in target.$data) { warnReservedPrefix(target, key); }
-        else { warnNonPresent(target, key); }
-      }
-      return has || !isAllowed
-    }
-  };
-
-  var getHandler = {
-    get: function get (target, key) {
-      if (typeof key === 'string' && !(key in target)) {
-        if (key in target.$data) { warnReservedPrefix(target, key); }
-        else { warnNonPresent(target, key); }
-      }
-      return target[key]
-    }
-  };
-
-  initProxy = function initProxy (vm) {
-    if (hasProxy) {
-      // determine which proxy handler to use
-      var options = vm.$options;
-      var handlers = options.render && options.render._withStripped
-        ? getHandler
-        : hasHandler;
-      vm._renderProxy = new Proxy(vm, handlers);
-    } else {
-      vm._renderProxy = vm;
-    }
-  };
-}
-
-/*  */
-
-var seenObjects = new _Set();
-
-/**
- * Recursively traverse an object to evoke all converted
- * getters, so that every nested property inside the object
- * is collected as a "deep" dependency.
- */
-function traverse (val) {
-  _traverse(val, seenObjects);
-  seenObjects.clear();
-}
-
-function _traverse (val, seen) {
-  var i, keys;
-  var isA = Array.isArray(val);
-  if ((!isA && !isObject(val)) || Object.isFrozen(val) || val instanceof VNode) {
-    return
-  }
-  if (val.__ob__) {
-    var depId = val.__ob__.dep.id;
-    if (seen.has(depId)) {
-      return
-    }
-    seen.add(depId);
-  }
-  if (isA) {
-    i = val.length;
-    while (i--) { _traverse(val[i], seen); }
-  } else {
-    keys = Object.keys(val);
-    i = keys.length;
-    while (i--) { _traverse(val[keys[i]], seen); }
-  }
-}
-
-var mark;
-var measure;
-
-if (true) {
-  var perf = inBrowser && window.performance;
-  /* istanbul ignore if */
-  if (
-    perf &&
-    perf.mark &&
-    perf.measure &&
-    perf.clearMarks &&
-    perf.clearMeasures
-  ) {
-    mark = function (tag) { return perf.mark(tag); };
-    measure = function (name, startTag, endTag) {
-      perf.measure(name, startTag, endTag);
-      perf.clearMarks(startTag);
-      perf.clearMarks(endTag);
-      // perf.clearMeasures(name)
-    };
-  }
-}
-
-/*  */
-
-var normalizeEvent = cached(function (name) {
-  var passive = name.charAt(0) === '&';
-  name = passive ? name.slice(1) : name;
-  var once$$1 = name.charAt(0) === '~'; // Prefixed last, checked first
-  name = once$$1 ? name.slice(1) : name;
-  var capture = name.charAt(0) === '!';
-  name = capture ? name.slice(1) : name;
-  return {
-    name: name,
-    once: once$$1,
-    capture: capture,
-    passive: passive
-  }
-});
-
-function createFnInvoker (fns, vm) {
-  function invoker () {
-    var arguments$1 = arguments;
-
-    var fns = invoker.fns;
-    if (Array.isArray(fns)) {
-      var cloned = fns.slice();
-      for (var i = 0; i < cloned.length; i++) {
-        invokeWithErrorHandling(cloned[i], null, arguments$1, vm, "v-on handler");
-      }
-    } else {
-      // return handler return value for single handlers
-      return invokeWithErrorHandling(fns, null, arguments, vm, "v-on handler")
-    }
-  }
-  invoker.fns = fns;
-  return invoker
-}
-
-function updateListeners (
-  on,
-  oldOn,
-  add,
-  remove$$1,
-  createOnceHandler,
-  vm
-) {
-  var name, def$$1, cur, old, event;
-  for (name in on) {
-    def$$1 = cur = on[name];
-    old = oldOn[name];
-    event = normalizeEvent(name);
-    if (isUndef(cur)) {
-       true && warn(
-        "Invalid handler for event \"" + (event.name) + "\": got " + String(cur),
-        vm
-      );
-    } else if (isUndef(old)) {
-      if (isUndef(cur.fns)) {
-        cur = on[name] = createFnInvoker(cur, vm);
-      }
-      if (isTrue(event.once)) {
-        cur = on[name] = createOnceHandler(event.name, cur, event.capture);
-      }
-      add(event.name, cur, event.capture, event.passive, event.params);
-    } else if (cur !== old) {
-      old.fns = cur;
-      on[name] = old;
-    }
-  }
-  for (name in oldOn) {
-    if (isUndef(on[name])) {
-      event = normalizeEvent(name);
-      remove$$1(event.name, oldOn[name], event.capture);
-    }
-  }
-}
-
-/*  */
-
-/*  */
-
-// fixed by xxxxxx (mp properties)
-function extractPropertiesFromVNodeData(data, Ctor, res, context) {
-  var propOptions = Ctor.options.mpOptions && Ctor.options.mpOptions.properties;
-  if (isUndef(propOptions)) {
-    return res
-  }
-  var externalClasses = Ctor.options.mpOptions.externalClasses || [];
-  var attrs = data.attrs;
-  var props = data.props;
-  if (isDef(attrs) || isDef(props)) {
-    for (var key in propOptions) {
-      var altKey = hyphenate(key);
-      var result = checkProp(res, props, key, altKey, true) ||
-          checkProp(res, attrs, key, altKey, false);
-      // externalClass
-      if (
-        result &&
-        res[key] &&
-        externalClasses.indexOf(altKey) !== -1 &&
-        context[camelize(res[key])]
-      ) {
-        // 赋值 externalClass 真正的值(模板里 externalClass 的值可能是字符串)
-        res[key] = context[camelize(res[key])];
-      }
-    }
-  }
-  return res
-}
-
-function extractPropsFromVNodeData (
-  data,
-  Ctor,
-  tag,
-  context// fixed by xxxxxx
-) {
-  // we are only extracting raw values here.
-  // validation and default values are handled in the child
-  // component itself.
-  var propOptions = Ctor.options.props;
-  if (isUndef(propOptions)) {
-    // fixed by xxxxxx
-    return extractPropertiesFromVNodeData(data, Ctor, {}, context)
-  }
-  var res = {};
-  var attrs = data.attrs;
-  var props = data.props;
-  if (isDef(attrs) || isDef(props)) {
-    for (var key in propOptions) {
-      var altKey = hyphenate(key);
-      if (true) {
-        var keyInLowerCase = key.toLowerCase();
-        if (
-          key !== keyInLowerCase &&
-          attrs && hasOwn(attrs, keyInLowerCase)
-        ) {
-          tip(
-            "Prop \"" + keyInLowerCase + "\" is passed to component " +
-            (formatComponentName(tag || Ctor)) + ", but the declared prop name is" +
-            " \"" + key + "\". " +
-            "Note that HTML attributes are case-insensitive and camelCased " +
-            "props need to use their kebab-case equivalents when using in-DOM " +
-            "templates. You should probably use \"" + altKey + "\" instead of \"" + key + "\"."
-          );
-        }
-      }
-      checkProp(res, props, key, altKey, true) ||
-      checkProp(res, attrs, key, altKey, false);
-    }
-  }
-  // fixed by xxxxxx
-  return extractPropertiesFromVNodeData(data, Ctor, res, context)
-}
-
-function checkProp (
-  res,
-  hash,
-  key,
-  altKey,
-  preserve
-) {
-  if (isDef(hash)) {
-    if (hasOwn(hash, key)) {
-      res[key] = hash[key];
-      if (!preserve) {
-        delete hash[key];
-      }
-      return true
-    } else if (hasOwn(hash, altKey)) {
-      res[key] = hash[altKey];
-      if (!preserve) {
-        delete hash[altKey];
-      }
-      return true
-    }
-  }
-  return false
-}
-
-/*  */
-
-// The template compiler attempts to minimize the need for normalization by
-// statically analyzing the template at compile time.
-//
-// For plain HTML markup, normalization can be completely skipped because the
-// generated render function is guaranteed to return Array<VNode>. There are
-// two cases where extra normalization is needed:
-
-// 1. When the children contains components - because a functional component
-// may return an Array instead of a single root. In this case, just a simple
-// normalization is needed - if any child is an Array, we flatten the whole
-// thing with Array.prototype.concat. It is guaranteed to be only 1-level deep
-// because functional components already normalize their own children.
-function simpleNormalizeChildren (children) {
-  for (var i = 0; i < children.length; i++) {
-    if (Array.isArray(children[i])) {
-      return Array.prototype.concat.apply([], children)
-    }
-  }
-  return children
-}
-
-// 2. When the children contains constructs that always generated nested Arrays,
-// e.g. <template>, <slot>, v-for, or when the children is provided by user
-// with hand-written render functions / JSX. In such cases a full normalization
-// is needed to cater to all possible types of children values.
-function normalizeChildren (children) {
-  return isPrimitive(children)
-    ? [createTextVNode(children)]
-    : Array.isArray(children)
-      ? normalizeArrayChildren(children)
-      : undefined
-}
-
-function isTextNode (node) {
-  return isDef(node) && isDef(node.text) && isFalse(node.isComment)
-}
-
-function normalizeArrayChildren (children, nestedIndex) {
-  var res = [];
-  var i, c, lastIndex, last;
-  for (i = 0; i < children.length; i++) {
-    c = children[i];
-    if (isUndef(c) || typeof c === 'boolean') { continue }
-    lastIndex = res.length - 1;
-    last = res[lastIndex];
-    //  nested
-    if (Array.isArray(c)) {
-      if (c.length > 0) {
-        c = normalizeArrayChildren(c, ((nestedIndex || '') + "_" + i));
-        // merge adjacent text nodes
-        if (isTextNode(c[0]) && isTextNode(last)) {
-          res[lastIndex] = createTextVNode(last.text + (c[0]).text);
-          c.shift();
-        }
-        res.push.apply(res, c);
-      }
-    } else if (isPrimitive(c)) {
-      if (isTextNode(last)) {
-        // merge adjacent text nodes
-        // this is necessary for SSR hydration because text nodes are
-        // essentially merged when rendered to HTML strings
-        res[lastIndex] = createTextVNode(last.text + c);
-      } else if (c !== '') {
-        // convert primitive to vnode
-        res.push(createTextVNode(c));
-      }
-    } else {
-      if (isTextNode(c) && isTextNode(last)) {
-        // merge adjacent text nodes
-        res[lastIndex] = createTextVNode(last.text + c.text);
-      } else {
-        // default key for nested array children (likely generated by v-for)
-        if (isTrue(children._isVList) &&
-          isDef(c.tag) &&
-          isUndef(c.key) &&
-          isDef(nestedIndex)) {
-          c.key = "__vlist" + nestedIndex + "_" + i + "__";
-        }
-        res.push(c);
-      }
-    }
-  }
-  return res
-}
-
-/*  */
-
-function initProvide (vm) {
-  var provide = vm.$options.provide;
-  if (provide) {
-    vm._provided = typeof provide === 'function'
-      ? provide.call(vm)
-      : provide;
-  }
-}
-
-function initInjections (vm) {
-  var result = resolveInject(vm.$options.inject, vm);
-  if (result) {
-    toggleObserving(false);
-    Object.keys(result).forEach(function (key) {
-      /* istanbul ignore else */
-      if (true) {
-        defineReactive$$1(vm, key, result[key], function () {
-          warn(
-            "Avoid mutating an injected value directly since the changes will be " +
-            "overwritten whenever the provided component re-renders. " +
-            "injection being mutated: \"" + key + "\"",
-            vm
-          );
-        });
-      } else {}
-    });
-    toggleObserving(true);
-  }
-}
-
-function resolveInject (inject, vm) {
-  if (inject) {
-    // inject is :any because flow is not smart enough to figure out cached
-    var result = Object.create(null);
-    var keys = hasSymbol
-      ? Reflect.ownKeys(inject)
-      : Object.keys(inject);
-
-    for (var i = 0; i < keys.length; i++) {
-      var key = keys[i];
-      // #6574 in case the inject object is observed...
-      if (key === '__ob__') { continue }
-      var provideKey = inject[key].from;
-      var source = vm;
-      while (source) {
-        if (source._provided && hasOwn(source._provided, provideKey)) {
-          result[key] = source._provided[provideKey];
-          break
-        }
-        source = source.$parent;
-      }
-      if (!source) {
-        if ('default' in inject[key]) {
-          var provideDefault = inject[key].default;
-          result[key] = typeof provideDefault === 'function'
-            ? provideDefault.call(vm)
-            : provideDefault;
-        } else if (true) {
-          warn(("Injection \"" + key + "\" not found"), vm);
-        }
-      }
-    }
-    return result
-  }
-}
-
-/*  */
-
-
-
-/**
- * Runtime helper for resolving raw children VNodes into a slot object.
- */
-function resolveSlots (
-  children,
-  context
-) {
-  if (!children || !children.length) {
-    return {}
-  }
-  var slots = {};
-  for (var i = 0, l = children.length; i < l; i++) {
-    var child = children[i];
-    var data = child.data;
-    // remove slot attribute if the node is resolved as a Vue slot node
-    if (data && data.attrs && data.attrs.slot) {
-      delete data.attrs.slot;
-    }
-    // named slots should only be respected if the vnode was rendered in the
-    // same context.
-    if ((child.context === context || child.fnContext === context) &&
-      data && data.slot != null
-    ) {
-      var name = data.slot;
-      var slot = (slots[name] || (slots[name] = []));
-      if (child.tag === 'template') {
-        slot.push.apply(slot, child.children || []);
-      } else {
-        slot.push(child);
-      }
-    } else {
-      // fixed by xxxxxx 临时 hack 掉 uni-app 中的异步 name slot page
-      if(child.asyncMeta && child.asyncMeta.data && child.asyncMeta.data.slot === 'page'){
-        (slots['page'] || (slots['page'] = [])).push(child);
-      }else{
-        (slots.default || (slots.default = [])).push(child);
-      }
-    }
-  }
-  // ignore slots that contains only whitespace
-  for (var name$1 in slots) {
-    if (slots[name$1].every(isWhitespace)) {
-      delete slots[name$1];
-    }
-  }
-  return slots
-}
-
-function isWhitespace (node) {
-  return (node.isComment && !node.asyncFactory) || node.text === ' '
-}
-
-/*  */
-
-function normalizeScopedSlots (
-  slots,
-  normalSlots,
-  prevSlots
-) {
-  var res;
-  var hasNormalSlots = Object.keys(normalSlots).length > 0;
-  var isStable = slots ? !!slots.$stable : !hasNormalSlots;
-  var key = slots && slots.$key;
-  if (!slots) {
-    res = {};
-  } else if (slots._normalized) {
-    // fast path 1: child component re-render only, parent did not change
-    return slots._normalized
-  } else if (
-    isStable &&
-    prevSlots &&
-    prevSlots !== emptyObject &&
-    key === prevSlots.$key &&
-    !hasNormalSlots &&
-    !prevSlots.$hasNormal
-  ) {
-    // fast path 2: stable scoped slots w/ no normal slots to proxy,
-    // only need to normalize once
-    return prevSlots
-  } else {
-    res = {};
-    for (var key$1 in slots) {
-      if (slots[key$1] && key$1[0] !== '$') {
-        res[key$1] = normalizeScopedSlot(normalSlots, key$1, slots[key$1]);
-      }
-    }
-  }
-  // expose normal slots on scopedSlots
-  for (var key$2 in normalSlots) {
-    if (!(key$2 in res)) {
-      res[key$2] = proxyNormalSlot(normalSlots, key$2);
-    }
-  }
-  // avoriaz seems to mock a non-extensible $scopedSlots object
-  // and when that is passed down this would cause an error
-  if (slots && Object.isExtensible(slots)) {
-    (slots)._normalized = res;
-  }
-  def(res, '$stable', isStable);
-  def(res, '$key', key);
-  def(res, '$hasNormal', hasNormalSlots);
-  return res
-}
-
-function normalizeScopedSlot(normalSlots, key, fn) {
-  var normalized = function () {
-    var res = arguments.length ? fn.apply(null, arguments) : fn({});
-    res = res && typeof res === 'object' && !Array.isArray(res)
-      ? [res] // single vnode
-      : normalizeChildren(res);
-    return res && (
-      res.length === 0 ||
-      (res.length === 1 && res[0].isComment) // #9658
-    ) ? undefined
-      : res
-  };
-  // this is a slot using the new v-slot syntax without scope. although it is
-  // compiled as a scoped slot, render fn users would expect it to be present
-  // on this.$slots because the usage is semantically a normal slot.
-  if (fn.proxy) {
-    Object.defineProperty(normalSlots, key, {
-      get: normalized,
-      enumerable: true,
-      configurable: true
-    });
-  }
-  return normalized
-}
-
-function proxyNormalSlot(slots, key) {
-  return function () { return slots[key]; }
-}
-
-/*  */
-
-/**
- * Runtime helper for rendering v-for lists.
- */
-function renderList (
-  val,
-  render
-) {
-  var ret, i, l, keys, key;
-  if (Array.isArray(val) || typeof val === 'string') {
-    ret = new Array(val.length);
-    for (i = 0, l = val.length; i < l; i++) {
-      ret[i] = render(val[i], i, i, i); // fixed by xxxxxx
-    }
-  } else if (typeof val === 'number') {
-    ret = new Array(val);
-    for (i = 0; i < val; i++) {
-      ret[i] = render(i + 1, i, i, i); // fixed by xxxxxx
-    }
-  } else if (isObject(val)) {
-    if (hasSymbol && val[Symbol.iterator]) {
-      ret = [];
-      var iterator = val[Symbol.iterator]();
-      var result = iterator.next();
-      while (!result.done) {
-        ret.push(render(result.value, ret.length, i++, i)); // fixed by xxxxxx
-        result = iterator.next();
-      }
-    } else {
-      keys = Object.keys(val);
-      ret = new Array(keys.length);
-      for (i = 0, l = keys.length; i < l; i++) {
-        key = keys[i];
-        ret[i] = render(val[key], key, i, i); // fixed by xxxxxx
-      }
-    }
-  }
-  if (!isDef(ret)) {
-    ret = [];
-  }
-  (ret)._isVList = true;
-  return ret
-}
-
-/*  */
-
-/**
- * Runtime helper for rendering <slot>
- */
-function renderSlot (
-  name,
-  fallback,
-  props,
-  bindObject
-) {
-  var scopedSlotFn = this.$scopedSlots[name];
-  var nodes;
-  if (scopedSlotFn) { // scoped slot
-    props = props || {};
-    if (bindObject) {
-      if ( true && !isObject(bindObject)) {
-        warn(
-          'slot v-bind without argument expects an Object',
-          this
-        );
-      }
-      props = extend(extend({}, bindObject), props);
-    }
-    // fixed by xxxxxx app-plus scopedSlot
-    nodes = scopedSlotFn(props, this, props._i) || fallback;
-  } else {
-    nodes = this.$slots[name] || fallback;
-  }
-
-  var target = props && props.slot;
-  if (target) {
-    return this.$createElement('template', { slot: target }, nodes)
-  } else {
-    return nodes
-  }
-}
-
-/*  */
-
-/**
- * Runtime helper for resolving filters
- */
-function resolveFilter (id) {
-  return resolveAsset(this.$options, 'filters', id, true) || identity
-}
-
-/*  */
-
-function isKeyNotMatch (expect, actual) {
-  if (Array.isArray(expect)) {
-    return expect.indexOf(actual) === -1
-  } else {
-    return expect !== actual
-  }
-}
-
-/**
- * Runtime helper for checking keyCodes from config.
- * exposed as Vue.prototype._k
- * passing in eventKeyName as last argument separately for backwards compat
- */
-function checkKeyCodes (
-  eventKeyCode,
-  key,
-  builtInKeyCode,
-  eventKeyName,
-  builtInKeyName
-) {
-  var mappedKeyCode = config.keyCodes[key] || builtInKeyCode;
-  if (builtInKeyName && eventKeyName && !config.keyCodes[key]) {
-    return isKeyNotMatch(builtInKeyName, eventKeyName)
-  } else if (mappedKeyCode) {
-    return isKeyNotMatch(mappedKeyCode, eventKeyCode)
-  } else if (eventKeyName) {
-    return hyphenate(eventKeyName) !== key
-  }
-}
-
-/*  */
-
-/**
- * Runtime helper for merging v-bind="object" into a VNode's data.
- */
-function bindObjectProps (
-  data,
-  tag,
-  value,
-  asProp,
-  isSync
-) {
-  if (value) {
-    if (!isObject(value)) {
-       true && warn(
-        'v-bind without argument expects an Object or Array value',
-        this
-      );
-    } else {
-      if (Array.isArray(value)) {
-        value = toObject(value);
-      }
-      var hash;
-      var loop = function ( key ) {
-        if (
-          key === 'class' ||
-          key === 'style' ||
-          isReservedAttribute(key)
-        ) {
-          hash = data;
-        } else {
-          var type = data.attrs && data.attrs.type;
-          hash = asProp || config.mustUseProp(tag, type, key)
-            ? data.domProps || (data.domProps = {})
-            : data.attrs || (data.attrs = {});
-        }
-        var camelizedKey = camelize(key);
-        var hyphenatedKey = hyphenate(key);
-        if (!(camelizedKey in hash) && !(hyphenatedKey in hash)) {
-          hash[key] = value[key];
-
-          if (isSync) {
-            var on = data.on || (data.on = {});
-            on[("update:" + key)] = function ($event) {
-              value[key] = $event;
-            };
-          }
-        }
-      };
-
-      for (var key in value) loop( key );
-    }
-  }
-  return data
-}
-
-/*  */
-
-/**
- * Runtime helper for rendering static trees.
- */
-function renderStatic (
-  index,
-  isInFor
-) {
-  var cached = this._staticTrees || (this._staticTrees = []);
-  var tree = cached[index];
-  // if has already-rendered static tree and not inside v-for,
-  // we can reuse the same tree.
-  if (tree && !isInFor) {
-    return tree
-  }
-  // otherwise, render a fresh tree.
-  tree = cached[index] = this.$options.staticRenderFns[index].call(
-    this._renderProxy,
-    null,
-    this // for render fns generated for functional component templates
-  );
-  markStatic(tree, ("__static__" + index), false);
-  return tree
-}
-
-/**
- * Runtime helper for v-once.
- * Effectively it means marking the node as static with a unique key.
- */
-function markOnce (
-  tree,
-  index,
-  key
-) {
-  markStatic(tree, ("__once__" + index + (key ? ("_" + key) : "")), true);
-  return tree
-}
-
-function markStatic (
-  tree,
-  key,
-  isOnce
-) {
-  if (Array.isArray(tree)) {
-    for (var i = 0; i < tree.length; i++) {
-      if (tree[i] && typeof tree[i] !== 'string') {
-        markStaticNode(tree[i], (key + "_" + i), isOnce);
-      }
-    }
-  } else {
-    markStaticNode(tree, key, isOnce);
-  }
-}
-
-function markStaticNode (node, key, isOnce) {
-  node.isStatic = true;
-  node.key = key;
-  node.isOnce = isOnce;
-}
-
-/*  */
-
-function bindObjectListeners (data, value) {
-  if (value) {
-    if (!isPlainObject(value)) {
-       true && warn(
-        'v-on without argument expects an Object value',
-        this
-      );
-    } else {
-      var on = data.on = data.on ? extend({}, data.on) : {};
-      for (var key in value) {
-        var existing = on[key];
-        var ours = value[key];
-        on[key] = existing ? [].concat(existing, ours) : ours;
-      }
-    }
-  }
-  return data
-}
-
-/*  */
-
-function resolveScopedSlots (
-  fns, // see flow/vnode
-  res,
-  // the following are added in 2.6
-  hasDynamicKeys,
-  contentHashKey
-) {
-  res = res || { $stable: !hasDynamicKeys };
-  for (var i = 0; i < fns.length; i++) {
-    var slot = fns[i];
-    if (Array.isArray(slot)) {
-      resolveScopedSlots(slot, res, hasDynamicKeys);
-    } else if (slot) {
-      // marker for reverse proxying v-slot without scope on this.$slots
-      if (slot.proxy) {
-        slot.fn.proxy = true;
-      }
-      res[slot.key] = slot.fn;
-    }
-  }
-  if (contentHashKey) {
-    (res).$key = contentHashKey;
-  }
-  return res
-}
-
-/*  */
-
-function bindDynamicKeys (baseObj, values) {
-  for (var i = 0; i < values.length; i += 2) {
-    var key = values[i];
-    if (typeof key === 'string' && key) {
-      baseObj[values[i]] = values[i + 1];
-    } else if ( true && key !== '' && key !== null) {
-      // null is a special value for explicitly removing a binding
-      warn(
-        ("Invalid value for dynamic directive argument (expected string or null): " + key),
-        this
-      );
-    }
-  }
-  return baseObj
-}
-
-// helper to dynamically append modifier runtime markers to event names.
-// ensure only append when value is already string, otherwise it will be cast
-// to string and cause the type check to miss.
-function prependModifier (value, symbol) {
-  return typeof value === 'string' ? symbol + value : value
-}
-
-/*  */
-
-function installRenderHelpers (target) {
-  target._o = markOnce;
-  target._n = toNumber;
-  target._s = toString;
-  target._l = renderList;
-  target._t = renderSlot;
-  target._q = looseEqual;
-  target._i = looseIndexOf;
-  target._m = renderStatic;
-  target._f = resolveFilter;
-  target._k = checkKeyCodes;
-  target._b = bindObjectProps;
-  target._v = createTextVNode;
-  target._e = createEmptyVNode;
-  target._u = resolveScopedSlots;
-  target._g = bindObjectListeners;
-  target._d = bindDynamicKeys;
-  target._p = prependModifier;
-}
-
-/*  */
-
-function FunctionalRenderContext (
-  data,
-  props,
-  children,
-  parent,
-  Ctor
-) {
-  var this$1 = this;
-
-  var options = Ctor.options;
-  // ensure the createElement function in functional components
-  // gets a unique context - this is necessary for correct named slot check
-  var contextVm;
-  if (hasOwn(parent, '_uid')) {
-    contextVm = Object.create(parent);
-    // $flow-disable-line
-    contextVm._original = parent;
-  } else {
-    // the context vm passed in is a functional context as well.
-    // in this case we want to make sure we are able to get a hold to the
-    // real context instance.
-    contextVm = parent;
-    // $flow-disable-line
-    parent = parent._original;
-  }
-  var isCompiled = isTrue(options._compiled);
-  var needNormalization = !isCompiled;
-
-  this.data = data;
-  this.props = props;
-  this.children = children;
-  this.parent = parent;
-  this.listeners = data.on || emptyObject;
-  this.injections = resolveInject(options.inject, parent);
-  this.slots = function () {
-    if (!this$1.$slots) {
-      normalizeScopedSlots(
-        data.scopedSlots,
-        this$1.$slots = resolveSlots(children, parent)
-      );
-    }
-    return this$1.$slots
-  };
-
-  Object.defineProperty(this, 'scopedSlots', ({
-    enumerable: true,
-    get: function get () {
-      return normalizeScopedSlots(data.scopedSlots, this.slots())
-    }
-  }));
-
-  // support for compiled functional template
-  if (isCompiled) {
-    // exposing $options for renderStatic()
-    this.$options = options;
-    // pre-resolve slots for renderSlot()
-    this.$slots = this.slots();
-    this.$scopedSlots = normalizeScopedSlots(data.scopedSlots, this.$slots);
-  }
-
-  if (options._scopeId) {
-    this._c = function (a, b, c, d) {
-      var vnode = createElement(contextVm, a, b, c, d, needNormalization);
-      if (vnode && !Array.isArray(vnode)) {
-        vnode.fnScopeId = options._scopeId;
-        vnode.fnContext = parent;
-      }
-      return vnode
-    };
-  } else {
-    this._c = function (a, b, c, d) { return createElement(contextVm, a, b, c, d, needNormalization); };
-  }
-}
-
-installRenderHelpers(FunctionalRenderContext.prototype);
-
-function createFunctionalComponent (
-  Ctor,
-  propsData,
-  data,
-  contextVm,
-  children
-) {
-  var options = Ctor.options;
-  var props = {};
-  var propOptions = options.props;
-  if (isDef(propOptions)) {
-    for (var key in propOptions) {
-      props[key] = validateProp(key, propOptions, propsData || emptyObject);
-    }
-  } else {
-    if (isDef(data.attrs)) { mergeProps(props, data.attrs); }
-    if (isDef(data.props)) { mergeProps(props, data.props); }
-  }
-
-  var renderContext = new FunctionalRenderContext(
-    data,
-    props,
-    children,
-    contextVm,
-    Ctor
-  );
-
-  var vnode = options.render.call(null, renderContext._c, renderContext);
-
-  if (vnode instanceof VNode) {
-    return cloneAndMarkFunctionalResult(vnode, data, renderContext.parent, options, renderContext)
-  } else if (Array.isArray(vnode)) {
-    var vnodes = normalizeChildren(vnode) || [];
-    var res = new Array(vnodes.length);
-    for (var i = 0; i < vnodes.length; i++) {
-      res[i] = cloneAndMarkFunctionalResult(vnodes[i], data, renderContext.parent, options, renderContext);
-    }
-    return res
-  }
-}
-
-function cloneAndMarkFunctionalResult (vnode, data, contextVm, options, renderContext) {
-  // #7817 clone node before setting fnContext, otherwise if the node is reused
-  // (e.g. it was from a cached normal slot) the fnContext causes named slots
-  // that should not be matched to match.
-  var clone = cloneVNode(vnode);
-  clone.fnContext = contextVm;
-  clone.fnOptions = options;
-  if (true) {
-    (clone.devtoolsMeta = clone.devtoolsMeta || {}).renderContext = renderContext;
-  }
-  if (data.slot) {
-    (clone.data || (clone.data = {})).slot = data.slot;
-  }
-  return clone
-}
-
-function mergeProps (to, from) {
-  for (var key in from) {
-    to[camelize(key)] = from[key];
-  }
-}
-
-/*  */
-
-/*  */
-
-/*  */
-
-/*  */
-
-// inline hooks to be invoked on component VNodes during patch
-var componentVNodeHooks = {
-  init: function init (vnode, hydrating) {
-    if (
-      vnode.componentInstance &&
-      !vnode.componentInstance._isDestroyed &&
-      vnode.data.keepAlive
-    ) {
-      // kept-alive components, treat as a patch
-      var mountedNode = vnode; // work around flow
-      componentVNodeHooks.prepatch(mountedNode, mountedNode);
-    } else {
-      var child = vnode.componentInstance = createComponentInstanceForVnode(
-        vnode,
-        activeInstance
-      );
-      child.$mount(hydrating ? vnode.elm : undefined, hydrating);
-    }
-  },
-
-  prepatch: function prepatch (oldVnode, vnode) {
-    var options = vnode.componentOptions;
-    var child = vnode.componentInstance = oldVnode.componentInstance;
-    updateChildComponent(
-      child,
-      options.propsData, // updated props
-      options.listeners, // updated listeners
-      vnode, // new parent vnode
-      options.children // new children
-    );
-  },
-
-  insert: function insert (vnode) {
-    var context = vnode.context;
-    var componentInstance = vnode.componentInstance;
-    if (!componentInstance._isMounted) {
-      callHook(componentInstance, 'onServiceCreated');
-      callHook(componentInstance, 'onServiceAttached');
-      componentInstance._isMounted = true;
-      callHook(componentInstance, 'mounted');
-    }
-    if (vnode.data.keepAlive) {
-      if (context._isMounted) {
-        // vue-router#1212
-        // During updates, a kept-alive component's child components may
-        // change, so directly walking the tree here may call activated hooks
-        // on incorrect children. Instead we push them into a queue which will
-        // be processed after the whole patch process ended.
-        queueActivatedComponent(componentInstance);
-      } else {
-        activateChildComponent(componentInstance, true /* direct */);
-      }
-    }
-  },
-
-  destroy: function destroy (vnode) {
-    var componentInstance = vnode.componentInstance;
-    if (!componentInstance._isDestroyed) {
-      if (!vnode.data.keepAlive) {
-        componentInstance.$destroy();
-      } else {
-        deactivateChildComponent(componentInstance, true /* direct */);
-      }
-    }
-  }
-};
-
-var hooksToMerge = Object.keys(componentVNodeHooks);
-
-function createComponent (
-  Ctor,
-  data,
-  context,
-  children,
-  tag
-) {
-  if (isUndef(Ctor)) {
-    return
-  }
-
-  var baseCtor = context.$options._base;
-
-  // plain options object: turn it into a constructor
-  if (isObject(Ctor)) {
-    Ctor = baseCtor.extend(Ctor);
-  }
-
-  // if at this stage it's not a constructor or an async component factory,
-  // reject.
-  if (typeof Ctor !== 'function') {
-    if (true) {
-      warn(("Invalid Component definition: " + (String(Ctor))), context);
-    }
-    return
-  }
-
-  // async component
-  var asyncFactory;
-  if (isUndef(Ctor.cid)) {
-    asyncFactory = Ctor;
-    Ctor = resolveAsyncComponent(asyncFactory, baseCtor);
-    if (Ctor === undefined) {
-      // return a placeholder node for async component, which is rendered
-      // as a comment node but preserves all the raw information for the node.
-      // the information will be used for async server-rendering and hydration.
-      return createAsyncPlaceholder(
-        asyncFactory,
-        data,
-        context,
-        children,
-        tag
-      )
-    }
-  }
-
-  data = data || {};
-
-  // resolve constructor options in case global mixins are applied after
-  // component constructor creation
-  resolveConstructorOptions(Ctor);
-
-  // transform component v-model data into props & events
-  if (isDef(data.model)) {
-    transformModel(Ctor.options, data);
-  }
-
-  // extract props
-  var propsData = extractPropsFromVNodeData(data, Ctor, tag, context); // fixed by xxxxxx
-
-  // functional component
-  if (isTrue(Ctor.options.functional)) {
-    return createFunctionalComponent(Ctor, propsData, data, context, children)
-  }
-
-  // extract listeners, since these needs to be treated as
-  // child component listeners instead of DOM listeners
-  var listeners = data.on;
-  // replace with listeners with .native modifier
-  // so it gets processed during parent component patch.
-  data.on = data.nativeOn;
-
-  if (isTrue(Ctor.options.abstract)) {
-    // abstract components do not keep anything
-    // other than props & listeners & slot
-
-    // work around flow
-    var slot = data.slot;
-    data = {};
-    if (slot) {
-      data.slot = slot;
-    }
-  }
-
-  // install component management hooks onto the placeholder node
-  installComponentHooks(data);
-
-  // return a placeholder vnode
-  var name = Ctor.options.name || tag;
-  var vnode = new VNode(
-    ("vue-component-" + (Ctor.cid) + (name ? ("-" + name) : '')),
-    data, undefined, undefined, undefined, context,
-    { Ctor: Ctor, propsData: propsData, listeners: listeners, tag: tag, children: children },
-    asyncFactory
-  );
-
-  return vnode
-}
-
-function createComponentInstanceForVnode (
-  vnode, // we know it's MountedComponentVNode but flow doesn't
-  parent // activeInstance in lifecycle state
-) {
-  var options = {
-    _isComponent: true,
-    _parentVnode: vnode,
-    parent: parent
-  };
-  // check inline-template render functions
-  var inlineTemplate = vnode.data.inlineTemplate;
-  if (isDef(inlineTemplate)) {
-    options.render = inlineTemplate.render;
-    options.staticRenderFns = inlineTemplate.staticRenderFns;
-  }
-  return new vnode.componentOptions.Ctor(options)
-}
-
-function installComponentHooks (data) {
-  var hooks = data.hook || (data.hook = {});
-  for (var i = 0; i < hooksToMerge.length; i++) {
-    var key = hooksToMerge[i];
-    var existing = hooks[key];
-    var toMerge = componentVNodeHooks[key];
-    if (existing !== toMerge && !(existing && existing._merged)) {
-      hooks[key] = existing ? mergeHook$1(toMerge, existing) : toMerge;
-    }
-  }
-}
-
-function mergeHook$1 (f1, f2) {
-  var merged = function (a, b) {
-    // flow complains about extra args which is why we use any
-    f1(a, b);
-    f2(a, b);
-  };
-  merged._merged = true;
-  return merged
-}
-
-// transform component v-model info (value and callback) into
-// prop and event handler respectively.
-function transformModel (options, data) {
-  var prop = (options.model && options.model.prop) || 'value';
-  var event = (options.model && options.model.event) || 'input'
-  ;(data.attrs || (data.attrs = {}))[prop] = data.model.value;
-  var on = data.on || (data.on = {});
-  var existing = on[event];
-  var callback = data.model.callback;
-  if (isDef(existing)) {
-    if (
-      Array.isArray(existing)
-        ? existing.indexOf(callback) === -1
-        : existing !== callback
-    ) {
-      on[event] = [callback].concat(existing);
-    }
-  } else {
-    on[event] = callback;
-  }
-}
-
-/*  */
-
-var SIMPLE_NORMALIZE = 1;
-var ALWAYS_NORMALIZE = 2;
-
-// wrapper function for providing a more flexible interface
-// without getting yelled at by flow
-function createElement (
-  context,
-  tag,
-  data,
-  children,
-  normalizationType,
-  alwaysNormalize
-) {
-  if (Array.isArray(data) || isPrimitive(data)) {
-    normalizationType = children;
-    children = data;
-    data = undefined;
-  }
-  if (isTrue(alwaysNormalize)) {
-    normalizationType = ALWAYS_NORMALIZE;
-  }
-  return _createElement(context, tag, data, children, normalizationType)
-}
-
-function _createElement (
-  context,
-  tag,
-  data,
-  children,
-  normalizationType
-) {
-  if (isDef(data) && isDef((data).__ob__)) {
-     true && warn(
-      "Avoid using observed data object as vnode data: " + (JSON.stringify(data)) + "\n" +
-      'Always create fresh vnode data objects in each render!',
-      context
-    );
-    return createEmptyVNode()
-  }
-  // object syntax in v-bind
-  if (isDef(data) && isDef(data.is)) {
-    tag = data.is;
-  }
-  if (!tag) {
-    // in case of component :is set to falsy value
-    return createEmptyVNode()
-  }
-  // warn against non-primitive key
-  if ( true &&
-    isDef(data) && isDef(data.key) && !isPrimitive(data.key)
-  ) {
-    {
-      warn(
-        'Avoid using non-primitive value as key, ' +
-        'use string/number value instead.',
-        context
-      );
-    }
-  }
-  // support single function children as default scoped slot
-  if (Array.isArray(children) &&
-    typeof children[0] === 'function'
-  ) {
-    data = data || {};
-    data.scopedSlots = { default: children[0] };
-    children.length = 0;
-  }
-  if (normalizationType === ALWAYS_NORMALIZE) {
-    children = normalizeChildren(children);
-  } else if (normalizationType === SIMPLE_NORMALIZE) {
-    children = simpleNormalizeChildren(children);
-  }
-  var vnode, ns;
-  if (typeof tag === 'string') {
-    var Ctor;
-    ns = (context.$vnode && context.$vnode.ns) || config.getTagNamespace(tag);
-    if (config.isReservedTag(tag)) {
-      // platform built-in elements
-      if ( true && isDef(data) && isDef(data.nativeOn)) {
-        warn(
-          ("The .native modifier for v-on is only valid on components but it was used on <" + tag + ">."),
-          context
-        );
-      }
-      vnode = new VNode(
-        config.parsePlatformTagName(tag), data, children,
-        undefined, undefined, context
-      );
-    } else if ((!data || !data.pre) && isDef(Ctor = resolveAsset(context.$options, 'components', tag))) {
-      // component
-      vnode = createComponent(Ctor, data, context, children, tag);
-    } else {
-      // unknown or unlisted namespaced elements
-      // check at runtime because it may get assigned a namespace when its
-      // parent normalizes children
-      vnode = new VNode(
-        tag, data, children,
-        undefined, undefined, context
-      );
-    }
-  } else {
-    // direct component options / constructor
-    vnode = createComponent(tag, data, context, children);
-  }
-  if (Array.isArray(vnode)) {
-    return vnode
-  } else if (isDef(vnode)) {
-    if (isDef(ns)) { applyNS(vnode, ns); }
-    if (isDef(data)) { registerDeepBindings(data); }
-    return vnode
-  } else {
-    return createEmptyVNode()
-  }
-}
-
-function applyNS (vnode, ns, force) {
-  vnode.ns = ns;
-  if (vnode.tag === 'foreignObject') {
-    // use default namespace inside foreignObject
-    ns = undefined;
-    force = true;
-  }
-  if (isDef(vnode.children)) {
-    for (var i = 0, l = vnode.children.length; i < l; i++) {
-      var child = vnode.children[i];
-      if (isDef(child.tag) && (
-        isUndef(child.ns) || (isTrue(force) && child.tag !== 'svg'))) {
-        applyNS(child, ns, force);
-      }
-    }
-  }
-}
-
-// ref #5318
-// necessary to ensure parent re-render when deep bindings like :style and
-// :class are used on slot nodes
-function registerDeepBindings (data) {
-  if (isObject(data.style)) {
-    traverse(data.style);
-  }
-  if (isObject(data.class)) {
-    traverse(data.class);
-  }
-}
-
-/*  */
-
-function initRender (vm) {
-  vm._vnode = null; // the root of the child tree
-  vm._staticTrees = null; // v-once cached trees
-  var options = vm.$options;
-  var parentVnode = vm.$vnode = options._parentVnode; // the placeholder node in parent tree
-  var renderContext = parentVnode && parentVnode.context;
-  vm.$slots = resolveSlots(options._renderChildren, renderContext);
-  vm.$scopedSlots = emptyObject;
-  // bind the createElement fn to this instance
-  // so that we get proper render context inside it.
-  // args order: tag, data, children, normalizationType, alwaysNormalize
-  // internal version is used by render functions compiled from templates
-  vm._c = function (a, b, c, d) { return createElement(vm, a, b, c, d, false); };
-  // normalization is always applied for the public version, used in
-  // user-written render functions.
-  vm.$createElement = function (a, b, c, d) { return createElement(vm, a, b, c, d, true); };
-
-  // $attrs & $listeners are exposed for easier HOC creation.
-  // they need to be reactive so that HOCs using them are always updated
-  var parentData = parentVnode && parentVnode.data;
-
-  /* istanbul ignore else */
-  if (true) {
-    defineReactive$$1(vm, '$attrs', parentData && parentData.attrs || emptyObject, function () {
-      !isUpdatingChildComponent && warn("$attrs is readonly.", vm);
-    }, true);
-    defineReactive$$1(vm, '$listeners', options._parentListeners || emptyObject, function () {
-      !isUpdatingChildComponent && warn("$listeners is readonly.", vm);
-    }, true);
-  } else {}
-}
-
-var currentRenderingInstance = null;
-
-function renderMixin (Vue) {
-  // install runtime convenience helpers
-  installRenderHelpers(Vue.prototype);
-
-  Vue.prototype.$nextTick = function (fn) {
-    return nextTick(fn, this)
-  };
-
-  Vue.prototype._render = function () {
-    var vm = this;
-    var ref = vm.$options;
-    var render = ref.render;
-    var _parentVnode = ref._parentVnode;
-
-    if (_parentVnode) {
-      vm.$scopedSlots = normalizeScopedSlots(
-        _parentVnode.data.scopedSlots,
-        vm.$slots,
-        vm.$scopedSlots
-      );
-    }
-
-    // set parent vnode. this allows render functions to have access
-    // to the data on the placeholder node.
-    vm.$vnode = _parentVnode;
-    // render self
-    var vnode;
-    try {
-      // There's no need to maintain a stack because all render fns are called
-      // separately from one another. Nested component's render fns are called
-      // when parent component is patched.
-      currentRenderingInstance = vm;
-      vnode = render.call(vm._renderProxy, vm.$createElement);
-    } catch (e) {
-      handleError(e, vm, "render");
-      // return error render result,
-      // or previous vnode to prevent render error causing blank component
-      /* istanbul ignore else */
-      if ( true && vm.$options.renderError) {
-        try {
-          vnode = vm.$options.renderError.call(vm._renderProxy, vm.$createElement, e);
-        } catch (e) {
-          handleError(e, vm, "renderError");
-          vnode = vm._vnode;
-        }
-      } else {
-        vnode = vm._vnode;
-      }
-    } finally {
-      currentRenderingInstance = null;
-    }
-    // if the returned array contains only a single node, allow it
-    if (Array.isArray(vnode) && vnode.length === 1) {
-      vnode = vnode[0];
-    }
-    // return empty vnode in case the render function errored out
-    if (!(vnode instanceof VNode)) {
-      if ( true && Array.isArray(vnode)) {
-        warn(
-          'Multiple root nodes returned from render function. Render function ' +
-          'should return a single root node.',
-          vm
-        );
-      }
-      vnode = createEmptyVNode();
-    }
-    // set parent
-    vnode.parent = _parentVnode;
-    return vnode
-  };
-}
-
-/*  */
-
-function ensureCtor (comp, base) {
-  if (
-    comp.__esModule ||
-    (hasSymbol && comp[Symbol.toStringTag] === 'Module')
-  ) {
-    comp = comp.default;
-  }
-  return isObject(comp)
-    ? base.extend(comp)
-    : comp
-}
-
-function createAsyncPlaceholder (
-  factory,
-  data,
-  context,
-  children,
-  tag
-) {
-  var node = createEmptyVNode();
-  node.asyncFactory = factory;
-  node.asyncMeta = { data: data, context: context, children: children, tag: tag };
-  return node
-}
-
-function resolveAsyncComponent (
-  factory,
-  baseCtor
-) {
-  if (isTrue(factory.error) && isDef(factory.errorComp)) {
-    return factory.errorComp
-  }
-
-  if (isDef(factory.resolved)) {
-    return factory.resolved
-  }
-
-  var owner = currentRenderingInstance;
-  if (owner && isDef(factory.owners) && factory.owners.indexOf(owner) === -1) {
-    // already pending
-    factory.owners.push(owner);
-  }
-
-  if (isTrue(factory.loading) && isDef(factory.loadingComp)) {
-    return factory.loadingComp
-  }
-
-  if (owner && !isDef(factory.owners)) {
-    var owners = factory.owners = [owner];
-    var sync = true;
-    var timerLoading = null;
-    var timerTimeout = null
-
-    ;(owner).$on('hook:destroyed', function () { return remove(owners, owner); });
-
-    var forceRender = function (renderCompleted) {
-      for (var i = 0, l = owners.length; i < l; i++) {
-        (owners[i]).$forceUpdate();
-      }
-
-      if (renderCompleted) {
-        owners.length = 0;
-        if (timerLoading !== null) {
-          clearTimeout(timerLoading);
-          timerLoading = null;
-        }
-        if (timerTimeout !== null) {
-          clearTimeout(timerTimeout);
-          timerTimeout = null;
-        }
-      }
-    };
-
-    var resolve = once(function (res) {
-      // cache resolved
-      factory.resolved = ensureCtor(res, baseCtor);
-      // invoke callbacks only if this is not a synchronous resolve
-      // (async resolves are shimmed as synchronous during SSR)
-      if (!sync) {
-        forceRender(true);
-      } else {
-        owners.length = 0;
-      }
-    });
-
-    var reject = once(function (reason) {
-       true && warn(
-        "Failed to resolve async component: " + (String(factory)) +
-        (reason ? ("\nReason: " + reason) : '')
-      );
-      if (isDef(factory.errorComp)) {
-        factory.error = true;
-        forceRender(true);
-      }
-    });
-
-    var res = factory(resolve, reject);
-
-    if (isObject(res)) {
-      if (isPromise(res)) {
-        // () => Promise
-        if (isUndef(factory.resolved)) {
-          res.then(resolve, reject);
-        }
-      } else if (isPromise(res.component)) {
-        res.component.then(resolve, reject);
-
-        if (isDef(res.error)) {
-          factory.errorComp = ensureCtor(res.error, baseCtor);
-        }
-
-        if (isDef(res.loading)) {
-          factory.loadingComp = ensureCtor(res.loading, baseCtor);
-          if (res.delay === 0) {
-            factory.loading = true;
-          } else {
-            timerLoading = setTimeout(function () {
-              timerLoading = null;
-              if (isUndef(factory.resolved) && isUndef(factory.error)) {
-                factory.loading = true;
-                forceRender(false);
-              }
-            }, res.delay || 200);
-          }
-        }
-
-        if (isDef(res.timeout)) {
-          timerTimeout = setTimeout(function () {
-            timerTimeout = null;
-            if (isUndef(factory.resolved)) {
-              reject(
-                 true
-                  ? ("timeout (" + (res.timeout) + "ms)")
-                  : undefined
-              );
-            }
-          }, res.timeout);
-        }
-      }
-    }
-
-    sync = false;
-    // return in case resolved synchronously
-    return factory.loading
-      ? factory.loadingComp
-      : factory.resolved
-  }
-}
-
-/*  */
-
-function isAsyncPlaceholder (node) {
-  return node.isComment && node.asyncFactory
-}
-
-/*  */
-
-function getFirstComponentChild (children) {
-  if (Array.isArray(children)) {
-    for (var i = 0; i < children.length; i++) {
-      var c = children[i];
-      if (isDef(c) && (isDef(c.componentOptions) || isAsyncPlaceholder(c))) {
-        return c
-      }
-    }
-  }
-}
-
-/*  */
-
-/*  */
-
-function initEvents (vm) {
-  vm._events = Object.create(null);
-  vm._hasHookEvent = false;
-  // init parent attached events
-  var listeners = vm.$options._parentListeners;
-  if (listeners) {
-    updateComponentListeners(vm, listeners);
-  }
-}
-
-var target;
-
-function add (event, fn) {
-  target.$on(event, fn);
-}
-
-function remove$1 (event, fn) {
-  target.$off(event, fn);
-}
-
-function createOnceHandler (event, fn) {
-  var _target = target;
-  return function onceHandler () {
-    var res = fn.apply(null, arguments);
-    if (res !== null) {
-      _target.$off(event, onceHandler);
-    }
-  }
-}
-
-function updateComponentListeners (
-  vm,
-  listeners,
-  oldListeners
-) {
-  target = vm;
-  updateListeners(listeners, oldListeners || {}, add, remove$1, createOnceHandler, vm);
-  target = undefined;
-}
-
-function eventsMixin (Vue) {
-  var hookRE = /^hook:/;
-  Vue.prototype.$on = function (event, fn) {
-    var vm = this;
-    if (Array.isArray(event)) {
-      for (var i = 0, l = event.length; i < l; i++) {
-        vm.$on(event[i], fn);
-      }
-    } else {
-      (vm._events[event] || (vm._events[event] = [])).push(fn);
-      // optimize hook:event cost by using a boolean flag marked at registration
-      // instead of a hash lookup
-      if (hookRE.test(event)) {
-        vm._hasHookEvent = true;
-      }
-    }
-    return vm
-  };
-
-  Vue.prototype.$once = function (event, fn) {
-    var vm = this;
-    function on () {
-      vm.$off(event, on);
-      fn.apply(vm, arguments);
-    }
-    on.fn = fn;
-    vm.$on(event, on);
-    return vm
-  };
-
-  Vue.prototype.$off = function (event, fn) {
-    var vm = this;
-    // all
-    if (!arguments.length) {
-      vm._events = Object.create(null);
-      return vm
-    }
-    // array of events
-    if (Array.isArray(event)) {
-      for (var i$1 = 0, l = event.length; i$1 < l; i$1++) {
-        vm.$off(event[i$1], fn);
-      }
-      return vm
-    }
-    // specific event
-    var cbs = vm._events[event];
-    if (!cbs) {
-      return vm
-    }
-    if (!fn) {
-      vm._events[event] = null;
-      return vm
-    }
-    // specific handler
-    var cb;
-    var i = cbs.length;
-    while (i--) {
-      cb = cbs[i];
-      if (cb === fn || cb.fn === fn) {
-        cbs.splice(i, 1);
-        break
-      }
-    }
-    return vm
-  };
-
-  Vue.prototype.$emit = function (event) {
-    var vm = this;
-    if (true) {
-      var lowerCaseEvent = event.toLowerCase();
-      if (lowerCaseEvent !== event && vm._events[lowerCaseEvent]) {
-        tip(
-          "Event \"" + lowerCaseEvent + "\" is emitted in component " +
-          (formatComponentName(vm)) + " but the handler is registered for \"" + event + "\". " +
-          "Note that HTML attributes are case-insensitive and you cannot use " +
-          "v-on to listen to camelCase events when using in-DOM templates. " +
-          "You should probably use \"" + (hyphenate(event)) + "\" instead of \"" + event + "\"."
-        );
-      }
-    }
-    var cbs = vm._events[event];
-    if (cbs) {
-      cbs = cbs.length > 1 ? toArray(cbs) : cbs;
-      var args = toArray(arguments, 1);
-      var info = "event handler for \"" + event + "\"";
-      for (var i = 0, l = cbs.length; i < l; i++) {
-        invokeWithErrorHandling(cbs[i], vm, args, vm, info);
-      }
-    }
-    return vm
-  };
-}
-
-/*  */
-
-var activeInstance = null;
-var isUpdatingChildComponent = false;
-
-function setActiveInstance(vm) {
-  var prevActiveInstance = activeInstance;
-  activeInstance = vm;
-  return function () {
-    activeInstance = prevActiveInstance;
-  }
-}
-
-function initLifecycle (vm) {
-  var options = vm.$options;
-
-  // locate first non-abstract parent
-  var parent = options.parent;
-  if (parent && !options.abstract) {
-    while (parent.$options.abstract && parent.$parent) {
-      parent = parent.$parent;
-    }
-    parent.$children.push(vm);
-  }
-
-  vm.$parent = parent;
-  vm.$root = parent ? parent.$root : vm;
-
-  vm.$children = [];
-  vm.$refs = {};
-
-  vm._watcher = null;
-  vm._inactive = null;
-  vm._directInactive = false;
-  vm._isMounted = false;
-  vm._isDestroyed = false;
-  vm._isBeingDestroyed = false;
-}
-
-function lifecycleMixin (Vue) {
-  Vue.prototype._update = function (vnode, hydrating) {
-    var vm = this;
-    var prevEl = vm.$el;
-    var prevVnode = vm._vnode;
-    var restoreActiveInstance = setActiveInstance(vm);
-    vm._vnode = vnode;
-    // Vue.prototype.__patch__ is injected in entry points
-    // based on the rendering backend used.
-    if (!prevVnode) {
-      // initial render
-      vm.$el = vm.__patch__(vm.$el, vnode, hydrating, false /* removeOnly */);
-    } else {
-      // updates
-      vm.$el = vm.__patch__(prevVnode, vnode);
-    }
-    restoreActiveInstance();
-    // update __vue__ reference
-    if (prevEl) {
-      prevEl.__vue__ = null;
-    }
-    if (vm.$el) {
-      vm.$el.__vue__ = vm;
-    }
-    // if parent is an HOC, update its $el as well
-    if (vm.$vnode && vm.$parent && vm.$vnode === vm.$parent._vnode) {
-      vm.$parent.$el = vm.$el;
-    }
-    // updated hook is called by the scheduler to ensure that children are
-    // updated in a parent's updated hook.
-  };
-
-  Vue.prototype.$forceUpdate = function () {
-    var vm = this;
-    if (vm._watcher) {
-      vm._watcher.update();
-    }
-  };
-
-  Vue.prototype.$destroy = function () {
-    var vm = this;
-    if (vm._isBeingDestroyed) {
-      return
-    }
-    callHook(vm, 'beforeDestroy');
-    vm._isBeingDestroyed = true;
-    // remove self from parent
-    var parent = vm.$parent;
-    if (parent && !parent._isBeingDestroyed && !vm.$options.abstract) {
-      remove(parent.$children, vm);
-    }
-    // teardown watchers
-    if (vm._watcher) {
-      vm._watcher.teardown();
-    }
-    var i = vm._watchers.length;
-    while (i--) {
-      vm._watchers[i].teardown();
-    }
-    // remove reference from data ob
-    // frozen object may not have observer.
-    if (vm._data.__ob__) {
-      vm._data.__ob__.vmCount--;
-    }
-    // call the last hook...
-    vm._isDestroyed = true;
-    // invoke destroy hooks on current rendered tree
-    vm.__patch__(vm._vnode, null);
-    // fire destroyed hook
-    callHook(vm, 'destroyed');
-    // turn off all instance listeners.
-    vm.$off();
-    // remove __vue__ reference
-    if (vm.$el) {
-      vm.$el.__vue__ = null;
-    }
-    // release circular reference (#6759)
-    if (vm.$vnode) {
-      vm.$vnode.parent = null;
-    }
-  };
-}
-
-function updateChildComponent (
-  vm,
-  propsData,
-  listeners,
-  parentVnode,
-  renderChildren
-) {
-  if (true) {
-    isUpdatingChildComponent = true;
-  }
-
-  // determine whether component has slot children
-  // we need to do this before overwriting $options._renderChildren.
-
-  // check if there are dynamic scopedSlots (hand-written or compiled but with
-  // dynamic slot names). Static scoped slots compiled from template has the
-  // "$stable" marker.
-  var newScopedSlots = parentVnode.data.scopedSlots;
-  var oldScopedSlots = vm.$scopedSlots;
-  var hasDynamicScopedSlot = !!(
-    (newScopedSlots && !newScopedSlots.$stable) ||
-    (oldScopedSlots !== emptyObject && !oldScopedSlots.$stable) ||
-    (newScopedSlots && vm.$scopedSlots.$key !== newScopedSlots.$key)
-  );
-
-  // Any static slot children from the parent may have changed during parent's
-  // update. Dynamic scoped slots may also have changed. In such cases, a forced
-  // update is necessary to ensure correctness.
-  var needsForceUpdate = !!(
-    renderChildren ||               // has new static slots
-    vm.$options._renderChildren ||  // has old static slots
-    hasDynamicScopedSlot
-  );
-
-  vm.$options._parentVnode = parentVnode;
-  vm.$vnode = parentVnode; // update vm's placeholder node without re-render
-
-  if (vm._vnode) { // update child tree's parent
-    vm._vnode.parent = parentVnode;
-  }
-  vm.$options._renderChildren = renderChildren;
-
-  // update $attrs and $listeners hash
-  // these are also reactive so they may trigger child update if the child
-  // used them during render
-  vm.$attrs = parentVnode.data.attrs || emptyObject;
-  vm.$listeners = listeners || emptyObject;
-
-  // update props
-  if (propsData && vm.$options.props) {
-    toggleObserving(false);
-    var props = vm._props;
-    var propKeys = vm.$options._propKeys || [];
-    for (var i = 0; i < propKeys.length; i++) {
-      var key = propKeys[i];
-      var propOptions = vm.$options.props; // wtf flow?
-      props[key] = validateProp(key, propOptions, propsData, vm);
-    }
-    toggleObserving(true);
-    // keep a copy of raw propsData
-    vm.$options.propsData = propsData;
-  }
-  
-  // fixed by xxxxxx update properties(mp runtime)
-  vm._$updateProperties && vm._$updateProperties(vm);
-  
-  // update listeners
-  listeners = listeners || emptyObject;
-  var oldListeners = vm.$options._parentListeners;
-  vm.$options._parentListeners = listeners;
-  updateComponentListeners(vm, listeners, oldListeners);
-
-  // resolve slots + force update if has children
-  if (needsForceUpdate) {
-    vm.$slots = resolveSlots(renderChildren, parentVnode.context);
-    vm.$forceUpdate();
-  }
-
-  if (true) {
-    isUpdatingChildComponent = false;
-  }
-}
-
-function isInInactiveTree (vm) {
-  while (vm && (vm = vm.$parent)) {
-    if (vm._inactive) { return true }
-  }
-  return false
-}
-
-function activateChildComponent (vm, direct) {
-  if (direct) {
-    vm._directInactive = false;
-    if (isInInactiveTree(vm)) {
-      return
-    }
-  } else if (vm._directInactive) {
-    return
-  }
-  if (vm._inactive || vm._inactive === null) {
-    vm._inactive = false;
-    for (var i = 0; i < vm.$children.length; i++) {
-      activateChildComponent(vm.$children[i]);
-    }
-    callHook(vm, 'activated');
-  }
-}
-
-function deactivateChildComponent (vm, direct) {
-  if (direct) {
-    vm._directInactive = true;
-    if (isInInactiveTree(vm)) {
-      return
-    }
-  }
-  if (!vm._inactive) {
-    vm._inactive = true;
-    for (var i = 0; i < vm.$children.length; i++) {
-      deactivateChildComponent(vm.$children[i]);
-    }
-    callHook(vm, 'deactivated');
-  }
-}
-
-function callHook (vm, hook) {
-  // #7573 disable dep collection when invoking lifecycle hooks
-  pushTarget();
-  var handlers = vm.$options[hook];
-  var info = hook + " hook";
-  if (handlers) {
-    for (var i = 0, j = handlers.length; i < j; i++) {
-      invokeWithErrorHandling(handlers[i], vm, null, vm, info);
-    }
-  }
-  if (vm._hasHookEvent) {
-    vm.$emit('hook:' + hook);
-  }
-  popTarget();
-}
-
-/*  */
-
-var MAX_UPDATE_COUNT = 100;
-
-var queue = [];
-var activatedChildren = [];
-var has = {};
-var circular = {};
-var waiting = false;
-var flushing = false;
-var index = 0;
-
-/**
- * Reset the scheduler's state.
- */
-function resetSchedulerState () {
-  index = queue.length = activatedChildren.length = 0;
-  has = {};
-  if (true) {
-    circular = {};
-  }
-  waiting = flushing = false;
-}
-
-// Async edge case #6566 requires saving the timestamp when event listeners are
-// attached. However, calling performance.now() has a perf overhead especially
-// if the page has thousands of event listeners. Instead, we take a timestamp
-// every time the scheduler flushes and use that for all event listeners
-// attached during that flush.
-var currentFlushTimestamp = 0;
-
-// Async edge case fix requires storing an event listener's attach timestamp.
-var getNow = Date.now;
-
-// Determine what event timestamp the browser is using. Annoyingly, the
-// timestamp can either be hi-res (relative to page load) or low-res
-// (relative to UNIX epoch), so in order to compare time we have to use the
-// same timestamp type when saving the flush timestamp.
-// All IE versions use low-res event timestamps, and have problematic clock
-// implementations (#9632)
-if (inBrowser && !isIE) {
-  var performance = window.performance;
-  if (
-    performance &&
-    typeof performance.now === 'function' &&
-    getNow() > document.createEvent('Event').timeStamp
-  ) {
-    // if the event timestamp, although evaluated AFTER the Date.now(), is
-    // smaller than it, it means the event is using a hi-res timestamp,
-    // and we need to use the hi-res version for event listener timestamps as
-    // well.
-    getNow = function () { return performance.now(); };
-  }
-}
-
-/**
- * Flush both queues and run the watchers.
- */
-function flushSchedulerQueue () {
-  currentFlushTimestamp = getNow();
-  flushing = true;
-  var watcher, id;
-
-  // Sort queue before flush.
-  // This ensures that:
-  // 1. Components are updated from parent to child. (because parent is always
-  //    created before the child)
-  // 2. A component's user watchers are run before its render watcher (because
-  //    user watchers are created before the render watcher)
-  // 3. If a component is destroyed during a parent component's watcher run,
-  //    its watchers can be skipped.
-  queue.sort(function (a, b) { return a.id - b.id; });
-
-  // do not cache length because more watchers might be pushed
-  // as we run existing watchers
-  for (index = 0; index < queue.length; index++) {
-    watcher = queue[index];
-    if (watcher.before) {
-      watcher.before();
-    }
-    id = watcher.id;
-    has[id] = null;
-    watcher.run();
-    // in dev build, check and stop circular updates.
-    if ( true && has[id] != null) {
-      circular[id] = (circular[id] || 0) + 1;
-      if (circular[id] > MAX_UPDATE_COUNT) {
-        warn(
-          'You may have an infinite update loop ' + (
-            watcher.user
-              ? ("in watcher with expression \"" + (watcher.expression) + "\"")
-              : "in a component render function."
-          ),
-          watcher.vm
-        );
-        break
-      }
-    }
-  }
-
-  // keep copies of post queues before resetting state
-  var activatedQueue = activatedChildren.slice();
-  var updatedQueue = queue.slice();
-
-  resetSchedulerState();
-
-  // call component updated and activated hooks
-  callActivatedHooks(activatedQueue);
-  callUpdatedHooks(updatedQueue);
-
-  // devtool hook
-  /* istanbul ignore if */
-  if (devtools && config.devtools) {
-    devtools.emit('flush');
-  }
-}
-
-function callUpdatedHooks (queue) {
-  var i = queue.length;
-  while (i--) {
-    var watcher = queue[i];
-    var vm = watcher.vm;
-    if (vm._watcher === watcher && vm._isMounted && !vm._isDestroyed) {
-      callHook(vm, 'updated');
-    }
-  }
-}
-
-/**
- * Queue a kept-alive component that was activated during patch.
- * The queue will be processed after the entire tree has been patched.
- */
-function queueActivatedComponent (vm) {
-  // setting _inactive to false here so that a render function can
-  // rely on checking whether it's in an inactive tree (e.g. router-view)
-  vm._inactive = false;
-  activatedChildren.push(vm);
-}
-
-function callActivatedHooks (queue) {
-  for (var i = 0; i < queue.length; i++) {
-    queue[i]._inactive = true;
-    activateChildComponent(queue[i], true /* true */);
-  }
-}
-
-/**
- * Push a watcher into the watcher queue.
- * Jobs with duplicate IDs will be skipped unless it's
- * pushed when the queue is being flushed.
- */
-function queueWatcher (watcher) {
-  var id = watcher.id;
-  if (has[id] == null) {
-    has[id] = true;
-    if (!flushing) {
-      queue.push(watcher);
-    } else {
-      // if already flushing, splice the watcher based on its id
-      // if already past its id, it will be run next immediately.
-      var i = queue.length - 1;
-      while (i > index && queue[i].id > watcher.id) {
-        i--;
-      }
-      queue.splice(i + 1, 0, watcher);
-    }
-    // queue the flush
-    if (!waiting) {
-      waiting = true;
-
-      if ( true && !config.async) {
-        flushSchedulerQueue();
-        return
-      }
-      nextTick(flushSchedulerQueue);
-    }
-  }
-}
-
-/*  */
-
-
-
-var uid$2 = 0;
-
-/**
- * A watcher parses an expression, collects dependencies,
- * and fires callback when the expression value changes.
- * This is used for both the $watch() api and directives.
- */
-var Watcher = function Watcher (
-  vm,
-  expOrFn,
-  cb,
-  options,
-  isRenderWatcher
-) {
-  this.vm = vm;
-  if (isRenderWatcher) {
-    vm._watcher = this;
-  }
-  vm._watchers.push(this);
-  // options
-  if (options) {
-    this.deep = !!options.deep;
-    this.user = !!options.user;
-    this.lazy = !!options.lazy;
-    this.sync = !!options.sync;
-    this.before = options.before;
-  } else {
-    this.deep = this.user = this.lazy = this.sync = false;
-  }
-  this.cb = cb;
-  this.id = ++uid$2; // uid for batching
-  this.active = true;
-  this.dirty = this.lazy; // for lazy watchers
-  this.deps = [];
-  this.newDeps = [];
-  this.depIds = new _Set();
-  this.newDepIds = new _Set();
-  this.expression =  true
-    ? expOrFn.toString()
-    : undefined;
-  // parse expression for getter
-  if (typeof expOrFn === 'function') {
-    this.getter = expOrFn;
-  } else {
-    this.getter = parsePath(expOrFn);
-    if (!this.getter) {
-      this.getter = noop;
-       true && warn(
-        "Failed watching path: \"" + expOrFn + "\" " +
-        'Watcher only accepts simple dot-delimited paths. ' +
-        'For full control, use a function instead.',
-        vm
-      );
-    }
-  }
-  this.value = this.lazy
-    ? undefined
-    : this.get();
-};
-
-/**
- * Evaluate the getter, and re-collect dependencies.
- */
-Watcher.prototype.get = function get () {
-  pushTarget(this);
-  var value;
-  var vm = this.vm;
-  try {
-    value = this.getter.call(vm, vm);
-  } catch (e) {
-    if (this.user) {
-      handleError(e, vm, ("getter for watcher \"" + (this.expression) + "\""));
-    } else {
-      throw e
-    }
-  } finally {
-    // "touch" every property so they are all tracked as
-    // dependencies for deep watching
-    if (this.deep) {
-      traverse(value);
-    }
-    popTarget();
-    this.cleanupDeps();
-  }
-  return value
-};
-
-/**
- * Add a dependency to this directive.
- */
-Watcher.prototype.addDep = function addDep (dep) {
-  var id = dep.id;
-  if (!this.newDepIds.has(id)) {
-    this.newDepIds.add(id);
-    this.newDeps.push(dep);
-    if (!this.depIds.has(id)) {
-      dep.addSub(this);
-    }
-  }
-};
-
-/**
- * Clean up for dependency collection.
- */
-Watcher.prototype.cleanupDeps = function cleanupDeps () {
-  var i = this.deps.length;
-  while (i--) {
-    var dep = this.deps[i];
-    if (!this.newDepIds.has(dep.id)) {
-      dep.removeSub(this);
-    }
-  }
-  var tmp = this.depIds;
-  this.depIds = this.newDepIds;
-  this.newDepIds = tmp;
-  this.newDepIds.clear();
-  tmp = this.deps;
-  this.deps = this.newDeps;
-  this.newDeps = tmp;
-  this.newDeps.length = 0;
-};
-
-/**
- * Subscriber interface.
- * Will be called when a dependency changes.
- */
-Watcher.prototype.update = function update () {
-  /* istanbul ignore else */
-  if (this.lazy) {
-    this.dirty = true;
-  } else if (this.sync) {
-    this.run();
-  } else {
-    queueWatcher(this);
-  }
-};
-
-/**
- * Scheduler job interface.
- * Will be called by the scheduler.
- */
-Watcher.prototype.run = function run () {
-  if (this.active) {
-    var value = this.get();
-    if (
-      value !== this.value ||
-      // Deep watchers and watchers on Object/Arrays should fire even
-      // when the value is the same, because the value may
-      // have mutated.
-      isObject(value) ||
-      this.deep
-    ) {
-      // set new value
-      var oldValue = this.value;
-      this.value = value;
-      if (this.user) {
-        try {
-          this.cb.call(this.vm, value, oldValue);
-        } catch (e) {
-          handleError(e, this.vm, ("callback for watcher \"" + (this.expression) + "\""));
-        }
-      } else {
-        this.cb.call(this.vm, value, oldValue);
-      }
-    }
-  }
-};
-
-/**
- * Evaluate the value of the watcher.
- * This only gets called for lazy watchers.
- */
-Watcher.prototype.evaluate = function evaluate () {
-  this.value = this.get();
-  this.dirty = false;
-};
-
-/**
- * Depend on all deps collected by this watcher.
- */
-Watcher.prototype.depend = function depend () {
-  var i = this.deps.length;
-  while (i--) {
-    this.deps[i].depend();
-  }
-};
-
-/**
- * Remove self from all dependencies' subscriber list.
- */
-Watcher.prototype.teardown = function teardown () {
-  if (this.active) {
-    // remove self from vm's watcher list
-    // this is a somewhat expensive operation so we skip it
-    // if the vm is being destroyed.
-    if (!this.vm._isBeingDestroyed) {
-      remove(this.vm._watchers, this);
-    }
-    var i = this.deps.length;
-    while (i--) {
-      this.deps[i].removeSub(this);
-    }
-    this.active = false;
-  }
-};
-
-/*  */
-
-var sharedPropertyDefinition = {
-  enumerable: true,
-  configurable: true,
-  get: noop,
-  set: noop
-};
-
-function proxy (target, sourceKey, key) {
-  sharedPropertyDefinition.get = function proxyGetter () {
-    return this[sourceKey][key]
-  };
-  sharedPropertyDefinition.set = function proxySetter (val) {
-    this[sourceKey][key] = val;
-  };
-  Object.defineProperty(target, key, sharedPropertyDefinition);
-}
-
-function initState (vm) {
-  vm._watchers = [];
-  var opts = vm.$options;
-  if (opts.props) { initProps(vm, opts.props); }
-  if (opts.methods) { initMethods(vm, opts.methods); }
-  if (opts.data) {
-    initData(vm);
-  } else {
-    observe(vm._data = {}, true /* asRootData */);
-  }
-  if (opts.computed) { initComputed(vm, opts.computed); }
-  if (opts.watch && opts.watch !== nativeWatch) {
-    initWatch(vm, opts.watch);
-  }
-}
-
-function initProps (vm, propsOptions) {
-  var propsData = vm.$options.propsData || {};
-  var props = vm._props = {};
-  // cache prop keys so that future props updates can iterate using Array
-  // instead of dynamic object key enumeration.
-  var keys = vm.$options._propKeys = [];
-  var isRoot = !vm.$parent;
-  // root instance props should be converted
-  if (!isRoot) {
-    toggleObserving(false);
-  }
-  var loop = function ( key ) {
-    keys.push(key);
-    var value = validateProp(key, propsOptions, propsData, vm);
-    /* istanbul ignore else */
-    if (true) {
-      var hyphenatedKey = hyphenate(key);
-      if (isReservedAttribute(hyphenatedKey) ||
-          config.isReservedAttr(hyphenatedKey)) {
-        warn(
-          ("\"" + hyphenatedKey + "\" is a reserved attribute and cannot be used as component prop."),
-          vm
-        );
-      }
-      defineReactive$$1(props, key, value, function () {
-        if (!isRoot && !isUpdatingChildComponent) {
-          {
-            if(vm.mpHost === 'mp-baidu'){//百度 observer 在 setData callback 之后触发，直接忽略该 warn
-                return
-            }
-            //fixed by xxxxxx __next_tick_pending,uni://form-field 时不告警
-            if(
-                key === 'value' && 
-                Array.isArray(vm.$options.behaviors) &&
-                vm.$options.behaviors.indexOf('uni://form-field') !== -1
-              ){
-              return
-            }
-            if(vm._getFormData){
-              return
-            }
-            var $parent = vm.$parent;
-            while($parent){
-              if($parent.__next_tick_pending){
-                return  
-              }
-              $parent = $parent.$parent;
-            }
-          }
-          warn(
-            "Avoid mutating a prop directly since the value will be " +
-            "overwritten whenever the parent component re-renders. " +
-            "Instead, use a data or computed property based on the prop's " +
-            "value. Prop being mutated: \"" + key + "\"",
-            vm
-          );
-        }
-      });
-    } else {}
-    // static props are already proxied on the component's prototype
-    // during Vue.extend(). We only need to proxy props defined at
-    // instantiation here.
-    if (!(key in vm)) {
-      proxy(vm, "_props", key);
-    }
-  };
-
-  for (var key in propsOptions) loop( key );
-  toggleObserving(true);
-}
-
-function initData (vm) {
-  var data = vm.$options.data;
-  data = vm._data = typeof data === 'function'
-    ? getData(data, vm)
-    : data || {};
-  if (!isPlainObject(data)) {
-    data = {};
-     true && warn(
-      'data functions should return an object:\n' +
-      'https://vuejs.org/v2/guide/components.html#data-Must-Be-a-Function',
-      vm
-    );
-  }
-  // proxy data on instance
-  var keys = Object.keys(data);
-  var props = vm.$options.props;
-  var methods = vm.$options.methods;
-  var i = keys.length;
-  while (i--) {
-    var key = keys[i];
-    if (true) {
-      if (methods && hasOwn(methods, key)) {
-        warn(
-          ("Method \"" + key + "\" has already been defined as a data property."),
-          vm
-        );
-      }
-    }
-    if (props && hasOwn(props, key)) {
-       true && warn(
-        "The data property \"" + key + "\" is already declared as a prop. " +
-        "Use prop default value instead.",
-        vm
-      );
-    } else if (!isReserved(key)) {
-      proxy(vm, "_data", key);
-    }
-  }
-  // observe data
-  observe(data, true /* asRootData */);
-}
-
-function getData (data, vm) {
-  // #7573 disable dep collection when invoking data getters
-  pushTarget();
-  try {
-    return data.call(vm, vm)
-  } catch (e) {
-    handleError(e, vm, "data()");
-    return {}
-  } finally {
-    popTarget();
-  }
-}
-
-var computedWatcherOptions = { lazy: true };
-
-function initComputed (vm, computed) {
-  // $flow-disable-line
-  var watchers = vm._computedWatchers = Object.create(null);
-  // computed properties are just getters during SSR
-  var isSSR = isServerRendering();
-
-  for (var key in computed) {
-    var userDef = computed[key];
-    var getter = typeof userDef === 'function' ? userDef : userDef.get;
-    if ( true && getter == null) {
-      warn(
-        ("Getter is missing for computed property \"" + key + "\"."),
-        vm
-      );
-    }
-
-    if (!isSSR) {
-      // create internal watcher for the computed property.
-      watchers[key] = new Watcher(
-        vm,
-        getter || noop,
-        noop,
-        computedWatcherOptions
-      );
-    }
-
-    // component-defined computed properties are already defined on the
-    // component prototype. We only need to define computed properties defined
-    // at instantiation here.
-    if (!(key in vm)) {
-      defineComputed(vm, key, userDef);
-    } else if (true) {
-      if (key in vm.$data) {
-        warn(("The computed property \"" + key + "\" is already defined in data."), vm);
-      } else if (vm.$options.props && key in vm.$options.props) {
-        warn(("The computed property \"" + key + "\" is already defined as a prop."), vm);
-      }
-    }
-  }
-}
-
-function defineComputed (
-  target,
-  key,
-  userDef
-) {
-  var shouldCache = !isServerRendering();
-  if (typeof userDef === 'function') {
-    sharedPropertyDefinition.get = shouldCache
-      ? createComputedGetter(key)
-      : createGetterInvoker(userDef);
-    sharedPropertyDefinition.set = noop;
-  } else {
-    sharedPropertyDefinition.get = userDef.get
-      ? shouldCache && userDef.cache !== false
-        ? createComputedGetter(key)
-        : createGetterInvoker(userDef.get)
-      : noop;
-    sharedPropertyDefinition.set = userDef.set || noop;
-  }
-  if ( true &&
-      sharedPropertyDefinition.set === noop) {
-    sharedPropertyDefinition.set = function () {
-      warn(
-        ("Computed property \"" + key + "\" was assigned to but it has no setter."),
-        this
-      );
-    };
-  }
-  Object.defineProperty(target, key, sharedPropertyDefinition);
-}
-
-function createComputedGetter (key) {
-  return function computedGetter () {
-    var watcher = this._computedWatchers && this._computedWatchers[key];
-    if (watcher) {
-      if (watcher.dirty) {
-        watcher.evaluate();
-      }
-      if (Dep.SharedObject.target) {// fixed by xxxxxx
-        watcher.depend();
-      }
-      return watcher.value
-    }
-  }
-}
-
-function createGetterInvoker(fn) {
-  return function computedGetter () {
-    return fn.call(this, this)
-  }
-}
-
-function initMethods (vm, methods) {
-  var props = vm.$options.props;
-  for (var key in methods) {
-    if (true) {
-      if (typeof methods[key] !== 'function') {
-        warn(
-          "Method \"" + key + "\" has type \"" + (typeof methods[key]) + "\" in the component definition. " +
-          "Did you reference the function correctly?",
-          vm
-        );
-      }
-      if (props && hasOwn(props, key)) {
-        warn(
-          ("Method \"" + key + "\" has already been defined as a prop."),
-          vm
-        );
-      }
-      if ((key in vm) && isReserved(key)) {
-        warn(
-          "Method \"" + key + "\" conflicts with an existing Vue instance method. " +
-          "Avoid defining component methods that start with _ or $."
-        );
-      }
-    }
-    vm[key] = typeof methods[key] !== 'function' ? noop : bind(methods[key], vm);
-  }
-}
-
-function initWatch (vm, watch) {
-  for (var key in watch) {
-    var handler = watch[key];
-    if (Array.isArray(handler)) {
-      for (var i = 0; i < handler.length; i++) {
-        createWatcher(vm, key, handler[i]);
-      }
-    } else {
-      createWatcher(vm, key, handler);
-    }
-  }
-}
-
-function createWatcher (
-  vm,
-  expOrFn,
-  handler,
-  options
-) {
-  if (isPlainObject(handler)) {
-    options = handler;
-    handler = handler.handler;
-  }
-  if (typeof handler === 'string') {
-    handler = vm[handler];
-  }
-  return vm.$watch(expOrFn, handler, options)
-}
-
-function stateMixin (Vue) {
-  // flow somehow has problems with directly declared definition object
-  // when using Object.defineProperty, so we have to procedurally build up
-  // the object here.
-  var dataDef = {};
-  dataDef.get = function () { return this._data };
-  var propsDef = {};
-  propsDef.get = function () { return this._props };
-  if (true) {
-    dataDef.set = function () {
-      warn(
-        'Avoid replacing instance root $data. ' +
-        'Use nested data properties instead.',
-        this
-      );
-    };
-    propsDef.set = function () {
-      warn("$props is readonly.", this);
-    };
-  }
-  Object.defineProperty(Vue.prototype, '$data', dataDef);
-  Object.defineProperty(Vue.prototype, '$props', propsDef);
-
-  Vue.prototype.$set = set;
-  Vue.prototype.$delete = del;
-
-  Vue.prototype.$watch = function (
-    expOrFn,
-    cb,
-    options
-  ) {
-    var vm = this;
-    if (isPlainObject(cb)) {
-      return createWatcher(vm, expOrFn, cb, options)
-    }
-    options = options || {};
-    options.user = true;
-    var watcher = new Watcher(vm, expOrFn, cb, options);
-    if (options.immediate) {
-      try {
-        cb.call(vm, watcher.value);
-      } catch (error) {
-        handleError(error, vm, ("callback for immediate watcher \"" + (watcher.expression) + "\""));
-      }
-    }
-    return function unwatchFn () {
-      watcher.teardown();
-    }
-  };
-}
-
-/*  */
-
-var uid$3 = 0;
-
-function initMixin (Vue) {
-  Vue.prototype._init = function (options) {
-    var vm = this;
-    // a uid
-    vm._uid = uid$3++;
-
-    var startTag, endTag;
-    /* istanbul ignore if */
-    if ( true && config.performance && mark) {
-      startTag = "vue-perf-start:" + (vm._uid);
-      endTag = "vue-perf-end:" + (vm._uid);
-      mark(startTag);
-    }
-
-    // a flag to avoid this being observed
-    vm._isVue = true;
-    // merge options
-    if (options && options._isComponent) {
-      // optimize internal component instantiation
-      // since dynamic options merging is pretty slow, and none of the
-      // internal component options needs special treatment.
-      initInternalComponent(vm, options);
-    } else {
-      vm.$options = mergeOptions(
-        resolveConstructorOptions(vm.constructor),
-        options || {},
-        vm
-      );
-    }
-    /* istanbul ignore else */
-    if (true) {
-      initProxy(vm);
-    } else {}
-    // expose real self
-    vm._self = vm;
-    initLifecycle(vm);
-    initEvents(vm);
-    initRender(vm);
-    callHook(vm, 'beforeCreate');
-    vm.mpHost !== 'mp-toutiao' && initInjections(vm); // resolve injections before data/props  
-    initState(vm);
-    vm.mpHost !== 'mp-toutiao' && initProvide(vm); // resolve provide after data/props
-    vm.mpHost !== 'mp-toutiao' && callHook(vm, 'created');      
-
-    /* istanbul ignore if */
-    if ( true && config.performance && mark) {
-      vm._name = formatComponentName(vm, false);
-      mark(endTag);
-      measure(("vue " + (vm._name) + " init"), startTag, endTag);
-    }
-
-    if (vm.$options.el) {
-      vm.$mount(vm.$options.el);
-    }
-  };
-}
-
-function initInternalComponent (vm, options) {
-  var opts = vm.$options = Object.create(vm.constructor.options);
-  // doing this because it's faster than dynamic enumeration.
-  var parentVnode = options._parentVnode;
-  opts.parent = options.parent;
-  opts._parentVnode = parentVnode;
-
-  var vnodeComponentOptions = parentVnode.componentOptions;
-  opts.propsData = vnodeComponentOptions.propsData;
-  opts._parentListeners = vnodeComponentOptions.listeners;
-  opts._renderChildren = vnodeComponentOptions.children;
-  opts._componentTag = vnodeComponentOptions.tag;
-
-  if (options.render) {
-    opts.render = options.render;
-    opts.staticRenderFns = options.staticRenderFns;
-  }
-}
-
-function resolveConstructorOptions (Ctor) {
-  var options = Ctor.options;
-  if (Ctor.super) {
-    var superOptions = resolveConstructorOptions(Ctor.super);
-    var cachedSuperOptions = Ctor.superOptions;
-    if (superOptions !== cachedSuperOptions) {
-      // super option changed,
-      // need to resolve new options.
-      Ctor.superOptions = superOptions;
-      // check if there are any late-modified/attached options (#4976)
-      var modifiedOptions = resolveModifiedOptions(Ctor);
-      // update base extend options
-      if (modifiedOptions) {
-        extend(Ctor.extendOptions, modifiedOptions);
-      }
-      options = Ctor.options = mergeOptions(superOptions, Ctor.extendOptions);
-      if (options.name) {
-        options.components[options.name] = Ctor;
-      }
-    }
-  }
-  return options
-}
-
-function resolveModifiedOptions (Ctor) {
-  var modified;
-  var latest = Ctor.options;
-  var sealed = Ctor.sealedOptions;
-  for (var key in latest) {
-    if (latest[key] !== sealed[key]) {
-      if (!modified) { modified = {}; }
-      modified[key] = latest[key];
-    }
-  }
-  return modified
-}
-
-function Vue (options) {
-  if ( true &&
-    !(this instanceof Vue)
-  ) {
-    warn('Vue is a constructor and should be called with the `new` keyword');
-  }
-  this._init(options);
-}
-
-initMixin(Vue);
-stateMixin(Vue);
-eventsMixin(Vue);
-lifecycleMixin(Vue);
-renderMixin(Vue);
-
-/*  */
-
-function initUse (Vue) {
-  Vue.use = function (plugin) {
-    var installedPlugins = (this._installedPlugins || (this._installedPlugins = []));
-    if (installedPlugins.indexOf(plugin) > -1) {
-      return this
-    }
-
-    // additional parameters
-    var args = toArray(arguments, 1);
-    args.unshift(this);
-    if (typeof plugin.install === 'function') {
-      plugin.install.apply(plugin, args);
-    } else if (typeof plugin === 'function') {
-      plugin.apply(null, args);
-    }
-    installedPlugins.push(plugin);
-    return this
-  };
-}
-
-/*  */
-
-function initMixin$1 (Vue) {
-  Vue.mixin = function (mixin) {
-    this.options = mergeOptions(this.options, mixin);
-    return this
-  };
-}
-
-/*  */
-
-function initExtend (Vue) {
-  /**
-   * Each instance constructor, including Vue, has a unique
-   * cid. This enables us to create wrapped "child
-   * constructors" for prototypal inheritance and cache them.
-   */
-  Vue.cid = 0;
-  var cid = 1;
-
-  /**
-   * Class inheritance
-   */
-  Vue.extend = function (extendOptions) {
-    extendOptions = extendOptions || {};
-    var Super = this;
-    var SuperId = Super.cid;
-    var cachedCtors = extendOptions._Ctor || (extendOptions._Ctor = {});
-    if (cachedCtors[SuperId]) {
-      return cachedCtors[SuperId]
-    }
-
-    var name = extendOptions.name || Super.options.name;
-    if ( true && name) {
-      validateComponentName(name);
-    }
-
-    var Sub = function VueComponent (options) {
-      this._init(options);
-    };
-    Sub.prototype = Object.create(Super.prototype);
-    Sub.prototype.constructor = Sub;
-    Sub.cid = cid++;
-    Sub.options = mergeOptions(
-      Super.options,
-      extendOptions
-    );
-    Sub['super'] = Super;
-
-    // For props and computed properties, we define the proxy getters on
-    // the Vue instances at extension time, on the extended prototype. This
-    // avoids Object.defineProperty calls for each instance created.
-    if (Sub.options.props) {
-      initProps$1(Sub);
-    }
-    if (Sub.options.computed) {
-      initComputed$1(Sub);
-    }
-
-    // allow further extension/mixin/plugin usage
-    Sub.extend = Super.extend;
-    Sub.mixin = Super.mixin;
-    Sub.use = Super.use;
-
-    // create asset registers, so extended classes
-    // can have their private assets too.
-    ASSET_TYPES.forEach(function (type) {
-      Sub[type] = Super[type];
-    });
-    // enable recursive self-lookup
-    if (name) {
-      Sub.options.components[name] = Sub;
-    }
-
-    // keep a reference to the super options at extension time.
-    // later at instantiation we can check if Super's options have
-    // been updated.
-    Sub.superOptions = Super.options;
-    Sub.extendOptions = extendOptions;
-    Sub.sealedOptions = extend({}, Sub.options);
-
-    // cache constructor
-    cachedCtors[SuperId] = Sub;
-    return Sub
-  };
-}
-
-function initProps$1 (Comp) {
-  var props = Comp.options.props;
-  for (var key in props) {
-    proxy(Comp.prototype, "_props", key);
-  }
-}
-
-function initComputed$1 (Comp) {
-  var computed = Comp.options.computed;
-  for (var key in computed) {
-    defineComputed(Comp.prototype, key, computed[key]);
-  }
-}
-
-/*  */
-
-function initAssetRegisters (Vue) {
-  /**
-   * Create asset registration methods.
-   */
-  ASSET_TYPES.forEach(function (type) {
-    Vue[type] = function (
-      id,
-      definition
-    ) {
-      if (!definition) {
-        return this.options[type + 's'][id]
-      } else {
-        /* istanbul ignore if */
-        if ( true && type === 'component') {
-          validateComponentName(id);
-        }
-        if (type === 'component' && isPlainObject(definition)) {
-          definition.name = definition.name || id;
-          definition = this.options._base.extend(definition);
-        }
-        if (type === 'directive' && typeof definition === 'function') {
-          definition = { bind: definition, update: definition };
-        }
-        this.options[type + 's'][id] = definition;
-        return definition
-      }
-    };
-  });
-}
-
-/*  */
-
-
-
-function getComponentName (opts) {
-  return opts && (opts.Ctor.options.name || opts.tag)
-}
-
-function matches (pattern, name) {
-  if (Array.isArray(pattern)) {
-    return pattern.indexOf(name) > -1
-  } else if (typeof pattern === 'string') {
-    return pattern.split(',').indexOf(name) > -1
-  } else if (isRegExp(pattern)) {
-    return pattern.test(name)
-  }
-  /* istanbul ignore next */
-  return false
-}
-
-function pruneCache (keepAliveInstance, filter) {
-  var cache = keepAliveInstance.cache;
-  var keys = keepAliveInstance.keys;
-  var _vnode = keepAliveInstance._vnode;
-  for (var key in cache) {
-    var cachedNode = cache[key];
-    if (cachedNode) {
-      var name = getComponentName(cachedNode.componentOptions);
-      if (name && !filter(name)) {
-        pruneCacheEntry(cache, key, keys, _vnode);
-      }
-    }
-  }
-}
-
-function pruneCacheEntry (
-  cache,
-  key,
-  keys,
-  current
-) {
-  var cached$$1 = cache[key];
-  if (cached$$1 && (!current || cached$$1.tag !== current.tag)) {
-    cached$$1.componentInstance.$destroy();
-  }
-  cache[key] = null;
-  remove(keys, key);
-}
-
-var patternTypes = [String, RegExp, Array];
-
-var KeepAlive = {
-  name: 'keep-alive',
-  abstract: true,
-
-  props: {
-    include: patternTypes,
-    exclude: patternTypes,
-    max: [String, Number]
-  },
-
-  created: function created () {
-    this.cache = Object.create(null);
-    this.keys = [];
-  },
-
-  destroyed: function destroyed () {
-    for (var key in this.cache) {
-      pruneCacheEntry(this.cache, key, this.keys);
-    }
-  },
-
-  mounted: function mounted () {
-    var this$1 = this;
-
-    this.$watch('include', function (val) {
-      pruneCache(this$1, function (name) { return matches(val, name); });
-    });
-    this.$watch('exclude', function (val) {
-      pruneCache(this$1, function (name) { return !matches(val, name); });
-    });
-  },
-
-  render: function render () {
-    var slot = this.$slots.default;
-    var vnode = getFirstComponentChild(slot);
-    var componentOptions = vnode && vnode.componentOptions;
-    if (componentOptions) {
-      // check pattern
-      var name = getComponentName(componentOptions);
-      var ref = this;
-      var include = ref.include;
-      var exclude = ref.exclude;
-      if (
-        // not included
-        (include && (!name || !matches(include, name))) ||
-        // excluded
-        (exclude && name && matches(exclude, name))
-      ) {
-        return vnode
-      }
-
-      var ref$1 = this;
-      var cache = ref$1.cache;
-      var keys = ref$1.keys;
-      var key = vnode.key == null
-        // same constructor may get registered as different local components
-        // so cid alone is not enough (#3269)
-        ? componentOptions.Ctor.cid + (componentOptions.tag ? ("::" + (componentOptions.tag)) : '')
-        : vnode.key;
-      if (cache[key]) {
-        vnode.componentInstance = cache[key].componentInstance;
-        // make current key freshest
-        remove(keys, key);
-        keys.push(key);
-      } else {
-        cache[key] = vnode;
-        keys.push(key);
-        // prune oldest entry
-        if (this.max && keys.length > parseInt(this.max)) {
-          pruneCacheEntry(cache, keys[0], keys, this._vnode);
-        }
-      }
-
-      vnode.data.keepAlive = true;
-    }
-    return vnode || (slot && slot[0])
-  }
-};
-
-var builtInComponents = {
-  KeepAlive: KeepAlive
-};
-
-/*  */
-
-function initGlobalAPI (Vue) {
-  // config
-  var configDef = {};
-  configDef.get = function () { return config; };
-  if (true) {
-    configDef.set = function () {
-      warn(
-        'Do not replace the Vue.config object, set individual fields instead.'
-      );
-    };
-  }
-  Object.defineProperty(Vue, 'config', configDef);
-
-  // exposed util methods.
-  // NOTE: these are not considered part of the public API - avoid relying on
-  // them unless you are aware of the risk.
-  Vue.util = {
-    warn: warn,
-    extend: extend,
-    mergeOptions: mergeOptions,
-    defineReactive: defineReactive$$1
-  };
-
-  Vue.set = set;
-  Vue.delete = del;
-  Vue.nextTick = nextTick;
-
-  // 2.6 explicit observable API
-  Vue.observable = function (obj) {
-    observe(obj);
-    return obj
-  };
-
-  Vue.options = Object.create(null);
-  ASSET_TYPES.forEach(function (type) {
-    Vue.options[type + 's'] = Object.create(null);
-  });
-
-  // this is used to identify the "base" constructor to extend all plain-object
-  // components with in Weex's multi-instance scenarios.
-  Vue.options._base = Vue;
-
-  extend(Vue.options.components, builtInComponents);
-
-  initUse(Vue);
-  initMixin$1(Vue);
-  initExtend(Vue);
-  initAssetRegisters(Vue);
-}
-
-initGlobalAPI(Vue);
-
-Object.defineProperty(Vue.prototype, '$isServer', {
-  get: isServerRendering
-});
-
-Object.defineProperty(Vue.prototype, '$ssrContext', {
-  get: function get () {
-    /* istanbul ignore next */
-    return this.$vnode && this.$vnode.ssrContext
-  }
-});
-
-// expose FunctionalRenderContext for ssr runtime helper installation
-Object.defineProperty(Vue, 'FunctionalRenderContext', {
-  value: FunctionalRenderContext
-});
-
-Vue.version = '2.6.11';
-
-/**
- * https://raw.githubusercontent.com/Tencent/westore/master/packages/westore/utils/diff.js
- */
-var ARRAYTYPE = '[object Array]';
-var OBJECTTYPE = '[object Object]';
-// const FUNCTIONTYPE = '[object Function]'
-
-function diff(current, pre) {
-    var result = {};
-    syncKeys(current, pre);
-    _diff(current, pre, '', result);
-    return result
-}
-
-function syncKeys(current, pre) {
-    if (current === pre) { return }
-    var rootCurrentType = type(current);
-    var rootPreType = type(pre);
-    if (rootCurrentType == OBJECTTYPE && rootPreType == OBJECTTYPE) {
-        if(Object.keys(current).length >= Object.keys(pre).length){
-            for (var key in pre) {
-                var currentValue = current[key];
-                if (currentValue === undefined) {
-                    current[key] = null;
-                } else {
-                    syncKeys(currentValue, pre[key]);
-                }
-            }
-        }
-    } else if (rootCurrentType == ARRAYTYPE && rootPreType == ARRAYTYPE) {
-        if (current.length >= pre.length) {
-            pre.forEach(function (item, index) {
-                syncKeys(current[index], item);
-            });
-        }
-    }
-}
-
-function _diff(current, pre, path, result) {
-    if (current === pre) { return }
-    var rootCurrentType = type(current);
-    var rootPreType = type(pre);
-    if (rootCurrentType == OBJECTTYPE) {
-        if (rootPreType != OBJECTTYPE || Object.keys(current).length < Object.keys(pre).length) {
-            setResult(result, path, current);
-        } else {
-            var loop = function ( key ) {
-                var currentValue = current[key];
-                var preValue = pre[key];
-                var currentType = type(currentValue);
-                var preType = type(preValue);
-                if (currentType != ARRAYTYPE && currentType != OBJECTTYPE) {
-                    if (currentValue != pre[key]) {
-                        setResult(result, (path == '' ? '' : path + ".") + key, currentValue);
-                    }
-                } else if (currentType == ARRAYTYPE) {
-                    if (preType != ARRAYTYPE) {
-                        setResult(result, (path == '' ? '' : path + ".") + key, currentValue);
-                    } else {
-                        if (currentValue.length < preValue.length) {
-                            setResult(result, (path == '' ? '' : path + ".") + key, currentValue);
-                        } else {
-                            currentValue.forEach(function (item, index) {
-                                _diff(item, preValue[index], (path == '' ? '' : path + ".") + key + '[' + index + ']', result);
-                            });
-                        }
-                    }
-                } else if (currentType == OBJECTTYPE) {
-                    if (preType != OBJECTTYPE || Object.keys(currentValue).length < Object.keys(preValue).length) {
-                        setResult(result, (path == '' ? '' : path + ".") + key, currentValue);
-                    } else {
-                        for (var subKey in currentValue) {
-                            _diff(currentValue[subKey], preValue[subKey], (path == '' ? '' : path + ".") + key + '.' + subKey, result);
-                        }
-                    }
-                }
-            };
-
-            for (var key in current) loop( key );
-        }
-    } else if (rootCurrentType == ARRAYTYPE) {
-        if (rootPreType != ARRAYTYPE) {
-            setResult(result, path, current);
-        } else {
-            if (current.length < pre.length) {
-                setResult(result, path, current);
-            } else {
-                current.forEach(function (item, index) {
-                    _diff(item, pre[index], path + '[' + index + ']', result);
-                });
-            }
-        }
-    } else {
-        setResult(result, path, current);
-    }
-}
-
-function setResult(result, k, v) {
-    // if (type(v) != FUNCTIONTYPE) {
-        result[k] = v;
-    // }
-}
-
-function type(obj) {
-    return Object.prototype.toString.call(obj)
-}
-
-/*  */
-
-function flushCallbacks$1(vm) {
-    if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
-            var mpInstance = vm.$scope;
-            console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
-                ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
-        }
-        var copies = vm.__next_tick_callbacks.slice(0);
-        vm.__next_tick_callbacks.length = 0;
-        for (var i = 0; i < copies.length; i++) {
-            copies[i]();
-        }
-    }
-}
-
-function hasRenderWatcher(vm) {
-    return queue.find(function (watcher) { return vm._watcher === watcher; })
-}
-
-function nextTick$1(vm, cb) {
-    //1.nextTick 之前 已 setData 且 setData 还未回调完成
-    //2.nextTick 之前存在 render watcher
-    if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
-            var mpInstance = vm.$scope;
-            console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
-                ']:nextVueTick');
-        }
-        return nextTick(cb, vm)
-    }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
-            var mpInstance$1 = vm.$scope;
-            console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
-                ']:nextMPTick');
-        }
-    }
-    var _resolve;
-    if (!vm.__next_tick_callbacks) {
-        vm.__next_tick_callbacks = [];
-    }
-    vm.__next_tick_callbacks.push(function () {
-        if (cb) {
-            try {
-                cb.call(vm);
-            } catch (e) {
-                handleError(e, vm, 'nextTick');
-            }
-        } else if (_resolve) {
-            _resolve(vm);
-        }
-    });
-    // $flow-disable-line
-    if (!cb && typeof Promise !== 'undefined') {
-        return new Promise(function (resolve) {
-            _resolve = resolve;
-        })
-    }
-}
-
-/*  */
-
-function cloneWithData(vm) {
-  // 确保当前 vm 所有数据被同步
-  var ret = Object.create(null);
-  var dataKeys = [].concat(
-    Object.keys(vm._data || {}),
-    Object.keys(vm._computedWatchers || {}));
-
-  dataKeys.reduce(function(ret, key) {
-    ret[key] = vm[key];
-    return ret
-  }, ret);
-  //TODO 需要把无用数据处理掉，比如 list=>l0 则 list 需要移除，否则多传输一份数据
-  Object.assign(ret, vm.$mp.data || {});
-  if (
-    Array.isArray(vm.$options.behaviors) &&
-    vm.$options.behaviors.indexOf('uni://form-field') !== -1
-  ) { //form-field
-    ret['name'] = vm.name;
-    ret['value'] = vm.value;
-  }
-
-  return JSON.parse(JSON.stringify(ret))
-}
-
-var patch = function(oldVnode, vnode) {
-  var this$1 = this;
-
-  if (vnode === null) { //destroy
-    return
-  }
-  if (this.mpType === 'page' || this.mpType === 'component') {
-    var mpInstance = this.$scope;
-    var data = Object.create(null);
-    try {
-      data = cloneWithData(this);
-    } catch (err) {
-      console.error(err);
-    }
-    data.__webviewId__ = mpInstance.data.__webviewId__;
-    var mpData = Object.create(null);
-    Object.keys(data).forEach(function (key) { //仅同步 data 中有的数据
-      mpData[key] = mpInstance.data[key];
-    });
-    var diffData = diff(data, mpData);
-    if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
-        console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
-          ']差量更新',
-          JSON.stringify(diffData));
-      }
-      this.__next_tick_pending = true;
-      mpInstance.setData(diffData, function () {
-        this$1.__next_tick_pending = false;
-        flushCallbacks$1(this$1);
-      });
-    } else {
-      flushCallbacks$1(this);
-    }
-  }
-};
-
-/*  */
-
-function createEmptyRender() {
-
-}
-
-function mountComponent$1(
-  vm,
-  el,
-  hydrating
-) {
-  if (!vm.mpType) {//main.js 中的 new Vue
-    return vm
-  }
-  if (vm.mpType === 'app') {
-    vm.$options.render = createEmptyRender;
-  }
-  if (!vm.$options.render) {
-    vm.$options.render = createEmptyRender;
-    if (true) {
-      /* istanbul ignore if */
-      if ((vm.$options.template && vm.$options.template.charAt(0) !== '#') ||
-        vm.$options.el || el) {
-        warn(
-          'You are using the runtime-only build of Vue where the template ' +
-          'compiler is not available. Either pre-compile the templates into ' +
-          'render functions, or use the compiler-included build.',
-          vm
-        );
-      } else {
-        warn(
-          'Failed to mount component: template or render function not defined.',
-          vm
-        );
-      }
-    }
-  }
-  
-  vm.mpHost !== 'mp-toutiao' && callHook(vm, 'beforeMount');
-
-  var updateComponent = function () {
-    vm._update(vm._render(), hydrating);
-  };
-
-  // we set this to vm._watcher inside the watcher's constructor
-  // since the watcher's initial patch may call $forceUpdate (e.g. inside child
-  // component's mounted hook), which relies on vm._watcher being already defined
-  new Watcher(vm, updateComponent, noop, {
-    before: function before() {
-      if (vm._isMounted && !vm._isDestroyed) {
-        callHook(vm, 'beforeUpdate');
-      }
-    }
-  }, true /* isRenderWatcher */);
-  hydrating = false;
-  return vm
-}
-
-/*  */
-
-function renderClass (
-  staticClass,
-  dynamicClass
-) {
-  if (isDef(staticClass) || isDef(dynamicClass)) {
-    return concat(staticClass, stringifyClass(dynamicClass))
-  }
-  /* istanbul ignore next */
-  return ''
-}
-
-function concat (a, b) {
-  return a ? b ? (a + ' ' + b) : a : (b || '')
-}
-
-function stringifyClass (value) {
-  if (Array.isArray(value)) {
-    return stringifyArray(value)
-  }
-  if (isObject(value)) {
-    return stringifyObject(value)
-  }
-  if (typeof value === 'string') {
-    return value
-  }
-  /* istanbul ignore next */
-  return ''
-}
-
-function stringifyArray (value) {
-  var res = '';
-  var stringified;
-  for (var i = 0, l = value.length; i < l; i++) {
-    if (isDef(stringified = stringifyClass(value[i])) && stringified !== '') {
-      if (res) { res += ' '; }
-      res += stringified;
-    }
-  }
-  return res
-}
-
-function stringifyObject (value) {
-  var res = '';
-  for (var key in value) {
-    if (value[key]) {
-      if (res) { res += ' '; }
-      res += key;
-    }
-  }
-  return res
-}
-
-/*  */
-
-var parseStyleText = cached(function (cssText) {
-  var res = {};
-  var listDelimiter = /;(?![^(]*\))/g;
-  var propertyDelimiter = /:(.+)/;
-  cssText.split(listDelimiter).forEach(function (item) {
-    if (item) {
-      var tmp = item.split(propertyDelimiter);
-      tmp.length > 1 && (res[tmp[0].trim()] = tmp[1].trim());
-    }
-  });
-  return res
-});
-
-// normalize possible array / string values into Object
-function normalizeStyleBinding (bindingStyle) {
-  if (Array.isArray(bindingStyle)) {
-    return toObject(bindingStyle)
-  }
-  if (typeof bindingStyle === 'string') {
-    return parseStyleText(bindingStyle)
-  }
-  return bindingStyle
-}
-
-/*  */
-
-var MP_METHODS = ['createSelectorQuery', 'createIntersectionObserver', 'selectAllComponents', 'selectComponent'];
-
-function getTarget(obj, path) {
-  var parts = path.split('.');
-  var key = parts[0];
-  if (key.indexOf('__$n') === 0) { //number index
-    key = parseInt(key.replace('__$n', ''));
-  }
-  if (parts.length === 1) {
-    return obj[key]
-  }
-  return getTarget(obj[key], parts.slice(1).join('.'))
-}
-
-function internalMixin(Vue) {
-
-  Vue.config.errorHandler = function(err) {
-    /* eslint-disable no-undef */
-    var app = getApp();
-    if (app && app.onError) {
-      app.onError(err);
-    } else {
-      console.error(err);
-    }
-  };
-
-  var oldEmit = Vue.prototype.$emit;
-
-  Vue.prototype.$emit = function(event) {
-    if (this.$scope && event) {
-      this.$scope['triggerEvent'](event, {
-        __args__: toArray(arguments, 1)
-      });
-    }
-    return oldEmit.apply(this, arguments)
-  };
-
-  Vue.prototype.$nextTick = function(fn) {
-    return nextTick$1(this, fn)
-  };
-
-  MP_METHODS.forEach(function (method) {
-    Vue.prototype[method] = function(args) {
-      if (this.$scope && this.$scope[method]) {
-        return this.$scope[method](args)
-      }
-      // mp-alipay
-      if (typeof my === 'undefined') {
-        return
-      }
-      if (method === 'createSelectorQuery') {
-        /* eslint-disable no-undef */
-        return my.createSelectorQuery(args)
-      } else if (method === 'createIntersectionObserver') {
-        /* eslint-disable no-undef */
-        return my.createIntersectionObserver(args)
-      }
-      // TODO mp-alipay 暂不支持 selectAllComponents,selectComponent
-    };
-  });
-
-  Vue.prototype.__init_provide = initProvide;
-
-  Vue.prototype.__init_injections = initInjections;
-
-  Vue.prototype.__call_hook = function(hook, args) {
-    var vm = this;
-    // #7573 disable dep collection when invoking lifecycle hooks
-    pushTarget();
-    var handlers = vm.$options[hook];
-    var info = hook + " hook";
-    var ret;
-    if (handlers) {
-      for (var i = 0, j = handlers.length; i < j; i++) {
-        ret = invokeWithErrorHandling(handlers[i], vm, args ? [args] : null, vm, info);
-      }
-    }
-    if (vm._hasHookEvent) {
-      vm.$emit('hook:' + hook, args);
-    }
-    popTarget();
-    return ret
-  };
-
-  Vue.prototype.__set_model = function(target, key, value, modifiers) {
-    if (Array.isArray(modifiers)) {
-      if (modifiers.indexOf('trim') !== -1) {
-        value = value.trim();
-      }
-      if (modifiers.indexOf('number') !== -1) {
-        value = this._n(value);
-      }
-    }
-    if (!target) {
-      target = this;
-    }
-    target[key] = value;
-  };
-
-  Vue.prototype.__set_sync = function(target, key, value) {
-    if (!target) {
-      target = this;
-    }
-    target[key] = value;
-  };
-
-  Vue.prototype.__get_orig = function(item) {
-    if (isPlainObject(item)) {
-      return item['$orig'] || item
-    }
-    return item
-  };
-
-  Vue.prototype.__get_value = function(dataPath, target) {
-    return getTarget(target || this, dataPath)
-  };
-
-
-  Vue.prototype.__get_class = function(dynamicClass, staticClass) {
-    return renderClass(staticClass, dynamicClass)
-  };
-
-  Vue.prototype.__get_style = function(dynamicStyle, staticStyle) {
-    if (!dynamicStyle && !staticStyle) {
-      return ''
-    }
-    var dynamicStyleObj = normalizeStyleBinding(dynamicStyle);
-    var styleObj = staticStyle ? extend(staticStyle, dynamicStyleObj) : dynamicStyleObj;
-    return Object.keys(styleObj).map(function (name) { return ((hyphenate(name)) + ":" + (styleObj[name])); }).join(';')
-  };
-
-  Vue.prototype.__map = function(val, iteratee) {
-    //TODO 暂不考虑 string,number
-    var ret, i, l, keys, key;
-    if (Array.isArray(val)) {
-      ret = new Array(val.length);
-      for (i = 0, l = val.length; i < l; i++) {
-        ret[i] = iteratee(val[i], i);
-      }
-      return ret
-    } else if (isObject(val)) {
-      keys = Object.keys(val);
-      ret = Object.create(null);
-      for (i = 0, l = keys.length; i < l; i++) {
-        key = keys[i];
-        ret[key] = iteratee(val[key], key, i);
-      }
-      return ret
-    }
-    return []
-  };
-
-}
-
-/*  */
-
-var LIFECYCLE_HOOKS$1 = [
-    //App
-    'onLaunch',
-    'onShow',
-    'onHide',
-    'onUniNViewMessage',
-    'onError',
-    //Page
-    'onLoad',
-    // 'onShow',
-    'onReady',
-    // 'onHide',
-    'onUnload',
-    'onPullDownRefresh',
-    'onReachBottom',
-    'onTabItemTap',
-    'onShareAppMessage',
-    'onResize',
-    'onPageScroll',
-    'onNavigationBarButtonTap',
-    'onBackPress',
-    'onNavigationBarSearchInputChanged',
-    'onNavigationBarSearchInputConfirmed',
-    'onNavigationBarSearchInputClicked',
-    //Component
-    // 'onReady', // 兼容旧版本，应该移除该事件
-    'onPageShow',
-    'onPageHide',
-    'onPageResize'
-];
-function lifecycleMixin$1(Vue) {
-
-    //fixed vue-class-component
-    var oldExtend = Vue.extend;
-    Vue.extend = function(extendOptions) {
-        extendOptions = extendOptions || {};
-
-        var methods = extendOptions.methods;
-        if (methods) {
-            Object.keys(methods).forEach(function (methodName) {
-                if (LIFECYCLE_HOOKS$1.indexOf(methodName)!==-1) {
-                    extendOptions[methodName] = methods[methodName];
-                    delete methods[methodName];
-                }
-            });
-        }
-
-        return oldExtend.call(this, extendOptions)
-    };
-
-    var strategies = Vue.config.optionMergeStrategies;
-    var mergeHook = strategies.created;
-    LIFECYCLE_HOOKS$1.forEach(function (hook) {
-        strategies[hook] = mergeHook;
-    });
-
-    Vue.prototype.__lifecycle_hooks__ = LIFECYCLE_HOOKS$1;
-}
-
-/*  */
-
-// install platform patch function
-Vue.prototype.__patch__ = patch;
-
-// public mount method
-Vue.prototype.$mount = function(
-    el ,
-    hydrating 
-) {
-    return mountComponent$1(this, el, hydrating)
-};
-
-lifecycleMixin$1(Vue);
-internalMixin(Vue);
-
-/*  */
-
-/* harmony default export */ __webpack_exports__["default"] = (Vue);
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ 3)))
-
-/***/ }),
-
-/***/ 23:
-/*!**********************************************************!*\
-  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
-  \**********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(/*! regenerator-runtime */ 24);
-
-
-/***/ }),
-
-/***/ 24:
-/*!************************************************************!*\
-  !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
-  \************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * Copyright (c) 2014-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-// This method of obtaining a reference to the global object needs to be
-// kept identical to the way it is obtained in runtime.js
-var g = (function() {
-  return this || (typeof self === "object" && self);
-})() || Function("return this")();
-
-// Use `getOwnPropertyNames` because not all browsers support calling
-// `hasOwnProperty` on the global `self` object in a worker. See #183.
-var hadRuntime = g.regeneratorRuntime &&
-  Object.getOwnPropertyNames(g).indexOf("regeneratorRuntime") >= 0;
-
-// Save the old regeneratorRuntime in case it needs to be restored later.
-var oldRuntime = hadRuntime && g.regeneratorRuntime;
-
-// Force reevalutation of runtime.js.
-g.regeneratorRuntime = undefined;
-
-module.exports = __webpack_require__(/*! ./runtime */ 25);
-
-if (hadRuntime) {
-  // Restore the original runtime.
-  g.regeneratorRuntime = oldRuntime;
-} else {
-  // Remove the global property added by runtime.js.
-  try {
-    delete g.regeneratorRuntime;
-  } catch(e) {
-    g.regeneratorRuntime = undefined;
-  }
-}
-
-
-/***/ }),
-
-/***/ 25:
-/*!*****************************************************!*\
-  !*** ./node_modules/regenerator-runtime/runtime.js ***!
-  \*****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/**
- * Copyright (c) 2014-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-!(function(global) {
-  "use strict";
-
-  var Op = Object.prototype;
-  var hasOwn = Op.hasOwnProperty;
-  var undefined; // More compressible than void 0.
-  var $Symbol = typeof Symbol === "function" ? Symbol : {};
-  var iteratorSymbol = $Symbol.iterator || "@@iterator";
-  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
-  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
-
-  var inModule = typeof module === "object";
-  var runtime = global.regeneratorRuntime;
-  if (runtime) {
-    if (inModule) {
-      // If regeneratorRuntime is defined globally and we're in a module,
-      // make the exports object identical to regeneratorRuntime.
-      module.exports = runtime;
-    }
-    // Don't bother evaluating the rest of this file if the runtime was
-    // already defined globally.
-    return;
-  }
-
-  // Define the runtime globally (as expected by generated code) as either
-  // module.exports (if we're in a module) or a new, empty object.
-  runtime = global.regeneratorRuntime = inModule ? module.exports : {};
-
-  function wrap(innerFn, outerFn, self, tryLocsList) {
-    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
-    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
-    var generator = Object.create(protoGenerator.prototype);
-    var context = new Context(tryLocsList || []);
-
-    // The ._invoke method unifies the implementations of the .next,
-    // .throw, and .return methods.
-    generator._invoke = makeInvokeMethod(innerFn, self, context);
-
-    return generator;
-  }
-  runtime.wrap = wrap;
-
-  // Try/catch helper to minimize deoptimizations. Returns a completion
-  // record like context.tryEntries[i].completion. This interface could
-  // have been (and was previously) designed to take a closure to be
-  // invoked without arguments, but in all the cases we care about we
-  // already have an existing method we want to call, so there's no need
-  // to create a new function object. We can even get away with assuming
-  // the method takes exactly one argument, since that happens to be true
-  // in every case, so we don't have to touch the arguments object. The
-  // only additional allocation required is the completion record, which
-  // has a stable shape and so hopefully should be cheap to allocate.
-  function tryCatch(fn, obj, arg) {
-    try {
-      return { type: "normal", arg: fn.call(obj, arg) };
-    } catch (err) {
-      return { type: "throw", arg: err };
-    }
-  }
-
-  var GenStateSuspendedStart = "suspendedStart";
-  var GenStateSuspendedYield = "suspendedYield";
-  var GenStateExecuting = "executing";
-  var GenStateCompleted = "completed";
-
-  // Returning this object from the innerFn has the same effect as
-  // breaking out of the dispatch switch statement.
-  var ContinueSentinel = {};
-
-  // Dummy constructor functions that we use as the .constructor and
-  // .constructor.prototype properties for functions that return Generator
-  // objects. For full spec compliance, you may wish to configure your
-  // minifier not to mangle the names of these two functions.
-  function Generator() {}
-  function GeneratorFunction() {}
-  function GeneratorFunctionPrototype() {}
-
-  // This is a polyfill for %IteratorPrototype% for environments that
-  // don't natively support it.
-  var IteratorPrototype = {};
-  IteratorPrototype[iteratorSymbol] = function () {
-    return this;
-  };
-
-  var getProto = Object.getPrototypeOf;
-  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
-  if (NativeIteratorPrototype &&
-      NativeIteratorPrototype !== Op &&
-      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
-    // This environment has a native %IteratorPrototype%; use it instead
-    // of the polyfill.
-    IteratorPrototype = NativeIteratorPrototype;
-  }
-
-  var Gp = GeneratorFunctionPrototype.prototype =
-    Generator.prototype = Object.create(IteratorPrototype);
-  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
-  GeneratorFunctionPrototype.constructor = GeneratorFunction;
-  GeneratorFunctionPrototype[toStringTagSymbol] =
-    GeneratorFunction.displayName = "GeneratorFunction";
-
-  // Helper for defining the .next, .throw, and .return methods of the
-  // Iterator interface in terms of a single ._invoke method.
-  function defineIteratorMethods(prototype) {
-    ["next", "throw", "return"].forEach(function(method) {
-      prototype[method] = function(arg) {
-        return this._invoke(method, arg);
-      };
-    });
-  }
-
-  runtime.isGeneratorFunction = function(genFun) {
-    var ctor = typeof genFun === "function" && genFun.constructor;
-    return ctor
-      ? ctor === GeneratorFunction ||
-        // For the native GeneratorFunction constructor, the best we can
-        // do is to check its .name property.
-        (ctor.displayName || ctor.name) === "GeneratorFunction"
-      : false;
-  };
-
-  runtime.mark = function(genFun) {
-    if (Object.setPrototypeOf) {
-      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
-    } else {
-      genFun.__proto__ = GeneratorFunctionPrototype;
-      if (!(toStringTagSymbol in genFun)) {
-        genFun[toStringTagSymbol] = "GeneratorFunction";
-      }
-    }
-    genFun.prototype = Object.create(Gp);
-    return genFun;
-  };
-
-  // Within the body of any async function, `await x` is transformed to
-  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
-  // `hasOwn.call(value, "__await")` to determine if the yielded value is
-  // meant to be awaited.
-  runtime.awrap = function(arg) {
-    return { __await: arg };
-  };
-
-  function AsyncIterator(generator) {
-    function invoke(method, arg, resolve, reject) {
-      var record = tryCatch(generator[method], generator, arg);
-      if (record.type === "throw") {
-        reject(record.arg);
-      } else {
-        var result = record.arg;
-        var value = result.value;
-        if (value &&
-            typeof value === "object" &&
-            hasOwn.call(value, "__await")) {
-          return Promise.resolve(value.__await).then(function(value) {
-            invoke("next", value, resolve, reject);
-          }, function(err) {
-            invoke("throw", err, resolve, reject);
-          });
-        }
-
-        return Promise.resolve(value).then(function(unwrapped) {
-          // When a yielded Promise is resolved, its final value becomes
-          // the .value of the Promise<{value,done}> result for the
-          // current iteration.
-          result.value = unwrapped;
-          resolve(result);
-        }, function(error) {
-          // If a rejected Promise was yielded, throw the rejection back
-          // into the async generator function so it can be handled there.
-          return invoke("throw", error, resolve, reject);
-        });
-      }
-    }
-
-    var previousPromise;
-
-    function enqueue(method, arg) {
-      function callInvokeWithMethodAndArg() {
-        return new Promise(function(resolve, reject) {
-          invoke(method, arg, resolve, reject);
-        });
-      }
-
-      return previousPromise =
-        // If enqueue has been called before, then we want to wait until
-        // all previous Promises have been resolved before calling invoke,
-        // so that results are always delivered in the correct order. If
-        // enqueue has not been called before, then it is important to
-        // call invoke immediately, without waiting on a callback to fire,
-        // so that the async generator function has the opportunity to do
-        // any necessary setup in a predictable way. This predictability
-        // is why the Promise constructor synchronously invokes its
-        // executor callback, and why async functions synchronously
-        // execute code before the first await. Since we implement simple
-        // async functions in terms of async generators, it is especially
-        // important to get this right, even though it requires care.
-        previousPromise ? previousPromise.then(
-          callInvokeWithMethodAndArg,
-          // Avoid propagating failures to Promises returned by later
-          // invocations of the iterator.
-          callInvokeWithMethodAndArg
-        ) : callInvokeWithMethodAndArg();
-    }
-
-    // Define the unified helper method that is used to implement .next,
-    // .throw, and .return (see defineIteratorMethods).
-    this._invoke = enqueue;
-  }
-
-  defineIteratorMethods(AsyncIterator.prototype);
-  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
-    return this;
-  };
-  runtime.AsyncIterator = AsyncIterator;
-
-  // Note that simple async functions are implemented on top of
-  // AsyncIterator objects; they just return a Promise for the value of
-  // the final result produced by the iterator.
-  runtime.async = function(innerFn, outerFn, self, tryLocsList) {
-    var iter = new AsyncIterator(
-      wrap(innerFn, outerFn, self, tryLocsList)
-    );
-
-    return runtime.isGeneratorFunction(outerFn)
-      ? iter // If outerFn is a generator, return the full iterator.
-      : iter.next().then(function(result) {
-          return result.done ? result.value : iter.next();
-        });
-  };
-
-  function makeInvokeMethod(innerFn, self, context) {
-    var state = GenStateSuspendedStart;
-
-    return function invoke(method, arg) {
-      if (state === GenStateExecuting) {
-        throw new Error("Generator is already running");
-      }
-
-      if (state === GenStateCompleted) {
-        if (method === "throw") {
-          throw arg;
-        }
-
-        // Be forgiving, per 25.3.3.3.3 of the spec:
-        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
-        return doneResult();
-      }
-
-      context.method = method;
-      context.arg = arg;
-
-      while (true) {
-        var delegate = context.delegate;
-        if (delegate) {
-          var delegateResult = maybeInvokeDelegate(delegate, context);
-          if (delegateResult) {
-            if (delegateResult === ContinueSentinel) continue;
-            return delegateResult;
-          }
-        }
-
-        if (context.method === "next") {
-          // Setting context._sent for legacy support of Babel's
-          // function.sent implementation.
-          context.sent = context._sent = context.arg;
-
-        } else if (context.method === "throw") {
-          if (state === GenStateSuspendedStart) {
-            state = GenStateCompleted;
-            throw context.arg;
-          }
-
-          context.dispatchException(context.arg);
-
-        } else if (context.method === "return") {
-          context.abrupt("return", context.arg);
-        }
-
-        state = GenStateExecuting;
-
-        var record = tryCatch(innerFn, self, context);
-        if (record.type === "normal") {
-          // If an exception is thrown from innerFn, we leave state ===
-          // GenStateExecuting and loop back for another invocation.
-          state = context.done
-            ? GenStateCompleted
-            : GenStateSuspendedYield;
-
-          if (record.arg === ContinueSentinel) {
-            continue;
-          }
-
-          return {
-            value: record.arg,
-            done: context.done
-          };
-
-        } else if (record.type === "throw") {
-          state = GenStateCompleted;
-          // Dispatch the exception by looping back around to the
-          // context.dispatchException(context.arg) call above.
-          context.method = "throw";
-          context.arg = record.arg;
-        }
-      }
-    };
-  }
-
-  // Call delegate.iterator[context.method](context.arg) and handle the
-  // result, either by returning a { value, done } result from the
-  // delegate iterator, or by modifying context.method and context.arg,
-  // setting context.delegate to null, and returning the ContinueSentinel.
-  function maybeInvokeDelegate(delegate, context) {
-    var method = delegate.iterator[context.method];
-    if (method === undefined) {
-      // A .throw or .return when the delegate iterator has no .throw
-      // method always terminates the yield* loop.
-      context.delegate = null;
-
-      if (context.method === "throw") {
-        if (delegate.iterator.return) {
-          // If the delegate iterator has a return method, give it a
-          // chance to clean up.
-          context.method = "return";
-          context.arg = undefined;
-          maybeInvokeDelegate(delegate, context);
-
-          if (context.method === "throw") {
-            // If maybeInvokeDelegate(context) changed context.method from
-            // "return" to "throw", let that override the TypeError below.
-            return ContinueSentinel;
-          }
-        }
-
-        context.method = "throw";
-        context.arg = new TypeError(
-          "The iterator does not provide a 'throw' method");
-      }
-
-      return ContinueSentinel;
-    }
-
-    var record = tryCatch(method, delegate.iterator, context.arg);
-
-    if (record.type === "throw") {
-      context.method = "throw";
-      context.arg = record.arg;
-      context.delegate = null;
-      return ContinueSentinel;
-    }
-
-    var info = record.arg;
-
-    if (! info) {
-      context.method = "throw";
-      context.arg = new TypeError("iterator result is not an object");
-      context.delegate = null;
-      return ContinueSentinel;
-    }
-
-    if (info.done) {
-      // Assign the result of the finished delegate to the temporary
-      // variable specified by delegate.resultName (see delegateYield).
-      context[delegate.resultName] = info.value;
-
-      // Resume execution at the desired location (see delegateYield).
-      context.next = delegate.nextLoc;
-
-      // If context.method was "throw" but the delegate handled the
-      // exception, let the outer generator proceed normally. If
-      // context.method was "next", forget context.arg since it has been
-      // "consumed" by the delegate iterator. If context.method was
-      // "return", allow the original .return call to continue in the
-      // outer generator.
-      if (context.method !== "return") {
-        context.method = "next";
-        context.arg = undefined;
-      }
-
-    } else {
-      // Re-yield the result returned by the delegate method.
-      return info;
-    }
-
-    // The delegate iterator is finished, so forget it and continue with
-    // the outer generator.
-    context.delegate = null;
-    return ContinueSentinel;
-  }
-
-  // Define Generator.prototype.{next,throw,return} in terms of the
-  // unified ._invoke helper method.
-  defineIteratorMethods(Gp);
-
-  Gp[toStringTagSymbol] = "Generator";
-
-  // A Generator should always return itself as the iterator object when the
-  // @@iterator function is called on it. Some browsers' implementations of the
-  // iterator prototype chain incorrectly implement this, causing the Generator
-  // object to not be returned from this call. This ensures that doesn't happen.
-  // See https://github.com/facebook/regenerator/issues/274 for more details.
-  Gp[iteratorSymbol] = function() {
-    return this;
-  };
-
-  Gp.toString = function() {
-    return "[object Generator]";
-  };
-
-  function pushTryEntry(locs) {
-    var entry = { tryLoc: locs[0] };
-
-    if (1 in locs) {
-      entry.catchLoc = locs[1];
-    }
-
-    if (2 in locs) {
-      entry.finallyLoc = locs[2];
-      entry.afterLoc = locs[3];
-    }
-
-    this.tryEntries.push(entry);
-  }
-
-  function resetTryEntry(entry) {
-    var record = entry.completion || {};
-    record.type = "normal";
-    delete record.arg;
-    entry.completion = record;
-  }
-
-  function Context(tryLocsList) {
-    // The root entry object (effectively a try statement without a catch
-    // or a finally block) gives us a place to store values thrown from
-    // locations where there is no enclosing try statement.
-    this.tryEntries = [{ tryLoc: "root" }];
-    tryLocsList.forEach(pushTryEntry, this);
-    this.reset(true);
-  }
-
-  runtime.keys = function(object) {
-    var keys = [];
-    for (var key in object) {
-      keys.push(key);
-    }
-    keys.reverse();
-
-    // Rather than returning an object with a next method, we keep
-    // things simple and return the next function itself.
-    return function next() {
-      while (keys.length) {
-        var key = keys.pop();
-        if (key in object) {
-          next.value = key;
-          next.done = false;
-          return next;
-        }
-      }
-
-      // To avoid creating an additional object, we just hang the .value
-      // and .done properties off the next function object itself. This
-      // also ensures that the minifier will not anonymize the function.
-      next.done = true;
-      return next;
-    };
-  };
-
-  function values(iterable) {
-    if (iterable) {
-      var iteratorMethod = iterable[iteratorSymbol];
-      if (iteratorMethod) {
-        return iteratorMethod.call(iterable);
-      }
-
-      if (typeof iterable.next === "function") {
-        return iterable;
-      }
-
-      if (!isNaN(iterable.length)) {
-        var i = -1, next = function next() {
-          while (++i < iterable.length) {
-            if (hasOwn.call(iterable, i)) {
-              next.value = iterable[i];
-              next.done = false;
-              return next;
-            }
-          }
-
-          next.value = undefined;
-          next.done = true;
-
-          return next;
-        };
-
-        return next.next = next;
-      }
-    }
-
-    // Return an iterator with no values.
-    return { next: doneResult };
-  }
-  runtime.values = values;
-
-  function doneResult() {
-    return { value: undefined, done: true };
-  }
-
-  Context.prototype = {
-    constructor: Context,
-
-    reset: function(skipTempReset) {
-      this.prev = 0;
-      this.next = 0;
-      // Resetting context._sent for legacy support of Babel's
-      // function.sent implementation.
-      this.sent = this._sent = undefined;
-      this.done = false;
-      this.delegate = null;
-
-      this.method = "next";
-      this.arg = undefined;
-
-      this.tryEntries.forEach(resetTryEntry);
-
-      if (!skipTempReset) {
-        for (var name in this) {
-          // Not sure about the optimal order of these conditions:
-          if (name.charAt(0) === "t" &&
-              hasOwn.call(this, name) &&
-              !isNaN(+name.slice(1))) {
-            this[name] = undefined;
-          }
-        }
-      }
-    },
-
-    stop: function() {
-      this.done = true;
-
-      var rootEntry = this.tryEntries[0];
-      var rootRecord = rootEntry.completion;
-      if (rootRecord.type === "throw") {
-        throw rootRecord.arg;
-      }
-
-      return this.rval;
-    },
-
-    dispatchException: function(exception) {
-      if (this.done) {
-        throw exception;
-      }
-
-      var context = this;
-      function handle(loc, caught) {
-        record.type = "throw";
-        record.arg = exception;
-        context.next = loc;
-
-        if (caught) {
-          // If the dispatched exception was caught by a catch block,
-          // then let that catch block handle the exception normally.
-          context.method = "next";
-          context.arg = undefined;
-        }
-
-        return !! caught;
-      }
-
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        var record = entry.completion;
-
-        if (entry.tryLoc === "root") {
-          // Exception thrown outside of any try block that could handle
-          // it, so set the completion value of the entire function to
-          // throw the exception.
-          return handle("end");
-        }
-
-        if (entry.tryLoc <= this.prev) {
-          var hasCatch = hasOwn.call(entry, "catchLoc");
-          var hasFinally = hasOwn.call(entry, "finallyLoc");
-
-          if (hasCatch && hasFinally) {
-            if (this.prev < entry.catchLoc) {
-              return handle(entry.catchLoc, true);
-            } else if (this.prev < entry.finallyLoc) {
-              return handle(entry.finallyLoc);
-            }
-
-          } else if (hasCatch) {
-            if (this.prev < entry.catchLoc) {
-              return handle(entry.catchLoc, true);
-            }
-
-          } else if (hasFinally) {
-            if (this.prev < entry.finallyLoc) {
-              return handle(entry.finallyLoc);
-            }
-
-          } else {
-            throw new Error("try statement without catch or finally");
-          }
-        }
-      }
-    },
-
-    abrupt: function(type, arg) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.tryLoc <= this.prev &&
-            hasOwn.call(entry, "finallyLoc") &&
-            this.prev < entry.finallyLoc) {
-          var finallyEntry = entry;
-          break;
-        }
-      }
-
-      if (finallyEntry &&
-          (type === "break" ||
-           type === "continue") &&
-          finallyEntry.tryLoc <= arg &&
-          arg <= finallyEntry.finallyLoc) {
-        // Ignore the finally entry if control is not jumping to a
-        // location outside the try/catch block.
-        finallyEntry = null;
-      }
-
-      var record = finallyEntry ? finallyEntry.completion : {};
-      record.type = type;
-      record.arg = arg;
-
-      if (finallyEntry) {
-        this.method = "next";
-        this.next = finallyEntry.finallyLoc;
-        return ContinueSentinel;
-      }
-
-      return this.complete(record);
-    },
-
-    complete: function(record, afterLoc) {
-      if (record.type === "throw") {
-        throw record.arg;
-      }
-
-      if (record.type === "break" ||
-          record.type === "continue") {
-        this.next = record.arg;
-      } else if (record.type === "return") {
-        this.rval = this.arg = record.arg;
-        this.method = "return";
-        this.next = "end";
-      } else if (record.type === "normal" && afterLoc) {
-        this.next = afterLoc;
-      }
-
-      return ContinueSentinel;
-    },
-
-    finish: function(finallyLoc) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.finallyLoc === finallyLoc) {
-          this.complete(entry.completion, entry.afterLoc);
-          resetTryEntry(entry);
-          return ContinueSentinel;
-        }
-      }
-    },
-
-    "catch": function(tryLoc) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.tryLoc === tryLoc) {
-          var record = entry.completion;
-          if (record.type === "throw") {
-            var thrown = record.arg;
-            resetTryEntry(entry);
-          }
-          return thrown;
-        }
-      }
-
-      // The context.catch method must only be called with a location
-      // argument that corresponds to a known catch block.
-      throw new Error("illegal catch attempt");
-    },
-
-    delegateYield: function(iterable, resultName, nextLoc) {
-      this.delegate = {
-        iterator: values(iterable),
-        resultName: resultName,
-        nextLoc: nextLoc
-      };
-
-      if (this.method === "next") {
-        // Deliberately forget the last sent value so that we don't
-        // accidentally pass it on to the delegate.
-        this.arg = undefined;
-      }
-
-      return ContinueSentinel;
-    }
-  };
-})(
-  // In sloppy mode, unbound `this` refers to the global object, fallback to
-  // Function constructor if we're in global strict mode. That is sadly a form
-  // of indirect eval which violates Content Security Policy.
-  (function() {
-    return this || (typeof self === "object" && self);
-  })() || Function("return this")()
-);
-
-
-/***/ }),
-
-/***/ 26:
-/*!*************************************!*\
-  !*** E:/project/XQK/utils/index.js ***!
-  \*************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.toast = toast;exports.judgeLogin = judgeLogin;exports.trim = trim;exports.verifyPhone = verifyPhone;exports.debounce = debounce;exports.throtte = throtte;exports.upFile = upFile;exports.saveFile = saveFile;exports.autoImg = autoImg;exports.navigateBack = navigateBack;exports.navigate = navigate;exports.switchTab = switchTab;exports.redirect = redirect;exports.CreatOnlyVal = CreatOnlyVal;exports.copy = copy;exports.call = call;Object.defineProperty(exports, "get", { enumerable: true, get: function get() {return _request.get;} });Object.defineProperty(exports, "post", { enumerable: true, get: function get() {return _request.post;} });Object.defineProperty(exports, "requestHideLoading", { enumerable: true, get: function get() {return _request.requestHideLoading;} });Object.defineProperty(exports, "editTime", { enumerable: true, get: function get() {return _dateTools.editTime;} });Object.defineProperty(exports, "dateUtils", { enumerable: true, get: function get() {return _dateTools.dateUtils;} });Object.defineProperty(exports, "timeDiff", { enumerable: true, get: function get() {return _dateTools.timeDiff;} });Object.defineProperty(exports, "formatNumber", { enumerable: true, get: function get() {return _dateTools.formatNumber;} });exports.RegisterPath = exports.LoginPath = exports.hostPath = exports.filePath = exports.host = void 0;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var _request = __webpack_require__(/*! @/utils/request */ 27);
-var _dateTools = __webpack_require__(/*! @/utils/date-tools */ 28); //API接口地址
-// 线上
-// const host = 'https://api.naomiebie.cn/api/';//
-// const filePath = 'http://top.naosongduan.cn';//文件域名
-// const hostPath = 'http://top.naosongduan.cn/h5/index.html';//主机路径
-// 测试
-var host = 'http://dgapi.wtvxin.com/api/'; //
-// const host = 'https://scapi.sc-mall.net/api/';  //发现页面套用社交云商接口地址
-exports.host = host;var filePath = 'http://dgapi.wtvxin.com'; //文件域名
-exports.filePath = filePath;var hostPath = 'http://hnapi.wtvxin.com/index.html'; //主机路径
-exports.hostPath = hostPath;var LoginPath = "login/login"; //登录路径
-exports.LoginPath = LoginPath;var RegisterPath = "login/register"; //注册路径
-exports.RegisterPath = RegisterPath; // icon--是否显示图标，mask--是否显示防触摸穿透蒙层
-function toast(title) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { icon: false, mask: false, time: 2000 };uni.showToast({ title: title, icon: data.icon ? 'success' : 'none', mask: data.mask || false, duration: data.time || 2000 });
-
-}
-//判断是否登录，未登录做弹窗跳转登录页面
-function judgeLogin() {
-  // 未登录false，已登录true
-  if (!uni.getStorageSync("userId") || !uni.getStorageSync("token")) {
-    uni.showModal({
-      title: '未登录',
-      content: '是否跳转到登录页面？',
-      cancelColor: '#999',
-      confirmColor: '#ff6f00',
-      success: function success(res) {
-        if (res.confirm) {
-          navigate(LoginPath);
-        }
-      } });
-
-    return false;
-  } else {
-    return true;
-  }
-}
-// 去空字符串
-function trim(str) {
-  return str.replace(/(^\s*)|(\s*$)/g, "");
-}
-//验证手机号
-function verifyPhone(tel) {
-  var r_phone = /^1(3|4|5|6|7|8|9)\d{9}$/;
-  // var phoneNumber = $.trim($('#phoneNumber').val());
-  if (trim(tel) == "") {
-    toast("手机号不能为空!");
-    return false;
-  }
-  if (!r_phone.test(tel)) {
-    toast("请输入正确的手机格式!");
-    return false;
-  }
-  return true;
-}
-
-// 函数防抖,多少秒内只允许执行一次，重复点击会重新计时
-var timeout = null;
-function debounce(fn) {var wait = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 500;
-  if (timeout !== null) clearTimeout(timeout);
-  timeout = setTimeout(fn, wait);
-}
-// 函数节流,多少秒内只允许执行一次，重复点击会无视
-var throtteStatus = false;
-function throtte(fn) {var wait = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 500;
-  if (throtteStatus) return;
-  throtteStatus = true;
-  setTimeout(fn, wait);
-  setTimeout(function () {
-    throtteStatus = false;
-  }, wait);
-}
-// 上传文件
-function upFile(filePath) {
-  return new Promise(function (resolve, reject) {
-    uni.uploadFile({
-      url: host + 'Area/VoiceUpload',
-      filePath: filePath,
-      name: 'file',
-      success: function success(res) {
-        console.log('文件上传', res);
-        resolve(res);
-      },
-      fail: function fail(err) {
-        console.log('文件上传失败', err);
-        uni.showToast({
-          title: '文件上传失败，请重试！',
-          icon: 'none' });
-
-        reject(err);
-      } });
-
-  });
-}
-// 保存文件
-function saveFile(filePath) {
-  // downloadFile下载文件，然后saveFile保存
-  uni.downloadFile({
-    url: filePath,
-    success: function success(res) {
-      if (res.statusCode === 200) {
-        // h5端
-        if (typeof window === 'object' && 'document' in window) {
-          var oA = document.createElement("a");
-          oA.download = ''; // 设置下载的文件名，默认是'下载'
-          oA.href = res.tempFilePath;
-          document.body.appendChild(oA);
-          oA.click();
-          oA.remove(); // 下载之后把创建的元素删除
-        } else {
-          uni.saveFile({
-            tempFilePath: res.tempFilePath,
-            complete: function complete(res) {
-              console.log(res);
-            } });
-
-        }
-      }
-    } });
-
-}
-
-// 更改图片展示，判断是否带链接图片
-function autoImg(img) {
-  if (img.indexOf('http') === -1) {
-    return filePath + img;
-  }
-  return img;
-}
-
-// 后退到上一页,防抖
-function navigateBack() {
-  debounce(function () {uni.navigateBack();console.log('回退了一次');}, 2000);
-}
-// 跳转url,带参
-function navigate(url, params, isLogin) {
-  console.log('要跳转到的地址' + url);
-  // 判断是否已登录
-  if (isLogin && !judgeLogin()) {
-    return;
-  }
-  var p = '';
-  if (params) {
-    var arr = Object.keys(params);
-    arr.map(function (item, index) {
-      p += "".concat(item, "=").concat(params[item]);
-      if (index < arr.length - 1) {p += '&';};
-    });
-  }
-  uni.navigateTo({
-    url: "/pages/".concat(url, "?").concat(p) });
-
-}
-// 跳转url,带参
-function switchTab(url, params, isLogin) {
-  if (isLogin && !judgeLogin()) {
-    return;
-  }
-  var p = '';
-  if (params) {
-    var arr = Object.keys(params);
-    arr.map(function (item, index) {
-      p += "".concat(item, "=").concat(params[item]);
-      if (index < arr.length - 1) {p += '&';};
-    });
-  }
-  uni.switchTab({
-    url: "/pages/".concat(url, "?").concat(p) });
-
-}
-
-// 关闭当前页面跳转url,带参
-function redirect(url, params, isLogin) {
-  console.log(url, 'url');
-  if (isLogin && !judgeLogin()) {
-    return;
-  }
-  var p = '';
-  if (params) {
-    var arr = Object.keys(params);
-    arr.map(function (item, index) {
-      p += "".concat(item, "=").concat(params[item]);
-      if (index < arr.length - 1) {p += '&';};
-    });
-  }
-  uni.redirectTo({
-    url: "/pages/".concat(url, "?").concat(p) });
-
-}
-
-//产生不相同的字符串
-function CreatOnlyVal() {
-  var d = new Date().getTime();
-  var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    var r = (d + Math.random() * 16) % 16 | 0;
-    d = Math.floor(d / 16);
-    return (c == 'x' ? r : r & 0x3 | 0x8).toString(16);
-  });
-  return uuid;
-}
-// 复制
-function copy(data) {
-  uni.setClipboardData({
-    data: data,
-    success: function success() {
-      toast('复制成功', { icon: true });
-    },
-    fail: function fail() {
-      toast('复制失败，请重试！');
-    } });
-
-}
-function call(phone) {
-  uni.makePhoneCall({
-    phoneNumber: phone + '',
-    success: function success(res) {
-
-    },
-    fail: function fail() {
-      toast('呼叫失败，请重试！');
-    } });
-
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-
-/***/ 27:
-/*!***************************************!*\
-  !*** E:/project/XQK/utils/request.js ***!
-  \***************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.get = get;exports.post = post;exports.requestHideLoading = requestHideLoading;
-var _utils = __webpack_require__(/*! @/utils */ 26);
-
-
-// get请求；
-// statusObj ---isLogin，是否需要判断登录，
-function get(url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var statusObj = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-  if (statusObj.isLogin && !(0, _utils.judgeLogin)()) {
-    return Promise.reject();
-  } else {
-    return request(url, 'GET', data, statusObj);
-  }
-}
-// post请求
-function post(url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var statusObj = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-  if (statusObj.isLogin && !(0, _utils.judgeLogin)()) {
-    return Promise.reject();
-  } else {
-    return request(url, 'POST', data, statusObj);
-  }
-}
-
-
-var loginTipsStatus = false; //未登录弹窗，如果存在多个请求，只弹出一次弹窗
-// 统一请求返回code
-var code = {
-  success: 0, //成功
-  fail: 1, //失败
-  notLogin: 2, //未登录||登录过期
-  resCode1: 200 //成功特别方式
-
-
-  //请求封装
-};function request(url, method, data) {
-  uni.showLoading({
-    title: '加载中' //数据请求前loading
-  });
-  return new Promise(function (resolve, reject) {
-    uni.request({
-      url: _utils.host + url, //仅为示例，并非真实的接口地址
-      method: method,
-      data: data,
-      header: {
-        'content-type': 'application/json;charset=utf-8' // 默认值
-      },
-      success: function success(res) {
-        uni.hideLoading();
-        if (res.statusCode === 200) {
-          var ret = res.data;
-          switch (ret.code) {
-            case code.success:
-              resolve(ret);
-              break;
-            case code.resCode1:
-              resolve(ret);
-              break;
-            case code.notLogin:
-              // 没登录或登录过期，询问是否跳转到登录页面
-              uni.setStorageSync("userId", '');
-              uni.setStorageSync("token", '');
-              if (!loginTipsStatus) {
-                loginTipsStatus = true;
-
-                uni.showModal({
-                  title: '需要登录',
-                  content: '是否跳转到登录页面？',
-                  cancelColor: '#999',
-                  confirmColor: '#ff6f00',
-                  success: function success(res) {
-                    if (res.confirm) {
-                      (0, _utils.navigate)(_utils.LoginPath);
-                    }
-                  },
-                  complete: function complete() {
-                    loginTipsStatus = false;
-                  } });
-
-              }
-              break;
-            case code.fail:
-              (0, _utils.toast)(ret.msg);
-              reject(ret);
-              break;
-            default:
-              (0, _utils.toast)(ret.msg);
-              reject(ret);}
-
-        } else {
-          (0, _utils.toast)('服务器繁忙，请稍后重试');
-          (0, _utils.navigateBack)();
-          reject();
-        }
-      },
-      fail: function fail(error) {
-        uni.hideLoading();
-        (0, _utils.toast)('服务器繁忙，请稍后重试');
-        (0, _utils.navigateBack)();
-        reject(error);
-      } });
-
-  });
-}
-
-//请求封装,隐藏加载
-function requestHideLoading(url, data, method) {
-  return new Promise(function (resolve, reject) {
-    uni.request({
-      url: _utils.host + url, //仅为示例，并非真实的接口地址
-      method: method,
-      data: data,
-      header: {
-        'content-type': 'application/json;charset=utf-8' // 默认值
-      },
-      success: function success(res) {
-        var ret = res.data;
-        if (code.success) {
-          resolve(ret);
-        } else {
-          (0, _utils.toast)(ret.msg);
-          reject(ret);
-        }
-      },
-      fail: function fail(error) {
-        (0, _utils.toast)('服务器繁忙，请稍后重试');
-        reject(error);
-      } });
-
-  });
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-
-/***/ 28:
-/*!******************************************!*\
-  !*** E:/project/XQK/utils/date-tools.js ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.editTime = editTime;exports.formatNumber = formatNumber;exports.formatTime = formatTime;exports.timeDiff = timeDiff;exports.dateUtils = void 0;
-// 更改时间格式
-// type:'date'--返回日期；'time'--返回日期+时间; 's'--日期+时间+秒
-function editTime(time) {var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'date';
-  var newTime = '';
-  if (type === 'time') {
-    console.log(time, 'editTime');
-    newTime = time.substr(0, time.lastIndexOf(':'));
-    newTime = newTime.replace('T', ' ');
-  }
-  if (type === "date") {
-    newTime = time.substr(0, time.lastIndexOf('T'));
-  }
-  if (type === "s") {
-    newTime = time.substr(0, time.lastIndexOf('.'));
-    newTime = newTime.replace('T', ' ');
-  }
-  return newTime;
-}
-
-// 时间格式化工具
-function formatNumber(n) {
-  var str = n.toString();
-  return str[1] ? str : "0".concat(str);
-}
-
-function formatTime(date) {
-  var year = date.getFullYear();
-  var month = date.getMonth() + 1;
-  var day = date.getDate();
-
-  var hour = date.getHours();
-  var minute = date.getMinutes();
-  var second = date.getSeconds();
-
-  var t1 = [year, month, day].map(formatNumber).join('/');
-  var t2 = [hour, minute, second].map(formatNumber).join(':');
-
-  return "".concat(t1, " ").concat(t2);
-}
-
-//   JS获取距当前时间差
-var dateUtils = {
-  UNITS: {
-    '年': 31557600000,
-    '月': 2629800000,
-    '天': 86400000, //1000 * 24 * 60 * 60
-    '小时': 3600000, //1000 * 60 * 60
-    '分钟': 60000, //1000 * 60
-    '秒': 1000 },
-
-  // milliseconds--时间戳
-  humanize: function humanize(milliseconds) {
-    console.log(this.UNITS);
-    var humanize = '';
-    for (var key in this.UNITS) {
-      if (milliseconds >= this.UNITS[key]) {
-        humanize = Math.floor(milliseconds / this.UNITS[key]) + key + '前';
-        break;
-      }
-    }
-    return humanize || '刚刚';
-  },
-  format: function format(dateStr) {
-    var date = this.parse(dateStr);
-    var diff = Date.now() - date.getTime();
-    if (diff < this.UNITS['天']) {
-      return this.humanize(diff);
-    }
-    var _format = function _format(number) {
-      return number < 10 ? '0' + number : number;
-    };
-    return date.getFullYear() + '-' + _format(date.getMonth() + 1) + '-' + _format(date.getDay()) + ' ' +
-    _format(date.getHours()) + ':' + _format(date.getMinutes()) + ':' + _format(date.getSeconds());
-  },
-  parse: function parse(str) {//将"yyyy-mm-dd HH:MM:ss"格式的字符串，转化为一个Date对象
-    var a = str.split(/[^0-9]/);
-    return new Date(a[0], a[1] - 1, a[2], a[3], a[4], a[5]);
-  } };
-
-// 时间差，输入的时间距离现在时间差，输出''天''小时''分钟''秒
-exports.dateUtils = dateUtils;function timeDiff(time) {
-  var diff = '';
-  var time_diff = new Date().getTime() - time;
-  // 计算相差天数  
-  var days = Math.floor(time_diff / (24 * 3600 * 1000));
-  if (days > 0) {
-    return diff += days + '天';
-  }
-  // 计算相差小时数  
-  var leave1 = time_diff % (24 * 3600 * 1000);
-  var hours = Math.floor(leave1 / (3600 * 1000));
-  if (hours > 0) {
-    return diff += hours + '小时';
-  } else {
-    if (diff !== '') {
-      return diff += hours + '小时';
-    }
-  }
-  // 计算相差分钟数  
-  var leave2 = leave1 % (3600 * 1000);
-  var minutes = Math.floor(leave2 / (60 * 1000));
-  if (minutes > 0) {
-    return diff += minutes + '分钟';
-  } else {
-    if (diff !== '') {
-      return diff += minutes + '分钟';
-    }
-  }
-  // 计算相差秒数  
-  var leave3 = leave2 % (60 * 1000);
-  var seconds = Math.round(leave3 / 1000);
-  if (seconds == 0) {
-    return diff = '刚刚';
-  } else if (seconds > 0) {
-    return diff += seconds + '秒';
-  } else {
-    if (diff !== '') {
-      return diff += seconds + '秒';
-    }
-  }
-
-  return diff;
-}
-
-/***/ }),
-
-/***/ 29:
-/*!****************************************!*\
-  !*** E:/project/XQK/utils/location.js ***!
-  \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.hasPosition = hasPosition;exports.initPosition = initPosition;exports.getMyPosition = getMyPosition;exports.getCityinfo = getCityinfo;var _utils = __webpack_require__(/*! @/utils */ 26);
-var _qqmapWxJssdk = _interopRequireDefault(__webpack_require__(/*! @/utils/qqmap-wx-jssdk */ 30));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //腾讯地图，reverseGeocoder逆地址转码
-var qqmapsdk = new _qqmapWxJssdk.default({
-  key: "LJTBZ-A5SWU-ZDGVJ-2OV5E-SOKAJ-HIBQI" // 必填
-});
-// 判断是否获取定位
-function hasPosition() {
-  return new Promise(function (resolve, reject) {
-    uni.getSetting({
-      success: function success(res) {
-        console.log("*****1111111111*******", res);
-        // res.authSetting['scope.userLocation'] == undefined    表示 初始化进入该页面
-        // res.authSetting['scope.userLocation'] == false    表示 非初始化进入该页面,且未授权
-        // res.authSetting['scope.userLocation'] == true    表示 地理位置授权
-
-        //未授权
-        if (
-        res.authSetting["scope.userLocation"] != undefined &&
-        res.authSetting["scope.userLocation"] != true)
-        {
-          (0, _utils.toast)('获取定位未授权');
-          reject();
-        } else if (res.authSetting["scope.userLocation"] == undefined) {
-          //用户首次进入页面,调用wx.getLocation的API
-          console.log("******222222222******");
-          getMyPosition().then(function (res) {
-            resolve(res);
-          });
-        } else {
-          console.log("授权成功");
-          //调用wx.getLocation的API
-          getMyPosition().then(function (res) {
-            resolve(res);
-          });
-        }
-      } });
-
-
-  });
-}
-// 重新获取定位授权
-function initPosition() {
-  return new Promise(function (resolve, reject) {
-    uni.openSetting({
-      success: function success(res) {
-        console.log(res, "调取授权");
-        if (res.authSetting["scope.userLocation"] == true) {
-          //再次授权，调用wx.getLocation的API
-          getMyPosition().then(function (res) {
-            resolve(res);
-          });
-        } else {
-          (0, _utils.toast)('授权失败');
-          reject();
-        }
-      },
-      fail: function fail(err) {
-        console.log(err, 'err');
-        reject();
-      } });
-
-  });
-}
-// 获取定位
-function getMyPosition() {var _this = this;
-  return new Promise(function (resolved, rejected) {
-    wx.getLocation({
-      type: "gcj02",
-      success: function success(data) {
-        console.log(data, _this, "微信地图");
-        var lat = data.latitude;
-        var lng = data.longitude;
-        // 根据坐标获取城市信息
-        getCityinfo(lat, lng).then(function (res) {
-          res = Object.assign(res, {
-            lat: lat,
-            lng: lng });
-
-          console.log(res, 'return');
-          resolved(res);
-        });
-      },
-      fail: function fail(err) {
-        console.log(err);
-        (0, _utils.toast)("获取定位失败！请重新尝试");
-        rejected();
-      } });
-
-  });
-}
-//根据经纬度获取城市名称nowPlace 反地理转码
-function getCityinfo(lat, lng) {
-  return new Promise(function (resolved, rejected) {
-    qqmapsdk.reverseGeocoder({
-      location: {
-        latitude: lat,
-        longitude: lng },
-
-      success: function success(res) {
-        // console.log(res,'qqmap')
-        // const _res = res.result;
-        // that.cityName = _res.address_component.city;
-        // that.update({
-        //   cityName: _res.address_component.city,
-        //   nowPlace:
-        //     _res.formatted_addresses.recommend + " - " + _res.address
-        // });
-        resolved(res.result);
-      },
-      fail: function fail(err) {
-        (0, _utils.toast)("获取定位失败！请重新尝试");
-        rejected(err);
-      } });
-
-  });
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-
-/***/ 3:
-/*!***********************************!*\
-  !*** (webpack)/buildin/global.js ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || new Function("return this")();
-} catch (e) {
-	// This works if the window reference is available
-	if (typeof window === "object") g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-
-/***/ 30:
-/*!**********************************************!*\
-  !*** E:/project/XQK/utils/qqmap-wx-jssdk.js ***!
-  \**********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;} /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   * 微信小程序JavaScriptSDK
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   * 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   * @version 1.2
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   * @date 2019-03-06
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   * @author v_ylyue@tencent.com
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   */
-
-var ERROR_CONF = {
-  KEY_ERR: 311,
-  KEY_ERR_MSG: 'key格式错误',
-  PARAM_ERR: 310,
-  PARAM_ERR_MSG: '请求参数信息有误',
-  SYSTEM_ERR: 600,
-  SYSTEM_ERR_MSG: '系统错误',
-  WX_ERR_CODE: 1000,
-  WX_OK_CODE: 200 };
-
-var BASE_URL = 'https://apis.map.qq.com/ws/';
-var URL_SEARCH = BASE_URL + 'place/v1/search';
-var URL_SUGGESTION = BASE_URL + 'place/v1/suggestion';
-var URL_GET_GEOCODER = BASE_URL + 'geocoder/v1/';
-var URL_CITY_LIST = BASE_URL + 'district/v1/list';
-var URL_AREA_LIST = BASE_URL + 'district/v1/getchildren';
-var URL_DISTANCE = BASE_URL + 'distance/v1/';
-var URL_DIRECTION = BASE_URL + 'direction/v1/';
-var MODE = {
-  driving: 'driving',
-  transit: 'transit' };
-
-var EARTH_RADIUS = 6378136.49;
-var Utils = {
-  /**
-              * md5加密方法
-              * 版权所有©2011 Sebastian Tschan，https：//blueimp.net
-              */
-  safeAdd: function safeAdd(x, y) {
-    var lsw = (x & 0xffff) + (y & 0xffff);
-    var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
-    return msw << 16 | lsw & 0xffff;
-  },
-  bitRotateLeft: function bitRotateLeft(num, cnt) {
-    return num << cnt | num >>> 32 - cnt;
-  },
-  md5cmn: function md5cmn(q, a, b, x, s, t) {
-    return this.safeAdd(this.bitRotateLeft(this.safeAdd(this.safeAdd(a, q), this.safeAdd(x, t)), s), b);
-  },
-  md5ff: function md5ff(a, b, c, d, x, s, t) {
-    return this.md5cmn(b & c | ~b & d, a, b, x, s, t);
-  },
-  md5gg: function md5gg(a, b, c, d, x, s, t) {
-    return this.md5cmn(b & d | c & ~d, a, b, x, s, t);
-  },
-  md5hh: function md5hh(a, b, c, d, x, s, t) {
-    return this.md5cmn(b ^ c ^ d, a, b, x, s, t);
-  },
-  md5ii: function md5ii(a, b, c, d, x, s, t) {
-    return this.md5cmn(c ^ (b | ~d), a, b, x, s, t);
-  },
-  binlMD5: function binlMD5(x, len) {
-    /* append padding */
-    x[len >> 5] |= 0x80 << len % 32;
-    x[(len + 64 >>> 9 << 4) + 14] = len;
-
-    var i;
-    var olda;
-    var oldb;
-    var oldc;
-    var oldd;
-    var a = 1732584193;
-    var b = -271733879;
-    var c = -1732584194;
-    var d = 271733878;
-
-    for (i = 0; i < x.length; i += 16) {
-      olda = a;
-      oldb = b;
-      oldc = c;
-      oldd = d;
-
-      a = this.md5ff(a, b, c, d, x[i], 7, -680876936);
-      d = this.md5ff(d, a, b, c, x[i + 1], 12, -389564586);
-      c = this.md5ff(c, d, a, b, x[i + 2], 17, 606105819);
-      b = this.md5ff(b, c, d, a, x[i + 3], 22, -1044525330);
-      a = this.md5ff(a, b, c, d, x[i + 4], 7, -176418897);
-      d = this.md5ff(d, a, b, c, x[i + 5], 12, 1200080426);
-      c = this.md5ff(c, d, a, b, x[i + 6], 17, -1473231341);
-      b = this.md5ff(b, c, d, a, x[i + 7], 22, -45705983);
-      a = this.md5ff(a, b, c, d, x[i + 8], 7, 1770035416);
-      d = this.md5ff(d, a, b, c, x[i + 9], 12, -1958414417);
-      c = this.md5ff(c, d, a, b, x[i + 10], 17, -42063);
-      b = this.md5ff(b, c, d, a, x[i + 11], 22, -1990404162);
-      a = this.md5ff(a, b, c, d, x[i + 12], 7, 1804603682);
-      d = this.md5ff(d, a, b, c, x[i + 13], 12, -40341101);
-      c = this.md5ff(c, d, a, b, x[i + 14], 17, -1502002290);
-      b = this.md5ff(b, c, d, a, x[i + 15], 22, 1236535329);
-
-      a = this.md5gg(a, b, c, d, x[i + 1], 5, -165796510);
-      d = this.md5gg(d, a, b, c, x[i + 6], 9, -1069501632);
-      c = this.md5gg(c, d, a, b, x[i + 11], 14, 643717713);
-      b = this.md5gg(b, c, d, a, x[i], 20, -373897302);
-      a = this.md5gg(a, b, c, d, x[i + 5], 5, -701558691);
-      d = this.md5gg(d, a, b, c, x[i + 10], 9, 38016083);
-      c = this.md5gg(c, d, a, b, x[i + 15], 14, -660478335);
-      b = this.md5gg(b, c, d, a, x[i + 4], 20, -405537848);
-      a = this.md5gg(a, b, c, d, x[i + 9], 5, 568446438);
-      d = this.md5gg(d, a, b, c, x[i + 14], 9, -1019803690);
-      c = this.md5gg(c, d, a, b, x[i + 3], 14, -187363961);
-      b = this.md5gg(b, c, d, a, x[i + 8], 20, 1163531501);
-      a = this.md5gg(a, b, c, d, x[i + 13], 5, -1444681467);
-      d = this.md5gg(d, a, b, c, x[i + 2], 9, -51403784);
-      c = this.md5gg(c, d, a, b, x[i + 7], 14, 1735328473);
-      b = this.md5gg(b, c, d, a, x[i + 12], 20, -1926607734);
-
-      a = this.md5hh(a, b, c, d, x[i + 5], 4, -378558);
-      d = this.md5hh(d, a, b, c, x[i + 8], 11, -2022574463);
-      c = this.md5hh(c, d, a, b, x[i + 11], 16, 1839030562);
-      b = this.md5hh(b, c, d, a, x[i + 14], 23, -35309556);
-      a = this.md5hh(a, b, c, d, x[i + 1], 4, -1530992060);
-      d = this.md5hh(d, a, b, c, x[i + 4], 11, 1272893353);
-      c = this.md5hh(c, d, a, b, x[i + 7], 16, -155497632);
-      b = this.md5hh(b, c, d, a, x[i + 10], 23, -1094730640);
-      a = this.md5hh(a, b, c, d, x[i + 13], 4, 681279174);
-      d = this.md5hh(d, a, b, c, x[i], 11, -358537222);
-      c = this.md5hh(c, d, a, b, x[i + 3], 16, -722521979);
-      b = this.md5hh(b, c, d, a, x[i + 6], 23, 76029189);
-      a = this.md5hh(a, b, c, d, x[i + 9], 4, -640364487);
-      d = this.md5hh(d, a, b, c, x[i + 12], 11, -421815835);
-      c = this.md5hh(c, d, a, b, x[i + 15], 16, 530742520);
-      b = this.md5hh(b, c, d, a, x[i + 2], 23, -995338651);
-
-      a = this.md5ii(a, b, c, d, x[i], 6, -198630844);
-      d = this.md5ii(d, a, b, c, x[i + 7], 10, 1126891415);
-      c = this.md5ii(c, d, a, b, x[i + 14], 15, -1416354905);
-      b = this.md5ii(b, c, d, a, x[i + 5], 21, -57434055);
-      a = this.md5ii(a, b, c, d, x[i + 12], 6, 1700485571);
-      d = this.md5ii(d, a, b, c, x[i + 3], 10, -1894986606);
-      c = this.md5ii(c, d, a, b, x[i + 10], 15, -1051523);
-      b = this.md5ii(b, c, d, a, x[i + 1], 21, -2054922799);
-      a = this.md5ii(a, b, c, d, x[i + 8], 6, 1873313359);
-      d = this.md5ii(d, a, b, c, x[i + 15], 10, -30611744);
-      c = this.md5ii(c, d, a, b, x[i + 6], 15, -1560198380);
-      b = this.md5ii(b, c, d, a, x[i + 13], 21, 1309151649);
-      a = this.md5ii(a, b, c, d, x[i + 4], 6, -145523070);
-      d = this.md5ii(d, a, b, c, x[i + 11], 10, -1120210379);
-      c = this.md5ii(c, d, a, b, x[i + 2], 15, 718787259);
-      b = this.md5ii(b, c, d, a, x[i + 9], 21, -343485551);
-
-      a = this.safeAdd(a, olda);
-      b = this.safeAdd(b, oldb);
-      c = this.safeAdd(c, oldc);
-      d = this.safeAdd(d, oldd);
-    }
-    return [a, b, c, d];
-  },
-  binl2rstr: function binl2rstr(input) {
-    var i;
-    var output = '';
-    var length32 = input.length * 32;
-    for (i = 0; i < length32; i += 8) {
-      output += String.fromCharCode(input[i >> 5] >>> i % 32 & 0xff);
-    }
-    return output;
-  },
-  rstr2binl: function rstr2binl(input) {
-    var i;
-    var output = [];
-    output[(input.length >> 2) - 1] = undefined;
-    for (i = 0; i < output.length; i += 1) {
-      output[i] = 0;
-    }
-    var length8 = input.length * 8;
-    for (i = 0; i < length8; i += 8) {
-      output[i >> 5] |= (input.charCodeAt(i / 8) & 0xff) << i % 32;
-    }
-    return output;
-  },
-  rstrMD5: function rstrMD5(s) {
-    return this.binl2rstr(this.binlMD5(this.rstr2binl(s), s.length * 8));
-  },
-  rstrHMACMD5: function rstrHMACMD5(key, data) {
-    var i;
-    var bkey = this.rstr2binl(key);
-    var ipad = [];
-    var opad = [];
-    var hash;
-    ipad[15] = opad[15] = undefined;
-    if (bkey.length > 16) {
-      bkey = this.binlMD5(bkey, key.length * 8);
-    }
-    for (i = 0; i < 16; i += 1) {
-      ipad[i] = bkey[i] ^ 0x36363636;
-      opad[i] = bkey[i] ^ 0x5c5c5c5c;
-    }
-    hash = this.binlMD5(ipad.concat(this.rstr2binl(data)), 512 + data.length * 8);
-    return this.binl2rstr(this.binlMD5(opad.concat(hash), 512 + 128));
-  },
-  rstr2hex: function rstr2hex(input) {
-    var hexTab = '0123456789abcdef';
-    var output = '';
-    var x;
-    var i;
-    for (i = 0; i < input.length; i += 1) {
-      x = input.charCodeAt(i);
-      output += hexTab.charAt(x >>> 4 & 0x0f) + hexTab.charAt(x & 0x0f);
-    }
-    return output;
-  },
-  str2rstrUTF8: function str2rstrUTF8(input) {
-    return unescape(encodeURIComponent(input));
-  },
-  rawMD5: function rawMD5(s) {
-    return this.rstrMD5(this.str2rstrUTF8(s));
-  },
-  hexMD5: function hexMD5(s) {
-    return this.rstr2hex(this.rawMD5(s));
-  },
-  rawHMACMD5: function rawHMACMD5(k, d) {
-    return this.rstrHMACMD5(this.str2rstrUTF8(k), str2rstrUTF8(d));
-  },
-  hexHMACMD5: function hexHMACMD5(k, d) {
-    return this.rstr2hex(this.rawHMACMD5(k, d));
-  },
-
-  md5: function md5(string, key, raw) {
-    if (!key) {
-      if (!raw) {
-        return this.hexMD5(string);
-      }
-      return this.rawMD5(string);
-    }
-    if (!raw) {
-      return this.hexHMACMD5(key, string);
-    }
-    return this.rawHMACMD5(key, string);
-  },
-  /**
-      * 得到md5加密后的sig参数
-      * @param {Object} requestParam 接口参数
-      * @param {String} sk签名字符串
-      * @param {String} featrue 方法名
-      * @return 返回加密后的sig参数
-      */
-  getSig: function getSig(requestParam, sk, feature, mode) {
-    var sig = null;
-    var requestArr = [];
-    Object.keys(requestParam).sort().forEach(function (key) {
-      requestArr.push(key + '=' + requestParam[key]);
-    });
-    if (feature == 'search') {
-      sig = '/ws/place/v1/search?' + requestArr.join('&') + sk;
-    }
-    if (feature == 'suggest') {
-      sig = '/ws/place/v1/suggestion?' + requestArr.join('&') + sk;
-    }
-    if (feature == 'reverseGeocoder') {
-      sig = '/ws/geocoder/v1/?' + requestArr.join('&') + sk;
-    }
-    if (feature == 'geocoder') {
-      sig = '/ws/geocoder/v1/?' + requestArr.join('&') + sk;
-    }
-    if (feature == 'getCityList') {
-      sig = '/ws/district/v1/list?' + requestArr.join('&') + sk;
-    }
-    if (feature == 'getDistrictByCityId') {
-      sig = '/ws/district/v1/getchildren?' + requestArr.join('&') + sk;
-    }
-    if (feature == 'calculateDistance') {
-      sig = '/ws/distance/v1/?' + requestArr.join('&') + sk;
-    }
-    if (feature == 'direction') {
-      sig = '/ws/direction/v1/' + mode + '?' + requestArr.join('&') + sk;
-    }
-    sig = this.md5(sig);
-    return sig;
-  },
-  /**
-      * 得到终点query字符串
-      * @param {Array|String} 检索数据
-      */
-  location2query: function location2query(data) {
-    if (typeof data == 'string') {
-      return data;
-    }
-    var query = '';
-    for (var i = 0; i < data.length; i++) {
-      var d = data[i];
-      if (!!query) {
-        query += ';';
-      }
-      if (d.location) {
-        query = query + d.location.lat + ',' + d.location.lng;
-      }
-      if (d.latitude && d.longitude) {
-        query = query + d.latitude + ',' + d.longitude;
-      }
-    }
-    return query;
-  },
-
-  /**
-      * 计算角度
-      */
-  rad: function rad(d) {
-    return d * Math.PI / 180.0;
-  },
-  /**
-      * 处理终点location数组
-      * @return 返回终点数组
-      */
-  getEndLocation: function getEndLocation(location) {
-    var to = location.split(';');
-    var endLocation = [];
-    for (var i = 0; i < to.length; i++) {
-      endLocation.push({
-        lat: parseFloat(to[i].split(',')[0]),
-        lng: parseFloat(to[i].split(',')[1]) });
-
-    }
-    return endLocation;
-  },
-
-  /**
-      * 计算两点间直线距离
-      * @param a 表示纬度差
-      * @param b 表示经度差
-      * @return 返回的是距离，单位m
-      */
-  getDistance: function getDistance(latFrom, lngFrom, latTo, lngTo) {
-    var radLatFrom = this.rad(latFrom);
-    var radLatTo = this.rad(latTo);
-    var a = radLatFrom - radLatTo;
-    var b = this.rad(lngFrom) - this.rad(lngTo);
-    var distance = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(radLatFrom) * Math.cos(radLatTo) * Math.pow(Math.sin(b / 2), 2)));
-    distance = distance * EARTH_RADIUS;
-    distance = Math.round(distance * 10000) / 10000;
-    return parseFloat(distance.toFixed(0));
-  },
-  /**
-      * 使用微信接口进行定位
-      */
-  getWXLocation: function getWXLocation(success, fail, complete) {
-    wx.getLocation({
-      type: 'gcj02',
-      success: success,
-      fail: fail,
-      complete: complete });
-
-  },
-
-  /**
-      * 获取location参数
-      */
-  getLocationParam: function getLocationParam(location) {
-    if (typeof location == 'string') {
-      var locationArr = location.split(',');
-      if (locationArr.length === 2) {
-        location = {
-          latitude: location.split(',')[0],
-          longitude: location.split(',')[1] };
-
-      } else {
-        location = {};
-      }
-    }
-    return location;
-  },
-
-  /**
-      * 回调函数默认处理
-      */
-  polyfillParam: function polyfillParam(param) {
-    param.success = param.success || function () {};
-    param.fail = param.fail || function () {};
-    param.complete = param.complete || function () {};
-  },
-
-  /**
-      * 验证param对应的key值是否为空
-      * 
-      * @param {Object} param 接口参数
-      * @param {String} key 对应参数的key
-      */
-  checkParamKeyEmpty: function checkParamKeyEmpty(param, key) {
-    if (!param[key]) {
-      var errconf = this.buildErrorConfig(ERROR_CONF.PARAM_ERR, ERROR_CONF.PARAM_ERR_MSG + key + '参数格式有误');
-      param.fail(errconf);
-      param.complete(errconf);
-      return true;
-    }
-    return false;
-  },
-
-  /**
-      * 验证参数中是否存在检索词keyword
-      * 
-      * @param {Object} param 接口参数
-      */
-  checkKeyword: function checkKeyword(param) {
-    return !this.checkParamKeyEmpty(param, 'keyword');
-  },
-
-  /**
-      * 验证location值
-      * 
-      * @param {Object} param 接口参数
-      */
-  checkLocation: function checkLocation(param) {
-    var location = this.getLocationParam(param.location);
-    if (!location || !location.latitude || !location.longitude) {
-      var errconf = this.buildErrorConfig(ERROR_CONF.PARAM_ERR, ERROR_CONF.PARAM_ERR_MSG + ' location参数格式有误');
-      param.fail(errconf);
-      param.complete(errconf);
-      return false;
-    }
-    return true;
-  },
-
-  /**
-      * 构造错误数据结构
-      * @param {Number} errCode 错误码
-      * @param {Number} errMsg 错误描述
-      */
-  buildErrorConfig: function buildErrorConfig(errCode, errMsg) {
-    return {
-      status: errCode,
-      message: errMsg };
-
-  },
-
-  /**
-      * 
-      * 数据处理函数
-      * 根据传入参数不同处理不同数据
-      * @param {String} feature 功能名称
-      * search 地点搜索
-      * suggest关键词提示
-      * reverseGeocoder逆地址解析
-      * geocoder地址解析
-      * getCityList获取城市列表：父集
-      * getDistrictByCityId获取区县列表：子集
-      * calculateDistance距离计算
-      * @param {Object} param 接口参数
-      * @param {Object} data 数据
-      */
-  handleData: function handleData(param, data, feature) {
-    if (feature == 'search') {
-      var searchResult = data.data;
-      var searchSimplify = [];
-      for (var i = 0; i < searchResult.length; i++) {
-        searchSimplify.push({
-          id: searchResult[i].id || null,
-          title: searchResult[i].title || null,
-          latitude: searchResult[i].location && searchResult[i].location.lat || null,
-          longitude: searchResult[i].location && searchResult[i].location.lng || null,
-          address: searchResult[i].address || null,
-          category: searchResult[i].category || null,
-          tel: searchResult[i].tel || null,
-          adcode: searchResult[i].ad_info && searchResult[i].ad_info.adcode || null,
-          city: searchResult[i].ad_info && searchResult[i].ad_info.city || null,
-          district: searchResult[i].ad_info && searchResult[i].ad_info.district || null,
-          province: searchResult[i].ad_info && searchResult[i].ad_info.province || null });
-
-      }
-      param.success(data, {
-        searchResult: searchResult,
-        searchSimplify: searchSimplify });
-
-    } else if (feature == 'suggest') {
-      var suggestResult = data.data;
-      var suggestSimplify = [];
-      for (var i = 0; i < suggestResult.length; i++) {
-        suggestSimplify.push({
-          adcode: suggestResult[i].adcode || null,
-          address: suggestResult[i].address || null,
-          category: suggestResult[i].category || null,
-          city: suggestResult[i].city || null,
-          district: suggestResult[i].district || null,
-          id: suggestResult[i].id || null,
-          latitude: suggestResult[i].location && suggestResult[i].location.lat || null,
-          longitude: suggestResult[i].location && suggestResult[i].location.lng || null,
-          province: suggestResult[i].province || null,
-          title: suggestResult[i].title || null,
-          type: suggestResult[i].type || null });
-
-      }
-      param.success(data, {
-        suggestResult: suggestResult,
-        suggestSimplify: suggestSimplify });
-
-    } else if (feature == 'reverseGeocoder') {
-      var reverseGeocoderResult = data.result;
-      var reverseGeocoderSimplify = {
-        address: reverseGeocoderResult.address || null,
-        latitude: reverseGeocoderResult.location && reverseGeocoderResult.location.lat || null,
-        longitude: reverseGeocoderResult.location && reverseGeocoderResult.location.lng || null,
-        adcode: reverseGeocoderResult.ad_info && reverseGeocoderResult.ad_info.adcode || null,
-        city: reverseGeocoderResult.address_component && reverseGeocoderResult.address_component.city || null,
-        district: reverseGeocoderResult.address_component && reverseGeocoderResult.address_component.district || null,
-        nation: reverseGeocoderResult.address_component && reverseGeocoderResult.address_component.nation || null,
-        province: reverseGeocoderResult.address_component && reverseGeocoderResult.address_component.province || null,
-        street: reverseGeocoderResult.address_component && reverseGeocoderResult.address_component.street || null,
-        street_number: reverseGeocoderResult.address_component && reverseGeocoderResult.address_component.street_number || null,
-        recommend: reverseGeocoderResult.formatted_addresses && reverseGeocoderResult.formatted_addresses.recommend || null,
-        rough: reverseGeocoderResult.formatted_addresses && reverseGeocoderResult.formatted_addresses.rough || null };
-
-      if (reverseGeocoderResult.pois) {//判断是否返回周边poi
-        var pois = reverseGeocoderResult.pois;
-        var poisSimplify = [];
-        for (var i = 0; i < pois.length; i++) {
-          poisSimplify.push({
-            id: pois[i].id || null,
-            title: pois[i].title || null,
-            latitude: pois[i].location && pois[i].location.lat || null,
-            longitude: pois[i].location && pois[i].location.lng || null,
-            address: pois[i].address || null,
-            category: pois[i].category || null,
-            adcode: pois[i].ad_info && pois[i].ad_info.adcode || null,
-            city: pois[i].ad_info && pois[i].ad_info.city || null,
-            district: pois[i].ad_info && pois[i].ad_info.district || null,
-            province: pois[i].ad_info && pois[i].ad_info.province || null });
-
-        }
-        param.success(data, {
-          reverseGeocoderResult: reverseGeocoderResult,
-          reverseGeocoderSimplify: reverseGeocoderSimplify,
-          pois: pois,
-          poisSimplify: poisSimplify });
-
-      } else {
-        param.success(data, {
-          reverseGeocoderResult: reverseGeocoderResult,
-          reverseGeocoderSimplify: reverseGeocoderSimplify });
-
-      }
-    } else if (feature == 'geocoder') {
-      var geocoderResult = data.result;
-      var geocoderSimplify = {
-        title: geocoderResult.title || null,
-        latitude: geocoderResult.location && geocoderResult.location.lat || null,
-        longitude: geocoderResult.location && geocoderResult.location.lng || null,
-        adcode: geocoderResult.ad_info && geocoderResult.ad_info.adcode || null,
-        province: geocoderResult.address_components && geocoderResult.address_components.province || null,
-        city: geocoderResult.address_components && geocoderResult.address_components.city || null,
-        district: geocoderResult.address_components && geocoderResult.address_components.district || null,
-        street: geocoderResult.address_components && geocoderResult.address_components.street || null,
-        street_number: geocoderResult.address_components && geocoderResult.address_components.street_number || null,
-        level: geocoderResult.level || null };
-
-      param.success(data, {
-        geocoderResult: geocoderResult,
-        geocoderSimplify: geocoderSimplify });
-
-    } else if (feature == 'getCityList') {
-      var provinceResult = data.result[0];
-      var cityResult = data.result[1];
-      var districtResult = data.result[2];
-      param.success(data, {
-        provinceResult: provinceResult,
-        cityResult: cityResult,
-        districtResult: districtResult });
-
-    } else if (feature == 'getDistrictByCityId') {
-      var districtByCity = data.result[0];
-      param.success(data, districtByCity);
-    } else if (feature == 'calculateDistance') {
-      var calculateDistanceResult = data.result.elements;
-      var distance = [];
-      for (var i = 0; i < calculateDistanceResult.length; i++) {
-        distance.push(calculateDistanceResult[i].distance);
-      }
-      param.success(data, {
-        calculateDistanceResult: calculateDistanceResult,
-        distance: distance });
-
-    } else if (feature == 'direction') {
-      var direction = data.result.routes;
-      param.success(data, direction);
-    } else {
-      param.success(data);
-    }
-  },
-
-  /**
-      * 构造微信请求参数，公共属性处理
-      * 
-      * @param {Object} param 接口参数
-      * @param {Object} param 配置项
-      * @param {String} feature 方法名
-      */
-  buildWxRequestConfig: function buildWxRequestConfig(param, options, feature) {
-    var that = this;
-    options.header = { "content-type": "application/json" };
-    options.method = 'GET';
-    options.success = function (res) {
-      var data = res.data;
-      if (data.status === 0) {
-        that.handleData(param, data, feature);
-      } else {
-        param.fail(data);
-      }
-    };
-    options.fail = function (res) {
-      res.statusCode = ERROR_CONF.WX_ERR_CODE;
-      param.fail(that.buildErrorConfig(ERROR_CONF.WX_ERR_CODE, res.errMsg));
-    };
-    options.complete = function (res) {
-      var statusCode = +res.statusCode;
-      switch (statusCode) {
-        case ERROR_CONF.WX_ERR_CODE:{
-            param.complete(that.buildErrorConfig(ERROR_CONF.WX_ERR_CODE, res.errMsg));
-            break;
-          }
-        case ERROR_CONF.WX_OK_CODE:{
-            var data = res.data;
-            if (data.status === 0) {
-              param.complete(data);
-            } else {
-              param.complete(that.buildErrorConfig(data.status, data.message));
-            }
-            break;
-          }
-        default:{
-            param.complete(that.buildErrorConfig(ERROR_CONF.SYSTEM_ERR, ERROR_CONF.SYSTEM_ERR_MSG));
-          }}
-
-
-    };
-    return options;
-  },
-
-  /**
-      * 处理用户参数是否传入坐标进行不同的处理
-      */
-  locationProcess: function locationProcess(param, locationsuccess, locationfail, locationcomplete) {
-    var that = this;
-    locationfail = locationfail || function (res) {
-      res.statusCode = ERROR_CONF.WX_ERR_CODE;
-      param.fail(that.buildErrorConfig(ERROR_CONF.WX_ERR_CODE, res.errMsg));
-    };
-    locationcomplete = locationcomplete || function (res) {
-      if (res.statusCode == ERROR_CONF.WX_ERR_CODE) {
-        param.complete(that.buildErrorConfig(ERROR_CONF.WX_ERR_CODE, res.errMsg));
-      }
-    };
-    if (!param.location) {
-      that.getWXLocation(locationsuccess, locationfail, locationcomplete);
-    } else if (that.checkLocation(param)) {
-      var location = Utils.getLocationParam(param.location);
-      locationsuccess(location);
-    }
-  } };var
-
-
-
-QQMapWX = /*#__PURE__*/function () {
-
-  /**
-                                     * 构造函数
-                                     * 
-                                     * @param {Object} options 接口参数,key 为必选参数
-                                     */
-  function QQMapWX(options) {_classCallCheck(this, QQMapWX);
-    if (!options.key) {
-      throw Error('key值不能为空');
-    }
-    this.key = options.key;
-  }_createClass(QQMapWX, [{ key: "search",
-
-    /**
-                                            * POI周边检索
-                                            *
-                                            * @param {Object} options 接口参数对象
-                                            * 
-                                            * 参数对象结构可以参考
-                                            * @see http://lbs.qq.com/webservice_v1/guide-search.html
-                                            */value: function search(
-    options) {
-      var that = this;
-      options = options || {};
-
-      Utils.polyfillParam(options);
-
-      if (!Utils.checkKeyword(options)) {
-        return;
-      }
-
-      var requestParam = {
-        keyword: options.keyword,
-        orderby: options.orderby || '_distance',
-        page_size: options.page_size || 10,
-        page_index: options.page_index || 1,
-        output: 'json',
-        key: that.key };
-
-
-      if (options.address_format) {
-        requestParam.address_format = options.address_format;
-      }
-
-      if (options.filter) {
-        requestParam.filter = options.filter;
-      }
-
-      var distance = options.distance || "1000";
-      var auto_extend = options.auto_extend || 1;
-      var region = null;
-      var rectangle = null;
-
-      //判断城市限定参数
-      if (options.region) {
-        region = options.region;
-      }
-
-      //矩形限定坐标(暂时只支持字符串格式)
-      if (options.rectangle) {
-        rectangle = options.rectangle;
-      }
-
-      var locationsuccess = function locationsuccess(result) {
-        if (region && !rectangle) {
-          //城市限定参数拼接
-          requestParam.boundary = "region(" + region + "," + auto_extend + "," + result.latitude + "," + result.longitude + ")";
-          if (options.sig) {
-            requestParam.sig = Utils.getSig(requestParam, options.sig, 'search');
-          }
-        } else if (rectangle && !region) {
-          //矩形搜索
-          requestParam.boundary = "rectangle(" + rectangle + ")";
-          if (options.sig) {
-            requestParam.sig = Utils.getSig(requestParam, options.sig, 'search');
-          }
-        } else {
-          requestParam.boundary = "nearby(" + result.latitude + "," + result.longitude + "," + distance + "," + auto_extend + ")";
-          if (options.sig) {
-            requestParam.sig = Utils.getSig(requestParam, options.sig, 'search');
-          }
-        }
-        wx.request(Utils.buildWxRequestConfig(options, {
-          url: URL_SEARCH,
-          data: requestParam },
-        'search'));
-      };
-      Utils.locationProcess(options, locationsuccess);
-    } }, { key: "getSuggestion",
-
-    /**
-                                  * sug模糊检索
-                                  *
-                                  * @param {Object} options 接口参数对象
-                                  * 
-                                  * 参数对象结构可以参考
-                                  * http://lbs.qq.com/webservice_v1/guide-suggestion.html
-                                  */value: function getSuggestion(
-    options) {
-      var that = this;
-      options = options || {};
-      Utils.polyfillParam(options);
-
-      if (!Utils.checkKeyword(options)) {
-        return;
-      }
-
-      var requestParam = {
-        keyword: options.keyword,
-        region: options.region || '全国',
-        region_fix: options.region_fix || 0,
-        policy: options.policy || 0,
-        page_size: options.page_size || 10, //控制显示条数
-        page_index: options.page_index || 1, //控制页数
-        get_subpois: options.get_subpois || 0, //返回子地点
-        output: 'json',
-        key: that.key };
-
-      //长地址
-      if (options.address_format) {
-        requestParam.address_format = options.address_format;
-      }
-      //过滤
-      if (options.filter) {
-        requestParam.filter = options.filter;
-      }
-      //排序
-      if (options.location) {
-        var locationsuccess = function locationsuccess(result) {
-          requestParam.location = result.latitude + ',' + result.longitude;
-          if (options.sig) {
-            requestParam.sig = Utils.getSig(requestParam, options.sig, 'suggest');
-          }
-          wx.request(Utils.buildWxRequestConfig(options, {
-            url: URL_SUGGESTION,
-            data: requestParam },
-          "suggest"));
-        };
-        Utils.locationProcess(options, locationsuccess);
-      } else {
-        if (options.sig) {
-          requestParam.sig = Utils.getSig(requestParam, options.sig, 'suggest');
-        }
-        wx.request(Utils.buildWxRequestConfig(options, {
-          url: URL_SUGGESTION,
-          data: requestParam },
-        "suggest"));
-      }
-    } }, { key: "reverseGeocoder",
-
-    /**
-                                    * 逆地址解析
-                                    *
-                                    * @param {Object} options 接口参数对象
-                                    * 
-                                    * 请求参数结构可以参考
-                                    * http://lbs.qq.com/webservice_v1/guide-gcoder.html
-                                    */value: function reverseGeocoder(
-    options) {
-      var that = this;
-      options = options || {};
-      Utils.polyfillParam(options);
-      var requestParam = {
-        coord_type: options.coord_type || 5,
-        get_poi: options.get_poi || 0,
-        output: 'json',
-        key: that.key };
-
-      if (options.poi_options) {
-        requestParam.poi_options = options.poi_options;
-      }
-
-      var locationsuccess = function locationsuccess(result) {
-        requestParam.location = result.latitude + ',' + result.longitude;
-        if (options.sig) {
-          requestParam.sig = Utils.getSig(requestParam, options.sig, 'reverseGeocoder');
-        }
-        wx.request(Utils.buildWxRequestConfig(options, {
-          url: URL_GET_GEOCODER,
-          data: requestParam },
-        'reverseGeocoder'));
-      };
-      Utils.locationProcess(options, locationsuccess);
-    } }, { key: "geocoder",
-
-    /**
-                             * 地址解析
-                             *
-                             * @param {Object} options 接口参数对象
-                             * 
-                             * 请求参数结构可以参考
-                             * http://lbs.qq.com/webservice_v1/guide-geocoder.html
-                             */value: function geocoder(
-    options) {
-      var that = this;
-      options = options || {};
-      Utils.polyfillParam(options);
-
-      if (Utils.checkParamKeyEmpty(options, 'address')) {
-        return;
-      }
-
-      var requestParam = {
-        address: options.address,
-        output: 'json',
-        key: that.key };
-
-
-      //城市限定
-      if (options.region) {
-        requestParam.region = options.region;
-      }
-
-      if (options.sig) {
-        requestParam.sig = Utils.getSig(requestParam, options.sig, 'geocoder');
-      }
-
-      wx.request(Utils.buildWxRequestConfig(options, {
-        url: URL_GET_GEOCODER,
-        data: requestParam },
-      'geocoder'));
-    } }, { key: "getCityList",
-
-
-    /**
-                                * 获取城市列表
-                                *
-                                * @param {Object} options 接口参数对象
-                                * 
-                                * 请求参数结构可以参考
-                                * http://lbs.qq.com/webservice_v1/guide-region.html
-                                */value: function getCityList(
-    options) {
-      var that = this;
-      options = options || {};
-      Utils.polyfillParam(options);
-      var requestParam = {
-        output: 'json',
-        key: that.key };
-
-
-      if (options.sig) {
-        requestParam.sig = Utils.getSig(requestParam, options.sig, 'getCityList');
-      }
-
-      wx.request(Utils.buildWxRequestConfig(options, {
-        url: URL_CITY_LIST,
-        data: requestParam },
-      'getCityList'));
-    } }, { key: "getDistrictByCityId",
-
-    /**
-                                        * 获取对应城市ID的区县列表
-                                        *
-                                        * @param {Object} options 接口参数对象
-                                        * 
-                                        * 请求参数结构可以参考
-                                        * http://lbs.qq.com/webservice_v1/guide-region.html
-                                        */value: function getDistrictByCityId(
-    options) {
-      var that = this;
-      options = options || {};
-      Utils.polyfillParam(options);
-
-      if (Utils.checkParamKeyEmpty(options, 'id')) {
-        return;
-      }
-
-      var requestParam = {
-        id: options.id || '',
-        output: 'json',
-        key: that.key };
-
-
-      if (options.sig) {
-        requestParam.sig = Utils.getSig(requestParam, options.sig, 'getDistrictByCityId');
-      }
-
-      wx.request(Utils.buildWxRequestConfig(options, {
-        url: URL_AREA_LIST,
-        data: requestParam },
-      'getDistrictByCityId'));
-    } }, { key: "calculateDistance",
-
-    /**
-                                      * 用于单起点到多终点的路线距离(非直线距离)计算：
-                                      * 支持两种距离计算方式：步行和驾车。
-                                      * 起点到终点最大限制直线距离10公里。
-                                      *
-                                      * 新增直线距离计算。
-                                      * 
-                                      * @param {Object} options 接口参数对象
-                                      * 
-                                      * 请求参数结构可以参考
-                                      * http://lbs.qq.com/webservice_v1/guide-distance.html
-                                      */value: function calculateDistance(
-    options) {
-      var that = this;
-      options = options || {};
-      Utils.polyfillParam(options);
-
-      if (Utils.checkParamKeyEmpty(options, 'to')) {
-        return;
-      }
-
-      var requestParam = {
-        mode: options.mode || 'walking',
-        to: Utils.location2query(options.to),
-        output: 'json',
-        key: that.key };
-
-
-      if (options.from) {
-        options.location = options.from;
-      }
-
-      //计算直线距离
-      if (requestParam.mode == 'straight') {
-        var locationsuccess = function locationsuccess(result) {
-          var locationTo = Utils.getEndLocation(requestParam.to); //处理终点坐标
-          var data = {
-            message: "query ok",
-            result: {
-              elements: [] },
-
-            status: 0 };
-
-          for (var i = 0; i < locationTo.length; i++) {
-            data.result.elements.push({ //将坐标存入
-              distance: Utils.getDistance(result.latitude, result.longitude, locationTo[i].lat, locationTo[i].lng),
-              duration: 0,
-              from: {
-                lat: result.latitude,
-                lng: result.longitude },
-
-              to: {
-                lat: locationTo[i].lat,
-                lng: locationTo[i].lng } });
-
-
-          }
-          var calculateResult = data.result.elements;
-          var distanceResult = [];
-          for (var i = 0; i < calculateResult.length; i++) {
-            distanceResult.push(calculateResult[i].distance);
-          }
-          return options.success(data, {
-            calculateResult: calculateResult,
-            distanceResult: distanceResult });
-
-        };
-
-        Utils.locationProcess(options, locationsuccess);
-      } else {
-        var locationsuccess = function locationsuccess(result) {
-          requestParam.from = result.latitude + ',' + result.longitude;
-          if (options.sig) {
-            requestParam.sig = Utils.getSig(requestParam, options.sig, 'calculateDistance');
-          }
-          wx.request(Utils.buildWxRequestConfig(options, {
-            url: URL_DISTANCE,
-            data: requestParam },
-          'calculateDistance'));
-        };
-
-        Utils.locationProcess(options, locationsuccess);
-      }
-    } }, { key: "direction",
-
-    /**
-                              * 路线规划：
-                              * 
-                              * @param {Object} options 接口参数对象
-                              * 
-                              * 请求参数结构可以参考
-                              * https://lbs.qq.com/webservice_v1/guide-road.html
-                              */value: function direction(
-    options) {
-      var that = this;
-      options = options || {};
-      Utils.polyfillParam(options);
-
-      if (Utils.checkParamKeyEmpty(options, 'to')) {
-        return;
-      }
-
-      var requestParam = {
-        output: 'json',
-        key: that.key };
-
-
-      //to格式处理
-      if (typeof options.to == 'string') {
-        requestParam.to = options.to;
-      } else {
-        requestParam.to = options.to.latitude + ',' + options.to.longitude;
-      }
-      //初始化局部请求域名
-      var SET_URL_DIRECTION = null;
-      //设置默认mode属性
-      options.mode = options.mode || MODE.driving;
-
-      //设置请求域名
-      SET_URL_DIRECTION = URL_DIRECTION + options.mode;
-
-      if (options.from) {
-        options.location = options.from;
-      }
-
-      if (options.mode == MODE.driving) {
-        if (options.from_poi) {
-          requestParam.from_poi = options.from_poi;
-        }
-        if (options.heading) {
-          requestParam.heading = options.heading;
-        }
-        if (options.speed) {
-          requestParam.speed = options.speed;
-        }
-        if (options.accuracy) {
-          requestParam.accuracy = options.accuracy;
-        }
-        if (options.road_type) {
-          requestParam.road_type = options.road_type;
-        }
-        if (options.to_poi) {
-          requestParam.to_poi = options.to_poi;
-        }
-        if (options.from_track) {
-          requestParam.from_track = options.from_track;
-        }
-        if (options.waypoints) {
-          requestParam.waypoints = options.waypoints;
-        }
-        if (options.policy) {
-          requestParam.policy = options.policy;
-        }
-        if (options.plate_number) {
-          requestParam.plate_number = options.plate_number;
-        }
-      }
-
-      if (options.mode == MODE.transit) {
-        if (options.departure_time) {
-          requestParam.departure_time = options.departure_time;
-        }
-        if (options.policy) {
-          requestParam.policy = options.policy;
-        }
-      }
-
-      var locationsuccess = function locationsuccess(result) {
-        requestParam.from = result.latitude + ',' + result.longitude;
-        if (options.sig) {
-          requestParam.sig = Utils.getSig(requestParam, options.sig, 'direction', options.mode);
-        }
-        wx.request(Utils.buildWxRequestConfig(options, {
-          url: SET_URL_DIRECTION,
-          data: requestParam },
-        'direction'));
-      };
-
-      Utils.locationProcess(options, locationsuccess);
-    } }]);return QQMapWX;}();
-;
-// module.exports = QQMapWX;
-var _default = QQMapWX;exports.default = _default;
-
-/***/ }),
-
-/***/ 39:
-/*!*************************************!*\
-  !*** E:/project/XQK/common/util.js ***!
-  \*************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.formatTime = formatTime;exports.formatLocation = formatLocation;exports.toLogin = toLogin;exports.getCurrentPageUrlWithArgs = getCurrentPageUrlWithArgs;exports.getStorageOpenid = getStorageOpenid;exports.valPhone = valPhone;exports.SEOTitle = SEOTitle;exports.getUrlParam = getUrlParam;exports.setRegular = setRegular;exports.navigate = navigate;exports.uncodeUtf16 = uncodeUtf16;Object.defineProperty(exports, "get", { enumerable: true, get: function get() {return _request.get;} });Object.defineProperty(exports, "post", { enumerable: true, get: function get() {return _request.post;} });Object.defineProperty(exports, "requestHideLoading", { enumerable: true, get: function get() {return _request.requestHideLoading;} });exports.host = exports.dateUtils = void 0;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var _request = __webpack_require__(/*! ./request.js */ 40); // const host = 'http://ddypapi.wtvxin.com/api/';  //测试接口地址
-var host = 'https://api.dadanyipin.com/api/'; //正式接口地址
-exports.host = host;function formatNumber(n) {var str = n.toString();return str[1] ? str : "0".concat(str);}function formatTime(date) {date = new Date(date);var year = date.getFullYear();var month = date.getMonth() + 1;var day = date.getDate();var hour = date.getHours();var minute = date.getMinutes();var second = date.getSeconds();var t1 = [year, month, day].map(formatNumber).join('/');var t2 = [hour, minute, second].map(formatNumber).join(':');return "".concat(t1, " ").concat(t2);}function formatLocation(longitude, latitude) {if (typeof longitude === 'string' && typeof latitude === 'string') {longitude = parseFloat(longitude);latitude = parseFloat(latitude);}longitude = longitude.toFixed(2);latitude = latitude.toFixed(2);return { longitude: longitude.toString().split('.'), latitude: latitude.toString().split('.') };}var dateUtils = { UNITS: { '年': 31557600000, '月': 2629800000, '天': 86400000, '小时': 3600000, '分钟': 60000, '秒': 1000 }, humanize: function humanize(milliseconds) {var humanize = '';for (var key in this.UNITS) {if (milliseconds >= this.UNITS[key]) {humanize = Math.floor(milliseconds / this.UNITS[key]) + key + '前';break;}}return humanize || '刚刚';}, format: function format(dateStr) {var date = this.parse(dateStr);var diff = Date.now() - date.getTime();if (diff < this.UNITS['天']) {return this.humanize(diff);}var _format = function _format(number) {return number < 10 ? '0' + number : number;};return date.getFullYear() + '-' + _format(date.getMonth() + 1) + '-' + _format(date.getDay()) + ' ' + _format(date.getHours()) + ':' + _format(date.getMinutes()) + ':' + _format(date.getSeconds());}, parse: function parse(str) {//将"yyyy-mm-dd HH:MM:ss"格式的字符串，转化为一个Date对象
-    var a = str.split(/[^0-9]/);return new Date(a[0], a[1] - 1, a[2], a[3], a[4], a[5]);} }; // 判断是否登录了
-exports.dateUtils = dateUtils;function toLogin(objUrl) {// const userInfo = wx.getStorageSync('userInfo');
-  var userId = uni.getStorageSync('userId');var token = uni.getStorageSync('token');if (userId && token) {return true;} else {var strUrl = '';if (objUrl) {strUrl = objUrl.replace(/\?/g, '%3F').replace(/\=/g, '%3D').replace(/\&/g, '%26');}uni.showModal({ title: '登录提示', content: "您还没有登录，是否重新登录？", success: function success(res) {if (res.confirm) {uni.navigateTo({ url: "/pages/login/login?askUrl=" + strUrl });} else if (res.cancel) {}} });return false;}} // 获取openId
-function getStorageOpenid() {var openId = uni.getStorageSync("openId");if (openId) {return openId;} else {return '';}} //定时任务
-function setRegular(targetHour) {var timeInterval, nowTime, nowSeconds, targetSeconds;nowTime = new Date(); // 计算当前时间的秒数
-  nowSeconds = nowTime.getHours() * 3600 + nowTime.getMinutes() * 60 + nowTime.getSeconds(); // 计算目标时间对应的秒数
-  targetSeconds = targetHour * 3600; //  判断是否已超过今日目标小时，若超过，时间间隔设置为距离明天目标小时的距离
-  timeInterval = targetSeconds > nowSeconds ? targetSeconds - nowSeconds : targetSeconds + 24 * 3600 - nowSeconds;setTimeout(getProductFileList, timeInterval * 1000);}function getProductFileList() {localStorage.removeItem('token');localStorage.removeItem('userId');setTimeout(getProductFileList, 24 * 3600 * 1000); //之后每天调用一次
-} //setRegular(4);//每天凌晨4点刷新
-// 获取当前地址
-function getCurrentPageUrlWithArgs() {var pages = getCurrentPages();var currentPage = pages[pages.length - 1];var url = currentPage.route;var options = currentPage.options;var urlWithArgs = "/".concat(url, "?");for (var key in options) {var value = options[key];urlWithArgs += "".concat(key, "=").concat(value, "&");}urlWithArgs = urlWithArgs.substring(0, urlWithArgs.length - 1);return urlWithArgs;} //每3秒去检查token是否过期
-// function checkAccessToken() {
-//   setInterval(checkAccessTokenTimeout, 3 * 1000); //这个时间可以自定义。比如 25 * 60 * 1000（代表25分钟）
-// }
-// function checkAccessTokenTimeout() {
-//   var accesstoken = wx.getStorageSync('token');
-//   if (accesstoken == null || accesstoken == undefined || accesstoken == "") {
-//     return false
-//   }
-//   var tokenDate = wx.getStorageSync('tokenDate');
-//   var aftertimestamp = Date.parse(new Date()); //返回时间毫秒数，比如1489899243209
-//   if (aftertimestamp - tokenDate >= 43200000) { //超过了12小时,重新登陆
-//     removeLocalToken()
-//     return false
-//   }
-//   return true
-// }
-//验证手机号
-function valPhone(tel) {var r_phone = /^[1][3,4,5,6,7,8,9][0-9]{9}$/; // var phoneNumber = $.trim($('#phoneNumber').val());
-  if (tel == "") {uni.showToast({ title: "手机号不能为空!", icon: "none", duration: 2000 });return false;}if (!r_phone.test(tel)) {uni.showToast({ title: "请输入正确的手机格式!", icon: "none", duration: 2000 });return false;}return true;}function createTag(tagName, name, content) {var tag = document.createElement(tagName);tag.name = name;tag.content = content;return tag;}var doctit = "";function SEOTitle(str) {if (str == "") {document.title = doctit;} else {document.title = str + "-" + doctit;}}function getUrlParam(name) {var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");var url = window.location.search.substr(1); //.toLowerCase();
-  var r = url.match(reg);if (r != null) return unescape(r[2]);return null;} // 普通跳转
-function navigate(url) {var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var p = '';var arr = Object.keys(params); //键数组
-  arr.map(function (item) {p += "".concat(item, "=").concat(params[item]);if (arr[arr.length - 1] !== item) {p += '&';}});uni.navigateTo({ url: '/pages/' + url + (p && '?' + p) });}function uncodeUtf16(str) {var reg = /\&#.*?;/g;var result = str.replace(reg, function (char) {var H, L, code;if (char.length == 9) {code = parseInt(char.match(/[0-9]+/g));H = Math.floor((code - 0x10000) / 0x400) + 0xD800;L = (code - 0x10000) % 0x400 + 0xDC00;return unescape("%u" + H.toString(16) + "%u" + L.toString(16));} else {return char;}});return result;}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-
-/***/ 4:
-/*!*********************************!*\
-  !*** E:/project/XQK/pages.json ***!
-  \*********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/***/ }),
-
-/***/ 40:
-/*!****************************************!*\
-  !*** E:/project/XQK/common/request.js ***!
-  \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.get = get;exports.post = post;exports.requestHideLoading = requestHideLoading;
-var _util = __webpack_require__(/*! ./util.js */ 39);
-
-//请求封装
-function request(url, method, data) {
-  // uni.showLoading({
-  //   title: '加载中' //数据请求前loading
-  // })
-  return new Promise(function (resolve, reject) {
-    uni.request({
-      url: _util.host + url, //仅为示例，并非真实的接口地址
-      method: method,
-      data: data,
-      header: {
-        'content-type': 'application/json;charset=utf-8' // 默认值
-      },
-      success: function success(res) {
-        // uni.hideLoading();
-        var ret = res.data;
-        if (ret.code === 0) {
-          resolve(ret);
-        } else if (ret.code == 1) {
-          uni.showToast({
-            title: ret.msg,
-            icon: 'none' });
-
-          resolve(ret);
-        } else
-        if (ret.code == 2) {
-          //  localStorage.removeItem('token');
-          //  localStorage.removeItem('userId');
-          uni.setStorageSync("userId", '');
-          uni.setStorageSync("token", '');
-          uni.showToast({
-            title: "您未登录，请重新登录！",
-            icon: 'none' });
-
-          resolve(ret);
-        } else if (ret.code == 201) {//微信支付的返回code地址
-          resolve(ret);
-        } else {
-          uni.showToast({
-            title: ret.msg,
-            icon: 'none' });
-
-          reject(ret);
-        }
-      },
-      fail: function fail(error) {
-        // uni.hideLoading();
-        uni.showToast({
-          title: '服务器繁忙，请稍后重试',
-          icon: 'none' });
-
-        reject(error);
-      },
-      complete: function complete() {
-        // uni.hideLoading();
-      } });
-
-  });
-}
-
-// get请求
-function get(url, data) {
-  return request(url, 'GET', data);
-}
-// post请求
-function post(url, data) {
-  return request(url, 'POST', data);
-}
-
-
-//请求封装,隐藏加载
-function requestHideLoading(url, data, method) {
-  return new Promise(function (resolve, reject) {
-    uni.request({
-      url: _util.host + url, //仅为示例，并非真实的接口地址
-      method: method,
-      data: data,
-      header: {
-        'content-type': 'application/json;charset=utf-8' // 默认值
-      },
-      success: function success(res) {
-        var ret = res.data;
-        if (ret.code === 0) {
-          resolve(ret);
-        } else {
-          uni.showToast({
-            title: ret.msg,
-            icon: 'none' });
-
-          reject(ret);
-        }
-      },
-      fail: function fail(error) {
-        uni.showToast({
-          title: '服务器繁忙，请稍后重试',
-          icon: 'none' });
-
-        reject(error);
-      } });
-
-  });
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-
-/***/ 5:
-/*!*******************************************************!*\
-  !*** ./node_modules/@dcloudio/uni-stat/dist/index.js ***!
-  \*******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {var _package = __webpack_require__(/*! ../package.json */ 6);function _possibleConstructorReturn(self, call) {if (call && (typeof call === "object" || typeof call === "function")) {return call;}return _assertThisInitialized(self);}function _assertThisInitialized(self) {if (self === void 0) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return self;}function _getPrototypeOf(o) {_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {return o.__proto__ || Object.getPrototypeOf(o);};return _getPrototypeOf(o);}function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function");}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } });if (superClass) _setPrototypeOf(subClass, superClass);}function _setPrototypeOf(o, p) {_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {o.__proto__ = p;return o;};return _setPrototypeOf(o, p);}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;}
-
-var STAT_VERSION = _package.version;
-var STAT_URL = 'https://tongji.dcloud.io/uni/stat';
-var STAT_H5_URL = 'https://tongji.dcloud.io/uni/stat.gif';
-var PAGE_PVER_TIME = 1800;
-var APP_PVER_TIME = 300;
-var OPERATING_TIME = 10;
-
-var UUID_KEY = '__DC_STAT_UUID';
-var UUID_VALUE = '__DC_UUID_VALUE';
-
-function getUuid() {
-  var uuid = '';
-  if (getPlatformName() === 'n') {
-    try {
-      uuid = plus.runtime.getDCloudId();
-    } catch (e) {
-      uuid = '';
-    }
-    return uuid;
-  }
-
-  try {
-    uuid = uni.getStorageSync(UUID_KEY);
-  } catch (e) {
-    uuid = UUID_VALUE;
-  }
-
-  if (!uuid) {
-    uuid = Date.now() + '' + Math.floor(Math.random() * 1e7);
-    try {
-      uni.setStorageSync(UUID_KEY, uuid);
-    } catch (e) {
-      uni.setStorageSync(UUID_KEY, UUID_VALUE);
-    }
-  }
-  return uuid;
-}
-
-var getSgin = function getSgin(statData) {
-  var arr = Object.keys(statData);
-  var sortArr = arr.sort();
-  var sgin = {};
-  var sginStr = '';
-  for (var i in sortArr) {
-    sgin[sortArr[i]] = statData[sortArr[i]];
-    sginStr += sortArr[i] + '=' + statData[sortArr[i]] + '&';
-  }
-  // const options = sginStr.substr(0, sginStr.length - 1)
-  // sginStr = sginStr.substr(0, sginStr.length - 1) + '&key=' + STAT_KEY;
-  // const si = crypto.createHash('md5').update(sginStr).digest('hex');
-  return {
-    sign: '',
-    options: sginStr.substr(0, sginStr.length - 1) };
-
-};
-
-var getSplicing = function getSplicing(data) {
-  var str = '';
-  for (var i in data) {
-    str += i + '=' + data[i] + '&';
-  }
-  return str.substr(0, str.length - 1);
-};
-
-var getTime = function getTime() {
-  return parseInt(new Date().getTime() / 1000);
-};
-
-var getPlatformName = function getPlatformName() {
-  var platformList = {
-    'app-plus': 'n',
-    'h5': 'h5',
-    'mp-weixin': 'wx',
-    'mp-alipay': 'ali',
-    'mp-baidu': 'bd',
-    'mp-toutiao': 'tt',
-    'mp-qq': 'qq' };
-
-  return platformList["mp-weixin"];
-};
-
-var getPackName = function getPackName() {
-  var packName = '';
-  if (getPlatformName() === 'wx' || getPlatformName() === 'qq') {
-    // 兼容微信小程序低版本基础库
-    if (uni.canIUse('getAccountInfoSync')) {
-      packName = uni.getAccountInfoSync().miniProgram.appId || '';
-    }
-  }
-  return packName;
-};
-
-var getVersion = function getVersion() {
-  return getPlatformName() === 'n' ? plus.runtime.version : '';
-};
-
-var getChannel = function getChannel() {
-  var platformName = getPlatformName();
-  var channel = '';
-  if (platformName === 'n') {
-    channel = plus.runtime.channel;
-  }
-  return channel;
-};
-
-var getScene = function getScene(options) {
-  var platformName = getPlatformName();
-  var scene = '';
-  if (options) {
-    return options;
-  }
-  if (platformName === 'wx') {
-    scene = uni.getLaunchOptionsSync().scene;
-  }
-  return scene;
-};
-var First__Visit__Time__KEY = 'First__Visit__Time';
-var Last__Visit__Time__KEY = 'Last__Visit__Time';
-
-var getFirstVisitTime = function getFirstVisitTime() {
-  var timeStorge = uni.getStorageSync(First__Visit__Time__KEY);
-  var time = 0;
-  if (timeStorge) {
-    time = timeStorge;
-  } else {
-    time = getTime();
-    uni.setStorageSync(First__Visit__Time__KEY, time);
-    uni.removeStorageSync(Last__Visit__Time__KEY);
-  }
-  return time;
-};
-
-var getLastVisitTime = function getLastVisitTime() {
-  var timeStorge = uni.getStorageSync(Last__Visit__Time__KEY);
-  var time = 0;
-  if (timeStorge) {
-    time = timeStorge;
-  } else {
-    time = '';
-  }
-  uni.setStorageSync(Last__Visit__Time__KEY, getTime());
-  return time;
-};
-
-
-var PAGE_RESIDENCE_TIME = '__page__residence__time';
-var First_Page_residence_time = 0;
-var Last_Page_residence_time = 0;
-
-
-var setPageResidenceTime = function setPageResidenceTime() {
-  First_Page_residence_time = getTime();
-  if (getPlatformName() === 'n') {
-    uni.setStorageSync(PAGE_RESIDENCE_TIME, getTime());
-  }
-  return First_Page_residence_time;
-};
-
-var getPageResidenceTime = function getPageResidenceTime() {
-  Last_Page_residence_time = getTime();
-  if (getPlatformName() === 'n') {
-    First_Page_residence_time = uni.getStorageSync(PAGE_RESIDENCE_TIME);
-  }
-  return Last_Page_residence_time - First_Page_residence_time;
-};
-var TOTAL__VISIT__COUNT = 'Total__Visit__Count';
-var getTotalVisitCount = function getTotalVisitCount() {
-  var timeStorge = uni.getStorageSync(TOTAL__VISIT__COUNT);
-  var count = 1;
-  if (timeStorge) {
-    count = timeStorge;
-    count++;
-  }
-  uni.setStorageSync(TOTAL__VISIT__COUNT, count);
-  return count;
-};
-
-var GetEncodeURIComponentOptions = function GetEncodeURIComponentOptions(statData) {
-  var data = {};
-  for (var prop in statData) {
-    data[prop] = encodeURIComponent(statData[prop]);
-  }
-  return data;
-};
-
-var Set__First__Time = 0;
-var Set__Last__Time = 0;
-
-var getFirstTime = function getFirstTime() {
-  var time = new Date().getTime();
-  Set__First__Time = time;
-  Set__Last__Time = 0;
-  return time;
-};
-
-
-var getLastTime = function getLastTime() {
-  var time = new Date().getTime();
-  Set__Last__Time = time;
-  return time;
-};
-
-
-var getResidenceTime = function getResidenceTime(type) {
-  var residenceTime = 0;
-  if (Set__First__Time !== 0) {
-    residenceTime = Set__Last__Time - Set__First__Time;
-  }
-
-  residenceTime = parseInt(residenceTime / 1000);
-  residenceTime = residenceTime < 1 ? 1 : residenceTime;
-  if (type === 'app') {
-    var overtime = residenceTime > APP_PVER_TIME ? true : false;
-    return {
-      residenceTime: residenceTime,
-      overtime: overtime };
-
-  }
-  if (type === 'page') {
-    var _overtime = residenceTime > PAGE_PVER_TIME ? true : false;
-    return {
-      residenceTime: residenceTime,
-      overtime: _overtime };
-
-  }
-
-  return {
-    residenceTime: residenceTime };
-
-
-};
-
-var getRoute = function getRoute() {
-  var pages = getCurrentPages();
-  var page = pages[pages.length - 1];
-  var _self = page.$vm;
-
-  if (getPlatformName() === 'bd') {
-    return _self.$mp && _self.$mp.page.is;
-  } else {
-    return _self.$scope && _self.$scope.route || _self.$mp && _self.$mp.page.route;
-  }
-};
-
-var getPageRoute = function getPageRoute(self) {
-  var pages = getCurrentPages();
-  var page = pages[pages.length - 1];
-  var _self = page.$vm;
-  var query = self._query;
-  var str = query && JSON.stringify(query) !== '{}' ? '?' + JSON.stringify(query) : '';
-  // clear
-  self._query = '';
-  if (getPlatformName() === 'bd') {
-    return _self.$mp && _self.$mp.page.is + str;
-  } else {
-    return _self.$scope && _self.$scope.route + str || _self.$mp && _self.$mp.page.route + str;
-  }
-};
-
-var getPageTypes = function getPageTypes(self) {
-  if (self.mpType === 'page' || self.$mp && self.$mp.mpType === 'page' || self.$options.mpType === 'page') {
-    return true;
-  }
-  return false;
-};
-
-var calibration = function calibration(eventName, options) {
-  //  login 、 share 、pay_success 、pay_fail 、register 、title
-  if (!eventName) {
-    console.error("uni.report \u7F3A\u5C11 [eventName] \u53C2\u6570");
-    return true;
-  }
-  if (typeof eventName !== 'string') {
-    console.error("uni.report [eventName] \u53C2\u6570\u7C7B\u578B\u9519\u8BEF,\u53EA\u80FD\u4E3A String \u7C7B\u578B");
-    return true;
-  }
-  if (eventName.length > 255) {
-    console.error("uni.report [eventName] \u53C2\u6570\u957F\u5EA6\u4E0D\u80FD\u5927\u4E8E 255");
-    return true;
-  }
-
-  if (typeof options !== 'string' && typeof options !== 'object') {
-    console.error("uni.report [options] \u53C2\u6570\u7C7B\u578B\u9519\u8BEF,\u53EA\u80FD\u4E3A String \u6216 Object \u7C7B\u578B");
-    return true;
-  }
-
-  if (typeof options === 'string' && options.length > 255) {
-    console.error("uni.report [options] \u53C2\u6570\u957F\u5EA6\u4E0D\u80FD\u5927\u4E8E 255");
-    return true;
-  }
-
-  if (eventName === 'title' && typeof options !== 'string') {
-    console.error('uni.report [eventName] 参数为 title 时，[options] 参数只能为 String 类型');
-    return true;
-  }
-};
-
-var PagesJson = __webpack_require__(/*! uni-pages?{"type":"style"} */ 7).default;
-var statConfig = __webpack_require__(/*! uni-stat-config */ 8).default || __webpack_require__(/*! uni-stat-config */ 8);
-
-var resultOptions = uni.getSystemInfoSync();var
-
-Util = /*#__PURE__*/function () {
-  function Util() {_classCallCheck(this, Util);
-    this.self = '';
-    this._retry = 0;
-    this._platform = '';
-    this._query = {};
-    this._navigationBarTitle = {
-      config: '',
-      page: '',
-      report: '',
-      lt: '' };
-
-    this._operatingTime = 0;
-    this._reportingRequestData = {
-      '1': [],
-      '11': [] };
-
-    this.__prevent_triggering = false;
-
-    this.__licationHide = false;
-    this.__licationShow = false;
-    this._lastPageRoute = '';
-    this.statData = {
-      uuid: getUuid(),
-      ut: getPlatformName(),
-      mpn: getPackName(),
-      ak: statConfig.appid,
-      usv: STAT_VERSION,
-      v: getVersion(),
-      ch: getChannel(),
-      cn: '',
-      pn: '',
-      ct: '',
-      t: getTime(),
-      tt: '',
-      p: resultOptions.platform === 'android' ? 'a' : 'i',
-      brand: resultOptions.brand || '',
-      md: resultOptions.model,
-      sv: resultOptions.system.replace(/(Android|iOS)\s/, ''),
-      mpsdk: resultOptions.SDKVersion || '',
-      mpv: resultOptions.version || '',
-      lang: resultOptions.language,
-      pr: resultOptions.pixelRatio,
-      ww: resultOptions.windowWidth,
-      wh: resultOptions.windowHeight,
-      sw: resultOptions.screenWidth,
-      sh: resultOptions.screenHeight };
-
-
-  }_createClass(Util, [{ key: "_applicationShow", value: function _applicationShow()
-
-    {
-      if (this.__licationHide) {
-        getLastTime();
-        var time = getResidenceTime('app');
-        if (time.overtime) {
-          var options = {
-            path: this._lastPageRoute,
-            scene: this.statData.sc };
-
-          this._sendReportRequest(options);
-        }
-        this.__licationHide = false;
-      }
-    } }, { key: "_applicationHide", value: function _applicationHide(
-
-    self, type) {
-
-      this.__licationHide = true;
-      getLastTime();
-      var time = getResidenceTime();
-      getFirstTime();
-      var route = getPageRoute(this);
-      this._sendHideRequest({
-        urlref: route,
-        urlref_ts: time.residenceTime },
-      type);
-    } }, { key: "_pageShow", value: function _pageShow()
-
-    {
-      var route = getPageRoute(this);
-      var routepath = getRoute();
-      this._navigationBarTitle.config = PagesJson &&
-      PagesJson.pages[routepath] &&
-      PagesJson.pages[routepath].titleNView &&
-      PagesJson.pages[routepath].titleNView.titleText ||
-      PagesJson &&
-      PagesJson.pages[routepath] &&
-      PagesJson.pages[routepath].navigationBarTitleText || '';
-
-      if (this.__licationShow) {
-        getFirstTime();
-        this.__licationShow = false;
-        // console.log('这是 onLauch 之后执行的第一次 pageShow ，为下次记录时间做准备');
-        this._lastPageRoute = route;
-        return;
-      }
-
-      getLastTime();
-      this._lastPageRoute = route;
-      var time = getResidenceTime('page');
-      if (time.overtime) {
-        var options = {
-          path: this._lastPageRoute,
-          scene: this.statData.sc };
-
-        this._sendReportRequest(options);
-      }
-      getFirstTime();
-    } }, { key: "_pageHide", value: function _pageHide()
-
-    {
-      if (!this.__licationHide) {
-        getLastTime();
-        var time = getResidenceTime('page');
-        this._sendPageRequest({
-          url: this._lastPageRoute,
-          urlref: this._lastPageRoute,
-          urlref_ts: time.residenceTime });
-
-        this._navigationBarTitle = {
-          config: '',
-          page: '',
-          report: '',
-          lt: '' };
-
-        return;
-      }
-    } }, { key: "_login", value: function _login()
-
-    {
-      this._sendEventRequest({
-        key: 'login' },
-      0);
-    } }, { key: "_share", value: function _share()
-
-    {
-      this._sendEventRequest({
-        key: 'share' },
-      0);
-    } }, { key: "_payment", value: function _payment(
-    key) {
-      this._sendEventRequest({
-        key: key },
-      0);
-    } }, { key: "_sendReportRequest", value: function _sendReportRequest(
-    options) {
-
-      this._navigationBarTitle.lt = '1';
-      var query = options.query && JSON.stringify(options.query) !== '{}' ? '?' + JSON.stringify(options.query) : '';
-      this.statData.lt = '1';
-      this.statData.url = options.path + query || '';
-      this.statData.t = getTime();
-      this.statData.sc = getScene(options.scene);
-      this.statData.fvts = getFirstVisitTime();
-      this.statData.lvts = getLastVisitTime();
-      this.statData.tvc = getTotalVisitCount();
-      if (getPlatformName() === 'n') {
-        this.getProperty();
-      } else {
-        this.getNetworkInfo();
-      }
-    } }, { key: "_sendPageRequest", value: function _sendPageRequest(
-
-    opt) {var
-
-      url =
-
-
-      opt.url,urlref = opt.urlref,urlref_ts = opt.urlref_ts;
-      this._navigationBarTitle.lt = '11';
-      var options = {
-        ak: this.statData.ak,
-        uuid: this.statData.uuid,
-        lt: '11',
-        ut: this.statData.ut,
-        url: url,
-        tt: this.statData.tt,
-        urlref: urlref,
-        urlref_ts: urlref_ts,
-        ch: this.statData.ch,
-        usv: this.statData.usv,
-        t: getTime(),
-        p: this.statData.p };
-
-      this.request(options);
-    } }, { key: "_sendHideRequest", value: function _sendHideRequest(
-
-    opt, type) {var
-
-      urlref =
-
-      opt.urlref,urlref_ts = opt.urlref_ts;
-      var options = {
-        ak: this.statData.ak,
-        uuid: this.statData.uuid,
-        lt: '3',
-        ut: this.statData.ut,
-        urlref: urlref,
-        urlref_ts: urlref_ts,
-        ch: this.statData.ch,
-        usv: this.statData.usv,
-        t: getTime(),
-        p: this.statData.p };
-
-      this.request(options, type);
-    } }, { key: "_sendEventRequest", value: function _sendEventRequest()
-
-
-
-    {var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},_ref$key = _ref.key,key = _ref$key === void 0 ? '' : _ref$key,_ref$value = _ref.value,value = _ref$value === void 0 ? "" : _ref$value;
-      var route = this._lastPageRoute;
-      var options = {
-        ak: this.statData.ak,
-        uuid: this.statData.uuid,
-        lt: '21',
-        ut: this.statData.ut,
-        url: route,
-        ch: this.statData.ch,
-        e_n: key,
-        e_v: typeof value === 'object' ? JSON.stringify(value) : value.toString(),
-        usv: this.statData.usv,
-        t: getTime(),
-        p: this.statData.p };
-
-      this.request(options);
-    } }, { key: "getNetworkInfo", value: function getNetworkInfo()
-
-    {var _this = this;
-      uni.getNetworkType({
-        success: function success(result) {
-          _this.statData.net = result.networkType;
-          _this.getLocation();
-        } });
-
-    } }, { key: "getProperty", value: function getProperty()
-
-    {var _this2 = this;
-      plus.runtime.getProperty(plus.runtime.appid, function (wgtinfo) {
-        _this2.statData.v = wgtinfo.version || '';
-        _this2.getNetworkInfo();
-      });
-    } }, { key: "getLocation", value: function getLocation()
-
-    {var _this3 = this;
-      if (statConfig.getLocation) {
-        uni.getLocation({
-          type: 'wgs84',
-          geocode: true,
-          success: function success(result) {
-            if (result.address) {
-              _this3.statData.cn = result.address.country;
-              _this3.statData.pn = result.address.province;
-              _this3.statData.ct = result.address.city;
-            }
-
-            _this3.statData.lat = result.latitude;
-            _this3.statData.lng = result.longitude;
-            _this3.request(_this3.statData);
-          } });
-
-      } else {
-        this.statData.lat = 0;
-        this.statData.lng = 0;
-        this.request(this.statData);
-      }
-    } }, { key: "request", value: function request(
-
-    data, type) {var _this4 = this;
-      var time = getTime();
-      var title = this._navigationBarTitle;
-      data.ttn = title.page;
-      data.ttpj = title.config;
-      data.ttc = title.report;
-
-      var requestData = this._reportingRequestData;
-      if (getPlatformName() === 'n') {
-        requestData = uni.getStorageSync('__UNI__STAT__DATA') || {};
-      }
-      if (!requestData[data.lt]) {
-        requestData[data.lt] = [];
-      }
-      requestData[data.lt].push(data);
-
-      if (getPlatformName() === 'n') {
-        uni.setStorageSync('__UNI__STAT__DATA', requestData);
-      }
-      if (getPageResidenceTime() < OPERATING_TIME && !type) {
-        return;
-      }
-      var uniStatData = this._reportingRequestData;
-      if (getPlatformName() === 'n') {
-        uniStatData = uni.getStorageSync('__UNI__STAT__DATA');
-      }
-      // 时间超过，重新获取时间戳
-      setPageResidenceTime();
-      var firstArr = [];
-      var contentArr = [];
-      var lastArr = [];var _loop = function _loop(
-
-      i) {
-        var rd = uniStatData[i];
-        rd.forEach(function (elm) {
-          var newData = getSplicing(elm);
-          if (i === 0) {
-            firstArr.push(newData);
-          } else if (i === 3) {
-            lastArr.push(newData);
-          } else {
-            contentArr.push(newData);
-          }
-        });};for (var i in uniStatData) {_loop(i);
-      }
-
-      firstArr.push.apply(firstArr, contentArr.concat(lastArr));
-      var optionsData = {
-        usv: STAT_VERSION, //统计 SDK 版本号
-        t: time, //发送请求时的时间戮
-        requests: JSON.stringify(firstArr) };
-
-
-      this._reportingRequestData = {};
-      if (getPlatformName() === 'n') {
-        uni.removeStorageSync('__UNI__STAT__DATA');
-      }
-
-      if (data.ut === 'h5') {
-        this.imageRequest(optionsData);
-        return;
-      }
-
-      if (getPlatformName() === 'n' && this.statData.p === 'a') {
-        setTimeout(function () {
-          _this4._sendRequest(optionsData);
-        }, 200);
-        return;
-      }
-      this._sendRequest(optionsData);
-    } }, { key: "_sendRequest", value: function _sendRequest(
-    optionsData) {var _this5 = this;
-      uni.request({
-        url: STAT_URL,
-        method: 'POST',
-        // header: {
-        //   'content-type': 'application/json' // 默认值
-        // },
-        data: optionsData,
-        success: function success() {
-          // if (process.env.NODE_ENV === 'development') {
-          //   console.log('stat request success');
-          // }
-        },
-        fail: function fail(e) {
-          if (++_this5._retry < 3) {
-            setTimeout(function () {
-              _this5._sendRequest(optionsData);
-            }, 1000);
-          }
-        } });
-
-    }
-    /**
-       * h5 请求
-       */ }, { key: "imageRequest", value: function imageRequest(
-    data) {
-      var image = new Image();
-      var options = getSgin(GetEncodeURIComponentOptions(data)).options;
-      image.src = STAT_H5_URL + '?' + options;
-    } }, { key: "sendEvent", value: function sendEvent(
-
-    key, value) {
-      // 校验 type 参数
-      if (calibration(key, value)) return;
-
-      if (key === 'title') {
-        this._navigationBarTitle.report = value;
-        return;
-      }
-      this._sendEventRequest({
-        key: key,
-        value: typeof value === 'object' ? JSON.stringify(value) : value },
-      1);
-    } }]);return Util;}();var
-
-
-
-Stat = /*#__PURE__*/function (_Util) {_inherits(Stat, _Util);_createClass(Stat, null, [{ key: "getInstance", value: function getInstance()
-    {
-      if (!this.instance) {
-        this.instance = new Stat();
-      }
-      return this.instance;
-    } }]);
-  function Stat() {var _this6;_classCallCheck(this, Stat);
-    _this6 = _possibleConstructorReturn(this, _getPrototypeOf(Stat).call(this));
-    _this6.instance = null;
-    // 注册拦截器
-    if (typeof uni.addInterceptor === 'function' && "development" !== 'development') {
-      _this6.addInterceptorInit();
-      _this6.interceptLogin();
-      _this6.interceptShare(true);
-      _this6.interceptRequestPayment();
-    }return _this6;
-  }_createClass(Stat, [{ key: "addInterceptorInit", value: function addInterceptorInit()
-
-    {
-      var self = this;
-      uni.addInterceptor('setNavigationBarTitle', {
-        invoke: function invoke(args) {
-          self._navigationBarTitle.page = args.title;
-        } });
-
-    } }, { key: "interceptLogin", value: function interceptLogin()
-
-    {
-      var self = this;
-      uni.addInterceptor('login', {
-        complete: function complete() {
-          self._login();
-        } });
-
-    } }, { key: "interceptShare", value: function interceptShare(
-
-    type) {
-      var self = this;
-      if (!type) {
-        self._share();
-        return;
-      }
-      uni.addInterceptor('share', {
-        success: function success() {
-          self._share();
-        },
-        fail: function fail() {
-          self._share();
-        } });
-
-    } }, { key: "interceptRequestPayment", value: function interceptRequestPayment()
-
-    {
-      var self = this;
-      uni.addInterceptor('requestPayment', {
-        success: function success() {
-          self._payment('pay_success');
-        },
-        fail: function fail() {
-          self._payment('pay_fail');
-        } });
-
-    } }, { key: "report", value: function report(
-
-    options, self) {
-      this.self = self;
-      // if (process.env.NODE_ENV === 'development') {
-      //   console.log('report init');
-      // }
-      setPageResidenceTime();
-      this.__licationShow = true;
-      this._sendReportRequest(options, true);
-    } }, { key: "load", value: function load(
-
-    options, self) {
-      if (!self.$scope && !self.$mp) {
-        var page = getCurrentPages();
-        self.$scope = page[page.length - 1];
-      }
-      this.self = self;
-      this._query = options;
-    } }, { key: "show", value: function show(
-
-    self) {
-      this.self = self;
-      if (getPageTypes(self)) {
-        this._pageShow(self);
-      } else {
-        this._applicationShow(self);
-      }
-    } }, { key: "ready", value: function ready(
-
-    self) {
-      // this.self = self;
-      // if (getPageTypes(self)) {
-      //   this._pageShow(self);
-      // }
-    } }, { key: "hide", value: function hide(
-    self) {
-      this.self = self;
-      if (getPageTypes(self)) {
-        this._pageHide(self);
-      } else {
-        this._applicationHide(self, true);
-      }
-    } }, { key: "error", value: function error(
-    em) {
-      if (this._platform === 'devtools') {
-        if (true) {
-          console.info('当前运行环境为开发者工具，不上报数据。');
-        }
-        // return;
-      }
-      var emVal = '';
-      if (!em.message) {
-        emVal = JSON.stringify(em);
-      } else {
-        emVal = em.stack;
-      }
-      var options = {
-        ak: this.statData.ak,
-        uuid: this.statData.uuid,
-        lt: '31',
-        ut: this.statData.ut,
-        ch: this.statData.ch,
-        mpsdk: this.statData.mpsdk,
-        mpv: this.statData.mpv,
-        v: this.statData.v,
-        em: emVal,
-        usv: this.statData.usv,
-        t: getTime(),
-        p: this.statData.p };
-
-      this.request(options);
-    } }]);return Stat;}(Util);
-
-
-var stat = Stat.getInstance();
-var isHide = false;
-var lifecycle = {
-  onLaunch: function onLaunch(options) {
-    stat.report(options, this);
-  },
-  onReady: function onReady() {
-    stat.ready(this);
-  },
-  onLoad: function onLoad(options) {
-    stat.load(options, this);
-    // 重写分享，获取分享上报事件
-    if (this.$scope && this.$scope.onShareAppMessage) {
-      var oldShareAppMessage = this.$scope.onShareAppMessage;
-      this.$scope.onShareAppMessage = function (options) {
-        stat.interceptShare(false);
-        return oldShareAppMessage.call(this, options);
-      };
-    }
-  },
-  onShow: function onShow() {
-    isHide = false;
-    stat.show(this);
-  },
-  onHide: function onHide() {
-    isHide = true;
-    stat.hide(this);
-  },
-  onUnload: function onUnload() {
-    if (isHide) {
-      isHide = false;
-      return;
-    }
-    stat.hide(this);
-  },
-  onError: function onError(e) {
-    stat.error(e);
-  } };
-
-
-function main() {
-  if (true) {
-    uni.report = function (type, options) {};
-  } else { var Vue; }
-}
-
-main();
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-
-/***/ 6:
-/*!******************************************************!*\
-  !*** ./node_modules/@dcloudio/uni-stat/package.json ***!
-  \******************************************************/
-/*! exports provided: _from, _id, _inBundle, _integrity, _location, _phantomChildren, _requested, _requiredBy, _resolved, _shasum, _spec, _where, author, bugs, bundleDependencies, deprecated, description, devDependencies, files, gitHead, homepage, license, main, name, repository, scripts, version, default */
-/***/ (function(module) {
-
-module.exports = {"_from":"@dcloudio/uni-stat@alpha","_id":"@dcloudio/uni-stat@2.0.0-alpha-25720200116005","_inBundle":false,"_integrity":"sha512-RZFw3WAaS/CZTzzv9JPaWvmoNitojD/06vPdHSzlqZi8GbuE222lFuyochEjrGkG8rPPrWHAnwfoPBuQVtkfdg==","_location":"/@dcloudio/uni-stat","_phantomChildren":{},"_requested":{"type":"tag","registry":true,"raw":"@dcloudio/uni-stat@alpha","name":"@dcloudio/uni-stat","escapedName":"@dcloudio%2funi-stat","scope":"@dcloudio","rawSpec":"alpha","saveSpec":null,"fetchSpec":"alpha"},"_requiredBy":["#USER","/","/@dcloudio/vue-cli-plugin-uni"],"_resolved":"https://registry.npmjs.org/@dcloudio/uni-stat/-/uni-stat-2.0.0-alpha-25720200116005.tgz","_shasum":"08bb17aba91c84a981f33d74153aa3dd07b578ad","_spec":"@dcloudio/uni-stat@alpha","_where":"/Users/guoshengqiang/Documents/dcloud-plugins/alpha/uniapp-cli","author":"","bugs":{"url":"https://github.com/dcloudio/uni-app/issues"},"bundleDependencies":false,"deprecated":false,"description":"","devDependencies":{"@babel/core":"^7.5.5","@babel/preset-env":"^7.5.5","eslint":"^6.1.0","rollup":"^1.19.3","rollup-plugin-babel":"^4.3.3","rollup-plugin-clear":"^2.0.7","rollup-plugin-commonjs":"^10.0.2","rollup-plugin-copy":"^3.1.0","rollup-plugin-eslint":"^7.0.0","rollup-plugin-json":"^4.0.0","rollup-plugin-node-resolve":"^5.2.0","rollup-plugin-replace":"^2.2.0","rollup-plugin-uglify":"^6.0.2"},"files":["dist","package.json","LICENSE"],"gitHead":"a129bde60de35f7ef497f43d5a45b4556231995c","homepage":"https://github.com/dcloudio/uni-app#readme","license":"Apache-2.0","main":"dist/index.js","name":"@dcloudio/uni-stat","repository":{"type":"git","url":"git+https://github.com/dcloudio/uni-app.git","directory":"packages/uni-stat"},"scripts":{"build":"NODE_ENV=production rollup -c rollup.config.js","dev":"NODE_ENV=development rollup -w -c rollup.config.js"},"version":"2.0.0-alpha-25720200116005"};
-
-/***/ }),
-
-/***/ 7:
-/*!**************************************************!*\
-  !*** E:/project/XQK/pages.json?{"type":"style"} ***!
-  \**************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/tabBar/index/index": { "navigationBarTitleText": "星球客", "navigationStyle": "custom" }, "pages/tabBar/list/list": { "navigationBarTitleText": "星语" }, "pages/tabBar/xingkong/xingkong": { "navigationBarTitleText": "星控" }, "pages/tabBar/order/order": { "navigationBarTitleText": "订单" }, "pages/tabBar/my/my": { "navigationBarTitleText": "我的" }, "pages/location/cityList": { "navigationBarTitleText": "选择城市" } }, "globalStyle": { "navigationBarTextStyle": "black", "navigationBarTitleText": "星球客", "navigationBarBackgroundColor": "#ffffff", "backgroundColor": "#F8F8F8" } };exports.default = _default;
-
-/***/ }),
-
-/***/ 71:
-/*!*********************************************!*\
-  !*** E:/project/XQK/pages/location/city.js ***!
-  \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var city = [{
-  'id': '35',
-  'provincecode': '150000',
-  'city': '阿拉善盟',
-  'code': '152900',
-  'initial': 'A',
-  'short': 'Alashanmeng' },
-{
-  'id': '38',
-  'provincecode': '210000',
-  'city': '鞍山市',
-  'code': '210300',
-  'initial': 'A',
-  'short': 'Anshan' },
-{
-  'id': '105',
-  'provincecode': '340000',
-  'city': '安庆市',
-  'code': '340800',
-  'initial': 'A',
-  'short': 'Anqing' },
-{
-  'id': '156',
-  'provincecode': '410000',
-  'city': '安阳市',
-  'code': '410500',
-  'initial': 'A',
-  'short': 'Anyang' },
-{
-  'id': '256',
-  'provincecode': '510000',
-  'city': '阿坝藏族羌族自治州',
-  'code': '513200',
-  'initial': 'A',
-  'short': 'Aba' },
-{
-  'id': '262',
-  'provincecode': '520000',
-  'city': '安顺市',
-  'code': '520400',
-  'initial': 'A',
-  'short': 'Anshun' },
-{
-  'id': '289',
-  'provincecode': '540000',
-  'city': '阿里地区',
-  'code': '542500',
-  'initial': 'A',
-  'short': 'Ali' },
-{
-  'id': '299',
-  'provincecode': '610000',
-  'city': '安康市',
-  'code': '610900',
-  'initial': 'A',
-  'short': 'Ankang' },
-{
-  'id': '335',
-  'provincecode': '650000',
-  'city': '阿克苏地区',
-  'code': '652900',
-  'initial': 'A',
-  'short': 'Akesu' },
-{
-  'id': '341',
-  'provincecode': '650000',
-  'city': '阿勒泰地区',
-  'code': '654300',
-  'initial': 'A',
-  'short': 'Aletai' },
-{
-  'id': '1',
-  'provincecode': '110000',
-  'city': '北京市',
-  'code': '110000',
-  'initial': 'B',
-  'short': 'Beijing' },
-{
-  'id': '7',
-  'provincecode': '130000',
-  'city': '保定市',
-  'code': '130600',
-  'initial': 'B',
-  'short': 'Baoding' },
-{
-  'id': '25',
-  'provincecode': '150000',
-  'city': '包头市',
-  'code': '150200',
-  'initial': 'B',
-  'short': 'Baotou' },
-{
-  'id': '31',
-  'provincecode': '150000',
-  'city': '巴彦淖尔市',
-  'code': '150800',
-  'initial': 'B',
-  'short': 'Bayannaoer' },
-{
-  'id': '40',
-  'provincecode': '210000',
-  'city': '本溪市',
-  'code': '210500',
-  'initial': 'B',
-  'short': 'Benxi' },
-{
-  'id': '55',
-  'provincecode': '220000',
-  'city': '白山市',
-  'code': '220600',
-  'initial': 'B',
-  'short': 'Baishan' },
-{
-  'id': '57',
-  'provincecode': '220000',
-  'city': '白城市',
-  'code': '220800',
-  'initial': 'B',
-  'short': 'Baicheng' },
-{
-  'id': '100',
-  'provincecode': '340000',
-  'city': '蚌埠市',
-  'code': '340300',
-  'initial': 'B',
-  'short': 'Bangbu' },
-{
-  'id': '150',
-  'provincecode': '370000',
-  'city': '滨州市',
-  'code': '371600',
-  'initial': 'B',
-  'short': 'Binzhou' },
-{
-  'id': '222',
-  'provincecode': '450000',
-  'city': '北海市',
-  'code': '450500',
-  'initial': 'B',
-  'short': 'Beihai' },
-{
-  'id': '227',
-  'provincecode': '450000',
-  'city': '百色市',
-  'code': '451000',
-  'initial': 'B',
-  'short': 'Baise' },
-{
-  'id': '254',
-  'provincecode': '510000',
-  'city': '巴中市',
-  'code': '511900',
-  'initial': 'B',
-  'short': 'Bazhong' },
-{
-  'id': '265',
-  'provincecode': '520000',
-  'city': '毕节地区',
-  'code': '522400',
-  'initial': 'B',
-  'short': 'Bijie' },
-{
-  'id': '271',
-  'provincecode': '530000',
-  'city': '保山市',
-  'code': '530500',
-  'initial': 'B',
-  'short': 'Baoshan' },
-{
-  'id': '293',
-  'provincecode': '610000',
-  'city': '宝鸡市',
-  'code': '610300',
-  'initial': 'B',
-  'short': 'Baoji' },
-{
-  'id': '304',
-  'provincecode': '620000',
-  'city': '白银市',
-  'code': '620400',
-  'initial': 'B',
-  'short': 'Baiyin' },
-{
-  'id': '333',
-  'provincecode': '650000',
-  'city': '博尔塔拉蒙古自治州',
-  'code': '652700',
-  'initial': 'B',
-  'short': 'Boertala' },
-{
-  'id': '334',
-  'provincecode': '650000',
-  'city': '巴音郭楞蒙古自治州',
-  'code': '652800',
-  'initial': 'B',
-  'short': 'Bayinguoleng' },
-{
-  'id': '',
-  'provincecode': '500000',
-  'city': '重庆市',
-  'code': '500000',
-  'initial': 'C',
-  'short': 'Chongqing' },
-{
-  'id': '9',
-  'provincecode': '130000',
-  'city': '承德市',
-  'code': '130800',
-  'initial': 'C',
-  'short': 'Chengde' },
-{
-  'id': '10',
-  'provincecode': '130000',
-  'city': '沧州市',
-  'code': '130900',
-  'initial': 'C',
-  'short': 'Cangzhou' },
-{
-  'id': '16',
-  'provincecode': '140000',
-  'city': '长治市',
-  'code': '140400',
-  'initial': 'C',
-  'short': 'Changzhi' },
-{
-  'id': '27',
-  'provincecode': '150000',
-  'city': '赤峰市',
-  'code': '150400',
-  'initial': 'C',
-  'short': 'Chifeng' },
-{
-  'id': '48',
-  'provincecode': '210000',
-  'city': '朝阳市',
-  'code': '211300',
-  'initial': 'C',
-  'short': 'Chaoyang' },
-{
-  'id': '50',
-  'provincecode': '220000',
-  'city': '长春市',
-  'code': '220100',
-  'initial': 'C',
-  'short': 'Changchun' },
-{
-  'id': '77',
-  'provincecode': '320000',
-  'city': '常州市',
-  'code': '320400',
-  'initial': 'C',
-  'short': 'Changzhou' },
-{
-  'id': '107',
-  'provincecode': '340000',
-  'city': '滁州市',
-  'code': '341100',
-  'initial': 'C',
-  'short': 'Chuzhou' },
-{
-  'id': '110',
-  'provincecode': '340000',
-  'city': '巢湖市',
-  'code': '341400',
-  'initial': 'C',
-  'short': 'Chaohu' },
-{
-  'id': '113',
-  'provincecode': '340000',
-  'city': '池州市',
-  'code': '341700',
-  'initial': 'C',
-  'short': 'Chizhou' },
-{
-  'id': '183',
-  'provincecode': '430000',
-  'city': '长沙市',
-  'code': '430100',
-  'initial': 'C',
-  'short': 'Changsha' },
-{
-  'id': '189',
-  'provincecode': '430000',
-  'city': '常德市',
-  'code': '430700',
-  'initial': 'C',
-  'short': 'Changde' },
-{
-  'id': '192',
-  'provincecode': '430000',
-  'city': '郴州市',
-  'code': '431000',
-  'initial': 'C',
-  'short': 'Chenzhou' },
-{
-  'id': '215',
-  'provincecode': '440000',
-  'city': '潮州市',
-  'code': '445100',
-  'initial': 'C',
-  'short': 'Chaozhou' },
-{
-  'id': '231',
-  'provincecode': '450000',
-  'city': '崇左市',
-  'code': '451400',
-  'initial': 'C',
-  'short': 'Chongzuo' },
-{
-  'id': '238',
-  'provincecode': '510000',
-  'city': '成都市',
-  'code': '510100',
-  'initial': 'C',
-  'short': 'Chengdu' },
-{
-  'id': '276',
-  'provincecode': '530000',
-  'city': '楚雄彝族自治州',
-  'code': '532300',
-  'initial': 'C',
-  'short': 'Chuxiong' },
-{
-  'id': '285',
-  'provincecode': '540000',
-  'city': '昌都地区',
-  'code': '542100',
-  'initial': 'C',
-  'short': 'Changdu' },
-{
-  'id': '332',
-  'provincecode': '650000',
-  'city': '昌吉回族自治州',
-  'code': '652300',
-  'initial': 'C',
-  'short': 'Changji' },
-{
-  'id': '14',
-  'provincecode': '140000',
-  'city': '大同市',
-  'code': '140200',
-  'initial': 'D',
-  'short': 'Datong' },
-{
-  'id': '37',
-  'provincecode': '210000',
-  'city': '大连市',
-  'code': '210200',
-  'initial': 'D',
-  'short': 'Dalian' },
-{
-  'id': '41',
-  'provincecode': '210000',
-  'city': '丹东市',
-  'code': '210600',
-  'initial': 'D',
-  'short': 'Dandong' },
-{
-  'id': '64',
-  'provincecode': '230000',
-  'city': '大庆市',
-  'code': '230600',
-  'initial': 'D',
-  'short': 'Daqing' },
-{
-  'id': '71',
-  'provincecode': '230000',
-  'city': '大兴安岭地区',
-  'code': '232700',
-  'initial': 'D',
-  'short': 'Daxinganling' },
-{
-  'id': '139',
-  'provincecode': '370000',
-  'city': '东营市',
-  'code': '370500',
-  'initial': 'D',
-  'short': 'Dongying' },
-{
-  'id': '148',
-  'provincecode': '370000',
-  'city': '德州市',
-  'code': '371400',
-  'initial': 'D',
-  'short': 'Dezhou' },
-{
-  'id': '213',
-  'provincecode': '440000',
-  'city': '东莞市',
-  'code': '441900',
-  'initial': 'D',
-  'short': 'Dongguan' },
-{
-  'id': '242',
-  'provincecode': '510000',
-  'city': '德阳市',
-  'code': '510600',
-  'initial': 'D',
-  'short': 'Deyang' },
-{
-  'id': '252',
-  'provincecode': '510000',
-  'city': '达州市',
-  'code': '511700',
-  'initial': 'D',
-  'short': 'Dazhou' },
-{
-  'id': '280',
-  'provincecode': '530000',
-  'city': '大理白族自治州',
-  'code': '532900',
-  'initial': 'D',
-  'short': 'Dali' },
-{
-  'id': '281',
-  'provincecode': '530000',
-  'city': '德宏傣族景颇族自治州',
-  'code': '533100',
-  'initial': 'D',
-  'short': 'Dehong' },
-{
-  'id': '283',
-  'provincecode': '530000',
-  'city': '迪庆藏族自治州',
-  'code': '533400',
-  'initial': 'D',
-  'short': 'Diqing' },
-{
-  'id': '311',
-  'provincecode': '620000',
-  'city': '定西市',
-  'code': '621100',
-  'initial': 'D',
-  'short': 'Dingxi' },
-{
-  'id': '29',
-  'provincecode': '150000',
-  'city': '鄂尔多斯市',
-  'code': '150600',
-  'initial': 'E',
-  'short': 'Eerduosi' },
-{
-  'id': '174',
-  'provincecode': '420000',
-  'city': '鄂州市',
-  'code': '420700',
-  'initial': 'E',
-  'short': 'Ezhou' },
-{
-  'id': '181',
-  'provincecode': '420000',
-  'city': '恩施土家族苗族自治州',
-  'code': '422800',
-  'initial': 'E',
-  'short': 'Enshi' },
-{
-  'id': '39',
-  'provincecode': '210000',
-  'city': '抚顺市',
-  'code': '210400',
-  'initial': 'F',
-  'short': 'Fushun' },
-{
-  'id': '44',
-  'provincecode': '210000',
-  'city': '阜新市',
-  'code': '210900',
-  'initial': 'F',
-  'short': 'Fuxin' },
-{
-  'id': '108',
-  'provincecode': '340000',
-  'city': '阜阳市',
-  'code': '341200',
-  'initial': 'F',
-  'short': 'Fuyang' },
-{
-  'id': '115',
-  'provincecode': '350000',
-  'city': '福州市',
-  'code': '350100',
-  'initial': 'F',
-  'short': 'Fuzhou' },
-{
-  'id': '133',
-  'provincecode': '360000',
-  'city': '抚州市',
-  'code': '361000',
-  'initial': 'F',
-  'short': 'Fuzhou' },
-{
-  'id': '202',
-  'provincecode': '440000',
-  'city': '佛山市',
-  'code': '440600',
-  'initial': 'F',
-  'short': 'Foshan' },
-{
-  'id': '223',
-  'provincecode': '450000',
-  'city': '防城港市',
-  'code': '450600',
-  'initial': 'F',
-  'short': 'Fangchenggang' },
-{
-  'id': '130',
-  'provincecode': '360000',
-  'city': '赣州市',
-  'code': '360700',
-  'initial': 'G',
-  'short': 'Ganzhou' },
-{
-  'id': '197',
-  'provincecode': '440000',
-  'city': '广州市',
-  'code': '440100',
-  'initial': 'G',
-  'short': 'Guangzhou' },
-{
-  'id': '220',
-  'provincecode': '450000',
-  'city': '桂林市',
-  'code': '450300',
-  'initial': 'G',
-  'short': 'Guilin' },
-{
-  'id': '225',
-  'provincecode': '450000',
-  'city': '贵港市',
-  'code': '450800',
-  'initial': 'G',
-  'short': 'Guigang' },
-{
-  'id': '244',
-  'provincecode': '510000',
-  'city': '广元市',
-  'code': '510800',
-  'initial': 'G',
-  'short': 'Guangyuan' },
-{
-  'id': '251',
-  'provincecode': '510000',
-  'city': '广安市',
-  'code': '511600',
-  'initial': 'G',
-  'short': 'Guangan' },
-{
-  'id': '257',
-  'provincecode': '510000',
-  'city': '甘孜藏族自治州',
-  'code': '513300',
-  'initial': 'G',
-  'short': 'Ganzi' },
-{
-  'id': '259',
-  'provincecode': '520000',
-  'city': '贵阳市',
-  'code': '520100',
-  'initial': 'G',
-  'short': 'Guiyang' },
-{
-  'id': '314',
-  'provincecode': '620000',
-  'city': '甘南藏族自治州',
-  'code': '623000',
-  'initial': 'G',
-  'short': 'Gannan' },
-{
-  'id': '320',
-  'provincecode': '630000',
-  'city': '果洛藏族自治州',
-  'code': '632600',
-  'initial': 'G',
-  'short': 'Guoluo' },
-{
-  'id': '326',
-  'provincecode': '640000',
-  'city': '固原市',
-  'code': '640400',
-  'initial': 'G',
-  'short': 'Guyuan' },
-{
-  'id': '5',
-  'provincecode': '130000',
-  'city': '邯郸市',
-  'code': '130400',
-  'initial': 'H',
-  'short': 'Handan' },
-{
-  'id': '12',
-  'provincecode': '130000',
-  'city': '衡水市',
-  'code': '131100',
-  'initial': 'H',
-  'short': 'Hengshui' },
-{
-  'id': '',
-  'provincecode': '370000',
-  'city': '菏泽市',
-  'code': '371700',
-  'initial': 'H',
-  'short': 'Heze' },
-{
-  'id': '24',
-  'provincecode': '150000',
-  'city': '呼和浩特市',
-  'code': '150100',
-  'initial': 'H',
-  'short': 'Huhehaote' },
-{
-  'id': '30',
-  'provincecode': '150000',
-  'city': '呼伦贝尔市',
-  'code': '150700',
-  'initial': 'H',
-  'short': 'Hulunbeier' },
-{
-  'id': '49',
-  'provincecode': '210000',
-  'city': '葫芦岛市',
-  'code': '211400',
-  'initial': 'H',
-  'short': 'Huludao' },
-{
-  'id': '59',
-  'provincecode': '230000',
-  'city': '哈尔滨市',
-  'code': '230100',
-  'initial': 'H',
-  'short': 'Haerbin' },
-{
-  'id': '62',
-  'provincecode': '230000',
-  'city': '鹤岗市',
-  'code': '230400',
-  'initial': 'H',
-  'short': 'Hegang' },
-{
-  'id': '69',
-  'provincecode': '230000',
-  'city': '黑河市',
-  'code': '231100',
-  'initial': 'H',
-  'short': 'Heihe' },
-{
-  'id': '81',
-  'provincecode': '320000',
-  'city': '淮安市',
-  'code': '320800',
-  'initial': 'H',
-  'short': 'Huaian' },
-{
-  'id': '87',
-  'provincecode': '330000',
-  'city': '杭州市',
-  'code': '330100',
-  'initial': 'H',
-  'short': 'Hangzhou' },
-{
-  'id': '91',
-  'provincecode': '330000',
-  'city': '湖州市',
-  'code': '330500',
-  'initial': 'H',
-  'short': 'Huzhou' },
-{
-  'id': '98',
-  'provincecode': '340000',
-  'city': '合肥市',
-  'code': '340100',
-  'initial': 'H',
-  'short': 'Hefei' },
-{
-  'id': '101',
-  'provincecode': '340000',
-  'city': '淮南市',
-  'code': '340400',
-  'initial': 'H',
-  'short': 'Huainan' },
-{
-  'id': '103',
-  'provincecode': '340000',
-  'city': '淮北市',
-  'code': '340600',
-  'initial': 'H',
-  'short': 'Huaibei' },
-{
-  'id': '106',
-  'provincecode': '340000',
-  'city': '黄山市',
-  'code': '341000',
-  'initial': 'H',
-  'short': 'Huangshan' },
-{
-  'id': '112',
-  'provincecode': '340000',
-  'city': '亳州市',
-  'code': '341600',
-  'initial': 'H',
-  'short': 'Bozhou' },
-{
-  'id': '157',
-  'provincecode': '410000',
-  'city': '鹤壁市',
-  'code': '410600',
-  'initial': 'H',
-  'short': 'Hebi' },
-{
-  'id': '170',
-  'provincecode': '420000',
-  'city': '黄石市',
-  'code': '420200',
-  'initial': 'H',
-  'short': 'Huangshi' },
-{
-  'id': '178',
-  'provincecode': '420000',
-  'city': '黄冈市',
-  'code': '421100',
-  'initial': 'H',
-  'short': 'Huanggang' },
-{
-  'id': '186',
-  'provincecode': '430000',
-  'city': '衡阳市',
-  'code': '430400',
-  'initial': 'H',
-  'short': 'Hengyang' },
-{
-  'id': '194',
-  'provincecode': '430000',
-  'city': '怀化市',
-  'code': '431200',
-  'initial': 'H',
-  'short': 'Huaihua' },
-{
-  'id': '207',
-  'provincecode': '440000',
-  'city': '惠州市',
-  'code': '441300',
-  'initial': 'H',
-  'short': 'Huizhou' },
-{
-  'id': '210',
-  'provincecode': '440000',
-  'city': '河源市',
-  'code': '441600',
-  'initial': 'H',
-  'short': 'Heyuan' },
-{
-  'id': '228',
-  'provincecode': '450000',
-  'city': '贺州市',
-  'code': '451100',
-  'initial': 'H',
-  'short': 'Hezhou' },
-{
-  'id': '229',
-  'provincecode': '450000',
-  'city': '河池市',
-  'code': '451200',
-  'initial': 'H',
-  'short': 'Hechi' },
-{
-  'id': '232',
-  'provincecode': '460000',
-  'city': '海口市',
-  'code': '460100',
-  'initial': 'H',
-  'short': 'Haikou' },
-{
-  'id': '277',
-  'provincecode': '530000',
-  'city': '红河哈尼族彝族自治州',
-  'code': '532500',
-  'initial': 'H',
-  'short': 'Honghe' },
-{
-  'id': '297',
-  'provincecode': '610000',
-  'city': '汉中市',
-  'code': '610700',
-  'initial': 'H',
-  'short': 'Hanzhong' },
-{
-  'id': '316',
-  'provincecode': '630000',
-  'city': '海东地区',
-  'code': '632100',
-  'initial': 'H',
-  'short': 'Haidong' },
-{
-  'id': '317',
-  'provincecode': '630000',
-  'city': '海北藏族自治州',
-  'code': '632200',
-  'initial': 'H',
-  'short': 'Haibei' },
-{
-  'id': '318',
-  'provincecode': '630000',
-  'city': '黄南藏族自治州',
-  'code': '632300',
-  'initial': 'H',
-  'short': 'Huangnan' },
-{
-  'id': '319',
-  'provincecode': '630000',
-  'city': '海南藏族自治州',
-  'code': '632500',
-  'initial': 'H',
-  'short': 'Hainan' },
-{
-  'id': '322',
-  'provincecode': '630000',
-  'city': '海西蒙古族藏族自治州',
-  'code': '632800',
-  'initial': 'H',
-  'short': 'Haixi' },
-{
-  'id': '331',
-  'provincecode': '650000',
-  'city': '哈密地区',
-  'code': '652200',
-  'initial': 'H',
-  'short': 'Hami' },
-{
-  'id': '338',
-  'provincecode': '650000',
-  'city': '和田地区',
-  'code': '653200',
-  'initial': 'H',
-  'short': 'Hetiandi' },
-{
-  'id': '17',
-  'provincecode': '140000',
-  'city': '晋城市',
-  'code': '140500',
-  'initial': 'J',
-  'short': 'Jincheng' },
-{
-  'id': '19',
-  'provincecode': '140000',
-  'city': '晋中市',
-  'code': '140700',
-  'initial': 'J',
-  'short': 'Jinzhong' },
-{
-  'id': '42',
-  'provincecode': '210000',
-  'city': '锦州市',
-  'code': '210700',
-  'initial': 'J',
-  'short': 'Jinzhou' },
-{
-  'id': '51',
-  'provincecode': '220000',
-  'city': '吉林市',
-  'code': '220200',
-  'initial': 'J',
-  'short': 'Jilin' },
-{
-  'id': '61',
-  'provincecode': '230000',
-  'city': '鸡西市',
-  'code': '230300',
-  'initial': 'J',
-  'short': 'Jixi' },
-{
-  'id': '66',
-  'provincecode': '230000',
-  'city': '佳木斯市',
-  'code': '230800',
-  'initial': 'J',
-  'short': 'Jiamusi' },
-{
-  'id': '90',
-  'provincecode': '330000',
-  'city': '嘉兴市',
-  'code': '330400',
-  'initial': 'J',
-  'short': 'Jiaxing' },
-{
-  'id': '93',
-  'provincecode': '330000',
-  'city': '金华市',
-  'code': '330700',
-  'initial': 'J',
-  'short': 'Jinhua' },
-{
-  'id': '125',
-  'provincecode': '360000',
-  'city': '景德镇市',
-  'code': '360200',
-  'initial': 'J',
-  'short': 'Jingdezhen' },
-{
-  'id': '127',
-  'provincecode': '360000',
-  'city': '九江市',
-  'code': '360400',
-  'initial': 'J',
-  'short': 'Jiujiang' },
-{
-  'id': '131',
-  'provincecode': '360000',
-  'city': '吉安市',
-  'code': '360800',
-  'initial': 'J',
-  'short': 'Jian' },
-{
-  'id': '135',
-  'provincecode': '370000',
-  'city': '济南市',
-  'code': '370100',
-  'initial': 'J',
-  'short': 'Jinan' },
-{
-  'id': '142',
-  'provincecode': '370000',
-  'city': '济宁市',
-  'code': '370800',
-  'initial': 'J',
-  'short': 'Jining' },
-{
-  'id': '159',
-  'provincecode': '410000',
-  'city': '焦作市',
-  'code': '410800',
-  'initial': 'J',
-  'short': 'Jiaozuo' },
-{
-  'id': '175',
-  'provincecode': '420000',
-  'city': '荆门市',
-  'code': '420800',
-  'initial': 'J',
-  'short': 'Jingmen' },
-{
-  'id': '177',
-  'provincecode': '420000',
-  'city': '荆州市',
-  'code': '421000',
-  'initial': 'J',
-  'short': 'Jingzhou' },
-{
-  'id': '203',
-  'provincecode': '440000',
-  'city': '江门市',
-  'code': '440700',
-  'initial': 'J',
-  'short': 'Jiangmen' },
-{
-  'id': '216',
-  'provincecode': '440000',
-  'city': '揭阳市',
-  'code': '445200',
-  'initial': 'J',
-  'short': 'Jieyang' },
-{
-  'id': '302',
-  'provincecode': '620000',
-  'city': '嘉峪关市',
-  'code': '620200',
-  'initial': 'J',
-  'short': 'Jiayuguan' },
-{
-  'id': '303',
-  'provincecode': '620000',
-  'city': '金昌市',
-  'code': '620300',
-  'initial': 'J',
-  'short': 'Jinchang' },
-{
-  'id': '309',
-  'provincecode': '620000',
-  'city': '酒泉市',
-  'code': '620900',
-  'initial': 'J',
-  'short': 'Jiuquan' },
-{
-  'id': '153',
-  'provincecode': '410000',
-  'city': '开封市',
-  'code': '410200',
-  'initial': 'K',
-  'short': 'Kaifeng' },
-{
-  'id': '268',
-  'provincecode': '530000',
-  'city': '昆明市',
-  'code': '530100',
-  'initial': 'K',
-  'short': 'Kunming' },
-{
-  'id': '329',
-  'provincecode': '650000',
-  'city': '克拉玛依市',
-  'code': '650200',
-  'initial': 'K',
-  'short': 'Kelamayi' },
-{
-  'id': '336',
-  'provincecode': '650000',
-  'city': '克孜勒苏柯尔克孜自治州',
-  'code': '653000',
-  'initial': 'K',
-  'short': 'Kezile' },
-{
-  'id': '337',
-  'provincecode': '650000',
-  'city': '喀什地区',
-  'code': '653100',
-  'initial': 'K',
-  'short': 'Kashidi' },
-{
-  'id': '11',
-  'provincecode': '130000',
-  'city': '廊坊市',
-  'code': '131000',
-  'initial': 'L',
-  'short': 'Langfang' },
-{
-  'id': '22',
-  'provincecode': '140000',
-  'city': '临汾市',
-  'code': '141000',
-  'initial': 'L',
-  'short': 'Linfen' },
-{
-  'id': '23',
-  'provincecode': '140000',
-  'city': '吕梁市',
-  'code': '141100',
-  'initial': 'L',
-  'short': 'Lvliang' },
-{
-  'id': '45',
-  'provincecode': '210000',
-  'city': '辽阳市',
-  'code': '211000',
-  'initial': 'L',
-  'short': 'Liaoyang' },
-{
-  'id': '53',
-  'provincecode': '220000',
-  'city': '辽源市',
-  'code': '220400',
-  'initial': 'L',
-  'short': 'Liaoyuan' },
-{
-  'id': '80',
-  'provincecode': '320000',
-  'city': '连云港市',
-  'code': '320700',
-  'initial': 'L',
-  'short': 'Lianyungang' },
-{
-  'id': '97',
-  'provincecode': '330000',
-  'city': '丽水市',
-  'code': '331100',
-  'initial': 'L',
-  'short': 'Lishui' },
-{
-  'id': '111',
-  'provincecode': '340000',
-  'city': '六安市',
-  'code': '341500',
-  'initial': 'L',
-  'short': 'Liuan' },
-{
-  'id': '122',
-  'provincecode': '350000',
-  'city': '龙岩市',
-  'code': '350800',
-  'initial': 'L',
-  'short': 'Longyan' },
-{
-  'id': '146',
-  'provincecode': '370000',
-  'city': '莱芜市',
-  'code': '371200',
-  'initial': 'L',
-  'short': 'Laiwu' },
-{
-  'id': '147',
-  'provincecode': '370000',
-  'city': '临沂市',
-  'code': '371300',
-  'initial': 'L',
-  'short': 'Linyi' },
-{
-  'id': '149',
-  'provincecode': '370000',
-  'city': '聊城市',
-  'code': '371500',
-  'initial': 'L',
-  'short': 'Liaocheng' },
-{
-  'id': '154',
-  'provincecode': '410000',
-  'city': '洛阳市',
-  'code': '410300',
-  'initial': 'L',
-  'short': 'Luoyang' },
-{
-  'id': '162',
-  'provincecode': '410000',
-  'city': '漯河市',
-  'code': '411100',
-  'initial': 'L',
-  'short': 'Luohe' },
-{
-  'id': '195',
-  'provincecode': '430000',
-  'city': '娄底市',
-  'code': '431300',
-  'initial': 'L',
-  'short': 'Loudi' },
-{
-  'id': '219',
-  'provincecode': '450000',
-  'city': '柳州市',
-  'code': '450200',
-  'initial': 'L',
-  'short': 'Liuzhou' },
-{
-  'id': '230',
-  'provincecode': '450000',
-  'city': '来宾市',
-  'code': '451300',
-  'initial': 'L',
-  'short': 'Laibin' },
-{
-  'id': '241',
-  'provincecode': '510000',
-  'city': '泸州市',
-  'code': '510500',
-  'initial': 'L',
-  'short': 'Luzhou' },
-{
-  'id': '247',
-  'provincecode': '510000',
-  'city': '乐山市',
-  'code': '511100',
-  'initial': 'L',
-  'short': 'Leshan' },
-{
-  'id': '258',
-  'provincecode': '510000',
-  'city': '凉山彝族自治州',
-  'code': '513400',
-  'initial': 'L',
-  'short': 'Liangshan' },
-{
-  'id': '260',
-  'provincecode': '520000',
-  'city': '六盘水市',
-  'code': '520200',
-  'initial': 'L',
-  'short': 'Liupanshui' },
-{
-  'id': '273',
-  'provincecode': '530000',
-  'city': '丽江市',
-  'code': '530700',
-  'initial': 'L',
-  'short': 'Lijiang' },
-{
-  'id': '275',
-  'provincecode': '530000',
-  'city': '临沧市',
-  'code': '530900',
-  'initial': 'L',
-  'short': 'Lincang' },
-{
-  'id': '284',
-  'provincecode': '540000',
-  'city': '拉萨市',
-  'code': '540100',
-  'initial': 'L',
-  'short': 'Lasa' },
-{
-  'id': '290',
-  'provincecode': '540000',
-  'city': '林芝地区',
-  'code': '542600',
-  'initial': 'L',
-  'short': 'Linzhi' },
-{
-  'id': '301',
-  'provincecode': '620000',
-  'city': '兰州市',
-  'code': '620100',
-  'initial': 'L',
-  'short': 'Lanzhou' },
-{
-  'id': '312',
-  'provincecode': '620000',
-  'city': '陇南市',
-  'code': '621200',
-  'initial': 'L',
-  'short': 'Longnan' },
-{
-  'id': '313',
-  'provincecode': '620000',
-  'city': '临夏回族自治州',
-  'code': '622900',
-  'initial': 'L',
-  'short': 'Linxia' },
-{
-  'id': '68',
-  'provincecode': '230000',
-  'city': '牡丹江市',
-  'code': '231000',
-  'initial': 'M',
-  'short': 'Mudanjiang' },
-{
-  'id': '102',
-  'provincecode': '340000',
-  'city': '马鞍山市',
-  'code': '340500',
-  'initial': 'M',
-  'short': 'Maanshan' },
-{
-  'id': '205',
-  'provincecode': '440000',
-  'city': '茂名市',
-  'code': '440900',
-  'initial': 'M',
-  'short': 'Maoming' },
-{
-  'id': '208',
-  'provincecode': '440000',
-  'city': '梅州市',
-  'code': '441400',
-  'initial': 'M',
-  'short': 'Meizhou' },
-{
-  'id': '243',
-  'provincecode': '510000',
-  'city': '绵阳市',
-  'code': '510700',
-  'initial': 'M',
-  'short': 'Mianyang' },
-{
-  'id': '249',
-  'provincecode': '510000',
-  'city': '眉山市',
-  'code': '511400',
-  'initial': 'M',
-  'short': 'Meishan' },
-{
-  'id': '74',
-  'provincecode': '320000',
-  'city': '南京市',
-  'code': '320100',
-  'initial': 'N',
-  'short': 'Nanjing' },
-{
-  'id': '79',
-  'provincecode': '320000',
-  'city': '南通市',
-  'code': '320600',
-  'initial': 'N',
-  'short': 'Nantong' },
-{
-  'id': '88',
-  'provincecode': '330000',
-  'city': '宁波市',
-  'code': '330200',
-  'initial': 'N',
-  'short': 'Ningbo' },
-{
-  'id': '121',
-  'provincecode': '350000',
-  'city': '南平市',
-  'code': '350700',
-  'initial': 'N',
-  'short': 'Nanping' },
-{
-  'id': '123',
-  'provincecode': '350000',
-  'city': '宁德市',
-  'code': '350900',
-  'initial': 'N',
-  'short': 'Ningde' },
-{
-  'id': '124',
-  'provincecode': '360000',
-  'city': '南昌市',
-  'code': '360100',
-  'initial': 'N',
-  'short': 'Nanchang' },
-{
-  'id': '164',
-  'provincecode': '410000',
-  'city': '南阳市',
-  'code': '411300',
-  'initial': 'N',
-  'short': 'Nanyang' },
-{
-  'id': '218',
-  'provincecode': '450000',
-  'city': '南宁市',
-  'code': '450100',
-  'initial': 'N',
-  'short': 'Nanning' },
-{
-  'id': '246',
-  'provincecode': '510000',
-  'city': '内江市',
-  'code': '511000',
-  'initial': 'N',
-  'short': 'Neijiang' },
-{
-  'id': '248',
-  'provincecode': '510000',
-  'city': '南充市',
-  'code': '511300',
-  'initial': 'N',
-  'short': 'Nanchong' },
-{
-  'id': '282',
-  'provincecode': '530000',
-  'city': '怒江傈僳族自治州',
-  'code': '533300',
-  'initial': 'N',
-  'short': 'Nujiang' },
-{
-  'id': '288',
-  'provincecode': '540000',
-  'city': '那曲地区',
-  'code': '542400',
-  'initial': 'N',
-  'short': 'Naqu' },
-{
-  'id': '46',
-  'provincecode': '210000',
-  'city': '盘锦市',
-  'code': '211100',
-  'initial': 'P',
-  'short': 'Panjin' },
-{
-  'id': '117',
-  'provincecode': '350000',
-  'city': '莆田市',
-  'code': '350300',
-  'initial': 'P',
-  'short': 'Putian' },
-{
-  'id': '126',
-  'provincecode': '360000',
-  'city': '萍乡市',
-  'code': '360300',
-  'initial': 'P',
-  'short': 'Pingxiang' },
-{
-  'id': '155',
-  'provincecode': '410000',
-  'city': '平顶山市',
-  'code': '410400',
-  'initial': 'P',
-  'short': 'Pingdingshan' },
-{
-  'id': '160',
-  'provincecode': '410000',
-  'city': '濮阳市',
-  'code': '410900',
-  'initial': 'P',
-  'short': 'Puyang' },
-{
-  'id': '240',
-  'provincecode': '510000',
-  'city': '攀枝花市',
-  'code': '510400',
-  'initial': 'P',
-  'short': 'Panzhihua' },
-{
-  'id': '308',
-  'provincecode': '620000',
-  'city': '平凉市',
-  'code': '620800',
-  'initial': 'P',
-  'short': 'Pingliang' },
-{
-  'id': '4',
-  'provincecode': '130000',
-  'city': '秦皇岛市',
-  'code': '130300',
-  'initial': 'Q',
-  'short': 'Qinhuangdao' },
-{
-  'id': '60',
-  'provincecode': '230000',
-  'city': '齐齐哈尔市',
-  'code': '230200',
-  'initial': 'Q',
-  'short': 'Qiqihaer' },
-{
-  'id': '67',
-  'provincecode': '230000',
-  'city': '七台河市',
-  'code': '230900',
-  'initial': 'Q',
-  'short': 'Qitaihe' },
-{
-  'id': '94',
-  'provincecode': '330000',
-  'city': '衢州市',
-  'code': '330800',
-  'initial': 'Q',
-  'short': 'Quzhou' },
-{
-  'id': '119',
-  'provincecode': '350000',
-  'city': '泉州市',
-  'code': '350500',
-  'initial': 'Q',
-  'short': 'Quanzhou' },
-{
-  'id': '136',
-  'provincecode': '370000',
-  'city': '青岛市',
-  'code': '370200',
-  'initial': 'Q',
-  'short': 'Qingdao' },
-{
-  'id': '212',
-  'provincecode': '440000',
-  'city': '清远市',
-  'code': '441800',
-  'initial': 'Q',
-  'short': 'Qingyuan' },
-{
-  'id': '224',
-  'provincecode': '450000',
-  'city': '钦州市',
-  'code': '450700',
-  'initial': 'Q',
-  'short': 'Qinzhou' },
-{
-  'id': '264',
-  'provincecode': '520000',
-  'city': '黔西南布依族苗族自治州',
-  'code': '522300',
-  'initial': 'Q',
-  'short': 'Qianxinan' },
-{
-  'id': '266',
-  'provincecode': '520000',
-  'city': '黔东南苗族侗族自治州',
-  'code': '522600',
-  'initial': 'Q',
-  'short': 'Qiandong' },
-{
-  'id': '267',
-  'provincecode': '520000',
-  'city': '黔南布依族苗族自治州',
-  'code': '522700',
-  'initial': 'Q',
-  'short': 'Qiannan' },
-{
-  'id': '269',
-  'provincecode': '530000',
-  'city': '曲靖市',
-  'code': '530300',
-  'initial': 'Q',
-  'short': 'Qujing' },
-{
-  'id': '310',
-  'provincecode': '620000',
-  'city': '庆阳市',
-  'code': '621000',
-  'initial': 'Q',
-  'short': 'Qingyang' },
-{
-  'id': '145',
-  'provincecode': '370000',
-  'city': '日照市',
-  'code': '371100',
-  'initial': 'R',
-  'short': 'Rizhao' },
-{
-  'id': '287',
-  'provincecode': '540000',
-  'city': '日喀则地区',
-  'code': '542300',
-  'initial': 'R',
-  'short': 'Rikaze' },
-{
-  'id': '2',
-  'provincecode': '130000',
-  'city': '石家庄市',
-  'code': '130100',
-  'initial': 'S',
-  'short': 'Shijiazhuang' },
-{
-  'id': '',
-  'provincecode': '310000',
-  'city': '上海市',
-  'code': '310000',
-  'initial': 'S',
-  'short': 'Shanghai' },
-{
-  'id': '18',
-  'provincecode': '140000',
-  'city': '朔州市',
-  'code': '140600',
-  'initial': 'S',
-  'short': 'Shuozhou' },
-{
-  'id': '36',
-  'provincecode': '210000',
-  'city': '沈阳市',
-  'code': '210100',
-  'initial': 'S',
-  'short': 'Shenyang' },
-{
-  'id': '',
-  'provincecode': '530000',
-  'city': '普洱市',
-  'code': '530800',
-  'initial': 'P',
-  'short': 'Puer' },
-{
-  'id': '52',
-  'provincecode': '220000',
-  'city': '四平市',
-  'code': '220300',
-  'initial': 'S',
-  'short': 'Siping' },
-{
-  'id': '56',
-  'provincecode': '220000',
-  'city': '松原市',
-  'code': '220700',
-  'initial': 'S',
-  'short': 'Songyuan' },
-{
-  'id': '63',
-  'provincecode': '230000',
-  'city': '双鸭山市',
-  'code': '230500',
-  'initial': 'S',
-  'short': 'Shuangyashan' },
-{
-  'id': '70',
-  'provincecode': '230000',
-  'city': '绥化市',
-  'code': '231200',
-  'initial': 'S',
-  'short': 'Suihua' },
-{
-  'id': '78',
-  'provincecode': '320000',
-  'city': '苏州市',
-  'code': '320500',
-  'initial': 'S',
-  'short': 'Suzhou' },
-{
-  'id': '86',
-  'provincecode': '320000',
-  'city': '宿迁市',
-  'code': '321300',
-  'initial': 'S',
-  'short': 'Suqian' },
-{
-  'id': '92',
-  'provincecode': '330000',
-  'city': '绍兴市',
-  'code': '330600',
-  'initial': 'S',
-  'short': 'Shaoxing' },
-{
-  'id': '109',
-  'provincecode': '340000',
-  'city': '宿州市',
-  'code': '341300',
-  'initial': 'S',
-  'short': 'Suzhou' },
-{
-  'id': '118',
-  'provincecode': '350000',
-  'city': '三明市',
-  'code': '350400',
-  'initial': 'S',
-  'short': 'Sanming' },
-{
-  'id': '134',
-  'provincecode': '360000',
-  'city': '上饶市',
-  'code': '361100',
-  'initial': 'S',
-  'short': 'Shangrao' },
-{
-  'id': '163',
-  'provincecode': '410000',
-  'city': '三门峡市',
-  'code': '411200',
-  'initial': 'S',
-  'short': 'Sanmenxia' },
-{
-  'id': '165',
-  'provincecode': '410000',
-  'city': '商丘市',
-  'code': '411400',
-  'initial': 'S',
-  'short': 'Shangqiu' },
-{
-  'id': '171',
-  'provincecode': '420000',
-  'city': '十堰市',
-  'code': '420300',
-  'initial': 'S',
-  'short': 'Shiyan' },
-{
-  'id': '180',
-  'provincecode': '420000',
-  'city': '随州市',
-  'code': '421300',
-  'initial': 'S',
-  'short': 'Suizhou' },
-{
-  'id': '187',
-  'provincecode': '430000',
-  'city': '邵阳市',
-  'code': '430500',
-  'initial': 'S',
-  'short': 'Shaoyang' },
-{
-  'id': '198',
-  'provincecode': '440000',
-  'city': '韶关市',
-  'code': '440200',
-  'initial': 'S',
-  'short': 'Shaoguan' },
-{
-  'id': '199',
-  'provincecode': '440000',
-  'city': '深圳市',
-  'code': '440300',
-  'initial': 'S',
-  'short': 'Shenzhen' },
-{
-  'id': '201',
-  'provincecode': '440000',
-  'city': '汕头市',
-  'code': '440500',
-  'initial': 'S',
-  'short': 'Shantou' },
-{
-  'id': '209',
-  'provincecode': '440000',
-  'city': '汕尾市',
-  'code': '441500',
-  'initial': 'S',
-  'short': 'Shanwei' },
-{
-  'id': '233',
-  'provincecode': '460000',
-  'city': '三亚市',
-  'code': '460200',
-  'initial': 'S',
-  'short': 'Sanya' },
-{
-  'id': '245',
-  'provincecode': '510000',
-  'city': '遂宁市',
-  'code': '510900',
-  'initial': 'S',
-  'short': 'Suining' },
-{
-  'id': '286',
-  'provincecode': '540000',
-  'city': '山南地区',
-  'code': '542200',
-  'initial': 'S',
-  'short': 'Shannan' },
-{
-  'id': '300',
-  'provincecode': '610000',
-  'city': '商洛市',
-  'code': '611000',
-  'initial': 'S',
-  'short': 'Shangluo' },
-{
-  'id': '324',
-  'provincecode': '640000',
-  'city': '石嘴山市',
-  'code': '640200',
-  'initial': 'S',
-  'short': 'Shizuishan' },
-{
-  'id': '3',
-  'provincecode': '130000',
-  'city': '唐山市',
-  'code': '130200',
-  'initial': 'T',
-  'short': 'Tangshan' },
-{
-  'id': '13',
-  'provincecode': '140000',
-  'city': '太原市',
-  'code': '140100',
-  'initial': 'T',
-  'short': 'Taiyuan' },
-{
-  'id': '28',
-  'provincecode': '150000',
-  'city': '通辽市',
-  'code': '150500',
-  'initial': 'T',
-  'short': 'Tongliao' },
-{
-  'id': '47',
-  'provincecode': '210000',
-  'city': '铁岭市',
-  'code': '211200',
-  'initial': 'T',
-  'short': 'Tieling' },
-{
-  'id': '54',
-  'provincecode': '220000',
-  'city': '通化市',
-  'code': '220500',
-  'initial': 'T',
-  'short': 'Tonghua' },
-{
-  'id': '85',
-  'provincecode': '320000',
-  'city': '泰州市',
-  'code': '321200',
-  'initial': 'T',
-  'short': 'Taizhou' },
-{
-  'id': '96',
-  'provincecode': '330000',
-  'city': '台州市',
-  'code': '331000',
-  'initial': 'T',
-  'short': 'Taizhou' },
-{
-  'id': '104',
-  'provincecode': '340000',
-  'city': '铜陵市',
-  'code': '340700',
-  'initial': 'T',
-  'short': 'Tongling' },
-{
-  'id': '143',
-  'provincecode': '370000',
-  'city': '泰安市',
-  'code': '370900',
-  'initial': 'T',
-  'short': 'Taian' },
-{
-  'id': '263',
-  'provincecode': '520000',
-  'city': '铜仁地区',
-  'code': '522200',
-  'initial': 'T',
-  'short': 'Tongren' },
-{
-  'id': '292',
-  'provincecode': '610000',
-  'city': '铜川市',
-  'code': '610200',
-  'initial': 'T',
-  'short': 'Tongchuan' },
-{
-  'id': '305',
-  'provincecode': '620000',
-  'city': '天水市',
-  'code': '620500',
-  'initial': 'T',
-  'short': 'Tianshui' },
-{
-  'id': '330',
-  'provincecode': '650000',
-  'city': '吐鲁番地区',
-  'code': '652100',
-  'initial': 'T',
-  'short': 'Tulufan' },
-{
-  'id': '340',
-  'provincecode': '650000',
-  'city': '塔城地区',
-  'code': '654200',
-  'initial': 'T',
-  'short': 'Tachengdi' },
-{
-  'id': '343',
-  'provincecode': '120000',
-  'city': '天津市',
-  'code': '120000',
-  'initial': 'T',
-  'short': 'Tianjin' },
-{
-  'id': '26',
-  'provincecode': '150000',
-  'city': '乌海市',
-  'code': '150300',
-  'initial': 'W',
-  'short': 'Wuhai' },
-{
-  'id': '32',
-  'provincecode': '150000',
-  'city': '乌兰察布市',
-  'code': '150900',
-  'initial': 'W',
-  'short': 'Wulanchabu' },
-{
-  'id': '75',
-  'provincecode': '320000',
-  'city': '无锡市',
-  'code': '320200',
-  'initial': 'W',
-  'short': 'Wuxi' },
-{
-  'id': '89',
-  'provincecode': '330000',
-  'city': '温州市',
-  'code': '330300',
-  'initial': 'W',
-  'short': 'Wenzhou' },
-{
-  'id': '99',
-  'provincecode': '340000',
-  'city': '芜湖市',
-  'code': '340200',
-  'initial': 'W',
-  'short': 'Wuhu' },
-{
-  'id': '141',
-  'provincecode': '370000',
-  'city': '潍坊市',
-  'code': '370700',
-  'initial': 'W',
-  'short': 'Weifang' },
-{
-  'id': '144',
-  'provincecode': '370000',
-  'city': '威海市',
-  'code': '371000',
-  'initial': 'W',
-  'short': 'Weihai' },
-{
-  'id': '169',
-  'provincecode': '420000',
-  'city': '武汉市',
-  'code': '420100',
-  'initial': 'W',
-  'short': 'Wuhan' },
-{
-  'id': '221',
-  'provincecode': '450000',
-  'city': '梧州市',
-  'code': '450400',
-  'initial': 'W',
-  'short': 'Wuzhou' },
-{
-  'id': '278',
-  'provincecode': '530000',
-  'city': '文山壮族苗族自治州',
-  'code': '532600',
-  'initial': 'W',
-  'short': 'Wenshan' },
-{
-  'id': '295',
-  'provincecode': '610000',
-  'city': '渭南市',
-  'code': '610500',
-  'initial': 'W',
-  'short': 'Weinan' },
-{
-  'id': '306',
-  'provincecode': '620000',
-  'city': '武威市',
-  'code': '620600',
-  'initial': 'W',
-  'short': 'Wuwei' },
-{
-  'id': '325',
-  'provincecode': '640000',
-  'city': '吴忠市',
-  'code': '640300',
-  'initial': 'W',
-  'short': 'Wuzhong' },
-{
-  'id': '328',
-  'provincecode': '650000',
-  'city': '乌鲁木齐市',
-  'code': '650100',
-  'initial': 'W',
-  'short': 'Wulumuqi' },
-{
-  'id': '6',
-  'provincecode': '130000',
-  'city': '邢台市',
-  'code': '130500',
-  'initial': 'X',
-  'short': 'Xingtai' },
-{
-  'id': '21',
-  'provincecode': '140000',
-  'city': '忻州市',
-  'code': '140900',
-  'initial': 'X',
-  'short': 'Xinzhou' },
-{
-  'id': '33',
-  'provincecode': '150000',
-  'city': '兴安盟',
-  'code': '152200',
-  'initial': 'X',
-  'short': 'Xinganmeng' },
-{
-  'id': '34',
-  'provincecode': '150000',
-  'city': '锡林郭勒盟',
-  'code': '152500',
-  'initial': 'X',
-  'short': 'Xilinguolemeng' },
-{
-  'id': '76',
-  'provincecode': '320000',
-  'city': '徐州市',
-  'code': '320300',
-  'initial': 'X',
-  'short': 'Xuzhou' },
-{
-  'id': '114',
-  'provincecode': '340000',
-  'city': '宣城市',
-  'code': '341800',
-  'initial': 'X',
-  'short': 'Xuancheng' },
-{
-  'id': '116',
-  'provincecode': '350000',
-  'city': '厦门市',
-  'code': '350200',
-  'initial': 'X',
-  'short': 'Xiamen' },
-{
-  'id': '128',
-  'provincecode': '360000',
-  'city': '新余市',
-  'code': '360500',
-  'initial': 'X',
-  'short': 'Xinyu' },
-{
-  'id': '158',
-  'provincecode': '410000',
-  'city': '新乡市',
-  'code': '410700',
-  'initial': 'X',
-  'short': 'Xinxiang' },
-{
-  'id': '161',
-  'provincecode': '410000',
-  'city': '许昌市',
-  'code': '411000',
-  'initial': 'X',
-  'short': 'Xuchang' },
-{
-  'id': '166',
-  'provincecode': '410000',
-  'city': '信阳市',
-  'code': '411500',
-  'initial': 'X',
-  'short': 'Xinyang' },
-{
-  'id': '173',
-  'provincecode': '420000',
-  'city': '襄樊市',
-  'code': '420600',
-  'initial': 'X',
-  'short': 'Xiangfan' },
-{
-  'id': '176',
-  'provincecode': '420000',
-  'city': '孝感市',
-  'code': '420900',
-  'initial': 'X',
-  'short': 'Xiaogan' },
-{
-  'id': '179',
-  'provincecode': '420000',
-  'city': '咸宁市',
-  'code': '421200',
-  'initial': 'X',
-  'short': 'Xianning' },
-{
-  'id': '185',
-  'provincecode': '430000',
-  'city': '湘潭市',
-  'code': '430300',
-  'initial': 'X',
-  'short': 'Xiangtan' },
-{
-  'id': '196',
-  'provincecode': '430000',
-  'city': '湘西土家族苗族自治州',
-  'code': '433100',
-  'initial': 'X',
-  'short': 'Xiangxi' },
-{
-  'id': '279',
-  'provincecode': '530000',
-  'city': '西双版纳傣族自治州',
-  'code': '532800',
-  'initial': 'X',
-  'short': 'Xishuangbanna' },
-{
-  'id': '291',
-  'provincecode': '610000',
-  'city': '西安市',
-  'code': '610100',
-  'initial': 'X',
-  'short': 'Xian' },
-{
-  'id': '294',
-  'provincecode': '610000',
-  'city': '咸阳市',
-  'code': '610400',
-  'initial': 'X',
-  'short': 'Xianyang' },
-{
-  'id': '315',
-  'provincecode': '630000',
-  'city': '西宁市',
-  'code': '630100',
-  'initial': 'X',
-  'short': 'Xining' },
-{
-  'id': '15',
-  'provincecode': '140000',
-  'city': '阳泉市',
-  'code': '140300',
-  'initial': 'Y',
-  'short': 'Yangquan' },
-{
-  'id': '20',
-  'provincecode': '140000',
-  'city': '运城市',
-  'code': '140800',
-  'initial': 'Y',
-  'short': 'Yuncheng' },
-{
-  'id': '43',
-  'provincecode': '210000',
-  'city': '营口市',
-  'code': '210800',
-  'initial': 'Y',
-  'short': 'Yingkou' },
-{
-  'id': '58',
-  'provincecode': '220000',
-  'city': '延边朝鲜族自治州',
-  'code': '222400',
-  'initial': 'Y',
-  'short': 'Yanbian' },
-{
-  'id': '65',
-  'provincecode': '230000',
-  'city': '伊春市',
-  'code': '230700',
-  'initial': 'Y',
-  'short': 'Yichun' },
-{
-  'id': '82',
-  'provincecode': '320000',
-  'city': '盐城市',
-  'code': '320900',
-  'initial': 'Y',
-  'short': 'Yancheng' },
-{
-  'id': '83',
-  'provincecode': '320000',
-  'city': '扬州市',
-  'code': '321000',
-  'initial': 'Y',
-  'short': 'Yangzhou' },
-{
-  'id': '129',
-  'provincecode': '360000',
-  'city': '鹰潭市',
-  'code': '360600',
-  'initial': 'Y',
-  'short': 'Yingtan' },
-{
-  'id': '132',
-  'provincecode': '360000',
-  'city': '宜春市',
-  'code': '360900',
-  'initial': 'Y',
-  'short': 'Yichun' },
-{
-  'id': '140',
-  'provincecode': '370000',
-  'city': '烟台市',
-  'code': '370600',
-  'initial': 'Y',
-  'short': 'Yantai' },
-{
-  'id': '172',
-  'provincecode': '420000',
-  'city': '宜昌市',
-  'code': '420500',
-  'initial': 'Y',
-  'short': 'Yichang' },
-{
-  'id': '188',
-  'provincecode': '430000',
-  'city': '岳阳市',
-  'code': '430600',
-  'initial': 'Y',
-  'short': 'Yueyang' },
-{
-  'id': '191',
-  'provincecode': '430000',
-  'city': '益阳市',
-  'code': '430900',
-  'initial': 'Y',
-  'short': 'Yiyang' },
-{
-  'id': '193',
-  'provincecode': '430000',
-  'city': '永州市',
-  'code': '431100',
-  'initial': 'Y',
-  'short': 'Yongzhou' },
-{
-  'id': '211',
-  'provincecode': '440000',
-  'city': '阳江市',
-  'code': '441700',
-  'initial': 'Y',
-  'short': 'Yangjiang' },
-{
-  'id': '217',
-  'provincecode': '440000',
-  'city': '云浮市',
-  'code': '445300',
-  'initial': 'Y',
-  'short': 'Yunfu' },
-{
-  'id': '226',
-  'provincecode': '450000',
-  'city': '玉林市',
-  'code': '450900',
-  'initial': 'Y',
-  'short': 'Yulin' },
-{
-  'id': '250',
-  'provincecode': '510000',
-  'city': '宜宾市',
-  'code': '511500',
-  'initial': 'Y',
-  'short': 'Yibin' },
-{
-  'id': '253',
-  'provincecode': '510000',
-  'city': '雅安市',
-  'code': '511800',
-  'initial': 'Y',
-  'short': 'Yaan' },
-{
-  'id': '270',
-  'provincecode': '530000',
-  'city': '玉溪市',
-  'code': '530400',
-  'initial': 'Y',
-  'short': 'Yuxi' },
-{
-  'id': '296',
-  'provincecode': '610000',
-  'city': '延安市',
-  'code': '610600',
-  'initial': 'Y',
-  'short': 'Yanan' },
-{
-  'id': '298',
-  'provincecode': '610000',
-  'city': '榆林市',
-  'code': '610800',
-  'initial': 'Y',
-  'short': 'Yulin' },
-{
-  'id': '321',
-  'provincecode': '630000',
-  'city': '玉树藏族自治州',
-  'code': '632700',
-  'initial': 'Y',
-  'short': 'Yushu' },
-{
-  'id': '323',
-  'provincecode': '640000',
-  'city': '银川市',
-  'code': '640100',
-  'initial': 'Y',
-  'short': 'Yinchuan' },
-{
-  'id': '339',
-  'provincecode': '650000',
-  'city': '伊犁哈萨克自治州',
-  'code': '654000',
-  'initial': 'Y',
-  'short': 'Yilihasake' },
-{
-  'id': '8',
-  'provincecode': '130000',
-  'city': '张家口市',
-  'code': '130700',
-  'initial': 'Z',
-  'short': 'Zhangjiakou' },
-{
-  'id': '84',
-  'provincecode': '320000',
-  'city': '镇江市',
-  'code': '321100',
-  'initial': 'Z',
-  'short': 'Zhenjiang' },
-{
-  'id': '95',
-  'provincecode': '330000',
-  'city': '舟山市',
-  'code': '330900',
-  'initial': 'Z',
-  'short': 'Zhoushan' },
-{
-  'id': '120',
-  'provincecode': '350000',
-  'city': '漳州市',
-  'code': '350600',
-  'initial': 'Z',
-  'short': 'Zhangzhou' },
-{
-  'id': '137',
-  'provincecode': '370000',
-  'city': '淄博市',
-  'code': '370300',
-  'initial': 'Z',
-  'short': 'Zibo' },
-{
-  'id': '138',
-  'provincecode': '370000',
-  'city': '枣庄市',
-  'code': '370400',
-  'initial': 'Z',
-  'short': 'Zaozhuang' },
-{
-  'id': '152',
-  'provincecode': '410000',
-  'city': '郑州市',
-  'code': '410100',
-  'initial': 'Z',
-  'short': 'Zhengzhou' },
-{
-  'id': '167',
-  'provincecode': '410000',
-  'city': '周口市',
-  'code': '411600',
-  'initial': 'Z',
-  'short': 'Zhoukou' },
-{
-  'id': '168',
-  'provincecode': '410000',
-  'city': '驻马店市',
-  'code': '411700',
-  'initial': 'Z',
-  'short': 'Zhumadian' },
-{
-  'id': '184',
-  'provincecode': '430000',
-  'city': '株洲市',
-  'code': '430200',
-  'initial': 'Z',
-  'short': 'Zhuzhou' },
-{
-  'id': '190',
-  'provincecode': '430000',
-  'city': '张家界市',
-  'code': '430800',
-  'initial': 'Z',
-  'short': 'Zhangjiajie' },
-{
-  'id': '200',
-  'provincecode': '440000',
-  'city': '珠海市',
-  'code': '440400',
-  'initial': 'Z',
-  'short': 'Zhuhai' },
-{
-  'id': '204',
-  'provincecode': '440000',
-  'city': '湛江市',
-  'code': '440800',
-  'initial': 'Z',
-  'short': 'Zhanjiang' },
-{
-  'id': '206',
-  'provincecode': '440000',
-  'city': '肇庆市',
-  'code': '441200',
-  'initial': 'Z',
-  'short': 'Zhaoqing' },
-{
-  'id': '214',
-  'provincecode': '440000',
-  'city': '中山市',
-  'code': '442000',
-  'initial': 'Z',
-  'short': 'Zhongshan' },
-{
-  'id': '239',
-  'provincecode': '510000',
-  'city': '自贡市',
-  'code': '510300',
-  'initial': 'Z',
-  'short': 'Zigong' },
-{
-  'id': '255',
-  'provincecode': '510000',
-  'city': '资阳市',
-  'code': '512000',
-  'initial': 'Z',
-  'short': 'Ziyang' },
-{
-  'id': '261',
-  'provincecode': '520000',
-  'city': '遵义市',
-  'code': '520300',
-  'initial': 'Z',
-  'short': 'Zunyi' },
-{
-  'id': '272',
-  'provincecode': '530000',
-  'city': '昭通市',
-  'code': '530600',
-  'initial': 'Z',
-  'short': 'Zhaotong' },
-{
-  'id': '307',
-  'provincecode': '620000',
-  'city': '张掖市',
-  'code': '620700',
-  'initial': 'Z',
-  'short': 'Zhangye' },
-{
-  'id': '327',
-  'provincecode': '640000',
-  'city': '中卫市',
-  'code': '640500',
-  'initial': 'Z',
-  'short': 'Zhongwei' }];var _default =
-
-city;exports.default = _default;
-
-/***/ }),
-
-/***/ 8:
-/*!*************************************************!*\
-  !*** E:/project/XQK/pages.json?{"type":"stat"} ***!
-  \*************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "appid": "__UNI__A3AF5B9" };exports.default = _default;
-
-/***/ }),
-
-/***/ 93:
-/*!****************************************************************!*\
-  !*** E:/project/XQK/components/w-picker/city-data/province.js ***!
-  \****************************************************************/
+/***/ 100:
+/*!*******************************************************************!*\
+  !*** E:/wu3.23/星球客/XQK/components/w-picker/city-data/province.js ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -15346,10 +1843,10 @@ provinceData;exports.default = _default;
 
 /***/ }),
 
-/***/ 94:
-/*!************************************************************!*\
-  !*** E:/project/XQK/components/w-picker/city-data/city.js ***!
-  \************************************************************/
+/***/ 101:
+/*!***************************************************************!*\
+  !*** E:/wu3.23/星球客/XQK/components/w-picker/city-data/city.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16860,10 +3357,10 @@ cityData;exports.default = _default;
 
 /***/ }),
 
-/***/ 95:
-/*!************************************************************!*\
-  !*** E:/project/XQK/components/w-picker/city-data/area.js ***!
-  \************************************************************/
+/***/ 102:
+/*!***************************************************************!*\
+  !*** E:/wu3.23/星球客/XQK/components/w-picker/city-data/area.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -29413,15 +15910,15 @@ areaData;exports.default = _default;
 
 /***/ }),
 
-/***/ 96:
-/*!******************************************************!*\
-  !*** E:/project/XQK/components/w-picker/w-picker.js ***!
-  \******************************************************/
+/***/ 103:
+/*!*********************************************************!*\
+  !*** E:/wu3.23/星球客/XQK/components/w-picker/w-picker.js ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance");}function _iterableToArray(iter) {if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) {for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {arr2[i] = arr[i];}return arr2;}}var forMatNum = function forMatNum(num) {
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(n);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}var forMatNum = function forMatNum(num) {
   return num < 10 ? '0' + num : num + '';
 };
 var initPicker = {
@@ -30071,6 +16568,14173 @@ var initPicker = {
 
 
 initPicker;exports.default = _default;
+
+/***/ }),
+
+/***/ 11:
+/*!****************************************!*\
+  !*** E:/wu3.23/星球客/XQK/store/index.js ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ 12));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+_vue.default.use(_vuex.default);var _default =
+
+new _vuex.default.Store({
+  state: {
+    // token:'',
+    // userId:'',
+    cardId: "",
+    selectCard: {
+      url: '',
+      status: false },
+
+    cardInfo: { //选择的银行名称id
+      id: "",
+      bankLogo: "",
+      bankName: "" },
+
+    peopleInfo: { //业主信息
+      ContactName: "", //业主姓名
+      Tel: "", //业主电话
+      IsSalesOffice: null //去过或咨询售楼处 1-有 0-没有
+    },
+    selectMyCard: {
+      url: '',
+      status: false },
+
+    myCardInfo: { //选择我的银行卡
+      id: "",
+      bankLogo: "",
+      bankCardName: "",
+      bankCardNo: "" },
+
+    //是否为vip
+    IsVip: 0,
+    //认证专家身份
+    exportData: {
+      UserRname: "",
+      Idcard: "",
+      IdcardPositive: "",
+      IdcardNegative: "",
+      IdcardInHand: "" } },
+
+
+  getters: {
+    getToken: function getToken(state) {
+      if (!state.token && wx.getStorageSync('token')) {
+        state.token = wx.getStorageSync('token');
+      }
+      return state.token;
+    },
+    getUserId: function getUserId(state) {
+      if (!state.userId && wx.getStorageSync('userId')) {
+        state.userId = wx.getStorageSync('userId');
+      }
+      return state.userId;
+    } },
+
+  mutations: {
+    /**
+                * 在main.js例引入
+                * import store from './store/index'
+                * 把store挂载到全局
+                * Vue.prototype.$store = store;
+                */
+
+    /**
+                    * 这里设置一个统一的方法,大部分用的vuex都是简单的改变一些状态,不需要写过多的mutations
+                    * 使用方法 例:
+                    * this.$store.update({"cityName":"北京"})
+                    * this.$store.commit('update',{"cityName":"北京"})
+                    * 
+                    *  config需要传入对象
+                    * @param {*} state 
+                    * @param {*Object} config 
+                    */
+    update: function update(state, config) {
+      Object.keys(config).map(function (item, key) {
+        state[item] = config[item];
+      });
+    },
+    // 设置选择银行名称
+    setSelectCard: function setSelectCard(state, params) {
+      state.selectCard = params;
+    },
+    // 设置选择我的银行卡
+    setSelectMyCard: function setSelectMyCard(state, params) {
+      state.selectMyCard = params;
+    } } });exports.default = _default;
+
+/***/ }),
+
+/***/ 12:
+/*!********************************************!*\
+  !*** ./node_modules/vuex/dist/vuex.esm.js ***!
+  \********************************************/
+/*! exports provided: Store, install, mapState, mapMutations, mapGetters, mapActions, createNamespacedHelpers, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Store", function() { return Store; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "install", function() { return install; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapState", function() { return mapState; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapMutations", function() { return mapMutations; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapGetters", function() { return mapGetters; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapActions", function() { return mapActions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createNamespacedHelpers", function() { return createNamespacedHelpers; });
+/**
+ * vuex v3.0.1
+ * (c) 2017 Evan You
+ * @license MIT
+ */
+var applyMixin = function (Vue) {
+  var version = Number(Vue.version.split('.')[0]);
+
+  if (version >= 2) {
+    Vue.mixin({ beforeCreate: vuexInit });
+  } else {
+    // override init and inject vuex init procedure
+    // for 1.x backwards compatibility.
+    var _init = Vue.prototype._init;
+    Vue.prototype._init = function (options) {
+      if ( options === void 0 ) options = {};
+
+      options.init = options.init
+        ? [vuexInit].concat(options.init)
+        : vuexInit;
+      _init.call(this, options);
+    };
+  }
+
+  /**
+   * Vuex init hook, injected into each instances init hooks list.
+   */
+
+  function vuexInit () {
+    var options = this.$options;
+    // store injection
+    if (options.store) {
+      this.$store = typeof options.store === 'function'
+        ? options.store()
+        : options.store;
+    } else if (options.parent && options.parent.$store) {
+      this.$store = options.parent.$store;
+    }
+  }
+};
+
+var devtoolHook =
+  typeof window !== 'undefined' &&
+  window.__VUE_DEVTOOLS_GLOBAL_HOOK__;
+
+function devtoolPlugin (store) {
+  if (!devtoolHook) { return }
+
+  store._devtoolHook = devtoolHook;
+
+  devtoolHook.emit('vuex:init', store);
+
+  devtoolHook.on('vuex:travel-to-state', function (targetState) {
+    store.replaceState(targetState);
+  });
+
+  store.subscribe(function (mutation, state) {
+    devtoolHook.emit('vuex:mutation', mutation, state);
+  });
+}
+
+/**
+ * Get the first item that pass the test
+ * by second argument function
+ *
+ * @param {Array} list
+ * @param {Function} f
+ * @return {*}
+ */
+/**
+ * Deep copy the given object considering circular structure.
+ * This function caches all nested objects and its copies.
+ * If it detects circular structure, use cached copy to avoid infinite loop.
+ *
+ * @param {*} obj
+ * @param {Array<Object>} cache
+ * @return {*}
+ */
+
+
+/**
+ * forEach for object
+ */
+function forEachValue (obj, fn) {
+  Object.keys(obj).forEach(function (key) { return fn(obj[key], key); });
+}
+
+function isObject (obj) {
+  return obj !== null && typeof obj === 'object'
+}
+
+function isPromise (val) {
+  return val && typeof val.then === 'function'
+}
+
+function assert (condition, msg) {
+  if (!condition) { throw new Error(("[vuex] " + msg)) }
+}
+
+var Module = function Module (rawModule, runtime) {
+  this.runtime = runtime;
+  this._children = Object.create(null);
+  this._rawModule = rawModule;
+  var rawState = rawModule.state;
+  this.state = (typeof rawState === 'function' ? rawState() : rawState) || {};
+};
+
+var prototypeAccessors$1 = { namespaced: { configurable: true } };
+
+prototypeAccessors$1.namespaced.get = function () {
+  return !!this._rawModule.namespaced
+};
+
+Module.prototype.addChild = function addChild (key, module) {
+  this._children[key] = module;
+};
+
+Module.prototype.removeChild = function removeChild (key) {
+  delete this._children[key];
+};
+
+Module.prototype.getChild = function getChild (key) {
+  return this._children[key]
+};
+
+Module.prototype.update = function update (rawModule) {
+  this._rawModule.namespaced = rawModule.namespaced;
+  if (rawModule.actions) {
+    this._rawModule.actions = rawModule.actions;
+  }
+  if (rawModule.mutations) {
+    this._rawModule.mutations = rawModule.mutations;
+  }
+  if (rawModule.getters) {
+    this._rawModule.getters = rawModule.getters;
+  }
+};
+
+Module.prototype.forEachChild = function forEachChild (fn) {
+  forEachValue(this._children, fn);
+};
+
+Module.prototype.forEachGetter = function forEachGetter (fn) {
+  if (this._rawModule.getters) {
+    forEachValue(this._rawModule.getters, fn);
+  }
+};
+
+Module.prototype.forEachAction = function forEachAction (fn) {
+  if (this._rawModule.actions) {
+    forEachValue(this._rawModule.actions, fn);
+  }
+};
+
+Module.prototype.forEachMutation = function forEachMutation (fn) {
+  if (this._rawModule.mutations) {
+    forEachValue(this._rawModule.mutations, fn);
+  }
+};
+
+Object.defineProperties( Module.prototype, prototypeAccessors$1 );
+
+var ModuleCollection = function ModuleCollection (rawRootModule) {
+  // register root module (Vuex.Store options)
+  this.register([], rawRootModule, false);
+};
+
+ModuleCollection.prototype.get = function get (path) {
+  return path.reduce(function (module, key) {
+    return module.getChild(key)
+  }, this.root)
+};
+
+ModuleCollection.prototype.getNamespace = function getNamespace (path) {
+  var module = this.root;
+  return path.reduce(function (namespace, key) {
+    module = module.getChild(key);
+    return namespace + (module.namespaced ? key + '/' : '')
+  }, '')
+};
+
+ModuleCollection.prototype.update = function update$1 (rawRootModule) {
+  update([], this.root, rawRootModule);
+};
+
+ModuleCollection.prototype.register = function register (path, rawModule, runtime) {
+    var this$1 = this;
+    if ( runtime === void 0 ) runtime = true;
+
+  if (true) {
+    assertRawModule(path, rawModule);
+  }
+
+  var newModule = new Module(rawModule, runtime);
+  if (path.length === 0) {
+    this.root = newModule;
+  } else {
+    var parent = this.get(path.slice(0, -1));
+    parent.addChild(path[path.length - 1], newModule);
+  }
+
+  // register nested modules
+  if (rawModule.modules) {
+    forEachValue(rawModule.modules, function (rawChildModule, key) {
+      this$1.register(path.concat(key), rawChildModule, runtime);
+    });
+  }
+};
+
+ModuleCollection.prototype.unregister = function unregister (path) {
+  var parent = this.get(path.slice(0, -1));
+  var key = path[path.length - 1];
+  if (!parent.getChild(key).runtime) { return }
+
+  parent.removeChild(key);
+};
+
+function update (path, targetModule, newModule) {
+  if (true) {
+    assertRawModule(path, newModule);
+  }
+
+  // update target module
+  targetModule.update(newModule);
+
+  // update nested modules
+  if (newModule.modules) {
+    for (var key in newModule.modules) {
+      if (!targetModule.getChild(key)) {
+        if (true) {
+          console.warn(
+            "[vuex] trying to add a new module '" + key + "' on hot reloading, " +
+            'manual reload is needed'
+          );
+        }
+        return
+      }
+      update(
+        path.concat(key),
+        targetModule.getChild(key),
+        newModule.modules[key]
+      );
+    }
+  }
+}
+
+var functionAssert = {
+  assert: function (value) { return typeof value === 'function'; },
+  expected: 'function'
+};
+
+var objectAssert = {
+  assert: function (value) { return typeof value === 'function' ||
+    (typeof value === 'object' && typeof value.handler === 'function'); },
+  expected: 'function or object with "handler" function'
+};
+
+var assertTypes = {
+  getters: functionAssert,
+  mutations: functionAssert,
+  actions: objectAssert
+};
+
+function assertRawModule (path, rawModule) {
+  Object.keys(assertTypes).forEach(function (key) {
+    if (!rawModule[key]) { return }
+
+    var assertOptions = assertTypes[key];
+
+    forEachValue(rawModule[key], function (value, type) {
+      assert(
+        assertOptions.assert(value),
+        makeAssertionMessage(path, key, type, value, assertOptions.expected)
+      );
+    });
+  });
+}
+
+function makeAssertionMessage (path, key, type, value, expected) {
+  var buf = key + " should be " + expected + " but \"" + key + "." + type + "\"";
+  if (path.length > 0) {
+    buf += " in module \"" + (path.join('.')) + "\"";
+  }
+  buf += " is " + (JSON.stringify(value)) + ".";
+  return buf
+}
+
+var Vue; // bind on install
+
+var Store = function Store (options) {
+  var this$1 = this;
+  if ( options === void 0 ) options = {};
+
+  // Auto install if it is not done yet and `window` has `Vue`.
+  // To allow users to avoid auto-installation in some cases,
+  // this code should be placed here. See #731
+  if (!Vue && typeof window !== 'undefined' && window.Vue) {
+    install(window.Vue);
+  }
+
+  if (true) {
+    assert(Vue, "must call Vue.use(Vuex) before creating a store instance.");
+    assert(typeof Promise !== 'undefined', "vuex requires a Promise polyfill in this browser.");
+    assert(this instanceof Store, "Store must be called with the new operator.");
+  }
+
+  var plugins = options.plugins; if ( plugins === void 0 ) plugins = [];
+  var strict = options.strict; if ( strict === void 0 ) strict = false;
+
+  var state = options.state; if ( state === void 0 ) state = {};
+  if (typeof state === 'function') {
+    state = state() || {};
+  }
+
+  // store internal state
+  this._committing = false;
+  this._actions = Object.create(null);
+  this._actionSubscribers = [];
+  this._mutations = Object.create(null);
+  this._wrappedGetters = Object.create(null);
+  this._modules = new ModuleCollection(options);
+  this._modulesNamespaceMap = Object.create(null);
+  this._subscribers = [];
+  this._watcherVM = new Vue();
+
+  // bind commit and dispatch to self
+  var store = this;
+  var ref = this;
+  var dispatch = ref.dispatch;
+  var commit = ref.commit;
+  this.dispatch = function boundDispatch (type, payload) {
+    return dispatch.call(store, type, payload)
+  };
+  this.commit = function boundCommit (type, payload, options) {
+    return commit.call(store, type, payload, options)
+  };
+
+  // strict mode
+  this.strict = strict;
+
+  // init root module.
+  // this also recursively registers all sub-modules
+  // and collects all module getters inside this._wrappedGetters
+  installModule(this, state, [], this._modules.root);
+
+  // initialize the store vm, which is responsible for the reactivity
+  // (also registers _wrappedGetters as computed properties)
+  resetStoreVM(this, state);
+
+  // apply plugins
+  plugins.forEach(function (plugin) { return plugin(this$1); });
+
+  if (Vue.config.devtools) {
+    devtoolPlugin(this);
+  }
+};
+
+var prototypeAccessors = { state: { configurable: true } };
+
+prototypeAccessors.state.get = function () {
+  return this._vm._data.$$state
+};
+
+prototypeAccessors.state.set = function (v) {
+  if (true) {
+    assert(false, "Use store.replaceState() to explicit replace store state.");
+  }
+};
+
+Store.prototype.commit = function commit (_type, _payload, _options) {
+    var this$1 = this;
+
+  // check object-style commit
+  var ref = unifyObjectStyle(_type, _payload, _options);
+    var type = ref.type;
+    var payload = ref.payload;
+    var options = ref.options;
+
+  var mutation = { type: type, payload: payload };
+  var entry = this._mutations[type];
+  if (!entry) {
+    if (true) {
+      console.error(("[vuex] unknown mutation type: " + type));
+    }
+    return
+  }
+  this._withCommit(function () {
+    entry.forEach(function commitIterator (handler) {
+      handler(payload);
+    });
+  });
+  this._subscribers.forEach(function (sub) { return sub(mutation, this$1.state); });
+
+  if (
+     true &&
+    options && options.silent
+  ) {
+    console.warn(
+      "[vuex] mutation type: " + type + ". Silent option has been removed. " +
+      'Use the filter functionality in the vue-devtools'
+    );
+  }
+};
+
+Store.prototype.dispatch = function dispatch (_type, _payload) {
+    var this$1 = this;
+
+  // check object-style dispatch
+  var ref = unifyObjectStyle(_type, _payload);
+    var type = ref.type;
+    var payload = ref.payload;
+
+  var action = { type: type, payload: payload };
+  var entry = this._actions[type];
+  if (!entry) {
+    if (true) {
+      console.error(("[vuex] unknown action type: " + type));
+    }
+    return
+  }
+
+  this._actionSubscribers.forEach(function (sub) { return sub(action, this$1.state); });
+
+  return entry.length > 1
+    ? Promise.all(entry.map(function (handler) { return handler(payload); }))
+    : entry[0](payload)
+};
+
+Store.prototype.subscribe = function subscribe (fn) {
+  return genericSubscribe(fn, this._subscribers)
+};
+
+Store.prototype.subscribeAction = function subscribeAction (fn) {
+  return genericSubscribe(fn, this._actionSubscribers)
+};
+
+Store.prototype.watch = function watch (getter, cb, options) {
+    var this$1 = this;
+
+  if (true) {
+    assert(typeof getter === 'function', "store.watch only accepts a function.");
+  }
+  return this._watcherVM.$watch(function () { return getter(this$1.state, this$1.getters); }, cb, options)
+};
+
+Store.prototype.replaceState = function replaceState (state) {
+    var this$1 = this;
+
+  this._withCommit(function () {
+    this$1._vm._data.$$state = state;
+  });
+};
+
+Store.prototype.registerModule = function registerModule (path, rawModule, options) {
+    if ( options === void 0 ) options = {};
+
+  if (typeof path === 'string') { path = [path]; }
+
+  if (true) {
+    assert(Array.isArray(path), "module path must be a string or an Array.");
+    assert(path.length > 0, 'cannot register the root module by using registerModule.');
+  }
+
+  this._modules.register(path, rawModule);
+  installModule(this, this.state, path, this._modules.get(path), options.preserveState);
+  // reset store to update getters...
+  resetStoreVM(this, this.state);
+};
+
+Store.prototype.unregisterModule = function unregisterModule (path) {
+    var this$1 = this;
+
+  if (typeof path === 'string') { path = [path]; }
+
+  if (true) {
+    assert(Array.isArray(path), "module path must be a string or an Array.");
+  }
+
+  this._modules.unregister(path);
+  this._withCommit(function () {
+    var parentState = getNestedState(this$1.state, path.slice(0, -1));
+    Vue.delete(parentState, path[path.length - 1]);
+  });
+  resetStore(this);
+};
+
+Store.prototype.hotUpdate = function hotUpdate (newOptions) {
+  this._modules.update(newOptions);
+  resetStore(this, true);
+};
+
+Store.prototype._withCommit = function _withCommit (fn) {
+  var committing = this._committing;
+  this._committing = true;
+  fn();
+  this._committing = committing;
+};
+
+Object.defineProperties( Store.prototype, prototypeAccessors );
+
+function genericSubscribe (fn, subs) {
+  if (subs.indexOf(fn) < 0) {
+    subs.push(fn);
+  }
+  return function () {
+    var i = subs.indexOf(fn);
+    if (i > -1) {
+      subs.splice(i, 1);
+    }
+  }
+}
+
+function resetStore (store, hot) {
+  store._actions = Object.create(null);
+  store._mutations = Object.create(null);
+  store._wrappedGetters = Object.create(null);
+  store._modulesNamespaceMap = Object.create(null);
+  var state = store.state;
+  // init all modules
+  installModule(store, state, [], store._modules.root, true);
+  // reset vm
+  resetStoreVM(store, state, hot);
+}
+
+function resetStoreVM (store, state, hot) {
+  var oldVm = store._vm;
+
+  // bind store public getters
+  store.getters = {};
+  var wrappedGetters = store._wrappedGetters;
+  var computed = {};
+  forEachValue(wrappedGetters, function (fn, key) {
+    // use computed to leverage its lazy-caching mechanism
+    computed[key] = function () { return fn(store); };
+    Object.defineProperty(store.getters, key, {
+      get: function () { return store._vm[key]; },
+      enumerable: true // for local getters
+    });
+  });
+
+  // use a Vue instance to store the state tree
+  // suppress warnings just in case the user has added
+  // some funky global mixins
+  var silent = Vue.config.silent;
+  Vue.config.silent = true;
+  store._vm = new Vue({
+    data: {
+      $$state: state
+    },
+    computed: computed
+  });
+  Vue.config.silent = silent;
+
+  // enable strict mode for new vm
+  if (store.strict) {
+    enableStrictMode(store);
+  }
+
+  if (oldVm) {
+    if (hot) {
+      // dispatch changes in all subscribed watchers
+      // to force getter re-evaluation for hot reloading.
+      store._withCommit(function () {
+        oldVm._data.$$state = null;
+      });
+    }
+    Vue.nextTick(function () { return oldVm.$destroy(); });
+  }
+}
+
+function installModule (store, rootState, path, module, hot) {
+  var isRoot = !path.length;
+  var namespace = store._modules.getNamespace(path);
+
+  // register in namespace map
+  if (module.namespaced) {
+    store._modulesNamespaceMap[namespace] = module;
+  }
+
+  // set state
+  if (!isRoot && !hot) {
+    var parentState = getNestedState(rootState, path.slice(0, -1));
+    var moduleName = path[path.length - 1];
+    store._withCommit(function () {
+      Vue.set(parentState, moduleName, module.state);
+    });
+  }
+
+  var local = module.context = makeLocalContext(store, namespace, path);
+
+  module.forEachMutation(function (mutation, key) {
+    var namespacedType = namespace + key;
+    registerMutation(store, namespacedType, mutation, local);
+  });
+
+  module.forEachAction(function (action, key) {
+    var type = action.root ? key : namespace + key;
+    var handler = action.handler || action;
+    registerAction(store, type, handler, local);
+  });
+
+  module.forEachGetter(function (getter, key) {
+    var namespacedType = namespace + key;
+    registerGetter(store, namespacedType, getter, local);
+  });
+
+  module.forEachChild(function (child, key) {
+    installModule(store, rootState, path.concat(key), child, hot);
+  });
+}
+
+/**
+ * make localized dispatch, commit, getters and state
+ * if there is no namespace, just use root ones
+ */
+function makeLocalContext (store, namespace, path) {
+  var noNamespace = namespace === '';
+
+  var local = {
+    dispatch: noNamespace ? store.dispatch : function (_type, _payload, _options) {
+      var args = unifyObjectStyle(_type, _payload, _options);
+      var payload = args.payload;
+      var options = args.options;
+      var type = args.type;
+
+      if (!options || !options.root) {
+        type = namespace + type;
+        if ( true && !store._actions[type]) {
+          console.error(("[vuex] unknown local action type: " + (args.type) + ", global type: " + type));
+          return
+        }
+      }
+
+      return store.dispatch(type, payload)
+    },
+
+    commit: noNamespace ? store.commit : function (_type, _payload, _options) {
+      var args = unifyObjectStyle(_type, _payload, _options);
+      var payload = args.payload;
+      var options = args.options;
+      var type = args.type;
+
+      if (!options || !options.root) {
+        type = namespace + type;
+        if ( true && !store._mutations[type]) {
+          console.error(("[vuex] unknown local mutation type: " + (args.type) + ", global type: " + type));
+          return
+        }
+      }
+
+      store.commit(type, payload, options);
+    }
+  };
+
+  // getters and state object must be gotten lazily
+  // because they will be changed by vm update
+  Object.defineProperties(local, {
+    getters: {
+      get: noNamespace
+        ? function () { return store.getters; }
+        : function () { return makeLocalGetters(store, namespace); }
+    },
+    state: {
+      get: function () { return getNestedState(store.state, path); }
+    }
+  });
+
+  return local
+}
+
+function makeLocalGetters (store, namespace) {
+  var gettersProxy = {};
+
+  var splitPos = namespace.length;
+  Object.keys(store.getters).forEach(function (type) {
+    // skip if the target getter is not match this namespace
+    if (type.slice(0, splitPos) !== namespace) { return }
+
+    // extract local getter type
+    var localType = type.slice(splitPos);
+
+    // Add a port to the getters proxy.
+    // Define as getter property because
+    // we do not want to evaluate the getters in this time.
+    Object.defineProperty(gettersProxy, localType, {
+      get: function () { return store.getters[type]; },
+      enumerable: true
+    });
+  });
+
+  return gettersProxy
+}
+
+function registerMutation (store, type, handler, local) {
+  var entry = store._mutations[type] || (store._mutations[type] = []);
+  entry.push(function wrappedMutationHandler (payload) {
+    handler.call(store, local.state, payload);
+  });
+}
+
+function registerAction (store, type, handler, local) {
+  var entry = store._actions[type] || (store._actions[type] = []);
+  entry.push(function wrappedActionHandler (payload, cb) {
+    var res = handler.call(store, {
+      dispatch: local.dispatch,
+      commit: local.commit,
+      getters: local.getters,
+      state: local.state,
+      rootGetters: store.getters,
+      rootState: store.state
+    }, payload, cb);
+    if (!isPromise(res)) {
+      res = Promise.resolve(res);
+    }
+    if (store._devtoolHook) {
+      return res.catch(function (err) {
+        store._devtoolHook.emit('vuex:error', err);
+        throw err
+      })
+    } else {
+      return res
+    }
+  });
+}
+
+function registerGetter (store, type, rawGetter, local) {
+  if (store._wrappedGetters[type]) {
+    if (true) {
+      console.error(("[vuex] duplicate getter key: " + type));
+    }
+    return
+  }
+  store._wrappedGetters[type] = function wrappedGetter (store) {
+    return rawGetter(
+      local.state, // local state
+      local.getters, // local getters
+      store.state, // root state
+      store.getters // root getters
+    )
+  };
+}
+
+function enableStrictMode (store) {
+  store._vm.$watch(function () { return this._data.$$state }, function () {
+    if (true) {
+      assert(store._committing, "Do not mutate vuex store state outside mutation handlers.");
+    }
+  }, { deep: true, sync: true });
+}
+
+function getNestedState (state, path) {
+  return path.length
+    ? path.reduce(function (state, key) { return state[key]; }, state)
+    : state
+}
+
+function unifyObjectStyle (type, payload, options) {
+  if (isObject(type) && type.type) {
+    options = payload;
+    payload = type;
+    type = type.type;
+  }
+
+  if (true) {
+    assert(typeof type === 'string', ("Expects string as the type, but found " + (typeof type) + "."));
+  }
+
+  return { type: type, payload: payload, options: options }
+}
+
+function install (_Vue) {
+  if (Vue && _Vue === Vue) {
+    if (true) {
+      console.error(
+        '[vuex] already installed. Vue.use(Vuex) should be called only once.'
+      );
+    }
+    return
+  }
+  Vue = _Vue;
+  applyMixin(Vue);
+}
+
+var mapState = normalizeNamespace(function (namespace, states) {
+  var res = {};
+  normalizeMap(states).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    res[key] = function mappedState () {
+      var state = this.$store.state;
+      var getters = this.$store.getters;
+      if (namespace) {
+        var module = getModuleByNamespace(this.$store, 'mapState', namespace);
+        if (!module) {
+          return
+        }
+        state = module.context.state;
+        getters = module.context.getters;
+      }
+      return typeof val === 'function'
+        ? val.call(this, state, getters)
+        : state[val]
+    };
+    // mark vuex getter for devtools
+    res[key].vuex = true;
+  });
+  return res
+});
+
+var mapMutations = normalizeNamespace(function (namespace, mutations) {
+  var res = {};
+  normalizeMap(mutations).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    res[key] = function mappedMutation () {
+      var args = [], len = arguments.length;
+      while ( len-- ) args[ len ] = arguments[ len ];
+
+      var commit = this.$store.commit;
+      if (namespace) {
+        var module = getModuleByNamespace(this.$store, 'mapMutations', namespace);
+        if (!module) {
+          return
+        }
+        commit = module.context.commit;
+      }
+      return typeof val === 'function'
+        ? val.apply(this, [commit].concat(args))
+        : commit.apply(this.$store, [val].concat(args))
+    };
+  });
+  return res
+});
+
+var mapGetters = normalizeNamespace(function (namespace, getters) {
+  var res = {};
+  normalizeMap(getters).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    val = namespace + val;
+    res[key] = function mappedGetter () {
+      if (namespace && !getModuleByNamespace(this.$store, 'mapGetters', namespace)) {
+        return
+      }
+      if ( true && !(val in this.$store.getters)) {
+        console.error(("[vuex] unknown getter: " + val));
+        return
+      }
+      return this.$store.getters[val]
+    };
+    // mark vuex getter for devtools
+    res[key].vuex = true;
+  });
+  return res
+});
+
+var mapActions = normalizeNamespace(function (namespace, actions) {
+  var res = {};
+  normalizeMap(actions).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    res[key] = function mappedAction () {
+      var args = [], len = arguments.length;
+      while ( len-- ) args[ len ] = arguments[ len ];
+
+      var dispatch = this.$store.dispatch;
+      if (namespace) {
+        var module = getModuleByNamespace(this.$store, 'mapActions', namespace);
+        if (!module) {
+          return
+        }
+        dispatch = module.context.dispatch;
+      }
+      return typeof val === 'function'
+        ? val.apply(this, [dispatch].concat(args))
+        : dispatch.apply(this.$store, [val].concat(args))
+    };
+  });
+  return res
+});
+
+var createNamespacedHelpers = function (namespace) { return ({
+  mapState: mapState.bind(null, namespace),
+  mapGetters: mapGetters.bind(null, namespace),
+  mapMutations: mapMutations.bind(null, namespace),
+  mapActions: mapActions.bind(null, namespace)
+}); };
+
+function normalizeMap (map) {
+  return Array.isArray(map)
+    ? map.map(function (key) { return ({ key: key, val: key }); })
+    : Object.keys(map).map(function (key) { return ({ key: key, val: map[key] }); })
+}
+
+function normalizeNamespace (fn) {
+  return function (namespace, map) {
+    if (typeof namespace !== 'string') {
+      map = namespace;
+      namespace = '';
+    } else if (namespace.charAt(namespace.length - 1) !== '/') {
+      namespace += '/';
+    }
+    return fn(namespace, map)
+  }
+}
+
+function getModuleByNamespace (store, helper, namespace) {
+  var module = store._modulesNamespaceMap[namespace];
+  if ( true && !module) {
+    console.error(("[vuex] module namespace not found in " + helper + "(): " + namespace));
+  }
+  return module
+}
+
+var index_esm = {
+  Store: Store,
+  install: install,
+  version: '3.0.1',
+  mapState: mapState,
+  mapMutations: mapMutations,
+  mapGetters: mapGetters,
+  mapActions: mapActions,
+  createNamespacedHelpers: createNamespacedHelpers
+};
+
+
+/* harmony default export */ __webpack_exports__["default"] = (index_esm);
+
+
+/***/ }),
+
+/***/ 19:
+/*!*********************************************************************************************!*\
+  !*** ./node_modules/@vue/babel-preset-app/node_modules/@babel/runtime/regenerator/index.js ***!
+  \*********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! regenerator-runtime */ 20);
+
+/***/ }),
+
+/***/ 2:
+/*!******************************************************************************************!*\
+  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js ***!
+  \******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(global) {/*!
+ * Vue.js v2.6.11
+ * (c) 2014-2020 Evan You
+ * Released under the MIT License.
+ */
+/*  */
+
+var emptyObject = Object.freeze({});
+
+// These helpers produce better VM code in JS engines due to their
+// explicitness and function inlining.
+function isUndef (v) {
+  return v === undefined || v === null
+}
+
+function isDef (v) {
+  return v !== undefined && v !== null
+}
+
+function isTrue (v) {
+  return v === true
+}
+
+function isFalse (v) {
+  return v === false
+}
+
+/**
+ * Check if value is primitive.
+ */
+function isPrimitive (value) {
+  return (
+    typeof value === 'string' ||
+    typeof value === 'number' ||
+    // $flow-disable-line
+    typeof value === 'symbol' ||
+    typeof value === 'boolean'
+  )
+}
+
+/**
+ * Quick object check - this is primarily used to tell
+ * Objects from primitive values when we know the value
+ * is a JSON-compliant type.
+ */
+function isObject (obj) {
+  return obj !== null && typeof obj === 'object'
+}
+
+/**
+ * Get the raw type string of a value, e.g., [object Object].
+ */
+var _toString = Object.prototype.toString;
+
+function toRawType (value) {
+  return _toString.call(value).slice(8, -1)
+}
+
+/**
+ * Strict object type check. Only returns true
+ * for plain JavaScript objects.
+ */
+function isPlainObject (obj) {
+  return _toString.call(obj) === '[object Object]'
+}
+
+function isRegExp (v) {
+  return _toString.call(v) === '[object RegExp]'
+}
+
+/**
+ * Check if val is a valid array index.
+ */
+function isValidArrayIndex (val) {
+  var n = parseFloat(String(val));
+  return n >= 0 && Math.floor(n) === n && isFinite(val)
+}
+
+function isPromise (val) {
+  return (
+    isDef(val) &&
+    typeof val.then === 'function' &&
+    typeof val.catch === 'function'
+  )
+}
+
+/**
+ * Convert a value to a string that is actually rendered.
+ */
+function toString (val) {
+  return val == null
+    ? ''
+    : Array.isArray(val) || (isPlainObject(val) && val.toString === _toString)
+      ? JSON.stringify(val, null, 2)
+      : String(val)
+}
+
+/**
+ * Convert an input value to a number for persistence.
+ * If the conversion fails, return original string.
+ */
+function toNumber (val) {
+  var n = parseFloat(val);
+  return isNaN(n) ? val : n
+}
+
+/**
+ * Make a map and return a function for checking if a key
+ * is in that map.
+ */
+function makeMap (
+  str,
+  expectsLowerCase
+) {
+  var map = Object.create(null);
+  var list = str.split(',');
+  for (var i = 0; i < list.length; i++) {
+    map[list[i]] = true;
+  }
+  return expectsLowerCase
+    ? function (val) { return map[val.toLowerCase()]; }
+    : function (val) { return map[val]; }
+}
+
+/**
+ * Check if a tag is a built-in tag.
+ */
+var isBuiltInTag = makeMap('slot,component', true);
+
+/**
+ * Check if an attribute is a reserved attribute.
+ */
+var isReservedAttribute = makeMap('key,ref,slot,slot-scope,is');
+
+/**
+ * Remove an item from an array.
+ */
+function remove (arr, item) {
+  if (arr.length) {
+    var index = arr.indexOf(item);
+    if (index > -1) {
+      return arr.splice(index, 1)
+    }
+  }
+}
+
+/**
+ * Check whether an object has the property.
+ */
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+function hasOwn (obj, key) {
+  return hasOwnProperty.call(obj, key)
+}
+
+/**
+ * Create a cached version of a pure function.
+ */
+function cached (fn) {
+  var cache = Object.create(null);
+  return (function cachedFn (str) {
+    var hit = cache[str];
+    return hit || (cache[str] = fn(str))
+  })
+}
+
+/**
+ * Camelize a hyphen-delimited string.
+ */
+var camelizeRE = /-(\w)/g;
+var camelize = cached(function (str) {
+  return str.replace(camelizeRE, function (_, c) { return c ? c.toUpperCase() : ''; })
+});
+
+/**
+ * Capitalize a string.
+ */
+var capitalize = cached(function (str) {
+  return str.charAt(0).toUpperCase() + str.slice(1)
+});
+
+/**
+ * Hyphenate a camelCase string.
+ */
+var hyphenateRE = /\B([A-Z])/g;
+var hyphenate = cached(function (str) {
+  return str.replace(hyphenateRE, '-$1').toLowerCase()
+});
+
+/**
+ * Simple bind polyfill for environments that do not support it,
+ * e.g., PhantomJS 1.x. Technically, we don't need this anymore
+ * since native bind is now performant enough in most browsers.
+ * But removing it would mean breaking code that was able to run in
+ * PhantomJS 1.x, so this must be kept for backward compatibility.
+ */
+
+/* istanbul ignore next */
+function polyfillBind (fn, ctx) {
+  function boundFn (a) {
+    var l = arguments.length;
+    return l
+      ? l > 1
+        ? fn.apply(ctx, arguments)
+        : fn.call(ctx, a)
+      : fn.call(ctx)
+  }
+
+  boundFn._length = fn.length;
+  return boundFn
+}
+
+function nativeBind (fn, ctx) {
+  return fn.bind(ctx)
+}
+
+var bind = Function.prototype.bind
+  ? nativeBind
+  : polyfillBind;
+
+/**
+ * Convert an Array-like object to a real Array.
+ */
+function toArray (list, start) {
+  start = start || 0;
+  var i = list.length - start;
+  var ret = new Array(i);
+  while (i--) {
+    ret[i] = list[i + start];
+  }
+  return ret
+}
+
+/**
+ * Mix properties into target object.
+ */
+function extend (to, _from) {
+  for (var key in _from) {
+    to[key] = _from[key];
+  }
+  return to
+}
+
+/**
+ * Merge an Array of Objects into a single Object.
+ */
+function toObject (arr) {
+  var res = {};
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i]) {
+      extend(res, arr[i]);
+    }
+  }
+  return res
+}
+
+/* eslint-disable no-unused-vars */
+
+/**
+ * Perform no operation.
+ * Stubbing args to make Flow happy without leaving useless transpiled code
+ * with ...rest (https://flow.org/blog/2017/05/07/Strict-Function-Call-Arity/).
+ */
+function noop (a, b, c) {}
+
+/**
+ * Always return false.
+ */
+var no = function (a, b, c) { return false; };
+
+/* eslint-enable no-unused-vars */
+
+/**
+ * Return the same value.
+ */
+var identity = function (_) { return _; };
+
+/**
+ * Check if two values are loosely equal - that is,
+ * if they are plain objects, do they have the same shape?
+ */
+function looseEqual (a, b) {
+  if (a === b) { return true }
+  var isObjectA = isObject(a);
+  var isObjectB = isObject(b);
+  if (isObjectA && isObjectB) {
+    try {
+      var isArrayA = Array.isArray(a);
+      var isArrayB = Array.isArray(b);
+      if (isArrayA && isArrayB) {
+        return a.length === b.length && a.every(function (e, i) {
+          return looseEqual(e, b[i])
+        })
+      } else if (a instanceof Date && b instanceof Date) {
+        return a.getTime() === b.getTime()
+      } else if (!isArrayA && !isArrayB) {
+        var keysA = Object.keys(a);
+        var keysB = Object.keys(b);
+        return keysA.length === keysB.length && keysA.every(function (key) {
+          return looseEqual(a[key], b[key])
+        })
+      } else {
+        /* istanbul ignore next */
+        return false
+      }
+    } catch (e) {
+      /* istanbul ignore next */
+      return false
+    }
+  } else if (!isObjectA && !isObjectB) {
+    return String(a) === String(b)
+  } else {
+    return false
+  }
+}
+
+/**
+ * Return the first index at which a loosely equal value can be
+ * found in the array (if value is a plain object, the array must
+ * contain an object of the same shape), or -1 if it is not present.
+ */
+function looseIndexOf (arr, val) {
+  for (var i = 0; i < arr.length; i++) {
+    if (looseEqual(arr[i], val)) { return i }
+  }
+  return -1
+}
+
+/**
+ * Ensure a function is called only once.
+ */
+function once (fn) {
+  var called = false;
+  return function () {
+    if (!called) {
+      called = true;
+      fn.apply(this, arguments);
+    }
+  }
+}
+
+var ASSET_TYPES = [
+  'component',
+  'directive',
+  'filter'
+];
+
+var LIFECYCLE_HOOKS = [
+  'beforeCreate',
+  'created',
+  'beforeMount',
+  'mounted',
+  'beforeUpdate',
+  'updated',
+  'beforeDestroy',
+  'destroyed',
+  'activated',
+  'deactivated',
+  'errorCaptured',
+  'serverPrefetch'
+];
+
+/*  */
+
+
+
+var config = ({
+  /**
+   * Option merge strategies (used in core/util/options)
+   */
+  // $flow-disable-line
+  optionMergeStrategies: Object.create(null),
+
+  /**
+   * Whether to suppress warnings.
+   */
+  silent: false,
+
+  /**
+   * Show production mode tip message on boot?
+   */
+  productionTip: "development" !== 'production',
+
+  /**
+   * Whether to enable devtools
+   */
+  devtools: "development" !== 'production',
+
+  /**
+   * Whether to record perf
+   */
+  performance: false,
+
+  /**
+   * Error handler for watcher errors
+   */
+  errorHandler: null,
+
+  /**
+   * Warn handler for watcher warns
+   */
+  warnHandler: null,
+
+  /**
+   * Ignore certain custom elements
+   */
+  ignoredElements: [],
+
+  /**
+   * Custom user key aliases for v-on
+   */
+  // $flow-disable-line
+  keyCodes: Object.create(null),
+
+  /**
+   * Check if a tag is reserved so that it cannot be registered as a
+   * component. This is platform-dependent and may be overwritten.
+   */
+  isReservedTag: no,
+
+  /**
+   * Check if an attribute is reserved so that it cannot be used as a component
+   * prop. This is platform-dependent and may be overwritten.
+   */
+  isReservedAttr: no,
+
+  /**
+   * Check if a tag is an unknown element.
+   * Platform-dependent.
+   */
+  isUnknownElement: no,
+
+  /**
+   * Get the namespace of an element
+   */
+  getTagNamespace: noop,
+
+  /**
+   * Parse the real tag name for the specific platform.
+   */
+  parsePlatformTagName: identity,
+
+  /**
+   * Check if an attribute must be bound using property, e.g. value
+   * Platform-dependent.
+   */
+  mustUseProp: no,
+
+  /**
+   * Perform updates asynchronously. Intended to be used by Vue Test Utils
+   * This will significantly reduce performance if set to false.
+   */
+  async: true,
+
+  /**
+   * Exposed for legacy reasons
+   */
+  _lifecycleHooks: LIFECYCLE_HOOKS
+});
+
+/*  */
+
+/**
+ * unicode letters used for parsing html tags, component names and property paths.
+ * using https://www.w3.org/TR/html53/semantics-scripting.html#potentialcustomelementname
+ * skipping \u10000-\uEFFFF due to it freezing up PhantomJS
+ */
+var unicodeRegExp = /a-zA-Z\u00B7\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u037D\u037F-\u1FFF\u200C-\u200D\u203F-\u2040\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD/;
+
+/**
+ * Check if a string starts with $ or _
+ */
+function isReserved (str) {
+  var c = (str + '').charCodeAt(0);
+  return c === 0x24 || c === 0x5F
+}
+
+/**
+ * Define a property.
+ */
+function def (obj, key, val, enumerable) {
+  Object.defineProperty(obj, key, {
+    value: val,
+    enumerable: !!enumerable,
+    writable: true,
+    configurable: true
+  });
+}
+
+/**
+ * Parse simple path.
+ */
+var bailRE = new RegExp(("[^" + (unicodeRegExp.source) + ".$_\\d]"));
+function parsePath (path) {
+  if (bailRE.test(path)) {
+    return
+  }
+  var segments = path.split('.');
+  return function (obj) {
+    for (var i = 0; i < segments.length; i++) {
+      if (!obj) { return }
+      obj = obj[segments[i]];
+    }
+    return obj
+  }
+}
+
+/*  */
+
+// can we use __proto__?
+var hasProto = '__proto__' in {};
+
+// Browser environment sniffing
+var inBrowser = typeof window !== 'undefined';
+var inWeex = typeof WXEnvironment !== 'undefined' && !!WXEnvironment.platform;
+var weexPlatform = inWeex && WXEnvironment.platform.toLowerCase();
+var UA = inBrowser && window.navigator.userAgent.toLowerCase();
+var isIE = UA && /msie|trident/.test(UA);
+var isIE9 = UA && UA.indexOf('msie 9.0') > 0;
+var isEdge = UA && UA.indexOf('edge/') > 0;
+var isAndroid = (UA && UA.indexOf('android') > 0) || (weexPlatform === 'android');
+var isIOS = (UA && /iphone|ipad|ipod|ios/.test(UA)) || (weexPlatform === 'ios');
+var isChrome = UA && /chrome\/\d+/.test(UA) && !isEdge;
+var isPhantomJS = UA && /phantomjs/.test(UA);
+var isFF = UA && UA.match(/firefox\/(\d+)/);
+
+// Firefox has a "watch" function on Object.prototype...
+var nativeWatch = ({}).watch;
+if (inBrowser) {
+  try {
+    var opts = {};
+    Object.defineProperty(opts, 'passive', ({
+      get: function get () {
+      }
+    })); // https://github.com/facebook/flow/issues/285
+    window.addEventListener('test-passive', null, opts);
+  } catch (e) {}
+}
+
+// this needs to be lazy-evaled because vue may be required before
+// vue-server-renderer can set VUE_ENV
+var _isServer;
+var isServerRendering = function () {
+  if (_isServer === undefined) {
+    /* istanbul ignore if */
+    if (!inBrowser && !inWeex && typeof global !== 'undefined') {
+      // detect presence of vue-server-renderer and avoid
+      // Webpack shimming the process
+      _isServer = global['process'] && global['process'].env.VUE_ENV === 'server';
+    } else {
+      _isServer = false;
+    }
+  }
+  return _isServer
+};
+
+// detect devtools
+var devtools = inBrowser && window.__VUE_DEVTOOLS_GLOBAL_HOOK__;
+
+/* istanbul ignore next */
+function isNative (Ctor) {
+  return typeof Ctor === 'function' && /native code/.test(Ctor.toString())
+}
+
+var hasSymbol =
+  typeof Symbol !== 'undefined' && isNative(Symbol) &&
+  typeof Reflect !== 'undefined' && isNative(Reflect.ownKeys);
+
+var _Set;
+/* istanbul ignore if */ // $flow-disable-line
+if (typeof Set !== 'undefined' && isNative(Set)) {
+  // use native Set when available.
+  _Set = Set;
+} else {
+  // a non-standard Set polyfill that only works with primitive keys.
+  _Set = /*@__PURE__*/(function () {
+    function Set () {
+      this.set = Object.create(null);
+    }
+    Set.prototype.has = function has (key) {
+      return this.set[key] === true
+    };
+    Set.prototype.add = function add (key) {
+      this.set[key] = true;
+    };
+    Set.prototype.clear = function clear () {
+      this.set = Object.create(null);
+    };
+
+    return Set;
+  }());
+}
+
+/*  */
+
+var warn = noop;
+var tip = noop;
+var generateComponentTrace = (noop); // work around flow check
+var formatComponentName = (noop);
+
+if (true) {
+  var hasConsole = typeof console !== 'undefined';
+  var classifyRE = /(?:^|[-_])(\w)/g;
+  var classify = function (str) { return str
+    .replace(classifyRE, function (c) { return c.toUpperCase(); })
+    .replace(/[-_]/g, ''); };
+
+  warn = function (msg, vm) {
+    var trace = vm ? generateComponentTrace(vm) : '';
+
+    if (config.warnHandler) {
+      config.warnHandler.call(null, msg, vm, trace);
+    } else if (hasConsole && (!config.silent)) {
+      console.error(("[Vue warn]: " + msg + trace));
+    }
+  };
+
+  tip = function (msg, vm) {
+    if (hasConsole && (!config.silent)) {
+      console.warn("[Vue tip]: " + msg + (
+        vm ? generateComponentTrace(vm) : ''
+      ));
+    }
+  };
+
+  formatComponentName = function (vm, includeFile) {
+    {
+      if(vm.$scope && vm.$scope.is){
+        return vm.$scope.is
+      }
+    }
+    if (vm.$root === vm) {
+      return '<Root>'
+    }
+    var options = typeof vm === 'function' && vm.cid != null
+      ? vm.options
+      : vm._isVue
+        ? vm.$options || vm.constructor.options
+        : vm;
+    var name = options.name || options._componentTag;
+    var file = options.__file;
+    if (!name && file) {
+      var match = file.match(/([^/\\]+)\.vue$/);
+      name = match && match[1];
+    }
+
+    return (
+      (name ? ("<" + (classify(name)) + ">") : "<Anonymous>") +
+      (file && includeFile !== false ? (" at " + file) : '')
+    )
+  };
+
+  var repeat = function (str, n) {
+    var res = '';
+    while (n) {
+      if (n % 2 === 1) { res += str; }
+      if (n > 1) { str += str; }
+      n >>= 1;
+    }
+    return res
+  };
+
+  generateComponentTrace = function (vm) {
+    if (vm._isVue && vm.$parent) {
+      var tree = [];
+      var currentRecursiveSequence = 0;
+      while (vm) {
+        if (tree.length > 0) {
+          var last = tree[tree.length - 1];
+          if (last.constructor === vm.constructor) {
+            currentRecursiveSequence++;
+            vm = vm.$parent;
+            continue
+          } else if (currentRecursiveSequence > 0) {
+            tree[tree.length - 1] = [last, currentRecursiveSequence];
+            currentRecursiveSequence = 0;
+          }
+        }
+        tree.push(vm);
+        vm = vm.$parent;
+      }
+      return '\n\nfound in\n\n' + tree
+        .map(function (vm, i) { return ("" + (i === 0 ? '---> ' : repeat(' ', 5 + i * 2)) + (Array.isArray(vm)
+            ? ((formatComponentName(vm[0])) + "... (" + (vm[1]) + " recursive calls)")
+            : formatComponentName(vm))); })
+        .join('\n')
+    } else {
+      return ("\n\n(found in " + (formatComponentName(vm)) + ")")
+    }
+  };
+}
+
+/*  */
+
+var uid = 0;
+
+/**
+ * A dep is an observable that can have multiple
+ * directives subscribing to it.
+ */
+var Dep = function Dep () {
+  // fixed by xxxxxx (nvue vuex)
+  /* eslint-disable no-undef */
+  if(typeof SharedObject !== 'undefined'){
+    this.id = SharedObject.uid++;
+  } else {
+    this.id = uid++;
+  }
+  this.subs = [];
+};
+
+Dep.prototype.addSub = function addSub (sub) {
+  this.subs.push(sub);
+};
+
+Dep.prototype.removeSub = function removeSub (sub) {
+  remove(this.subs, sub);
+};
+
+Dep.prototype.depend = function depend () {
+  if (Dep.SharedObject.target) {
+    Dep.SharedObject.target.addDep(this);
+  }
+};
+
+Dep.prototype.notify = function notify () {
+  // stabilize the subscriber list first
+  var subs = this.subs.slice();
+  if ( true && !config.async) {
+    // subs aren't sorted in scheduler if not running async
+    // we need to sort them now to make sure they fire in correct
+    // order
+    subs.sort(function (a, b) { return a.id - b.id; });
+  }
+  for (var i = 0, l = subs.length; i < l; i++) {
+    subs[i].update();
+  }
+};
+
+// The current target watcher being evaluated.
+// This is globally unique because only one watcher
+// can be evaluated at a time.
+// fixed by xxxxxx (nvue shared vuex)
+/* eslint-disable no-undef */
+Dep.SharedObject = typeof SharedObject !== 'undefined' ? SharedObject : {};
+Dep.SharedObject.target = null;
+Dep.SharedObject.targetStack = [];
+
+function pushTarget (target) {
+  Dep.SharedObject.targetStack.push(target);
+  Dep.SharedObject.target = target;
+}
+
+function popTarget () {
+  Dep.SharedObject.targetStack.pop();
+  Dep.SharedObject.target = Dep.SharedObject.targetStack[Dep.SharedObject.targetStack.length - 1];
+}
+
+/*  */
+
+var VNode = function VNode (
+  tag,
+  data,
+  children,
+  text,
+  elm,
+  context,
+  componentOptions,
+  asyncFactory
+) {
+  this.tag = tag;
+  this.data = data;
+  this.children = children;
+  this.text = text;
+  this.elm = elm;
+  this.ns = undefined;
+  this.context = context;
+  this.fnContext = undefined;
+  this.fnOptions = undefined;
+  this.fnScopeId = undefined;
+  this.key = data && data.key;
+  this.componentOptions = componentOptions;
+  this.componentInstance = undefined;
+  this.parent = undefined;
+  this.raw = false;
+  this.isStatic = false;
+  this.isRootInsert = true;
+  this.isComment = false;
+  this.isCloned = false;
+  this.isOnce = false;
+  this.asyncFactory = asyncFactory;
+  this.asyncMeta = undefined;
+  this.isAsyncPlaceholder = false;
+};
+
+var prototypeAccessors = { child: { configurable: true } };
+
+// DEPRECATED: alias for componentInstance for backwards compat.
+/* istanbul ignore next */
+prototypeAccessors.child.get = function () {
+  return this.componentInstance
+};
+
+Object.defineProperties( VNode.prototype, prototypeAccessors );
+
+var createEmptyVNode = function (text) {
+  if ( text === void 0 ) text = '';
+
+  var node = new VNode();
+  node.text = text;
+  node.isComment = true;
+  return node
+};
+
+function createTextVNode (val) {
+  return new VNode(undefined, undefined, undefined, String(val))
+}
+
+// optimized shallow clone
+// used for static nodes and slot nodes because they may be reused across
+// multiple renders, cloning them avoids errors when DOM manipulations rely
+// on their elm reference.
+function cloneVNode (vnode) {
+  var cloned = new VNode(
+    vnode.tag,
+    vnode.data,
+    // #7975
+    // clone children array to avoid mutating original in case of cloning
+    // a child.
+    vnode.children && vnode.children.slice(),
+    vnode.text,
+    vnode.elm,
+    vnode.context,
+    vnode.componentOptions,
+    vnode.asyncFactory
+  );
+  cloned.ns = vnode.ns;
+  cloned.isStatic = vnode.isStatic;
+  cloned.key = vnode.key;
+  cloned.isComment = vnode.isComment;
+  cloned.fnContext = vnode.fnContext;
+  cloned.fnOptions = vnode.fnOptions;
+  cloned.fnScopeId = vnode.fnScopeId;
+  cloned.asyncMeta = vnode.asyncMeta;
+  cloned.isCloned = true;
+  return cloned
+}
+
+/*
+ * not type checking this file because flow doesn't play well with
+ * dynamically accessing methods on Array prototype
+ */
+
+var arrayProto = Array.prototype;
+var arrayMethods = Object.create(arrayProto);
+
+var methodsToPatch = [
+  'push',
+  'pop',
+  'shift',
+  'unshift',
+  'splice',
+  'sort',
+  'reverse'
+];
+
+/**
+ * Intercept mutating methods and emit events
+ */
+methodsToPatch.forEach(function (method) {
+  // cache original method
+  var original = arrayProto[method];
+  def(arrayMethods, method, function mutator () {
+    var args = [], len = arguments.length;
+    while ( len-- ) args[ len ] = arguments[ len ];
+
+    var result = original.apply(this, args);
+    var ob = this.__ob__;
+    var inserted;
+    switch (method) {
+      case 'push':
+      case 'unshift':
+        inserted = args;
+        break
+      case 'splice':
+        inserted = args.slice(2);
+        break
+    }
+    if (inserted) { ob.observeArray(inserted); }
+    // notify change
+    ob.dep.notify();
+    return result
+  });
+});
+
+/*  */
+
+var arrayKeys = Object.getOwnPropertyNames(arrayMethods);
+
+/**
+ * In some cases we may want to disable observation inside a component's
+ * update computation.
+ */
+var shouldObserve = true;
+
+function toggleObserving (value) {
+  shouldObserve = value;
+}
+
+/**
+ * Observer class that is attached to each observed
+ * object. Once attached, the observer converts the target
+ * object's property keys into getter/setters that
+ * collect dependencies and dispatch updates.
+ */
+var Observer = function Observer (value) {
+  this.value = value;
+  this.dep = new Dep();
+  this.vmCount = 0;
+  def(value, '__ob__', this);
+  if (Array.isArray(value)) {
+    if (hasProto) {
+      {// fixed by xxxxxx 微信小程序使用 plugins 之后，数组方法被直接挂载到了数组对象上，需要执行 copyAugment 逻辑
+        if(value.push !== value.__proto__.push){
+          copyAugment(value, arrayMethods, arrayKeys);
+        } else {
+          protoAugment(value, arrayMethods);
+        }
+      }
+    } else {
+      copyAugment(value, arrayMethods, arrayKeys);
+    }
+    this.observeArray(value);
+  } else {
+    this.walk(value);
+  }
+};
+
+/**
+ * Walk through all properties and convert them into
+ * getter/setters. This method should only be called when
+ * value type is Object.
+ */
+Observer.prototype.walk = function walk (obj) {
+  var keys = Object.keys(obj);
+  for (var i = 0; i < keys.length; i++) {
+    defineReactive$$1(obj, keys[i]);
+  }
+};
+
+/**
+ * Observe a list of Array items.
+ */
+Observer.prototype.observeArray = function observeArray (items) {
+  for (var i = 0, l = items.length; i < l; i++) {
+    observe(items[i]);
+  }
+};
+
+// helpers
+
+/**
+ * Augment a target Object or Array by intercepting
+ * the prototype chain using __proto__
+ */
+function protoAugment (target, src) {
+  /* eslint-disable no-proto */
+  target.__proto__ = src;
+  /* eslint-enable no-proto */
+}
+
+/**
+ * Augment a target Object or Array by defining
+ * hidden properties.
+ */
+/* istanbul ignore next */
+function copyAugment (target, src, keys) {
+  for (var i = 0, l = keys.length; i < l; i++) {
+    var key = keys[i];
+    def(target, key, src[key]);
+  }
+}
+
+/**
+ * Attempt to create an observer instance for a value,
+ * returns the new observer if successfully observed,
+ * or the existing observer if the value already has one.
+ */
+function observe (value, asRootData) {
+  if (!isObject(value) || value instanceof VNode) {
+    return
+  }
+  var ob;
+  if (hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {
+    ob = value.__ob__;
+  } else if (
+    shouldObserve &&
+    !isServerRendering() &&
+    (Array.isArray(value) || isPlainObject(value)) &&
+    Object.isExtensible(value) &&
+    !value._isVue
+  ) {
+    ob = new Observer(value);
+  }
+  if (asRootData && ob) {
+    ob.vmCount++;
+  }
+  return ob
+}
+
+/**
+ * Define a reactive property on an Object.
+ */
+function defineReactive$$1 (
+  obj,
+  key,
+  val,
+  customSetter,
+  shallow
+) {
+  var dep = new Dep();
+
+  var property = Object.getOwnPropertyDescriptor(obj, key);
+  if (property && property.configurable === false) {
+    return
+  }
+
+  // cater for pre-defined getter/setters
+  var getter = property && property.get;
+  var setter = property && property.set;
+  if ((!getter || setter) && arguments.length === 2) {
+    val = obj[key];
+  }
+
+  var childOb = !shallow && observe(val);
+  Object.defineProperty(obj, key, {
+    enumerable: true,
+    configurable: true,
+    get: function reactiveGetter () {
+      var value = getter ? getter.call(obj) : val;
+      if (Dep.SharedObject.target) { // fixed by xxxxxx
+        dep.depend();
+        if (childOb) {
+          childOb.dep.depend();
+          if (Array.isArray(value)) {
+            dependArray(value);
+          }
+        }
+      }
+      return value
+    },
+    set: function reactiveSetter (newVal) {
+      var value = getter ? getter.call(obj) : val;
+      /* eslint-disable no-self-compare */
+      if (newVal === value || (newVal !== newVal && value !== value)) {
+        return
+      }
+      /* eslint-enable no-self-compare */
+      if ( true && customSetter) {
+        customSetter();
+      }
+      // #7981: for accessor properties without setter
+      if (getter && !setter) { return }
+      if (setter) {
+        setter.call(obj, newVal);
+      } else {
+        val = newVal;
+      }
+      childOb = !shallow && observe(newVal);
+      dep.notify();
+    }
+  });
+}
+
+/**
+ * Set a property on an object. Adds the new property and
+ * triggers change notification if the property doesn't
+ * already exist.
+ */
+function set (target, key, val) {
+  if ( true &&
+    (isUndef(target) || isPrimitive(target))
+  ) {
+    warn(("Cannot set reactive property on undefined, null, or primitive value: " + ((target))));
+  }
+  if (Array.isArray(target) && isValidArrayIndex(key)) {
+    target.length = Math.max(target.length, key);
+    target.splice(key, 1, val);
+    return val
+  }
+  if (key in target && !(key in Object.prototype)) {
+    target[key] = val;
+    return val
+  }
+  var ob = (target).__ob__;
+  if (target._isVue || (ob && ob.vmCount)) {
+     true && warn(
+      'Avoid adding reactive properties to a Vue instance or its root $data ' +
+      'at runtime - declare it upfront in the data option.'
+    );
+    return val
+  }
+  if (!ob) {
+    target[key] = val;
+    return val
+  }
+  defineReactive$$1(ob.value, key, val);
+  ob.dep.notify();
+  return val
+}
+
+/**
+ * Delete a property and trigger change if necessary.
+ */
+function del (target, key) {
+  if ( true &&
+    (isUndef(target) || isPrimitive(target))
+  ) {
+    warn(("Cannot delete reactive property on undefined, null, or primitive value: " + ((target))));
+  }
+  if (Array.isArray(target) && isValidArrayIndex(key)) {
+    target.splice(key, 1);
+    return
+  }
+  var ob = (target).__ob__;
+  if (target._isVue || (ob && ob.vmCount)) {
+     true && warn(
+      'Avoid deleting properties on a Vue instance or its root $data ' +
+      '- just set it to null.'
+    );
+    return
+  }
+  if (!hasOwn(target, key)) {
+    return
+  }
+  delete target[key];
+  if (!ob) {
+    return
+  }
+  ob.dep.notify();
+}
+
+/**
+ * Collect dependencies on array elements when the array is touched, since
+ * we cannot intercept array element access like property getters.
+ */
+function dependArray (value) {
+  for (var e = (void 0), i = 0, l = value.length; i < l; i++) {
+    e = value[i];
+    e && e.__ob__ && e.__ob__.dep.depend();
+    if (Array.isArray(e)) {
+      dependArray(e);
+    }
+  }
+}
+
+/*  */
+
+/**
+ * Option overwriting strategies are functions that handle
+ * how to merge a parent option value and a child option
+ * value into the final value.
+ */
+var strats = config.optionMergeStrategies;
+
+/**
+ * Options with restrictions
+ */
+if (true) {
+  strats.el = strats.propsData = function (parent, child, vm, key) {
+    if (!vm) {
+      warn(
+        "option \"" + key + "\" can only be used during instance " +
+        'creation with the `new` keyword.'
+      );
+    }
+    return defaultStrat(parent, child)
+  };
+}
+
+/**
+ * Helper that recursively merges two data objects together.
+ */
+function mergeData (to, from) {
+  if (!from) { return to }
+  var key, toVal, fromVal;
+
+  var keys = hasSymbol
+    ? Reflect.ownKeys(from)
+    : Object.keys(from);
+
+  for (var i = 0; i < keys.length; i++) {
+    key = keys[i];
+    // in case the object is already observed...
+    if (key === '__ob__') { continue }
+    toVal = to[key];
+    fromVal = from[key];
+    if (!hasOwn(to, key)) {
+      set(to, key, fromVal);
+    } else if (
+      toVal !== fromVal &&
+      isPlainObject(toVal) &&
+      isPlainObject(fromVal)
+    ) {
+      mergeData(toVal, fromVal);
+    }
+  }
+  return to
+}
+
+/**
+ * Data
+ */
+function mergeDataOrFn (
+  parentVal,
+  childVal,
+  vm
+) {
+  if (!vm) {
+    // in a Vue.extend merge, both should be functions
+    if (!childVal) {
+      return parentVal
+    }
+    if (!parentVal) {
+      return childVal
+    }
+    // when parentVal & childVal are both present,
+    // we need to return a function that returns the
+    // merged result of both functions... no need to
+    // check if parentVal is a function here because
+    // it has to be a function to pass previous merges.
+    return function mergedDataFn () {
+      return mergeData(
+        typeof childVal === 'function' ? childVal.call(this, this) : childVal,
+        typeof parentVal === 'function' ? parentVal.call(this, this) : parentVal
+      )
+    }
+  } else {
+    return function mergedInstanceDataFn () {
+      // instance merge
+      var instanceData = typeof childVal === 'function'
+        ? childVal.call(vm, vm)
+        : childVal;
+      var defaultData = typeof parentVal === 'function'
+        ? parentVal.call(vm, vm)
+        : parentVal;
+      if (instanceData) {
+        return mergeData(instanceData, defaultData)
+      } else {
+        return defaultData
+      }
+    }
+  }
+}
+
+strats.data = function (
+  parentVal,
+  childVal,
+  vm
+) {
+  if (!vm) {
+    if (childVal && typeof childVal !== 'function') {
+       true && warn(
+        'The "data" option should be a function ' +
+        'that returns a per-instance value in component ' +
+        'definitions.',
+        vm
+      );
+
+      return parentVal
+    }
+    return mergeDataOrFn(parentVal, childVal)
+  }
+
+  return mergeDataOrFn(parentVal, childVal, vm)
+};
+
+/**
+ * Hooks and props are merged as arrays.
+ */
+function mergeHook (
+  parentVal,
+  childVal
+) {
+  var res = childVal
+    ? parentVal
+      ? parentVal.concat(childVal)
+      : Array.isArray(childVal)
+        ? childVal
+        : [childVal]
+    : parentVal;
+  return res
+    ? dedupeHooks(res)
+    : res
+}
+
+function dedupeHooks (hooks) {
+  var res = [];
+  for (var i = 0; i < hooks.length; i++) {
+    if (res.indexOf(hooks[i]) === -1) {
+      res.push(hooks[i]);
+    }
+  }
+  return res
+}
+
+LIFECYCLE_HOOKS.forEach(function (hook) {
+  strats[hook] = mergeHook;
+});
+
+/**
+ * Assets
+ *
+ * When a vm is present (instance creation), we need to do
+ * a three-way merge between constructor options, instance
+ * options and parent options.
+ */
+function mergeAssets (
+  parentVal,
+  childVal,
+  vm,
+  key
+) {
+  var res = Object.create(parentVal || null);
+  if (childVal) {
+     true && assertObjectType(key, childVal, vm);
+    return extend(res, childVal)
+  } else {
+    return res
+  }
+}
+
+ASSET_TYPES.forEach(function (type) {
+  strats[type + 's'] = mergeAssets;
+});
+
+/**
+ * Watchers.
+ *
+ * Watchers hashes should not overwrite one
+ * another, so we merge them as arrays.
+ */
+strats.watch = function (
+  parentVal,
+  childVal,
+  vm,
+  key
+) {
+  // work around Firefox's Object.prototype.watch...
+  if (parentVal === nativeWatch) { parentVal = undefined; }
+  if (childVal === nativeWatch) { childVal = undefined; }
+  /* istanbul ignore if */
+  if (!childVal) { return Object.create(parentVal || null) }
+  if (true) {
+    assertObjectType(key, childVal, vm);
+  }
+  if (!parentVal) { return childVal }
+  var ret = {};
+  extend(ret, parentVal);
+  for (var key$1 in childVal) {
+    var parent = ret[key$1];
+    var child = childVal[key$1];
+    if (parent && !Array.isArray(parent)) {
+      parent = [parent];
+    }
+    ret[key$1] = parent
+      ? parent.concat(child)
+      : Array.isArray(child) ? child : [child];
+  }
+  return ret
+};
+
+/**
+ * Other object hashes.
+ */
+strats.props =
+strats.methods =
+strats.inject =
+strats.computed = function (
+  parentVal,
+  childVal,
+  vm,
+  key
+) {
+  if (childVal && "development" !== 'production') {
+    assertObjectType(key, childVal, vm);
+  }
+  if (!parentVal) { return childVal }
+  var ret = Object.create(null);
+  extend(ret, parentVal);
+  if (childVal) { extend(ret, childVal); }
+  return ret
+};
+strats.provide = mergeDataOrFn;
+
+/**
+ * Default strategy.
+ */
+var defaultStrat = function (parentVal, childVal) {
+  return childVal === undefined
+    ? parentVal
+    : childVal
+};
+
+/**
+ * Validate component names
+ */
+function checkComponents (options) {
+  for (var key in options.components) {
+    validateComponentName(key);
+  }
+}
+
+function validateComponentName (name) {
+  if (!new RegExp(("^[a-zA-Z][\\-\\.0-9_" + (unicodeRegExp.source) + "]*$")).test(name)) {
+    warn(
+      'Invalid component name: "' + name + '". Component names ' +
+      'should conform to valid custom element name in html5 specification.'
+    );
+  }
+  if (isBuiltInTag(name) || config.isReservedTag(name)) {
+    warn(
+      'Do not use built-in or reserved HTML elements as component ' +
+      'id: ' + name
+    );
+  }
+}
+
+/**
+ * Ensure all props option syntax are normalized into the
+ * Object-based format.
+ */
+function normalizeProps (options, vm) {
+  var props = options.props;
+  if (!props) { return }
+  var res = {};
+  var i, val, name;
+  if (Array.isArray(props)) {
+    i = props.length;
+    while (i--) {
+      val = props[i];
+      if (typeof val === 'string') {
+        name = camelize(val);
+        res[name] = { type: null };
+      } else if (true) {
+        warn('props must be strings when using array syntax.');
+      }
+    }
+  } else if (isPlainObject(props)) {
+    for (var key in props) {
+      val = props[key];
+      name = camelize(key);
+      res[name] = isPlainObject(val)
+        ? val
+        : { type: val };
+    }
+  } else if (true) {
+    warn(
+      "Invalid value for option \"props\": expected an Array or an Object, " +
+      "but got " + (toRawType(props)) + ".",
+      vm
+    );
+  }
+  options.props = res;
+}
+
+/**
+ * Normalize all injections into Object-based format
+ */
+function normalizeInject (options, vm) {
+  var inject = options.inject;
+  if (!inject) { return }
+  var normalized = options.inject = {};
+  if (Array.isArray(inject)) {
+    for (var i = 0; i < inject.length; i++) {
+      normalized[inject[i]] = { from: inject[i] };
+    }
+  } else if (isPlainObject(inject)) {
+    for (var key in inject) {
+      var val = inject[key];
+      normalized[key] = isPlainObject(val)
+        ? extend({ from: key }, val)
+        : { from: val };
+    }
+  } else if (true) {
+    warn(
+      "Invalid value for option \"inject\": expected an Array or an Object, " +
+      "but got " + (toRawType(inject)) + ".",
+      vm
+    );
+  }
+}
+
+/**
+ * Normalize raw function directives into object format.
+ */
+function normalizeDirectives (options) {
+  var dirs = options.directives;
+  if (dirs) {
+    for (var key in dirs) {
+      var def$$1 = dirs[key];
+      if (typeof def$$1 === 'function') {
+        dirs[key] = { bind: def$$1, update: def$$1 };
+      }
+    }
+  }
+}
+
+function assertObjectType (name, value, vm) {
+  if (!isPlainObject(value)) {
+    warn(
+      "Invalid value for option \"" + name + "\": expected an Object, " +
+      "but got " + (toRawType(value)) + ".",
+      vm
+    );
+  }
+}
+
+/**
+ * Merge two option objects into a new one.
+ * Core utility used in both instantiation and inheritance.
+ */
+function mergeOptions (
+  parent,
+  child,
+  vm
+) {
+  if (true) {
+    checkComponents(child);
+  }
+
+  if (typeof child === 'function') {
+    child = child.options;
+  }
+
+  normalizeProps(child, vm);
+  normalizeInject(child, vm);
+  normalizeDirectives(child);
+
+  // Apply extends and mixins on the child options,
+  // but only if it is a raw options object that isn't
+  // the result of another mergeOptions call.
+  // Only merged options has the _base property.
+  if (!child._base) {
+    if (child.extends) {
+      parent = mergeOptions(parent, child.extends, vm);
+    }
+    if (child.mixins) {
+      for (var i = 0, l = child.mixins.length; i < l; i++) {
+        parent = mergeOptions(parent, child.mixins[i], vm);
+      }
+    }
+  }
+
+  var options = {};
+  var key;
+  for (key in parent) {
+    mergeField(key);
+  }
+  for (key in child) {
+    if (!hasOwn(parent, key)) {
+      mergeField(key);
+    }
+  }
+  function mergeField (key) {
+    var strat = strats[key] || defaultStrat;
+    options[key] = strat(parent[key], child[key], vm, key);
+  }
+  return options
+}
+
+/**
+ * Resolve an asset.
+ * This function is used because child instances need access
+ * to assets defined in its ancestor chain.
+ */
+function resolveAsset (
+  options,
+  type,
+  id,
+  warnMissing
+) {
+  /* istanbul ignore if */
+  if (typeof id !== 'string') {
+    return
+  }
+  var assets = options[type];
+  // check local registration variations first
+  if (hasOwn(assets, id)) { return assets[id] }
+  var camelizedId = camelize(id);
+  if (hasOwn(assets, camelizedId)) { return assets[camelizedId] }
+  var PascalCaseId = capitalize(camelizedId);
+  if (hasOwn(assets, PascalCaseId)) { return assets[PascalCaseId] }
+  // fallback to prototype chain
+  var res = assets[id] || assets[camelizedId] || assets[PascalCaseId];
+  if ( true && warnMissing && !res) {
+    warn(
+      'Failed to resolve ' + type.slice(0, -1) + ': ' + id,
+      options
+    );
+  }
+  return res
+}
+
+/*  */
+
+
+
+function validateProp (
+  key,
+  propOptions,
+  propsData,
+  vm
+) {
+  var prop = propOptions[key];
+  var absent = !hasOwn(propsData, key);
+  var value = propsData[key];
+  // boolean casting
+  var booleanIndex = getTypeIndex(Boolean, prop.type);
+  if (booleanIndex > -1) {
+    if (absent && !hasOwn(prop, 'default')) {
+      value = false;
+    } else if (value === '' || value === hyphenate(key)) {
+      // only cast empty string / same name to boolean if
+      // boolean has higher priority
+      var stringIndex = getTypeIndex(String, prop.type);
+      if (stringIndex < 0 || booleanIndex < stringIndex) {
+        value = true;
+      }
+    }
+  }
+  // check default value
+  if (value === undefined) {
+    value = getPropDefaultValue(vm, prop, key);
+    // since the default value is a fresh copy,
+    // make sure to observe it.
+    var prevShouldObserve = shouldObserve;
+    toggleObserving(true);
+    observe(value);
+    toggleObserving(prevShouldObserve);
+  }
+  if (
+    true
+  ) {
+    assertProp(prop, key, value, vm, absent);
+  }
+  return value
+}
+
+/**
+ * Get the default value of a prop.
+ */
+function getPropDefaultValue (vm, prop, key) {
+  // no default, return undefined
+  if (!hasOwn(prop, 'default')) {
+    return undefined
+  }
+  var def = prop.default;
+  // warn against non-factory defaults for Object & Array
+  if ( true && isObject(def)) {
+    warn(
+      'Invalid default value for prop "' + key + '": ' +
+      'Props with type Object/Array must use a factory function ' +
+      'to return the default value.',
+      vm
+    );
+  }
+  // the raw prop value was also undefined from previous render,
+  // return previous default value to avoid unnecessary watcher trigger
+  if (vm && vm.$options.propsData &&
+    vm.$options.propsData[key] === undefined &&
+    vm._props[key] !== undefined
+  ) {
+    return vm._props[key]
+  }
+  // call factory function for non-Function types
+  // a value is Function if its prototype is function even across different execution context
+  return typeof def === 'function' && getType(prop.type) !== 'Function'
+    ? def.call(vm)
+    : def
+}
+
+/**
+ * Assert whether a prop is valid.
+ */
+function assertProp (
+  prop,
+  name,
+  value,
+  vm,
+  absent
+) {
+  if (prop.required && absent) {
+    warn(
+      'Missing required prop: "' + name + '"',
+      vm
+    );
+    return
+  }
+  if (value == null && !prop.required) {
+    return
+  }
+  var type = prop.type;
+  var valid = !type || type === true;
+  var expectedTypes = [];
+  if (type) {
+    if (!Array.isArray(type)) {
+      type = [type];
+    }
+    for (var i = 0; i < type.length && !valid; i++) {
+      var assertedType = assertType(value, type[i]);
+      expectedTypes.push(assertedType.expectedType || '');
+      valid = assertedType.valid;
+    }
+  }
+
+  if (!valid) {
+    warn(
+      getInvalidTypeMessage(name, value, expectedTypes),
+      vm
+    );
+    return
+  }
+  var validator = prop.validator;
+  if (validator) {
+    if (!validator(value)) {
+      warn(
+        'Invalid prop: custom validator check failed for prop "' + name + '".',
+        vm
+      );
+    }
+  }
+}
+
+var simpleCheckRE = /^(String|Number|Boolean|Function|Symbol)$/;
+
+function assertType (value, type) {
+  var valid;
+  var expectedType = getType(type);
+  if (simpleCheckRE.test(expectedType)) {
+    var t = typeof value;
+    valid = t === expectedType.toLowerCase();
+    // for primitive wrapper objects
+    if (!valid && t === 'object') {
+      valid = value instanceof type;
+    }
+  } else if (expectedType === 'Object') {
+    valid = isPlainObject(value);
+  } else if (expectedType === 'Array') {
+    valid = Array.isArray(value);
+  } else {
+    valid = value instanceof type;
+  }
+  return {
+    valid: valid,
+    expectedType: expectedType
+  }
+}
+
+/**
+ * Use function string name to check built-in types,
+ * because a simple equality check will fail when running
+ * across different vms / iframes.
+ */
+function getType (fn) {
+  var match = fn && fn.toString().match(/^\s*function (\w+)/);
+  return match ? match[1] : ''
+}
+
+function isSameType (a, b) {
+  return getType(a) === getType(b)
+}
+
+function getTypeIndex (type, expectedTypes) {
+  if (!Array.isArray(expectedTypes)) {
+    return isSameType(expectedTypes, type) ? 0 : -1
+  }
+  for (var i = 0, len = expectedTypes.length; i < len; i++) {
+    if (isSameType(expectedTypes[i], type)) {
+      return i
+    }
+  }
+  return -1
+}
+
+function getInvalidTypeMessage (name, value, expectedTypes) {
+  var message = "Invalid prop: type check failed for prop \"" + name + "\"." +
+    " Expected " + (expectedTypes.map(capitalize).join(', '));
+  var expectedType = expectedTypes[0];
+  var receivedType = toRawType(value);
+  var expectedValue = styleValue(value, expectedType);
+  var receivedValue = styleValue(value, receivedType);
+  // check if we need to specify expected value
+  if (expectedTypes.length === 1 &&
+      isExplicable(expectedType) &&
+      !isBoolean(expectedType, receivedType)) {
+    message += " with value " + expectedValue;
+  }
+  message += ", got " + receivedType + " ";
+  // check if we need to specify received value
+  if (isExplicable(receivedType)) {
+    message += "with value " + receivedValue + ".";
+  }
+  return message
+}
+
+function styleValue (value, type) {
+  if (type === 'String') {
+    return ("\"" + value + "\"")
+  } else if (type === 'Number') {
+    return ("" + (Number(value)))
+  } else {
+    return ("" + value)
+  }
+}
+
+function isExplicable (value) {
+  var explicitTypes = ['string', 'number', 'boolean'];
+  return explicitTypes.some(function (elem) { return value.toLowerCase() === elem; })
+}
+
+function isBoolean () {
+  var args = [], len = arguments.length;
+  while ( len-- ) args[ len ] = arguments[ len ];
+
+  return args.some(function (elem) { return elem.toLowerCase() === 'boolean'; })
+}
+
+/*  */
+
+function handleError (err, vm, info) {
+  // Deactivate deps tracking while processing error handler to avoid possible infinite rendering.
+  // See: https://github.com/vuejs/vuex/issues/1505
+  pushTarget();
+  try {
+    if (vm) {
+      var cur = vm;
+      while ((cur = cur.$parent)) {
+        var hooks = cur.$options.errorCaptured;
+        if (hooks) {
+          for (var i = 0; i < hooks.length; i++) {
+            try {
+              var capture = hooks[i].call(cur, err, vm, info) === false;
+              if (capture) { return }
+            } catch (e) {
+              globalHandleError(e, cur, 'errorCaptured hook');
+            }
+          }
+        }
+      }
+    }
+    globalHandleError(err, vm, info);
+  } finally {
+    popTarget();
+  }
+}
+
+function invokeWithErrorHandling (
+  handler,
+  context,
+  args,
+  vm,
+  info
+) {
+  var res;
+  try {
+    res = args ? handler.apply(context, args) : handler.call(context);
+    if (res && !res._isVue && isPromise(res) && !res._handled) {
+      res.catch(function (e) { return handleError(e, vm, info + " (Promise/async)"); });
+      // issue #9511
+      // avoid catch triggering multiple times when nested calls
+      res._handled = true;
+    }
+  } catch (e) {
+    handleError(e, vm, info);
+  }
+  return res
+}
+
+function globalHandleError (err, vm, info) {
+  if (config.errorHandler) {
+    try {
+      return config.errorHandler.call(null, err, vm, info)
+    } catch (e) {
+      // if the user intentionally throws the original error in the handler,
+      // do not log it twice
+      if (e !== err) {
+        logError(e, null, 'config.errorHandler');
+      }
+    }
+  }
+  logError(err, vm, info);
+}
+
+function logError (err, vm, info) {
+  if (true) {
+    warn(("Error in " + info + ": \"" + (err.toString()) + "\""), vm);
+  }
+  /* istanbul ignore else */
+  if ((inBrowser || inWeex) && typeof console !== 'undefined') {
+    console.error(err);
+  } else {
+    throw err
+  }
+}
+
+/*  */
+
+var callbacks = [];
+var pending = false;
+
+function flushCallbacks () {
+  pending = false;
+  var copies = callbacks.slice(0);
+  callbacks.length = 0;
+  for (var i = 0; i < copies.length; i++) {
+    copies[i]();
+  }
+}
+
+// Here we have async deferring wrappers using microtasks.
+// In 2.5 we used (macro) tasks (in combination with microtasks).
+// However, it has subtle problems when state is changed right before repaint
+// (e.g. #6813, out-in transitions).
+// Also, using (macro) tasks in event handler would cause some weird behaviors
+// that cannot be circumvented (e.g. #7109, #7153, #7546, #7834, #8109).
+// So we now use microtasks everywhere, again.
+// A major drawback of this tradeoff is that there are some scenarios
+// where microtasks have too high a priority and fire in between supposedly
+// sequential events (e.g. #4521, #6690, which have workarounds)
+// or even between bubbling of the same event (#6566).
+var timerFunc;
+
+// The nextTick behavior leverages the microtask queue, which can be accessed
+// via either native Promise.then or MutationObserver.
+// MutationObserver has wider support, however it is seriously bugged in
+// UIWebView in iOS >= 9.3.3 when triggered in touch event handlers. It
+// completely stops working after triggering a few times... so, if native
+// Promise is available, we will use it:
+/* istanbul ignore next, $flow-disable-line */
+if (typeof Promise !== 'undefined' && isNative(Promise)) {
+  var p = Promise.resolve();
+  timerFunc = function () {
+    p.then(flushCallbacks);
+    // In problematic UIWebViews, Promise.then doesn't completely break, but
+    // it can get stuck in a weird state where callbacks are pushed into the
+    // microtask queue but the queue isn't being flushed, until the browser
+    // needs to do some other work, e.g. handle a timer. Therefore we can
+    // "force" the microtask queue to be flushed by adding an empty timer.
+    if (isIOS) { setTimeout(noop); }
+  };
+} else if (!isIE && typeof MutationObserver !== 'undefined' && (
+  isNative(MutationObserver) ||
+  // PhantomJS and iOS 7.x
+  MutationObserver.toString() === '[object MutationObserverConstructor]'
+)) {
+  // Use MutationObserver where native Promise is not available,
+  // e.g. PhantomJS, iOS7, Android 4.4
+  // (#6466 MutationObserver is unreliable in IE11)
+  var counter = 1;
+  var observer = new MutationObserver(flushCallbacks);
+  var textNode = document.createTextNode(String(counter));
+  observer.observe(textNode, {
+    characterData: true
+  });
+  timerFunc = function () {
+    counter = (counter + 1) % 2;
+    textNode.data = String(counter);
+  };
+} else if (typeof setImmediate !== 'undefined' && isNative(setImmediate)) {
+  // Fallback to setImmediate.
+  // Technically it leverages the (macro) task queue,
+  // but it is still a better choice than setTimeout.
+  timerFunc = function () {
+    setImmediate(flushCallbacks);
+  };
+} else {
+  // Fallback to setTimeout.
+  timerFunc = function () {
+    setTimeout(flushCallbacks, 0);
+  };
+}
+
+function nextTick (cb, ctx) {
+  var _resolve;
+  callbacks.push(function () {
+    if (cb) {
+      try {
+        cb.call(ctx);
+      } catch (e) {
+        handleError(e, ctx, 'nextTick');
+      }
+    } else if (_resolve) {
+      _resolve(ctx);
+    }
+  });
+  if (!pending) {
+    pending = true;
+    timerFunc();
+  }
+  // $flow-disable-line
+  if (!cb && typeof Promise !== 'undefined') {
+    return new Promise(function (resolve) {
+      _resolve = resolve;
+    })
+  }
+}
+
+/*  */
+
+/* not type checking this file because flow doesn't play well with Proxy */
+
+var initProxy;
+
+if (true) {
+  var allowedGlobals = makeMap(
+    'Infinity,undefined,NaN,isFinite,isNaN,' +
+    'parseFloat,parseInt,decodeURI,decodeURIComponent,encodeURI,encodeURIComponent,' +
+    'Math,Number,Date,Array,Object,Boolean,String,RegExp,Map,Set,JSON,Intl,' +
+    'require' // for Webpack/Browserify
+  );
+
+  var warnNonPresent = function (target, key) {
+    warn(
+      "Property or method \"" + key + "\" is not defined on the instance but " +
+      'referenced during render. Make sure that this property is reactive, ' +
+      'either in the data option, or for class-based components, by ' +
+      'initializing the property. ' +
+      'See: https://vuejs.org/v2/guide/reactivity.html#Declaring-Reactive-Properties.',
+      target
+    );
+  };
+
+  var warnReservedPrefix = function (target, key) {
+    warn(
+      "Property \"" + key + "\" must be accessed with \"$data." + key + "\" because " +
+      'properties starting with "$" or "_" are not proxied in the Vue instance to ' +
+      'prevent conflicts with Vue internals. ' +
+      'See: https://vuejs.org/v2/api/#data',
+      target
+    );
+  };
+
+  var hasProxy =
+    typeof Proxy !== 'undefined' && isNative(Proxy);
+
+  if (hasProxy) {
+    var isBuiltInModifier = makeMap('stop,prevent,self,ctrl,shift,alt,meta,exact');
+    config.keyCodes = new Proxy(config.keyCodes, {
+      set: function set (target, key, value) {
+        if (isBuiltInModifier(key)) {
+          warn(("Avoid overwriting built-in modifier in config.keyCodes: ." + key));
+          return false
+        } else {
+          target[key] = value;
+          return true
+        }
+      }
+    });
+  }
+
+  var hasHandler = {
+    has: function has (target, key) {
+      var has = key in target;
+      var isAllowed = allowedGlobals(key) ||
+        (typeof key === 'string' && key.charAt(0) === '_' && !(key in target.$data));
+      if (!has && !isAllowed) {
+        if (key in target.$data) { warnReservedPrefix(target, key); }
+        else { warnNonPresent(target, key); }
+      }
+      return has || !isAllowed
+    }
+  };
+
+  var getHandler = {
+    get: function get (target, key) {
+      if (typeof key === 'string' && !(key in target)) {
+        if (key in target.$data) { warnReservedPrefix(target, key); }
+        else { warnNonPresent(target, key); }
+      }
+      return target[key]
+    }
+  };
+
+  initProxy = function initProxy (vm) {
+    if (hasProxy) {
+      // determine which proxy handler to use
+      var options = vm.$options;
+      var handlers = options.render && options.render._withStripped
+        ? getHandler
+        : hasHandler;
+      vm._renderProxy = new Proxy(vm, handlers);
+    } else {
+      vm._renderProxy = vm;
+    }
+  };
+}
+
+/*  */
+
+var seenObjects = new _Set();
+
+/**
+ * Recursively traverse an object to evoke all converted
+ * getters, so that every nested property inside the object
+ * is collected as a "deep" dependency.
+ */
+function traverse (val) {
+  _traverse(val, seenObjects);
+  seenObjects.clear();
+}
+
+function _traverse (val, seen) {
+  var i, keys;
+  var isA = Array.isArray(val);
+  if ((!isA && !isObject(val)) || Object.isFrozen(val) || val instanceof VNode) {
+    return
+  }
+  if (val.__ob__) {
+    var depId = val.__ob__.dep.id;
+    if (seen.has(depId)) {
+      return
+    }
+    seen.add(depId);
+  }
+  if (isA) {
+    i = val.length;
+    while (i--) { _traverse(val[i], seen); }
+  } else {
+    keys = Object.keys(val);
+    i = keys.length;
+    while (i--) { _traverse(val[keys[i]], seen); }
+  }
+}
+
+var mark;
+var measure;
+
+if (true) {
+  var perf = inBrowser && window.performance;
+  /* istanbul ignore if */
+  if (
+    perf &&
+    perf.mark &&
+    perf.measure &&
+    perf.clearMarks &&
+    perf.clearMeasures
+  ) {
+    mark = function (tag) { return perf.mark(tag); };
+    measure = function (name, startTag, endTag) {
+      perf.measure(name, startTag, endTag);
+      perf.clearMarks(startTag);
+      perf.clearMarks(endTag);
+      // perf.clearMeasures(name)
+    };
+  }
+}
+
+/*  */
+
+var normalizeEvent = cached(function (name) {
+  var passive = name.charAt(0) === '&';
+  name = passive ? name.slice(1) : name;
+  var once$$1 = name.charAt(0) === '~'; // Prefixed last, checked first
+  name = once$$1 ? name.slice(1) : name;
+  var capture = name.charAt(0) === '!';
+  name = capture ? name.slice(1) : name;
+  return {
+    name: name,
+    once: once$$1,
+    capture: capture,
+    passive: passive
+  }
+});
+
+function createFnInvoker (fns, vm) {
+  function invoker () {
+    var arguments$1 = arguments;
+
+    var fns = invoker.fns;
+    if (Array.isArray(fns)) {
+      var cloned = fns.slice();
+      for (var i = 0; i < cloned.length; i++) {
+        invokeWithErrorHandling(cloned[i], null, arguments$1, vm, "v-on handler");
+      }
+    } else {
+      // return handler return value for single handlers
+      return invokeWithErrorHandling(fns, null, arguments, vm, "v-on handler")
+    }
+  }
+  invoker.fns = fns;
+  return invoker
+}
+
+function updateListeners (
+  on,
+  oldOn,
+  add,
+  remove$$1,
+  createOnceHandler,
+  vm
+) {
+  var name, def$$1, cur, old, event;
+  for (name in on) {
+    def$$1 = cur = on[name];
+    old = oldOn[name];
+    event = normalizeEvent(name);
+    if (isUndef(cur)) {
+       true && warn(
+        "Invalid handler for event \"" + (event.name) + "\": got " + String(cur),
+        vm
+      );
+    } else if (isUndef(old)) {
+      if (isUndef(cur.fns)) {
+        cur = on[name] = createFnInvoker(cur, vm);
+      }
+      if (isTrue(event.once)) {
+        cur = on[name] = createOnceHandler(event.name, cur, event.capture);
+      }
+      add(event.name, cur, event.capture, event.passive, event.params);
+    } else if (cur !== old) {
+      old.fns = cur;
+      on[name] = old;
+    }
+  }
+  for (name in oldOn) {
+    if (isUndef(on[name])) {
+      event = normalizeEvent(name);
+      remove$$1(event.name, oldOn[name], event.capture);
+    }
+  }
+}
+
+/*  */
+
+/*  */
+
+// fixed by xxxxxx (mp properties)
+function extractPropertiesFromVNodeData(data, Ctor, res, context) {
+  var propOptions = Ctor.options.mpOptions && Ctor.options.mpOptions.properties;
+  if (isUndef(propOptions)) {
+    return res
+  }
+  var externalClasses = Ctor.options.mpOptions.externalClasses || [];
+  var attrs = data.attrs;
+  var props = data.props;
+  if (isDef(attrs) || isDef(props)) {
+    for (var key in propOptions) {
+      var altKey = hyphenate(key);
+      var result = checkProp(res, props, key, altKey, true) ||
+          checkProp(res, attrs, key, altKey, false);
+      // externalClass
+      if (
+        result &&
+        res[key] &&
+        externalClasses.indexOf(altKey) !== -1 &&
+        context[camelize(res[key])]
+      ) {
+        // 赋值 externalClass 真正的值(模板里 externalClass 的值可能是字符串)
+        res[key] = context[camelize(res[key])];
+      }
+    }
+  }
+  return res
+}
+
+function extractPropsFromVNodeData (
+  data,
+  Ctor,
+  tag,
+  context// fixed by xxxxxx
+) {
+  // we are only extracting raw values here.
+  // validation and default values are handled in the child
+  // component itself.
+  var propOptions = Ctor.options.props;
+  if (isUndef(propOptions)) {
+    // fixed by xxxxxx
+    return extractPropertiesFromVNodeData(data, Ctor, {}, context)
+  }
+  var res = {};
+  var attrs = data.attrs;
+  var props = data.props;
+  if (isDef(attrs) || isDef(props)) {
+    for (var key in propOptions) {
+      var altKey = hyphenate(key);
+      if (true) {
+        var keyInLowerCase = key.toLowerCase();
+        if (
+          key !== keyInLowerCase &&
+          attrs && hasOwn(attrs, keyInLowerCase)
+        ) {
+          tip(
+            "Prop \"" + keyInLowerCase + "\" is passed to component " +
+            (formatComponentName(tag || Ctor)) + ", but the declared prop name is" +
+            " \"" + key + "\". " +
+            "Note that HTML attributes are case-insensitive and camelCased " +
+            "props need to use their kebab-case equivalents when using in-DOM " +
+            "templates. You should probably use \"" + altKey + "\" instead of \"" + key + "\"."
+          );
+        }
+      }
+      checkProp(res, props, key, altKey, true) ||
+      checkProp(res, attrs, key, altKey, false);
+    }
+  }
+  // fixed by xxxxxx
+  return extractPropertiesFromVNodeData(data, Ctor, res, context)
+}
+
+function checkProp (
+  res,
+  hash,
+  key,
+  altKey,
+  preserve
+) {
+  if (isDef(hash)) {
+    if (hasOwn(hash, key)) {
+      res[key] = hash[key];
+      if (!preserve) {
+        delete hash[key];
+      }
+      return true
+    } else if (hasOwn(hash, altKey)) {
+      res[key] = hash[altKey];
+      if (!preserve) {
+        delete hash[altKey];
+      }
+      return true
+    }
+  }
+  return false
+}
+
+/*  */
+
+// The template compiler attempts to minimize the need for normalization by
+// statically analyzing the template at compile time.
+//
+// For plain HTML markup, normalization can be completely skipped because the
+// generated render function is guaranteed to return Array<VNode>. There are
+// two cases where extra normalization is needed:
+
+// 1. When the children contains components - because a functional component
+// may return an Array instead of a single root. In this case, just a simple
+// normalization is needed - if any child is an Array, we flatten the whole
+// thing with Array.prototype.concat. It is guaranteed to be only 1-level deep
+// because functional components already normalize their own children.
+function simpleNormalizeChildren (children) {
+  for (var i = 0; i < children.length; i++) {
+    if (Array.isArray(children[i])) {
+      return Array.prototype.concat.apply([], children)
+    }
+  }
+  return children
+}
+
+// 2. When the children contains constructs that always generated nested Arrays,
+// e.g. <template>, <slot>, v-for, or when the children is provided by user
+// with hand-written render functions / JSX. In such cases a full normalization
+// is needed to cater to all possible types of children values.
+function normalizeChildren (children) {
+  return isPrimitive(children)
+    ? [createTextVNode(children)]
+    : Array.isArray(children)
+      ? normalizeArrayChildren(children)
+      : undefined
+}
+
+function isTextNode (node) {
+  return isDef(node) && isDef(node.text) && isFalse(node.isComment)
+}
+
+function normalizeArrayChildren (children, nestedIndex) {
+  var res = [];
+  var i, c, lastIndex, last;
+  for (i = 0; i < children.length; i++) {
+    c = children[i];
+    if (isUndef(c) || typeof c === 'boolean') { continue }
+    lastIndex = res.length - 1;
+    last = res[lastIndex];
+    //  nested
+    if (Array.isArray(c)) {
+      if (c.length > 0) {
+        c = normalizeArrayChildren(c, ((nestedIndex || '') + "_" + i));
+        // merge adjacent text nodes
+        if (isTextNode(c[0]) && isTextNode(last)) {
+          res[lastIndex] = createTextVNode(last.text + (c[0]).text);
+          c.shift();
+        }
+        res.push.apply(res, c);
+      }
+    } else if (isPrimitive(c)) {
+      if (isTextNode(last)) {
+        // merge adjacent text nodes
+        // this is necessary for SSR hydration because text nodes are
+        // essentially merged when rendered to HTML strings
+        res[lastIndex] = createTextVNode(last.text + c);
+      } else if (c !== '') {
+        // convert primitive to vnode
+        res.push(createTextVNode(c));
+      }
+    } else {
+      if (isTextNode(c) && isTextNode(last)) {
+        // merge adjacent text nodes
+        res[lastIndex] = createTextVNode(last.text + c.text);
+      } else {
+        // default key for nested array children (likely generated by v-for)
+        if (isTrue(children._isVList) &&
+          isDef(c.tag) &&
+          isUndef(c.key) &&
+          isDef(nestedIndex)) {
+          c.key = "__vlist" + nestedIndex + "_" + i + "__";
+        }
+        res.push(c);
+      }
+    }
+  }
+  return res
+}
+
+/*  */
+
+function initProvide (vm) {
+  var provide = vm.$options.provide;
+  if (provide) {
+    vm._provided = typeof provide === 'function'
+      ? provide.call(vm)
+      : provide;
+  }
+}
+
+function initInjections (vm) {
+  var result = resolveInject(vm.$options.inject, vm);
+  if (result) {
+    toggleObserving(false);
+    Object.keys(result).forEach(function (key) {
+      /* istanbul ignore else */
+      if (true) {
+        defineReactive$$1(vm, key, result[key], function () {
+          warn(
+            "Avoid mutating an injected value directly since the changes will be " +
+            "overwritten whenever the provided component re-renders. " +
+            "injection being mutated: \"" + key + "\"",
+            vm
+          );
+        });
+      } else {}
+    });
+    toggleObserving(true);
+  }
+}
+
+function resolveInject (inject, vm) {
+  if (inject) {
+    // inject is :any because flow is not smart enough to figure out cached
+    var result = Object.create(null);
+    var keys = hasSymbol
+      ? Reflect.ownKeys(inject)
+      : Object.keys(inject);
+
+    for (var i = 0; i < keys.length; i++) {
+      var key = keys[i];
+      // #6574 in case the inject object is observed...
+      if (key === '__ob__') { continue }
+      var provideKey = inject[key].from;
+      var source = vm;
+      while (source) {
+        if (source._provided && hasOwn(source._provided, provideKey)) {
+          result[key] = source._provided[provideKey];
+          break
+        }
+        source = source.$parent;
+      }
+      if (!source) {
+        if ('default' in inject[key]) {
+          var provideDefault = inject[key].default;
+          result[key] = typeof provideDefault === 'function'
+            ? provideDefault.call(vm)
+            : provideDefault;
+        } else if (true) {
+          warn(("Injection \"" + key + "\" not found"), vm);
+        }
+      }
+    }
+    return result
+  }
+}
+
+/*  */
+
+
+
+/**
+ * Runtime helper for resolving raw children VNodes into a slot object.
+ */
+function resolveSlots (
+  children,
+  context
+) {
+  if (!children || !children.length) {
+    return {}
+  }
+  var slots = {};
+  for (var i = 0, l = children.length; i < l; i++) {
+    var child = children[i];
+    var data = child.data;
+    // remove slot attribute if the node is resolved as a Vue slot node
+    if (data && data.attrs && data.attrs.slot) {
+      delete data.attrs.slot;
+    }
+    // named slots should only be respected if the vnode was rendered in the
+    // same context.
+    if ((child.context === context || child.fnContext === context) &&
+      data && data.slot != null
+    ) {
+      var name = data.slot;
+      var slot = (slots[name] || (slots[name] = []));
+      if (child.tag === 'template') {
+        slot.push.apply(slot, child.children || []);
+      } else {
+        slot.push(child);
+      }
+    } else {
+      // fixed by xxxxxx 临时 hack 掉 uni-app 中的异步 name slot page
+      if(child.asyncMeta && child.asyncMeta.data && child.asyncMeta.data.slot === 'page'){
+        (slots['page'] || (slots['page'] = [])).push(child);
+      }else{
+        (slots.default || (slots.default = [])).push(child);
+      }
+    }
+  }
+  // ignore slots that contains only whitespace
+  for (var name$1 in slots) {
+    if (slots[name$1].every(isWhitespace)) {
+      delete slots[name$1];
+    }
+  }
+  return slots
+}
+
+function isWhitespace (node) {
+  return (node.isComment && !node.asyncFactory) || node.text === ' '
+}
+
+/*  */
+
+function normalizeScopedSlots (
+  slots,
+  normalSlots,
+  prevSlots
+) {
+  var res;
+  var hasNormalSlots = Object.keys(normalSlots).length > 0;
+  var isStable = slots ? !!slots.$stable : !hasNormalSlots;
+  var key = slots && slots.$key;
+  if (!slots) {
+    res = {};
+  } else if (slots._normalized) {
+    // fast path 1: child component re-render only, parent did not change
+    return slots._normalized
+  } else if (
+    isStable &&
+    prevSlots &&
+    prevSlots !== emptyObject &&
+    key === prevSlots.$key &&
+    !hasNormalSlots &&
+    !prevSlots.$hasNormal
+  ) {
+    // fast path 2: stable scoped slots w/ no normal slots to proxy,
+    // only need to normalize once
+    return prevSlots
+  } else {
+    res = {};
+    for (var key$1 in slots) {
+      if (slots[key$1] && key$1[0] !== '$') {
+        res[key$1] = normalizeScopedSlot(normalSlots, key$1, slots[key$1]);
+      }
+    }
+  }
+  // expose normal slots on scopedSlots
+  for (var key$2 in normalSlots) {
+    if (!(key$2 in res)) {
+      res[key$2] = proxyNormalSlot(normalSlots, key$2);
+    }
+  }
+  // avoriaz seems to mock a non-extensible $scopedSlots object
+  // and when that is passed down this would cause an error
+  if (slots && Object.isExtensible(slots)) {
+    (slots)._normalized = res;
+  }
+  def(res, '$stable', isStable);
+  def(res, '$key', key);
+  def(res, '$hasNormal', hasNormalSlots);
+  return res
+}
+
+function normalizeScopedSlot(normalSlots, key, fn) {
+  var normalized = function () {
+    var res = arguments.length ? fn.apply(null, arguments) : fn({});
+    res = res && typeof res === 'object' && !Array.isArray(res)
+      ? [res] // single vnode
+      : normalizeChildren(res);
+    return res && (
+      res.length === 0 ||
+      (res.length === 1 && res[0].isComment) // #9658
+    ) ? undefined
+      : res
+  };
+  // this is a slot using the new v-slot syntax without scope. although it is
+  // compiled as a scoped slot, render fn users would expect it to be present
+  // on this.$slots because the usage is semantically a normal slot.
+  if (fn.proxy) {
+    Object.defineProperty(normalSlots, key, {
+      get: normalized,
+      enumerable: true,
+      configurable: true
+    });
+  }
+  return normalized
+}
+
+function proxyNormalSlot(slots, key) {
+  return function () { return slots[key]; }
+}
+
+/*  */
+
+/**
+ * Runtime helper for rendering v-for lists.
+ */
+function renderList (
+  val,
+  render
+) {
+  var ret, i, l, keys, key;
+  if (Array.isArray(val) || typeof val === 'string') {
+    ret = new Array(val.length);
+    for (i = 0, l = val.length; i < l; i++) {
+      ret[i] = render(val[i], i, i, i); // fixed by xxxxxx
+    }
+  } else if (typeof val === 'number') {
+    ret = new Array(val);
+    for (i = 0; i < val; i++) {
+      ret[i] = render(i + 1, i, i, i); // fixed by xxxxxx
+    }
+  } else if (isObject(val)) {
+    if (hasSymbol && val[Symbol.iterator]) {
+      ret = [];
+      var iterator = val[Symbol.iterator]();
+      var result = iterator.next();
+      while (!result.done) {
+        ret.push(render(result.value, ret.length, i++, i)); // fixed by xxxxxx
+        result = iterator.next();
+      }
+    } else {
+      keys = Object.keys(val);
+      ret = new Array(keys.length);
+      for (i = 0, l = keys.length; i < l; i++) {
+        key = keys[i];
+        ret[i] = render(val[key], key, i, i); // fixed by xxxxxx
+      }
+    }
+  }
+  if (!isDef(ret)) {
+    ret = [];
+  }
+  (ret)._isVList = true;
+  return ret
+}
+
+/*  */
+
+/**
+ * Runtime helper for rendering <slot>
+ */
+function renderSlot (
+  name,
+  fallback,
+  props,
+  bindObject
+) {
+  var scopedSlotFn = this.$scopedSlots[name];
+  var nodes;
+  if (scopedSlotFn) { // scoped slot
+    props = props || {};
+    if (bindObject) {
+      if ( true && !isObject(bindObject)) {
+        warn(
+          'slot v-bind without argument expects an Object',
+          this
+        );
+      }
+      props = extend(extend({}, bindObject), props);
+    }
+    // fixed by xxxxxx app-plus scopedSlot
+    nodes = scopedSlotFn(props, this, props._i) || fallback;
+  } else {
+    nodes = this.$slots[name] || fallback;
+  }
+
+  var target = props && props.slot;
+  if (target) {
+    return this.$createElement('template', { slot: target }, nodes)
+  } else {
+    return nodes
+  }
+}
+
+/*  */
+
+/**
+ * Runtime helper for resolving filters
+ */
+function resolveFilter (id) {
+  return resolveAsset(this.$options, 'filters', id, true) || identity
+}
+
+/*  */
+
+function isKeyNotMatch (expect, actual) {
+  if (Array.isArray(expect)) {
+    return expect.indexOf(actual) === -1
+  } else {
+    return expect !== actual
+  }
+}
+
+/**
+ * Runtime helper for checking keyCodes from config.
+ * exposed as Vue.prototype._k
+ * passing in eventKeyName as last argument separately for backwards compat
+ */
+function checkKeyCodes (
+  eventKeyCode,
+  key,
+  builtInKeyCode,
+  eventKeyName,
+  builtInKeyName
+) {
+  var mappedKeyCode = config.keyCodes[key] || builtInKeyCode;
+  if (builtInKeyName && eventKeyName && !config.keyCodes[key]) {
+    return isKeyNotMatch(builtInKeyName, eventKeyName)
+  } else if (mappedKeyCode) {
+    return isKeyNotMatch(mappedKeyCode, eventKeyCode)
+  } else if (eventKeyName) {
+    return hyphenate(eventKeyName) !== key
+  }
+}
+
+/*  */
+
+/**
+ * Runtime helper for merging v-bind="object" into a VNode's data.
+ */
+function bindObjectProps (
+  data,
+  tag,
+  value,
+  asProp,
+  isSync
+) {
+  if (value) {
+    if (!isObject(value)) {
+       true && warn(
+        'v-bind without argument expects an Object or Array value',
+        this
+      );
+    } else {
+      if (Array.isArray(value)) {
+        value = toObject(value);
+      }
+      var hash;
+      var loop = function ( key ) {
+        if (
+          key === 'class' ||
+          key === 'style' ||
+          isReservedAttribute(key)
+        ) {
+          hash = data;
+        } else {
+          var type = data.attrs && data.attrs.type;
+          hash = asProp || config.mustUseProp(tag, type, key)
+            ? data.domProps || (data.domProps = {})
+            : data.attrs || (data.attrs = {});
+        }
+        var camelizedKey = camelize(key);
+        var hyphenatedKey = hyphenate(key);
+        if (!(camelizedKey in hash) && !(hyphenatedKey in hash)) {
+          hash[key] = value[key];
+
+          if (isSync) {
+            var on = data.on || (data.on = {});
+            on[("update:" + key)] = function ($event) {
+              value[key] = $event;
+            };
+          }
+        }
+      };
+
+      for (var key in value) loop( key );
+    }
+  }
+  return data
+}
+
+/*  */
+
+/**
+ * Runtime helper for rendering static trees.
+ */
+function renderStatic (
+  index,
+  isInFor
+) {
+  var cached = this._staticTrees || (this._staticTrees = []);
+  var tree = cached[index];
+  // if has already-rendered static tree and not inside v-for,
+  // we can reuse the same tree.
+  if (tree && !isInFor) {
+    return tree
+  }
+  // otherwise, render a fresh tree.
+  tree = cached[index] = this.$options.staticRenderFns[index].call(
+    this._renderProxy,
+    null,
+    this // for render fns generated for functional component templates
+  );
+  markStatic(tree, ("__static__" + index), false);
+  return tree
+}
+
+/**
+ * Runtime helper for v-once.
+ * Effectively it means marking the node as static with a unique key.
+ */
+function markOnce (
+  tree,
+  index,
+  key
+) {
+  markStatic(tree, ("__once__" + index + (key ? ("_" + key) : "")), true);
+  return tree
+}
+
+function markStatic (
+  tree,
+  key,
+  isOnce
+) {
+  if (Array.isArray(tree)) {
+    for (var i = 0; i < tree.length; i++) {
+      if (tree[i] && typeof tree[i] !== 'string') {
+        markStaticNode(tree[i], (key + "_" + i), isOnce);
+      }
+    }
+  } else {
+    markStaticNode(tree, key, isOnce);
+  }
+}
+
+function markStaticNode (node, key, isOnce) {
+  node.isStatic = true;
+  node.key = key;
+  node.isOnce = isOnce;
+}
+
+/*  */
+
+function bindObjectListeners (data, value) {
+  if (value) {
+    if (!isPlainObject(value)) {
+       true && warn(
+        'v-on without argument expects an Object value',
+        this
+      );
+    } else {
+      var on = data.on = data.on ? extend({}, data.on) : {};
+      for (var key in value) {
+        var existing = on[key];
+        var ours = value[key];
+        on[key] = existing ? [].concat(existing, ours) : ours;
+      }
+    }
+  }
+  return data
+}
+
+/*  */
+
+function resolveScopedSlots (
+  fns, // see flow/vnode
+  res,
+  // the following are added in 2.6
+  hasDynamicKeys,
+  contentHashKey
+) {
+  res = res || { $stable: !hasDynamicKeys };
+  for (var i = 0; i < fns.length; i++) {
+    var slot = fns[i];
+    if (Array.isArray(slot)) {
+      resolveScopedSlots(slot, res, hasDynamicKeys);
+    } else if (slot) {
+      // marker for reverse proxying v-slot without scope on this.$slots
+      if (slot.proxy) {
+        slot.fn.proxy = true;
+      }
+      res[slot.key] = slot.fn;
+    }
+  }
+  if (contentHashKey) {
+    (res).$key = contentHashKey;
+  }
+  return res
+}
+
+/*  */
+
+function bindDynamicKeys (baseObj, values) {
+  for (var i = 0; i < values.length; i += 2) {
+    var key = values[i];
+    if (typeof key === 'string' && key) {
+      baseObj[values[i]] = values[i + 1];
+    } else if ( true && key !== '' && key !== null) {
+      // null is a special value for explicitly removing a binding
+      warn(
+        ("Invalid value for dynamic directive argument (expected string or null): " + key),
+        this
+      );
+    }
+  }
+  return baseObj
+}
+
+// helper to dynamically append modifier runtime markers to event names.
+// ensure only append when value is already string, otherwise it will be cast
+// to string and cause the type check to miss.
+function prependModifier (value, symbol) {
+  return typeof value === 'string' ? symbol + value : value
+}
+
+/*  */
+
+function installRenderHelpers (target) {
+  target._o = markOnce;
+  target._n = toNumber;
+  target._s = toString;
+  target._l = renderList;
+  target._t = renderSlot;
+  target._q = looseEqual;
+  target._i = looseIndexOf;
+  target._m = renderStatic;
+  target._f = resolveFilter;
+  target._k = checkKeyCodes;
+  target._b = bindObjectProps;
+  target._v = createTextVNode;
+  target._e = createEmptyVNode;
+  target._u = resolveScopedSlots;
+  target._g = bindObjectListeners;
+  target._d = bindDynamicKeys;
+  target._p = prependModifier;
+}
+
+/*  */
+
+function FunctionalRenderContext (
+  data,
+  props,
+  children,
+  parent,
+  Ctor
+) {
+  var this$1 = this;
+
+  var options = Ctor.options;
+  // ensure the createElement function in functional components
+  // gets a unique context - this is necessary for correct named slot check
+  var contextVm;
+  if (hasOwn(parent, '_uid')) {
+    contextVm = Object.create(parent);
+    // $flow-disable-line
+    contextVm._original = parent;
+  } else {
+    // the context vm passed in is a functional context as well.
+    // in this case we want to make sure we are able to get a hold to the
+    // real context instance.
+    contextVm = parent;
+    // $flow-disable-line
+    parent = parent._original;
+  }
+  var isCompiled = isTrue(options._compiled);
+  var needNormalization = !isCompiled;
+
+  this.data = data;
+  this.props = props;
+  this.children = children;
+  this.parent = parent;
+  this.listeners = data.on || emptyObject;
+  this.injections = resolveInject(options.inject, parent);
+  this.slots = function () {
+    if (!this$1.$slots) {
+      normalizeScopedSlots(
+        data.scopedSlots,
+        this$1.$slots = resolveSlots(children, parent)
+      );
+    }
+    return this$1.$slots
+  };
+
+  Object.defineProperty(this, 'scopedSlots', ({
+    enumerable: true,
+    get: function get () {
+      return normalizeScopedSlots(data.scopedSlots, this.slots())
+    }
+  }));
+
+  // support for compiled functional template
+  if (isCompiled) {
+    // exposing $options for renderStatic()
+    this.$options = options;
+    // pre-resolve slots for renderSlot()
+    this.$slots = this.slots();
+    this.$scopedSlots = normalizeScopedSlots(data.scopedSlots, this.$slots);
+  }
+
+  if (options._scopeId) {
+    this._c = function (a, b, c, d) {
+      var vnode = createElement(contextVm, a, b, c, d, needNormalization);
+      if (vnode && !Array.isArray(vnode)) {
+        vnode.fnScopeId = options._scopeId;
+        vnode.fnContext = parent;
+      }
+      return vnode
+    };
+  } else {
+    this._c = function (a, b, c, d) { return createElement(contextVm, a, b, c, d, needNormalization); };
+  }
+}
+
+installRenderHelpers(FunctionalRenderContext.prototype);
+
+function createFunctionalComponent (
+  Ctor,
+  propsData,
+  data,
+  contextVm,
+  children
+) {
+  var options = Ctor.options;
+  var props = {};
+  var propOptions = options.props;
+  if (isDef(propOptions)) {
+    for (var key in propOptions) {
+      props[key] = validateProp(key, propOptions, propsData || emptyObject);
+    }
+  } else {
+    if (isDef(data.attrs)) { mergeProps(props, data.attrs); }
+    if (isDef(data.props)) { mergeProps(props, data.props); }
+  }
+
+  var renderContext = new FunctionalRenderContext(
+    data,
+    props,
+    children,
+    contextVm,
+    Ctor
+  );
+
+  var vnode = options.render.call(null, renderContext._c, renderContext);
+
+  if (vnode instanceof VNode) {
+    return cloneAndMarkFunctionalResult(vnode, data, renderContext.parent, options, renderContext)
+  } else if (Array.isArray(vnode)) {
+    var vnodes = normalizeChildren(vnode) || [];
+    var res = new Array(vnodes.length);
+    for (var i = 0; i < vnodes.length; i++) {
+      res[i] = cloneAndMarkFunctionalResult(vnodes[i], data, renderContext.parent, options, renderContext);
+    }
+    return res
+  }
+}
+
+function cloneAndMarkFunctionalResult (vnode, data, contextVm, options, renderContext) {
+  // #7817 clone node before setting fnContext, otherwise if the node is reused
+  // (e.g. it was from a cached normal slot) the fnContext causes named slots
+  // that should not be matched to match.
+  var clone = cloneVNode(vnode);
+  clone.fnContext = contextVm;
+  clone.fnOptions = options;
+  if (true) {
+    (clone.devtoolsMeta = clone.devtoolsMeta || {}).renderContext = renderContext;
+  }
+  if (data.slot) {
+    (clone.data || (clone.data = {})).slot = data.slot;
+  }
+  return clone
+}
+
+function mergeProps (to, from) {
+  for (var key in from) {
+    to[camelize(key)] = from[key];
+  }
+}
+
+/*  */
+
+/*  */
+
+/*  */
+
+/*  */
+
+// inline hooks to be invoked on component VNodes during patch
+var componentVNodeHooks = {
+  init: function init (vnode, hydrating) {
+    if (
+      vnode.componentInstance &&
+      !vnode.componentInstance._isDestroyed &&
+      vnode.data.keepAlive
+    ) {
+      // kept-alive components, treat as a patch
+      var mountedNode = vnode; // work around flow
+      componentVNodeHooks.prepatch(mountedNode, mountedNode);
+    } else {
+      var child = vnode.componentInstance = createComponentInstanceForVnode(
+        vnode,
+        activeInstance
+      );
+      child.$mount(hydrating ? vnode.elm : undefined, hydrating);
+    }
+  },
+
+  prepatch: function prepatch (oldVnode, vnode) {
+    var options = vnode.componentOptions;
+    var child = vnode.componentInstance = oldVnode.componentInstance;
+    updateChildComponent(
+      child,
+      options.propsData, // updated props
+      options.listeners, // updated listeners
+      vnode, // new parent vnode
+      options.children // new children
+    );
+  },
+
+  insert: function insert (vnode) {
+    var context = vnode.context;
+    var componentInstance = vnode.componentInstance;
+    if (!componentInstance._isMounted) {
+      callHook(componentInstance, 'onServiceCreated');
+      callHook(componentInstance, 'onServiceAttached');
+      componentInstance._isMounted = true;
+      callHook(componentInstance, 'mounted');
+    }
+    if (vnode.data.keepAlive) {
+      if (context._isMounted) {
+        // vue-router#1212
+        // During updates, a kept-alive component's child components may
+        // change, so directly walking the tree here may call activated hooks
+        // on incorrect children. Instead we push them into a queue which will
+        // be processed after the whole patch process ended.
+        queueActivatedComponent(componentInstance);
+      } else {
+        activateChildComponent(componentInstance, true /* direct */);
+      }
+    }
+  },
+
+  destroy: function destroy (vnode) {
+    var componentInstance = vnode.componentInstance;
+    if (!componentInstance._isDestroyed) {
+      if (!vnode.data.keepAlive) {
+        componentInstance.$destroy();
+      } else {
+        deactivateChildComponent(componentInstance, true /* direct */);
+      }
+    }
+  }
+};
+
+var hooksToMerge = Object.keys(componentVNodeHooks);
+
+function createComponent (
+  Ctor,
+  data,
+  context,
+  children,
+  tag
+) {
+  if (isUndef(Ctor)) {
+    return
+  }
+
+  var baseCtor = context.$options._base;
+
+  // plain options object: turn it into a constructor
+  if (isObject(Ctor)) {
+    Ctor = baseCtor.extend(Ctor);
+  }
+
+  // if at this stage it's not a constructor or an async component factory,
+  // reject.
+  if (typeof Ctor !== 'function') {
+    if (true) {
+      warn(("Invalid Component definition: " + (String(Ctor))), context);
+    }
+    return
+  }
+
+  // async component
+  var asyncFactory;
+  if (isUndef(Ctor.cid)) {
+    asyncFactory = Ctor;
+    Ctor = resolveAsyncComponent(asyncFactory, baseCtor);
+    if (Ctor === undefined) {
+      // return a placeholder node for async component, which is rendered
+      // as a comment node but preserves all the raw information for the node.
+      // the information will be used for async server-rendering and hydration.
+      return createAsyncPlaceholder(
+        asyncFactory,
+        data,
+        context,
+        children,
+        tag
+      )
+    }
+  }
+
+  data = data || {};
+
+  // resolve constructor options in case global mixins are applied after
+  // component constructor creation
+  resolveConstructorOptions(Ctor);
+
+  // transform component v-model data into props & events
+  if (isDef(data.model)) {
+    transformModel(Ctor.options, data);
+  }
+
+  // extract props
+  var propsData = extractPropsFromVNodeData(data, Ctor, tag, context); // fixed by xxxxxx
+
+  // functional component
+  if (isTrue(Ctor.options.functional)) {
+    return createFunctionalComponent(Ctor, propsData, data, context, children)
+  }
+
+  // extract listeners, since these needs to be treated as
+  // child component listeners instead of DOM listeners
+  var listeners = data.on;
+  // replace with listeners with .native modifier
+  // so it gets processed during parent component patch.
+  data.on = data.nativeOn;
+
+  if (isTrue(Ctor.options.abstract)) {
+    // abstract components do not keep anything
+    // other than props & listeners & slot
+
+    // work around flow
+    var slot = data.slot;
+    data = {};
+    if (slot) {
+      data.slot = slot;
+    }
+  }
+
+  // install component management hooks onto the placeholder node
+  installComponentHooks(data);
+
+  // return a placeholder vnode
+  var name = Ctor.options.name || tag;
+  var vnode = new VNode(
+    ("vue-component-" + (Ctor.cid) + (name ? ("-" + name) : '')),
+    data, undefined, undefined, undefined, context,
+    { Ctor: Ctor, propsData: propsData, listeners: listeners, tag: tag, children: children },
+    asyncFactory
+  );
+
+  return vnode
+}
+
+function createComponentInstanceForVnode (
+  vnode, // we know it's MountedComponentVNode but flow doesn't
+  parent // activeInstance in lifecycle state
+) {
+  var options = {
+    _isComponent: true,
+    _parentVnode: vnode,
+    parent: parent
+  };
+  // check inline-template render functions
+  var inlineTemplate = vnode.data.inlineTemplate;
+  if (isDef(inlineTemplate)) {
+    options.render = inlineTemplate.render;
+    options.staticRenderFns = inlineTemplate.staticRenderFns;
+  }
+  return new vnode.componentOptions.Ctor(options)
+}
+
+function installComponentHooks (data) {
+  var hooks = data.hook || (data.hook = {});
+  for (var i = 0; i < hooksToMerge.length; i++) {
+    var key = hooksToMerge[i];
+    var existing = hooks[key];
+    var toMerge = componentVNodeHooks[key];
+    if (existing !== toMerge && !(existing && existing._merged)) {
+      hooks[key] = existing ? mergeHook$1(toMerge, existing) : toMerge;
+    }
+  }
+}
+
+function mergeHook$1 (f1, f2) {
+  var merged = function (a, b) {
+    // flow complains about extra args which is why we use any
+    f1(a, b);
+    f2(a, b);
+  };
+  merged._merged = true;
+  return merged
+}
+
+// transform component v-model info (value and callback) into
+// prop and event handler respectively.
+function transformModel (options, data) {
+  var prop = (options.model && options.model.prop) || 'value';
+  var event = (options.model && options.model.event) || 'input'
+  ;(data.attrs || (data.attrs = {}))[prop] = data.model.value;
+  var on = data.on || (data.on = {});
+  var existing = on[event];
+  var callback = data.model.callback;
+  if (isDef(existing)) {
+    if (
+      Array.isArray(existing)
+        ? existing.indexOf(callback) === -1
+        : existing !== callback
+    ) {
+      on[event] = [callback].concat(existing);
+    }
+  } else {
+    on[event] = callback;
+  }
+}
+
+/*  */
+
+var SIMPLE_NORMALIZE = 1;
+var ALWAYS_NORMALIZE = 2;
+
+// wrapper function for providing a more flexible interface
+// without getting yelled at by flow
+function createElement (
+  context,
+  tag,
+  data,
+  children,
+  normalizationType,
+  alwaysNormalize
+) {
+  if (Array.isArray(data) || isPrimitive(data)) {
+    normalizationType = children;
+    children = data;
+    data = undefined;
+  }
+  if (isTrue(alwaysNormalize)) {
+    normalizationType = ALWAYS_NORMALIZE;
+  }
+  return _createElement(context, tag, data, children, normalizationType)
+}
+
+function _createElement (
+  context,
+  tag,
+  data,
+  children,
+  normalizationType
+) {
+  if (isDef(data) && isDef((data).__ob__)) {
+     true && warn(
+      "Avoid using observed data object as vnode data: " + (JSON.stringify(data)) + "\n" +
+      'Always create fresh vnode data objects in each render!',
+      context
+    );
+    return createEmptyVNode()
+  }
+  // object syntax in v-bind
+  if (isDef(data) && isDef(data.is)) {
+    tag = data.is;
+  }
+  if (!tag) {
+    // in case of component :is set to falsy value
+    return createEmptyVNode()
+  }
+  // warn against non-primitive key
+  if ( true &&
+    isDef(data) && isDef(data.key) && !isPrimitive(data.key)
+  ) {
+    {
+      warn(
+        'Avoid using non-primitive value as key, ' +
+        'use string/number value instead.',
+        context
+      );
+    }
+  }
+  // support single function children as default scoped slot
+  if (Array.isArray(children) &&
+    typeof children[0] === 'function'
+  ) {
+    data = data || {};
+    data.scopedSlots = { default: children[0] };
+    children.length = 0;
+  }
+  if (normalizationType === ALWAYS_NORMALIZE) {
+    children = normalizeChildren(children);
+  } else if (normalizationType === SIMPLE_NORMALIZE) {
+    children = simpleNormalizeChildren(children);
+  }
+  var vnode, ns;
+  if (typeof tag === 'string') {
+    var Ctor;
+    ns = (context.$vnode && context.$vnode.ns) || config.getTagNamespace(tag);
+    if (config.isReservedTag(tag)) {
+      // platform built-in elements
+      if ( true && isDef(data) && isDef(data.nativeOn)) {
+        warn(
+          ("The .native modifier for v-on is only valid on components but it was used on <" + tag + ">."),
+          context
+        );
+      }
+      vnode = new VNode(
+        config.parsePlatformTagName(tag), data, children,
+        undefined, undefined, context
+      );
+    } else if ((!data || !data.pre) && isDef(Ctor = resolveAsset(context.$options, 'components', tag))) {
+      // component
+      vnode = createComponent(Ctor, data, context, children, tag);
+    } else {
+      // unknown or unlisted namespaced elements
+      // check at runtime because it may get assigned a namespace when its
+      // parent normalizes children
+      vnode = new VNode(
+        tag, data, children,
+        undefined, undefined, context
+      );
+    }
+  } else {
+    // direct component options / constructor
+    vnode = createComponent(tag, data, context, children);
+  }
+  if (Array.isArray(vnode)) {
+    return vnode
+  } else if (isDef(vnode)) {
+    if (isDef(ns)) { applyNS(vnode, ns); }
+    if (isDef(data)) { registerDeepBindings(data); }
+    return vnode
+  } else {
+    return createEmptyVNode()
+  }
+}
+
+function applyNS (vnode, ns, force) {
+  vnode.ns = ns;
+  if (vnode.tag === 'foreignObject') {
+    // use default namespace inside foreignObject
+    ns = undefined;
+    force = true;
+  }
+  if (isDef(vnode.children)) {
+    for (var i = 0, l = vnode.children.length; i < l; i++) {
+      var child = vnode.children[i];
+      if (isDef(child.tag) && (
+        isUndef(child.ns) || (isTrue(force) && child.tag !== 'svg'))) {
+        applyNS(child, ns, force);
+      }
+    }
+  }
+}
+
+// ref #5318
+// necessary to ensure parent re-render when deep bindings like :style and
+// :class are used on slot nodes
+function registerDeepBindings (data) {
+  if (isObject(data.style)) {
+    traverse(data.style);
+  }
+  if (isObject(data.class)) {
+    traverse(data.class);
+  }
+}
+
+/*  */
+
+function initRender (vm) {
+  vm._vnode = null; // the root of the child tree
+  vm._staticTrees = null; // v-once cached trees
+  var options = vm.$options;
+  var parentVnode = vm.$vnode = options._parentVnode; // the placeholder node in parent tree
+  var renderContext = parentVnode && parentVnode.context;
+  vm.$slots = resolveSlots(options._renderChildren, renderContext);
+  vm.$scopedSlots = emptyObject;
+  // bind the createElement fn to this instance
+  // so that we get proper render context inside it.
+  // args order: tag, data, children, normalizationType, alwaysNormalize
+  // internal version is used by render functions compiled from templates
+  vm._c = function (a, b, c, d) { return createElement(vm, a, b, c, d, false); };
+  // normalization is always applied for the public version, used in
+  // user-written render functions.
+  vm.$createElement = function (a, b, c, d) { return createElement(vm, a, b, c, d, true); };
+
+  // $attrs & $listeners are exposed for easier HOC creation.
+  // they need to be reactive so that HOCs using them are always updated
+  var parentData = parentVnode && parentVnode.data;
+
+  /* istanbul ignore else */
+  if (true) {
+    defineReactive$$1(vm, '$attrs', parentData && parentData.attrs || emptyObject, function () {
+      !isUpdatingChildComponent && warn("$attrs is readonly.", vm);
+    }, true);
+    defineReactive$$1(vm, '$listeners', options._parentListeners || emptyObject, function () {
+      !isUpdatingChildComponent && warn("$listeners is readonly.", vm);
+    }, true);
+  } else {}
+}
+
+var currentRenderingInstance = null;
+
+function renderMixin (Vue) {
+  // install runtime convenience helpers
+  installRenderHelpers(Vue.prototype);
+
+  Vue.prototype.$nextTick = function (fn) {
+    return nextTick(fn, this)
+  };
+
+  Vue.prototype._render = function () {
+    var vm = this;
+    var ref = vm.$options;
+    var render = ref.render;
+    var _parentVnode = ref._parentVnode;
+
+    if (_parentVnode) {
+      vm.$scopedSlots = normalizeScopedSlots(
+        _parentVnode.data.scopedSlots,
+        vm.$slots,
+        vm.$scopedSlots
+      );
+    }
+
+    // set parent vnode. this allows render functions to have access
+    // to the data on the placeholder node.
+    vm.$vnode = _parentVnode;
+    // render self
+    var vnode;
+    try {
+      // There's no need to maintain a stack because all render fns are called
+      // separately from one another. Nested component's render fns are called
+      // when parent component is patched.
+      currentRenderingInstance = vm;
+      vnode = render.call(vm._renderProxy, vm.$createElement);
+    } catch (e) {
+      handleError(e, vm, "render");
+      // return error render result,
+      // or previous vnode to prevent render error causing blank component
+      /* istanbul ignore else */
+      if ( true && vm.$options.renderError) {
+        try {
+          vnode = vm.$options.renderError.call(vm._renderProxy, vm.$createElement, e);
+        } catch (e) {
+          handleError(e, vm, "renderError");
+          vnode = vm._vnode;
+        }
+      } else {
+        vnode = vm._vnode;
+      }
+    } finally {
+      currentRenderingInstance = null;
+    }
+    // if the returned array contains only a single node, allow it
+    if (Array.isArray(vnode) && vnode.length === 1) {
+      vnode = vnode[0];
+    }
+    // return empty vnode in case the render function errored out
+    if (!(vnode instanceof VNode)) {
+      if ( true && Array.isArray(vnode)) {
+        warn(
+          'Multiple root nodes returned from render function. Render function ' +
+          'should return a single root node.',
+          vm
+        );
+      }
+      vnode = createEmptyVNode();
+    }
+    // set parent
+    vnode.parent = _parentVnode;
+    return vnode
+  };
+}
+
+/*  */
+
+function ensureCtor (comp, base) {
+  if (
+    comp.__esModule ||
+    (hasSymbol && comp[Symbol.toStringTag] === 'Module')
+  ) {
+    comp = comp.default;
+  }
+  return isObject(comp)
+    ? base.extend(comp)
+    : comp
+}
+
+function createAsyncPlaceholder (
+  factory,
+  data,
+  context,
+  children,
+  tag
+) {
+  var node = createEmptyVNode();
+  node.asyncFactory = factory;
+  node.asyncMeta = { data: data, context: context, children: children, tag: tag };
+  return node
+}
+
+function resolveAsyncComponent (
+  factory,
+  baseCtor
+) {
+  if (isTrue(factory.error) && isDef(factory.errorComp)) {
+    return factory.errorComp
+  }
+
+  if (isDef(factory.resolved)) {
+    return factory.resolved
+  }
+
+  var owner = currentRenderingInstance;
+  if (owner && isDef(factory.owners) && factory.owners.indexOf(owner) === -1) {
+    // already pending
+    factory.owners.push(owner);
+  }
+
+  if (isTrue(factory.loading) && isDef(factory.loadingComp)) {
+    return factory.loadingComp
+  }
+
+  if (owner && !isDef(factory.owners)) {
+    var owners = factory.owners = [owner];
+    var sync = true;
+    var timerLoading = null;
+    var timerTimeout = null
+
+    ;(owner).$on('hook:destroyed', function () { return remove(owners, owner); });
+
+    var forceRender = function (renderCompleted) {
+      for (var i = 0, l = owners.length; i < l; i++) {
+        (owners[i]).$forceUpdate();
+      }
+
+      if (renderCompleted) {
+        owners.length = 0;
+        if (timerLoading !== null) {
+          clearTimeout(timerLoading);
+          timerLoading = null;
+        }
+        if (timerTimeout !== null) {
+          clearTimeout(timerTimeout);
+          timerTimeout = null;
+        }
+      }
+    };
+
+    var resolve = once(function (res) {
+      // cache resolved
+      factory.resolved = ensureCtor(res, baseCtor);
+      // invoke callbacks only if this is not a synchronous resolve
+      // (async resolves are shimmed as synchronous during SSR)
+      if (!sync) {
+        forceRender(true);
+      } else {
+        owners.length = 0;
+      }
+    });
+
+    var reject = once(function (reason) {
+       true && warn(
+        "Failed to resolve async component: " + (String(factory)) +
+        (reason ? ("\nReason: " + reason) : '')
+      );
+      if (isDef(factory.errorComp)) {
+        factory.error = true;
+        forceRender(true);
+      }
+    });
+
+    var res = factory(resolve, reject);
+
+    if (isObject(res)) {
+      if (isPromise(res)) {
+        // () => Promise
+        if (isUndef(factory.resolved)) {
+          res.then(resolve, reject);
+        }
+      } else if (isPromise(res.component)) {
+        res.component.then(resolve, reject);
+
+        if (isDef(res.error)) {
+          factory.errorComp = ensureCtor(res.error, baseCtor);
+        }
+
+        if (isDef(res.loading)) {
+          factory.loadingComp = ensureCtor(res.loading, baseCtor);
+          if (res.delay === 0) {
+            factory.loading = true;
+          } else {
+            timerLoading = setTimeout(function () {
+              timerLoading = null;
+              if (isUndef(factory.resolved) && isUndef(factory.error)) {
+                factory.loading = true;
+                forceRender(false);
+              }
+            }, res.delay || 200);
+          }
+        }
+
+        if (isDef(res.timeout)) {
+          timerTimeout = setTimeout(function () {
+            timerTimeout = null;
+            if (isUndef(factory.resolved)) {
+              reject(
+                 true
+                  ? ("timeout (" + (res.timeout) + "ms)")
+                  : undefined
+              );
+            }
+          }, res.timeout);
+        }
+      }
+    }
+
+    sync = false;
+    // return in case resolved synchronously
+    return factory.loading
+      ? factory.loadingComp
+      : factory.resolved
+  }
+}
+
+/*  */
+
+function isAsyncPlaceholder (node) {
+  return node.isComment && node.asyncFactory
+}
+
+/*  */
+
+function getFirstComponentChild (children) {
+  if (Array.isArray(children)) {
+    for (var i = 0; i < children.length; i++) {
+      var c = children[i];
+      if (isDef(c) && (isDef(c.componentOptions) || isAsyncPlaceholder(c))) {
+        return c
+      }
+    }
+  }
+}
+
+/*  */
+
+/*  */
+
+function initEvents (vm) {
+  vm._events = Object.create(null);
+  vm._hasHookEvent = false;
+  // init parent attached events
+  var listeners = vm.$options._parentListeners;
+  if (listeners) {
+    updateComponentListeners(vm, listeners);
+  }
+}
+
+var target;
+
+function add (event, fn) {
+  target.$on(event, fn);
+}
+
+function remove$1 (event, fn) {
+  target.$off(event, fn);
+}
+
+function createOnceHandler (event, fn) {
+  var _target = target;
+  return function onceHandler () {
+    var res = fn.apply(null, arguments);
+    if (res !== null) {
+      _target.$off(event, onceHandler);
+    }
+  }
+}
+
+function updateComponentListeners (
+  vm,
+  listeners,
+  oldListeners
+) {
+  target = vm;
+  updateListeners(listeners, oldListeners || {}, add, remove$1, createOnceHandler, vm);
+  target = undefined;
+}
+
+function eventsMixin (Vue) {
+  var hookRE = /^hook:/;
+  Vue.prototype.$on = function (event, fn) {
+    var vm = this;
+    if (Array.isArray(event)) {
+      for (var i = 0, l = event.length; i < l; i++) {
+        vm.$on(event[i], fn);
+      }
+    } else {
+      (vm._events[event] || (vm._events[event] = [])).push(fn);
+      // optimize hook:event cost by using a boolean flag marked at registration
+      // instead of a hash lookup
+      if (hookRE.test(event)) {
+        vm._hasHookEvent = true;
+      }
+    }
+    return vm
+  };
+
+  Vue.prototype.$once = function (event, fn) {
+    var vm = this;
+    function on () {
+      vm.$off(event, on);
+      fn.apply(vm, arguments);
+    }
+    on.fn = fn;
+    vm.$on(event, on);
+    return vm
+  };
+
+  Vue.prototype.$off = function (event, fn) {
+    var vm = this;
+    // all
+    if (!arguments.length) {
+      vm._events = Object.create(null);
+      return vm
+    }
+    // array of events
+    if (Array.isArray(event)) {
+      for (var i$1 = 0, l = event.length; i$1 < l; i$1++) {
+        vm.$off(event[i$1], fn);
+      }
+      return vm
+    }
+    // specific event
+    var cbs = vm._events[event];
+    if (!cbs) {
+      return vm
+    }
+    if (!fn) {
+      vm._events[event] = null;
+      return vm
+    }
+    // specific handler
+    var cb;
+    var i = cbs.length;
+    while (i--) {
+      cb = cbs[i];
+      if (cb === fn || cb.fn === fn) {
+        cbs.splice(i, 1);
+        break
+      }
+    }
+    return vm
+  };
+
+  Vue.prototype.$emit = function (event) {
+    var vm = this;
+    if (true) {
+      var lowerCaseEvent = event.toLowerCase();
+      if (lowerCaseEvent !== event && vm._events[lowerCaseEvent]) {
+        tip(
+          "Event \"" + lowerCaseEvent + "\" is emitted in component " +
+          (formatComponentName(vm)) + " but the handler is registered for \"" + event + "\". " +
+          "Note that HTML attributes are case-insensitive and you cannot use " +
+          "v-on to listen to camelCase events when using in-DOM templates. " +
+          "You should probably use \"" + (hyphenate(event)) + "\" instead of \"" + event + "\"."
+        );
+      }
+    }
+    var cbs = vm._events[event];
+    if (cbs) {
+      cbs = cbs.length > 1 ? toArray(cbs) : cbs;
+      var args = toArray(arguments, 1);
+      var info = "event handler for \"" + event + "\"";
+      for (var i = 0, l = cbs.length; i < l; i++) {
+        invokeWithErrorHandling(cbs[i], vm, args, vm, info);
+      }
+    }
+    return vm
+  };
+}
+
+/*  */
+
+var activeInstance = null;
+var isUpdatingChildComponent = false;
+
+function setActiveInstance(vm) {
+  var prevActiveInstance = activeInstance;
+  activeInstance = vm;
+  return function () {
+    activeInstance = prevActiveInstance;
+  }
+}
+
+function initLifecycle (vm) {
+  var options = vm.$options;
+
+  // locate first non-abstract parent
+  var parent = options.parent;
+  if (parent && !options.abstract) {
+    while (parent.$options.abstract && parent.$parent) {
+      parent = parent.$parent;
+    }
+    parent.$children.push(vm);
+  }
+
+  vm.$parent = parent;
+  vm.$root = parent ? parent.$root : vm;
+
+  vm.$children = [];
+  vm.$refs = {};
+
+  vm._watcher = null;
+  vm._inactive = null;
+  vm._directInactive = false;
+  vm._isMounted = false;
+  vm._isDestroyed = false;
+  vm._isBeingDestroyed = false;
+}
+
+function lifecycleMixin (Vue) {
+  Vue.prototype._update = function (vnode, hydrating) {
+    var vm = this;
+    var prevEl = vm.$el;
+    var prevVnode = vm._vnode;
+    var restoreActiveInstance = setActiveInstance(vm);
+    vm._vnode = vnode;
+    // Vue.prototype.__patch__ is injected in entry points
+    // based on the rendering backend used.
+    if (!prevVnode) {
+      // initial render
+      vm.$el = vm.__patch__(vm.$el, vnode, hydrating, false /* removeOnly */);
+    } else {
+      // updates
+      vm.$el = vm.__patch__(prevVnode, vnode);
+    }
+    restoreActiveInstance();
+    // update __vue__ reference
+    if (prevEl) {
+      prevEl.__vue__ = null;
+    }
+    if (vm.$el) {
+      vm.$el.__vue__ = vm;
+    }
+    // if parent is an HOC, update its $el as well
+    if (vm.$vnode && vm.$parent && vm.$vnode === vm.$parent._vnode) {
+      vm.$parent.$el = vm.$el;
+    }
+    // updated hook is called by the scheduler to ensure that children are
+    // updated in a parent's updated hook.
+  };
+
+  Vue.prototype.$forceUpdate = function () {
+    var vm = this;
+    if (vm._watcher) {
+      vm._watcher.update();
+    }
+  };
+
+  Vue.prototype.$destroy = function () {
+    var vm = this;
+    if (vm._isBeingDestroyed) {
+      return
+    }
+    callHook(vm, 'beforeDestroy');
+    vm._isBeingDestroyed = true;
+    // remove self from parent
+    var parent = vm.$parent;
+    if (parent && !parent._isBeingDestroyed && !vm.$options.abstract) {
+      remove(parent.$children, vm);
+    }
+    // teardown watchers
+    if (vm._watcher) {
+      vm._watcher.teardown();
+    }
+    var i = vm._watchers.length;
+    while (i--) {
+      vm._watchers[i].teardown();
+    }
+    // remove reference from data ob
+    // frozen object may not have observer.
+    if (vm._data.__ob__) {
+      vm._data.__ob__.vmCount--;
+    }
+    // call the last hook...
+    vm._isDestroyed = true;
+    // invoke destroy hooks on current rendered tree
+    vm.__patch__(vm._vnode, null);
+    // fire destroyed hook
+    callHook(vm, 'destroyed');
+    // turn off all instance listeners.
+    vm.$off();
+    // remove __vue__ reference
+    if (vm.$el) {
+      vm.$el.__vue__ = null;
+    }
+    // release circular reference (#6759)
+    if (vm.$vnode) {
+      vm.$vnode.parent = null;
+    }
+  };
+}
+
+function updateChildComponent (
+  vm,
+  propsData,
+  listeners,
+  parentVnode,
+  renderChildren
+) {
+  if (true) {
+    isUpdatingChildComponent = true;
+  }
+
+  // determine whether component has slot children
+  // we need to do this before overwriting $options._renderChildren.
+
+  // check if there are dynamic scopedSlots (hand-written or compiled but with
+  // dynamic slot names). Static scoped slots compiled from template has the
+  // "$stable" marker.
+  var newScopedSlots = parentVnode.data.scopedSlots;
+  var oldScopedSlots = vm.$scopedSlots;
+  var hasDynamicScopedSlot = !!(
+    (newScopedSlots && !newScopedSlots.$stable) ||
+    (oldScopedSlots !== emptyObject && !oldScopedSlots.$stable) ||
+    (newScopedSlots && vm.$scopedSlots.$key !== newScopedSlots.$key)
+  );
+
+  // Any static slot children from the parent may have changed during parent's
+  // update. Dynamic scoped slots may also have changed. In such cases, a forced
+  // update is necessary to ensure correctness.
+  var needsForceUpdate = !!(
+    renderChildren ||               // has new static slots
+    vm.$options._renderChildren ||  // has old static slots
+    hasDynamicScopedSlot
+  );
+
+  vm.$options._parentVnode = parentVnode;
+  vm.$vnode = parentVnode; // update vm's placeholder node without re-render
+
+  if (vm._vnode) { // update child tree's parent
+    vm._vnode.parent = parentVnode;
+  }
+  vm.$options._renderChildren = renderChildren;
+
+  // update $attrs and $listeners hash
+  // these are also reactive so they may trigger child update if the child
+  // used them during render
+  vm.$attrs = parentVnode.data.attrs || emptyObject;
+  vm.$listeners = listeners || emptyObject;
+
+  // update props
+  if (propsData && vm.$options.props) {
+    toggleObserving(false);
+    var props = vm._props;
+    var propKeys = vm.$options._propKeys || [];
+    for (var i = 0; i < propKeys.length; i++) {
+      var key = propKeys[i];
+      var propOptions = vm.$options.props; // wtf flow?
+      props[key] = validateProp(key, propOptions, propsData, vm);
+    }
+    toggleObserving(true);
+    // keep a copy of raw propsData
+    vm.$options.propsData = propsData;
+  }
+  
+  // fixed by xxxxxx update properties(mp runtime)
+  vm._$updateProperties && vm._$updateProperties(vm);
+  
+  // update listeners
+  listeners = listeners || emptyObject;
+  var oldListeners = vm.$options._parentListeners;
+  vm.$options._parentListeners = listeners;
+  updateComponentListeners(vm, listeners, oldListeners);
+
+  // resolve slots + force update if has children
+  if (needsForceUpdate) {
+    vm.$slots = resolveSlots(renderChildren, parentVnode.context);
+    vm.$forceUpdate();
+  }
+
+  if (true) {
+    isUpdatingChildComponent = false;
+  }
+}
+
+function isInInactiveTree (vm) {
+  while (vm && (vm = vm.$parent)) {
+    if (vm._inactive) { return true }
+  }
+  return false
+}
+
+function activateChildComponent (vm, direct) {
+  if (direct) {
+    vm._directInactive = false;
+    if (isInInactiveTree(vm)) {
+      return
+    }
+  } else if (vm._directInactive) {
+    return
+  }
+  if (vm._inactive || vm._inactive === null) {
+    vm._inactive = false;
+    for (var i = 0; i < vm.$children.length; i++) {
+      activateChildComponent(vm.$children[i]);
+    }
+    callHook(vm, 'activated');
+  }
+}
+
+function deactivateChildComponent (vm, direct) {
+  if (direct) {
+    vm._directInactive = true;
+    if (isInInactiveTree(vm)) {
+      return
+    }
+  }
+  if (!vm._inactive) {
+    vm._inactive = true;
+    for (var i = 0; i < vm.$children.length; i++) {
+      deactivateChildComponent(vm.$children[i]);
+    }
+    callHook(vm, 'deactivated');
+  }
+}
+
+function callHook (vm, hook) {
+  // #7573 disable dep collection when invoking lifecycle hooks
+  pushTarget();
+  var handlers = vm.$options[hook];
+  var info = hook + " hook";
+  if (handlers) {
+    for (var i = 0, j = handlers.length; i < j; i++) {
+      invokeWithErrorHandling(handlers[i], vm, null, vm, info);
+    }
+  }
+  if (vm._hasHookEvent) {
+    vm.$emit('hook:' + hook);
+  }
+  popTarget();
+}
+
+/*  */
+
+var MAX_UPDATE_COUNT = 100;
+
+var queue = [];
+var activatedChildren = [];
+var has = {};
+var circular = {};
+var waiting = false;
+var flushing = false;
+var index = 0;
+
+/**
+ * Reset the scheduler's state.
+ */
+function resetSchedulerState () {
+  index = queue.length = activatedChildren.length = 0;
+  has = {};
+  if (true) {
+    circular = {};
+  }
+  waiting = flushing = false;
+}
+
+// Async edge case #6566 requires saving the timestamp when event listeners are
+// attached. However, calling performance.now() has a perf overhead especially
+// if the page has thousands of event listeners. Instead, we take a timestamp
+// every time the scheduler flushes and use that for all event listeners
+// attached during that flush.
+var currentFlushTimestamp = 0;
+
+// Async edge case fix requires storing an event listener's attach timestamp.
+var getNow = Date.now;
+
+// Determine what event timestamp the browser is using. Annoyingly, the
+// timestamp can either be hi-res (relative to page load) or low-res
+// (relative to UNIX epoch), so in order to compare time we have to use the
+// same timestamp type when saving the flush timestamp.
+// All IE versions use low-res event timestamps, and have problematic clock
+// implementations (#9632)
+if (inBrowser && !isIE) {
+  var performance = window.performance;
+  if (
+    performance &&
+    typeof performance.now === 'function' &&
+    getNow() > document.createEvent('Event').timeStamp
+  ) {
+    // if the event timestamp, although evaluated AFTER the Date.now(), is
+    // smaller than it, it means the event is using a hi-res timestamp,
+    // and we need to use the hi-res version for event listener timestamps as
+    // well.
+    getNow = function () { return performance.now(); };
+  }
+}
+
+/**
+ * Flush both queues and run the watchers.
+ */
+function flushSchedulerQueue () {
+  currentFlushTimestamp = getNow();
+  flushing = true;
+  var watcher, id;
+
+  // Sort queue before flush.
+  // This ensures that:
+  // 1. Components are updated from parent to child. (because parent is always
+  //    created before the child)
+  // 2. A component's user watchers are run before its render watcher (because
+  //    user watchers are created before the render watcher)
+  // 3. If a component is destroyed during a parent component's watcher run,
+  //    its watchers can be skipped.
+  queue.sort(function (a, b) { return a.id - b.id; });
+
+  // do not cache length because more watchers might be pushed
+  // as we run existing watchers
+  for (index = 0; index < queue.length; index++) {
+    watcher = queue[index];
+    if (watcher.before) {
+      watcher.before();
+    }
+    id = watcher.id;
+    has[id] = null;
+    watcher.run();
+    // in dev build, check and stop circular updates.
+    if ( true && has[id] != null) {
+      circular[id] = (circular[id] || 0) + 1;
+      if (circular[id] > MAX_UPDATE_COUNT) {
+        warn(
+          'You may have an infinite update loop ' + (
+            watcher.user
+              ? ("in watcher with expression \"" + (watcher.expression) + "\"")
+              : "in a component render function."
+          ),
+          watcher.vm
+        );
+        break
+      }
+    }
+  }
+
+  // keep copies of post queues before resetting state
+  var activatedQueue = activatedChildren.slice();
+  var updatedQueue = queue.slice();
+
+  resetSchedulerState();
+
+  // call component updated and activated hooks
+  callActivatedHooks(activatedQueue);
+  callUpdatedHooks(updatedQueue);
+
+  // devtool hook
+  /* istanbul ignore if */
+  if (devtools && config.devtools) {
+    devtools.emit('flush');
+  }
+}
+
+function callUpdatedHooks (queue) {
+  var i = queue.length;
+  while (i--) {
+    var watcher = queue[i];
+    var vm = watcher.vm;
+    if (vm._watcher === watcher && vm._isMounted && !vm._isDestroyed) {
+      callHook(vm, 'updated');
+    }
+  }
+}
+
+/**
+ * Queue a kept-alive component that was activated during patch.
+ * The queue will be processed after the entire tree has been patched.
+ */
+function queueActivatedComponent (vm) {
+  // setting _inactive to false here so that a render function can
+  // rely on checking whether it's in an inactive tree (e.g. router-view)
+  vm._inactive = false;
+  activatedChildren.push(vm);
+}
+
+function callActivatedHooks (queue) {
+  for (var i = 0; i < queue.length; i++) {
+    queue[i]._inactive = true;
+    activateChildComponent(queue[i], true /* true */);
+  }
+}
+
+/**
+ * Push a watcher into the watcher queue.
+ * Jobs with duplicate IDs will be skipped unless it's
+ * pushed when the queue is being flushed.
+ */
+function queueWatcher (watcher) {
+  var id = watcher.id;
+  if (has[id] == null) {
+    has[id] = true;
+    if (!flushing) {
+      queue.push(watcher);
+    } else {
+      // if already flushing, splice the watcher based on its id
+      // if already past its id, it will be run next immediately.
+      var i = queue.length - 1;
+      while (i > index && queue[i].id > watcher.id) {
+        i--;
+      }
+      queue.splice(i + 1, 0, watcher);
+    }
+    // queue the flush
+    if (!waiting) {
+      waiting = true;
+
+      if ( true && !config.async) {
+        flushSchedulerQueue();
+        return
+      }
+      nextTick(flushSchedulerQueue);
+    }
+  }
+}
+
+/*  */
+
+
+
+var uid$2 = 0;
+
+/**
+ * A watcher parses an expression, collects dependencies,
+ * and fires callback when the expression value changes.
+ * This is used for both the $watch() api and directives.
+ */
+var Watcher = function Watcher (
+  vm,
+  expOrFn,
+  cb,
+  options,
+  isRenderWatcher
+) {
+  this.vm = vm;
+  if (isRenderWatcher) {
+    vm._watcher = this;
+  }
+  vm._watchers.push(this);
+  // options
+  if (options) {
+    this.deep = !!options.deep;
+    this.user = !!options.user;
+    this.lazy = !!options.lazy;
+    this.sync = !!options.sync;
+    this.before = options.before;
+  } else {
+    this.deep = this.user = this.lazy = this.sync = false;
+  }
+  this.cb = cb;
+  this.id = ++uid$2; // uid for batching
+  this.active = true;
+  this.dirty = this.lazy; // for lazy watchers
+  this.deps = [];
+  this.newDeps = [];
+  this.depIds = new _Set();
+  this.newDepIds = new _Set();
+  this.expression =  true
+    ? expOrFn.toString()
+    : undefined;
+  // parse expression for getter
+  if (typeof expOrFn === 'function') {
+    this.getter = expOrFn;
+  } else {
+    this.getter = parsePath(expOrFn);
+    if (!this.getter) {
+      this.getter = noop;
+       true && warn(
+        "Failed watching path: \"" + expOrFn + "\" " +
+        'Watcher only accepts simple dot-delimited paths. ' +
+        'For full control, use a function instead.',
+        vm
+      );
+    }
+  }
+  this.value = this.lazy
+    ? undefined
+    : this.get();
+};
+
+/**
+ * Evaluate the getter, and re-collect dependencies.
+ */
+Watcher.prototype.get = function get () {
+  pushTarget(this);
+  var value;
+  var vm = this.vm;
+  try {
+    value = this.getter.call(vm, vm);
+  } catch (e) {
+    if (this.user) {
+      handleError(e, vm, ("getter for watcher \"" + (this.expression) + "\""));
+    } else {
+      throw e
+    }
+  } finally {
+    // "touch" every property so they are all tracked as
+    // dependencies for deep watching
+    if (this.deep) {
+      traverse(value);
+    }
+    popTarget();
+    this.cleanupDeps();
+  }
+  return value
+};
+
+/**
+ * Add a dependency to this directive.
+ */
+Watcher.prototype.addDep = function addDep (dep) {
+  var id = dep.id;
+  if (!this.newDepIds.has(id)) {
+    this.newDepIds.add(id);
+    this.newDeps.push(dep);
+    if (!this.depIds.has(id)) {
+      dep.addSub(this);
+    }
+  }
+};
+
+/**
+ * Clean up for dependency collection.
+ */
+Watcher.prototype.cleanupDeps = function cleanupDeps () {
+  var i = this.deps.length;
+  while (i--) {
+    var dep = this.deps[i];
+    if (!this.newDepIds.has(dep.id)) {
+      dep.removeSub(this);
+    }
+  }
+  var tmp = this.depIds;
+  this.depIds = this.newDepIds;
+  this.newDepIds = tmp;
+  this.newDepIds.clear();
+  tmp = this.deps;
+  this.deps = this.newDeps;
+  this.newDeps = tmp;
+  this.newDeps.length = 0;
+};
+
+/**
+ * Subscriber interface.
+ * Will be called when a dependency changes.
+ */
+Watcher.prototype.update = function update () {
+  /* istanbul ignore else */
+  if (this.lazy) {
+    this.dirty = true;
+  } else if (this.sync) {
+    this.run();
+  } else {
+    queueWatcher(this);
+  }
+};
+
+/**
+ * Scheduler job interface.
+ * Will be called by the scheduler.
+ */
+Watcher.prototype.run = function run () {
+  if (this.active) {
+    var value = this.get();
+    if (
+      value !== this.value ||
+      // Deep watchers and watchers on Object/Arrays should fire even
+      // when the value is the same, because the value may
+      // have mutated.
+      isObject(value) ||
+      this.deep
+    ) {
+      // set new value
+      var oldValue = this.value;
+      this.value = value;
+      if (this.user) {
+        try {
+          this.cb.call(this.vm, value, oldValue);
+        } catch (e) {
+          handleError(e, this.vm, ("callback for watcher \"" + (this.expression) + "\""));
+        }
+      } else {
+        this.cb.call(this.vm, value, oldValue);
+      }
+    }
+  }
+};
+
+/**
+ * Evaluate the value of the watcher.
+ * This only gets called for lazy watchers.
+ */
+Watcher.prototype.evaluate = function evaluate () {
+  this.value = this.get();
+  this.dirty = false;
+};
+
+/**
+ * Depend on all deps collected by this watcher.
+ */
+Watcher.prototype.depend = function depend () {
+  var i = this.deps.length;
+  while (i--) {
+    this.deps[i].depend();
+  }
+};
+
+/**
+ * Remove self from all dependencies' subscriber list.
+ */
+Watcher.prototype.teardown = function teardown () {
+  if (this.active) {
+    // remove self from vm's watcher list
+    // this is a somewhat expensive operation so we skip it
+    // if the vm is being destroyed.
+    if (!this.vm._isBeingDestroyed) {
+      remove(this.vm._watchers, this);
+    }
+    var i = this.deps.length;
+    while (i--) {
+      this.deps[i].removeSub(this);
+    }
+    this.active = false;
+  }
+};
+
+/*  */
+
+var sharedPropertyDefinition = {
+  enumerable: true,
+  configurable: true,
+  get: noop,
+  set: noop
+};
+
+function proxy (target, sourceKey, key) {
+  sharedPropertyDefinition.get = function proxyGetter () {
+    return this[sourceKey][key]
+  };
+  sharedPropertyDefinition.set = function proxySetter (val) {
+    this[sourceKey][key] = val;
+  };
+  Object.defineProperty(target, key, sharedPropertyDefinition);
+}
+
+function initState (vm) {
+  vm._watchers = [];
+  var opts = vm.$options;
+  if (opts.props) { initProps(vm, opts.props); }
+  if (opts.methods) { initMethods(vm, opts.methods); }
+  if (opts.data) {
+    initData(vm);
+  } else {
+    observe(vm._data = {}, true /* asRootData */);
+  }
+  if (opts.computed) { initComputed(vm, opts.computed); }
+  if (opts.watch && opts.watch !== nativeWatch) {
+    initWatch(vm, opts.watch);
+  }
+}
+
+function initProps (vm, propsOptions) {
+  var propsData = vm.$options.propsData || {};
+  var props = vm._props = {};
+  // cache prop keys so that future props updates can iterate using Array
+  // instead of dynamic object key enumeration.
+  var keys = vm.$options._propKeys = [];
+  var isRoot = !vm.$parent;
+  // root instance props should be converted
+  if (!isRoot) {
+    toggleObserving(false);
+  }
+  var loop = function ( key ) {
+    keys.push(key);
+    var value = validateProp(key, propsOptions, propsData, vm);
+    /* istanbul ignore else */
+    if (true) {
+      var hyphenatedKey = hyphenate(key);
+      if (isReservedAttribute(hyphenatedKey) ||
+          config.isReservedAttr(hyphenatedKey)) {
+        warn(
+          ("\"" + hyphenatedKey + "\" is a reserved attribute and cannot be used as component prop."),
+          vm
+        );
+      }
+      defineReactive$$1(props, key, value, function () {
+        if (!isRoot && !isUpdatingChildComponent) {
+          {
+            if(vm.mpHost === 'mp-baidu'){//百度 observer 在 setData callback 之后触发，直接忽略该 warn
+                return
+            }
+            //fixed by xxxxxx __next_tick_pending,uni://form-field 时不告警
+            if(
+                key === 'value' && 
+                Array.isArray(vm.$options.behaviors) &&
+                vm.$options.behaviors.indexOf('uni://form-field') !== -1
+              ){
+              return
+            }
+            if(vm._getFormData){
+              return
+            }
+            var $parent = vm.$parent;
+            while($parent){
+              if($parent.__next_tick_pending){
+                return  
+              }
+              $parent = $parent.$parent;
+            }
+          }
+          warn(
+            "Avoid mutating a prop directly since the value will be " +
+            "overwritten whenever the parent component re-renders. " +
+            "Instead, use a data or computed property based on the prop's " +
+            "value. Prop being mutated: \"" + key + "\"",
+            vm
+          );
+        }
+      });
+    } else {}
+    // static props are already proxied on the component's prototype
+    // during Vue.extend(). We only need to proxy props defined at
+    // instantiation here.
+    if (!(key in vm)) {
+      proxy(vm, "_props", key);
+    }
+  };
+
+  for (var key in propsOptions) loop( key );
+  toggleObserving(true);
+}
+
+function initData (vm) {
+  var data = vm.$options.data;
+  data = vm._data = typeof data === 'function'
+    ? getData(data, vm)
+    : data || {};
+  if (!isPlainObject(data)) {
+    data = {};
+     true && warn(
+      'data functions should return an object:\n' +
+      'https://vuejs.org/v2/guide/components.html#data-Must-Be-a-Function',
+      vm
+    );
+  }
+  // proxy data on instance
+  var keys = Object.keys(data);
+  var props = vm.$options.props;
+  var methods = vm.$options.methods;
+  var i = keys.length;
+  while (i--) {
+    var key = keys[i];
+    if (true) {
+      if (methods && hasOwn(methods, key)) {
+        warn(
+          ("Method \"" + key + "\" has already been defined as a data property."),
+          vm
+        );
+      }
+    }
+    if (props && hasOwn(props, key)) {
+       true && warn(
+        "The data property \"" + key + "\" is already declared as a prop. " +
+        "Use prop default value instead.",
+        vm
+      );
+    } else if (!isReserved(key)) {
+      proxy(vm, "_data", key);
+    }
+  }
+  // observe data
+  observe(data, true /* asRootData */);
+}
+
+function getData (data, vm) {
+  // #7573 disable dep collection when invoking data getters
+  pushTarget();
+  try {
+    return data.call(vm, vm)
+  } catch (e) {
+    handleError(e, vm, "data()");
+    return {}
+  } finally {
+    popTarget();
+  }
+}
+
+var computedWatcherOptions = { lazy: true };
+
+function initComputed (vm, computed) {
+  // $flow-disable-line
+  var watchers = vm._computedWatchers = Object.create(null);
+  // computed properties are just getters during SSR
+  var isSSR = isServerRendering();
+
+  for (var key in computed) {
+    var userDef = computed[key];
+    var getter = typeof userDef === 'function' ? userDef : userDef.get;
+    if ( true && getter == null) {
+      warn(
+        ("Getter is missing for computed property \"" + key + "\"."),
+        vm
+      );
+    }
+
+    if (!isSSR) {
+      // create internal watcher for the computed property.
+      watchers[key] = new Watcher(
+        vm,
+        getter || noop,
+        noop,
+        computedWatcherOptions
+      );
+    }
+
+    // component-defined computed properties are already defined on the
+    // component prototype. We only need to define computed properties defined
+    // at instantiation here.
+    if (!(key in vm)) {
+      defineComputed(vm, key, userDef);
+    } else if (true) {
+      if (key in vm.$data) {
+        warn(("The computed property \"" + key + "\" is already defined in data."), vm);
+      } else if (vm.$options.props && key in vm.$options.props) {
+        warn(("The computed property \"" + key + "\" is already defined as a prop."), vm);
+      }
+    }
+  }
+}
+
+function defineComputed (
+  target,
+  key,
+  userDef
+) {
+  var shouldCache = !isServerRendering();
+  if (typeof userDef === 'function') {
+    sharedPropertyDefinition.get = shouldCache
+      ? createComputedGetter(key)
+      : createGetterInvoker(userDef);
+    sharedPropertyDefinition.set = noop;
+  } else {
+    sharedPropertyDefinition.get = userDef.get
+      ? shouldCache && userDef.cache !== false
+        ? createComputedGetter(key)
+        : createGetterInvoker(userDef.get)
+      : noop;
+    sharedPropertyDefinition.set = userDef.set || noop;
+  }
+  if ( true &&
+      sharedPropertyDefinition.set === noop) {
+    sharedPropertyDefinition.set = function () {
+      warn(
+        ("Computed property \"" + key + "\" was assigned to but it has no setter."),
+        this
+      );
+    };
+  }
+  Object.defineProperty(target, key, sharedPropertyDefinition);
+}
+
+function createComputedGetter (key) {
+  return function computedGetter () {
+    var watcher = this._computedWatchers && this._computedWatchers[key];
+    if (watcher) {
+      if (watcher.dirty) {
+        watcher.evaluate();
+      }
+      if (Dep.SharedObject.target) {// fixed by xxxxxx
+        watcher.depend();
+      }
+      return watcher.value
+    }
+  }
+}
+
+function createGetterInvoker(fn) {
+  return function computedGetter () {
+    return fn.call(this, this)
+  }
+}
+
+function initMethods (vm, methods) {
+  var props = vm.$options.props;
+  for (var key in methods) {
+    if (true) {
+      if (typeof methods[key] !== 'function') {
+        warn(
+          "Method \"" + key + "\" has type \"" + (typeof methods[key]) + "\" in the component definition. " +
+          "Did you reference the function correctly?",
+          vm
+        );
+      }
+      if (props && hasOwn(props, key)) {
+        warn(
+          ("Method \"" + key + "\" has already been defined as a prop."),
+          vm
+        );
+      }
+      if ((key in vm) && isReserved(key)) {
+        warn(
+          "Method \"" + key + "\" conflicts with an existing Vue instance method. " +
+          "Avoid defining component methods that start with _ or $."
+        );
+      }
+    }
+    vm[key] = typeof methods[key] !== 'function' ? noop : bind(methods[key], vm);
+  }
+}
+
+function initWatch (vm, watch) {
+  for (var key in watch) {
+    var handler = watch[key];
+    if (Array.isArray(handler)) {
+      for (var i = 0; i < handler.length; i++) {
+        createWatcher(vm, key, handler[i]);
+      }
+    } else {
+      createWatcher(vm, key, handler);
+    }
+  }
+}
+
+function createWatcher (
+  vm,
+  expOrFn,
+  handler,
+  options
+) {
+  if (isPlainObject(handler)) {
+    options = handler;
+    handler = handler.handler;
+  }
+  if (typeof handler === 'string') {
+    handler = vm[handler];
+  }
+  return vm.$watch(expOrFn, handler, options)
+}
+
+function stateMixin (Vue) {
+  // flow somehow has problems with directly declared definition object
+  // when using Object.defineProperty, so we have to procedurally build up
+  // the object here.
+  var dataDef = {};
+  dataDef.get = function () { return this._data };
+  var propsDef = {};
+  propsDef.get = function () { return this._props };
+  if (true) {
+    dataDef.set = function () {
+      warn(
+        'Avoid replacing instance root $data. ' +
+        'Use nested data properties instead.',
+        this
+      );
+    };
+    propsDef.set = function () {
+      warn("$props is readonly.", this);
+    };
+  }
+  Object.defineProperty(Vue.prototype, '$data', dataDef);
+  Object.defineProperty(Vue.prototype, '$props', propsDef);
+
+  Vue.prototype.$set = set;
+  Vue.prototype.$delete = del;
+
+  Vue.prototype.$watch = function (
+    expOrFn,
+    cb,
+    options
+  ) {
+    var vm = this;
+    if (isPlainObject(cb)) {
+      return createWatcher(vm, expOrFn, cb, options)
+    }
+    options = options || {};
+    options.user = true;
+    var watcher = new Watcher(vm, expOrFn, cb, options);
+    if (options.immediate) {
+      try {
+        cb.call(vm, watcher.value);
+      } catch (error) {
+        handleError(error, vm, ("callback for immediate watcher \"" + (watcher.expression) + "\""));
+      }
+    }
+    return function unwatchFn () {
+      watcher.teardown();
+    }
+  };
+}
+
+/*  */
+
+var uid$3 = 0;
+
+function initMixin (Vue) {
+  Vue.prototype._init = function (options) {
+    var vm = this;
+    // a uid
+    vm._uid = uid$3++;
+
+    var startTag, endTag;
+    /* istanbul ignore if */
+    if ( true && config.performance && mark) {
+      startTag = "vue-perf-start:" + (vm._uid);
+      endTag = "vue-perf-end:" + (vm._uid);
+      mark(startTag);
+    }
+
+    // a flag to avoid this being observed
+    vm._isVue = true;
+    // merge options
+    if (options && options._isComponent) {
+      // optimize internal component instantiation
+      // since dynamic options merging is pretty slow, and none of the
+      // internal component options needs special treatment.
+      initInternalComponent(vm, options);
+    } else {
+      vm.$options = mergeOptions(
+        resolveConstructorOptions(vm.constructor),
+        options || {},
+        vm
+      );
+    }
+    /* istanbul ignore else */
+    if (true) {
+      initProxy(vm);
+    } else {}
+    // expose real self
+    vm._self = vm;
+    initLifecycle(vm);
+    initEvents(vm);
+    initRender(vm);
+    callHook(vm, 'beforeCreate');
+    !vm._$fallback && initInjections(vm); // resolve injections before data/props  
+    initState(vm);
+    !vm._$fallback && initProvide(vm); // resolve provide after data/props
+    !vm._$fallback && callHook(vm, 'created');      
+
+    /* istanbul ignore if */
+    if ( true && config.performance && mark) {
+      vm._name = formatComponentName(vm, false);
+      mark(endTag);
+      measure(("vue " + (vm._name) + " init"), startTag, endTag);
+    }
+
+    if (vm.$options.el) {
+      vm.$mount(vm.$options.el);
+    }
+  };
+}
+
+function initInternalComponent (vm, options) {
+  var opts = vm.$options = Object.create(vm.constructor.options);
+  // doing this because it's faster than dynamic enumeration.
+  var parentVnode = options._parentVnode;
+  opts.parent = options.parent;
+  opts._parentVnode = parentVnode;
+
+  var vnodeComponentOptions = parentVnode.componentOptions;
+  opts.propsData = vnodeComponentOptions.propsData;
+  opts._parentListeners = vnodeComponentOptions.listeners;
+  opts._renderChildren = vnodeComponentOptions.children;
+  opts._componentTag = vnodeComponentOptions.tag;
+
+  if (options.render) {
+    opts.render = options.render;
+    opts.staticRenderFns = options.staticRenderFns;
+  }
+}
+
+function resolveConstructorOptions (Ctor) {
+  var options = Ctor.options;
+  if (Ctor.super) {
+    var superOptions = resolveConstructorOptions(Ctor.super);
+    var cachedSuperOptions = Ctor.superOptions;
+    if (superOptions !== cachedSuperOptions) {
+      // super option changed,
+      // need to resolve new options.
+      Ctor.superOptions = superOptions;
+      // check if there are any late-modified/attached options (#4976)
+      var modifiedOptions = resolveModifiedOptions(Ctor);
+      // update base extend options
+      if (modifiedOptions) {
+        extend(Ctor.extendOptions, modifiedOptions);
+      }
+      options = Ctor.options = mergeOptions(superOptions, Ctor.extendOptions);
+      if (options.name) {
+        options.components[options.name] = Ctor;
+      }
+    }
+  }
+  return options
+}
+
+function resolveModifiedOptions (Ctor) {
+  var modified;
+  var latest = Ctor.options;
+  var sealed = Ctor.sealedOptions;
+  for (var key in latest) {
+    if (latest[key] !== sealed[key]) {
+      if (!modified) { modified = {}; }
+      modified[key] = latest[key];
+    }
+  }
+  return modified
+}
+
+function Vue (options) {
+  if ( true &&
+    !(this instanceof Vue)
+  ) {
+    warn('Vue is a constructor and should be called with the `new` keyword');
+  }
+  this._init(options);
+}
+
+initMixin(Vue);
+stateMixin(Vue);
+eventsMixin(Vue);
+lifecycleMixin(Vue);
+renderMixin(Vue);
+
+/*  */
+
+function initUse (Vue) {
+  Vue.use = function (plugin) {
+    var installedPlugins = (this._installedPlugins || (this._installedPlugins = []));
+    if (installedPlugins.indexOf(plugin) > -1) {
+      return this
+    }
+
+    // additional parameters
+    var args = toArray(arguments, 1);
+    args.unshift(this);
+    if (typeof plugin.install === 'function') {
+      plugin.install.apply(plugin, args);
+    } else if (typeof plugin === 'function') {
+      plugin.apply(null, args);
+    }
+    installedPlugins.push(plugin);
+    return this
+  };
+}
+
+/*  */
+
+function initMixin$1 (Vue) {
+  Vue.mixin = function (mixin) {
+    this.options = mergeOptions(this.options, mixin);
+    return this
+  };
+}
+
+/*  */
+
+function initExtend (Vue) {
+  /**
+   * Each instance constructor, including Vue, has a unique
+   * cid. This enables us to create wrapped "child
+   * constructors" for prototypal inheritance and cache them.
+   */
+  Vue.cid = 0;
+  var cid = 1;
+
+  /**
+   * Class inheritance
+   */
+  Vue.extend = function (extendOptions) {
+    extendOptions = extendOptions || {};
+    var Super = this;
+    var SuperId = Super.cid;
+    var cachedCtors = extendOptions._Ctor || (extendOptions._Ctor = {});
+    if (cachedCtors[SuperId]) {
+      return cachedCtors[SuperId]
+    }
+
+    var name = extendOptions.name || Super.options.name;
+    if ( true && name) {
+      validateComponentName(name);
+    }
+
+    var Sub = function VueComponent (options) {
+      this._init(options);
+    };
+    Sub.prototype = Object.create(Super.prototype);
+    Sub.prototype.constructor = Sub;
+    Sub.cid = cid++;
+    Sub.options = mergeOptions(
+      Super.options,
+      extendOptions
+    );
+    Sub['super'] = Super;
+
+    // For props and computed properties, we define the proxy getters on
+    // the Vue instances at extension time, on the extended prototype. This
+    // avoids Object.defineProperty calls for each instance created.
+    if (Sub.options.props) {
+      initProps$1(Sub);
+    }
+    if (Sub.options.computed) {
+      initComputed$1(Sub);
+    }
+
+    // allow further extension/mixin/plugin usage
+    Sub.extend = Super.extend;
+    Sub.mixin = Super.mixin;
+    Sub.use = Super.use;
+
+    // create asset registers, so extended classes
+    // can have their private assets too.
+    ASSET_TYPES.forEach(function (type) {
+      Sub[type] = Super[type];
+    });
+    // enable recursive self-lookup
+    if (name) {
+      Sub.options.components[name] = Sub;
+    }
+
+    // keep a reference to the super options at extension time.
+    // later at instantiation we can check if Super's options have
+    // been updated.
+    Sub.superOptions = Super.options;
+    Sub.extendOptions = extendOptions;
+    Sub.sealedOptions = extend({}, Sub.options);
+
+    // cache constructor
+    cachedCtors[SuperId] = Sub;
+    return Sub
+  };
+}
+
+function initProps$1 (Comp) {
+  var props = Comp.options.props;
+  for (var key in props) {
+    proxy(Comp.prototype, "_props", key);
+  }
+}
+
+function initComputed$1 (Comp) {
+  var computed = Comp.options.computed;
+  for (var key in computed) {
+    defineComputed(Comp.prototype, key, computed[key]);
+  }
+}
+
+/*  */
+
+function initAssetRegisters (Vue) {
+  /**
+   * Create asset registration methods.
+   */
+  ASSET_TYPES.forEach(function (type) {
+    Vue[type] = function (
+      id,
+      definition
+    ) {
+      if (!definition) {
+        return this.options[type + 's'][id]
+      } else {
+        /* istanbul ignore if */
+        if ( true && type === 'component') {
+          validateComponentName(id);
+        }
+        if (type === 'component' && isPlainObject(definition)) {
+          definition.name = definition.name || id;
+          definition = this.options._base.extend(definition);
+        }
+        if (type === 'directive' && typeof definition === 'function') {
+          definition = { bind: definition, update: definition };
+        }
+        this.options[type + 's'][id] = definition;
+        return definition
+      }
+    };
+  });
+}
+
+/*  */
+
+
+
+function getComponentName (opts) {
+  return opts && (opts.Ctor.options.name || opts.tag)
+}
+
+function matches (pattern, name) {
+  if (Array.isArray(pattern)) {
+    return pattern.indexOf(name) > -1
+  } else if (typeof pattern === 'string') {
+    return pattern.split(',').indexOf(name) > -1
+  } else if (isRegExp(pattern)) {
+    return pattern.test(name)
+  }
+  /* istanbul ignore next */
+  return false
+}
+
+function pruneCache (keepAliveInstance, filter) {
+  var cache = keepAliveInstance.cache;
+  var keys = keepAliveInstance.keys;
+  var _vnode = keepAliveInstance._vnode;
+  for (var key in cache) {
+    var cachedNode = cache[key];
+    if (cachedNode) {
+      var name = getComponentName(cachedNode.componentOptions);
+      if (name && !filter(name)) {
+        pruneCacheEntry(cache, key, keys, _vnode);
+      }
+    }
+  }
+}
+
+function pruneCacheEntry (
+  cache,
+  key,
+  keys,
+  current
+) {
+  var cached$$1 = cache[key];
+  if (cached$$1 && (!current || cached$$1.tag !== current.tag)) {
+    cached$$1.componentInstance.$destroy();
+  }
+  cache[key] = null;
+  remove(keys, key);
+}
+
+var patternTypes = [String, RegExp, Array];
+
+var KeepAlive = {
+  name: 'keep-alive',
+  abstract: true,
+
+  props: {
+    include: patternTypes,
+    exclude: patternTypes,
+    max: [String, Number]
+  },
+
+  created: function created () {
+    this.cache = Object.create(null);
+    this.keys = [];
+  },
+
+  destroyed: function destroyed () {
+    for (var key in this.cache) {
+      pruneCacheEntry(this.cache, key, this.keys);
+    }
+  },
+
+  mounted: function mounted () {
+    var this$1 = this;
+
+    this.$watch('include', function (val) {
+      pruneCache(this$1, function (name) { return matches(val, name); });
+    });
+    this.$watch('exclude', function (val) {
+      pruneCache(this$1, function (name) { return !matches(val, name); });
+    });
+  },
+
+  render: function render () {
+    var slot = this.$slots.default;
+    var vnode = getFirstComponentChild(slot);
+    var componentOptions = vnode && vnode.componentOptions;
+    if (componentOptions) {
+      // check pattern
+      var name = getComponentName(componentOptions);
+      var ref = this;
+      var include = ref.include;
+      var exclude = ref.exclude;
+      if (
+        // not included
+        (include && (!name || !matches(include, name))) ||
+        // excluded
+        (exclude && name && matches(exclude, name))
+      ) {
+        return vnode
+      }
+
+      var ref$1 = this;
+      var cache = ref$1.cache;
+      var keys = ref$1.keys;
+      var key = vnode.key == null
+        // same constructor may get registered as different local components
+        // so cid alone is not enough (#3269)
+        ? componentOptions.Ctor.cid + (componentOptions.tag ? ("::" + (componentOptions.tag)) : '')
+        : vnode.key;
+      if (cache[key]) {
+        vnode.componentInstance = cache[key].componentInstance;
+        // make current key freshest
+        remove(keys, key);
+        keys.push(key);
+      } else {
+        cache[key] = vnode;
+        keys.push(key);
+        // prune oldest entry
+        if (this.max && keys.length > parseInt(this.max)) {
+          pruneCacheEntry(cache, keys[0], keys, this._vnode);
+        }
+      }
+
+      vnode.data.keepAlive = true;
+    }
+    return vnode || (slot && slot[0])
+  }
+};
+
+var builtInComponents = {
+  KeepAlive: KeepAlive
+};
+
+/*  */
+
+function initGlobalAPI (Vue) {
+  // config
+  var configDef = {};
+  configDef.get = function () { return config; };
+  if (true) {
+    configDef.set = function () {
+      warn(
+        'Do not replace the Vue.config object, set individual fields instead.'
+      );
+    };
+  }
+  Object.defineProperty(Vue, 'config', configDef);
+
+  // exposed util methods.
+  // NOTE: these are not considered part of the public API - avoid relying on
+  // them unless you are aware of the risk.
+  Vue.util = {
+    warn: warn,
+    extend: extend,
+    mergeOptions: mergeOptions,
+    defineReactive: defineReactive$$1
+  };
+
+  Vue.set = set;
+  Vue.delete = del;
+  Vue.nextTick = nextTick;
+
+  // 2.6 explicit observable API
+  Vue.observable = function (obj) {
+    observe(obj);
+    return obj
+  };
+
+  Vue.options = Object.create(null);
+  ASSET_TYPES.forEach(function (type) {
+    Vue.options[type + 's'] = Object.create(null);
+  });
+
+  // this is used to identify the "base" constructor to extend all plain-object
+  // components with in Weex's multi-instance scenarios.
+  Vue.options._base = Vue;
+
+  extend(Vue.options.components, builtInComponents);
+
+  initUse(Vue);
+  initMixin$1(Vue);
+  initExtend(Vue);
+  initAssetRegisters(Vue);
+}
+
+initGlobalAPI(Vue);
+
+Object.defineProperty(Vue.prototype, '$isServer', {
+  get: isServerRendering
+});
+
+Object.defineProperty(Vue.prototype, '$ssrContext', {
+  get: function get () {
+    /* istanbul ignore next */
+    return this.$vnode && this.$vnode.ssrContext
+  }
+});
+
+// expose FunctionalRenderContext for ssr runtime helper installation
+Object.defineProperty(Vue, 'FunctionalRenderContext', {
+  value: FunctionalRenderContext
+});
+
+Vue.version = '2.6.11';
+
+/**
+ * https://raw.githubusercontent.com/Tencent/westore/master/packages/westore/utils/diff.js
+ */
+var ARRAYTYPE = '[object Array]';
+var OBJECTTYPE = '[object Object]';
+// const FUNCTIONTYPE = '[object Function]'
+
+function diff(current, pre) {
+    var result = {};
+    syncKeys(current, pre);
+    _diff(current, pre, '', result);
+    return result
+}
+
+function syncKeys(current, pre) {
+    if (current === pre) { return }
+    var rootCurrentType = type(current);
+    var rootPreType = type(pre);
+    if (rootCurrentType == OBJECTTYPE && rootPreType == OBJECTTYPE) {
+        if(Object.keys(current).length >= Object.keys(pre).length){
+            for (var key in pre) {
+                var currentValue = current[key];
+                if (currentValue === undefined) {
+                    current[key] = null;
+                } else {
+                    syncKeys(currentValue, pre[key]);
+                }
+            }
+        }
+    } else if (rootCurrentType == ARRAYTYPE && rootPreType == ARRAYTYPE) {
+        if (current.length >= pre.length) {
+            pre.forEach(function (item, index) {
+                syncKeys(current[index], item);
+            });
+        }
+    }
+}
+
+function _diff(current, pre, path, result) {
+    if (current === pre) { return }
+    var rootCurrentType = type(current);
+    var rootPreType = type(pre);
+    if (rootCurrentType == OBJECTTYPE) {
+        if (rootPreType != OBJECTTYPE || Object.keys(current).length < Object.keys(pre).length) {
+            setResult(result, path, current);
+        } else {
+            var loop = function ( key ) {
+                var currentValue = current[key];
+                var preValue = pre[key];
+                var currentType = type(currentValue);
+                var preType = type(preValue);
+                if (currentType != ARRAYTYPE && currentType != OBJECTTYPE) {
+                    if (currentValue != pre[key]) {
+                        setResult(result, (path == '' ? '' : path + ".") + key, currentValue);
+                    }
+                } else if (currentType == ARRAYTYPE) {
+                    if (preType != ARRAYTYPE) {
+                        setResult(result, (path == '' ? '' : path + ".") + key, currentValue);
+                    } else {
+                        if (currentValue.length < preValue.length) {
+                            setResult(result, (path == '' ? '' : path + ".") + key, currentValue);
+                        } else {
+                            currentValue.forEach(function (item, index) {
+                                _diff(item, preValue[index], (path == '' ? '' : path + ".") + key + '[' + index + ']', result);
+                            });
+                        }
+                    }
+                } else if (currentType == OBJECTTYPE) {
+                    if (preType != OBJECTTYPE || Object.keys(currentValue).length < Object.keys(preValue).length) {
+                        setResult(result, (path == '' ? '' : path + ".") + key, currentValue);
+                    } else {
+                        for (var subKey in currentValue) {
+                            _diff(currentValue[subKey], preValue[subKey], (path == '' ? '' : path + ".") + key + '.' + subKey, result);
+                        }
+                    }
+                }
+            };
+
+            for (var key in current) loop( key );
+        }
+    } else if (rootCurrentType == ARRAYTYPE) {
+        if (rootPreType != ARRAYTYPE) {
+            setResult(result, path, current);
+        } else {
+            if (current.length < pre.length) {
+                setResult(result, path, current);
+            } else {
+                current.forEach(function (item, index) {
+                    _diff(item, pre[index], path + '[' + index + ']', result);
+                });
+            }
+        }
+    } else {
+        setResult(result, path, current);
+    }
+}
+
+function setResult(result, k, v) {
+    // if (type(v) != FUNCTIONTYPE) {
+        result[k] = v;
+    // }
+}
+
+function type(obj) {
+    return Object.prototype.toString.call(obj)
+}
+
+/*  */
+
+function flushCallbacks$1(vm) {
+    if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
+        if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+            var mpInstance = vm.$scope;
+            console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
+                ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
+        }
+        var copies = vm.__next_tick_callbacks.slice(0);
+        vm.__next_tick_callbacks.length = 0;
+        for (var i = 0; i < copies.length; i++) {
+            copies[i]();
+        }
+    }
+}
+
+function hasRenderWatcher(vm) {
+    return queue.find(function (watcher) { return vm._watcher === watcher; })
+}
+
+function nextTick$1(vm, cb) {
+    //1.nextTick 之前 已 setData 且 setData 还未回调完成
+    //2.nextTick 之前存在 render watcher
+    if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
+        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+            var mpInstance = vm.$scope;
+            console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
+                ']:nextVueTick');
+        }
+        return nextTick(cb, vm)
+    }else{
+        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+            var mpInstance$1 = vm.$scope;
+            console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
+                ']:nextMPTick');
+        }
+    }
+    var _resolve;
+    if (!vm.__next_tick_callbacks) {
+        vm.__next_tick_callbacks = [];
+    }
+    vm.__next_tick_callbacks.push(function () {
+        if (cb) {
+            try {
+                cb.call(vm);
+            } catch (e) {
+                handleError(e, vm, 'nextTick');
+            }
+        } else if (_resolve) {
+            _resolve(vm);
+        }
+    });
+    // $flow-disable-line
+    if (!cb && typeof Promise !== 'undefined') {
+        return new Promise(function (resolve) {
+            _resolve = resolve;
+        })
+    }
+}
+
+/*  */
+
+function cloneWithData(vm) {
+  // 确保当前 vm 所有数据被同步
+  var ret = Object.create(null);
+  var dataKeys = [].concat(
+    Object.keys(vm._data || {}),
+    Object.keys(vm._computedWatchers || {}));
+
+  dataKeys.reduce(function(ret, key) {
+    ret[key] = vm[key];
+    return ret
+  }, ret);
+  //TODO 需要把无用数据处理掉，比如 list=>l0 则 list 需要移除，否则多传输一份数据
+  Object.assign(ret, vm.$mp.data || {});
+  if (
+    Array.isArray(vm.$options.behaviors) &&
+    vm.$options.behaviors.indexOf('uni://form-field') !== -1
+  ) { //form-field
+    ret['name'] = vm.name;
+    ret['value'] = vm.value;
+  }
+
+  return JSON.parse(JSON.stringify(ret))
+}
+
+var patch = function(oldVnode, vnode) {
+  var this$1 = this;
+
+  if (vnode === null) { //destroy
+    return
+  }
+  if (this.mpType === 'page' || this.mpType === 'component') {
+    var mpInstance = this.$scope;
+    var data = Object.create(null);
+    try {
+      data = cloneWithData(this);
+    } catch (err) {
+      console.error(err);
+    }
+    data.__webviewId__ = mpInstance.data.__webviewId__;
+    var mpData = Object.create(null);
+    Object.keys(data).forEach(function (key) { //仅同步 data 中有的数据
+      mpData[key] = mpInstance.data[key];
+    });
+    var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
+    if (Object.keys(diffData).length) {
+      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
+          ']差量更新',
+          JSON.stringify(diffData));
+      }
+      this.__next_tick_pending = true;
+      mpInstance.setData(diffData, function () {
+        this$1.__next_tick_pending = false;
+        flushCallbacks$1(this$1);
+      });
+    } else {
+      flushCallbacks$1(this);
+    }
+  }
+};
+
+/*  */
+
+function createEmptyRender() {
+
+}
+
+function mountComponent$1(
+  vm,
+  el,
+  hydrating
+) {
+  if (!vm.mpType) {//main.js 中的 new Vue
+    return vm
+  }
+  if (vm.mpType === 'app') {
+    vm.$options.render = createEmptyRender;
+  }
+  if (!vm.$options.render) {
+    vm.$options.render = createEmptyRender;
+    if (true) {
+      /* istanbul ignore if */
+      if ((vm.$options.template && vm.$options.template.charAt(0) !== '#') ||
+        vm.$options.el || el) {
+        warn(
+          'You are using the runtime-only build of Vue where the template ' +
+          'compiler is not available. Either pre-compile the templates into ' +
+          'render functions, or use the compiler-included build.',
+          vm
+        );
+      } else {
+        warn(
+          'Failed to mount component: template or render function not defined.',
+          vm
+        );
+      }
+    }
+  }
+  
+  !vm._$fallback && callHook(vm, 'beforeMount');
+
+  var updateComponent = function () {
+    vm._update(vm._render(), hydrating);
+  };
+
+  // we set this to vm._watcher inside the watcher's constructor
+  // since the watcher's initial patch may call $forceUpdate (e.g. inside child
+  // component's mounted hook), which relies on vm._watcher being already defined
+  new Watcher(vm, updateComponent, noop, {
+    before: function before() {
+      if (vm._isMounted && !vm._isDestroyed) {
+        callHook(vm, 'beforeUpdate');
+      }
+    }
+  }, true /* isRenderWatcher */);
+  hydrating = false;
+  return vm
+}
+
+/*  */
+
+function renderClass (
+  staticClass,
+  dynamicClass
+) {
+  if (isDef(staticClass) || isDef(dynamicClass)) {
+    return concat(staticClass, stringifyClass(dynamicClass))
+  }
+  /* istanbul ignore next */
+  return ''
+}
+
+function concat (a, b) {
+  return a ? b ? (a + ' ' + b) : a : (b || '')
+}
+
+function stringifyClass (value) {
+  if (Array.isArray(value)) {
+    return stringifyArray(value)
+  }
+  if (isObject(value)) {
+    return stringifyObject(value)
+  }
+  if (typeof value === 'string') {
+    return value
+  }
+  /* istanbul ignore next */
+  return ''
+}
+
+function stringifyArray (value) {
+  var res = '';
+  var stringified;
+  for (var i = 0, l = value.length; i < l; i++) {
+    if (isDef(stringified = stringifyClass(value[i])) && stringified !== '') {
+      if (res) { res += ' '; }
+      res += stringified;
+    }
+  }
+  return res
+}
+
+function stringifyObject (value) {
+  var res = '';
+  for (var key in value) {
+    if (value[key]) {
+      if (res) { res += ' '; }
+      res += key;
+    }
+  }
+  return res
+}
+
+/*  */
+
+var parseStyleText = cached(function (cssText) {
+  var res = {};
+  var listDelimiter = /;(?![^(]*\))/g;
+  var propertyDelimiter = /:(.+)/;
+  cssText.split(listDelimiter).forEach(function (item) {
+    if (item) {
+      var tmp = item.split(propertyDelimiter);
+      tmp.length > 1 && (res[tmp[0].trim()] = tmp[1].trim());
+    }
+  });
+  return res
+});
+
+// normalize possible array / string values into Object
+function normalizeStyleBinding (bindingStyle) {
+  if (Array.isArray(bindingStyle)) {
+    return toObject(bindingStyle)
+  }
+  if (typeof bindingStyle === 'string') {
+    return parseStyleText(bindingStyle)
+  }
+  return bindingStyle
+}
+
+/*  */
+
+var MP_METHODS = ['createSelectorQuery', 'createIntersectionObserver', 'selectAllComponents', 'selectComponent'];
+
+function getTarget(obj, path) {
+  var parts = path.split('.');
+  var key = parts[0];
+  if (key.indexOf('__$n') === 0) { //number index
+    key = parseInt(key.replace('__$n', ''));
+  }
+  if (parts.length === 1) {
+    return obj[key]
+  }
+  return getTarget(obj[key], parts.slice(1).join('.'))
+}
+
+function internalMixin(Vue) {
+
+  Vue.config.errorHandler = function(err) {
+    console.error(err);
+    /* eslint-disable no-undef */
+    var app = getApp();
+    if (app && app.onError) {
+      app.onError(err);
+    }
+  };
+
+  var oldEmit = Vue.prototype.$emit;
+
+  Vue.prototype.$emit = function(event) {
+    if (this.$scope && event) {
+      this.$scope['triggerEvent'](event, {
+        __args__: toArray(arguments, 1)
+      });
+    }
+    return oldEmit.apply(this, arguments)
+  };
+
+  Vue.prototype.$nextTick = function(fn) {
+    return nextTick$1(this, fn)
+  };
+
+  MP_METHODS.forEach(function (method) {
+    Vue.prototype[method] = function(args) {
+      if (this.$scope && this.$scope[method]) {
+        return this.$scope[method](args)
+      }
+      // mp-alipay
+      if (typeof my === 'undefined') {
+        return
+      }
+      if (method === 'createSelectorQuery') {
+        /* eslint-disable no-undef */
+        return my.createSelectorQuery(args)
+      } else if (method === 'createIntersectionObserver') {
+        /* eslint-disable no-undef */
+        return my.createIntersectionObserver(args)
+      }
+      // TODO mp-alipay 暂不支持 selectAllComponents,selectComponent
+    };
+  });
+
+  Vue.prototype.__init_provide = initProvide;
+
+  Vue.prototype.__init_injections = initInjections;
+
+  Vue.prototype.__call_hook = function(hook, args) {
+    var vm = this;
+    // #7573 disable dep collection when invoking lifecycle hooks
+    pushTarget();
+    var handlers = vm.$options[hook];
+    var info = hook + " hook";
+    var ret;
+    if (handlers) {
+      for (var i = 0, j = handlers.length; i < j; i++) {
+        ret = invokeWithErrorHandling(handlers[i], vm, args ? [args] : null, vm, info);
+      }
+    }
+    if (vm._hasHookEvent) {
+      vm.$emit('hook:' + hook, args);
+    }
+    popTarget();
+    return ret
+  };
+
+  Vue.prototype.__set_model = function(target, key, value, modifiers) {
+    if (Array.isArray(modifiers)) {
+      if (modifiers.indexOf('trim') !== -1) {
+        value = value.trim();
+      }
+      if (modifiers.indexOf('number') !== -1) {
+        value = this._n(value);
+      }
+    }
+    if (!target) {
+      target = this;
+    }
+    target[key] = value;
+  };
+
+  Vue.prototype.__set_sync = function(target, key, value) {
+    if (!target) {
+      target = this;
+    }
+    target[key] = value;
+  };
+
+  Vue.prototype.__get_orig = function(item) {
+    if (isPlainObject(item)) {
+      return item['$orig'] || item
+    }
+    return item
+  };
+
+  Vue.prototype.__get_value = function(dataPath, target) {
+    return getTarget(target || this, dataPath)
+  };
+
+
+  Vue.prototype.__get_class = function(dynamicClass, staticClass) {
+    return renderClass(staticClass, dynamicClass)
+  };
+
+  Vue.prototype.__get_style = function(dynamicStyle, staticStyle) {
+    if (!dynamicStyle && !staticStyle) {
+      return ''
+    }
+    var dynamicStyleObj = normalizeStyleBinding(dynamicStyle);
+    var styleObj = staticStyle ? extend(staticStyle, dynamicStyleObj) : dynamicStyleObj;
+    return Object.keys(styleObj).map(function (name) { return ((hyphenate(name)) + ":" + (styleObj[name])); }).join(';')
+  };
+
+  Vue.prototype.__map = function(val, iteratee) {
+    //TODO 暂不考虑 string,number
+    var ret, i, l, keys, key;
+    if (Array.isArray(val)) {
+      ret = new Array(val.length);
+      for (i = 0, l = val.length; i < l; i++) {
+        ret[i] = iteratee(val[i], i);
+      }
+      return ret
+    } else if (isObject(val)) {
+      keys = Object.keys(val);
+      ret = Object.create(null);
+      for (i = 0, l = keys.length; i < l; i++) {
+        key = keys[i];
+        ret[key] = iteratee(val[key], key, i);
+      }
+      return ret
+    }
+    return []
+  };
+
+}
+
+/*  */
+
+var LIFECYCLE_HOOKS$1 = [
+    //App
+    'onLaunch',
+    'onShow',
+    'onHide',
+    'onUniNViewMessage',
+    'onError',
+    //Page
+    'onLoad',
+    // 'onShow',
+    'onReady',
+    // 'onHide',
+    'onUnload',
+    'onPullDownRefresh',
+    'onReachBottom',
+    'onTabItemTap',
+    'onShareAppMessage',
+    'onResize',
+    'onPageScroll',
+    'onNavigationBarButtonTap',
+    'onBackPress',
+    'onNavigationBarSearchInputChanged',
+    'onNavigationBarSearchInputConfirmed',
+    'onNavigationBarSearchInputClicked',
+    //Component
+    // 'onReady', // 兼容旧版本，应该移除该事件
+    'onPageShow',
+    'onPageHide',
+    'onPageResize'
+];
+function lifecycleMixin$1(Vue) {
+
+    //fixed vue-class-component
+    var oldExtend = Vue.extend;
+    Vue.extend = function(extendOptions) {
+        extendOptions = extendOptions || {};
+
+        var methods = extendOptions.methods;
+        if (methods) {
+            Object.keys(methods).forEach(function (methodName) {
+                if (LIFECYCLE_HOOKS$1.indexOf(methodName)!==-1) {
+                    extendOptions[methodName] = methods[methodName];
+                    delete methods[methodName];
+                }
+            });
+        }
+
+        return oldExtend.call(this, extendOptions)
+    };
+
+    var strategies = Vue.config.optionMergeStrategies;
+    var mergeHook = strategies.created;
+    LIFECYCLE_HOOKS$1.forEach(function (hook) {
+        strategies[hook] = mergeHook;
+    });
+
+    Vue.prototype.__lifecycle_hooks__ = LIFECYCLE_HOOKS$1;
+}
+
+/*  */
+
+// install platform patch function
+Vue.prototype.__patch__ = patch;
+
+// public mount method
+Vue.prototype.$mount = function(
+    el ,
+    hydrating 
+) {
+    return mountComponent$1(this, el, hydrating)
+};
+
+lifecycleMixin$1(Vue);
+internalMixin(Vue);
+
+/*  */
+
+/* harmony default export */ __webpack_exports__["default"] = (Vue);
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ 3)))
+
+/***/ }),
+
+/***/ 20:
+/*!************************************************************!*\
+  !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+// This method of obtaining a reference to the global object needs to be
+// kept identical to the way it is obtained in runtime.js
+var g = (function() {
+  return this || (typeof self === "object" && self);
+})() || Function("return this")();
+
+// Use `getOwnPropertyNames` because not all browsers support calling
+// `hasOwnProperty` on the global `self` object in a worker. See #183.
+var hadRuntime = g.regeneratorRuntime &&
+  Object.getOwnPropertyNames(g).indexOf("regeneratorRuntime") >= 0;
+
+// Save the old regeneratorRuntime in case it needs to be restored later.
+var oldRuntime = hadRuntime && g.regeneratorRuntime;
+
+// Force reevalutation of runtime.js.
+g.regeneratorRuntime = undefined;
+
+module.exports = __webpack_require__(/*! ./runtime */ 21);
+
+if (hadRuntime) {
+  // Restore the original runtime.
+  g.regeneratorRuntime = oldRuntime;
+} else {
+  // Remove the global property added by runtime.js.
+  try {
+    delete g.regeneratorRuntime;
+  } catch(e) {
+    g.regeneratorRuntime = undefined;
+  }
+}
+
+
+/***/ }),
+
+/***/ 21:
+/*!*****************************************************!*\
+  !*** ./node_modules/regenerator-runtime/runtime.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+!(function(global) {
+  "use strict";
+
+  var Op = Object.prototype;
+  var hasOwn = Op.hasOwnProperty;
+  var undefined; // More compressible than void 0.
+  var $Symbol = typeof Symbol === "function" ? Symbol : {};
+  var iteratorSymbol = $Symbol.iterator || "@@iterator";
+  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
+  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+
+  var inModule = typeof module === "object";
+  var runtime = global.regeneratorRuntime;
+  if (runtime) {
+    if (inModule) {
+      // If regeneratorRuntime is defined globally and we're in a module,
+      // make the exports object identical to regeneratorRuntime.
+      module.exports = runtime;
+    }
+    // Don't bother evaluating the rest of this file if the runtime was
+    // already defined globally.
+    return;
+  }
+
+  // Define the runtime globally (as expected by generated code) as either
+  // module.exports (if we're in a module) or a new, empty object.
+  runtime = global.regeneratorRuntime = inModule ? module.exports : {};
+
+  function wrap(innerFn, outerFn, self, tryLocsList) {
+    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
+    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
+    var generator = Object.create(protoGenerator.prototype);
+    var context = new Context(tryLocsList || []);
+
+    // The ._invoke method unifies the implementations of the .next,
+    // .throw, and .return methods.
+    generator._invoke = makeInvokeMethod(innerFn, self, context);
+
+    return generator;
+  }
+  runtime.wrap = wrap;
+
+  // Try/catch helper to minimize deoptimizations. Returns a completion
+  // record like context.tryEntries[i].completion. This interface could
+  // have been (and was previously) designed to take a closure to be
+  // invoked without arguments, but in all the cases we care about we
+  // already have an existing method we want to call, so there's no need
+  // to create a new function object. We can even get away with assuming
+  // the method takes exactly one argument, since that happens to be true
+  // in every case, so we don't have to touch the arguments object. The
+  // only additional allocation required is the completion record, which
+  // has a stable shape and so hopefully should be cheap to allocate.
+  function tryCatch(fn, obj, arg) {
+    try {
+      return { type: "normal", arg: fn.call(obj, arg) };
+    } catch (err) {
+      return { type: "throw", arg: err };
+    }
+  }
+
+  var GenStateSuspendedStart = "suspendedStart";
+  var GenStateSuspendedYield = "suspendedYield";
+  var GenStateExecuting = "executing";
+  var GenStateCompleted = "completed";
+
+  // Returning this object from the innerFn has the same effect as
+  // breaking out of the dispatch switch statement.
+  var ContinueSentinel = {};
+
+  // Dummy constructor functions that we use as the .constructor and
+  // .constructor.prototype properties for functions that return Generator
+  // objects. For full spec compliance, you may wish to configure your
+  // minifier not to mangle the names of these two functions.
+  function Generator() {}
+  function GeneratorFunction() {}
+  function GeneratorFunctionPrototype() {}
+
+  // This is a polyfill for %IteratorPrototype% for environments that
+  // don't natively support it.
+  var IteratorPrototype = {};
+  IteratorPrototype[iteratorSymbol] = function () {
+    return this;
+  };
+
+  var getProto = Object.getPrototypeOf;
+  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+  if (NativeIteratorPrototype &&
+      NativeIteratorPrototype !== Op &&
+      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
+    // This environment has a native %IteratorPrototype%; use it instead
+    // of the polyfill.
+    IteratorPrototype = NativeIteratorPrototype;
+  }
+
+  var Gp = GeneratorFunctionPrototype.prototype =
+    Generator.prototype = Object.create(IteratorPrototype);
+  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
+  GeneratorFunctionPrototype.constructor = GeneratorFunction;
+  GeneratorFunctionPrototype[toStringTagSymbol] =
+    GeneratorFunction.displayName = "GeneratorFunction";
+
+  // Helper for defining the .next, .throw, and .return methods of the
+  // Iterator interface in terms of a single ._invoke method.
+  function defineIteratorMethods(prototype) {
+    ["next", "throw", "return"].forEach(function(method) {
+      prototype[method] = function(arg) {
+        return this._invoke(method, arg);
+      };
+    });
+  }
+
+  runtime.isGeneratorFunction = function(genFun) {
+    var ctor = typeof genFun === "function" && genFun.constructor;
+    return ctor
+      ? ctor === GeneratorFunction ||
+        // For the native GeneratorFunction constructor, the best we can
+        // do is to check its .name property.
+        (ctor.displayName || ctor.name) === "GeneratorFunction"
+      : false;
+  };
+
+  runtime.mark = function(genFun) {
+    if (Object.setPrototypeOf) {
+      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
+    } else {
+      genFun.__proto__ = GeneratorFunctionPrototype;
+      if (!(toStringTagSymbol in genFun)) {
+        genFun[toStringTagSymbol] = "GeneratorFunction";
+      }
+    }
+    genFun.prototype = Object.create(Gp);
+    return genFun;
+  };
+
+  // Within the body of any async function, `await x` is transformed to
+  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
+  // `hasOwn.call(value, "__await")` to determine if the yielded value is
+  // meant to be awaited.
+  runtime.awrap = function(arg) {
+    return { __await: arg };
+  };
+
+  function AsyncIterator(generator) {
+    function invoke(method, arg, resolve, reject) {
+      var record = tryCatch(generator[method], generator, arg);
+      if (record.type === "throw") {
+        reject(record.arg);
+      } else {
+        var result = record.arg;
+        var value = result.value;
+        if (value &&
+            typeof value === "object" &&
+            hasOwn.call(value, "__await")) {
+          return Promise.resolve(value.__await).then(function(value) {
+            invoke("next", value, resolve, reject);
+          }, function(err) {
+            invoke("throw", err, resolve, reject);
+          });
+        }
+
+        return Promise.resolve(value).then(function(unwrapped) {
+          // When a yielded Promise is resolved, its final value becomes
+          // the .value of the Promise<{value,done}> result for the
+          // current iteration.
+          result.value = unwrapped;
+          resolve(result);
+        }, function(error) {
+          // If a rejected Promise was yielded, throw the rejection back
+          // into the async generator function so it can be handled there.
+          return invoke("throw", error, resolve, reject);
+        });
+      }
+    }
+
+    var previousPromise;
+
+    function enqueue(method, arg) {
+      function callInvokeWithMethodAndArg() {
+        return new Promise(function(resolve, reject) {
+          invoke(method, arg, resolve, reject);
+        });
+      }
+
+      return previousPromise =
+        // If enqueue has been called before, then we want to wait until
+        // all previous Promises have been resolved before calling invoke,
+        // so that results are always delivered in the correct order. If
+        // enqueue has not been called before, then it is important to
+        // call invoke immediately, without waiting on a callback to fire,
+        // so that the async generator function has the opportunity to do
+        // any necessary setup in a predictable way. This predictability
+        // is why the Promise constructor synchronously invokes its
+        // executor callback, and why async functions synchronously
+        // execute code before the first await. Since we implement simple
+        // async functions in terms of async generators, it is especially
+        // important to get this right, even though it requires care.
+        previousPromise ? previousPromise.then(
+          callInvokeWithMethodAndArg,
+          // Avoid propagating failures to Promises returned by later
+          // invocations of the iterator.
+          callInvokeWithMethodAndArg
+        ) : callInvokeWithMethodAndArg();
+    }
+
+    // Define the unified helper method that is used to implement .next,
+    // .throw, and .return (see defineIteratorMethods).
+    this._invoke = enqueue;
+  }
+
+  defineIteratorMethods(AsyncIterator.prototype);
+  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
+    return this;
+  };
+  runtime.AsyncIterator = AsyncIterator;
+
+  // Note that simple async functions are implemented on top of
+  // AsyncIterator objects; they just return a Promise for the value of
+  // the final result produced by the iterator.
+  runtime.async = function(innerFn, outerFn, self, tryLocsList) {
+    var iter = new AsyncIterator(
+      wrap(innerFn, outerFn, self, tryLocsList)
+    );
+
+    return runtime.isGeneratorFunction(outerFn)
+      ? iter // If outerFn is a generator, return the full iterator.
+      : iter.next().then(function(result) {
+          return result.done ? result.value : iter.next();
+        });
+  };
+
+  function makeInvokeMethod(innerFn, self, context) {
+    var state = GenStateSuspendedStart;
+
+    return function invoke(method, arg) {
+      if (state === GenStateExecuting) {
+        throw new Error("Generator is already running");
+      }
+
+      if (state === GenStateCompleted) {
+        if (method === "throw") {
+          throw arg;
+        }
+
+        // Be forgiving, per 25.3.3.3.3 of the spec:
+        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
+        return doneResult();
+      }
+
+      context.method = method;
+      context.arg = arg;
+
+      while (true) {
+        var delegate = context.delegate;
+        if (delegate) {
+          var delegateResult = maybeInvokeDelegate(delegate, context);
+          if (delegateResult) {
+            if (delegateResult === ContinueSentinel) continue;
+            return delegateResult;
+          }
+        }
+
+        if (context.method === "next") {
+          // Setting context._sent for legacy support of Babel's
+          // function.sent implementation.
+          context.sent = context._sent = context.arg;
+
+        } else if (context.method === "throw") {
+          if (state === GenStateSuspendedStart) {
+            state = GenStateCompleted;
+            throw context.arg;
+          }
+
+          context.dispatchException(context.arg);
+
+        } else if (context.method === "return") {
+          context.abrupt("return", context.arg);
+        }
+
+        state = GenStateExecuting;
+
+        var record = tryCatch(innerFn, self, context);
+        if (record.type === "normal") {
+          // If an exception is thrown from innerFn, we leave state ===
+          // GenStateExecuting and loop back for another invocation.
+          state = context.done
+            ? GenStateCompleted
+            : GenStateSuspendedYield;
+
+          if (record.arg === ContinueSentinel) {
+            continue;
+          }
+
+          return {
+            value: record.arg,
+            done: context.done
+          };
+
+        } else if (record.type === "throw") {
+          state = GenStateCompleted;
+          // Dispatch the exception by looping back around to the
+          // context.dispatchException(context.arg) call above.
+          context.method = "throw";
+          context.arg = record.arg;
+        }
+      }
+    };
+  }
+
+  // Call delegate.iterator[context.method](context.arg) and handle the
+  // result, either by returning a { value, done } result from the
+  // delegate iterator, or by modifying context.method and context.arg,
+  // setting context.delegate to null, and returning the ContinueSentinel.
+  function maybeInvokeDelegate(delegate, context) {
+    var method = delegate.iterator[context.method];
+    if (method === undefined) {
+      // A .throw or .return when the delegate iterator has no .throw
+      // method always terminates the yield* loop.
+      context.delegate = null;
+
+      if (context.method === "throw") {
+        if (delegate.iterator.return) {
+          // If the delegate iterator has a return method, give it a
+          // chance to clean up.
+          context.method = "return";
+          context.arg = undefined;
+          maybeInvokeDelegate(delegate, context);
+
+          if (context.method === "throw") {
+            // If maybeInvokeDelegate(context) changed context.method from
+            // "return" to "throw", let that override the TypeError below.
+            return ContinueSentinel;
+          }
+        }
+
+        context.method = "throw";
+        context.arg = new TypeError(
+          "The iterator does not provide a 'throw' method");
+      }
+
+      return ContinueSentinel;
+    }
+
+    var record = tryCatch(method, delegate.iterator, context.arg);
+
+    if (record.type === "throw") {
+      context.method = "throw";
+      context.arg = record.arg;
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    var info = record.arg;
+
+    if (! info) {
+      context.method = "throw";
+      context.arg = new TypeError("iterator result is not an object");
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    if (info.done) {
+      // Assign the result of the finished delegate to the temporary
+      // variable specified by delegate.resultName (see delegateYield).
+      context[delegate.resultName] = info.value;
+
+      // Resume execution at the desired location (see delegateYield).
+      context.next = delegate.nextLoc;
+
+      // If context.method was "throw" but the delegate handled the
+      // exception, let the outer generator proceed normally. If
+      // context.method was "next", forget context.arg since it has been
+      // "consumed" by the delegate iterator. If context.method was
+      // "return", allow the original .return call to continue in the
+      // outer generator.
+      if (context.method !== "return") {
+        context.method = "next";
+        context.arg = undefined;
+      }
+
+    } else {
+      // Re-yield the result returned by the delegate method.
+      return info;
+    }
+
+    // The delegate iterator is finished, so forget it and continue with
+    // the outer generator.
+    context.delegate = null;
+    return ContinueSentinel;
+  }
+
+  // Define Generator.prototype.{next,throw,return} in terms of the
+  // unified ._invoke helper method.
+  defineIteratorMethods(Gp);
+
+  Gp[toStringTagSymbol] = "Generator";
+
+  // A Generator should always return itself as the iterator object when the
+  // @@iterator function is called on it. Some browsers' implementations of the
+  // iterator prototype chain incorrectly implement this, causing the Generator
+  // object to not be returned from this call. This ensures that doesn't happen.
+  // See https://github.com/facebook/regenerator/issues/274 for more details.
+  Gp[iteratorSymbol] = function() {
+    return this;
+  };
+
+  Gp.toString = function() {
+    return "[object Generator]";
+  };
+
+  function pushTryEntry(locs) {
+    var entry = { tryLoc: locs[0] };
+
+    if (1 in locs) {
+      entry.catchLoc = locs[1];
+    }
+
+    if (2 in locs) {
+      entry.finallyLoc = locs[2];
+      entry.afterLoc = locs[3];
+    }
+
+    this.tryEntries.push(entry);
+  }
+
+  function resetTryEntry(entry) {
+    var record = entry.completion || {};
+    record.type = "normal";
+    delete record.arg;
+    entry.completion = record;
+  }
+
+  function Context(tryLocsList) {
+    // The root entry object (effectively a try statement without a catch
+    // or a finally block) gives us a place to store values thrown from
+    // locations where there is no enclosing try statement.
+    this.tryEntries = [{ tryLoc: "root" }];
+    tryLocsList.forEach(pushTryEntry, this);
+    this.reset(true);
+  }
+
+  runtime.keys = function(object) {
+    var keys = [];
+    for (var key in object) {
+      keys.push(key);
+    }
+    keys.reverse();
+
+    // Rather than returning an object with a next method, we keep
+    // things simple and return the next function itself.
+    return function next() {
+      while (keys.length) {
+        var key = keys.pop();
+        if (key in object) {
+          next.value = key;
+          next.done = false;
+          return next;
+        }
+      }
+
+      // To avoid creating an additional object, we just hang the .value
+      // and .done properties off the next function object itself. This
+      // also ensures that the minifier will not anonymize the function.
+      next.done = true;
+      return next;
+    };
+  };
+
+  function values(iterable) {
+    if (iterable) {
+      var iteratorMethod = iterable[iteratorSymbol];
+      if (iteratorMethod) {
+        return iteratorMethod.call(iterable);
+      }
+
+      if (typeof iterable.next === "function") {
+        return iterable;
+      }
+
+      if (!isNaN(iterable.length)) {
+        var i = -1, next = function next() {
+          while (++i < iterable.length) {
+            if (hasOwn.call(iterable, i)) {
+              next.value = iterable[i];
+              next.done = false;
+              return next;
+            }
+          }
+
+          next.value = undefined;
+          next.done = true;
+
+          return next;
+        };
+
+        return next.next = next;
+      }
+    }
+
+    // Return an iterator with no values.
+    return { next: doneResult };
+  }
+  runtime.values = values;
+
+  function doneResult() {
+    return { value: undefined, done: true };
+  }
+
+  Context.prototype = {
+    constructor: Context,
+
+    reset: function(skipTempReset) {
+      this.prev = 0;
+      this.next = 0;
+      // Resetting context._sent for legacy support of Babel's
+      // function.sent implementation.
+      this.sent = this._sent = undefined;
+      this.done = false;
+      this.delegate = null;
+
+      this.method = "next";
+      this.arg = undefined;
+
+      this.tryEntries.forEach(resetTryEntry);
+
+      if (!skipTempReset) {
+        for (var name in this) {
+          // Not sure about the optimal order of these conditions:
+          if (name.charAt(0) === "t" &&
+              hasOwn.call(this, name) &&
+              !isNaN(+name.slice(1))) {
+            this[name] = undefined;
+          }
+        }
+      }
+    },
+
+    stop: function() {
+      this.done = true;
+
+      var rootEntry = this.tryEntries[0];
+      var rootRecord = rootEntry.completion;
+      if (rootRecord.type === "throw") {
+        throw rootRecord.arg;
+      }
+
+      return this.rval;
+    },
+
+    dispatchException: function(exception) {
+      if (this.done) {
+        throw exception;
+      }
+
+      var context = this;
+      function handle(loc, caught) {
+        record.type = "throw";
+        record.arg = exception;
+        context.next = loc;
+
+        if (caught) {
+          // If the dispatched exception was caught by a catch block,
+          // then let that catch block handle the exception normally.
+          context.method = "next";
+          context.arg = undefined;
+        }
+
+        return !! caught;
+      }
+
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        var record = entry.completion;
+
+        if (entry.tryLoc === "root") {
+          // Exception thrown outside of any try block that could handle
+          // it, so set the completion value of the entire function to
+          // throw the exception.
+          return handle("end");
+        }
+
+        if (entry.tryLoc <= this.prev) {
+          var hasCatch = hasOwn.call(entry, "catchLoc");
+          var hasFinally = hasOwn.call(entry, "finallyLoc");
+
+          if (hasCatch && hasFinally) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            } else if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else if (hasCatch) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            }
+
+          } else if (hasFinally) {
+            if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else {
+            throw new Error("try statement without catch or finally");
+          }
+        }
+      }
+    },
+
+    abrupt: function(type, arg) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc <= this.prev &&
+            hasOwn.call(entry, "finallyLoc") &&
+            this.prev < entry.finallyLoc) {
+          var finallyEntry = entry;
+          break;
+        }
+      }
+
+      if (finallyEntry &&
+          (type === "break" ||
+           type === "continue") &&
+          finallyEntry.tryLoc <= arg &&
+          arg <= finallyEntry.finallyLoc) {
+        // Ignore the finally entry if control is not jumping to a
+        // location outside the try/catch block.
+        finallyEntry = null;
+      }
+
+      var record = finallyEntry ? finallyEntry.completion : {};
+      record.type = type;
+      record.arg = arg;
+
+      if (finallyEntry) {
+        this.method = "next";
+        this.next = finallyEntry.finallyLoc;
+        return ContinueSentinel;
+      }
+
+      return this.complete(record);
+    },
+
+    complete: function(record, afterLoc) {
+      if (record.type === "throw") {
+        throw record.arg;
+      }
+
+      if (record.type === "break" ||
+          record.type === "continue") {
+        this.next = record.arg;
+      } else if (record.type === "return") {
+        this.rval = this.arg = record.arg;
+        this.method = "return";
+        this.next = "end";
+      } else if (record.type === "normal" && afterLoc) {
+        this.next = afterLoc;
+      }
+
+      return ContinueSentinel;
+    },
+
+    finish: function(finallyLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.finallyLoc === finallyLoc) {
+          this.complete(entry.completion, entry.afterLoc);
+          resetTryEntry(entry);
+          return ContinueSentinel;
+        }
+      }
+    },
+
+    "catch": function(tryLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc === tryLoc) {
+          var record = entry.completion;
+          if (record.type === "throw") {
+            var thrown = record.arg;
+            resetTryEntry(entry);
+          }
+          return thrown;
+        }
+      }
+
+      // The context.catch method must only be called with a location
+      // argument that corresponds to a known catch block.
+      throw new Error("illegal catch attempt");
+    },
+
+    delegateYield: function(iterable, resultName, nextLoc) {
+      this.delegate = {
+        iterator: values(iterable),
+        resultName: resultName,
+        nextLoc: nextLoc
+      };
+
+      if (this.method === "next") {
+        // Deliberately forget the last sent value so that we don't
+        // accidentally pass it on to the delegate.
+        this.arg = undefined;
+      }
+
+      return ContinueSentinel;
+    }
+  };
+})(
+  // In sloppy mode, unbound `this` refers to the global object, fallback to
+  // Function constructor if we're in global strict mode. That is sadly a form
+  // of indirect eval which violates Content Security Policy.
+  (function() {
+    return this || (typeof self === "object" && self);
+  })() || Function("return this")()
+);
+
+
+/***/ }),
+
+/***/ 22:
+/*!****************************************!*\
+  !*** E:/wu3.23/星球客/XQK/common/util.js ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.formatTime = formatTime;exports.formatLocation = formatLocation;exports.toLogin = toLogin;exports.getCurrentPageUrlWithArgs = getCurrentPageUrlWithArgs;exports.getStorageOpenid = getStorageOpenid;exports.valPhone = valPhone;exports.SEOTitle = SEOTitle;exports.getUrlParam = getUrlParam;exports.setRegular = setRegular;exports.navigate = navigate;exports.uncodeUtf16 = uncodeUtf16;Object.defineProperty(exports, "get", { enumerable: true, get: function get() {return _request.get;} });Object.defineProperty(exports, "post", { enumerable: true, get: function get() {return _request.post;} });Object.defineProperty(exports, "requestHideLoading", { enumerable: true, get: function get() {return _request.requestHideLoading;} });exports.host = exports.dateUtils = void 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _request = __webpack_require__(/*! ./request.js */ 23); // const host = 'http://ddypapi.wtvxin.com/api/';  //测试接口地址
+var host = 'https://api.dadanyipin.com/api/'; //正式接口地址
+exports.host = host;function formatNumber(n) {var str = n.toString();return str[1] ? str : "0".concat(str);}function formatTime(date) {date = new Date(date);var year = date.getFullYear();var month = date.getMonth() + 1;var day = date.getDate();var hour = date.getHours();var minute = date.getMinutes();var second = date.getSeconds();var t1 = [year, month, day].map(formatNumber).join('/');var t2 = [hour, minute, second].map(formatNumber).join(':');return "".concat(t1, " ").concat(t2);}function formatLocation(longitude, latitude) {if (typeof longitude === 'string' && typeof latitude === 'string') {longitude = parseFloat(longitude);latitude = parseFloat(latitude);}longitude = longitude.toFixed(2);latitude = latitude.toFixed(2);return { longitude: longitude.toString().split('.'), latitude: latitude.toString().split('.') };}var dateUtils = { UNITS: { '年': 31557600000, '月': 2629800000, '天': 86400000, '小时': 3600000, '分钟': 60000, '秒': 1000 }, humanize: function humanize(milliseconds) {var humanize = '';for (var key in this.UNITS) {if (milliseconds >= this.UNITS[key]) {humanize = Math.floor(milliseconds / this.UNITS[key]) + key + '前';break;}}return humanize || '刚刚';}, format: function format(dateStr) {var date = this.parse(dateStr);var diff = Date.now() - date.getTime();if (diff < this.UNITS['天']) {return this.humanize(diff);}var _format = function _format(number) {return number < 10 ? '0' + number : number;};return date.getFullYear() + '-' + _format(date.getMonth() + 1) + '-' + _format(date.getDay()) + ' ' + _format(date.getHours()) + ':' + _format(date.getMinutes()) + ':' + _format(date.getSeconds());}, parse: function parse(str) {//将"yyyy-mm-dd HH:MM:ss"格式的字符串，转化为一个Date对象
+    var a = str.split(/[^0-9]/);return new Date(a[0], a[1] - 1, a[2], a[3], a[4], a[5]);} }; // 判断是否登录了
+exports.dateUtils = dateUtils;function toLogin(objUrl) {// const userInfo = wx.getStorageSync('userInfo');
+  var userId = uni.getStorageSync('userId');var token = uni.getStorageSync('token');if (userId && token) {return true;} else {var strUrl = '';if (objUrl) {strUrl = objUrl.replace(/\?/g, '%3F').replace(/\=/g, '%3D').replace(/\&/g, '%26');}uni.showModal({ title: '登录提示', content: "您还没有登录，是否重新登录？", success: function success(res) {if (res.confirm) {uni.navigateTo({ url: "/pages/login/login?askUrl=" + strUrl });} else if (res.cancel) {}} });return false;}} // 获取openId
+function getStorageOpenid() {var openId = uni.getStorageSync("openId");if (openId) {return openId;} else {return '';}} //定时任务
+function setRegular(targetHour) {var timeInterval, nowTime, nowSeconds, targetSeconds;nowTime = new Date(); // 计算当前时间的秒数
+  nowSeconds = nowTime.getHours() * 3600 + nowTime.getMinutes() * 60 + nowTime.getSeconds(); // 计算目标时间对应的秒数
+  targetSeconds = targetHour * 3600; //  判断是否已超过今日目标小时，若超过，时间间隔设置为距离明天目标小时的距离
+  timeInterval = targetSeconds > nowSeconds ? targetSeconds - nowSeconds : targetSeconds + 24 * 3600 - nowSeconds;setTimeout(getProductFileList, timeInterval * 1000);}function getProductFileList() {localStorage.removeItem('token');localStorage.removeItem('userId');setTimeout(getProductFileList, 24 * 3600 * 1000); //之后每天调用一次
+} //setRegular(4);//每天凌晨4点刷新
+// 获取当前地址
+function getCurrentPageUrlWithArgs() {var pages = getCurrentPages();var currentPage = pages[pages.length - 1];var url = currentPage.route;var options = currentPage.options;var urlWithArgs = "/".concat(url, "?");for (var key in options) {var value = options[key];urlWithArgs += "".concat(key, "=").concat(value, "&");}urlWithArgs = urlWithArgs.substring(0, urlWithArgs.length - 1);return urlWithArgs;} //每3秒去检查token是否过期
+// function checkAccessToken() {
+//   setInterval(checkAccessTokenTimeout, 3 * 1000); //这个时间可以自定义。比如 25 * 60 * 1000（代表25分钟）
+// }
+// function checkAccessTokenTimeout() {
+//   var accesstoken = wx.getStorageSync('token');
+//   if (accesstoken == null || accesstoken == undefined || accesstoken == "") {
+//     return false
+//   }
+//   var tokenDate = wx.getStorageSync('tokenDate');
+//   var aftertimestamp = Date.parse(new Date()); //返回时间毫秒数，比如1489899243209
+//   if (aftertimestamp - tokenDate >= 43200000) { //超过了12小时,重新登陆
+//     removeLocalToken()
+//     return false
+//   }
+//   return true
+// }
+//验证手机号
+function valPhone(tel) {var r_phone = /^[1][3,4,5,6,7,8,9][0-9]{9}$/; // var phoneNumber = $.trim($('#phoneNumber').val());
+  if (tel == "") {uni.showToast({ title: "手机号不能为空!", icon: "none", duration: 2000 });return false;}if (!r_phone.test(tel)) {uni.showToast({ title: "请输入正确的手机格式!", icon: "none", duration: 2000 });return false;}return true;}function createTag(tagName, name, content) {var tag = document.createElement(tagName);tag.name = name;tag.content = content;return tag;}var doctit = "";function SEOTitle(str) {if (str == "") {document.title = doctit;} else {document.title = str + "-" + doctit;}}function getUrlParam(name) {var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");var url = window.location.search.substr(1); //.toLowerCase();
+  var r = url.match(reg);if (r != null) return unescape(r[2]);return null;} // 普通跳转
+function navigate(url) {var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var p = '';var arr = Object.keys(params); //键数组
+  arr.map(function (item) {p += "".concat(item, "=").concat(params[item]);if (arr[arr.length - 1] !== item) {p += '&';}});uni.navigateTo({ url: '/pages/' + url + (p && '?' + p) });}function uncodeUtf16(str) {var reg = /\&#.*?;/g;var result = str.replace(reg, function (_char) {var H, L, code;if (_char.length == 9) {code = parseInt(_char.match(/[0-9]+/g));H = Math.floor((code - 0x10000) / 0x400) + 0xD800;L = (code - 0x10000) % 0x400 + 0xDC00;return unescape("%u" + H.toString(16) + "%u" + L.toString(16));} else {return _char;}});return result;}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 23:
+/*!*******************************************!*\
+  !*** E:/wu3.23/星球客/XQK/common/request.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.get = get;exports.post = post;exports.requestHideLoading = requestHideLoading;
+var _util = __webpack_require__(/*! ./util.js */ 22);
+
+//请求封装
+function request(url, method, data) {
+  // uni.showLoading({
+  //   title: '加载中' //数据请求前loading
+  // })
+  return new Promise(function (resolve, reject) {
+    uni.request({
+      url: _util.host + url, //仅为示例，并非真实的接口地址
+      method: method,
+      data: data,
+      header: {
+        'content-type': 'application/json;charset=utf-8' // 默认值
+      },
+      success: function success(res) {
+        // uni.hideLoading();
+        var ret = res.data;
+        if (ret.code === 0) {
+          resolve(ret);
+        } else if (ret.code == 1) {
+          uni.showToast({
+            title: ret.msg,
+            icon: 'none' });
+
+          resolve(ret);
+        } else
+        if (ret.code == 2) {
+          //  localStorage.removeItem('token');
+          //  localStorage.removeItem('userId');
+          uni.setStorageSync("userId", '');
+          uni.setStorageSync("token", '');
+          uni.showToast({
+            title: "您未登录，请重新登录！",
+            icon: 'none' });
+
+          resolve(ret);
+        } else if (ret.code == 201) {//微信支付的返回code地址
+          resolve(ret);
+        } else {
+          uni.showToast({
+            title: ret.msg,
+            icon: 'none' });
+
+          reject(ret);
+        }
+      },
+      fail: function fail(error) {
+        // uni.hideLoading();
+        uni.showToast({
+          title: '服务器繁忙，请稍后重试',
+          icon: 'none' });
+
+        reject(error);
+      },
+      complete: function complete() {
+        // uni.hideLoading();
+      } });
+
+  });
+}
+
+// get请求
+function get(url, data) {
+  return request(url, 'GET', data);
+}
+// post请求
+function post(url, data) {
+  return request(url, 'POST', data);
+}
+
+
+//请求封装,隐藏加载
+function requestHideLoading(url, data, method) {
+  return new Promise(function (resolve, reject) {
+    uni.request({
+      url: _util.host + url, //仅为示例，并非真实的接口地址
+      method: method,
+      data: data,
+      header: {
+        'content-type': 'application/json;charset=utf-8' // 默认值
+      },
+      success: function success(res) {
+        var ret = res.data;
+        if (ret.code === 0) {
+          resolve(ret);
+        } else {
+          uni.showToast({
+            title: ret.msg,
+            icon: 'none' });
+
+          reject(ret);
+        }
+      },
+      fail: function fail(error) {
+        uni.showToast({
+          title: '服务器繁忙，请稍后重试',
+          icon: 'none' });
+
+        reject(error);
+      } });
+
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 3:
+/*!***********************************!*\
+  !*** (webpack)/buildin/global.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || new Function("return this")();
+} catch (e) {
+	// This works if the window reference is available
+	if (typeof window === "object") g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+
+/***/ 4:
+/*!************************************!*\
+  !*** E:/wu3.23/星球客/XQK/pages.json ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+
+/***/ 78:
+/*!********************************************!*\
+  !*** E:/wu3.23/星球客/XQK/common/cityname.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default =
+[
+{
+  "initial": "A",
+  "list": [
+  {
+    "code": "0997",
+    "name": "阿克苏",
+    "pinyin": "Akesu",
+    "label": "Akesu0997" },
+
+  {
+    "code": "0837",
+    "name": "阿坝",
+    "pinyin": "Aba",
+    "label": "Aba0837" },
+
+  {
+    "code": "0483",
+    "name": "阿拉善盟",
+    "pinyin": "Alashanmeng",
+    "label": "Alashanmeng0483" },
+
+  {
+    "code": "0906",
+    "name": "阿勒泰",
+    "pinyin": "Aletai",
+    "label": "Aletai0906" },
+
+  {
+    "code": "0897",
+    "name": "阿里",
+    "pinyin": "Ali",
+    "label": "Ali0897" },
+
+  {
+    "code": "0915",
+    "name": "安康",
+    "pinyin": "Ankang",
+    "label": "Ankang0915" },
+
+  {
+    "code": "0556",
+    "name": "安庆",
+    "pinyin": "Anqing",
+    "label": "Anqing0556" },
+
+  {
+    "code": "0412",
+    "name": "鞍山",
+    "pinyin": "Anshan",
+    "label": "Anshan0412" },
+
+  {
+    "code": "0853",
+    "name": "安顺",
+    "pinyin": "Anshun",
+    "label": "Anshun0853" },
+
+  {
+    "code": "0372",
+    "name": "安阳",
+    "pinyin": "Anyang",
+    "label": "Anyang0372" },
+
+  {
+    "code": "0451",
+    "name": "阿城",
+    "pinyin": "Acheng",
+    "label": "Acheng0451" },
+
+  {
+    "code": "0796",
+    "name": "安福",
+    "pinyin": "Anfu",
+    "label": "Anfu0796" },
+
+  {
+    "code": "0572",
+    "name": "安吉",
+    "pinyin": "Anji",
+    "label": "Anji0572" },
+
+  {
+    "code": "0871",
+    "name": "安宁",
+    "pinyin": "Anning",
+    "label": "Anning0871" },
+
+  {
+    "code": "0536",
+    "name": "安丘",
+    "pinyin": "Anqiu",
+    "label": "Anqiu0536" },
+
+  {
+    "code": "0595",
+    "name": "安溪",
+    "pinyin": "Anxi",
+    "label": "Anxi0595" },
+
+  {
+    "code": "0791",
+    "name": "安义",
+    "pinyin": "Anyi",
+    "label": "Anyi0791" },
+
+  {
+    "code": "0797",
+    "name": "安远",
+    "pinyin": "Anyuan",
+    "label": "Anyuan0797" }] },
+
+
+
+{
+  "initial": "B",
+  "list": [
+  {
+    "code": "010",
+    "name": "北京",
+    "pinyin": "Beijing",
+    "label": "Beijing010" },
+
+  {
+    "code": "0436",
+    "name": "白城",
+    "pinyin": "Baicheng",
+    "label": "Baicheng0436" },
+
+  {
+    "code": "0776",
+    "name": "百色",
+    "pinyin": "Baise",
+    "label": "Baise0776" },
+
+  {
+    "code": "0439",
+    "name": "白山",
+    "pinyin": "Baishan",
+    "label": "Baishan0439" },
+
+  {
+    "code": "0943",
+    "name": "白银",
+    "pinyin": "Baiyin",
+    "label": "Baiyin0943" },
+
+  {
+    "code": "0552",
+    "name": "蚌埠",
+    "pinyin": "Bangbu",
+    "label": "Bangbu0552" },
+
+  {
+    "code": "0312",
+    "name": "保定",
+    "pinyin": "Baoding",
+    "label": "Baoding0312" },
+
+  {
+    "code": "0917",
+    "name": "宝鸡",
+    "pinyin": "Baoji",
+    "label": "Baoji0917" },
+
+  {
+    "code": "0875",
+    "name": "保山",
+    "pinyin": "Baoshan",
+    "label": "Baoshan0875" },
+
+  {
+    "code": "0472",
+    "name": "包头",
+    "pinyin": "Baotou",
+    "label": "Baotou0472" },
+
+  {
+    "code": "0478",
+    "name": "巴彦淖尔",
+    "pinyin": "Bayannaoer",
+    "label": "Bayannaoer0478" },
+
+  {
+    "code": "0996",
+    "name": "巴音郭楞",
+    "pinyin": "Bayinguoleng",
+    "label": "Bayinguoleng0996" },
+
+  {
+    "code": "0827",
+    "name": "巴中",
+    "pinyin": "Bazhong",
+    "label": "Bazhong0827" },
+
+  {
+    "code": "0779",
+    "name": "北海",
+    "pinyin": "Beihai",
+    "label": "Beihai0779" },
+
+  {
+    "code": "0414",
+    "name": "本溪",
+    "pinyin": "Benxi",
+    "label": "Benxi0414" },
+
+  {
+    "code": "0857",
+    "name": "毕节",
+    "pinyin": "Bijie",
+    "label": "Bijie0857" },
+
+  {
+    "code": "0543",
+    "name": "滨州",
+    "pinyin": "Binzhou",
+    "label": "Binzhou0543" },
+
+  {
+    "code": "0909",
+    "name": "博尔塔拉",
+    "pinyin": "Boertala",
+    "label": "Boertala0909" },
+
+  {
+    "code": "0558",
+    "name": "亳州",
+    "pinyin": "Bozhou",
+    "label": "Bozhou0558" },
+
+  {
+    "code": "0514",
+    "name": "宝应",
+    "pinyin": "Baoying",
+    "label": "Baoying0514" },
+
+  {
+    "code": "0451",
+    "name": "巴彦",
+    "pinyin": "Bayan",
+    "label": "Bayan0451" },
+
+  {
+    "code": "0515",
+    "name": "滨海",
+    "pinyin": "Binhai",
+    "label": "Binhai0515" },
+
+  {
+    "code": "0451",
+    "name": "宾县",
+    "pinyin": "Binxian",
+    "label": "Binxian0451" },
+
+  {
+    "code": "0771",
+    "name": "宾阳",
+    "pinyin": "Binyang",
+    "label": "Binyang0771" },
+
+  {
+    "code": "023",
+    "name": "璧山",
+    "pinyin": "Bishan",
+    "label": "Bishan023" },
+
+  {
+    "code": "0391",
+    "name": "博爱",
+    "pinyin": "Boai",
+    "label": "Boai0391" },
+
+  {
+    "code": "0752",
+    "name": "博罗",
+    "pinyin": "Boluo",
+    "label": "Boluo0752" },
+
+  {
+    "code": "0543",
+    "name": "博兴",
+    "pinyin": "Boxing",
+    "label": "Boxing0543" }] },
+
+
+
+{
+  "initial": "C",
+  "list": [
+  {
+    "code": "023",
+    "name": "重庆",
+    "pinyin": "Chongqing",
+    "label": "Chongqing023" },
+
+  {
+    "code": "0431",
+    "name": "长春",
+    "pinyin": "Changchun",
+    "label": "Changchun0431" },
+
+  {
+    "code": "0731",
+    "name": "长沙",
+    "pinyin": "Changsha",
+    "label": "Changsha0731" },
+
+  {
+    "code": "0519",
+    "name": "常州",
+    "pinyin": "Changzhou",
+    "label": "Changzhou0519" },
+
+  {
+    "code": "028",
+    "name": "成都",
+    "pinyin": "Chengdu",
+    "label": "Chengdu028" },
+
+  {
+    "code": "0317",
+    "name": "沧州",
+    "pinyin": "Cangzhou",
+    "label": "Cangzhou0317" },
+
+  {
+    "code": "0736",
+    "name": "常德",
+    "pinyin": "Changde",
+    "label": "Changde0736" },
+
+  {
+    "code": "0895",
+    "name": "昌都",
+    "pinyin": "Changdu",
+    "label": "Changdu0895" },
+
+  {
+    "code": "0997",
+    "name": "昌吉",
+    "pinyin": "Changji",
+    "label": "Changji0997" },
+
+  {
+    "code": "0355",
+    "name": "长治",
+    "pinyin": "Changzhi",
+    "label": "Changzhi0355" },
+
+  {
+    "code": "0565",
+    "name": "巢湖",
+    "pinyin": "Chaohu",
+    "label": "Chaohu0565" },
+
+  {
+    "code": "0421",
+    "name": "朝阳",
+    "pinyin": "Chaoyang",
+    "label": "Chaoyang0421" },
+
+  {
+    "code": "0768",
+    "name": "潮州",
+    "pinyin": "Chaozhou",
+    "label": "Chaozhou0768" },
+
+  {
+    "code": "0314",
+    "name": "承德",
+    "pinyin": "Chengde",
+    "label": "Chengde0314" },
+
+  {
+    "code": "0735",
+    "name": "郴州",
+    "pinyin": "Chenzhou",
+    "label": "Chenzhou0735" },
+
+  {
+    "code": "0476",
+    "name": "赤峰",
+    "pinyin": "Chifeng",
+    "label": "Chifeng0476" },
+
+  {
+    "code": "0566",
+    "name": "池州",
+    "pinyin": "Chizhou",
+    "label": "Chizhou0566" },
+
+  {
+    "code": "0771",
+    "name": "崇左",
+    "pinyin": "Chongzuo",
+    "label": "Chongzuo0771" },
+
+  {
+    "code": "0875",
+    "name": "楚雄",
+    "pinyin": "Chuxiong",
+    "label": "Chuxiong0875" },
+
+  {
+    "code": "0550",
+    "name": "滁州",
+    "pinyin": "Chuzhou",
+    "label": "Chuzhou0550" },
+
+  {
+    "code": "0577",
+    "name": "苍南",
+    "pinyin": "Cangnan",
+    "label": "Cangnan0577" },
+
+  {
+    "code": "0539",
+    "name": "苍山",
+    "pinyin": "Cangshan",
+    "label": "Cangshan0539" },
+
+  {
+    "code": "0530",
+    "name": "曹县",
+    "pinyin": "Caoxian",
+    "label": "Caoxian0530" },
+
+  {
+    "code": "0535",
+    "name": "长岛",
+    "pinyin": "Changdao",
+    "label": "Changdao0535" },
+
+  {
+    "code": "0551",
+    "name": "长丰",
+    "pinyin": "Changfeng",
+    "label": "Changfeng0551" },
+
+  {
+    "code": "0411",
+    "name": "长海",
+    "pinyin": "Changhai",
+    "label": "Changhai0411" },
+
+  {
+    "code": "0591",
+    "name": "长乐",
+    "pinyin": "Changle",
+    "label": "Changle0591" },
+
+  {
+    "code": "0536",
+    "name": "昌乐",
+    "pinyin": "Changle",
+    "label": "Changle0536" },
+
+  {
+    "code": "0570",
+    "name": "常山",
+    "pinyin": "Changshan",
+    "label": "Changshan0570" },
+
+  {
+    "code": "0512",
+    "name": "常熟",
+    "pinyin": "Changshu",
+    "label": "Changshu0512" },
+
+  {
+    "code": "0596",
+    "name": "长泰",
+    "pinyin": "Changtai",
+    "label": "Changtai0596" },
+
+  {
+    "code": "0597",
+    "name": "长汀",
+    "pinyin": "Changting",
+    "label": "Changting0597" },
+
+  {
+    "code": "0572",
+    "name": "长兴",
+    "pinyin": "Changxing",
+    "label": "Changxing0572" },
+
+  {
+    "code": "0536",
+    "name": "昌邑",
+    "pinyin": "Changyi",
+    "label": "Changyi0536" },
+
+  {
+    "code": "0768",
+    "name": "潮安",
+    "pinyin": "Chaoan",
+    "label": "Chaoan0768" },
+
+  {
+    "code": "0871",
+    "name": "呈贡",
+    "pinyin": "Chenggong",
+    "label": "Chenggong0871" },
+
+  {
+    "code": "023",
+    "name": "城口",
+    "pinyin": "Chengkou",
+    "label": "Chengkou023" },
+
+  {
+    "code": "0530",
+    "name": "成武",
+    "pinyin": "Chengwu",
+    "label": "Chengwu0530" },
+
+  {
+    "code": "0635",
+    "name": "茌平",
+    "pinyin": "Chiping",
+    "label": "Chiping0635" },
+
+  {
+    "code": "0794",
+    "name": "崇仁",
+    "pinyin": "Chongren",
+    "label": "Chongren0794" },
+
+  {
+    "code": "0797",
+    "name": "崇义",
+    "pinyin": "Chongyi",
+    "label": "Chongyi0797" },
+
+  {
+    "code": "028",
+    "name": "崇州",
+    "pinyin": "Chongzhou",
+    "label": "Chongzhou028" },
+
+  {
+    "code": "0571",
+    "name": "淳安",
+    "pinyin": "Chunan",
+    "label": "Chunan0571" },
+
+  {
+    "code": "0574",
+    "name": "慈溪",
+    "pinyin": "Cixi",
+    "label": "Cixi0574" },
+
+  {
+    "code": "020",
+    "name": "从化",
+    "pinyin": "Conghua",
+    "label": "Conghua020" },
+
+  {
+    "code": "0556",
+    "name": "枞阳",
+    "pinyin": "Congyang",
+    "label": "Congyang0556" }] },
+
+
+
+{
+  "initial": "D",
+  "list": [
+  {
+    "code": "0411",
+    "name": "大连",
+    "pinyin": "Dalian",
+    "label": "Dalian0411" },
+
+  {
+    "code": "0769",
+    "name": "东莞",
+    "pinyin": "Dongguan",
+    "label": "Dongguan0769" },
+
+  {
+    "code": "0872",
+    "name": "大理",
+    "pinyin": "Dali",
+    "label": "Dali0872" },
+
+  {
+    "code": "0415",
+    "name": "丹东",
+    "pinyin": "Dandong",
+    "label": "Dandong0415" },
+
+  {
+    "code": "0459",
+    "name": "大庆",
+    "pinyin": "Daqing",
+    "label": "Daqing0459" },
+
+  {
+    "code": "0352",
+    "name": "大同",
+    "pinyin": "Datong",
+    "label": "Datong0352" },
+
+  {
+    "code": "0457",
+    "name": "大兴安岭",
+    "pinyin": "Daxinganling",
+    "label": "Daxinganling0457" },
+
+  {
+    "code": "0818",
+    "name": "达州",
+    "pinyin": "Dazhou",
+    "label": "Dazhou0818" },
+
+  {
+    "code": "0692",
+    "name": "德宏",
+    "pinyin": "Dehong",
+    "label": "Dehong0692" },
+
+  {
+    "code": "0838",
+    "name": "德阳",
+    "pinyin": "Deyang",
+    "label": "Deyang0838" },
+
+  {
+    "code": "0534",
+    "name": "德州",
+    "pinyin": "Dezhou",
+    "label": "Dezhou0534" },
+
+  {
+    "code": "0932",
+    "name": "定西",
+    "pinyin": "Dingxi",
+    "label": "Dingxi0932" },
+
+  {
+    "code": "0887",
+    "name": "迪庆",
+    "pinyin": "Diqing",
+    "label": "Diqing0887" },
+
+  {
+    "code": "0546",
+    "name": "东营",
+    "pinyin": "Dongying",
+    "label": "Dongying0546" },
+
+  {
+    "code": "0515",
+    "name": "大丰",
+    "pinyin": "Dafeng",
+    "label": "Dafeng0515" },
+
+  {
+    "code": "0580",
+    "name": "岱山",
+    "pinyin": "Daishan",
+    "label": "Daishan0580" },
+
+  {
+    "code": "0557",
+    "name": "砀山",
+    "pinyin": "Dangshan",
+    "label": "Dangshan0557" },
+
+  {
+    "code": "0555",
+    "name": "当涂",
+    "pinyin": "Dangtu",
+    "label": "Dangtu0555" },
+
+  {
+    "code": "0530",
+    "name": "单县",
+    "pinyin": "Danxian",
+    "label": "Danxian0530" },
+
+  {
+    "code": "0511",
+    "name": "丹阳",
+    "pinyin": "Danyang",
+    "label": "Danyang0511" },
+
+  {
+    "code": "0753",
+    "name": "大埔",
+    "pinyin": "Dapu",
+    "label": "Dapu0753" },
+
+  {
+    "code": "0598",
+    "name": "大田",
+    "pinyin": "Datian",
+    "label": "Datian0598" },
+
+  {
+    "code": "028",
+    "name": "大邑",
+    "pinyin": "Dayi",
+    "label": "Dayi028" },
+
+  {
+    "code": "0797",
+    "name": "大余",
+    "pinyin": "Dayu",
+    "label": "Dayu0797" },
+
+  {
+    "code": "023",
+    "name": "大足",
+    "pinyin": "Dazu",
+    "label": "Dazu023" },
+
+  {
+    "code": "0792",
+    "name": "德安",
+    "pinyin": "Dean",
+    "label": "Dean0792" },
+
+  {
+    "code": "0595",
+    "name": "德化",
+    "pinyin": "Dehua",
+    "label": "Dehua0595" },
+
+  {
+    "code": "0431",
+    "name": "德惠",
+    "pinyin": "Dehui",
+    "label": "Dehui0431" },
+
+  {
+    "code": "0371",
+    "name": "登封",
+    "pinyin": "Dengfeng",
+    "label": "Dengfeng0371" },
+
+  {
+    "code": "0572",
+    "name": "德清",
+    "pinyin": "Deqing",
+    "label": "Deqing0572" },
+
+  {
+    "code": "0758",
+    "name": "德庆",
+    "pinyin": "Deqing",
+    "label": "Deqing0758" },
+
+  {
+    "code": "0793",
+    "name": "德兴",
+    "pinyin": "Dexing",
+    "label": "Dexing0793" },
+
+  {
+    "code": "0668",
+    "name": "电白",
+    "pinyin": "Dianbai",
+    "label": "Dianbai0668" },
+
+  {
+    "code": "023",
+    "name": "垫江",
+    "pinyin": "Dianjiang",
+    "label": "Dianjiang023" },
+
+  {
+    "code": "0797",
+    "name": "定南",
+    "pinyin": "Dingnan",
+    "label": "Dingnan0797" },
+
+  {
+    "code": "0530",
+    "name": "定陶",
+    "pinyin": "Dingtao",
+    "label": "Dingtao0530" },
+
+  {
+    "code": "0550",
+    "name": "定远",
+    "pinyin": "Dingyuan",
+    "label": "Dingyuan0550" },
+
+  {
+    "code": "0635",
+    "name": "东阿",
+    "pinyin": "Donga",
+    "label": "Donga0635" },
+
+  {
+    "code": "0518",
+    "name": "东海",
+    "pinyin": "Donghai",
+    "label": "Donghai0518" },
+
+  {
+    "code": "0530",
+    "name": "东明",
+    "pinyin": "Dongming",
+    "label": "Dongming0530" },
+
+  {
+    "code": "0538",
+    "name": "东平",
+    "pinyin": "Dongping",
+    "label": "Dongping0538" },
+
+  {
+    "code": "0596",
+    "name": "东山",
+    "pinyin": "Dongshan",
+    "label": "Dongshan0596" },
+
+  {
+    "code": "0515",
+    "name": "东台",
+    "pinyin": "Dongtai",
+    "label": "Dongtai0515" },
+
+  {
+    "code": "0577",
+    "name": "洞头",
+    "pinyin": "Dongtou",
+    "label": "Dongtou0577" },
+
+  {
+    "code": "0794",
+    "name": "东乡",
+    "pinyin": "Dongxiang",
+    "label": "Dongxiang0794" },
+
+  {
+    "code": "0579",
+    "name": "东阳",
+    "pinyin": "Dongyang",
+    "label": "Dongyang0579" },
+
+  {
+    "code": "0762",
+    "name": "东源",
+    "pinyin": "Dongyuan",
+    "label": "Dongyuan0762" },
+
+  {
+    "code": "0566",
+    "name": "东至",
+    "pinyin": "Dongzhi",
+    "label": "Dongzhi0566" },
+
+  {
+    "code": "0792",
+    "name": "都昌",
+    "pinyin": "Duchang",
+    "label": "Duchang0792" },
+
+  {
+    "code": "028",
+    "name": "都江堰",
+    "pinyin": "Dujiangyan",
+    "label": "Dujiangyan028" }] },
+
+
+
+{
+  "initial": "E",
+  "list": [
+  {
+    "code": "0718",
+    "name": "恩施",
+    "pinyin": "Enshi",
+    "label": "Enshi0718" },
+
+  {
+    "code": "0477",
+    "name": "鄂尔多斯",
+    "pinyin": "Eerduosi",
+    "label": "Eerduosi0477" },
+
+  {
+    "code": "0711",
+    "name": "鄂州",
+    "pinyin": "Ezhou",
+    "label": "Ezhou0711" },
+
+  {
+    "code": "0750",
+    "name": "恩平",
+    "pinyin": "Enping",
+    "label": "Enping0750" }] },
+
+
+
+{
+  "initial": "F",
+  "list": [
+  {
+    "code": "0413",
+    "name": "抚顺",
+    "pinyin": "Fushun",
+    "label": "Fushun0413" },
+
+  {
+    "code": "0757",
+    "name": "佛山",
+    "pinyin": "Foshan",
+    "label": "Foshan0757" },
+
+  {
+    "code": "0591",
+    "name": "福州",
+    "pinyin": "Fuzhou",
+    "label": "Fuzhou0591" },
+
+  {
+    "code": "0770",
+    "name": "防城港",
+    "pinyin": "Fangchenggang",
+    "label": "Fangchenggang0770" },
+
+  {
+    "code": "0418",
+    "name": "阜新",
+    "pinyin": "Fuxin",
+    "label": "Fuxin0418" },
+
+  {
+    "code": "0558",
+    "name": "阜阳",
+    "pinyin": "Fuyang",
+    "label": "Fuyang0558" },
+
+  {
+    "code": "0794",
+    "name": "抚州",
+    "pinyin": "Fuzhou",
+    "label": "Fuzhou0794" },
+
+  {
+    "code": "024",
+    "name": "法库",
+    "pinyin": "Faku",
+    "label": "Faku024" },
+
+  {
+    "code": "0553",
+    "name": "繁昌",
+    "pinyin": "Fanchang",
+    "label": "Fanchang0553" },
+
+  {
+    "code": "0451",
+    "name": "方正",
+    "pinyin": "Fangzheng",
+    "label": "Fangzheng0451" },
+
+  {
+    "code": "0538",
+    "name": "肥城",
+    "pinyin": "Feicheng",
+    "label": "Feicheng0538" },
+
+  {
+    "code": "0551",
+    "name": "肥东",
+    "pinyin": "Feidong",
+    "label": "Feidong0551" },
+
+  {
+    "code": "0551",
+    "name": "肥西",
+    "pinyin": "Feixi",
+    "label": "Feixi0551" },
+
+  {
+    "code": "0539",
+    "name": "费县",
+    "pinyin": "Feixian",
+    "label": "Feixian0539" },
+
+  {
+    "code": "0795",
+    "name": "丰城",
+    "pinyin": "Fengcheng",
+    "label": "Fengcheng0795" },
+
+  {
+    "code": "023",
+    "name": "丰都",
+    "pinyin": "Fengdu",
+    "label": "Fengdu023" },
+
+  {
+    "code": "0574",
+    "name": "奉化",
+    "pinyin": "Fenghua",
+    "label": "Fenghua0574" },
+
+  {
+    "code": "023",
+    "name": "奉节",
+    "pinyin": "Fengjie",
+    "label": "Fengjie023" },
+
+  {
+    "code": "0758",
+    "name": "封开",
+    "pinyin": "Fengkai",
+    "label": "Fengkai0758" },
+
+  {
+    "code": "0753",
+    "name": "丰顺",
+    "pinyin": "Fengshun",
+    "label": "Fengshun0753" },
+
+  {
+    "code": "0554",
+    "name": "凤台",
+    "pinyin": "Fengtai",
+    "label": "Fengtai0554" },
+
+  {
+    "code": "0516",
+    "name": "丰县",
+    "pinyin": "Fengxian",
+    "label": "Fengxian0516" },
+
+  {
+    "code": "0795",
+    "name": "奉新",
+    "pinyin": "Fengxin",
+    "label": "Fengxin0795" },
+
+  {
+    "code": "0550",
+    "name": "凤阳",
+    "pinyin": "Fengyang",
+    "label": "Fengyang0550" },
+
+  {
+    "code": "0790",
+    "name": "分宜",
+    "pinyin": "Fenyi",
+    "label": "Fenyi0790" },
+
+  {
+    "code": "0763",
+    "name": "佛冈",
+    "pinyin": "Fogang",
+    "label": "Fogang0763" },
+
+  {
+    "code": "0593",
+    "name": "福安",
+    "pinyin": "Fuan",
+    "label": "Fuan0593" },
+
+  {
+    "code": "0593",
+    "name": "福鼎",
+    "pinyin": "Fuding",
+    "label": "Fuding0593" },
+
+  {
+    "code": "0798",
+    "name": "浮梁",
+    "pinyin": "Fuliang",
+    "label": "Fuliang0798" },
+
+  {
+    "code": "0871",
+    "name": "富民",
+    "pinyin": "Fumin",
+    "label": "Fumin0871" },
+
+  {
+    "code": "0558",
+    "name": "阜南",
+    "pinyin": "Funan",
+    "label": "Funan0558" },
+
+  {
+    "code": "0515",
+    "name": "阜宁",
+    "pinyin": "Funing",
+    "label": "Funing0515" },
+
+  {
+    "code": "0591",
+    "name": "福清",
+    "pinyin": "Fuqing",
+    "label": "Fuqing0591" },
+
+  {
+    "code": "0571",
+    "name": "富阳",
+    "pinyin": "Fuyang",
+    "label": "Fuyang0571" }] },
+
+
+
+{
+  "initial": "G",
+  "list": [
+  {
+    "code": "0941",
+    "name": "甘南",
+    "pinyin": "Gannan",
+    "label": "Gannan0941" },
+
+  {
+    "code": "020",
+    "name": "广州",
+    "pinyin": "Guangzhou",
+    "label": "Guangzhou020" },
+
+  {
+    "code": "0851",
+    "name": "贵阳",
+    "pinyin": "Guiyang",
+    "label": "Guiyang0851" },
+
+  {
+    "code": "0797",
+    "name": "赣州",
+    "pinyin": "Ganzhou",
+    "label": "Ganzhou0797" },
+
+  {
+    "code": "0836",
+    "name": "甘孜",
+    "pinyin": "Ganzi",
+    "label": "Ganzi0836" },
+
+  {
+    "code": "0826",
+    "name": "广安",
+    "pinyin": "Guangan",
+    "label": "Guangan0826" },
+
+  {
+    "code": "0839",
+    "name": "广元",
+    "pinyin": "Guangyuan",
+    "label": "Guangyuan0839" },
+
+  {
+    "code": "0775",
+    "name": "贵港",
+    "pinyin": "Guigang",
+    "label": "Guigang0775" },
+
+  {
+    "code": "0773",
+    "name": "桂林",
+    "pinyin": "Guilin",
+    "label": "Guilin0773" },
+
+  {
+    "code": "0975",
+    "name": "果洛",
+    "pinyin": "Guoluo",
+    "label": "Guoluo0975" },
+
+  {
+    "code": "0954",
+    "name": "固原",
+    "pinyin": "Guyuan",
+    "label": "Guyuan0954" },
+
+  {
+    "code": "0797",
+    "name": "赣县",
+    "pinyin": "Ganxian",
+    "label": "Ganxian0797" },
+
+  {
+    "code": "0518",
+    "name": "赣榆",
+    "pinyin": "Ganyu",
+    "label": "Ganyu0518" },
+
+  {
+    "code": "0795",
+    "name": "高安",
+    "pinyin": "Gaoan",
+    "label": "Gaoan0795" },
+
+  {
+    "code": "0311",
+    "name": "藁城",
+    "pinyin": "Gaocheng",
+    "label": "Gaocheng0311" },
+
+  {
+    "code": "025",
+    "name": "高淳",
+    "pinyin": "Gaochun",
+    "label": "Gaochun025" },
+
+  {
+    "code": "0931",
+    "name": "皋兰",
+    "pinyin": "Gaolan",
+    "label": "Gaolan0931" },
+
+  {
+    "code": "029",
+    "name": "高陵",
+    "pinyin": "Gaoling",
+    "label": "Gaoling029" },
+
+  {
+    "code": "0536",
+    "name": "高密",
+    "pinyin": "Gaomi",
+    "label": "Gaomi0536" },
+
+  {
+    "code": "0533",
+    "name": "高青",
+    "pinyin": "Gaoqing",
+    "label": "Gaoqing0533" },
+
+  {
+    "code": "0635",
+    "name": "高唐",
+    "pinyin": "Gaotang",
+    "label": "Gaotang0635" },
+
+  {
+    "code": "0758",
+    "name": "高要",
+    "pinyin": "Gaoyao",
+    "label": "Gaoyao0758" },
+
+  {
+    "code": "0311",
+    "name": "高邑",
+    "pinyin": "Gaoyi",
+    "label": "Gaoyi0311" },
+
+  {
+    "code": "0514",
+    "name": "高邮",
+    "pinyin": "Gaoyou",
+    "label": "Gaoyou0514" },
+
+  {
+    "code": "0668",
+    "name": "高州",
+    "pinyin": "Gaozhou",
+    "label": "Gaozhou0668" },
+
+  {
+    "code": "0371",
+    "name": "巩义",
+    "pinyin": "Gongyi",
+    "label": "Gongyi0371" },
+
+  {
+    "code": "0794",
+    "name": "广昌",
+    "pinyin": "Guangchang",
+    "label": "Guangchang0794" },
+
+  {
+    "code": "0563",
+    "name": "广德",
+    "pinyin": "Guangde",
+    "label": "Guangde0563" },
+
+  {
+    "code": "0793",
+    "name": "广丰",
+    "pinyin": "Guangfeng",
+    "label": "Guangfeng0793" },
+
+  {
+    "code": "0758",
+    "name": "广宁",
+    "pinyin": "Guangning",
+    "label": "Guangning0758" },
+
+  {
+    "code": "0546",
+    "name": "广饶",
+    "pinyin": "Guangrao",
+    "label": "Guangrao0546" },
+
+  {
+    "code": "0599",
+    "name": "光泽",
+    "pinyin": "Guangze",
+    "label": "Guangze0599" },
+
+  {
+    "code": "0518",
+    "name": "灌南",
+    "pinyin": "Guannan",
+    "label": "Guannan0518" },
+
+  {
+    "code": "0635",
+    "name": "冠县",
+    "pinyin": "Guanxian",
+    "label": "Guanxian0635" },
+
+  {
+    "code": "0518",
+    "name": "灌云",
+    "pinyin": "Guanyun",
+    "label": "Guanyun0518" },
+
+  {
+    "code": "0701",
+    "name": "贵溪",
+    "pinyin": "Guixi",
+    "label": "Guixi0701" },
+
+  {
+    "code": "0593",
+    "name": "古田",
+    "pinyin": "Gutian",
+    "label": "Gutian0593" },
+
+  {
+    "code": "0552",
+    "name": "固镇",
+    "pinyin": "Guzhen",
+    "label": "Guzhen0552" }] },
+
+
+
+{
+  "initial": "H",
+  "list": [
+  {
+    "code": "0970",
+    "name": "海北",
+    "pinyin": "Haibei",
+    "label": "Haibei0970" },
+
+  {
+    "code": "0451",
+    "name": "哈尔滨",
+    "pinyin": "Haerbin",
+    "label": "Haerbin0451" },
+
+  {
+    "code": "0898",
+    "name": "海口",
+    "pinyin": "Haikou",
+    "label": "Haikou0898" },
+
+  {
+    "code": "0310",
+    "name": "邯郸",
+    "pinyin": "Handan",
+    "label": "Handan0310" },
+
+  {
+    "code": "0571",
+    "name": "杭州",
+    "pinyin": "Hangzhou",
+    "label": "Hangzhou0571" },
+
+  {
+    "code": "0551",
+    "name": "合肥",
+    "pinyin": "Hefei",
+    "label": "Hefei0551" },
+
+  {
+    "code": "0752",
+    "name": "惠州",
+    "pinyin": "Huizhou",
+    "label": "Huizhou0752" },
+
+  {
+    "code": "0972",
+    "name": "海东",
+    "pinyin": "Haidong",
+    "label": "Haidong0972" },
+
+  {
+    "code": "0974",
+    "name": "海南",
+    "pinyin": "Hainan",
+    "label": "Hainan0974" },
+
+  {
+    "code": "0977",
+    "name": "海西",
+    "pinyin": "Haixi",
+    "label": "Haixi0977" },
+
+  {
+    "code": "0902",
+    "name": "哈密",
+    "pinyin": "Hami",
+    "label": "Hami0902" },
+
+  {
+    "code": "0916",
+    "name": "汉中",
+    "pinyin": "Hanzhong",
+    "label": "Hanzhong0916" },
+
+  {
+    "code": "0392",
+    "name": "鹤壁",
+    "pinyin": "Hebi",
+    "label": "Hebi0392" },
+
+  {
+    "code": "0778",
+    "name": "河池",
+    "pinyin": "Hechi",
+    "label": "Hechi0778" },
+
+  {
+    "code": "0468",
+    "name": "鹤岗",
+    "pinyin": "Hegang",
+    "label": "Hegang0468" },
+
+  {
+    "code": "0456",
+    "name": "黑河",
+    "pinyin": "Heihe",
+    "label": "Heihe0456" },
+
+  {
+    "code": "0318",
+    "name": "衡水",
+    "pinyin": "Hengshui",
+    "label": "Hengshui0318" },
+
+  {
+    "code": "0734",
+    "name": "衡阳",
+    "pinyin": "Hengyang",
+    "label": "Hengyang0734" },
+
+  {
+    "code": "0903",
+    "name": "和田地",
+    "pinyin": "Hetiandi",
+    "label": "Hetiandi0903" },
+
+  {
+    "code": "0762",
+    "name": "河源",
+    "pinyin": "Heyuan",
+    "label": "Heyuan0762" },
+
+  {
+    "code": "0530",
+    "name": "菏泽",
+    "pinyin": "Heze",
+    "label": "Heze0530" },
+
+  {
+    "code": "0774",
+    "name": "贺州",
+    "pinyin": "Hezhou",
+    "label": "Hezhou0774" },
+
+  {
+    "code": "0873",
+    "name": "红河",
+    "pinyin": "Honghe",
+    "label": "Honghe0873" },
+
+  {
+    "code": "0517",
+    "name": "淮安",
+    "pinyin": "Huaian",
+    "label": "Huaian0517" },
+
+  {
+    "code": "0561",
+    "name": "淮北",
+    "pinyin": "Huaibei",
+    "label": "Huaibei0561" },
+
+  {
+    "code": "0745",
+    "name": "怀化",
+    "pinyin": "Huaihua",
+    "label": "Huaihua0745" },
+
+  {
+    "code": "0554",
+    "name": "淮南",
+    "pinyin": "Huainan",
+    "label": "Huainan0554" },
+
+  {
+    "code": "0713",
+    "name": "黄冈",
+    "pinyin": "Huanggang",
+    "label": "Huanggang0713" },
+
+  {
+    "code": "0973",
+    "name": "黄南",
+    "pinyin": "Huangnan",
+    "label": "Huangnan0973" },
+
+  {
+    "code": "0559",
+    "name": "黄山",
+    "pinyin": "Huangshan",
+    "label": "Huangshan0559" },
+
+  {
+    "code": "0714",
+    "name": "黄石",
+    "pinyin": "Huangshi",
+    "label": "Huangshi0714" },
+
+  {
+    "code": "0471",
+    "name": "呼和浩特",
+    "pinyin": "Huhehaote",
+    "label": "Huhehaote0471" },
+
+  {
+    "code": "0429",
+    "name": "葫芦岛",
+    "pinyin": "Huludao",
+    "label": "Huludao0429" },
+
+  {
+    "code": "0470",
+    "name": "呼伦贝尔",
+    "pinyin": "Hulunbeier",
+    "label": "Hulunbeier0470" },
+
+  {
+    "code": "0572",
+    "name": "湖州",
+    "pinyin": "Huzhou",
+    "label": "Huzhou0572" },
+
+  {
+    "code": "0513",
+    "name": "海安",
+    "pinyin": "Haian",
+    "label": "Haian0513" },
+
+  {
+    "code": "0660",
+    "name": "海丰",
+    "pinyin": "Haifeng",
+    "label": "Haifeng0660" },
+
+  {
+    "code": "0513",
+    "name": "海门",
+    "pinyin": "Haimen",
+    "label": "Haimen0513" },
+
+  {
+    "code": "0573",
+    "name": "海宁",
+    "pinyin": "Haining",
+    "label": "Haining0573" },
+
+  {
+    "code": "0573",
+    "name": "海盐",
+    "pinyin": "Haiyan",
+    "label": "Haiyan0573" },
+
+  {
+    "code": "0535",
+    "name": "海阳",
+    "pinyin": "Haiyang",
+    "label": "Haiyang0535" },
+
+  {
+    "code": "0565",
+    "name": "含山",
+    "pinyin": "Hanshan",
+    "label": "Hanshan0565" },
+
+  {
+    "code": "023",
+    "name": "合川",
+    "pinyin": "Hechuan",
+    "label": "Hechuan023" },
+
+  {
+    "code": "0793",
+    "name": "横峰",
+    "pinyin": "Hengfeng",
+    "label": "Hengfeng0793" },
+
+  {
+    "code": "0771",
+    "name": "横县",
+    "pinyin": "Hengxian",
+    "label": "Hengxian0771" },
+
+  {
+    "code": "0762",
+    "name": "和平",
+    "pinyin": "Heping",
+    "label": "Heping0762" },
+
+  {
+    "code": "0750",
+    "name": "鹤山",
+    "pinyin": "Heshan",
+    "label": "Heshan0750" },
+
+  {
+    "code": "0565",
+    "name": "和县",
+    "pinyin": "Hexian",
+    "label": "Hexian0565" },
+
+  {
+    "code": "0517",
+    "name": "洪泽",
+    "pinyin": "Hongze",
+    "label": "Hongze0517" },
+
+  {
+    "code": "0596",
+    "name": "华安",
+    "pinyin": "Huaan",
+    "label": "Huaan0596" },
+
+  {
+    "code": "0423",
+    "name": "桦甸",
+    "pinyin": "Huadian",
+    "label": "Huadian0423" },
+
+  {
+    "code": "0758",
+    "name": "怀集",
+    "pinyin": "Huaiji",
+    "label": "Huaiji0758" },
+
+  {
+    "code": "0556",
+    "name": "怀宁",
+    "pinyin": "Huaining",
+    "label": "Huaining0556" },
+
+  {
+    "code": "0552",
+    "name": "怀远",
+    "pinyin": "Huaiyuan",
+    "label": "Huaiyuan0552" },
+
+  {
+    "code": "0533",
+    "name": "桓台",
+    "pinyin": "Huantai",
+    "label": "Huantai0533" },
+
+  {
+    "code": "0668",
+    "name": "化州",
+    "pinyin": "Huazhou",
+    "label": "Huazhou0668" },
+
+  {
+    "code": "0595",
+    "name": "惠安",
+    "pinyin": "Huian",
+    "label": "Huian0595" },
+
+  {
+    "code": "0797",
+    "name": "会昌",
+    "pinyin": "Huichang",
+    "label": "Huichang0797" },
+
+  {
+    "code": "0752",
+    "name": "惠东",
+    "pinyin": "Huidong",
+    "label": "Huidong0752" },
+
+  {
+    "code": "0663",
+    "name": "惠来",
+    "pinyin": "Huilai",
+    "label": "Huilai0663" },
+
+  {
+    "code": "0543",
+    "name": "惠民",
+    "pinyin": "Huimin",
+    "label": "Huimin0543" },
+
+  {
+    "code": "0792",
+    "name": "湖口",
+    "pinyin": "Hukou",
+    "label": "Hukou0792" },
+
+  {
+    "code": "0451",
+    "name": "呼兰",
+    "pinyin": "Hulan",
+    "label": "Hulan0451" },
+
+  {
+    "code": "0564",
+    "name": "霍邱",
+    "pinyin": "Huoqiu",
+    "label": "Huoqiu0564" },
+
+  {
+    "code": "0564",
+    "name": "霍山",
+    "pinyin": "Huoshan",
+    "label": "Huoshan0564" },
+
+  {
+    "code": "029",
+    "name": "户县",
+    "pinyin": "Huxian",
+    "label": "Huxian029" }] },
+
+
+
+{
+  "initial": "J",
+  "list": [
+  {
+    "code": "0454",
+    "name": "佳木斯",
+    "pinyin": "Jiamusi",
+    "label": "Jiamusi0454" },
+
+  {
+    "code": "0391",
+    "name": "焦作",
+    "pinyin": "Jiaozuo",
+    "label": "Jiaozuo0391" },
+
+  {
+    "code": "0573",
+    "name": "嘉兴",
+    "pinyin": "Jiaxing",
+    "label": "Jiaxing0573" },
+
+  {
+    "code": "0423",
+    "name": "吉林",
+    "pinyin": "Jilin",
+    "label": "Jilin0423" },
+
+  {
+    "code": "0531",
+    "name": "济南",
+    "pinyin": "Jinan",
+    "label": "Jinan0531" },
+
+  {
+    "code": "0750",
+    "name": "江门",
+    "pinyin": "Jiangmen",
+    "label": "Jiangmen0750" },
+
+  {
+    "code": "0796",
+    "name": "吉安",
+    "pinyin": "Jian",
+    "label": "Jian0796" },
+
+  {
+    "code": "0937",
+    "name": "嘉峪关",
+    "pinyin": "Jiayuguan",
+    "label": "Jiayuguan0937" },
+
+  {
+    "code": "0663",
+    "name": "揭阳",
+    "pinyin": "Jieyang",
+    "label": "Jieyang0663" },
+
+  {
+    "code": "0935",
+    "name": "金昌",
+    "pinyin": "Jinchang",
+    "label": "Jinchang0935" },
+
+  {
+    "code": "0356",
+    "name": "晋城",
+    "pinyin": "Jincheng",
+    "label": "Jincheng0356" },
+
+  {
+    "code": "0798",
+    "name": "景德镇",
+    "pinyin": "Jingdezhen",
+    "label": "Jingdezhen0798" },
+
+  {
+    "code": "0724",
+    "name": "荆门",
+    "pinyin": "Jingmen",
+    "label": "Jingmen0724" },
+
+  {
+    "code": "0716",
+    "name": "荆州",
+    "pinyin": "Jingzhou",
+    "label": "Jingzhou0716" },
+
+  {
+    "code": "0579",
+    "name": "金华",
+    "pinyin": "Jinhua",
+    "label": "Jinhua0579" },
+
+  {
+    "code": "0537",
+    "name": "济宁",
+    "pinyin": "Jining",
+    "label": "Jining0537" },
+
+  {
+    "code": "0354",
+    "name": "晋中",
+    "pinyin": "Jinzhong",
+    "label": "Jinzhong0354" },
+
+  {
+    "code": "0416",
+    "name": "锦州",
+    "pinyin": "Jinzhou",
+    "label": "Jinzhou0416" },
+
+  {
+    "code": "0792",
+    "name": "九江",
+    "pinyin": "Jiujiang",
+    "label": "Jiujiang0792" },
+
+  {
+    "code": "0937",
+    "name": "酒泉",
+    "pinyin": "Jiuquan",
+    "label": "Jiuquan0937" },
+
+  {
+    "code": "0467",
+    "name": "鸡西",
+    "pinyin": "Jixi",
+    "label": "Jixi0467" },
+
+  {
+    "code": "0571",
+    "name": "建德",
+    "pinyin": "Jiande",
+    "label": "Jiande0571" },
+
+  {
+    "code": "0514",
+    "name": "江都",
+    "pinyin": "Jiangdu",
+    "label": "Jiangdu0514" },
+
+  {
+    "code": "023",
+    "name": "江津",
+    "pinyin": "Jiangjin",
+    "label": "Jiangjin023" },
+
+  {
+    "code": "0598",
+    "name": "将乐",
+    "pinyin": "Jiangle",
+    "label": "Jiangle0598" },
+
+  {
+    "code": "0570",
+    "name": "江山",
+    "pinyin": "Jiangshan",
+    "label": "Jiangshan0570" },
+
+  {
+    "code": "0523",
+    "name": "姜堰",
+    "pinyin": "Jiangyan",
+    "label": "Jiangyan0523" },
+
+  {
+    "code": "0510",
+    "name": "江阴",
+    "pinyin": "Jiangyin",
+    "label": "Jiangyin0510" },
+
+  {
+    "code": "0515",
+    "name": "建湖",
+    "pinyin": "Jianhu",
+    "label": "Jianhu0515" },
+
+  {
+    "code": "0598",
+    "name": "建宁",
+    "pinyin": "Jianning",
+    "label": "Jianning0598" },
+
+  {
+    "code": "0599",
+    "name": "建瓯",
+    "pinyin": "Jianou",
+    "label": "Jianou0599" },
+
+  {
+    "code": "0599",
+    "name": "建阳",
+    "pinyin": "Jianyang",
+    "label": "Jianyang0599" },
+
+  {
+    "code": "0796",
+    "name": "吉安",
+    "pinyin": "Jian",
+    "label": "Jian0796" },
+
+  {
+    "code": "0423",
+    "name": "蛟河",
+    "pinyin": "Jiaohe",
+    "label": "Jiaohe0423" },
+
+  {
+    "code": "0753",
+    "name": "蕉岭",
+    "pinyin": "Jiaoling",
+    "label": "Jiaoling0753" },
+
+  {
+    "code": "0532",
+    "name": "胶南",
+    "pinyin": "Jiaonan",
+    "label": "Jiaonan0532" },
+
+  {
+    "code": "0532",
+    "name": "胶州",
+    "pinyin": "Jiaozhou",
+    "label": "Jiaozhou0532" },
+
+  {
+    "code": "0573",
+    "name": "嘉善",
+    "pinyin": "Jiashan",
+    "label": "Jiashan0573" },
+
+  {
+    "code": "0537",
+    "name": "嘉祥",
+    "pinyin": "Jiaxiang",
+    "label": "Jiaxiang0537" },
+
+  {
+    "code": "0663",
+    "name": "揭东",
+    "pinyin": "Jiedong",
+    "label": "Jiedong0663" },
+
+  {
+    "code": "0558",
+    "name": "界首",
+    "pinyin": "Jieshou",
+    "label": "Jieshou0558" },
+
+  {
+    "code": "0663",
+    "name": "揭西",
+    "pinyin": "Jiexi",
+    "label": "Jiexi0663" },
+
+  {
+    "code": "0532",
+    "name": "即墨",
+    "pinyin": "Jimo",
+    "label": "Jimo0532" },
+
+  {
+    "code": "0795",
+    "name": "靖安",
+    "pinyin": "Jingan",
+    "label": "Jingan0795" },
+
+  {
+    "code": "0563",
+    "name": "旌德",
+    "pinyin": "Jingde",
+    "label": "Jingde0563" },
+
+  {
+    "code": "0796",
+    "name": "井冈山",
+    "pinyin": "Jinggangshan",
+    "label": "Jinggangshan0796" },
+
+  {
+    "code": "0523",
+    "name": "靖江",
+    "pinyin": "Jingjiang",
+    "label": "Jingjiang0523" },
+
+  {
+    "code": "0578",
+    "name": "景宁",
+    "pinyin": "Jingning",
+    "label": "Jingning0578" },
+
+  {
+    "code": "0563",
+    "name": "泾县",
+    "pinyin": "Jingxian",
+    "label": "Jingxian0563" },
+
+  {
+    "code": "0311",
+    "name": "井陉",
+    "pinyin": "Jingxing",
+    "label": "Jingxing0311" },
+
+  {
+    "code": "0517",
+    "name": "金湖",
+    "pinyin": "Jinhu",
+    "label": "Jinhu0517" },
+
+  {
+    "code": "0595",
+    "name": "晋江",
+    "pinyin": "Jinjiang",
+    "label": "Jinjiang0595" },
+
+  {
+    "code": "0595",
+    "name": "金门",
+    "pinyin": "Jinmen",
+    "label": "Jinmen0595" },
+
+  {
+    "code": "0871",
+    "name": "晋宁",
+    "pinyin": "Jinning",
+    "label": "Jinning0871" },
+
+  {
+    "code": "0519",
+    "name": "金坛",
+    "pinyin": "Jintan",
+    "label": "Jintan0519" },
+
+  {
+    "code": "028",
+    "name": "金堂",
+    "pinyin": "Jintang",
+    "label": "Jintang028" },
+
+  {
+    "code": "0791",
+    "name": "进贤",
+    "pinyin": "Jinxian",
+    "label": "Jinxian0791" },
+
+  {
+    "code": "0794",
+    "name": "金溪",
+    "pinyin": "Jinxi",
+    "label": "Jinxi0794" },
+
+  {
+    "code": "0537",
+    "name": "金乡",
+    "pinyin": "Jinxiang",
+    "label": "Jinxiang0537" },
+
+  {
+    "code": "0578",
+    "name": "缙云",
+    "pinyin": "Jinyun",
+    "label": "Jinyun0578" },
+
+  {
+    "code": "0564",
+    "name": "金寨",
+    "pinyin": "Jinzhai",
+    "label": "Jinzhai0564" },
+
+  {
+    "code": "0311",
+    "name": "晋州",
+    "pinyin": "Jinzhou",
+    "label": "Jinzhou0311" },
+
+  {
+    "code": "0796",
+    "name": "吉水",
+    "pinyin": "Jishui",
+    "label": "Jishui0796" },
+
+  {
+    "code": "0792",
+    "name": "九江",
+    "pinyin": "Jiujiang",
+    "label": "Jiujiang0792" },
+
+  {
+    "code": "0431",
+    "name": "九台",
+    "pinyin": "Jiutai",
+    "label": "Jiutai0431" },
+
+  {
+    "code": "0563",
+    "name": "绩溪",
+    "pinyin": "Jixi",
+    "label": "Jixi0563" },
+
+  {
+    "code": "0531",
+    "name": "济阳",
+    "pinyin": "Jiyang",
+    "label": "Jiyang0531" },
+
+  {
+    "code": "0391",
+    "name": "济源",
+    "pinyin": "Jiyuan",
+    "label": "Jiyuan0391" },
+
+  {
+    "code": "0530",
+    "name": "鄄城",
+    "pinyin": "Juancheng",
+    "label": "Juancheng0530" },
+
+  {
+    "code": "0539",
+    "name": "莒南",
+    "pinyin": "Junan",
+    "label": "Junan0539" },
+
+  {
+    "code": "0511",
+    "name": "句容",
+    "pinyin": "Jurong",
+    "label": "Jurong0511" },
+
+  {
+    "code": "0633",
+    "name": "莒县",
+    "pinyin": "Juxian",
+    "label": "Juxian0633" },
+
+  {
+    "code": "0530",
+    "name": "巨野",
+    "pinyin": "Juye",
+    "label": "Juye0530" }] },
+
+
+
+{
+  "initial": "K",
+  "list": [
+  {
+    "code": "0378",
+    "name": "开封",
+    "pinyin": "Kaifeng",
+    "label": "Kaifeng0378" },
+
+  {
+    "code": "0871",
+    "name": "昆明",
+    "pinyin": "Kunming",
+    "label": "Kunming0871" },
+
+  {
+    "code": "0998",
+    "name": "喀什地",
+    "pinyin": "Kashidi",
+    "label": "Kashidi0998" },
+
+  {
+    "code": "0990",
+    "name": "克拉玛依",
+    "pinyin": "Kelamayi",
+    "label": "Kelamayi0990" },
+
+  {
+    "code": "0908",
+    "name": "克孜勒",
+    "pinyin": "Kezile",
+    "label": "Kezile0908" },
+
+  {
+    "code": "0570",
+    "name": "开化",
+    "pinyin": "Kaihua",
+    "label": "Kaihua0570" },
+
+  {
+    "code": "0750",
+    "name": "开平",
+    "pinyin": "Kaiping",
+    "label": "Kaiping0750" },
+
+  {
+    "code": "023",
+    "name": "开县",
+    "pinyin": "Kaixian",
+    "label": "Kaixian023" },
+
+  {
+    "code": "0851",
+    "name": "开阳",
+    "pinyin": "Kaiyang",
+    "label": "Kaiyang0851" },
+
+  {
+    "code": "024",
+    "name": "康平",
+    "pinyin": "Kangping",
+    "label": "Kangping024" },
+
+  {
+    "code": "0546",
+    "name": "垦利",
+    "pinyin": "Kenli",
+    "label": "Kenli0546" },
+
+  {
+    "code": "0512",
+    "name": "昆山",
+    "pinyin": "Kunshan",
+    "label": "Kunshan0512" }] },
+
+
+
+{
+  "initial": "L",
+  "list": [
+  {
+    "code": "0772",
+    "name": "来宾",
+    "pinyin": "Laibin",
+    "label": "Laibin0772" },
+
+  {
+    "code": "0931",
+    "name": "兰州",
+    "pinyin": "Lanzhou",
+    "label": "Lanzhou0931" },
+
+  {
+    "code": "0772",
+    "name": "柳州",
+    "pinyin": "Liuzhou",
+    "label": "Liuzhou0772" },
+
+  {
+    "code": "0379",
+    "name": "洛阳",
+    "pinyin": "Luoyang",
+    "label": "Luoyang0379" },
+
+  {
+    "code": "0634",
+    "name": "莱芜",
+    "pinyin": "Laiwu",
+    "label": "Laiwu0634" },
+
+  {
+    "code": "0316",
+    "name": "廊坊",
+    "pinyin": "Langfang",
+    "label": "Langfang0316" },
+
+  {
+    "code": "0891",
+    "name": "拉萨",
+    "pinyin": "Lasa",
+    "label": "Lasa0891" },
+
+  {
+    "code": "0833",
+    "name": "乐山",
+    "pinyin": "Leshan",
+    "label": "Leshan0833" },
+
+  {
+    "code": "0834",
+    "name": "凉山",
+    "pinyin": "Liangshan",
+    "label": "Liangshan0834" },
+
+  {
+    "code": "0518",
+    "name": "连云港",
+    "pinyin": "Lianyungang",
+    "label": "Lianyungang0518" },
+
+  {
+    "code": "0635",
+    "name": "聊城",
+    "pinyin": "Liaocheng",
+    "label": "Liaocheng0635" },
+
+  {
+    "code": "0419",
+    "name": "辽阳",
+    "pinyin": "Liaoyang",
+    "label": "Liaoyang0419" },
+
+  {
+    "code": "0437",
+    "name": "辽源",
+    "pinyin": "Liaoyuan",
+    "label": "Liaoyuan0437" },
+
+  {
+    "code": "0888",
+    "name": "丽江",
+    "pinyin": "Lijiang",
+    "label": "Lijiang0888" },
+
+  {
+    "code": "0883",
+    "name": "临沧",
+    "pinyin": "Lincang",
+    "label": "Lincang0883" },
+
+  {
+    "code": "0357",
+    "name": "临汾",
+    "pinyin": "Linfen",
+    "label": "Linfen0357" },
+
+  {
+    "code": "0930",
+    "name": "临夏",
+    "pinyin": "Linxia",
+    "label": "Linxia0930" },
+
+  {
+    "code": "0539",
+    "name": "临沂",
+    "pinyin": "Linyi",
+    "label": "Linyi0539" },
+
+  {
+    "code": "0894",
+    "name": "林芝",
+    "pinyin": "Linzhi",
+    "label": "Linzhi0894" },
+
+  {
+    "code": "0578",
+    "name": "丽水",
+    "pinyin": "Lishui",
+    "label": "Lishui0578" },
+
+  {
+    "code": "0564",
+    "name": "六安",
+    "pinyin": "Liuan",
+    "label": "Liuan0564" },
+
+  {
+    "code": "0858",
+    "name": "六盘水",
+    "pinyin": "Liupanshui",
+    "label": "Liupanshui0858" },
+
+  {
+    "code": "0939",
+    "name": "陇南",
+    "pinyin": "Longnan",
+    "label": "Longnan0939" },
+
+  {
+    "code": "0597",
+    "name": "龙岩",
+    "pinyin": "Longyan",
+    "label": "Longyan0597" },
+
+  {
+    "code": "0738",
+    "name": "娄底",
+    "pinyin": "Loudi",
+    "label": "Loudi0738" },
+
+  {
+    "code": "0395",
+    "name": "漯河",
+    "pinyin": "Luohe",
+    "label": "Luohe0395" },
+
+  {
+    "code": "0830",
+    "name": "泸州",
+    "pinyin": "Luzhou",
+    "label": "Luzhou0830" },
+
+  {
+    "code": "0358",
+    "name": "吕梁",
+    "pinyin": "Lvliang",
+    "label": "Lvliang0358" },
+
+  {
+    "code": "0550",
+    "name": "来安",
+    "pinyin": "Laian",
+    "label": "Laian0550" },
+
+  {
+    "code": "0532",
+    "name": "莱西",
+    "pinyin": "Laixi",
+    "label": "Laixi0532" },
+
+  {
+    "code": "0535",
+    "name": "莱阳",
+    "pinyin": "Laiyang",
+    "label": "Laiyang0535" },
+
+  {
+    "code": "0535",
+    "name": "莱州",
+    "pinyin": "Laizhou",
+    "label": "Laizhou0535" },
+
+  {
+    "code": "0563",
+    "name": "郎溪",
+    "pinyin": "Langxi",
+    "label": "Langxi0563" },
+
+  {
+    "code": "029",
+    "name": "蓝田",
+    "pinyin": "Lantian",
+    "label": "Lantian029" },
+
+  {
+    "code": "0579",
+    "name": "兰溪",
+    "pinyin": "Lanxi",
+    "label": "Lanxi0579" },
+
+  {
+    "code": "0794",
+    "name": "乐安",
+    "pinyin": "Lean",
+    "label": "Lean0794" },
+
+  {
+    "code": "0751",
+    "name": "乐昌",
+    "pinyin": "Lechang",
+    "label": "Lechang0751" },
+
+  {
+    "code": "0759",
+    "name": "雷州",
+    "pinyin": "Leizhou",
+    "label": "Leizhou0759" },
+
+  {
+    "code": "0534",
+    "name": "乐陵",
+    "pinyin": "Leling",
+    "label": "Leling0534" },
+
+  {
+    "code": "0798",
+    "name": "乐平",
+    "pinyin": "Leping",
+    "label": "Leping0798" },
+
+  {
+    "code": "0577",
+    "name": "乐清",
+    "pinyin": "Leqing",
+    "label": "Leqing0577" },
+
+  {
+    "code": "0315",
+    "name": "乐亭",
+    "pinyin": "Leting",
+    "label": "Leting0315" },
+
+  {
+    "code": "0597",
+    "name": "连城",
+    "pinyin": "Liancheng",
+    "label": "Liancheng0597" },
+
+  {
+    "code": "023",
+    "name": "梁平",
+    "pinyin": "Liangping",
+    "label": "Liangping023" },
+
+  {
+    "code": "0537",
+    "name": "梁山",
+    "pinyin": "Liangshan",
+    "label": "Liangshan0537" },
+
+  {
+    "code": "0799",
+    "name": "莲花",
+    "pinyin": "Lianhua",
+    "label": "Lianhua0799" },
+
+  {
+    "code": "0591",
+    "name": "连江",
+    "pinyin": "Lianjiang",
+    "label": "Lianjiang0591" },
+
+  {
+    "code": "0759",
+    "name": "廉江",
+    "pinyin": "Lianjiang",
+    "label": "Lianjiang0759" },
+
+  {
+    "code": "0763",
+    "name": "连南",
+    "pinyin": "Liannan",
+    "label": "Liannan0763" },
+
+  {
+    "code": "0762",
+    "name": "连平",
+    "pinyin": "Lianping",
+    "label": "Lianping0762" },
+
+  {
+    "code": "0763",
+    "name": "连山",
+    "pinyin": "Lianshan",
+    "label": "Lianshan0763" },
+
+  {
+    "code": "0517",
+    "name": "涟水",
+    "pinyin": "Lianshui",
+    "label": "Lianshui0517" },
+
+  {
+    "code": "0763",
+    "name": "连州",
+    "pinyin": "Lianzhou",
+    "label": "Lianzhou0763" },
+
+  {
+    "code": "024",
+    "name": "辽中",
+    "pinyin": "Liaozhong",
+    "label": "Liaozhong024" },
+
+  {
+    "code": "0794",
+    "name": "黎川",
+    "pinyin": "Lichuan",
+    "label": "Lichuan0794" },
+
+  {
+    "code": "0546",
+    "name": "利津",
+    "pinyin": "Lijin",
+    "label": "Lijin0546" },
+
+  {
+    "code": "0571",
+    "name": "临安",
+    "pinyin": "Linan",
+    "label": "Linan0571" },
+
+  {
+    "code": "0557",
+    "name": "灵璧",
+    "pinyin": "Lingbi",
+    "label": "Lingbi0557" },
+
+  {
+    "code": "0311",
+    "name": "灵寿",
+    "pinyin": "Lingshou",
+    "label": "Lingshou0311" },
+
+  {
+    "code": "0534",
+    "name": "陵县",
+    "pinyin": "Lingxian",
+    "label": "Lingxian0534" },
+
+  {
+    "code": "0576",
+    "name": "临海",
+    "pinyin": "Linhai",
+    "label": "Linhai0576" },
+
+  {
+    "code": "0635",
+    "name": "临清",
+    "pinyin": "Linqing",
+    "label": "Linqing0635" },
+
+  {
+    "code": "0558",
+    "name": "临泉",
+    "pinyin": "Linquan",
+    "label": "Linquan0558" },
+
+  {
+    "code": "0536",
+    "name": "临朐",
+    "pinyin": "Linqu",
+    "label": "Linqu0536" },
+
+  {
+    "code": "0539",
+    "name": "临沭",
+    "pinyin": "Linshu",
+    "label": "Linshu0539" },
+
+  {
+    "code": "0534",
+    "name": "临邑",
+    "pinyin": "Linyi",
+    "label": "Linyi0534" },
+
+  {
+    "code": "025",
+    "name": "溧水",
+    "pinyin": "Lishui",
+    "label": "Lishui025" },
+
+  {
+    "code": "0772",
+    "name": "柳城",
+    "pinyin": "Liucheng",
+    "label": "Liucheng0772" },
+
+  {
+    "code": "0772",
+    "name": "柳江",
+    "pinyin": "Liujiang",
+    "label": "Liujiang0772" },
+
+  {
+    "code": "0731",
+    "name": "浏阳",
+    "pinyin": "Liuyang",
+    "label": "Liuyang0731" },
+
+  {
+    "code": "0558",
+    "name": "利辛",
+    "pinyin": "Lixin",
+    "label": "Lixin0558" },
+
+  {
+    "code": "0519",
+    "name": "溧阳",
+    "pinyin": "Liyang",
+    "label": "Liyang0519" },
+
+  {
+    "code": "0771",
+    "name": "隆安",
+    "pinyin": "Longan",
+    "label": "Longan0771" },
+
+  {
+    "code": "0762",
+    "name": "龙川",
+    "pinyin": "Longchuan",
+    "label": "Longchuan0762" },
+
+  {
+    "code": "0596",
+    "name": "龙海",
+    "pinyin": "Longhai",
+    "label": "Longhai0596" },
+
+  {
+    "code": "0535",
+    "name": "龙口",
+    "pinyin": "Longkou",
+    "label": "Longkou0535" },
+
+  {
+    "code": "0752",
+    "name": "龙门",
+    "pinyin": "Longmen",
+    "label": "Longmen0752" },
+
+  {
+    "code": "0797",
+    "name": "龙南",
+    "pinyin": "Longnan",
+    "label": "Longnan0797" },
+
+  {
+    "code": "0578",
+    "name": "龙泉",
+    "pinyin": "Longquan",
+    "label": "Longquan0578" },
+
+  {
+    "code": "0570",
+    "name": "龙游",
+    "pinyin": "Longyou",
+    "label": "Longyou0570" },
+
+  {
+    "code": "0311",
+    "name": "栾城",
+    "pinyin": "Luancheng",
+    "label": "Luancheng0311" },
+
+  {
+    "code": "0379",
+    "name": "栾川",
+    "pinyin": "Luanchuan",
+    "label": "Luanchuan0379" },
+
+  {
+    "code": "0315",
+    "name": "滦南",
+    "pinyin": "Luannan",
+    "label": "Luannan0315" },
+
+  {
+    "code": "0315",
+    "name": "滦县",
+    "pinyin": "Luanxian",
+    "label": "Luanxian0315" },
+
+  {
+    "code": "0660",
+    "name": "陆丰",
+    "pinyin": "Lufeng",
+    "label": "Lufeng0660" },
+
+  {
+    "code": "0660",
+    "name": "陆河",
+    "pinyin": "Luhe",
+    "label": "Luhe0660" },
+
+  {
+    "code": "0565",
+    "name": "庐江",
+    "pinyin": "Lujiang",
+    "label": "Lujiang0565" },
+
+  {
+    "code": "0766",
+    "name": "罗定",
+    "pinyin": "Luoding",
+    "label": "Luoding0766" },
+
+  {
+    "code": "0379",
+    "name": "洛宁",
+    "pinyin": "Luoning",
+    "label": "Luoning0379" },
+
+  {
+    "code": "0591",
+    "name": "罗源",
+    "pinyin": "Luoyuan",
+    "label": "Luoyuan0591" },
+
+  {
+    "code": "0311",
+    "name": "鹿泉",
+    "pinyin": "Luquan",
+    "label": "Luquan0311" },
+
+  {
+    "code": "0871",
+    "name": "禄劝",
+    "pinyin": "Luquan",
+    "label": "Luquan0871" },
+
+  {
+    "code": "0799",
+    "name": "芦溪",
+    "pinyin": "Luxi",
+    "label": "Luxi0799" },
+
+  {
+    "code": "0772",
+    "name": "鹿寨",
+    "pinyin": "Luzhai",
+    "label": "Luzhai0772" }] },
+
+
+
+{
+  "initial": "M",
+  "list": [
+  {
+    "code": "0555",
+    "name": "马鞍山",
+    "pinyin": "Maanshan",
+    "label": "Maanshan0555" },
+
+  {
+    "code": "0668",
+    "name": "茂名",
+    "pinyin": "Maoming",
+    "label": "Maoming0668" },
+
+  {
+    "code": "028",
+    "name": "眉山",
+    "pinyin": "Meishan",
+    "label": "Meishan028" },
+
+  {
+    "code": "0753",
+    "name": "梅州",
+    "pinyin": "Meizhou",
+    "label": "Meizhou0753" },
+
+  {
+    "code": "0816",
+    "name": "绵阳",
+    "pinyin": "Mianyang",
+    "label": "Mianyang0816" },
+
+  {
+    "code": "0453",
+    "name": "牡丹江",
+    "pinyin": "Mudanjiang",
+    "label": "Mudanjiang0453" },
+
+  {
+    "code": "0771",
+    "name": "马山",
+    "pinyin": "Mashan",
+    "label": "Mashan0771" },
+
+  {
+    "code": "0753",
+    "name": "梅县",
+    "pinyin": "Meixian",
+    "label": "Meixian0753" },
+
+  {
+    "code": "0558",
+    "name": "蒙城",
+    "pinyin": "Mengcheng",
+    "label": "Mengcheng0558" },
+
+  {
+    "code": "0379",
+    "name": "孟津",
+    "pinyin": "Mengjin",
+    "label": "Mengjin0379" },
+
+  {
+    "code": "0539",
+    "name": "蒙阴",
+    "pinyin": "Mengyin",
+    "label": "Mengyin0539" },
+
+  {
+    "code": "0391",
+    "name": "孟州",
+    "pinyin": "Mengzhou",
+    "label": "Mengzhou0391" },
+
+  {
+    "code": "0550",
+    "name": "明光",
+    "pinyin": "Mingguang",
+    "label": "Mingguang0550" },
+
+  {
+    "code": "0598",
+    "name": "明溪",
+    "pinyin": "Mingxi",
+    "label": "Mingxi0598" },
+
+  {
+    "code": "0591",
+    "name": "闽侯",
+    "pinyin": "Minhou",
+    "label": "Minhou0591" },
+
+  {
+    "code": "0591",
+    "name": "闽清",
+    "pinyin": "Minqing",
+    "label": "Minqing0591" },
+
+  {
+    "code": "0451",
+    "name": "木兰",
+    "pinyin": "Mulan",
+    "label": "Mulan0451" }] },
+
+
+
+{
+  "initial": "N",
+  "list": [
+  {
+    "code": "0817",
+    "name": "南充",
+    "pinyin": "Nanchong",
+    "label": "Nanchong0817" },
+
+  {
+    "code": "0791",
+    "name": "南昌",
+    "pinyin": "Nanchang",
+    "label": "Nanchang0791" },
+
+  {
+    "code": "025",
+    "name": "南京",
+    "pinyin": "Nanjing",
+    "label": "Nanjing025" },
+
+  {
+    "code": "0771",
+    "name": "南宁",
+    "pinyin": "Nanning",
+    "label": "Nanning0771" },
+
+  {
+    "code": "0513",
+    "name": "南通",
+    "pinyin": "Nantong",
+    "label": "Nantong0513" },
+
+  {
+    "code": "0574",
+    "name": "宁波",
+    "pinyin": "Ningbo",
+    "label": "Ningbo0574" },
+
+  {
+    "code": "0599",
+    "name": "南平",
+    "pinyin": "Nanping",
+    "label": "Nanping0599" },
+
+  {
+    "code": "0377",
+    "name": "南阳",
+    "pinyin": "Nanyang",
+    "label": "Nanyang0377" },
+
+  {
+    "code": "0896",
+    "name": "那曲",
+    "pinyin": "Naqu",
+    "label": "Naqu0896" },
+
+  {
+    "code": "0832",
+    "name": "内江",
+    "pinyin": "Neijiang",
+    "label": "Neijiang0832" },
+
+  {
+    "code": "0593",
+    "name": "宁德",
+    "pinyin": "Ningde",
+    "label": "Ningde0593" },
+
+  {
+    "code": "0886",
+    "name": "怒江",
+    "pinyin": "Nujiang",
+    "label": "Nujiang0886" },
+
+  {
+    "code": "0595",
+    "name": "南安",
+    "pinyin": "Nanan",
+    "label": "Nanan0595" },
+
+  {
+    "code": "0754",
+    "name": "南澳",
+    "pinyin": "Nanao",
+    "label": "Nanao0754" },
+
+  {
+    "code": "0794",
+    "name": "南城",
+    "pinyin": "Nancheng",
+    "label": "Nancheng0794" },
+
+  {
+    "code": "023",
+    "name": "南川",
+    "pinyin": "Nanchuan",
+    "label": "Nanchuan023" },
+
+  {
+    "code": "0794",
+    "name": "南丰",
+    "pinyin": "Nanfeng",
+    "label": "Nanfeng0794" },
+
+  {
+    "code": "0596",
+    "name": "南靖",
+    "pinyin": "Nanjing",
+    "label": "Nanjing0596" },
+
+  {
+    "code": "0797",
+    "name": "南康",
+    "pinyin": "Nankang",
+    "label": "Nankang0797" },
+
+  {
+    "code": "0553",
+    "name": "南陵",
+    "pinyin": "Nanling",
+    "label": "Nanling0553" },
+
+  {
+    "code": "0751",
+    "name": "南雄",
+    "pinyin": "Nanxiong",
+    "label": "Nanxiong0751" },
+
+  {
+    "code": "0797",
+    "name": "宁都",
+    "pinyin": "Ningdu",
+    "label": "Ningdu0797" },
+
+  {
+    "code": "0563",
+    "name": "宁国",
+    "pinyin": "Ningguo",
+    "label": "Ningguo0563" },
+
+  {
+    "code": "0574",
+    "name": "宁海",
+    "pinyin": "Ninghai",
+    "label": "Ninghai0574" },
+
+  {
+    "code": "0598",
+    "name": "宁化",
+    "pinyin": "Ninghua",
+    "label": "Ninghua0598" },
+
+  {
+    "code": "0534",
+    "name": "宁津",
+    "pinyin": "Ningjin",
+    "label": "Ningjin0534" },
+
+  {
+    "code": "0731",
+    "name": "宁乡",
+    "pinyin": "Ningxiang",
+    "label": "Ningxiang0731" },
+
+  {
+    "code": "0538",
+    "name": "宁阳",
+    "pinyin": "Ningyang",
+    "label": "Ningyang0538" },
+
+  {
+    "code": "0431",
+    "name": "农安",
+    "pinyin": "Nongan",
+    "label": "Nongan0431" }] },
+
+
+
+{
+  "initial": "P",
+  "list": [
+  {
+    "code": "0427",
+    "name": "盘锦",
+    "pinyin": "Panjin",
+    "label": "Panjin0427" },
+
+  {
+    "code": "0812",
+    "name": "攀枝花",
+    "pinyin": "Panzhihua",
+    "label": "Panzhihua0812" },
+
+  {
+    "code": "0375",
+    "name": "平顶山",
+    "pinyin": "Pingdingshan",
+    "label": "Pingdingshan0375" },
+
+  {
+    "code": "0933",
+    "name": "平凉",
+    "pinyin": "Pingliang",
+    "label": "Pingliang0933" },
+
+  {
+    "code": "0799",
+    "name": "萍乡",
+    "pinyin": "Pingxiang",
+    "label": "Pingxiang0799" },
+
+  {
+    "code": "0879",
+    "name": "普洱",
+    "pinyin": "Puer",
+    "label": "Puer0879" },
+
+  {
+    "code": "0594",
+    "name": "莆田",
+    "pinyin": "Putian",
+    "label": "Putian0594" },
+
+  {
+    "code": "0393",
+    "name": "濮阳",
+    "pinyin": "Puyang",
+    "label": "Puyang0393" },
+
+  {
+    "code": "0579",
+    "name": "磐安",
+    "pinyin": "Panan",
+    "label": "Panan0579" },
+
+  {
+    "code": "0423",
+    "name": "磐石",
+    "pinyin": "Panshi",
+    "label": "Panshi0423" },
+
+  {
+    "code": "0516",
+    "name": "沛县",
+    "pinyin": "Peixian",
+    "label": "Peixian0516" },
+
+  {
+    "code": "0535",
+    "name": "蓬莱",
+    "pinyin": "Penglai",
+    "label": "Penglai0535" },
+
+  {
+    "code": "023",
+    "name": "彭水",
+    "pinyin": "Pengshui",
+    "label": "Pengshui023" },
+
+  {
+    "code": "0792",
+    "name": "彭泽",
+    "pinyin": "Pengze",
+    "label": "Pengze0792" },
+
+  {
+    "code": "028",
+    "name": "彭州",
+    "pinyin": "Pengzhou",
+    "label": "Pengzhou028" },
+
+  {
+    "code": "0532",
+    "name": "平度",
+    "pinyin": "Pingdu",
+    "label": "Pingdu0532" },
+
+  {
+    "code": "0596",
+    "name": "平和",
+    "pinyin": "Pinghe",
+    "label": "Pinghe0596" },
+
+  {
+    "code": "0573",
+    "name": "平湖",
+    "pinyin": "Pinghu",
+    "label": "Pinghu0573" },
+
+  {
+    "code": "0593",
+    "name": "屏南",
+    "pinyin": "Pingnan",
+    "label": "Pingnan0593" },
+
+  {
+    "code": "0311",
+    "name": "平山",
+    "pinyin": "Pingshan",
+    "label": "Pingshan0311" },
+
+  {
+    "code": "0591",
+    "name": "平潭",
+    "pinyin": "Pingtan",
+    "label": "Pingtan0591" },
+
+  {
+    "code": "0577",
+    "name": "平阳",
+    "pinyin": "Pingyang",
+    "label": "Pingyang0577" },
+
+  {
+    "code": "0531",
+    "name": "平阴",
+    "pinyin": "Pingyin",
+    "label": "Pingyin0531" },
+
+  {
+    "code": "0539",
+    "name": "平邑",
+    "pinyin": "Pingyi",
+    "label": "Pingyi0539" },
+
+  {
+    "code": "0534",
+    "name": "平原",
+    "pinyin": "Pingyuan",
+    "label": "Pingyuan0534" },
+
+  {
+    "code": "0753",
+    "name": "平远",
+    "pinyin": "Pingyuan",
+    "label": "Pingyuan0753" },
+
+  {
+    "code": "028",
+    "name": "郫县",
+    "pinyin": "Pixian",
+    "label": "Pixian028" },
+
+  {
+    "code": "0516",
+    "name": "邳州",
+    "pinyin": "Pizhou",
+    "label": "Pizhou0516" },
+
+  {
+    "code": "0793",
+    "name": "鄱阳",
+    "pinyin": "Poyang",
+    "label": "Poyang0793" },
+
+  {
+    "code": "0599",
+    "name": "浦城",
+    "pinyin": "Pucheng",
+    "label": "Pucheng0599" },
+
+  {
+    "code": "0579",
+    "name": "浦江",
+    "pinyin": "Pujiang",
+    "label": "Pujiang0579" },
+
+  {
+    "code": "028",
+    "name": "蒲江",
+    "pinyin": "Pujiang",
+    "label": "Pujiang028" },
+
+  {
+    "code": "0411",
+    "name": "普兰店",
+    "pinyin": "Pulandian",
+    "label": "Pulandian0411" },
+
+  {
+    "code": "0663",
+    "name": "普宁",
+    "pinyin": "Puning",
+    "label": "Puning0663" }] },
+
+
+
+{
+  "initial": "Q",
+  "list": [
+  {
+    "code": "0855",
+    "name": "黔东",
+    "pinyin": "Qiandong",
+    "label": "Qiandong0855" },
+
+  {
+    "code": "0532",
+    "name": "青岛",
+    "pinyin": "Qingdao",
+    "label": "Qingdao0532" },
+
+  {
+    "code": "0595",
+    "name": "泉州",
+    "pinyin": "Quanzhou",
+    "label": "Quanzhou0595" },
+
+  {
+    "code": "0854",
+    "name": "黔南",
+    "pinyin": "Qiannan",
+    "label": "Qiannan0854" },
+
+  {
+    "code": "0859",
+    "name": "黔西南",
+    "pinyin": "Qianxinan",
+    "label": "Qianxinan0859" },
+
+  {
+    "code": "0934",
+    "name": "庆阳",
+    "pinyin": "Qingyang",
+    "label": "Qingyang0934" },
+
+  {
+    "code": "0763",
+    "name": "清远",
+    "pinyin": "Qingyuan",
+    "label": "Qingyuan0763" },
+
+  {
+    "code": "0335",
+    "name": "秦皇岛",
+    "pinyin": "Qinhuangdao",
+    "label": "Qinhuangdao0335" },
+
+  {
+    "code": "0777",
+    "name": "钦州",
+    "pinyin": "Qinzhou",
+    "label": "Qinzhou0777" },
+
+  {
+    "code": "0452",
+    "name": "齐齐哈尔",
+    "pinyin": "Qiqihaer",
+    "label": "Qiqihaer0452" },
+
+  {
+    "code": "0464",
+    "name": "七台河",
+    "pinyin": "Qitaihe",
+    "label": "Qitaihe0464" },
+
+  {
+    "code": "0874",
+    "name": "曲靖",
+    "pinyin": "Qujing",
+    "label": "Qujing0874" },
+
+  {
+    "code": "0570",
+    "name": "衢州",
+    "pinyin": "Quzhou",
+    "label": "Quzhou0570" },
+
+  {
+    "code": "0315",
+    "name": "迁安",
+    "pinyin": "Qianan",
+    "label": "Qianan0315" },
+
+  {
+    "code": "0556",
+    "name": "潜山",
+    "pinyin": "Qianshan",
+    "label": "Qianshan0556" },
+
+  {
+    "code": "0793",
+    "name": "铅山",
+    "pinyin": "Qianshan",
+    "label": "Qianshan0793" },
+
+  {
+    "code": "0315",
+    "name": "迁西",
+    "pinyin": "Qianxi",
+    "label": "Qianxi0315" },
+
+  {
+    "code": "0513",
+    "name": "启东",
+    "pinyin": "Qidong",
+    "label": "Qidong0513" },
+
+  {
+    "code": "0534",
+    "name": "齐河",
+    "pinyin": "Qihe",
+    "label": "Qihe0534" },
+
+  {
+    "code": "023",
+    "name": "綦江",
+    "pinyin": "Qijiang",
+    "label": "Qijiang023" },
+
+  {
+    "code": "0559",
+    "name": "祁门",
+    "pinyin": "Qimen",
+    "label": "Qimen0559" },
+
+  {
+    "code": "0598",
+    "name": "清流",
+    "pinyin": "Qingliu",
+    "label": "Qingliu0598" },
+
+  {
+    "code": "0578",
+    "name": "青田",
+    "pinyin": "Qingtian",
+    "label": "Qingtian0578" },
+
+  {
+    "code": "0763",
+    "name": "清新",
+    "pinyin": "Qingxin",
+    "label": "Qingxin0763" },
+
+  {
+    "code": "0566",
+    "name": "青阳",
+    "pinyin": "Qingyang",
+    "label": "Qingyang0566" },
+
+  {
+    "code": "0578",
+    "name": "庆元",
+    "pinyin": "Qingyuan",
+    "label": "Qingyuan0578" },
+
+  {
+    "code": "0534",
+    "name": "庆云",
+    "pinyin": "Qingyun",
+    "label": "Qingyun0534" },
+
+  {
+    "code": "0851",
+    "name": "清镇",
+    "pinyin": "Qingzhen",
+    "label": "Qingzhen0851" },
+
+  {
+    "code": "0536",
+    "name": "青州",
+    "pinyin": "Qingzhou",
+    "label": "Qingzhou0536" },
+
+  {
+    "code": "0391",
+    "name": "沁阳",
+    "pinyin": "Qinyang",
+    "label": "Qinyang0391" },
+
+  {
+    "code": "028",
+    "name": "邛崃",
+    "pinyin": "Qionglai",
+    "label": "Qionglai028" },
+
+  {
+    "code": "0535",
+    "name": "栖霞",
+    "pinyin": "Qixia",
+    "label": "Qixia0535" },
+
+  {
+    "code": "0550",
+    "name": "全椒",
+    "pinyin": "Quanjiao",
+    "label": "Quanjiao0550" },
+
+  {
+    "code": "0797",
+    "name": "全南",
+    "pinyin": "Quannan",
+    "label": "Quannan0797" },
+
+  {
+    "code": "0537",
+    "name": "曲阜",
+    "pinyin": "Qufu",
+    "label": "Qufu0537" },
+
+  {
+    "code": "0751",
+    "name": "曲江",
+    "pinyin": "Qujiang",
+    "label": "Qujiang0751" }] },
+
+
+
+{
+  "initial": "R",
+  "list": [
+  {
+    "code": "0892",
+    "name": "日喀则",
+    "pinyin": "Rikaze",
+    "label": "Rikaze0892" },
+
+  {
+    "code": "0633",
+    "name": "日照",
+    "pinyin": "Rizhao",
+    "label": "Rizhao0633" },
+
+  {
+    "code": "0768",
+    "name": "饶平",
+    "pinyin": "Raoping",
+    "label": "Raoping0768" },
+
+  {
+    "code": "0751",
+    "name": "仁化",
+    "pinyin": "Renhua",
+    "label": "Renhua0751" },
+
+  {
+    "code": "0772",
+    "name": "融安",
+    "pinyin": "Rongan",
+    "label": "Rongan0772" },
+
+  {
+    "code": "023",
+    "name": "荣昌",
+    "pinyin": "Rongchang",
+    "label": "Rongchang023" },
+
+  {
+    "code": "0631",
+    "name": "荣成",
+    "pinyin": "Rongcheng",
+    "label": "Rongcheng0631" },
+
+  {
+    "code": "0772",
+    "name": "融水",
+    "pinyin": "Rongshui",
+    "label": "Rongshui0772" },
+
+  {
+    "code": "0513",
+    "name": "如东",
+    "pinyin": "Rudong",
+    "label": "Rudong0513" },
+
+  {
+    "code": "0513",
+    "name": "如皋",
+    "pinyin": "Rugao",
+    "label": "Rugao0513" },
+
+  {
+    "code": "0577",
+    "name": "瑞安",
+    "pinyin": "Ruian",
+    "label": "Ruian0577" },
+
+  {
+    "code": "0792",
+    "name": "瑞昌",
+    "pinyin": "Ruichang",
+    "label": "Ruichang0792" },
+
+  {
+    "code": "0797",
+    "name": "瑞金",
+    "pinyin": "Ruijin",
+    "label": "Ruijin0797" },
+
+  {
+    "code": "0631",
+    "name": "乳山",
+    "pinyin": "Rushan",
+    "label": "Rushan0631" },
+
+  {
+    "code": "0379",
+    "name": "汝阳",
+    "pinyin": "Ruyang",
+    "label": "Ruyang0379" },
+
+  {
+    "code": "0751",
+    "name": "乳源",
+    "pinyin": "Ruyuan",
+    "label": "Ruyuan0751" }] },
+
+
+
+{
+  "initial": "S",
+  "list": [
+  {
+    "code": "0398",
+    "name": "三门峡",
+    "pinyin": "Sanmenxia",
+    "label": "Sanmenxia0398" },
+
+  {
+    "code": "021",
+    "name": "上海",
+    "pinyin": "Shanghai",
+    "label": "Shanghai021" },
+
+  {
+    "code": "024",
+    "name": "沈阳",
+    "pinyin": "Shenyang",
+    "label": "Shenyang024" },
+
+  {
+    "code": "0755",
+    "name": "深圳",
+    "pinyin": "Shenzhen",
+    "label": "Shenzhen0755" },
+
+  {
+    "code": "0311",
+    "name": "石家庄",
+    "pinyin": "Shijiazhuang",
+    "label": "Shijiazhuang0311" },
+
+  {
+    "code": "0512",
+    "name": "苏州",
+    "pinyin": "Suzhou",
+    "label": "Suzhou0512" },
+
+  {
+    "code": "0598",
+    "name": "三明",
+    "pinyin": "Sanming",
+    "label": "Sanming0598" },
+
+  {
+    "code": "0899",
+    "name": "三亚",
+    "pinyin": "Sanya",
+    "label": "Sanya0899" },
+
+  {
+    "code": "0914",
+    "name": "商洛",
+    "pinyin": "Shangluo",
+    "label": "Shangluo0914" },
+
+  {
+    "code": "0370",
+    "name": "商丘",
+    "pinyin": "Shangqiu",
+    "label": "Shangqiu0370" },
+
+  {
+    "code": "0793",
+    "name": "上饶",
+    "pinyin": "Shangrao",
+    "label": "Shangrao0793" },
+
+  {
+    "code": "0893",
+    "name": "山南",
+    "pinyin": "Shannan",
+    "label": "Shannan0893" },
+
+  {
+    "code": "0754",
+    "name": "汕头",
+    "pinyin": "Shantou",
+    "label": "Shantou0754" },
+
+  {
+    "code": "0660",
+    "name": "汕尾",
+    "pinyin": "Shanwei",
+    "label": "Shanwei0660" },
+
+  {
+    "code": "0751",
+    "name": "韶关",
+    "pinyin": "Shaoguan",
+    "label": "Shaoguan0751" },
+
+  {
+    "code": "0575",
+    "name": "绍兴",
+    "pinyin": "Shaoxing",
+    "label": "Shaoxing0575" },
+
+  {
+    "code": "0739",
+    "name": "邵阳",
+    "pinyin": "Shaoyang",
+    "label": "Shaoyang0739" },
+
+  {
+    "code": "0719",
+    "name": "十堰",
+    "pinyin": "Shiyan",
+    "label": "Shiyan0719" },
+
+  {
+    "code": "0952",
+    "name": "石嘴山",
+    "pinyin": "Shizuishan",
+    "label": "Shizuishan0952" },
+
+  {
+    "code": "0469",
+    "name": "双鸭山",
+    "pinyin": "Shuangyashan",
+    "label": "Shuangyashan0469" },
+
+  {
+    "code": "0349",
+    "name": "朔州",
+    "pinyin": "Shuozhou",
+    "label": "Shuozhou0349" },
+
+  {
+    "code": "0434",
+    "name": "四平",
+    "pinyin": "Siping",
+    "label": "Siping0434" },
+
+  {
+    "code": "0438",
+    "name": "松原",
+    "pinyin": "Songyuan",
+    "label": "Songyuan0438" },
+
+  {
+    "code": "0455",
+    "name": "绥化",
+    "pinyin": "Suihua",
+    "label": "Suihua0455" },
+
+  {
+    "code": "0825",
+    "name": "遂宁",
+    "pinyin": "Suining",
+    "label": "Suining0825" },
+
+  {
+    "code": "0722",
+    "name": "随州",
+    "pinyin": "Suizhou",
+    "label": "Suizhou0722" },
+
+  {
+    "code": "0527",
+    "name": "宿迁",
+    "pinyin": "Suqian",
+    "label": "Suqian0527" },
+
+  {
+    "code": "0557",
+    "name": "宿州",
+    "pinyin": "Suzhou",
+    "label": "Suzhou0557" },
+
+  {
+    "code": "0772",
+    "name": "三江",
+    "pinyin": "Sanjiang",
+    "label": "Sanjiang0772" },
+
+  {
+    "code": "0576",
+    "name": "三门",
+    "pinyin": "Sanmen",
+    "label": "Sanmen0576" },
+
+  {
+    "code": "0596",
+    "name": "诏安",
+    "pinyin": "Saoan",
+    "label": "Saoan0596" },
+
+  {
+    "code": "0795",
+    "name": "上高",
+    "pinyin": "Shanggao",
+    "label": "Shanggao0795" },
+
+  {
+    "code": "0597",
+    "name": "上杭",
+    "pinyin": "Shanghang",
+    "label": "Shanghang0597" },
+
+  {
+    "code": "0531",
+    "name": "商河",
+    "pinyin": "Shanghe",
+    "label": "Shanghe0531" },
+
+  {
+    "code": "0799",
+    "name": "上栗",
+    "pinyin": "Shangli",
+    "label": "Shangli0799" },
+
+  {
+    "code": "0771",
+    "name": "上林",
+    "pinyin": "Shanglin",
+    "label": "Shanglin0771" },
+
+  {
+    "code": "0793",
+    "name": "上饶",
+    "pinyin": "Shangrao",
+    "label": "Shangrao0793" },
+
+  {
+    "code": "0797",
+    "name": "上犹",
+    "pinyin": "Shangyou",
+    "label": "Shangyou0797" },
+
+  {
+    "code": "0575",
+    "name": "上虞",
+    "pinyin": "Shangyu",
+    "label": "Shangyu0575" },
+
+  {
+    "code": "0451",
+    "name": "尚志",
+    "pinyin": "Shangzhi",
+    "label": "Shangzhi0451" },
+
+  {
+    "code": "0599",
+    "name": "邵武",
+    "pinyin": "Shaowu",
+    "label": "Shaowu0599" },
+
+  {
+    "code": "0575",
+    "name": "绍兴",
+    "pinyin": "Shaoxing",
+    "label": "Shaoxing0575" },
+
+  {
+    "code": "0598",
+    "name": "沙县",
+    "pinyin": "Shaxian",
+    "label": "Shaxian0598" },
+
+  {
+    "code": "0580",
+    "name": "嵊泗",
+    "pinyin": "Shengsi",
+    "label": "Shengsi0580" },
+
+  {
+    "code": "0575",
+    "name": "嵊州",
+    "pinyin": "Shengzhou",
+    "label": "Shengzhou0575" },
+
+  {
+    "code": "0635",
+    "name": "莘县",
+    "pinyin": "Shenxian",
+    "label": "Shenxian0635" },
+
+  {
+    "code": "0311",
+    "name": "深泽",
+    "pinyin": "Shenze",
+    "label": "Shenze0311" },
+
+  {
+    "code": "0559",
+    "name": "歙县",
+    "pinyin": "Shexian",
+    "label": "Shexian0559" },
+
+  {
+    "code": "0515",
+    "name": "射阳",
+    "pinyin": "Sheyang",
+    "label": "Sheyang0515" },
+
+  {
+    "code": "0797",
+    "name": "石城",
+    "pinyin": "Shicheng",
+    "label": "Shicheng0797" },
+
+  {
+    "code": "0871",
+    "name": "石林",
+    "pinyin": "Shilin",
+    "label": "Shilin0871" },
+
+  {
+    "code": "0595",
+    "name": "石狮",
+    "pinyin": "Shishi",
+    "label": "Shishi0595" },
+
+  {
+    "code": "0566",
+    "name": "石台",
+    "pinyin": "Shitai",
+    "label": "Shitai0566" },
+
+  {
+    "code": "0751",
+    "name": "始兴",
+    "pinyin": "Shixing",
+    "label": "Shixing0751" },
+
+  {
+    "code": "023",
+    "name": "石柱",
+    "pinyin": "Shizhu",
+    "label": "Shizhu023" },
+
+  {
+    "code": "0536",
+    "name": "寿光",
+    "pinyin": "Shouguang",
+    "label": "Shouguang0536" },
+
+  {
+    "code": "0593",
+    "name": "寿宁",
+    "pinyin": "Shouning",
+    "label": "Shouning0593" },
+
+  {
+    "code": "0564",
+    "name": "寿县",
+    "pinyin": "Shouxian",
+    "label": "Shouxian0564" },
+
+  {
+    "code": "0451",
+    "name": "双城",
+    "pinyin": "Shuangcheng",
+    "label": "Shuangcheng0451" },
+
+  {
+    "code": "028",
+    "name": "双流",
+    "pinyin": "Shuangliu",
+    "label": "Shuangliu028" },
+
+  {
+    "code": "0564",
+    "name": "舒城",
+    "pinyin": "Shucheng",
+    "label": "Shucheng0564" },
+
+  {
+    "code": "0423",
+    "name": "舒兰",
+    "pinyin": "Shulan",
+    "label": "Shulan0423" },
+
+  {
+    "code": "0599",
+    "name": "顺昌",
+    "pinyin": "Shunchang",
+    "label": "Shunchang0599" },
+
+  {
+    "code": "0527",
+    "name": "沭阳",
+    "pinyin": "Shuyang",
+    "label": "Shuyang0527" },
+
+  {
+    "code": "0527",
+    "name": "泗洪",
+    "pinyin": "Sihong",
+    "label": "Sihong0527" },
+
+  {
+    "code": "0758",
+    "name": "四会",
+    "pinyin": "Sihui",
+    "label": "Sihui0758" },
+
+  {
+    "code": "0537",
+    "name": "泗水",
+    "pinyin": "Sishui",
+    "label": "Sishui0537" },
+
+  {
+    "code": "0557",
+    "name": "泗县",
+    "pinyin": "Sixian",
+    "label": "Sixian0557" },
+
+  {
+    "code": "0527",
+    "name": "泗阳",
+    "pinyin": "Siyang",
+    "label": "Siyang0527" },
+
+  {
+    "code": "0871",
+    "name": "嵩明",
+    "pinyin": "Songming",
+    "label": "Songming0871" },
+
+  {
+    "code": "0599",
+    "name": "松溪",
+    "pinyin": "Songxi",
+    "label": "Songxi0599" },
+
+  {
+    "code": "0379",
+    "name": "嵩县",
+    "pinyin": "Songxian",
+    "label": "Songxian0379" },
+
+  {
+    "code": "0578",
+    "name": "松阳",
+    "pinyin": "Songyang",
+    "label": "Songyang0578" },
+
+  {
+    "code": "0578",
+    "name": "遂昌",
+    "pinyin": "Suichang",
+    "label": "Suichang0578" },
+
+  {
+    "code": "0796",
+    "name": "遂川",
+    "pinyin": "Suichuan",
+    "label": "Suichuan0796" },
+
+  {
+    "code": "0516",
+    "name": "睢宁",
+    "pinyin": "Suining",
+    "label": "Suining0516" },
+
+  {
+    "code": "0561",
+    "name": "濉溪",
+    "pinyin": "Suixi",
+    "label": "Suixi0561" },
+
+  {
+    "code": "0759",
+    "name": "遂溪",
+    "pinyin": "Suixi",
+    "label": "Suixi0759" },
+
+  {
+    "code": "0556",
+    "name": "宿松",
+    "pinyin": "Susong",
+    "label": "Susong0556" },
+
+  {
+    "code": "0527",
+    "name": "宿豫",
+    "pinyin": "Suyu",
+    "label": "Suyu0527" }] },
+
+
+
+{
+  "initial": "T",
+  "list": [
+  {
+    "code": "0901",
+    "name": "塔城地",
+    "pinyin": "Tachengdi",
+    "label": "Tachengdi0901" },
+
+  {
+    "code": "022",
+    "name": "天津",
+    "pinyin": "Tianjin",
+    "label": "Tianjin022" },
+
+  {
+    "code": "0576",
+    "name": "台州",
+    "pinyin": "Taizhou",
+    "label": "Taizhou0576" },
+
+  {
+    "code": "0315",
+    "name": "唐山",
+    "pinyin": "Tangshan",
+    "label": "Tangshan0315" },
+
+  {
+    "code": "0538",
+    "name": "泰安",
+    "pinyin": "Taian",
+    "label": "Taian0538" },
+
+  {
+    "code": "0351",
+    "name": "太原",
+    "pinyin": "Taiyuan",
+    "label": "Taiyuan0351" },
+
+  {
+    "code": "0523",
+    "name": "泰州",
+    "pinyin": "Taizhou",
+    "label": "Taizhou0523" },
+
+  {
+    "code": "0938",
+    "name": "天水",
+    "pinyin": "Tianshui",
+    "label": "Tianshui0938" },
+
+  {
+    "code": "0410",
+    "name": "铁岭",
+    "pinyin": "Tieling",
+    "label": "Tieling0410" },
+
+  {
+    "code": "0919",
+    "name": "铜川",
+    "pinyin": "Tongchuan",
+    "label": "Tongchuan0919" },
+
+  {
+    "code": "0435",
+    "name": "通化",
+    "pinyin": "Tonghua",
+    "label": "Tonghua0435" },
+
+  {
+    "code": "0475",
+    "name": "通辽",
+    "pinyin": "Tongliao",
+    "label": "Tongliao0475" },
+
+  {
+    "code": "0562",
+    "name": "铜陵",
+    "pinyin": "Tongling",
+    "label": "Tongling0562" },
+
+  {
+    "code": "0856",
+    "name": "铜仁",
+    "pinyin": "Tongren",
+    "label": "Tongren0856" },
+
+  {
+    "code": "0995",
+    "name": "吐鲁番",
+    "pinyin": "Tulufan",
+    "label": "Tulufan0995" },
+
+  {
+    "code": "0512",
+    "name": "太仓",
+    "pinyin": "Taicang",
+    "label": "Taicang0512" },
+
+  {
+    "code": "0558",
+    "name": "太和",
+    "pinyin": "Taihe",
+    "label": "Taihe0558" },
+
+  {
+    "code": "0796",
+    "name": "泰和",
+    "pinyin": "Taihe",
+    "label": "Taihe0796" },
+
+  {
+    "code": "0556",
+    "name": "太湖",
+    "pinyin": "Taihu",
+    "label": "Taihu0556" },
+
+  {
+    "code": "0598",
+    "name": "泰宁",
+    "pinyin": "Taining",
+    "label": "Taining0598" },
+
+  {
+    "code": "0750",
+    "name": "台山",
+    "pinyin": "Taishan",
+    "label": "Taishan0750" },
+
+  {
+    "code": "0577",
+    "name": "泰顺",
+    "pinyin": "Taishun",
+    "label": "Taishun0577" },
+
+  {
+    "code": "0523",
+    "name": "泰兴",
+    "pinyin": "Taixing",
+    "label": "Taixing0523" },
+
+  {
+    "code": "0539",
+    "name": "郯城",
+    "pinyin": "Tancheng",
+    "label": "Tancheng0539" },
+
+  {
+    "code": "0315",
+    "name": "唐海",
+    "pinyin": "Tanghai",
+    "label": "Tanghai0315" },
+
+  {
+    "code": "0623",
+    "name": "滕州",
+    "pinyin": "Tengzhou",
+    "label": "Tengzhou0623" },
+
+  {
+    "code": "0550",
+    "name": "天长",
+    "pinyin": "Tianchang",
+    "label": "Tianchang0550" },
+
+  {
+    "code": "0576",
+    "name": "天台",
+    "pinyin": "Tiantai",
+    "label": "Tiantai0576" },
+
+  {
+    "code": "0556",
+    "name": "桐城",
+    "pinyin": "Tongcheng",
+    "label": "Tongcheng0556" },
+
+  {
+    "code": "0795",
+    "name": "铜鼓",
+    "pinyin": "Tonggu",
+    "label": "Tonggu0795" },
+
+  {
+    "code": "0451",
+    "name": "通河",
+    "pinyin": "Tonghe",
+    "label": "Tonghe0451" },
+
+  {
+    "code": "023",
+    "name": "铜梁",
+    "pinyin": "Tongliang",
+    "label": "Tongliang023" },
+
+  {
+    "code": "0562",
+    "name": "铜陵",
+    "pinyin": "Tongling",
+    "label": "Tongling0562" },
+
+  {
+    "code": "0571",
+    "name": "桐庐",
+    "pinyin": "Tonglu",
+    "label": "Tonglu0571" },
+
+  {
+    "code": "023",
+    "name": "潼南",
+    "pinyin": "Tongnan",
+    "label": "Tongnan023" },
+
+  {
+    "code": "0516",
+    "name": "铜山",
+    "pinyin": "Tongshan",
+    "label": "Tongshan0516" },
+
+  {
+    "code": "0573",
+    "name": "桐乡",
+    "pinyin": "Tongxiang",
+    "label": "Tongxiang0573" },
+
+  {
+    "code": "0513",
+    "name": "通州",
+    "pinyin": "Tongzhou",
+    "label": "Tongzhou0513" }] },
+
+
+
+{
+  "initial": "W",
+  "list": [
+  {
+    "code": "0913",
+    "name": "渭南",
+    "pinyin": "Weinan",
+    "label": "Weinan0913" },
+
+  {
+    "code": "0536",
+    "name": "潍坊",
+    "pinyin": "Weifang",
+    "label": "Weifang0536" },
+
+  {
+    "code": "0631",
+    "name": "威海",
+    "pinyin": "Weihai",
+    "label": "Weihai0631" },
+
+  {
+    "code": "027",
+    "name": "武汉",
+    "pinyin": "Wuhan",
+    "label": "Wuhan027" },
+
+  {
+    "code": "0510",
+    "name": "无锡",
+    "pinyin": "Wuxi",
+    "label": "Wuxi0510" },
+
+  {
+    "code": "0876",
+    "name": "文山",
+    "pinyin": "Wenshan",
+    "label": "Wenshan0876" },
+
+  {
+    "code": "0577",
+    "name": "温州",
+    "pinyin": "Wenzhou",
+    "label": "Wenzhou0577" },
+
+  {
+    "code": "0473",
+    "name": "乌海",
+    "pinyin": "Wuhai",
+    "label": "Wuhai0473" },
+
+  {
+    "code": "0553",
+    "name": "芜湖",
+    "pinyin": "Wuhu",
+    "label": "Wuhu0553" },
+
+  {
+    "code": "0474",
+    "name": "乌兰察布",
+    "pinyin": "Wulanchabu",
+    "label": "Wulanchabu0474" },
+
+  {
+    "code": "0991",
+    "name": "乌鲁木齐",
+    "pinyin": "Wulumuqi",
+    "label": "Wulumuqi0991" },
+
+  {
+    "code": "0935",
+    "name": "武威",
+    "pinyin": "Wuwei",
+    "label": "Wuwei0935" },
+
+  {
+    "code": "0953",
+    "name": "吴忠",
+    "pinyin": "Wuzhong",
+    "label": "Wuzhong0953" },
+
+  {
+    "code": "0774",
+    "name": "梧州",
+    "pinyin": "Wuzhou",
+    "label": "Wuzhou0774" },
+
+  {
+    "code": "0411",
+    "name": "瓦房店",
+    "pinyin": "Wafangdian",
+    "label": "Wafangdian0411" },
+
+  {
+    "code": "0796",
+    "name": "万安",
+    "pinyin": "Wanan",
+    "label": "Wanan0796" },
+
+  {
+    "code": "0731",
+    "name": "望城",
+    "pinyin": "Wangcheng",
+    "label": "Wangcheng0731" },
+
+  {
+    "code": "0556",
+    "name": "望江",
+    "pinyin": "Wangjiang",
+    "label": "Wangjiang0556" },
+
+  {
+    "code": "0793",
+    "name": "万年",
+    "pinyin": "Wannian",
+    "label": "Wannian0793" },
+
+  {
+    "code": "0795",
+    "name": "万载",
+    "pinyin": "Wanzai",
+    "label": "Wanzai0795" },
+
+  {
+    "code": "0537",
+    "name": "微山",
+    "pinyin": "Weishan",
+    "label": "Weishan0537" },
+
+  {
+    "code": "0577",
+    "name": "文成",
+    "pinyin": "Wencheng",
+    "label": "Wencheng0577" },
+
+  {
+    "code": "0631",
+    "name": "文登",
+    "pinyin": "Wendeng",
+    "label": "Wendeng0631" },
+
+  {
+    "code": "0751",
+    "name": "翁源",
+    "pinyin": "Wengyuan",
+    "label": "Wengyuan0751" },
+
+  {
+    "code": "0576",
+    "name": "温岭",
+    "pinyin": "Wenling",
+    "label": "Wenling0576" },
+
+  {
+    "code": "0537",
+    "name": "汶上",
+    "pinyin": "Wenshang",
+    "label": "Wenshang0537" },
+
+  {
+    "code": "0391",
+    "name": "温县",
+    "pinyin": "Wenxian",
+    "label": "Wenxian0391" },
+
+  {
+    "code": "0558",
+    "name": "涡阳",
+    "pinyin": "Woyang",
+    "label": "Woyang0558" },
+
+  {
+    "code": "0451",
+    "name": "五常",
+    "pinyin": "Wuchang",
+    "label": "Wuchang0451" },
+
+  {
+    "code": "0534",
+    "name": "武城",
+    "pinyin": "Wucheng",
+    "label": "Wucheng0534" },
+
+  {
+    "code": "0759",
+    "name": "吴川",
+    "pinyin": "Wuchuan",
+    "label": "Wuchuan0759" },
+
+  {
+    "code": "0543",
+    "name": "无棣",
+    "pinyin": "Wudi",
+    "label": "Wudi0543" },
+
+  {
+    "code": "0552",
+    "name": "五河",
+    "pinyin": "Wuhe",
+    "label": "Wuhe0552" },
+
+  {
+    "code": "0553",
+    "name": "芜湖",
+    "pinyin": "Wuhu",
+    "label": "Wuhu0553" },
+
+  {
+    "code": "0753",
+    "name": "五华",
+    "pinyin": "Wuhua",
+    "label": "Wuhua0753" },
+
+  {
+    "code": "0311",
+    "name": "无极",
+    "pinyin": "Wuji",
+    "label": "Wuji0311" },
+
+  {
+    "code": "0512",
+    "name": "吴江",
+    "pinyin": "Wujiang",
+    "label": "Wujiang0512" },
+
+  {
+    "code": "0633",
+    "name": "五莲",
+    "pinyin": "Wulian",
+    "label": "Wulian0633" },
+
+  {
+    "code": "023",
+    "name": "武隆",
+    "pinyin": "Wulong",
+    "label": "Wulong023" },
+
+  {
+    "code": "0771",
+    "name": "武鸣",
+    "pinyin": "Wuming",
+    "label": "Wuming0771" },
+
+  {
+    "code": "0792",
+    "name": "武宁",
+    "pinyin": "Wuning",
+    "label": "Wuning0792" },
+
+  {
+    "code": "0597",
+    "name": "武平",
+    "pinyin": "Wuping",
+    "label": "Wuping0597" },
+
+  {
+    "code": "023",
+    "name": "巫山",
+    "pinyin": "Wushan",
+    "label": "Wushan023" },
+
+  {
+    "code": "0565",
+    "name": "无为",
+    "pinyin": "Wuwei",
+    "label": "Wuwei0565" },
+
+  {
+    "code": "023",
+    "name": "巫溪",
+    "pinyin": "Wuxi",
+    "label": "Wuxi023" },
+
+  {
+    "code": "0579",
+    "name": "武义",
+    "pinyin": "Wuyi",
+    "label": "Wuyi0579" },
+
+  {
+    "code": "0599",
+    "name": "武夷山",
+    "pinyin": "Wuyishan",
+    "label": "Wuyishan0599" },
+
+  {
+    "code": "0793",
+    "name": "婺源",
+    "pinyin": "Wuyuan",
+    "label": "Wuyuan0793" },
+
+  {
+    "code": "0391",
+    "name": "武陟",
+    "pinyin": "Wuzhi",
+    "label": "Wuzhi0391" }] },
+
+
+
+{
+  "initial": "X",
+  "list": [
+  {
+    "code": "0710",
+    "name": "襄樊",
+    "pinyin": "Xiangfan",
+    "label": "Xiangfan0710" },
+
+  {
+    "code": "0592",
+    "name": "厦门",
+    "pinyin": "Xiamen",
+    "label": "Xiamen0592" },
+
+  {
+    "code": "029",
+    "name": "西安",
+    "pinyin": "Xian",
+    "label": "Xian029" },
+
+  {
+    "code": "0374",
+    "name": "许昌",
+    "pinyin": "Xuchang",
+    "label": "Xuchang0374" },
+
+  {
+    "code": "0516",
+    "name": "徐州",
+    "pinyin": "Xuzhou",
+    "label": "Xuzhou0516" },
+
+  {
+    "code": "0732",
+    "name": "湘潭",
+    "pinyin": "Xiangtan",
+    "label": "Xiangtan0732" },
+
+  {
+    "code": "0743",
+    "name": "湘西",
+    "pinyin": "Xiangxi",
+    "label": "Xiangxi0743" },
+
+  {
+    "code": "0715",
+    "name": "咸宁",
+    "pinyin": "Xianning",
+    "label": "Xianning0715" },
+
+  {
+    "code": "029",
+    "name": "咸阳",
+    "pinyin": "Xianyang",
+    "label": "Xianyang029" },
+
+  {
+    "code": "0712",
+    "name": "孝感",
+    "pinyin": "Xiaogan",
+    "label": "Xiaogan0712" },
+
+  {
+    "code": "0479",
+    "name": "锡林郭勒盟",
+    "pinyin": "Xilinguolemeng",
+    "label": "Xilinguolemeng0479" },
+
+  {
+    "code": "0482",
+    "name": "兴安盟",
+    "pinyin": "Xinganmeng",
+    "label": "Xinganmeng0482" },
+
+  {
+    "code": "0319",
+    "name": "邢台",
+    "pinyin": "Xingtai",
+    "label": "Xingtai0319" },
+
+  {
+    "code": "0971",
+    "name": "西宁",
+    "pinyin": "Xining",
+    "label": "Xining0971" },
+
+  {
+    "code": "0373",
+    "name": "新乡",
+    "pinyin": "Xinxiang",
+    "label": "Xinxiang0373" },
+
+  {
+    "code": "0376",
+    "name": "信阳",
+    "pinyin": "Xinyang",
+    "label": "Xinyang0376" },
+
+  {
+    "code": "0790",
+    "name": "新余",
+    "pinyin": "Xinyu",
+    "label": "Xinyu0790" },
+
+  {
+    "code": "0350",
+    "name": "忻州",
+    "pinyin": "Xinzhou",
+    "label": "Xinzhou0350" },
+
+  {
+    "code": "0691",
+    "name": "西双版纳",
+    "pinyin": "Xishuangbanna",
+    "label": "Xishuangbanna0691" },
+
+  {
+    "code": "0563",
+    "name": "宣城",
+    "pinyin": "Xuancheng",
+    "label": "Xuancheng0563" },
+
+  {
+    "code": "0796",
+    "name": "峡江",
+    "pinyin": "Xiajiang",
+    "label": "Xiajiang0796" },
+
+  {
+    "code": "0534",
+    "name": "夏津",
+    "pinyin": "Xiajin",
+    "label": "Xiajin0534" },
+
+  {
+    "code": "0574",
+    "name": "象山",
+    "pinyin": "Xiangshan",
+    "label": "Xiangshan0574" },
+
+  {
+    "code": "0515",
+    "name": "响水",
+    "pinyin": "Xiangshui",
+    "label": "Xiangshui0515" },
+
+  {
+    "code": "0576",
+    "name": "仙居",
+    "pinyin": "Xianju",
+    "label": "Xianju0576" },
+
+  {
+    "code": "0594",
+    "name": "仙游",
+    "pinyin": "Xianyou",
+    "label": "Xianyou0594" },
+
+  {
+    "code": "0557",
+    "name": "萧县",
+    "pinyin": "Xiaoxian",
+    "label": "Xiaoxian0557" },
+
+  {
+    "code": "0593",
+    "name": "霞浦",
+    "pinyin": "Xiapu",
+    "label": "Xiapu0593" },
+
+  {
+    "code": "0851",
+    "name": "息烽",
+    "pinyin": "Xifeng",
+    "label": "Xifeng0851" },
+
+  {
+    "code": "0379",
+    "name": "新安",
+    "pinyin": "Xinan",
+    "label": "Xinan0379" },
+
+  {
+    "code": "0575",
+    "name": "新昌",
+    "pinyin": "Xinchang",
+    "label": "Xinchang0575" },
+
+  {
+    "code": "0797",
+    "name": "信丰",
+    "pinyin": "Xinfeng",
+    "label": "Xinfeng0797" },
+
+  {
+    "code": "0751",
+    "name": "新丰",
+    "pinyin": "Xinfeng",
+    "label": "Xinfeng0751" },
+
+  {
+    "code": "0796",
+    "name": "新干",
+    "pinyin": "Xingan",
+    "label": "Xingan0796" },
+
+  {
+    "code": "0797",
+    "name": "兴国",
+    "pinyin": "Xingguo",
+    "label": "Xingguo0797" },
+
+  {
+    "code": "0523",
+    "name": "兴化",
+    "pinyin": "Xinghua",
+    "label": "Xinghua0523" },
+
+  {
+    "code": "0753",
+    "name": "兴宁",
+    "pinyin": "Xingning",
+    "label": "Xingning0753" },
+
+  {
+    "code": "0311",
+    "name": "行唐",
+    "pinyin": "Xingtang",
+    "label": "Xingtang0311" },
+
+  {
+    "code": "0371",
+    "name": "荥阳",
+    "pinyin": "Xingyang",
+    "label": "Xingyang0371" },
+
+  {
+    "code": "0792",
+    "name": "星子",
+    "pinyin": "Xingzi",
+    "label": "Xingzi0792" },
+
+  {
+    "code": "0311",
+    "name": "辛集",
+    "pinyin": "Xinji",
+    "label": "Xinji0311" },
+
+  {
+    "code": "0791",
+    "name": "新建",
+    "pinyin": "Xinjian",
+    "label": "Xinjian0791" },
+
+  {
+    "code": "028",
+    "name": "新津",
+    "pinyin": "Xinjin",
+    "label": "Xinjin028" },
+
+  {
+    "code": "0311",
+    "name": "新乐",
+    "pinyin": "Xinle",
+    "label": "Xinle0311" },
+
+  {
+    "code": "024",
+    "name": "新民",
+    "pinyin": "Xinmin",
+    "label": "Xinmin024" },
+
+  {
+    "code": "0371",
+    "name": "新密",
+    "pinyin": "Xinmi",
+    "label": "Xinmi0371" },
+
+  {
+    "code": "0538",
+    "name": "新泰",
+    "pinyin": "Xintai",
+    "label": "Xintai0538" },
+
+  {
+    "code": "0766",
+    "name": "新兴",
+    "pinyin": "Xinxing",
+    "label": "Xinxing0766" },
+
+  {
+    "code": "0516",
+    "name": "新沂",
+    "pinyin": "Xinyi",
+    "label": "Xinyi0516" },
+
+  {
+    "code": "0668",
+    "name": "信宜",
+    "pinyin": "Xinyi",
+    "label": "Xinyi0668" },
+
+  {
+    "code": "0371",
+    "name": "新郑",
+    "pinyin": "Xinzheng",
+    "label": "Xinzheng0371" },
+
+  {
+    "code": "0559",
+    "name": "休宁",
+    "pinyin": "Xiuning",
+    "label": "Xiuning0559" },
+
+  {
+    "code": "023",
+    "name": "秀山",
+    "pinyin": "Xiushan",
+    "label": "Xiushan023" },
+
+  {
+    "code": "0792",
+    "name": "修水",
+    "pinyin": "Xiushui",
+    "label": "Xiushui0792" },
+
+  {
+    "code": "0851",
+    "name": "修文",
+    "pinyin": "Xiuwen",
+    "label": "Xiuwen0851" },
+
+  {
+    "code": "0391",
+    "name": "修武",
+    "pinyin": "Xiuwu",
+    "label": "Xiuwu0391" },
+
+  {
+    "code": "0871",
+    "name": "寻甸",
+    "pinyin": "Xundian",
+    "label": "Xundian0871" },
+
+  {
+    "code": "0797",
+    "name": "寻乌",
+    "pinyin": "Xunwu",
+    "label": "Xunwu0797" },
+
+  {
+    "code": "0759",
+    "name": "徐闻",
+    "pinyin": "Xuwen",
+    "label": "Xuwen0759" },
+
+  {
+    "code": "0517",
+    "name": "盱眙",
+    "pinyin": "Xuyi",
+    "label": "Xuyi0517" }] },
+
+
+
+{
+  "initial": "Y",
+  "list": [
+  {
+    "code": "0835",
+    "name": "雅安",
+    "pinyin": "Yaan",
+    "label": "Yaan0835" },
+
+  {
+    "code": "0514",
+    "name": "扬州",
+    "pinyin": "Yangzhou",
+    "label": "Yangzhou0514" },
+
+  {
+    "code": "0535",
+    "name": "烟台",
+    "pinyin": "Yantai",
+    "label": "Yantai0535" },
+
+  {
+    "code": "0911",
+    "name": "延安",
+    "pinyin": "Yanan",
+    "label": "Yanan0911" },
+
+  {
+    "code": "0433",
+    "name": "延边",
+    "pinyin": "Yanbian",
+    "label": "Yanbian0433" },
+
+  {
+    "code": "0515",
+    "name": "盐城",
+    "pinyin": "Yancheng",
+    "label": "Yancheng0515" },
+
+  {
+    "code": "0662",
+    "name": "阳江",
+    "pinyin": "Yangjiang",
+    "label": "Yangjiang0662" },
+
+  {
+    "code": "0353",
+    "name": "阳泉",
+    "pinyin": "Yangquan",
+    "label": "Yangquan0353" },
+
+  {
+    "code": "0831",
+    "name": "宜宾",
+    "pinyin": "Yibin",
+    "label": "Yibin0831" },
+
+  {
+    "code": "0717",
+    "name": "宜昌",
+    "pinyin": "Yichang",
+    "label": "Yichang0717" },
+
+  {
+    "code": "0458",
+    "name": "伊春",
+    "pinyin": "Yichun",
+    "label": "Yichun0458" },
+
+  {
+    "code": "0795",
+    "name": "宜春",
+    "pinyin": "Yichun",
+    "label": "Yichun0795" },
+
+  {
+    "code": "0999",
+    "name": "伊犁哈萨克",
+    "pinyin": "Yilihasake",
+    "label": "Yilihasake0999" },
+
+  {
+    "code": "0951",
+    "name": "银川",
+    "pinyin": "Yinchuan",
+    "label": "Yinchuan0951" },
+
+  {
+    "code": "0417",
+    "name": "营口",
+    "pinyin": "Yingkou",
+    "label": "Yingkou0417" },
+
+  {
+    "code": "0701",
+    "name": "鹰潭",
+    "pinyin": "Yingtan",
+    "label": "Yingtan0701" },
+
+  {
+    "code": "0737",
+    "name": "益阳",
+    "pinyin": "Yiyang",
+    "label": "Yiyang0737" },
+
+  {
+    "code": "0746",
+    "name": "永州",
+    "pinyin": "Yongzhou",
+    "label": "Yongzhou0746" },
+
+  {
+    "code": "0730",
+    "name": "岳阳",
+    "pinyin": "Yueyang",
+    "label": "Yueyang0730" },
+
+  {
+    "code": "0775",
+    "name": "玉林",
+    "pinyin": "Yulin",
+    "label": "Yulin0775" },
+
+  {
+    "code": "0912",
+    "name": "榆林",
+    "pinyin": "Yulin",
+    "label": "Yulin0912" },
+
+  {
+    "code": "0359",
+    "name": "运城",
+    "pinyin": "Yuncheng",
+    "label": "Yuncheng0359" },
+
+  {
+    "code": "0766",
+    "name": "云浮",
+    "pinyin": "Yunfu",
+    "label": "Yunfu0766" },
+
+  {
+    "code": "0976",
+    "name": "玉树",
+    "pinyin": "Yushu",
+    "label": "Yushu0976" },
+
+  {
+    "code": "0877",
+    "name": "玉溪",
+    "pinyin": "Yuxi",
+    "label": "Yuxi0877" },
+
+  {
+    "code": "0662",
+    "name": "阳春",
+    "pinyin": "Yangchun",
+    "label": "Yangchun0662" },
+
+  {
+    "code": "0662",
+    "name": "阳东",
+    "pinyin": "Yangdong",
+    "label": "Yangdong0662" },
+
+  {
+    "code": "0635",
+    "name": "阳谷",
+    "pinyin": "Yanggu",
+    "label": "Yanggu0635" },
+
+  {
+    "code": "0763",
+    "name": "阳山",
+    "pinyin": "Yangshan",
+    "label": "Yangshan0763" },
+
+  {
+    "code": "0543",
+    "name": "阳信",
+    "pinyin": "Yangxin",
+    "label": "Yangxin0543" },
+
+  {
+    "code": "0662",
+    "name": "阳西",
+    "pinyin": "Yangxi",
+    "label": "Yangxi0662" },
+
+  {
+    "code": "0511",
+    "name": "扬中",
+    "pinyin": "Yangzhong",
+    "label": "Yangzhong0511" },
+
+  {
+    "code": "0379",
+    "name": "偃师",
+    "pinyin": "Yanshi",
+    "label": "Yanshi0379" },
+
+  {
+    "code": "0451",
+    "name": "延寿",
+    "pinyin": "Yanshou",
+    "label": "Yanshou0451" },
+
+  {
+    "code": "0537",
+    "name": "兖州",
+    "pinyin": "Yanzhou",
+    "label": "Yanzhou0537" },
+
+  {
+    "code": "0379",
+    "name": "伊川",
+    "pinyin": "Yichuan",
+    "label": "Yichuan0379" },
+
+  {
+    "code": "0795",
+    "name": "宜丰",
+    "pinyin": "Yifeng",
+    "label": "Yifeng0795" },
+
+  {
+    "code": "0794",
+    "name": "宜黄",
+    "pinyin": "Yihuang",
+    "label": "Yihuang0794" },
+
+  {
+    "code": "0451",
+    "name": "依兰",
+    "pinyin": "Yilan",
+    "label": "Yilan0451" },
+
+  {
+    "code": "0871",
+    "name": "宜良",
+    "pinyin": "Yiliang",
+    "label": "Yiliang0871" },
+
+  {
+    "code": "0539",
+    "name": "沂南",
+    "pinyin": "Yinan",
+    "label": "Yinan0539" },
+
+  {
+    "code": "0763",
+    "name": "英德",
+    "pinyin": "Yingde",
+    "label": "Yingde0763" },
+
+  {
+    "code": "0558",
+    "name": "颍上",
+    "pinyin": "Yingshang",
+    "label": "Yingshang0558" },
+
+  {
+    "code": "0539",
+    "name": "沂水",
+    "pinyin": "Yishui",
+    "label": "Yishui0539" },
+
+  {
+    "code": "0579",
+    "name": "义乌",
+    "pinyin": "Yiwu",
+    "label": "Yiwu0579" },
+
+  {
+    "code": "0559",
+    "name": "黟县",
+    "pinyin": "Yixian",
+    "label": "Yixian0559" },
+
+  {
+    "code": "0510",
+    "name": "宜兴",
+    "pinyin": "Yixing",
+    "label": "Yixing0510" },
+
+  {
+    "code": "0793",
+    "name": "弋阳",
+    "pinyin": "Yiyang",
+    "label": "Yiyang0793" },
+
+  {
+    "code": "0379",
+    "name": "宜阳",
+    "pinyin": "Yiyang",
+    "label": "Yiyang0379" },
+
+  {
+    "code": "0533",
+    "name": "沂源",
+    "pinyin": "Yiyuan",
+    "label": "Yiyuan0533" },
+
+  {
+    "code": "0514",
+    "name": "仪征",
+    "pinyin": "Yizheng",
+    "label": "Yizheng0514" },
+
+  {
+    "code": "0598",
+    "name": "永安",
+    "pinyin": "Yongan",
+    "label": "Yongan0598" },
+
+  {
+    "code": "023",
+    "name": "永川",
+    "pinyin": "Yongchuan",
+    "label": "Yongchuan023" },
+
+  {
+    "code": "0595",
+    "name": "永春",
+    "pinyin": "Yongchun",
+    "label": "Yongchun0595" },
+
+  {
+    "code": "0931",
+    "name": "永登",
+    "pinyin": "Yongdeng",
+    "label": "Yongdeng0931" },
+
+  {
+    "code": "0597",
+    "name": "永定",
+    "pinyin": "Yongding",
+    "label": "Yongding0597" },
+
+  {
+    "code": "0796",
+    "name": "永丰",
+    "pinyin": "Yongfeng",
+    "label": "Yongfeng0796" },
+
+  {
+    "code": "0423",
+    "name": "永吉",
+    "pinyin": "Yongji",
+    "label": "Yongji0423" },
+
+  {
+    "code": "0577",
+    "name": "永嘉",
+    "pinyin": "Yongjia",
+    "label": "Yongjia0577" },
+
+  {
+    "code": "0579",
+    "name": "永康",
+    "pinyin": "Yongkang",
+    "label": "Yongkang0579" },
+
+  {
+    "code": "0771",
+    "name": "邕宁",
+    "pinyin": "Yongning",
+    "label": "Yongning0771" },
+
+  {
+    "code": "0591",
+    "name": "永泰",
+    "pinyin": "Yongtai",
+    "label": "Yongtai0591" },
+
+  {
+    "code": "0796",
+    "name": "永新",
+    "pinyin": "Yongxin",
+    "label": "Yongxin0796" },
+
+  {
+    "code": "0792",
+    "name": "永修",
+    "pinyin": "Yongxiu",
+    "label": "Yongxiu0792" },
+
+  {
+    "code": "0598",
+    "name": "尤溪",
+    "pinyin": "Youxi",
+    "label": "Youxi0598" },
+
+  {
+    "code": "023",
+    "name": "酉阳",
+    "pinyin": "Youyang",
+    "label": "Youyang023" },
+
+  {
+    "code": "0311",
+    "name": "元氏",
+    "pinyin": "Yuanshi",
+    "label": "Yuanshi0311" },
+
+  {
+    "code": "0534",
+    "name": "禹城",
+    "pinyin": "Yucheng",
+    "label": "Yucheng0534" },
+
+  {
+    "code": "0797",
+    "name": "于都",
+    "pinyin": "Yudu",
+    "label": "Yudu0797" },
+
+  {
+    "code": "0556",
+    "name": "岳西",
+    "pinyin": "Yuexi",
+    "label": "Yuexi0556" },
+
+  {
+    "code": "0793",
+    "name": "余干",
+    "pinyin": "Yugan",
+    "label": "Yugan0793" },
+
+  {
+    "code": "0576",
+    "name": "玉环",
+    "pinyin": "Yuhuan",
+    "label": "Yuhuan0576" },
+
+  {
+    "code": "0701",
+    "name": "余江",
+    "pinyin": "Yujiang",
+    "label": "Yujiang0701" },
+
+  {
+    "code": "0766",
+    "name": "郁南",
+    "pinyin": "Yunan",
+    "label": "Yunan0766" },
+
+  {
+    "code": "0766",
+    "name": "云安",
+    "pinyin": "Yunan",
+    "label": "Yunan0766" },
+
+  {
+    "code": "0530",
+    "name": "郓城",
+    "pinyin": "Yuncheng",
+    "label": "Yuncheng0530" },
+
+  {
+    "code": "0578",
+    "name": "云和",
+    "pinyin": "Yunhe",
+    "label": "Yunhe0578" },
+
+  {
+    "code": "0596",
+    "name": "云霄",
+    "pinyin": "Yunxiao",
+    "label": "Yunxiao0596" },
+
+  {
+    "code": "023",
+    "name": "云阳",
+    "pinyin": "Yunyang",
+    "label": "Yunyang023" },
+
+  {
+    "code": "0793",
+    "name": "玉山",
+    "pinyin": "Yushan",
+    "label": "Yushan0793" },
+
+  {
+    "code": "0431",
+    "name": "榆树",
+    "pinyin": "Yushu",
+    "label": "Yushu0431" },
+
+  {
+    "code": "0537",
+    "name": "鱼台",
+    "pinyin": "Yutai",
+    "label": "Yutai0537" },
+
+  {
+    "code": "0315",
+    "name": "玉田",
+    "pinyin": "Yutian",
+    "label": "Yutian0315" },
+
+  {
+    "code": "0574",
+    "name": "余姚",
+    "pinyin": "Yuyao",
+    "label": "Yuyao0574" },
+
+  {
+    "code": "0931",
+    "name": "榆中",
+    "pinyin": "Yuzhong",
+    "label": "Yuzhong0931" }] },
+
+
+
+{
+  "initial": "Z",
+  "list": [
+  {
+    "code": "0596",
+    "name": "漳州",
+    "pinyin": "Zhangzhou",
+    "label": "Zhangzhou0596" },
+
+  {
+    "code": "0371",
+    "name": "郑州",
+    "pinyin": "Zhengzhou",
+    "label": "Zhengzhou0371" },
+
+  {
+    "code": "0760",
+    "name": "中山",
+    "pinyin": "Zhongshan",
+    "label": "Zhongshan0760" },
+
+  {
+    "code": "0756",
+    "name": "珠海",
+    "pinyin": "Zhuhai",
+    "label": "Zhuhai0756" },
+
+  {
+    "code": "0623",
+    "name": "枣庄",
+    "pinyin": "Zaozhuang",
+    "label": "Zaozhuang0623" },
+
+  {
+    "code": "0744",
+    "name": "张家界",
+    "pinyin": "Zhangjiajie",
+    "label": "Zhangjiajie0744" },
+
+  {
+    "code": "0313",
+    "name": "张家口",
+    "pinyin": "Zhangjiakou",
+    "label": "Zhangjiakou0313" },
+
+  {
+    "code": "0936",
+    "name": "张掖",
+    "pinyin": "Zhangye",
+    "label": "Zhangye0936" },
+
+  {
+    "code": "0759",
+    "name": "湛江",
+    "pinyin": "Zhanjiang",
+    "label": "Zhanjiang0759" },
+
+  {
+    "code": "0758",
+    "name": "肇庆",
+    "pinyin": "Zhaoqing",
+    "label": "Zhaoqing0758" },
+
+  {
+    "code": "0870",
+    "name": "昭通",
+    "pinyin": "Zhaotong",
+    "label": "Zhaotong0870" },
+
+  {
+    "code": "0511",
+    "name": "镇江",
+    "pinyin": "Zhenjiang",
+    "label": "Zhenjiang0511" },
+
+  {
+    "code": "0955",
+    "name": "中卫",
+    "pinyin": "Zhongwei",
+    "label": "Zhongwei0955" },
+
+  {
+    "code": "0394",
+    "name": "周口",
+    "pinyin": "Zhoukou",
+    "label": "Zhoukou0394" },
+
+  {
+    "code": "0580",
+    "name": "舟山",
+    "pinyin": "Zhoushan",
+    "label": "Zhoushan0580" },
+
+  {
+    "code": "0396",
+    "name": "驻马店",
+    "pinyin": "Zhumadian",
+    "label": "Zhumadian0396" },
+
+  {
+    "code": "0731",
+    "name": "株洲",
+    "pinyin": "Zhuzhou",
+    "label": "Zhuzhou0731" },
+
+  {
+    "code": "0533",
+    "name": "淄博",
+    "pinyin": "Zibo",
+    "label": "Zibo0533" },
+
+  {
+    "code": "0813",
+    "name": "自贡",
+    "pinyin": "Zigong",
+    "label": "Zigong0813" },
+
+  {
+    "code": "028",
+    "name": "资阳",
+    "pinyin": "Ziyang",
+    "label": "Ziyang028" },
+
+  {
+    "code": "0852",
+    "name": "遵义",
+    "pinyin": "Zunyi",
+    "label": "Zunyi0852" },
+
+  {
+    "code": "0311",
+    "name": "赞皇",
+    "pinyin": "Zanhuang",
+    "label": "Zanhuang0311" },
+
+  {
+    "code": "020",
+    "name": "增城",
+    "pinyin": "Zengcheng",
+    "label": "Zengcheng020" },
+
+  {
+    "code": "0512",
+    "name": "张家港",
+    "pinyin": "Zhangjiagang",
+    "label": "Zhangjiagang0512" },
+
+  {
+    "code": "0597",
+    "name": "漳平",
+    "pinyin": "Zhangping",
+    "label": "Zhangping0597" },
+
+  {
+    "code": "0596",
+    "name": "漳浦",
+    "pinyin": "Zhangpu",
+    "label": "Zhangpu0596" },
+
+  {
+    "code": "0531",
+    "name": "章丘",
+    "pinyin": "Zhangqiu",
+    "label": "Zhangqiu0531" },
+
+  {
+    "code": "0795",
+    "name": "樟树",
+    "pinyin": "Zhangshu",
+    "label": "Zhangshu0795" },
+
+  {
+    "code": "0543",
+    "name": "沾化",
+    "pinyin": "Zhanhua",
+    "label": "Zhanhua0543" },
+
+  {
+    "code": "0311",
+    "name": "赵县",
+    "pinyin": "Zhaoxian",
+    "label": "Zhaoxian0311" },
+
+  {
+    "code": "0535",
+    "name": "招远",
+    "pinyin": "Zhaoyuan",
+    "label": "Zhaoyuan0535" },
+
+  {
+    "code": "0311",
+    "name": "正定",
+    "pinyin": "Zhengding",
+    "label": "Zhengding0311" },
+
+  {
+    "code": "0599",
+    "name": "政和",
+    "pinyin": "Zhenghe",
+    "label": "Zhenghe0599" },
+
+  {
+    "code": "0593",
+    "name": "柘荣",
+    "pinyin": "Zherong",
+    "label": "Zherong0593" },
+
+  {
+    "code": "0371",
+    "name": "中牟",
+    "pinyin": "Zhongmou",
+    "label": "Zhongmou0371" },
+
+  {
+    "code": "023",
+    "name": "忠县",
+    "pinyin": "Zhongxian",
+    "label": "Zhongxian023" },
+
+  {
+    "code": "0593",
+    "name": "周宁",
+    "pinyin": "Zhouning",
+    "label": "Zhouning0593" },
+
+  {
+    "code": "029",
+    "name": "周至",
+    "pinyin": "Zhouzhi",
+    "label": "Zhouzhi029" },
+
+  {
+    "code": "0411",
+    "name": "庄河",
+    "pinyin": "Zhuanghe",
+    "label": "Zhuanghe0411" },
+
+  {
+    "code": "0536",
+    "name": "诸城",
+    "pinyin": "Zhucheng",
+    "label": "Zhucheng0536" },
+
+  {
+    "code": "0575",
+    "name": "诸暨",
+    "pinyin": "Zhuji",
+    "label": "Zhuji0575" },
+
+  {
+    "code": "0762",
+    "name": "紫金",
+    "pinyin": "Zijin",
+    "label": "Zijin0762" },
+
+  {
+    "code": "0794",
+    "name": "资溪",
+    "pinyin": "Zixi",
+    "label": "Zixi0794" },
+
+  {
+    "code": "0537",
+    "name": "邹城",
+    "pinyin": "Zoucheng",
+    "label": "Zoucheng0537" },
+
+  {
+    "code": "0543",
+    "name": "邹平",
+    "pinyin": "Zouping",
+    "label": "Zouping0543" },
+
+  {
+    "code": "0315",
+    "name": "遵化",
+    "pinyin": "Zunhua",
+    "label": "Zunhua0315" }] }];exports.default = _default;
 
 /***/ })
 
