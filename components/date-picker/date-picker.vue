@@ -2,14 +2,14 @@
 	<view>
 		<view class="order-time" @tap="showCalendar()" v-if="!modal">
 			<view class="time-viewer" v-if="singleDate">{{ choiceDate[0].year }}年{{ choiceDate[0].month }}月{{ choiceDate[0].day }}日</view>
-			<view class="time-viewer flex-between" v-else>
-				<view class="flex-column">
+			<view class="time-viewer flex-center-between" v-else>
+				<view class="flex-center">
 					<text class="mintxt">入住</text>
 					<text class="date-wrappper">{{ choiceDate[0].month }}月{{ choiceDate[0].day }}日</text>
 					<text class="goInHotel2" v-if="choiceDate[0].year + '' + choiceDate[0].month + '' + choiceDate[0].day == today">今天</text>
 				</view>
 				<text class="sumCount">{{ dayCount2 }}</text>
-				<view class="flex-column">
+				<view class="flex-center">
 					<text class="mintxt">离店</text>
 					<text class="date-wrappper">{{ choiceDate[1].month }}月{{ choiceDate[1].day }}日</text>
 					<text
@@ -19,7 +19,7 @@
 						明天
 					</text>
 				</view>
-				<view class="flex-column" @click.stop="changeNum">
+				<view class="flex-center" @click.stop="changeNum">
 					<text class="mintxt">人数</text>
 					<text class="date-wrappper">{{peopleNum}}人</text>
 				</view>

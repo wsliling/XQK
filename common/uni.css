@@ -1896,7 +1896,7 @@ radio-group label, checkbox-group label{
     text-overflow: ellipsis;
 }
 
-
+/* 
 .flex {
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -1938,12 +1938,6 @@ radio-group label, checkbox-group label{
 	align-items: center;
 	justify-content: space-between;
 }
-.flex-center{
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center; 
-}
 .flex-start{
 	display: flex;
 	flex-direction: row;
@@ -1970,7 +1964,7 @@ radio-group label, checkbox-group label{
 	-ms-flex: 1;
 	-o-flex: 1;
 	overflow: hidden;
-}
+} */
 .top0{
 	top:0;
 }

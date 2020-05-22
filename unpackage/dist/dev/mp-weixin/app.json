@@ -1,0 +1,60 @@
+{
+  "pages": [
+    "pages/tabBar/index/index",
+    "pages/tabBar/list/list",
+    "pages/tabBar/xingkong/xingkong",
+    "pages/tabBar/order/order",
+    "pages/tabBar/my/my",
+    "pages/tabBar/my/coupon",
+    "pages/tabBar/my/addInvoice",
+    "pages/tabBar/my/invoiceList",
+    "pages/chooseCity/chooseCity"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "星球客",
+    "navigationBarBackgroundColor": "#ffffff",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#8a8a8a",
+    "selectedColor": "#5cc69a",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/tabBar/index/index",
+        "iconPath": "static/tabbar/ft1.png",
+        "selectedIconPath": "static/tabbar/ft1_in.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/tabBar/list/list",
+        "iconPath": "static/tabbar/ft2.png",
+        "selectedIconPath": "static/tabbar/ft2_in.png",
+        "text": "星语"
+      },
+      {
+        "pagePath": "pages/tabBar/xingkong/xingkong",
+        "iconPath": "static/tabbar/f.png",
+        "selectedIconPath": "static/tabbar/f.png",
+        "text": "星控"
+      },
+      {
+        "pagePath": "pages/tabBar/order/order",
+        "iconPath": "static/tabbar/ft3.png",
+        "selectedIconPath": "static/tabbar/ft3_in.png",
+        "text": "订单"
+      },
+      {
+        "pagePath": "pages/tabBar/my/my",
+        "iconPath": "static/tabbar/ft4.png",
+        "selectedIconPath": "static/tabbar/ft4_in.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "usingComponents": {}
+}
