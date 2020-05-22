@@ -49,6 +49,54 @@
 				"navigationBarTitleText": "我的"
 			}
 		}
+		,{
+		    "path" : "pages/tabBar/my/coupon",
+		    "style" : {
+				"navigationBarTitleText": "优惠劵"
+			}
+		}
+		,{
+		    "path" : "pages/tabBar/my/addInvoice",
+		    "style" : {
+				"navigationBarTitleText": "新增常用发票"
+			}
+		}
+		,{
+		    "path" : "pages/tabBar/my/invoiceList",
+		    "style" : {
+				"navigationBarTitleText": "发票中心"
+			}
+		}
+		,{
+		    "path" : "pages/tabBar/my/myAppraise",
+		    "style" : {
+				"navigationBarTitleText": "我要评价"
+			}
+		}
+		,{
+		    "path" : "pages/tabBar/my/gethelp",
+		    "style" : {
+				"navigationBarTitleText": "获取帮助"
+			}
+		}
+		,{
+		    "path" : "pages/tabBar/my/bookinghelp",
+		    "style" : {
+				"navigationBarTitleText": "预订帮助"
+			}
+		}
+		,{
+		    "path" : "pages/tabBar/my/feedback",
+		    "style" : {
+				"navigationBarTitleText": "意见反馈"
+			}
+		}
+		,{
+		    "path" : "pages/tabBar/my/security",
+		    "style" : {
+				"navigationBarTitleText": "安全中心"
+			}
+		}
         ,{
             "path" : "pages/chooseCity/chooseCity",
             "style" : {}
