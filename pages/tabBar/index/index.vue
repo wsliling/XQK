@@ -44,7 +44,7 @@
 					<view class="title">
 						了解星球客
 					</view>
-					<view class="more flex-end">
+					<view class="more flex-end" @click="navigate('home/introduction/introduction')">
 						查看详情<text class="iconfont icon-you"></text>
 					</view>
 				</view>

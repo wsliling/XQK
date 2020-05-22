@@ -103,6 +103,12 @@
 				"navigationBarTitleText": "选择城市"
 			}
         }
+        ,{
+            "path" : "pages/home/introduction/introduction",
+            "style" : {
+				"navigationBarTitleText": "了解星球客"
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
