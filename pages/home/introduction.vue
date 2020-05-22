@@ -77,7 +77,7 @@
 	p{
 		color:#666;
 		font-size:28upx;
-		line-height:1.2;
+		line-height:1.5;
 	}
 }
 </style>

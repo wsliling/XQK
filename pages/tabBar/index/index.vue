@@ -44,7 +44,7 @@
 					<view class="title">
 						了解星球客
 					</view>
-					<view class="more flex-end" @click="navigate('home/introduction/introduction')">
+					<view class="more flex-end" @click="navigate('home/introduction')">
 						查看详情<text class="iconfont icon-you"></text>
 					</view>
 				</view>
@@ -66,53 +66,13 @@
 					</view>
 				</view>
 			</view>
-			<view class="bd">
-				<view class="bigitem" v-for="(item,index) in 4" :key="index">
-					<view class="imgbox">
-						<view class="like flex-end">
-							<view class="iconfont icon-aixin bg">
-								<view class="iconfont icon-aixin active"></view>
-							</view>
-							<text class="num">209</text>
-						</view>
-						<image src="/static/of/p1.jpg" mode="aspectFill"></image>
-					</view>
-					<view class="txtbox">
-						<view class="flex-between">
-							<view class="title uni-ellipsis">
-								广州.从化温泉明月山溪
-							</view>
-							<view class="location">
-								<text class="iconfont icon-weizhi"></text>广州.从化
-							</view>
-						</view>
-						<view class="flex-between">
-							<view class="tags flex-start">
-								<text class="tag">旅行</text><text class="tag">游乐</text><text class="tag">艺术</text>
-							</view>
-							<view class="score flex-end">
-								<view class="iconfont icon-collect"></view>
-								<view class="num">4.8</view>
-								<view class="fz12 c_999">(20)</view>
-							</view>
-						</view>
-						<view class="flex-start">
-							<view class="price">
-								<text class="yuan">￥</text>169
-							</view>
-							<view class="oldprice line-through fz12">
-								<text class="yuan">￥</text>280/晚
-							</view>
-						</view>
-					</view>
-				</view>
-			</view>
-			<view class="btn_line">
+			<product-item v-for="(item,index) in 4" :key="index" :item="item"></product-item>
+			<view class="btn_line" @click="navigate('home/recommend')">
 				查看更多推荐
 			</view>
 		</view>
 		<!-- 服务保障 -->
-		<view class="serveXQ pd15 uni-mb10" @click="navigate('home/guarantee/guarantee')">
+		<view class="serveXQ pd15 uni-mb10">
 			<image src="/static/of/2.jpg" mode="widthFix"></image>
 		</view>
 		<!-- 推荐星语 -->
@@ -215,6 +175,7 @@
 	// #endif
 	import wpicker from "@/components/w-picker/w-picker.vue";
 	import { mapState, mapMutations } from "vuex"; //vuex辅助函数
+	import productItem from '@/components/productItem.vue';
 	export default {
 		data() {
 			return {
@@ -255,7 +216,7 @@
 		components: {
 			tabbar,
 			calendar,
-			wpicker
+			wpicker,productItem
 		},
 		computed:{
 			...mapState(['lng','lat','cityName'])
