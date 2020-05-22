@@ -61,6 +61,12 @@
 				"navigationBarTitleText": "了解星球客"
 			}
         }
+        ,{
+            "path" : "pages/home/guarantee/guarantee",
+            "style" : {
+				"navigationBarTitleText": "星球客旅行保障"
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

@@ -112,7 +112,7 @@
 			</view>
 		</view>
 		<!-- 服务保障 -->
-		<view class="serveXQ pd15 uni-mb10">
+		<view class="serveXQ pd15 uni-mb10" @click="navigate('home/guarantee/guarantee')">
 			<image src="/static/of/2.jpg" mode="widthFix"></image>
 		</view>
 		<!-- 推荐星语 -->
