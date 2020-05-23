@@ -127,7 +127,7 @@
 			:defaultVal="classifyDefault"
 			@confirm="pickerclassOk"
 			ref="selector"
-			:selectList="classifyList"
+			:options="classifyList"
 			themeColor="#5cc69a"
 			>
 		</wpicker>

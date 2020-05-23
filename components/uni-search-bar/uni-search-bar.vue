@@ -140,9 +140,9 @@
 		align-items: center;
 		height: $uni-searchbar-height;
 		padding: 5px 8px 5px 0px;
-		border-width: 0.5px;
-		border-style: solid;
-		border-color: $uni-border-color;
+		// border-width: 0.5px;
+		// border-style: solid;
+		// border-color: $uni-border-color;
 	}
 
 	.uni-searchbar__box-icon-search {

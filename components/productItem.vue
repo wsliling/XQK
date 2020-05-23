@@ -1,5 +1,5 @@
 <template>
-        <view class="bigitem">
+        <view class="bigitem" @click="navigate('product/detail/detail')">
             <view class="imgbox">
                 <view class="like flex-center-end">
                     <view class="iconfont icon-aixin bg">
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import {navigate} from '@/utils'
 	export default {
         props:{
             item:{
@@ -52,6 +53,7 @@
         },
 		data() {
 			return {
+				navigate
 			}
 		},
 		mounted() {
