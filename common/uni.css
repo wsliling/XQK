@@ -1986,3 +1986,35 @@ radio-group label, checkbox-group label{
 	background: rgba(255,255,255,.8);
 	color: #333;
 }
+/*选中按钮*/
+.IconsCK {
+    display: inline-block;
+    position: relative;
+    width: 50upx;
+    height: 50upx;
+    vertical-align: middle;
+	margin-right: 20upx;
+}
+.IconsCK:after{
+	position: absolute;
+	top:0;
+	left:0;
+	font-family: uniicons;
+	font-size: 50upx;
+	line-height: 1;
+	color:#bdbdbd;
+}
+.IconsCK.IconsCK-radio:after{
+	top: -6upx;
+	content: "\E411";
+}
+.IconsCK.IconsCK-radio.checked:after{
+	top: 0;
+	content: '\E442';
+	color:#5CC69A;
+}
+.IconsCK.IconsCK-radio.disabled:after{
+	top: 0;
+	content: '\E442';
+	color:#cccccc;
+}

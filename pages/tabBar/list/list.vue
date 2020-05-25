@@ -70,7 +70,7 @@
 		</view>
 		<view class="topbtn iconfont icon-totop" @click="Top" v-if="isTop"></view>
 		<!-- 发布按钮 -->
-		<view class="fubuBtn iconfont icon-bianji1"></view>
+		<view class="fubuBtn iconfont icon-bianji1"  @click="tolick('/pages/tabBar/list/release')"></view>
 		<view style="height: 120upx;"></view>
 		<tabbar :current="1"></tabbar>
 	</view>
@@ -153,6 +153,11 @@
 					scrollTop: 0,
 					duration: 200
 				});
+			},
+			tolick(url){
+				uni.navigateTo({
+					url:url
+				})
 			},
 		},
 		onPageScroll(e){

@@ -1,4 +1,5 @@
 <template>
+	<!-- 我的 -->
 	<view class="myPage uni-bg-white">
 		<view class="pd15">
 			<view class="flex-end">
@@ -47,13 +48,13 @@
 				<view class="section_hd">我的圈子</view>
 				<view class="section_bd">
 					<view class="li_33">
-						<view class="item">
+						<view class="item" @click="tolick('/pages/tabBar/my/collect')">
 							<view class="iconImg">
 								<view class="iconfont icon-aixin2"></view>
 							</view>
 							<view class="txt">我的收藏</view>
 						</view>
-						<view class="item">
+						<view class="item" @click="tolick('/pages/tabBar/my/myrelease')">
 							<view class="iconImg">
 								<view class="iconfont icon-xiangji"></view>
 							</view>
@@ -116,7 +117,7 @@
 							</view>
 							<view class="txt">安全中心</view>
 						</view>
-						<view class="item">
+						<view class="item" @click="tolick('/pages/tabBar/my/kefu')">
 							<view class="iconImg">
 								<view class="iconfont icon-kefu"></view>
 							</view>
@@ -125,7 +126,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="ftbtn flex-column uni-mb10">
+			<view class="ftbtn flex-column uni-mb10"  @click="tolick('/pages/tabBar/my/wantplanet')">
 				我也想要星球客
 			</view>
 		</view>
