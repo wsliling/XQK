@@ -13,10 +13,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-bao:before {
-  content: "\e606";
-}
-
 .icon-gou2:before {
   content: "\e84b";
 }
