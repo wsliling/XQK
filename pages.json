@@ -146,9 +146,21 @@
 			}
         }
         ,{
-            "path" : "pages/home/introduction/introduction",
+            "path" : "pages/home/introduction",
             "style" : {
 				"navigationBarTitleText": "了解星球客"
+			}
+        }
+        ,{
+            "path" : "pages/home/recommend",
+            "style" : {
+				"navigationBarTitleText": "推荐"
+			}
+        }
+        ,{
+            "path" : "pages/home/search",
+            "style" : {
+				"navigationBarTitleText": "搜索"
 			}
         }
     ],
