@@ -1,20 +1,21 @@
 <template>
-	<!-- 发票中心 -->
+	<!-- 常用信息 -->
 	<view class="content">
 		<view class="defaultPage invoiceList__defaultPage">
-			<view class="addressList invoiceList" >
+			<view class="addressList invoiceList" v-for="(val,key) in 2" :key="key">
 				<view class="item">
 					<view class="item__bd"  @click="choseInvoice(index)">
 						<view class="remarks">
-							<text class="name">抬头名称：深圳市网坛科技有限公司</text>
+							<text class="name">陈洛浩</text>
 						</view>
-						<view class="type">类型：公司</view>
-						<view class="type">税号：8888888888888</view>
+						<view class="type">138****5678</view>
+						<view class="type">41262819********99</view>
+						<view class="type">122****278@qq.com</view>
 					</view>
 					<view class="item__ft flex">
 						<view class="flexItem checkedLabel flex flexAlignCneter" @click="setDefaultInvoice(index,item.Id)">
 							<!-- <view class="IconsCK IconsCK-radio" :class="{'checked':item.IsDefault===1}"></view><text v-if="item.IsDefault===1" style="color:#89674c;">已设为默认</text> -->
-							<text >设为默认</text>
+							<text class="default" v-if="key*2 ==0">默认</text>
 							<!-- <text class="IconsCK IconsCK-radio">设为默认</text> -->
 						</view>
 						<view class="flexItem flex1 text_r">
@@ -34,14 +35,14 @@
 					<view class="noDataImg">
 						<image src="http://www.sc-mall.nethttp://shop.dadanyipin.com/static/noCart.png" mode="widthFix"></image>
 					</view>
-					<view class="tips">抱歉，您还没有添加发票哦~</view>
+					<view class="tips">抱歉，您还没有常用信息哦~</view>
 				</view>
 			</view>
 			<!-- 没有数据的时候 end -->
 			<view class="ftBtn" style="height: 92upx;">
 				<button type="primary" class="fixed bt0 btn-active radius0" @click="gotoAddInvoice()">
 					<view class="uni-icon uni-icon-plus"></view>
-					<text>新增发票信息</text>
+					<text>添加常用信息</text>
 				</button>
 			</view>
 		</view>
@@ -91,9 +92,9 @@
 			gotoAddInvoice(id) {
 				let goUrl = '';
 				if(id){
-					goUrl = '/pages/babBar/my/addInvoice?id='+id
+					// goUrl = '/pages/babBar/my/addInvoice?id='+id
 				}else{
-					goUrl = '/pages/tabBar/my/addInvoice'
+					goUrl = '/pages/tabBar/my/addinformation'
 				}
 				uni.navigateTo({
 					url: goUrl
@@ -229,5 +230,22 @@
 	}
 	.addInvoice__weui-cells .tag.active{
 		border-color: #ff6f00
+	}
+	.addressList .item .item__bd .type{
+		color:#3C3C3C;
+		padding-top: 10upx;
+	}
+	.name{
+		font-weight:bold;
+	}
+	.default{
+		width:60upx;
+		height:34upx;
+		background:rgba(92,198,154,1);
+		border-radius:4upx;
+		font-size:20upx;
+		color:rgba(255,255,255,1);
+		line-height:34upx;
+		text-align: center;
 	}
 </style>

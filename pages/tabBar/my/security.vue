@@ -1,9 +1,9 @@
 <template>
-	<!-- 安全中心 -->
+	<!-- 安全中心(星球客旅行保障) -->
 	<view>
 		<view class="tab flex">
 			<view class="flex1 flexc" :class="{ 'active': tabIndex == index }" v-for="(item, index) in tabList" :key="index" @click="cliTab(index)">{{ item }}</view>
-			<span :style="{ left: tabStyle + 'upx' }"></span>
+			<span :style="'left:' +tabStyle + 'rpx'"></span>
 		</view>
 		<view class="security">
 			<view class="securityimg">

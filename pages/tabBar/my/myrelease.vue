@@ -3,7 +3,8 @@
 	<view class="myrelease">
 		<view class="box" v-for="(val,key) in datalist" :key="key">
 			<view class="boximg">
-				<image :src="val.pic" mode=""></image>
+				<image :src="val.pic" v-if="key%2==0" :style="{height: '444upx'}" mode=""></image>
+				<image :src="val.pic" v-if="key%2==1" :style="{height: '356upx'}" mode=""></image>
 			</view>
 			<view class="boxname uni-ellipsis2">{{val.name}}</view>
 		</view>
@@ -71,13 +72,13 @@
 		padding:0 30upx;
 		display: flex;
 		justify-content: space-between;
-		flex-wrap: wrap;
+		flex-wrap: wrap; 
 		.box{
 			width: 48%;
 			background:rgba(255,255,255,1);
 			box-shadow:1upx 1upx 8upx 0px rgba(0, 0, 0, 0.1);
 			border-radius:10upx;
-			margin-bottom: 30upx;
+			margin-top: 30upx;
 			.boximg{
 				height: auto;
 				image{

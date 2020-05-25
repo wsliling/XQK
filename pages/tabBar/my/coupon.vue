@@ -3,7 +3,7 @@
 	<view class="ticket">
 		<view class="tab flex">
 			<view class="flex1 flexc" :class="{ 'active': tabIndex == index }" v-for="(item, index) in tabList" :key="index" @click="cliTab(index)">{{ item }}</view>
-			<span :style="{ left: tabStyle + 'upx' }"></span>
+			<span :style="'left:'+tabStyle+'rpx'"></span>
 		</view>
 		<block>
 			<view class="list jus-b flex" v-for="(item, index) in 3" :key="index">

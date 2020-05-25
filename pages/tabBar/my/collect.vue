@@ -1,5 +1,5 @@
 <template>
-	<!-- 收藏 -->
+	<!-- 我的收藏 -->
 	<view class="">
 		<view class="uni-tab-bar">
 			<scroll-view id="tab-bar" :class="['uni-swiper-tab tabList li_50',isMultipleStore>0?'':'w50']">
@@ -115,7 +115,7 @@
 							<view :class="['IconsCK IconsCK-radio',allSelect?'checked':'' ]"></view>全选
 						</view>
 						<view class="btn0" @click="cancelDel">取消</view>
-						<view class="btn0 active" @click="btnDel">删除</view>
+						<view class="btn0 btn1 active" @click="btnDel">删除</view>
 					</block>
 					<view class="compile" v-else @click="ShowDel">编辑</view>
 				</view>
@@ -514,12 +514,15 @@
 				color: #333;
 			}
 			.btn0{
-				width: 40%;
+				width: 48.5%;
 				font-size: 32upx;
 				height: 90upx;
 				line-height: 90upx;
 				text-align: center;
 				color: #333;
+			}
+			.btn1{
+				width: 240upx;
 			}
 			.btn0.active {
 				color: #fff;
@@ -544,12 +547,12 @@
 	}
 	.compile{
 		width:240upx !important;
-		height:88upx !important;
+		height:90upx !important;
 		background:rgba(92,198,154,1)!important;
 		color:rgba(255,255,255,1) !important;
 		font-size: 32upx;
 		text-align: center;
-		line-height: 88upx;
+		line-height: 90upx;
 		margin-left: 68%;
 	}
 	// 星球客样式

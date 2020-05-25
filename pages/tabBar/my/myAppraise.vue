@@ -233,7 +233,7 @@
 		height:64upx;
 		background:rgba(92,198,154,1);
 		border-radius:6upx;
-		font-size:14upx;
+		font-size:28upx;
 		color:rgba(255,255,255,1);
 		text-align: center;
 		line-height: 64upx;
