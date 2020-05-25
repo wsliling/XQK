@@ -31,6 +31,24 @@
 				"navigationBarTitleText": "星语"
 			}
         }
+        ,{
+            "path" : "pages/tabBar/list/release",
+            "style" : {
+        		"navigationBarTitleText": "发布"
+        	}
+        }
+        ,{
+            "path" : "pages/tabBar/list/location",
+            "style" : {
+        		"navigationBarTitleText": "所在位置"
+        	}
+        }
+        ,{
+            "path" : "pages/tabBar/list/relevance",
+            "style" : {
+        		"navigationBarTitleText": "关联星球客"
+        	}
+        }
 		,{
 		    "path" : "pages/tabBar/xingkong/xingkong",
 		    "style" : {
@@ -47,6 +65,54 @@
 		    "path" : "pages/tabBar/my/my",
 		    "style" : {
 				"navigationBarTitleText": "我的"
+			}
+		}
+		,{
+		    "path" : "pages/tabBar/my/setting",
+		    "style" : {
+				"navigationBarTitleText": "设置"
+			}
+		}
+		,{
+		    "path" : "pages/tabBar/my/account",
+		    "style" : {
+				"navigationBarTitleText": "账号管理"
+			}
+		}
+		,{
+		    "path" : "pages/tabBar/my/emailsignature",
+		    "style" : {
+				"navigationBarTitleText": "邮箱"
+			}
+		}
+		,{
+		    "path" : "pages/tabBar/my/termsservice",
+		    "style" : {
+				"navigationBarTitleText": "服务条款"
+			}
+		}
+		,{
+		    "path" : "pages/tabBar/my/collect",
+		    "style" : {
+				"navigationBarTitleText": "收藏"
+			}
+		}
+		,{
+		    "path" : "pages/tabBar/my/myrelease",
+		    "style" : {
+				"navigationBarTitleText": "我的发布"
+			}
+		}
+		,{
+		    "path" : "pages/tabBar/my/myfocus",
+		    "style" : {
+				"navigationBarTitleText": "我的关注"
+			}
+		}
+		,{
+		    "path" : "pages/tabBar/my/seereply",
+		    "style" : {
+				"navigationBarTitleText": "查看回复"
 			}
 		}
 		,{
@@ -74,6 +140,18 @@
 			}
 		}
 		,{
+		    "path" : "pages/tabBar/my/information",
+		    "style" : {
+				"navigationBarTitleText": "常用信息"
+			}
+		}
+		,{
+		    "path" : "pages/tabBar/my/addinformation",
+		    "style" : {
+				"navigationBarTitleText": "添加常用信息"
+			}
+		}
+		,{
 		    "path" : "pages/tabBar/my/gethelp",
 		    "style" : {
 				"navigationBarTitleText": "获取帮助"
@@ -94,7 +172,19 @@
 		,{
 		    "path" : "pages/tabBar/my/security",
 		    "style" : {
-				"navigationBarTitleText": "星球客旅行保障"
+				"navigationBarTitleText": "星球客旅行保障"  //安全中心
+			}
+		}
+		,{
+		    "path" : "pages/tabBar/my/kefu",
+		    "style" : {
+				"navigationBarTitleText": "联系客服"
+			}
+		}
+		,{
+		    "path" : "pages/tabBar/my/wantplanet",
+		    "style" : {
+				"navigationBarTitleText": "我也想要星球客"
 			}
 		}
         ,{

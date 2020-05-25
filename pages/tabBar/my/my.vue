@@ -1,10 +1,15 @@
 <template>
+	<!-- 我的 -->
 	<view class="myPage uni-bg-white">
 		<view class="pd15">
-			<view class="flex-end">
-				<view class="set iconfont icon-shezhi"></view>
+			<view @click="tolick('/pages/tabBar/my/setting')">
+				<view class="myset">
+					<view class="hint iconfont icon-xiaoxi"> <span>2</span></view>
+					<view class="set iconfont icon-shezhi"></view>
+				</view>
+				
 			</view>
-			<view class="memberTop flex-between">
+			<view class="memberTop">
 				<view class="info">
 					<view class="name uni-ellipsis">心善若水</view>
 					<view class="c_theme">查看并编辑个人资料</view>
@@ -22,7 +27,7 @@
 				</view>
 			</view>
 			<!-- 消息中心 -->
-			<view class="member_section border_bottom">
+			<view class="member_section border_bottom" v-if="false">
 				<view class="section_hd">消息中心</view>
 				<view class="section_bd">
 					<view class="li_33">
@@ -47,25 +52,25 @@
 				<view class="section_hd">我的圈子</view>
 				<view class="section_bd">
 					<view class="li_33">
-						<view class="item">
+						<view class="item" @click="tolick('/pages/tabBar/my/collect')">
 							<view class="iconImg">
 								<view class="iconfont icon-aixin2"></view>
 							</view>
 							<view class="txt">我的收藏</view>
 						</view>
-						<view class="item">
+						<view class="item" @click="tolick('/pages/tabBar/my/myrelease')">
 							<view class="iconImg">
 								<view class="iconfont icon-xiangji"></view>
 							</view>
 							<view class="txt">我的发布</view>
 						</view>
-						<view class="item">
+						<view class="item" @click="tolick('/pages/tabBar/my/myfocus')">
 							<view class="iconImg">
 								<view class="iconfont icon-guanzhu"></view>
 							</view>
 							<view class="txt">我的关注</view>
 						</view>
-						<view class="item">
+						<view class="item" @click="tolick('/pages/tabBar/my/seereply')">
 							<view class="iconImg">
 								<view class="iconfont icon-pinglun1"></view>
 							</view>
@@ -98,6 +103,12 @@
 							</view>
 							<view class="txt">我要评价</view>
 						</view>
+						<view class="item" @click="tolick('/pages/tabBar/my/information')">
+							<view class="iconImg">
+								<view class="iconfont icon-help"></view>
+							</view>
+							<view class="txt">常用信息</view>
+						</view>
 						<view class="item" @click="tolick('/pages/tabBar/my/gethelp')">
 							<view class="iconImg">
 								<view class="iconfont icon-help"></view>
@@ -116,7 +127,7 @@
 							</view>
 							<view class="txt">安全中心</view>
 						</view>
-						<view class="item">
+						<view class="item" @click="tolick('/pages/tabBar/my/kefu')">
 							<view class="iconImg">
 								<view class="iconfont icon-kefu"></view>
 							</view>
@@ -125,7 +136,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="ftbtn flex-column uni-mb10">
+			<view class="ftbtn flex-column uni-mb10"  @click="tolick('/pages/tabBar/my/wantplanet')">
 				我也想要星球客
 			</view>
 		</view>
