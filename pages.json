@@ -227,6 +227,19 @@
 					"style": {
 						"navigationBarTitleText": "产品详情"
 					}
+				},
+				{
+					"path":"allComment/allComment",
+					"style": {
+						"navigationBarTitleText": "全部评价",
+						"enablePullDownRefresh" : true
+					}
+				},
+				{
+					"path":"confirmOrder/confirmOrder",
+					"style": {
+						"navigationBarTitleText": "确定订单"
+					}
 				}
 			]
 		}

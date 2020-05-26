@@ -24,7 +24,7 @@
 				<div class="flex-end price">
 					<h3>￥288</h3><p>/晚（含2成人）</p>
 				</div>
-				<div class="flex-center tishi">
+				<div class="flex-center tishi" @click="priceExplainStatus(1)">
 					<i class="icon-tishi iconfont"></i>
 					<p>价格说明</p>
 				</div>
@@ -93,7 +93,7 @@
 		<div class="comment">
 			<div class="plr30">
 				<h3>用户评价</h3>
-				<div class="score p30">
+				<div class="score plr30 ptb20">
 					<div class="top flex-center">
 						<div class="score-num bold">
 							4.9
@@ -130,7 +130,7 @@
 				</div>
 			</div>
 			<commentItem v-for="(item,index) in 2" :key="index"></commentItem>
-			<div class="more">阅读300条评论</div>
+			<div class="more" @click="navigate('product/allComment/allComment')">阅读300条评论</div>
 		</div>
 		<div class="gap20"></div>
 		<div class="position ptb30">
@@ -216,15 +216,34 @@
 				立即预定
 			</div>
 		</div>
+		<!-- 价格说明 -->
+		<uni-popup type="bottom" ref="priceExplainStatus">
+			<div class="pop">
+				<div class="title flex-center-between">
+					<div></div>
+					起价说明
+					<div class="cancel" @click="priceExplainStatus(0)">+</div>
+				</div>
+				<div class="content">
+					本起价指未包含附加服务 ( 如房间差价等 ) 的基本价格
+					您最终确认的价格将会随所选出行日期、人数及服务项
+					目而相应变化。<br/>
+					因最低价实时变化，请以实际价格为准
+				</div>
+				<div class="btn" @click="priceExplainStatus(0)">确定</div>
+			</div>
+		</uni-popup>
 	</div>
 </template>
 
 <script>
-	import commentItem from '../commentItem.vue';
+	import commentItem from '../allComment/commentItem.vue';
+	import {navigate} from '@/utils';
 	export default {
 		components:{commentItem},
 		data() {
 			return {
+				navigate,
 				currentSwiper :0,
 			}
 		},
@@ -247,6 +266,15 @@
 			changeSwiper(e){
 				this.currentSwiper=e.detail.current;
 			},
+			// 价格说明
+			priceExplainStatus(status){
+				if(status){
+					this.$refs['priceExplainStatus'].open();
+				}else{
+					this.$refs['priceExplainStatus'].close();
+				}
+			},
+
 			// tabColor(index){
 			// 	let str ='color1';
 			// 	if(index==1||index===2||index===7||index===8){

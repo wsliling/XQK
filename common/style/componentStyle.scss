@@ -1,0 +1,35 @@
+
+.pop{
+	background:#fff;
+	.title{
+		padding:0 30upx;
+		font-size:36upx;
+		line-height:100upx;
+		border-bottom:1upx solid #e8e8e8;
+		font-weight:600;
+		.cancel{
+			transform:rotate(45deg);
+			font-size:55upx;
+			font-weight:400;
+		}
+	}
+	.btn{
+		line-height:100upx;
+		font-size:32upx;
+		color:#fff;
+		text-align:center;
+		background:$primary;
+	}
+}
+
+.row{
+    line-height:86upx;
+    border-bottom:1upx solid #f2f2f2;
+    .right{
+        width:70%;
+        input{
+            text-align:right;
+            width:100%;
+        }
+    }
+}

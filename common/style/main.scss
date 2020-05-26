@@ -19,17 +19,24 @@ image {
 .width100{
   max-width:100%;
 }
-h1{
-  font-size:32upx;
+h2{
+	font-size:40upx;
+	font-weight:bold;
 }
 h3{
-  font-size:26upx;
+	font-size:36upx;
+	font-weight:bold;
 }
 h4{
-  font-size:22upx;
+	font-size:32upx;
+	font-weight:bold;
 }
 h5{
-  font-size:18upx;
+	font-size:30upx;
+	font-weight:bold;
+}
+p{
+	font-size:24upx;
 }
 .font0{
   font-size:0;
@@ -55,15 +62,16 @@ h5{
   background:$btn;
   color:$white;
   display:inline-block;
-  line-height:30upx;
+  line-height:2;
   padding:0 20upx;
   transition:all .2s;
   cursor:pointer;
-  border:1upx solid $btn;
+  border:1upx solid $primary;
+  flex:0 0 auto;
   &:hover{
       background:$white;
-      color:$btn;
-      border:1upx solid $btn;
+      color:$primary;
+      border:1upx solid $primary;
   }
 }
 .btn-max{
@@ -121,11 +129,18 @@ h5{
 .p30{
   padding:30upx;
 }
+.pt10{
+  padding-top:10upx;
+}
 .pt20{
   padding-top:20upx;
 }
 .pt30{
   padding-top:30upx;
+}
+.ptb10{
+  padding-top:10upx;
+  padding-bottom:10upx;
 }
 .ptb20{
   padding-top:20upx;
@@ -134,6 +149,10 @@ h5{
 .ptb30{
   padding-top:30upx;
   padding-bottom:30upx;
+}
+.ptb40{
+  padding-top:40upx;
+  padding-bottom:40upx;
 }
 .pt100{
   padding-top:10upx;
@@ -368,3 +387,4 @@ h5{
   -webkit-justify-content: space-between;
   justify-content:space-between;
 }
+@import './componentStyle.scss';
