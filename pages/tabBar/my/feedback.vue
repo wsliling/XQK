@@ -3,21 +3,21 @@
 	<div>
 		<div class="feedback">
 			<view class="elect">选择类型</view>
-			<div class="fed_title active" @click="showEdit = true">
+			<div class="fed_title" @click="act(0)" v-if="acts == 0 ? 'active' : 'fed_title'">
 				<p>回复不及时</p>
 				<!-- <p class="">
 					<span>{{ typeTxt }}</span>
 					<icons type="success"size="26"></icons>
 				</p> -->
-				<img src="../../../static/icons/success.png" alt="" />
+				<img v-if="acts == 0" src="../../../static/icons/success.png" alt="" />
 			</div>
-			<div class="fed_title" @click="showEdit = true">
+			<div class="fed_title" @click="act(1)" v-if="acts == 1 ? 'active' : 'fed_title'">
 				<p>上传虚假资料</p>
-				<img src="../../../static/icons/success.png" alt="" />
+				<img v-if="acts == 1" src="../../../static/icons/success.png" alt="" />
 			</div>
-			<div class="fed_title" @click="showEdit = true">
+			<div class="fed_title" @click="act(2)" v-if="acts == 2 ? 'active' : 'fed_title'">
 				<p>跳单线下交易</p>
-				<img src="../../../static/icons/success.png" alt="" />
+				<img v-if="acts == 2" src="../../../static/icons/success.png" alt="" />
 			</div>
 		</div>
 		<div class="">
@@ -56,7 +56,8 @@ export default {
 			Content: '',
 			PicList: [],
 			maxPicLen: 5, //最多上传
-			isUploadBtn: true //显示上传图片按钮
+			isUploadBtn: true ,//显示上传图片按钮
+			acts:0
 		};
 	},
 	onLoad() {
@@ -78,6 +79,9 @@ export default {
 					this.typelist = res.data;
 				}
 			});
+		},
+		act(e){
+			this.acts = e
 		},
 		//提交意见反馈
 		async FeedBack(base64Arr) {

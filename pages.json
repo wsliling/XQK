@@ -61,6 +61,30 @@
 				"navigationBarTitleText": "订单"
 			}
         }
+        ,{
+            "path" : "pages/tabBar/order/orderdetails",
+            "style" : {
+        		"navigationBarTitleText": "订单详情"
+        	}
+        }
+        ,{
+            "path" : "pages/tabBar/order/cancel",
+            "style" : {
+        		"navigationBarTitleText": "取消预订"
+        	}
+        }
+        ,{
+            "path" : "pages/tabBar/order/schedule",
+            "style" : {
+        		"navigationBarTitleText": "退款进度"
+        	}
+        }
+        ,{
+            "path" : "pages/tabBar/order/comment",
+            "style" : {
+        		"navigationBarTitleText": "发表评价"
+        	}
+        }
 		,{
 		    "path" : "pages/tabBar/my/my",
 		    "style" : {

@@ -33,7 +33,7 @@
 		</view>
 		<view class="gh_flex">
 			<view class="help">仍然需要帮助?</view>
-			<view class="service">联系客服</view>
+			<view class="service" @click="tolick('/pages/tabBar/my/kefu')">联系客服</view>
 		</view>
 	</view>
 
@@ -80,11 +80,12 @@
 	}
 	.gh_flex{
 		background: #fff;
-		position: fixed;
-		bottom: 20upx;
+		/* position: fixed; */
+		/* bottom: 20upx; */
 		display: flex;
 		justify-content: space-between;
 		text-align: center;
+		padding-top: 25%;
 	}
 	.help{
 		margin-top: 12upx;

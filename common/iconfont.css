@@ -276,4 +276,7 @@
 .icon-jiantouxia:before {
   content: "\e62a";
 }
-
+/* 删除 */
+.icon-del:before {
+  content: "\e648";
+}

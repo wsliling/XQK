@@ -6,7 +6,7 @@
 			<span :style="'left:'+tabStyle+'rpx'"></span>
 		</view>
 		<block>
-			<view class="list jus-b flex" v-for="(item, index) in 3" :key="index">
+			<view class="list jus-b flex" v-for="(item, index) in 3" :key="index" v-if="tabIndex ==0">
 				<view class="left">
 					<view class="name">满100元减20元券</view>
 					<view class="time">有效期至2020-01-12</view>
@@ -21,6 +21,15 @@
 						</view>
 						<!-- <span>满100元可使用</span> -->
 					</view>
+				</view>
+			</view>
+			<view class="list jus-b flex" v-for="(item, index) in 3" :key="index" v-if="tabIndex ==1 || tabIndex ==2">
+				<view class="left">
+					<view class="name">满100元减20元券</view>
+					<view class="time">有效期至2020-01-12</view>
+				</view>
+				<view class="right flexc" v-if="tabIndex ==1 || tabIndex ==2" :style="{background:'#D4D5D7'}">
+					<view class="num" style="color: #fff;">20元</view>
 				</view>
 			</view>
 		</block>
