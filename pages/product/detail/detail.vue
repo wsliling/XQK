@@ -212,7 +212,7 @@
 					￥388/晚
 				</div>
 			</div>
-			<div class="btn disable">
+			<div class="btn disable" @click="navigate('product/confirmOrder/confirmOrder')"> 
 				立即预定
 			</div>
 		</div>

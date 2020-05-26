@@ -6,68 +6,9 @@
 				<view class="txt">搜索目的地/景点/星语</view>
 			</view>
 		</view>
-		<view class="xylist">
-			<view class="left-list">
-				<view class="item" v-for="(item,index) in datalist" :key="index" v-if="index%2==0">
-					<view class="itembox">
-						<view class="imgbox">
-							<view class="like flex-end">
-								<view class="iconfont icon-aixin bg">
-									<view class="iconfont icon-aixin"></view>
-								</view>
-								<text class="num">209</text>
-							</view>
-							<image :src="item.pic" mode="widthFix"></image>
-						</view>
-						<view class="txtbox">
-							<view class="title uni-ellipsis2 uni-mb5">
-								{{item.name}}
-							</view>
-							<view class="flex-between">
-								<view class="tx flex-start">
-									<image src="/static/logo.png" mode="aspectFill"></image>
-									<text class="author uni-ellipsis">小星君</text>
-								</view>
-								<view class="zan flex-end active">
-									<text class="iconfont icon-zan1"></text>
-									<text class="num">30</text>
-								</view>
-							</view>
-						</view>
-					</view>
-				</view>
-			</view>
-			<view class="right-list">
-				<view class="item" v-for="(item,index) in datalist" :key="index" v-if="index%2==1">
-					<view class="itembox">
-						<view class="imgbox">
-							<view class="like flex-end">
-								<view class="iconfont icon-aixin bg">
-									<view class="iconfont icon-aixin active"></view>
-								</view>
-								<text class="num">209</text>
-							</view>
-							<image :src="item.pic" mode="widthFix"></image>
-						</view>
-						<view class="txtbox">
-							<view class="title uni-ellipsis2 uni-mb5">
-								{{item.name}}
-							</view>
-							<view class="flex-between">
-								<view class="tx flex-start">
-									<image src="/static/logo.png" mode="aspectFill"></image>
-									<text class="author uni-ellipsis">小星君</text>
-								</view>
-								<view class="zan flex-end">
-									<text class="iconfont icon-zan"></text>
-									<text class="num">30</text>
-								</view>
-							</view>
-						</view>
-					</view>
-				</view>
-			</view>
-		</view>
+		<div class="plr30">
+			<star-lang-list :list="datalist"></star-lang-list>
+		</div>
 		<view class="topbtn iconfont icon-totop" @click="Top" v-if="isTop"></view>
 		<!-- 发布按钮 -->
 		<view class="fubuBtn iconfont icon-bianji1"  @click="tolick('/pages/tabBar/list/release')"></view>
@@ -79,9 +20,10 @@
 <script>
 	import {post,get,toLogin} from '@/common/util.js';
 	import tabbar from '@/components/tabbar.vue';
+	import starLangList from '@/components/starLangList.vue';
 	export default {
 		components: {
-			tabbar
+			tabbar,starLangList
 		},
 		data() {
 			return {

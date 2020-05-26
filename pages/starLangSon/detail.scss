@@ -1,0 +1,138 @@
+
+	.index_swiper {
+		position: relative;
+		.swiper{
+			height:400upx;
+			.img{
+				height: 400upx;
+			}
+		}
+		.dots{
+			position: absolute;
+			left: 50%;
+			bottom: 40upx;
+			text-align: center;
+			white-space: nowrap;
+			-webkit-transform: translate(-50%);
+			transform: translate(-50%);
+			z-index: 9;
+			.dot{
+				display: inline-block;
+				width: 16upx;
+				height: 16upx;
+				cursor: pointer;
+				-webkit-transition-property: background-color;
+				transition-property: background-color;
+				-webkit-transition-timing-function: ease;
+				transition-timing-function: ease;
+				background: rgba(0,0,0,.5);
+				border-radius: 50%;
+				margin: 0 8upx;
+			}
+			.dot.active{
+				background: #5cc69a;
+			}
+		}
+	}
+	.user{
+		.info{
+			img{
+				width:85upx;height:85upx;
+				border-radius:50%;margin-right:20upx;
+			}
+		}
+		.btnBox{
+			.btn-min{
+				color:$primary;
+				background:#fff;
+				border-color:$primary;
+				padding:0 30upx;
+				line-height:55upx;
+				margin-right:30upx;
+				border-radius:40upx;
+			}
+			.iconfont{
+				color:$primary;
+				font-size:28upx;
+			}
+		}
+	}
+	.detail{
+		h2{
+			line-height:1.5;
+			padding:20upx 0;
+		}
+		.content{
+			padding:10upx 0;
+			line-height:1.5;
+		}
+		.more{
+			color:$primary;
+		}
+		p{
+			color:#999;
+			font-size:24upx;
+			line-height:2;
+		}
+	}
+	h4{
+		line-height:3;
+	}
+	.pro{
+		.shadow{
+			box-shadow:0 0 10upx #ccc;
+			border-radius: 15upx;
+		}
+	}
+	.good{
+		.avatar{
+			img{
+				width:65upx;height:65upx;
+				border-radius:50%;margin-right:30upx;
+			}
+		}
+		.zan-icon{
+			.iconfont{
+				margin-right:20upx;
+			}
+		}
+	}
+	.reply{
+		.add{
+			input{
+				background:#f5f5f5;
+				border-radius:7upx;
+				line-height:60upx;
+				height:60upx;
+				width:550upx;
+				border:1upx solid #e8e8e8;
+				padding:0 15upx;
+			}
+			.line1{
+				width:1upx;
+				height:50upx;
+				background:#f5f5f5;
+			}
+			.collect{
+				line-height:1.2;
+				font-size:20upx;
+				color:#999;
+				.iconfont{
+					color:#333;
+				}
+			}
+		}
+		.more{
+			color:$primary;
+			font-size:32upx;
+			line-height:2;
+		}
+	}
+	.other{
+		.btn-max{
+			color:$primary;
+			background:#fff;
+			border:2upx $primary solid;
+			border-radius:10upx;
+		}
+	}
