@@ -29,7 +29,7 @@
                     },
                     {
                         "type": 0,
-                        "pagePath": "/pages/tabBar/list/list",
+                        "pagePath": "/pages/tabBar/starLang/starLang",
                         "iconPath": "/static/tabbar/ft2.png",
                         "selectedIconPath": "/static/tabbar/ft2_in.png",
                         "text": "星语"

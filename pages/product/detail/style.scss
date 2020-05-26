@@ -36,20 +36,7 @@
 	}
 }
 p{
-	font-size:24upx;
 	color:#999;
-}
-h2{
-	font-size:40upx;
-	font-weight:bold;
-}
-h3{
-	font-size:36upx;
-	font-weight:bold;
-}
-h5{
-	font-size:30upx;
-	font-weight:bold;
 }
 .topBlock{
 	.tab{
@@ -150,7 +137,7 @@ h5{
 	.score{
 		box-shadow:0 0 10upx #eee;
 		.top{
-			margin-bottom:20upx;
+			margin-bottom:10upx;
 			.score-num{
 				font-size:96upx;
 				line-height:1;
@@ -188,6 +175,7 @@ h5{
 						}
 						div{
 							margin-right:7upx;
+							font-size:28upx;
 						}
 					}
 				}
@@ -342,5 +330,12 @@ h5{
 			color:#ccc;
 			background:#eff3f6;
 		}
+	}
+}
+.pop{
+	.content{
+		color:#666;
+		line-height:1.5;
+		padding:40upx 40upx 60upx;
 	}
 }

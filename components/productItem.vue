@@ -66,10 +66,10 @@ import {navigate} from '@/utils'
 
 	.bigitem{
 		margin-bottom: 20upx;
-		border-radius: 16upx 16upx 0 0;
+		border-radius: 15upx;
 		overflow: hidden;
 		.txtbox{
-			padding: 10upx 0;
+			padding: 10upx 20upx;
 			.title{
 				font-size: 30upx;
 			}

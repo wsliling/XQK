@@ -26,28 +26,10 @@
 			}
 		}
         ,{
-            "path" : "pages/tabBar/list/list",
+            "path" : "pages/tabBar/starLang/starLang",
             "style" : {
 				"navigationBarTitleText": "星语"
 			}
-        }
-        ,{
-            "path" : "pages/tabBar/list/release",
-            "style" : {
-        		"navigationBarTitleText": "发布"
-        	}
-        }
-        ,{
-            "path" : "pages/tabBar/list/location",
-            "style" : {
-        		"navigationBarTitleText": "所在位置"
-        	}
-        }
-        ,{
-            "path" : "pages/tabBar/list/relevance",
-            "style" : {
-        		"navigationBarTitleText": "关联星球客"
-        	}
         }
 		,{
 		    "path" : "pages/tabBar/xingkong/xingkong",
@@ -251,6 +233,54 @@
 					"style": {
 						"navigationBarTitleText": "产品详情"
 					}
+				},
+				{
+					"path":"allComment/allComment",
+					"style": {
+						"navigationBarTitleText": "全部评价",
+						"enablePullDownRefresh" : true
+					}
+				},
+				{
+					"path":"confirmOrder/confirmOrder",
+					"style": {
+						"navigationBarTitleText": "确定订单"
+					}
+				}
+			]
+		},
+		{
+			"root":"pages/starLangSon",
+			"pages":[
+				{
+					"path" : "release",
+					"style" : {
+						"navigationBarTitleText": "发布"
+					}
+				}
+				,{
+					"path" : "location",
+					"style" : {
+						"navigationBarTitleText": "所在位置"
+					}
+				}
+				,{
+					"path" : "relevance",
+					"style" : {
+						"navigationBarTitleText": "关联星球客"
+					}
+				}
+				,{
+					"path" : "homePage",
+					"style" : {
+						"navigationBarTitleText": "主页"
+					}
+				}
+				,{
+					"path" : "detail",
+					"style" : {
+						"navigationBarTitleText": "星语详情"
+					}
 				}
 			]
 		}
@@ -275,10 +305,10 @@
 				"text": "首页"
 			},
 			{
-				"pagePath": "pages/tabBar/list/list",
+				"pagePath": "pages/tabBar/starLang/starLang",
 				"iconPath": "static/tabbar/ft2.png",
 				"selectedIconPath": "static/tabbar/ft2_in.png",
-				"text": "星语"
+				"text": "星语1"
 			},
 			{
 				"pagePath": "pages/tabBar/xingkong/xingkong",
