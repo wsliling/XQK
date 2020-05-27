@@ -113,7 +113,7 @@ export function requestHideLoading(url, data,method) {
         },
         success: function (res) {
           const ret = res.data;
-          if(code.success){
+          if(ret.code===code.success){
              resolve(ret)
          }else{
               toast(ret.msg)

@@ -19,7 +19,7 @@
                      res.authSetting["scope.userLocation"] != true
                  ) {
                      toast('获取定位未授权')
-                     reject();
+                     reject('未授权');
                  } else if (res.authSetting["scope.userLocation"] == undefined) {
                      //用户首次进入页面,调用wx.getLocation的API
                      console.log("******222222222******");
@@ -38,7 +38,7 @@
 
      })
  }
- // 重新获取定位授权
+ // 重新获取定位授权--废弃
  export function initPosition() {
      return new Promise((resolve,reject)=>{
         uni.openSetting({

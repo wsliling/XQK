@@ -41,6 +41,16 @@
 .mylocal{
     border-bottom:1upx solid #e8e8e8;
     margin-left:30upx;
+    .reload{
+        font-size:28upx;
+        border:1upx solid #e8e8e8;
+        padding:0 20upx;
+        color:#666;
+        border-radius:7upx;
+        p{
+            margin-left:10upx;
+        }
+    }
 }
 .pl30{
   padding-left:30upx!important;

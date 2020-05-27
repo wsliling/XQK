@@ -23,7 +23,7 @@
 				</view>
 				<view class="item-r flex-column-center" @click.stop="getlocationNow">
 					<view class="iconfont icon-dingwei"></view>
-					<view class="fz12 c_999">当前定位</view>
+					<view class="fz12 c_999" >当前定位</view>
 				</view>
 			</view>
 			<view class="item item-end flex-center-between" @click="onClassify">
@@ -167,9 +167,9 @@
 
 <script>
 	import {post,get,navigate,judgeLogin} from '@/utils';
-	import {hasPosition} from '@/utils/location'
 	import tabbar from '@/components/tabbar.vue';
 	import calendar from '@/components/date-picker/date-picker';
+	import {hasPosition} from '@/utils/location';
 	// #ifdef H5
 	import {MP} from '@/common/map.js';//h5百度定位
 	// #endif
@@ -219,10 +219,9 @@
 			wpicker,productItem
 		},
 		computed:{
-			...mapState(['lng','lat','cityName'])
+			...mapState(['lng','lat','cityName','cityCode'])
 		},
 		onLoad() {
-			this.getPosition();
 			this.userId = uni.getStorageSync("userId");
 			this.token = uni.getStorageSync("token");
 		},
@@ -248,6 +247,10 @@
 					});
 					this.nowCity = this.cityName;
 					console.log(this.lat,this.lng,this.cityName,'lacation')
+				}).catch(err=>{
+					this.update({
+						cityName:err
+					});
 				});
 			},
 			scan() {
@@ -290,8 +293,9 @@
 			},
 			// 定位当前城市
 			getlocationNow(){
-				this.update({cityName:this.nowCity})
-				this.getAreaCode();
+				// this.update({cityName:this.nowCity})
+				this.getPosition();
+				// this.getAreaCode();
 			},
 			async getAreaCode() {
 				if(this.cityName === this.upCityName)return;
