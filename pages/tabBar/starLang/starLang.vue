@@ -11,7 +11,7 @@
 		</div>
 		<view class="topbtn iconfont icon-totop" @click="Top" v-if="isTop"></view>
 		<!-- 发布按钮 -->
-		<view class="fubuBtn iconfont icon-bianji1"  @click="tolick('/pages/tabBar/list/release')"></view>
+		<view class="fubuBtn iconfont icon-bianji1"  @click="tolick('/pages/starLangSon/release')"></view>
 		<view style="height: 120upx;"></view>
 		<tabbar :current="1"></tabbar>
 	</view>

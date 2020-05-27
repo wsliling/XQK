@@ -128,7 +128,7 @@
 
 <style scoped lang="scss">
 	// @import "../../common/product.scss";
-  .payinfo{background: #ff6f00; text-align: center; color: #fff; padding: 20upx 0 40upx;}
+  .payinfo{background: #5CC69A; text-align: center; color: #fff; padding: 20upx 0 40upx;}
   .payinfo .p1{font-size: 42upx;justify-content: center;}
   .payinfo .p1 .iconfont{ margin-right: 20upx;}
   .payinfo .icon-gou2,.payinfo .icon-cha{ font-size: 56upx; line-height:1; }

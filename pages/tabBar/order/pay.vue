@@ -53,13 +53,6 @@ export default {
 					typeName: '微信支付',
 					className: 'icon_weixin'
 				},
-				// #ifndef MP-WEIXIN
-				{
-					type: 1,
-					typeName: '支付宝',
-					className: 'icon_alipay'
-				},
-				// #endif
 				// {
 				// 	type:2,
 				// 	typeName:"银联支付",
@@ -288,66 +281,6 @@ export default {
 				});
 			}
 		},
-		//微信app支付
-		async wxapppay() {
-			let result = await post('Order/WechatPay', {
-				UserId: this.userId,
-				Token: this.token,
-				orderNo: this.orderNo,
-				paytype: 2
-			});
-			if (result.code == 0) {
-				console.log(result.data);
-				// var payData=JSON.parse(result.data.JsParam)
-				let _this = this;
-				uni.requestPayment({
-					provider: 'wxpay',
-					orderInfo: result.data.JsParam,
-					success(res) {
-						console.log(res);
-						_this.type = '';
-						_this.showPay = false;
-						uni.redirectTo({
-							url: '/pages/card/paysuccess?allprice=' + _this.orderInfo.TotalPrice + '&orderNo=' + _this.orderNo
-						});
-					},
-					fail(err) {
-						console.log(err);
-						uni.showToast({
-							title: '支付失败',
-							icon: 'none',
-							duration: 4000
-						});
-					}
-				});
-			} else {
-				uni.showToast({
-					title: result.msg,
-					icon: 'none',
-					duration: 1500
-				});
-			}
-		},
-		//非微信环境 使用微信支付H5
-		async H5payweixin() {
-			let NewUrl = this.GetUrlRelativePath() + '/#/pages/member/orderDetail/orderDetail?id=' + this.orderNo;
-			let result = await post('Order/WechatPay', {
-				UserId: this.userId,
-				Token: this.token,
-				orderNo: this.orderNo,
-				NewUrl: NewUrl,
-				paytype: 3
-			});
-			if (result.code == 0) {
-				window.location.href = result.data.mweb_url;
-			} else {
-				uni.showToast({
-					title: result.msg,
-					icon: 'none',
-					duration: 1500
-				});
-			}
-		},
 		callpay(param) {
 			if (typeof WeixinJSBridge === 'undefined') {
 				if (document.addEventListener) {
@@ -379,73 +312,7 @@ export default {
 				}
 			});
 		},
-		//支付宝app支付
-		async zfbapppay() {
-			let result = await post('Order/AliPay', {
-				UserId: this.userId,
-				Token: this.token,
-				orderNo: this.orderNo,
-				paytype: 2
-			});
-			console.log(result);
-			if (result.code == 0) {
-				console.log(result.data);
-				// var payData=JSON.parse(result.data.JsParam)
-				let _this = this;
-				uni.requestPayment({
-					provider: 'alipay',
-					orderInfo: result.data,
-					success(res) {
-						console.log(res);
-						_this.type = '';
-						_this.showPay = false;
-						uni.redirectTo({
-							url: '/pages/payresult/payresult?allprice=' + _this.orderInfo.TotalPrice + '&orderNo=' + _this.orderNo
-						});
-					},
-					fail(err) {
-						console.log(err);
-						//  uni.showToast({
-						//  	title:"支付失败",
-						// icon:"none",
-						// duration:4000
-						//  })
-					}
-				});
-			} else {
-				uni.showToast({
-					title: result.msg,
-					icon: 'none',
-					duration: 1500
-				});
-			}
-		},
-		//支付宝支付H5
-		async zfbH5pay() {
-			let NewUrl = this.GetUrlRelativePath() + '/#/pages/payresult/payresult?allprice=' + this.orderInfo.TotalPrice + '&orderNo=' + this.orderNo;
-			let QuitUrl = this.GetUrlRelativePath() + '/#/pages/pay/pay?orderNo=' + this.orderNo;
-			let result = await post('Order/AliPay', {
-				UserId: this.userId,
-				Token: this.token,
-				orderNo: this.orderNo,
-				NewUrl: NewUrl,
-				QuitUrl: QuitUrl, //放弃支付跳转
-				paytype: 3
-			});
-			if (result.code == 0) {
-				this.isshowalipay = true;
-				this.alipayCon = result.data;
-				console.log(result.data);
-				this.$nextTick().then(() => {
-					document.forms['alipaysubmit'].submit();
-				});
-			} else {
-				uni.showToast({
-					title: result.msg,
-					icon: 'none'
-				});
-			}
-		},
+		
 		//小程序支付
 		async ConfirmWeiXinSmallPay() {
 			let result = await post('Order/WechatPay', {
@@ -481,33 +348,8 @@ export default {
 			if (!this.disable) {
 				if (this.payType == 0) {
 					//微信支付
-					// #ifdef  H5
-					if (this.isWeixin()) {
-						this.payweixin();
-					} else {
-						this.H5payweixin();
-					}
-					// #endif
 					// #ifdef  MP-WEIXIN
 					this.ConfirmWeiXinSmallPay();
-					// #endif
-					// #ifdef APP-PLUS
-					this.wxapppay();
-					// #endif
-				} else if (this.payType == 1) {
-					// #ifdef APP-PLUS
-					this.zfbapppay();
-					// #endif
-					// #ifdef H5
-					if (this.isWeixin()) {
-						uni.showToast({
-							title: '微信暂不支持支付宝支付，请在浏览器中打开！',
-							icon: 'none',
-							duration: 2500
-						});
-					} else {
-						this.zfbH5pay();
-					}
 					// #endif
 				} else if (this.payType == 2) {
 					uni.showToast({

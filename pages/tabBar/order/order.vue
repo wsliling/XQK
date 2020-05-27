@@ -19,7 +19,7 @@
 					<view class="imgbox"><image src="/static/of/p3.jpg" mode="aspectFill"></image></view>
 				</view>
 				<view class="btns flex">
-					<view class="btn">取消订单</view>
+					<view class="btn" @click.stop="tiedphone()">取消订单</view>
 					<view class="btn btn_fill" @click.stop="goUrl('/pages/tabBar/order/pay')">立即支付</view>
 				</view>
 			</view>
@@ -84,17 +84,30 @@
 		<noData :isShow="noDataIsShow"></noData>
 		<view style="height: 120upx;"></view>
 		<tabbar :current="3"></tabbar>
+		<!-- 取消定单弹框 -->
+		<uni-popup type="center" ref="tiedphone">
+			<view class="phonebox">
+				<view class="callorder">您确定要取消定单吗？</view>
+				<view class="boxflex">
+					<view class="cancel" @click="close()">取消</view>
+					<view class="affirm" @click="close()">确认</view>
+				</view>
+				
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
 <script>
 import { post, get, toLogin } from '@/common/util.js';
 import tabbar from '@/components/tabbar.vue';
+import popup from '@/components/uni-popup/uni-popup.vue'
 import noData from '@/components/noData.vue'; //暂无数据
 import uniLoadMore from '@/components/uni-load-more.vue'; //加载更多
 export default {
 	components: {
 		tabbar,
+		popup,
 		noData,
 		uniLoadMore
 	},
@@ -125,11 +138,47 @@ export default {
 		},
 		cliTab(index) {
 			this.tabIndex = index;
-		}
+		},
+		tiedphone(){
+			this.$refs.tiedphone.open()
+		},
+		close(){
+			this.$refs.tiedphone.close()
+		},
 	}
 };
 </script>
 
 <style lang="scss" scoped>
 @import './style';
+	// 取消定单的样式
+	.phonebox{
+		background: #fff;
+		border-radius: 16upx;
+		font-size:38upx;
+		.callorder{
+			text-align: center;
+			padding: 40upx 100upx;
+			border-bottom: 1upx solid #ECECEC;
+		}
+		.boxflex{
+			display: flex;
+			justify-content: space-between;
+			font-size: 34upx;
+			width: 100%;
+			.cancel{
+				color: #999999;
+				border-right: 1upx solid #ECECEC;
+				width: 50%;
+				height: 120upx;
+				line-height: 120upx;
+			}
+			.affirm{
+				color: #5CC69A;
+				width: 50%;
+				height: 120upx;
+				line-height: 120upx;
+			}
+		}
+	}
 </style>
