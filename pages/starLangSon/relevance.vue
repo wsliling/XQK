@@ -8,7 +8,7 @@
 		<view class="releva">
 			<view class="record">最近记录</view>
 			<view class="collect-box" v-for="(val,index) in 3" :key="index">
-				<view class="collect-left"><image src="../../../static/of/p1.jpg" mode=""></image></view>
+				<view class="collect-left"><image src="../../static/of/p1.jpg" mode=""></image></view>
 				<view class="collect-right">
 					<view class="name">广州.从化温泉明月山溪</view>
 					<view class="point">

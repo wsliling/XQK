@@ -10,7 +10,7 @@
 				
 			</view>
 			<view class="memberTop">
-				<view class="info">
+				<view class="info" @click="tiedphone()">
 					<view class="name uni-ellipsis">心善若水</view>
 					<view class="c_theme">查看并编辑个人资料</view>
 					<view class="datanum flex-start">
@@ -142,15 +142,36 @@
 		</view>
 		<view style="height: 120upx;"></view>
 		<tabbar :current="4"></tabbar>
+		<!-- 绑定手机号弹框 -->
+		<uni-popup type="center" ref="tiedphone">
+			<view class="phonebox">
+				<view class="binding">绑定手机号</view>
+				<view class="close"@click="close()">x</view>
+				<view class="cell-phone">
+					<image src="../../../static/icons/phones.png" mode=""></image>
+					<input type="text" value="" placeholder="请绑定您的手机号码"/>
+				</view>
+				<view class="security">
+					<view class="verification">
+						<image src="../../../static/icons/code.png" mode=""></image>
+						<input type="text" value="" placeholder="请输入手机验证码"/>
+					</view>
+					<view class="getcode">获取验证码</view>
+				</view>
+				<view class="confirm">确定</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
 <script>
 	import {post,get,toLogin} from '@/common/util.js';
 	import tabbar from '@/components/tabbar.vue';
+	import popup from '@/components/uni-popup/uni-popup.vue'
 	export default {
 		components: {
-			tabbar
+			tabbar,
+			popup
 		},
 		data() {
 			return {
@@ -163,6 +184,12 @@
 					url:url
 				})
 			},
+			tiedphone(){
+				this.$refs.tiedphone.open()
+			},
+			close(){
+				this.$refs.tiedphone.close()
+			},
 		}
 	}
 </script>
@@ -172,5 +199,83 @@
 	.myimg{
 		width:56upx;
 		height:54upx;
+	}
+	.phonebox{
+		background: #fff;
+		padding: 45upx 48upx;
+		.binding{
+			text-align: center;
+			font-size:32upx;
+			font-weight:bold;
+		}
+		.close{
+			position: absolute;
+			width: 42upx;
+			height: 42upx;
+			right: 38upx;
+			top: 50upx;
+			color: #fff;
+			background: #b2b2b2;
+			-webkit-border-radius: 50%;
+			border-radius: 50%;
+			text-align: center;
+			line-height: 32upx;
+			font-size: 30upx;
+		}
+		.cell-phone{
+			display: flex;
+			justify-content: flex-start;
+			border-bottom: 1upx solid #ECECEC;
+			padding: 30upx 0;
+			image{
+				width:32upx;
+				height:48upx;
+				margin-right: 30upx;
+			}
+			input{
+				font-size: 24upx;
+				text-align: left;
+				margin-top: 10upx;
+			}
+		}
+		.security{
+			display: flex;
+			justify-content: space-between;
+			border-bottom: 1upx solid #ECECEC;
+			padding: 30upx 0;
+			.verification{
+				display: flex;
+				justify-content: flex-start;
+				image{
+					width:37upx;
+					height:40upx;
+					margin-right: 30upx;
+				}
+				input{
+					font-size: 24upx;
+					text-align: left;
+					margin-top: 10upx;
+				}
+			}
+			.getcode{
+				width:188upx;
+				height:64upx;
+				border:2upx solid rgba(92,198,154,1);
+				border-radius:4upx;
+				color: #5CC69A;
+			}
+		}
+		.confirm{
+			width:462upx;
+			height:80upx;
+			background:rgba(92,198,154,1);
+			border-radius:8upx;
+			font-size:28upx;
+			color:#fff;
+			line-height: 80upx;
+			text-align: center;
+			margin: 0 auto;
+			margin-top: 56upx;
+		}
 	}
 </style>

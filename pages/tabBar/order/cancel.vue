@@ -61,7 +61,7 @@
 		height: 100vh;
 		.policy{
 			border-bottom: 1upx solid #ECECEC;
-			padding-bottom: 40upx;
+			padding-bottom: 30upx;
 			.call{
 				font-size:40upx;
 				font-weight:bold;
@@ -80,7 +80,7 @@
 			justify-content: space-between;
 			font-size:32upx;
 			border-bottom: 1upx solid #ECECEC;
-			padding: 40upx 0;
+			padding: 30upx 0;
 			.cancelcolor{
 				color: #808080;
 			}
@@ -99,7 +99,7 @@
 			}
 		}
 		.effect{
-			padding: 40upx 0 160upx;
+			padding: 30upx 0 200upx;
 			font-size:32upx;
 		}
 		.reserve{
@@ -138,7 +138,7 @@
 			font-size:32upx;
 			color: #fff;
 			text-align: center;
-			margin: 67% 30upx 0;
+			margin: 59% 30upx 0;
 			padding-top: 14upx;
 		}
 	}

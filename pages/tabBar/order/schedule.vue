@@ -71,7 +71,7 @@
 			}
 		}
 		.figure{
-			padding: 40upx 0 43%;
+			padding: 40upx 0 39%;
 			display: flex;
 			justify-content: space-between;
 			font-size:32upx;
@@ -88,7 +88,7 @@
 				border-radius:8upx 10upx 10upx 10upx;
 				color: #fff;
 				text-align: center;
-				padding-top: 10upx;
+				padding-top: 16upx;
 			}
 		}
 	}
