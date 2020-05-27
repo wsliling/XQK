@@ -328,9 +328,9 @@
 				if (proIdArr.length > 0) {
 					uni.showModal({
 					  content: "您确定要删除所选商品吗？",
-					  confirmColor:"#ff6f00",
+					  confirmColor:"#5cc69a",
 					cancelColor:'#999',
-					confirmColor:'#ff6f00',
+					confirmColor:'#5cc69a',
 					  success: function(res) {
 						if (res.confirm) {
 							  _this.DeleteCollections(proIdArr.join(","))
