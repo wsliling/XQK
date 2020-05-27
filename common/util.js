@@ -1,7 +1,9 @@
 
 
+
 // const host = 'http://ddypapi.wtvxin.com/api/';  //测试接口地址
 const host = 'http://xqkapi.wtvxin.com/api/';  //测试接口地址
+
 
 function formatNumber(n) {
     const str = n.toString()
