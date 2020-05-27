@@ -28,12 +28,16 @@
 
                 <div class="item mylocal flex-center-between" id="currentcity">
                   <div class="title">定位当前城市</div>
-                  <div class="itemlocat">
+                  <div class="itemlocat" v-if="cityName&&cityName!=='未授权'">
                       <div class="name">{{cityName}}</div>
-                      <!-- <div class="chose" @click="choseCIty">
-                        <img src="/static/images/can.png" class="can">
-                        <text>重新定位</text>
-                      </div> -->
+                  </div>
+                  <button class="reload flex-center" open-type="openSetting" v-if="cityName=='未授权'">
+                    <uni-icons type="reload"></uni-icons>
+                    <p>重新授权</p>
+                  </button>
+                  <div class="reload flex-center" v-if="!cityName" @click="reloadCity">
+                    <uni-icons type="reload"></uni-icons>
+                    <p>重新定位</p>
                   </div>
                 </div>
                 
@@ -65,6 +69,8 @@
 <script>
 // import "../../css/global.css";
 // import "../../css/common.css";
+import {navigateBack} from '@/utils';
+import {hasPosition} from '@/utils/location';
 import { mapState, mapMutations } from "vuex"; //vuex辅助函数
 import city from './city'
 export default {
@@ -94,7 +100,7 @@ export default {
     
   },
   computed:{
-    ...mapState(["cityName","lng","lat"])
+    ...mapState(["cityName",'cityCode',"lng","lat"])
   },
   onLoad(){
     this.setBarTitle();
@@ -171,13 +177,10 @@ export default {
         this.scrollTopId = showLetter;
     },
     bindCity(e){ //点击城市
-      //console.log(e)
+      console.log(e)
       this.update({ cityName: e.currentTarget.dataset.city });
-      this.scrollTopId=""  //清空
-      this.scrollTopId= 'currentcity'
-      this.searchlist=[]
-      this.cityList()
-      wx.navigateBack()
+      // this.cityList()
+      navigateBack()
     },
     setBarTitle() {
       wx.setNavigationBarTitle({
@@ -186,6 +189,9 @@ export default {
     },
     // 对城市信息进行分组
     cityList(){
+      this.scrollTopId=""  //清空
+      this.scrollTopId= 'currentcity'
+      this.searchlist=[]
       this.citylist=[]
       this.searchLetter.map(
       initial => {
@@ -217,6 +223,22 @@ export default {
     },
     searchCancel(){
 
+    },
+    // 重新定位
+    reloadCity(){
+			// 获取定位
+			hasPosition().then(res=>{
+				this.$store.commit('update',{
+					lat: res.lat,
+					lng: res.lng,
+					cityName:res.address_component.city
+				});
+			}).catch(err=>{
+				// 未授权
+				this.$store.commit('update',{
+					cityName:err
+				});
+			});
     }
   },
 
