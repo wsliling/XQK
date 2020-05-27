@@ -6,9 +6,9 @@
 		<!--轮播图-->
 		<view class="index_swiper">
 			<swiper class="swiper" :indicator-dots="false" autoplay :interval="5000" :duration="500" @change="changeSwiper">
-				<swiper-item v-for="(item,index) in 3" :key="index">
+				<swiper-item v-for="(item,index) in bannerList" :key="index">
 					<view class="swiper-item">
-						<image class="img" src="/static/of/banner.jpg" mode="aspectFill"></image>
+						<image class="img" :src="item.Pic" mode="aspectFill"></image>
 					</view>
 				</swiper-item>
 			</swiper>
@@ -66,7 +66,7 @@
 					</view>
 				</view>
 			</view>
-			<product-item v-for="(item,index) in 4" :key="index" :item="item"></product-item>
+			<product-item v-for="(item,index) in hotRecommend" :key="index" :item="item"></product-item>
 			<view class="btn_line" @click="navigate('home/recommend')">
 				查看更多推荐
 			</view>
@@ -211,6 +211,10 @@
 							value:"3",
 						}
 					],
+				// 轮播图
+				bannerList: [],
+				// 热门推荐
+				hotRecommend: []
 			}
 		},
 		components: {
@@ -221,10 +225,15 @@
 		computed:{
 			...mapState(['lng','lat','cityName'])
 		},
-		onLoad() {
+		async onLoad() {
 			this.getPosition();
 			this.userId = uni.getStorageSync("userId");
 			this.token = uni.getStorageSync("token");
+			// 轮播图请求
+			let res = await post("/Banner/BannerList")
+			this.bannerList = res.data
+			// console.log("我是轮播图", this.bannerList)
+			
 		},
 		onShow(){
 			this.getAreaCode();
