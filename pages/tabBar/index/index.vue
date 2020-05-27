@@ -235,11 +235,7 @@
 		onShow(){
 			this.getAreaCode();
 			console.log(this.cityName,'更新的定位')
-			// 定位城市名称获取城市代码
-			// let res = await ("/Area/GetCityCode",{Name: this.cityName})
-			// console.log("城市代码", res)
-			// this.cityCode = res.data.Code
-			// console.log("城市代码", this.cityCode)
+			this.getCityCode()
 		},
 		onBackPress() {
 			if (this.showCaledar !== false) {
@@ -261,7 +257,13 @@
 				console.log("我是热门", hotRecommendRes)
 				this.hotRecommendList = hotRecommendRes.data 
 			},
-			
+			async getCityCode () {
+				// 定位城市名称获取城市代码
+				// let res = await ("/Area/GetCityCode",{Name: this.cityName})
+				// console.log("城市代码", res)
+				// this.cityCode = res.data.Code
+				// console.log("城市代码", this.cityCode)
+			},
 			// 获取定位
 			getPosition(){
 				hasPosition().then(res=>{

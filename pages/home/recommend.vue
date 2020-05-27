@@ -24,7 +24,7 @@
 			} 
 		},
 		onLoad() {
-			getGoodsList()
+			this.getGoodsList()
 		},
 		methods: {
 			async getGoodsList () {
