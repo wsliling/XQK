@@ -9,7 +9,8 @@
 		</div>
 		<div class="content">
 			<block v-for="(item,index) in 3" :key="index">
-				<h3 class="bold flex-center">全景透明</h3>
+				<!-- <h3 class="bold flex-center">全景透明</h3> -->
+				<h3 class="bold flex-center">{{article.Title}}</h3>
 				<div class="texts">
 					<p>产品形态为直径三米的球体，上半部分是透明穹顶，可对景区景色一览无余，下半部分是智能底座，内置有床垫、卫生间用具及智能温控系统等现代化设施。星球客各个部件均已有成熟的供应链，可便捷组装各部件并放置在景区里的各个角落。</p>
 					<img src="@/static/of/p1.jpg" alt="">
@@ -21,12 +22,18 @@
 </template>
 
 <script>
+	import {post} from '@/utils';
 	export default {
 		data() {
 			return {
+				article: ""
 			}
 		},
-		onLoad() {
+		async onLoad() {
+			let res = await post("/About/AboutUs")
+			console.log("关于我们：",res)
+			this.article = res.data
+			console.log("关于我们article：",this.article)
 		},
 		methods: {
 		}

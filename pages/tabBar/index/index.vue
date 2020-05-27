@@ -213,6 +213,7 @@
 					],
 				// 轮播图
 				bannerList: [],
+				cityCode: 0,
 				// 热门推荐
 				hotRecommend: []
 			}
@@ -234,12 +235,17 @@
 			this.bannerList = bannerRes.data
 			// console.log("我是轮播图", this.bannerList)
 			// 热门推荐
-			// let hotRecommendRes = await post("/Goods/GetSearch") 
-			// console.log("我是轮播图", hotRecommendRes)
+			let hotRecommendRes = await post("/Goods/GoodsList_yd") 
+			console.log("我是热门", hotRecommendRes)
 		},
 		onShow(){
 			this.getAreaCode();
 			console.log(this.cityName,'更新的定位')
+			// 定位城市名称获取城市代码
+			// let res = await ("/Area/GetCityCode",{Name: this.cityName})
+			// console.log("城市代码", res)
+			// this.cityCode = res.data.Code
+			// console.log("城市代码", this.cityCode)
 		},
 		onBackPress() {
 			if (this.showCaledar !== false) {
