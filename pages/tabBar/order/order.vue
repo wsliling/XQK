@@ -6,7 +6,7 @@
 			<view class="bb_line" :style="'left:' + tabStyle + 'rpx'"></view>
 		</view>
 		<view class="list" style="padding-top: 80upx;">
-			<view class="order_item" @click="goUrl('/pages/tabBar/order/orderdetails')">
+			<view class="order_item" @click.stop="goUrl('/pages/tabBar/order/orderdetails')">
 				<view class="flex-between">
 					<view class="txtbox">
 						<view class="name">星球客</view>
@@ -20,7 +20,7 @@
 				</view>
 				<view class="btns flex">
 					<view class="btn">取消订单</view>
-					<view class="btn btn_fill">立即支付</view>
+					<view class="btn btn_fill" @click.stop="goUrl('/pages/tabBar/order/pay')">立即支付</view>
 				</view>
 			</view>
 			<view class="order_item">
