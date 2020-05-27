@@ -10,6 +10,7 @@
         <div class="from pd10">
           <div class="from-line">
             <img src="@/static/icons/phonecon.png" class="phone-icon" alt="" mode="widthFix">
+
             <input type="text" class="ipt phone-input" placeholder="请输入手机号码" v-model="phoneNumber" />
           </div>
           <div class="from-line">
@@ -41,10 +42,10 @@
           
           <div class="flex-center">
             <label class=" flex-center " @click="onCheckedStatus">
-              <radio color="#ff6f00" :checked="checkedStatus"></radio>
+              <radio color="#5cc69a" :checked="checkedStatus"></radio>
               <text style="font-size:28upx">我已阅读并同意</text>
             </label>
-            <text class="primary" @click="goUrl()">《杜高用户协议》</text>
+            <text class="primary" @click="goUrl()">《星球客用户协议》</text>
           </div>
         </div>
         <div class="ftbtn">
@@ -203,7 +204,7 @@ export default {
       this.checkedStatus = !this.checkedStatus;
     },
     goUrl() {
-      navigate(`message/agreement/agreement`);
+      navigate(`login/agreement`);
     }
   },
   computed: {}

@@ -65,7 +65,7 @@ function request(url, method, data) {
                       title:'需要登录',
                       content:'是否跳转到登录页面？',
                       cancelColor:'#999',
-                      confirmColor:'#ff6f00',
+                      confirmColor:'#5cc69a',
                       success(res){
                         if(res.confirm){
                           navigate(LoginPath)
@@ -113,7 +113,7 @@ export function requestHideLoading(url, data,method) {
         },
         success: function (res) {
           const ret = res.data;
-          if(code.success){
+          if(ret.code===code.success){
              resolve(ret)
          }else{
               toast(ret.msg)

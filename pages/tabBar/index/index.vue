@@ -13,7 +13,7 @@
 				</swiper-item>
 			</swiper>
 			<view class="dots">
-				<view v-for="(item,index) in 3" :key="index" :class="['dot',currentSwiper==index?'active':'']"></view>
+				<view v-for="(item,index) in bannerList" :key="index" :class="['dot',currentSwiper==index?'active':'']"></view>
 			</view>
 		</view>
 		<view class="searchXQ uni-bg-white uni-mb10">
@@ -23,7 +23,7 @@
 				</view>
 				<view class="item-r flex-column-center" @click.stop="getlocationNow">
 					<view class="iconfont icon-dingwei"></view>
-					<view class="fz12 c_999">当前定位</view>
+					<view class="fz12 c_999" >当前定位</view>
 				</view>
 			</view>
 			<view class="item item-end flex-center-between" @click="onClassify">
@@ -66,7 +66,7 @@
 					</view>
 				</view>
 			</view>
-			<product-item v-for="(item,index) in 4" :key="index" :item="item"></product-item>
+			<product-item v-for="(item,index) in hotRecommendList" :key="index" :item="item"></product-item>
 			<view class="btn_line" @click="navigate('home/recommend')">
 				查看更多推荐
 			</view>
@@ -167,9 +167,9 @@
 
 <script>
 	import {post,get,navigate,judgeLogin} from '@/utils';
-	import {hasPosition} from '@/utils/location'
 	import tabbar from '@/components/tabbar.vue';
 	import calendar from '@/components/date-picker/date-picker';
+	import {hasPosition} from '@/utils/location';
 	// #ifdef H5
 	import {MP} from '@/common/map.js';//h5百度定位
 	// #endif
@@ -215,7 +215,7 @@
 				bannerList: [],
 				cityCode: 0,
 				// 热门推荐
-				hotRecommend: []
+				hotRecommendList: []
 			}
 		},
 		components: {
@@ -224,19 +224,13 @@
 			wpicker,productItem
 		},
 		computed:{
-			...mapState(['lng','lat','cityName'])
+			...mapState(['lng','lat','cityName','cityCode'])
 		},
-		async onLoad() {
-			this.getPosition();
+		onLoad() {
 			this.userId = uni.getStorageSync("userId");
 			this.token = uni.getStorageSync("token");
-			// 轮播图请求
-			let bannerRes = await post("/Banner/BannerList")
-			this.bannerList = bannerRes.data
-			// console.log("我是轮播图", this.bannerList)
-			// 热门推荐
-			let hotRecommendRes = await post("/Goods/GoodsList_yd") 
-			console.log("我是热门", hotRecommendRes)
+			this.getBanner();
+			this.getHotGoodsList();
 		},
 		onShow(){
 			this.getAreaCode();
@@ -255,6 +249,19 @@
 		},
 		methods: {
 			...mapMutations(['update']),
+			// 轮播图请求
+			async getBanner(){
+				let bannerRes = await post("/Banner/BannerList")
+				this.bannerList = bannerRes.data
+				// console.log("我是轮播图", this.bannerList)
+			},
+			async getHotGoodsList () {
+				// 热门推荐
+				let hotRecommendRes = await post("/Goods/GoodsList_yd") 
+				console.log("我是热门", hotRecommendRes)
+				this.hotRecommendList = hotRecommendRes.data 
+			},
+			
 			// 获取定位
 			getPosition(){
 				hasPosition().then(res=>{
@@ -265,6 +272,10 @@
 					});
 					this.nowCity = this.cityName;
 					console.log(this.lat,this.lng,this.cityName,'lacation')
+				}).catch(err=>{
+					this.update({
+						cityName:err
+					});
 				});
 			},
 			scan() {
@@ -307,8 +318,9 @@
 			},
 			// 定位当前城市
 			getlocationNow(){
-				this.update({cityName:this.nowCity})
-				this.getAreaCode();
+				// this.update({cityName:this.nowCity})
+				this.getPosition();
+				// this.getAreaCode();
 			},
 			async getAreaCode() {
 				if(this.cityName === this.upCityName)return;

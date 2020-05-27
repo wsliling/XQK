@@ -6,7 +6,7 @@
 			<uni-icons type="search" color="#999"></uni-icons>
 			<p>搜索目的地/景点/星球客等</p>
 		</div>
-		<product-item v-for="(item,index) in 12" :key="index" :item="item"></product-item>
+		<product-item v-for="(item,index) in goodsList" :key="index" :item="item"></product-item>
 	</div>
 </template>
 
@@ -20,11 +20,19 @@
 				navigate,
 				userId: "",
 				token: "",
+				goodsList: ""
 			} 
 		},
 		onLoad() {
+			getGoodsList()
 		},
 		methods: {
+			async getGoodsList () {
+				// 热门推荐
+				let GoodsList = await post("/Goods/GoodsList_yd") 
+				console.log("我是热门", GoodsList)
+				this.goodsList = GoodsList.data 
+			},
 		}
 	}
 </script>

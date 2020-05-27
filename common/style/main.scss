@@ -7,6 +7,31 @@ page{
 }
 view{padding:0;margin:0;box-sizing:border-box;}
 a{text-decoration: none;color:inherit;}
+/* 去除button默认样式 */
+
+button::after {
+
+  border: none;
+  
+  }
+  
+  button {
+  
+  background-color: transparent;
+  
+  padding-left: 0;
+  
+  padding-right: 0;
+  
+  line-height:inherit;
+  
+  }
+  
+  button {
+  
+  border-radius:0;
+  
+  }
 
 image {
 	vertical-align: middle;
