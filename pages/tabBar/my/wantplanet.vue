@@ -42,15 +42,15 @@
 </template>
 
 <script>
-// import { post, get, verifyPhone } from '@/utils';
-// import { pathToBase64 } from '@/utils/image-tools';
+import { post, get, verifyPhone } from '@/utils';
+import { pathToBase64 } from '@/utils/image-tools';
 import pickers from '@/components/pickers';
 export default {
-	// components: { pickers },
+	components: { pickers },
 	data() {
 		return {
 			showEdit: false,
-			typelist: [],
+			typelist: ['男','女'],
 			type: '',
 			typeTxt: '请选择',
 			Mobile: '',
@@ -71,6 +71,7 @@ export default {
 	},
 	methods: {
 		gettype(e) {
+			console.log(e)
 			this.type = e.code;
 			this.typeTxt = e.message;
 		},
@@ -280,6 +281,6 @@ export default {
 	color:rgba(255,255,255,1);
 	line-height:88upx;
 	text-align:center;
-	margin: 180upx 35upx 0;
+	margin: 94upx 35upx 0;
 }
 </style>

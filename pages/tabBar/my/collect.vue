@@ -555,6 +555,10 @@
 		line-height: 90upx;
 		margin-left: 68%;
 	}
+	.flex-between{
+		display: flex;
+		justify-content: space-between;
+	}
 	// 星球客样式
 	.collect-box{
 		display: flex;

@@ -29,6 +29,10 @@
 	background: #fff;
 	border-bottom: 1px solid #f5f5f5;
 	padding: 30upx;
+	.flex-between{
+		display: flex;
+		justify-content: space-between;
+	}
 	.txtbox{
 		width: 460upx;
 		.name{
@@ -58,7 +62,7 @@
 	.btns{
 		margin-top: 20upx;
 		.btn{
-			height: 64upx; width: 160upx;
+			height: 64upx; 
 			display: flex;
 			justify-content: center;
 			flex-direction: column;
@@ -68,6 +72,7 @@
 			color: #999;
 			font-size: 26upx;
 			margin-right: 20upx;
+			padding: 0 20upx;
 		}
 		.btn_fill{
 			border-color: #5CC69A;

@@ -8,9 +8,18 @@
 						<view class="remarks">
 							<text class="name">陈洛浩</text>
 						</view>
-						<view class="type">138****5678</view>
-						<view class="type">41262819********99</view>
-						<view class="type">122****278@qq.com</view>
+						<view class="info">
+							<image class="imgphone" src="../../../static/icons/phone.png" mode=""></image>
+							<view class="type" >138****5678</view>
+						</view>
+						<view class="info">
+							<image class="imginfo" src="../../../static/icons/info1.png" mode=""></image>
+							<view class="type iconfont icon-shenfenxinxi">41262819********99</view>
+						</view>
+						<view class="info">
+							<image class="imgyouxiang" src="../../../static/icons/youxiang.png" mode=""></image>
+							<view class="type iconfont icon-youxiang">122****278@qq.com</view>
+						</view>
 					</view>
 					<view class="item__ft flex">
 						<view class="flexItem checkedLabel flex flexAlignCneter" @click="setDefaultInvoice(index,item.Id)">
@@ -247,5 +256,23 @@
 		color:rgba(255,255,255,1);
 		line-height:34upx;
 		text-align: center;
+	}
+	.info{
+		display: flex;
+	}
+	.imgphone{
+		width:30upx;
+		height:30upx;
+		margin:22upx 15upx 0 0;
+	}
+	.imginfo{
+		width:32upx;
+		height:32upx;
+		margin:22upx 15upx 0 0;
+	}
+	.imgyouxiang{
+		width:32upx;
+		height:26upx;
+		margin:24upx 15upx 0 0;
 	}
 </style>

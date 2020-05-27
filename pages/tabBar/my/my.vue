@@ -105,7 +105,7 @@
 						</view>
 						<view class="item" @click="tolick('/pages/tabBar/my/information')">
 							<view class="iconImg">
-								<view class="iconfont icon-help"></view>
+								<image class="myimg" src="../../../static/icons/info.png" mode=""></image>
 							</view>
 							<view class="txt">常用信息</view>
 						</view>
@@ -169,4 +169,8 @@
 
 <style lang="scss" scoped>
 	@import './style';
+	.myimg{
+		width:56upx;
+		height:54upx;
+	}
 </style>
