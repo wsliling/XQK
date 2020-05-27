@@ -2,7 +2,7 @@
 	<!-- 我的 -->
 	<view class="myPage uni-bg-white">
 		<view class="pd15">
-			<view @click="tolick('/pages/tabBar/my/setting')">
+			<view @click="navigate('tabBar/my/setting')">
 				<view class="myset">
 					<view class="hint iconfont icon-xiaoxi"> <span>2</span></view>
 					<view class="set iconfont icon-shezhi"></view>
@@ -52,25 +52,25 @@
 				<view class="section_hd">我的圈子</view>
 				<view class="section_bd">
 					<view class="li_33">
-						<view class="item" @click="tolick('/pages/tabBar/my/collect')">
+						<view class="item" @click="navigate('tabBar/my/collect')">
 							<view class="iconImg">
 								<view class="iconfont icon-aixin2"></view>
 							</view>
 							<view class="txt">我的收藏</view>
 						</view>
-						<view class="item" @click="tolick('/pages/tabBar/my/myrelease')">
+						<view class="item" @click="navigate('tabBar/my/myrelease')">
 							<view class="iconImg">
 								<view class="iconfont icon-xiangji"></view>
 							</view>
 							<view class="txt">我的发布</view>
 						</view>
-						<view class="item" @click="tolick('/pages/tabBar/my/myfocus')">
+						<view class="item" @click="navigate('tabBar/my/myfocus')">
 							<view class="iconImg">
 								<view class="iconfont icon-guanzhu"></view>
 							</view>
 							<view class="txt">我的关注</view>
 						</view>
-						<view class="item" @click="tolick('/pages/tabBar/my/seereply')">
+						<view class="item" @click="navigate('tabBar/my/seereply')">
 							<view class="iconImg">
 								<view class="iconfont icon-pinglun1"></view>
 							</view>
@@ -84,50 +84,50 @@
 				<view class="section_hd">更多服务</view>
 				<view class="section_bd">
 					<view class="li_33">
-						<view class="item" @click="tolick('/pages/tabBar/my/coupon')">
+						<view class="item" @click="navigate('tabBar/my/coupon')">
 							<view class="iconImg">
 								<view class="iconfont icon-youhuiquan"></view>
 							</view>
 							<view class="txt">优惠券</view>
 						</view>
-						<view class="item" @click="tolick('/pages/tabBar/my/invoiceList')">
+						<view class="item" @click="navigate('tabBar/my/invoiceList')">
 							<view class="iconImg">
 								<view class="iconfont icon-fapiao"></view>
 							</view>
 							<view class="txt">发票中心</view>
 				
 						</view>
-						<view class="item" @click="tolick('/pages/tabBar/my/myAppraise')">
+						<view class="item" @click="navigate('tabBar/my/myAppraise')">
 							<view class="iconImg">
 								<view class="iconfont icon-bianji"></view>
 							</view>
 							<view class="txt">我要评价</view>
 						</view>
-						<view class="item" @click="tolick('/pages/tabBar/my/information')">
+						<view class="item" @click="navigate('tabBar/my/information')">
 							<view class="iconImg">
 								<image class="myimg" src="../../../static/icons/info.png" mode=""></image>
 							</view>
 							<view class="txt">常用信息</view>
 						</view>
-						<view class="item" @click="tolick('/pages/tabBar/my/gethelp')">
+						<view class="item" @click="navigate('tabBar/my/gethelp')">
 							<view class="iconImg">
 								<view class="iconfont icon-help"></view>
 							</view>
 							<view class="txt">获取帮助</view>
 						</view>
-						<view class="item" @click="tolick('/pages/tabBar/my/feedback')">
+						<view class="item" @click="navigate('tabBar/my/feedback')">
 							<view class="iconImg">
 								<view class="iconfont icon-fankui"></view>
 							</view>
 							<view class="txt">意见反馈</view>
 						</view>
-						<view class="item" @click="tolick('/pages/tabBar/my/security')">
+						<view class="item" @click="navigate('tabBar/my/security')">
 							<view class="iconImg">
 								<view class="iconfont icon-anquan1"></view>
 							</view>
 							<view class="txt">安全中心</view>
 						</view>
-						<view class="item" @click="tolick('/pages/tabBar/my/kefu')">
+						<view class="item" @click="navigate('tabBar/my/kefu')">
 							<view class="iconImg">
 								<view class="iconfont icon-kefu"></view>
 							</view>
@@ -136,7 +136,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="ftbtn flex-column uni-mb10"  @click="tolick('/pages/tabBar/my/wantplanet')">
+			<view class="ftbtn flex-column uni-mb10"  @click="navigate('tabBar/my/wantplanet')">
 				我也想要星球客
 			</view>
 		</view>
@@ -146,7 +146,7 @@
 		<uni-popup type="center" ref="tiedphone">
 			<view class="phonebox">
 				<view class="binding">绑定手机号</view>
-				<view class="close"@click="close()">x</view>
+				<view class="close" @click="close()">x</view>
 				<view class="cell-phone">
 					<image src="../../../static/icons/phones.png" mode=""></image>
 					<input type="text" value="" placeholder="请绑定您的手机号码"/>
@@ -165,7 +165,7 @@
 </template>
 
 <script>
-	import {post,get,toLogin} from '@/common/util.js';
+	import {post,get,judgeLogin,navigate} from '@/utils';
 	import tabbar from '@/components/tabbar.vue';
 	import popup from '@/components/uni-popup/uni-popup.vue'
 	export default {
@@ -175,15 +175,17 @@
 		},
 		data() {
 			return {
-				
+				navigate
 			}
 		},
+		onLoad(){
+
+		},
+		onShow(){
+			if(!judgeLogin())return;
+			console.log('login')
+		},
 		methods: {
-			tolick(url){
-				uni.navigateTo({
-					url:url
-				})
-			},
 			tiedphone(){
 				this.$refs.tiedphone.open()
 			},

@@ -6,7 +6,7 @@
 // const filePath = 'http://top.naosongduan.cn';//文件域名
 // const hostPath = 'http://top.naosongduan.cn/h5/index.html';//主机路径
 // 测试
-const host = 'http://dgapi.wtvxin.com/api/';//
+const host = 'http://xqkapi.wtvxin.com/api/';//
  // const host = 'https://scapi.sc-mall.net/api/';  //发现页面套用社交云商接口地址
 
 const filePath = 'http://dgapi.wtvxin.com';//文件域名
@@ -39,7 +39,7 @@ export function judgeLogin(){
         title:'未登录',
         content:'是否跳转到登录页面？',
         cancelColor:'#999',
-        confirmColor:'#ff6f00',
+        confirmColor:'#5cc69a',
         success(res){
           if(res.confirm){
             navigate(LoginPath)

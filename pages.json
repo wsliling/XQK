@@ -235,6 +235,24 @@
 				"navigationBarTitleText": "搜索"
 			}
         }
+        ,{
+            "path" : "pages/login/login",
+            "style" : {
+				"navigationBarTitleText": "登录"
+			}
+        }
+        ,{
+            "path" : "pages/login/register",
+            "style" : {
+				"navigationBarTitleText": "注册"
+			}
+        }
+        ,{
+            "path" : "pages/login/agreement",
+            "style" : {
+				"navigationBarTitleText": "用户协议"
+			}
+        }
     ],
 	"subPackages":[
 		{

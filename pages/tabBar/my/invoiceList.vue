@@ -156,7 +156,7 @@
 					title: '提示',
 					content: '您确定要删除该发票信息吗？',
 					cancelColor:'#999',
-					confirmColor:'#ff6f00',
+					confirmColor:'#5cc69a',
 					success: function (res) {
 							if (res.confirm) {
 								_this.Deleteinvoice(index,fId);
@@ -228,6 +228,6 @@
 		font-size: 38upx;
 	}
 	.addInvoice__weui-cells .tag.active{
-		border-color: #ff6f00
+		border-color: #5cc69a
 	}
 </style>
