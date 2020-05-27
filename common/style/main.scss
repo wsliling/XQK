@@ -68,11 +68,11 @@ p{
   cursor:pointer;
   border:1upx solid $primary;
   flex:0 0 auto;
-  &:hover{
-      background:$white;
-      color:$primary;
-      border:1upx solid $primary;
-  }
+  // &:hover{
+  //     background:$white;
+  //     color:$primary;
+  //     border:1upx solid $primary;
+  // }
 }
 .btn-max{
   background:$btn;
