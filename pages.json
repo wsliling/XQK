@@ -258,6 +258,12 @@
 						"navigationBarTitleText": "星语详情"
 					}
 				}
+				,{
+					"path" : "reply",
+					"style" : {
+						"navigationBarTitleText": "全部回复"
+					}
+				}
 			]
 		}
 	],

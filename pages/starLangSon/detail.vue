@@ -60,11 +60,11 @@
 					</div>
 				</div>
 				<reply-item  v-for="(item,index) in 3" :key="index"></reply-item>
-				<div class="more">查看108条回复</div>
+				<div class="more" @click="navigate('starLangSon/reply')">查看108条回复</div>
 			</div>
 		</div>
 		<div class="gap20"></div>
-		<div class="other plr30">
+		<div class="other plr30 pb30">
 			<h4>其他推荐星语</h4>
 			<div class="flex-center-between">
 				<starLangItem :item="item"  v-for="(item,index) in datalist" :key="index"></starLangItem>
@@ -78,10 +78,12 @@
 	import proItem from '@/components/productItem.vue';
 	import starLangItem from '@/components/starLangItem.vue';
 	import replyItem from './replyItem.vue';
+	import {navigate} from '@/utils';
 	export default {
 		components:{proItem,replyItem,starLangItem},
 		data() {
 			return {
+				navigate,
 				currentSwiper :0,
 				content:`风景是真的美，但走起来真的累！而且！最近是帐篷节，周末人多到爆！无论是等缆车！还是徒步！都会把你挤哭的！要去的记得选好时间
 					门票：可以买门票+一级索道往返票=170元，索道往返价格有些微差异，具体可美团（据说一级索道途经的风景一般，建议保存体力选择搭乘缆车。本人觉得二级索道沿途风景也很一般啊......缺乏运动的小伙伴

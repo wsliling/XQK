@@ -4,8 +4,8 @@
         	@input="$emit('input', content)" :placeholder="placeholder" 
 			confirm-type="search" @confirm="confirm"
 		>
-		<div class="clear" @click="content=''" v-show="content">
-			<uni-icons color="#999" class="" size="20" type="clear" />
+		<div class="clear" @click="content=''" v-if="content">
+			<uni-icons color="#ccc" class="" size="20" type="clear" />
 		</div>
 	</div>
 </template>
@@ -51,19 +51,26 @@
 		padding-left:20upx;
 		padding-right:30upx;
 		width:100%;
+		height:100%;
+		line-height:100%;
 		position:relative;
 	}
 	input{
 		line-height:1em;
 		font-size:100%;
 		color:#333;
-		width:90%;
+		width:95%;
+		height:100%;
+		line-height:100%;
 	}
 	.clear{
 		position:absolute;
 		right:10upx;
 		top:0;
-		line-height:1;
+		height:100%;
+		line-height:100%;
 		font-weight:100;
+		display:flex;
+		align-items:center;
 	}
 </style>

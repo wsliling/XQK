@@ -159,6 +159,10 @@
 				font-size: 24upx;
 				color: #555;
 				line-height: 1.1;
+				.iconfont{
+					font-size:28upx;
+					margin-right:10upx;
+				}
 			}
 			.zan.active{
 				color: $primary;
