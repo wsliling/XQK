@@ -2,9 +2,6 @@
 	import {hasPosition} from '@/utils/location';
 	export default {
 		onLaunch: function() {
-			console.log('App Launch')
-		},
-		onShow: function() {
 			// 获取定位
 			hasPosition().then(res=>{
 				this.$store.commit('update',{
@@ -18,6 +15,8 @@
 					cityName:err
 				});
 			});
+		},
+		onShow: function() {
 		},
 		onHide: function() {
 			console.log('App Hide')
