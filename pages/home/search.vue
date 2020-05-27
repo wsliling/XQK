@@ -3,7 +3,7 @@
 		<div class="searchBox flex-center-between">
 			<div class="left flex-center">
 				<uni-icons type="search" color="#666" size="22" class="icons"></uni-icons>
-				<div class="area ellipsis">{{this.cityName||'深圳市市市'}}</div>
+				<div class="area ellipsis" @click="navigate('location/cityList')">{{cityName||'定位失败'}}</div>
 				<div class="line"></div>
 				<ans-input class="input" @confirm="searchInput" placeholder="搜索目的地/景点/星球客等"></ans-input>
 			</div>
@@ -12,18 +12,37 @@
 			<div class="tabBlock">
 				<div class="tit flex-center-between">
 					<h3>历史</h3>
-					<uni-icons type="trash" size="20"></uni-icons>
+					<uni-icons type="trash" size="20" @click="removeHistorySerch" v-if="historySerch.length"></uni-icons>
 				</div>
 				<div class="tab flex-center">
-					<div class="item" v-for="(item,index) in 8" :key="index" @click="navigate('home/searchList')">武功山</div>
+					<block v-if="historySerch.length">
+						<div class="item" v-for="(item,index) in historySerch" :key="index" @click="onSearch(item)">{{item}}</div>
+					</block>
+					<p v-else>空空如也~</p>
 				</div>
 			</div>
-			<div class="tabBlock" v-for="(item,index) in 5" :key="index"> 
+			<div class="tabBlock" v-if="hot.length"> 
 				<div class="tit flex-center-between">
 					<h3>热门搜索</h3>
 				</div>
 				<div class="tab flex-center">
-					<div class="item" v-for="(item,index) in 8" :key="index">武功山</div>
+					<div class="item" v-for="(item,index) in hot" :key="index" @click="onSearch(item.Name)">{{item.Name}}</div>
+				</div>
+			</div>
+			<div class="tabBlock" v-if="near.length">  
+				<div class="tit flex-center-between">
+					<h3>附近星球客</h3>
+				</div>
+				<div class="tab flex-center">
+					<div class="item" v-for="(item,index) in near" :key="index" @click="onSearch(item.Name)">{{item.Name}}</div>
+				</div>
+			</div>
+			<div class="tabBlock" v-if="tab.length">  
+				<div class="tit flex-center-between">
+					<h3>特色主题</h3>
+				</div>
+				<div class="tab flex-center">
+					<div class="item" v-for="(item,index) in tab" :key="index" @click="onSearch(item.Name)">{{item.Name}}</div>
 				</div>
 			</div>
 		</div>
@@ -40,20 +59,71 @@
 			return {
 				navigate,
 				keyword:'',
+				pageSize:8,
+				page:1,
+				historySerch:[],//历史
+				hot:[],//热门
+				near:[],//附近
+				tab:[],//特色
 			}
 		},
 		computed:{
-			...mapState(['lng','lat','cityName'])
+			...mapState(['lng','lat','cityName','cityCode'])
 		},
 		onLoad() {
+			this.getTab();
 		}, 
+		onShow(){
+			uni.getStorageSync('historySerch')&&(this.historySerch = uni.getStorageSync('historySerch')||[]);
+		},
 		methods: {
 			...mapMutations(['update']),
-			searchInput(e){
-				console.log(e,'eee')
+			getTab(){
+				post('Goods/GetSearch',{
+					PageSize:this.pageSize,
+					Page:this.page,
+					Lat:this.lat,
+					Lng:this.lng,
+					AreaCode:this.cityCode
+				}).then(res=>{
+					const data = res.data;
+					this.hot = data.hotlist;
+					this.near = data.nearlist;
+					this.tab = data.taglist;
+					console.log(res,'res')
+				})
+			},
+			searchInput(val){
+				console.log(val,'eee')
+				this.historySerch.push(val);
+				if(this.historySerch.length>8){
+					this.historySerch.shift()
+				}
+				uni.setStorageSync('historySerch',this.historySerch)
+				navigate('home/searchList',{keyword:val})
 			},
 			cancelInput(){
 
+			},
+			onSearch(val){
+				navigate('home/searchList',{keyword:val})
+			},
+			removeHistorySerch(){
+
+				if(this.historySerch.length){
+					const that =this;
+					uni.showModal({
+						title:'是否删除历史搜索记录！',
+						cancelColor:'#999',
+						confirmColor:'#5cc69a',
+						success(res){
+							if(res.confirm){
+								that.historySerch=[];
+								uni.setStorageSync('historySerch',[])
+							}
+						}
+					})
+				}
 			}
 		}
 	}
@@ -106,6 +176,11 @@
 					margin-bottom:20upx;
 					background:#eff3f6;
 					border-radius:5upx;
+				}
+				p{
+					text-align:center;
+					color:#999;
+					width:100%;
 				}
 			}
 		}

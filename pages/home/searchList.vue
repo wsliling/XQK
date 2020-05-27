@@ -2,7 +2,7 @@
 	<div class="bgfff plr30">
 		<div class="searchBox flex-center-between">
 			<div class="city ellipsis bold">{{this.cityName||'深圳市'}}</div>
-			<ans-input class="input bold" @confirm="searchInput" placeholder="输入搜索内容"></ans-input>
+			<ans-input class="input bold" @confirm="searchInput" :value="keyword" placeholder="输入搜索内容"></ans-input>
 			<div class="date bold flex-column-center-center">
 				<p>05/18</p>
 				<span>-</span>
@@ -47,16 +47,22 @@
 		components:{ansInput,productItem,notData,wPicker},
 		data() {
 			return {
-				sortList:[{label:"1",value:"2"},{label:"3",value:"4"}]
+				sortList:[{label:"1",value:"2"},{label:"3",value:"4"}],
+				keyword:'',
 			}
 		},
 		computed:{
 			...mapState(['lng','lat','cityName'])
 		},
-		onLoad() {
+		onLoad(e) {
+			this.keyword = e.keyword;
+			this.getData();
 		},
 		methods: {
 			...mapMutations(['update']),
+			getData(){
+				// post('')
+			},
 			searchInput(e){
 				console.log(e,'eee')
 			},

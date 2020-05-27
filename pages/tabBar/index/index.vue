@@ -32,8 +32,41 @@
 				</view>
 				<view class="iconfont icon-arrow_down-copy"></view>
 			</view>
-			<calendar @change="change" :startDate="initStartDate" :endDate="initEndDate" :daysCount="daysCount"></calendar>
-			<view class="btn">
+			<!-- <calendar @change="change" :startDate="initStartDate" :endDate="initEndDate" :daysCount="daysCount"></calendar> -->
+			<date-picker ref="datePicker" @change="changeDatePicker" :option="option"></date-picker>
+			<view class="order-time flex-center-between" @click="$refs.datePicker.open()">
+					<view class="flex-column-center">
+						<text class="mintxt">入住</text>
+						<text class="date-wrappper">{{option.currentRangeStartDate}}</text>
+						<!-- <text class="goInHotel2">今天</text> -->
+					</view>
+					<text class="sumCount">共{{option.dateNum}}晚</text>
+					<view class="flex-column-center">
+						<text class="mintxt">离店</text>
+						<text class="date-wrappper">{{option.currentRangeEndDate}}</text>
+						<!-- <text class="goInHotel2">明天</text> -->
+					</view>
+					<view class="flex-column-center" @click.stop="showNumlayer = true">
+						<text class="mintxt">人数</text>
+						<text class="date-wrappper">{{nowNum}}人</text>
+					</view>
+			</view>
+			<view class="number-layer" v-if="showNumlayer">
+				<view class="layer-white-space" @tap="showNumlayer = false"></view>
+				<view class="layer-content-number p30">
+					<view class="h4">
+						修改入住人数
+					</view>
+					<view class="numbox">
+						<input type="number" v-model="inputNum" />
+					</view>
+					<view class="btns flex-center-between">
+						<view class="btn btn_1 c_999" @click="showNumlayer = false">取消</view>
+						<view class="btn btn_2" @click="numConfirm">确定</view>	
+					</view>
+				</view>
+			</view>
+			<view class="btn" @click="navigate('home/search')">
 				搜索星球客
 			</view>
 		</view>
@@ -168,7 +201,7 @@
 <script>
 	import {post,get,navigate,judgeLogin} from '@/utils';
 	import tabbar from '@/components/tabbar.vue';
-	import calendar from '@/components/date-picker/date-picker';
+	import datePicker from '@/components/good-date-picker/good-date-picker';
 	import {hasPosition} from '@/utils/location';
 	// #ifdef H5
 	import {MP} from '@/common/map.js';//h5百度定位
@@ -211,11 +244,24 @@
 							value:"3",
 						}
 					],
+				//弹窗-区间模式配置：
+				option:{
+					currentRangeStartDate: '2019-12-07', //根默认显示初始时间，可为空,默认今天
+					currentRangeEndDate: '2019-12-08', //根默认区间选择显示结束时间，可为空，默认明天
+					initStartDate: '2019-12-07', //可选起始时间限制，可为空,默认今天
+					initEndDate: '2020-06-08', //可选结束时间限制，可为空,默认4个月后
+					isRange: true, //是否开启范围选择，必填
+					isModal:true,
+					dateNum:1,
+				},
+				showNumlayer:false,//人数弹窗
+				inputNum:1,
+				nowNum:1,
 			}
 		},
 		components: {
 			tabbar,
-			calendar,
+			datePicker,
 			wpicker,productItem
 		},
 		computed:{
@@ -277,16 +323,17 @@
 			changeSwiper(e){
 				this.currentSwiper=e.detail.current;
 			},
-			change({
-				choiceDate,
-				dayCount
-			}) {
-				//参数解释
-				//1.choiceDate 时间区间（开始时间和结束时间）
-				//2.dayCount 共多少晚
-			
-				// console.log(choiceDate, dayCount);
-				console.log('入住从 ' + choiceDate[0].re + '  到 ' + choiceDate[1].re + '  共 ' + dayCount + ' 晚');
+			// 更改日历
+			changeDatePicker(e) {
+				console.log(e)
+				this.option.currentRangeStartDate = e.startDate;
+				this.option.currentRangeEndDate = e.endDate;
+				this.option.dateNum = e.dateNum;
+			},
+			// 修改当前人数
+			numConfirm(){
+				this.nowNum = this.inputNum;
+				this.showNumlayer = false;
 			},
 			hideCoupon(){
 				this.showCoupon=false;
