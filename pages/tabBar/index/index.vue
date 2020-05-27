@@ -73,7 +73,7 @@
 		</view>
 		<!-- 服务保障 -->
 		<view class="serveXQ pd15 uni-mb10">
-			<image src="/static/of/2.jpg" mode="widthFix"></image>
+			<image  @click="navigate('tabBar/my/security')" src="/static/of/2.jpg" mode="widthFix"></image>
 		</view>
 		<!-- 推荐星语 -->
 		<view class="recomXQ pd15 uni-mb10">
