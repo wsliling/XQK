@@ -27,8 +27,8 @@
 				token: "",
 				page:1,
 				pageSize:10,
-				goodsList: [],
 				loadMore:0,//0-loading前；1-loading中；2-没有更多了
+				goodsList: [],
 			} 
 		},
 		onLoad() {
