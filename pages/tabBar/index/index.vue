@@ -6,14 +6,14 @@
 		<!--轮播图-->
 		<view class="index_swiper">
 			<swiper class="swiper" :indicator-dots="false" autoplay :interval="5000" :duration="500" @change="changeSwiper">
-				<swiper-item v-for="(item,index) in 3" :key="index">
+				<swiper-item v-for="(item,index) in bannerList" :key="index">
 					<view class="swiper-item">
-						<image class="img" src="/static/of/banner.jpg" mode="aspectFill"></image>
+						<image class="img" :src="item.Pic" mode="aspectFill" @click="updateBannerHits(index)"></image>
 					</view>
 				</swiper-item>
 			</swiper>
 			<view class="dots">
-				<view v-for="(item,index) in 3" :key="index" :class="['dot',currentSwiper==index?'active':'']"></view>
+				<view v-for="(item,index) in bannerList" :key="index" :class="['dot',currentSwiper==index?'active':'']"></view>
 			</view>
 		</view>
 		<view class="searchXQ uni-bg-white uni-mb10">
@@ -99,14 +99,14 @@
 					</view>
 				</view>
 			</view>
-			<product-item v-for="(item,index) in 4" :key="index" :item="item"></product-item>
+			<product-item v-for="(item,index) in hotRecommendList" :key="index" :item="item"></product-item>
 			<view class="btn_line" @click="navigate('home/recommend')">
 				查看更多推荐
 			</view>
 		</view>
 		<!-- 服务保障 -->
 		<view class="serveXQ pd15 uni-mb10">
-			<image src="/static/of/2.jpg" mode="widthFix"></image>
+			<image  @click="navigate('tabBar/my/security')" src="/static/of/2.jpg" mode="widthFix"></image>
 		</view>
 		<!-- 推荐星语 -->
 		<view class="recomXQ pd15 uni-mb10">
@@ -244,6 +244,10 @@
 							value:"3",
 						}
 					],
+				// 轮播图
+				bannerList: [],
+				// 热门推荐
+				hotRecommendList: [],
 				//弹窗-区间模式配置：
 				option:{
 					currentRangeStartDate: '2019-12-07', //根默认显示初始时间，可为空,默认今天
@@ -270,10 +274,13 @@
 		onLoad() {
 			this.userId = uni.getStorageSync("userId");
 			this.token = uni.getStorageSync("token");
+			this.getBanner();
+			this.getHotGoodsList();
 		},
 		onShow(){
 			this.getAreaCode();
 			console.log(this.cityName,'更新的定位')
+			this.getCityCode()
 		},
 		onBackPress() {
 			if (this.showCaledar !== false) {
@@ -283,8 +290,24 @@
 		},
 		methods: {
 			...mapMutations(['update']),
-			getData(){
-				
+			// 轮播图请求
+			async getBanner(){
+				let bannerRes = await post("/Banner/BannerList")
+				this.bannerList = bannerRes.data
+				// console.log("我是轮播图", this.bannerList)
+			},
+			async getHotGoodsList () {
+				// 热门推荐
+				let hotRecommendRes = await post("/Goods/GoodsList_yd") 
+				console.log("我是热门", hotRecommendRes)
+				this.hotRecommendList = hotRecommendRes.data 
+			},
+			async getCityCode () {
+				// 定位城市名称获取城市代码
+				// let res = await ("/Area/GetCityCode",{Name: this.cityName})
+				// console.log("城市代码", res)
+				// this.cityCode = res.data.Code
+				// console.log("城市代码", this.cityCode)
 			},
 			// 获取定位
 			getPosition(){
@@ -369,6 +392,11 @@
 			pickerclassOk(e){
 				this.classifyDefault=e.result;
 			},
+			// 更新广告图点击量
+			async updateBannerHits(index) {
+				post("/Banner/BannerHits",{id:this.bannerList[index].Id}) 
+				console.log("广告图结果：",res)
+			}
 		},
 		// #ifndef MP
 		//点击导航栏 buttons 时触发
@@ -381,8 +409,9 @@
 					duration: 2000
 				});
 			}
-		}
+		},
 		// #endif
+		
 	}
 </script>
 

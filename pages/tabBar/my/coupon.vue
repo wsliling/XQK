@@ -2,11 +2,11 @@
 	<!-- 优惠劵 -->
 	<view class="ticket">
 		<view class="tab flex">
-			<view class="flex1 flexc" :class="{ 'active': tabIndex == index }" v-for="(item, index) in tabList" :key="index" @click="cliTab(index)">{{ item }}</view>
-			<span :style="'left:'+tabStyle+'rpx'"></span>
+			<view class="flex1 flexc" :class="{ active: tabIndex == index }" v-for="(item, index) in tabList" :key="index" @click="cliTab(index)">{{ item }}</view>
+			<span :style="'left:' + tabStyle + 'rpx'"></span>
 		</view>
-		<block>
-			<view class="list jus-b flex" v-for="(item, index) in 3" :key="index" v-if="tabIndex ==0">
+		<block v-if="datalist.length">
+			<view class="list jus-b flex" v-for="(item, index) in 3" :key="index" v-if="tabIndex == 0">
 				<view class="left">
 					<view class="name">满100元减20元券</view>
 					<view class="time">有效期至2020-01-12</view>
@@ -16,21 +16,20 @@
 				</view>
 				<view class="right flexc">
 					<view>
-						<view class="num">20元
+						<view class="num">
+							20元
 							<!-- <span>'元':'折'</span> -->
 						</view>
 						<!-- <span>满100元可使用</span> -->
 					</view>
 				</view>
 			</view>
-			<view class="list jus-b flex" v-for="(item, index) in 3" :key="index" v-if="tabIndex ==1 || tabIndex ==2">
+			<view class="list jus-b flex" v-for="(item, index) in 3" :key="index" v-if="tabIndex == 1 || tabIndex == 2">
 				<view class="left">
 					<view class="name">满100元减20元券</view>
 					<view class="time">有效期至2020-01-12</view>
 				</view>
-				<view class="right flexc" v-if="tabIndex ==1 || tabIndex ==2" :style="{background:'#D4D5D7'}">
-					<view class="num" style="color: #fff;">20元</view>
-				</view>
+				<view class="right flexc" v-if="tabIndex == 1 || tabIndex == 2" :style="{ background: '#D4D5D7' }"><view class="num" style="color: #fff;">20元</view></view>
 			</view>
 		</block>
 		<noData :isShow="noDataIsShow"></noData>
@@ -38,7 +37,6 @@
 		<!-- <view class="btn_de" @click="goUrl('/pages/member/couponCenter/couponCenter')">领券中心</view> -->
 	</view>
 </template>
-
 <script>
 import { post } from '@/common/util.js';
 import noData from '@/components/noData'; //没有数据的通用提示
@@ -63,7 +61,6 @@ export default {
 	},
 	computed: {
 		tabStyle() {
-			console.log((750 / this.tabList.length) * this.tabIndex + (750 / this.tabList.length - 50) / 2);
 			return (750 / this.tabList.length) * this.tabIndex + (750 / this.tabList.length - 50) / 2;
 		}
 	},
@@ -71,6 +68,7 @@ export default {
 		this.userId = uni.getStorageSync('userId');
 		this.token = uni.getStorageSync('token');
 		this.page = 1;
+		this.CouponList();
 	},
 	components: {
 		noData,
@@ -88,14 +86,55 @@ export default {
 			this.page = 1;
 			this.noDataIsShow = false;
 			this.hasData = false;
-			
+			this.CouponList();
 		},
+		//我的优惠券
+		CouponList() {
+			post('User/CouponList', {
+				UserId: this.userId,
+				Token: this.token,
+				Page: this.page,
+				PageSize: this.pageSize,
+				Status: this.couponStatus
+			}).then(res => {
+				if (res.code == 0) {
+					let _this = this;
+					let len = res.data.length;
+					if (len > 0) {
+						this.hasData = true;
+						this.noDataIsShow = false;
+						res.data.map(item => {
+							item.AddTime = item.AddTime.split('T')[0];
+							item.EndTime = item.EndTime.split('T')[0];
+						});
+					}
+					if (len == 0 && this.page == 1) {
+						this.noDataIsShow = true;
+						this.hasData = false;
+					}
+					if (this.page === 1) {
+						this.datalist = res.data;
+					}
+					if (this.page > 1) {
+						this.datalist = this.datalist.concat(res.data);
+					}
+					if (len < this.pageSize) {
+						this.isLoad = false;
+						this.loadingType = 2;
+					} else {
+						this.isLoad = true;
+						this.loadingType = 0;
+					}
+				}
+			});
+		}
 	},
 	onReachBottom: function() {
 		if (this.isLoad) {
 			this.loadingType = 1;
 			this.isOved = false;
 			this.page++;
+			this.CouponList();
 		} else {
 			this.loadingType = 2;
 			if (this.page > 1) {
@@ -107,123 +146,127 @@ export default {
 	}
 };
 </script>
+<style scoped lang="scss">
+.list::after {
+	content: '';
+	display: inline-block;
+	position: absolute;
+	top: -20upx;
+	left: 440upx;
+	width: 40upx;
+	height: 40upx;
+	border-radius: 50%;
+	background-color: #f5f5f5;
+}
+.list::before {
+	content: '';
+	display: inline-block;
+	position: absolute;
+	bottom: -20upx;
+	left: 440upx;
+	width: 40upx;
+	height: 40upx;
+	border-radius: 50%;
+	background-color: #f5f5f5;
+}
+.list {
+	width: 690upx;
+	height: 200upx;
+	border-radius: 15upx;
+	margin: 30upx;
+	background-color: #fff;
+	overflow: hidden;
+	position: relative;
+	.use {
+		background-color: #d4d5d6 !important;
+	}
+	.left {
+		width: 460upx;
+		padding: 40upx 0 0 35upx;
+		position: relative;
 
-<style scoped lang='scss'>
-.list::after{
-  content:'';
-  display: inline-block;
-  position: absolute;
-  top: -20upx;
-  left: 440upx;
-  width: 40upx;
-  height: 40upx;
-  border-radius: 50%;
-  background-color: #f5f5f5;
+		.time {
+			font-size: 24upx;
+			line-height: 60upx;
+			color: #999;
+		}
+		.coupoutag {
+			width: 128upx;
+			height: 40upx;
+			border-radius: 0 0 24px 0;
+			position: absolute;
+			top: 0;
+			left: 0;
+			font-size: 24upx;
+			color: #fff;
+		}
+		.useinfo {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 93%;
+			padding: 10upx 20upx;
+			font-size: 24upx;
+			color: #999;
+			box-sizing: border-box;
+			border-top: 1px dashed #eee;
+		}
+	}
+	.right {
+		width: 230upx;
+		background-color: #5cc69a;
+		text-align: center;
+		.num {
+			color: #fff;
+			font-size: 56upx;
+			font-weight: 900;
+			span {
+				font-size: 20upx;
+			}
+		}
+		span {
+			font-size: 20upx;
+			color: #fff;
+		}
+	}
 }
-.list::before{
-  content:'';
-  display: inline-block;
-  position: absolute;
-  bottom: -20upx;
-  left: 440upx;
-  width: 40upx;
-  height: 40upx;
-  border-radius: 50%;
-  background-color: #f5f5f5;
-}
-.list{
-  width: 690upx;
-  height: 200upx;
-  border-radius: 15upx;
-  margin: 30upx;
-  background-color: #fff;
-  overflow: hidden;
-  position: relative;
-  .use{
-    background-color: #d4d5d6!important
-  }
-  .left{
-    width: 460upx;
-    padding: 40upx 0 0 35upx;
-    position: relative;
-	
-    .time{
-      font-size: 24upx;
-	  line-height: 60upx;
-      color: #999;
-    }
-    .coupoutag{
-      width: 128upx;
-	  height: 40upx;
-      border-radius: 0 0 24px 0;
-      position: absolute;
-      top: 0;
-      left: 0;
-      font-size: 24upx;
-      color: #fff
-    }
-	.useinfo{
+.tab {
+	height: 92upx;
+	background-color: #fff;
+	position: relative;
+	.active {
+		color: #5cc69a;
+	}
+	span {
 		position: absolute;
 		bottom: 0;
-		left: 0;
-		width: 93%;
-		padding: 10upx 20upx;
-		font-size: 24upx;
-		color: #999;
-		box-sizing: border-box;
-		border-top: 1px dashed #eee;
+		transition: all 0.2s;
+		height: 5upx;
+		width: 50upx;
+		background-color: #5cc69a;
 	}
-  }
-  .right{
-    width: 230upx;
-    background-color: #5CC69A;
-    text-align: center;
-    .num{
-      color: #fff;
-      font-size: 56upx;
-      font-weight: 900;
-      span{
-        font-size: 20upx
-      }
-    }
-    span{
-      font-size: 20upx;
-      color: #fff;
-    }
-  }
 }
-.tab{
-  height: 92upx;
-  background-color: #fff;
-  position: relative;
-  .active{
-    color: #5CC69A
-  }
-  span{
-    position: absolute;
-    bottom: 0;
-    transition: all .2s;
-    height: 5upx;
-    width: 50upx;
-    background-color: #5CC69A
-  }
+.back_col {
+	background-color: #5cc69a !important;
 }
-.back_col{
-  background-color:#5CC69A!important;
+.btn_de {
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	height: 88upx;
+	line-height: 88upx;
+	background: #5cc69a;
+	color: #ffffff;
+	text-align: center;
 }
-.btn_de{
-  width:100%;position: fixed;bottom:0;
-  height:88upx;line-height: 88upx;background: #5CC69A;
-  color:#ffffff;text-align: center;
-}
-.flex{
+.flex {
 	display: flex;
 }
-.flex1{
+.flex1 {
 	flex: 1;
 	overflow: hidden;
 }
-.flexc{
+.flexc {
 	display: flex;
 	justify-content: center;
 	align-items: center;

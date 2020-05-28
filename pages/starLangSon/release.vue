@@ -25,7 +25,7 @@
 		</view>
 
 		<div class="feedback">
-			<view class="site" @click="tolick('/pages/tabBar/list/location')">
+			<view class="site" @click="tolick('/pages/starLangSon/location')">
 				<view>所在位置</view>
 				<view class="place">
 					<view class="">展滔科技大厦</view>
@@ -35,7 +35,7 @@
 			<view class="myrelease">
 				<view class="relevancy">
 					<view>关联星球客 (1/5)</view>
-					<view class="addition" @click="tolick('/pages/tabBar/list/relevance')">添加</view>
+					<view class="addition" @click="tolick('/pages/starLangSon/relevance')">添加</view>
 				</view>
 				<view class="collect-box">
 					<view class="collect-left"><image src="/static/of/p1.jpg" mode=""></image></view>

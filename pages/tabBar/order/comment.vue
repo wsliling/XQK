@@ -371,7 +371,8 @@ export default {
 	line-height: 80upx;
 	text-align: center;
 	border-radius: 12upx;
-	margin-top: 40upx;
+	margin-top: 60upx;
+	margin-bottom: 30upx;
 }
 
 .appraiseContent__hd {
