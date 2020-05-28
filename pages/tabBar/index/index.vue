@@ -21,7 +21,7 @@
 				<view class="item-l location-name">
 					{{cityName}}
 				</view>
-				<view class="item-r flex-column-center" @click.stop="getlocationNow">
+				<view class="item-r flex-column-center" @click.stop="getPosition">
 					<view class="iconfont icon-dingwei"></view>
 					<view class="fz12 c_999" >当前定位</view>
 				</view>
@@ -283,6 +283,9 @@
 		},
 		methods: {
 			...mapMutations(['update']),
+			getData(){
+				
+			},
 			// 获取定位
 			getPosition(){
 				hasPosition().then(res=>{
@@ -337,12 +340,6 @@
 			},
 			hideCoupon(){
 				this.showCoupon=false;
-			},
-			// 定位当前城市
-			getlocationNow(){
-				// this.update({cityName:this.nowCity})
-				this.getPosition();
-				// this.getAreaCode();
 			},
 			async getAreaCode() {
 				if(this.cityName === this.upCityName)return;

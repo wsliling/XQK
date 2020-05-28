@@ -2,19 +2,6 @@
 	import {hasPosition} from '@/utils/location';
 	export default {
 		onLaunch: function() {
-			// 获取定位
-			hasPosition().then(res=>{
-				this.$store.commit('update',{
-					lat: res.lat,
-					lng: res.lng,
-					cityName:res.address_component.city
-				});
-			}).catch(err=>{
-				// 未授权
-				this.$store.commit('update',{
-					cityName:err
-				});
-			});
 		},
 		onShow: function() {
 		},
