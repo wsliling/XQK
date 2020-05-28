@@ -21,7 +21,7 @@
 				<view class="item-l location-name">
 					{{cityName}}
 				</view>
-				<view class="item-r flex-column-center" @click.stop="getlocationNow">
+				<view class="item-r flex-column-center" @click.stop="getPosition">
 					<view class="iconfont icon-dingwei"></view>
 					<view class="fz12 c_999" >当前定位</view>
 				</view>
@@ -71,27 +71,23 @@
 			</view>
 		</view>
 		<!-- 了解星球客 -->
-		<view class="ljXQ pd15 uni-mb10">
+		<view class="ljXQ pd15 uni-mb10" v-if="about.Title">
 			<view class="index_hd uni-mb10">
 				<view class="flex-center-between">
-					<view class="title">
-						了解星球客
-					</view>
-					<view class="more flex-end" @click="navigate('home/introduction')">
+					<view class="title">{{about.Title}}</view>
+					<view class="more flex-end" @click="navigate('home/introduction',{title:about.Title})">
 						查看详情<text class="iconfont icon-you"></text>
 					</view>
 				</view>
-				<view class="sutitle">
-					全景智慧空间，开启您的非凡体验
-				</view>
+				<view class="sutitle">{{about.SubTitle}}</view>
 			</view>
 			<view class="bd">
-				<image class="xqbg" src="/static/of/1.jpg" mode="widthFix"></image>
-				<image class="logo" src="/static/logo.png" mode="aspectFill"></image>
+				<image class="xqbg" :src="about.Logo" mode="widthFix"  @click="navigate('home/introduction',{title:about.Title})"></image>
+				<!-- <image class="logo" src="/static/logo.png" mode="aspectFill"></image> -->
 			</view>
 		</view>
 		<!-- 热门推荐 -->
-		<view class="hotrecomXQ pd15 uni-mb10">
+		<view class="hotrecomXQ pd15 uni-mb10" v-if="hotRecommendList.length">
 			<view class="index_hd uni-mb10">
 				<view class="flex-between">
 					<view class="title">
@@ -202,7 +198,7 @@
 	import {post,get,navigate,judgeLogin} from '@/utils';
 	import tabbar from '@/components/tabbar.vue';
 	import datePicker from '@/components/good-date-picker/good-date-picker';
-	import {hasPosition} from '@/utils/location';
+	import {hasPosition,getCityCode} from '@/utils/location';
 	// #ifdef H5
 	import {MP} from '@/common/map.js';//h5百度定位
 	// #endif
@@ -221,14 +217,7 @@
 				daysCount: 130,
 				singleDate: true,
 				
-				//初始日期
-				initStartDate: '2019-12-06',
-				initEndDate: '2019-12-07',
-				showCoupon:false,
-				nowCity:"",//当前城市
-				upCityName:'',//可改变的cityname
-				AreaCode:"",//区域国家码
-				AreaType:0,//1不限市，区
+				nowCityName:'',//现在的国家
 				classifyDefault:'深圳华侨城5A级景区',
 				classifyList:[
 						{
@@ -248,6 +237,8 @@
 				bannerList: [],
 				// 热门推荐
 				hotRecommendList: [],
+				// 了解星球客
+				about:{},
 				//弹窗-区间模式配置：
 				option:{
 					currentRangeStartDate: '2019-12-07', //根默认显示初始时间，可为空,默认今天
@@ -275,12 +266,16 @@
 			this.userId = uni.getStorageSync("userId");
 			this.token = uni.getStorageSync("token");
 			this.getBanner();
+			this.getAbout();
 			this.getHotGoodsList();
+			this.getPosition();
 		},
 		onShow(){
-			this.getAreaCode();
-			console.log(this.cityName,'更新的定位')
-			this.getCityCode()
+			if(this.nowCityName !== this.cityName){
+				console.log(this.cityName,'更新的定位')
+				this.upDateCityCode(this.cityName)
+				this.nowCityName = this.cityName;
+			}
 		},
 		onBackPress() {
 			if (this.showCaledar !== false) {
@@ -290,6 +285,40 @@
 		},
 		methods: {
 			...mapMutations(['update']),
+			// 获取定位,在所有首次会打开的页面执行，获取定位和code
+			async getPosition(){
+				try{
+					const res = await hasPosition();
+					const city = res.address_component;
+					this.upDateCityCode(city.city);
+					this.nowCityName = city.city;
+					this.update({
+						lat: res.lat,
+						lng: res.lng,
+						cityName:city.city
+					});
+				}catch(err){
+					this.update({
+						cityName:'定位失败'
+					});
+					this.getData();
+				};
+			},
+			// 更新城市代码
+			async upDateCityCode(cityName){
+				try{
+					const codeData = await getCityCode(cityName);
+					this.update({
+						cityCode:codeData.data.Code
+					});
+					this.getData();
+				}catch(err){
+					this.getData();
+				};
+			},
+			// 定位完成后执行的方法
+			async getData(){
+			},
 			// 轮播图请求
 			async getBanner(){
 				let bannerRes = await post("/Banner/BannerList")
@@ -298,32 +327,21 @@
 			},
 			async getHotGoodsList () {
 				// 热门推荐
-				let hotRecommendRes = await post("/Goods/GoodsList_yd") 
-				console.log("我是热门", hotRecommendRes)
-				this.hotRecommendList = hotRecommendRes.data 
+				const res = await post("/Goods/GoodsList_yd",{
+					// AreaCode:this.cityCode||'',
+					// Lat:this.lat||0,
+					// Lng:this.lng||0,
+					IsRecommend:1,
+				}) 
+				this.hotRecommendList = res.data 
 			},
-			async getCityCode () {
-				// 定位城市名称获取城市代码
-				// let res = await ("/Area/GetCityCode",{Name: this.cityName})
-				// console.log("城市代码", res)
-				// this.cityCode = res.data.Code
-				// console.log("城市代码", this.cityCode)
-			},
-			// 获取定位
-			getPosition(){
-				hasPosition().then(res=>{
-					this.update({
-						lat: res.lat,
-						lng: res.lng,
-						cityName:res.address_component.city
-					});
-					this.nowCity = this.cityName;
-					console.log(this.lat,this.lng,this.cityName,'lacation')
-				}).catch(err=>{
-					this.update({
-						cityName:err
-					});
-				});
+			getAbout(){
+				post('About/AboutUs',{
+					id:1,
+					type:0
+				}).then(res=>{
+					this.about = res.data;
+				})
 			},
 			scan() {
 				uni.scanCode({
@@ -363,12 +381,6 @@
 			},
 			hideCoupon(){
 				this.showCoupon=false;
-			},
-			// 定位当前城市
-			getlocationNow(){
-				// this.update({cityName:this.nowCity})
-				this.getPosition();
-				// this.getAreaCode();
 			},
 			async getAreaCode() {
 				if(this.cityName === this.upCityName)return;

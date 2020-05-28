@@ -50,10 +50,9 @@
 
 <script>
 	import notData from "@/components/notData"; //没有数据的通用提示
-	import uniLoadMore from '@/components/uni-load-more.vue'; //加载更多
 	import commentItem from './commentItem.vue';
 	export default {
-		components:{commentItem,notData,uniLoadMore},
+		components:{commentItem,notData,},
 		data() {
 			return {
 			}

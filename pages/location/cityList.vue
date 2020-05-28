@@ -177,7 +177,7 @@ export default {
         this.scrollTopId = showLetter;
     },
     bindCity(e){ //点击城市
-      console.log(e)
+      // console.log(e)
       this.update({ cityName: e.currentTarget.dataset.city });
       // this.cityList()
       navigateBack()

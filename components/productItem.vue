@@ -1,5 +1,5 @@
 <template>
-        <view class="bigitem" @click="navigate('product/detail/detail')">
+        <view class="bigitem" @click="navigate('product/detail/detail',{Id: item.Id})">
             <view class="imgbox">
                 <view class="like flex-center-end">
                     <view class="iconfont icon-aixin bg">
@@ -23,7 +23,7 @@
                     <view class="tags flex-center">
                         <!-- <text class="tag">旅行</text><text class="tag">游乐</text><text class="tag">艺术</text> -->
 						<block v-for="(item,index) in tagInit" :key="index" class="tag">
-							<text  class="tag" v-if="index<4">{{ item }}</text>
+							<text  class="tag" v-if="index<5">{{ item }}</text>
 						</block>
                     </view>
                     <view class="score flex-center-end">
@@ -50,10 +50,11 @@ import {navigate} from '@/utils'
         props:{
             item:{
                 type:Object,
-				ServiceKeys:"",
-				CollectionId: "",
                 default(){
-                    return {}
+                    return {
+					ServiceKeys:"",
+					CollectionId: "",
+					}
                 }
             },
 			// tagInit: [],
@@ -75,22 +76,15 @@ import {navigate} from '@/utils'
 				//  console.log("标签："this.tagList)
 				//  return this.tagList
 			 // }
-			 console.log("标签2：",this.item)
 			 // return this.item.ServiceKeys
+			 if(!this.item.ServiceKeys)return;
 			 let tab = this.item.ServiceKeys.split(",")
 			 console.log(tab,'tab')
 			 return tab
 		   }
 		},
-		// filters:{
-		// 	tagInit: function (value) {
-		// 	// let arr = value.split(",")
-		// 	console.log("标签：")
-		// 	return value.split(",")
-		// 	}
-		// },
 		mounted() {
-			console.log("挂载组件")
+			console.log("挂载组件",this.item)
 		},
 		onLoad() {
 			

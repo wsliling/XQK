@@ -131,7 +131,6 @@
 
 <script>
 	import noData from '@/components/noData.vue'; //暂无数据
-	import uniLoadMore from '@/components/uni-load-more.vue'; //加载更多
 	import {
 		host,
 		post,
@@ -222,7 +221,6 @@
 		},
 		components: {
 			noData,
-			uniLoadMore
 		},
 		onLoad() {
 			// #ifdef APP-PLUS

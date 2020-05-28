@@ -105,7 +105,8 @@ p{
 			box-shadow:0 0 10upx #eee;
 			padding-top:10upx;
 			img{
-				width:70upx;
+				// width:70upx;
+				width:200upx;
 			}
 			h5{
 				line-height:2.5;
@@ -292,12 +293,23 @@ p{
 		color:#999;
 		margin-top:20upx;
 		border-right:1upx solid #ff5a60;
+		button{
+		      padding: 0;
+		      background-color: #fff;
+			  overflow: visible;
+		      &::after {
+		       border: none;
+		      }
+		     }
 		.item{
 			font-size:22upx;
 			margin-right:35upx;
 			.iconfont{
 				font-size:40upx;
 				line-height:.8;
+				&.active{
+					color: #ff0000;
+				}
 			}
 		}
 	}

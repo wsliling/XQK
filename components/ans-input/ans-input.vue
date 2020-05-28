@@ -1,6 +1,6 @@
 <template>
 	<div class="box">
-		<input :type="type" v-model="value"
+		<input :type="type" v-model="content"
         	@input="$emit('input', content)" :placeholder="placeholder" 
 			confirm-type="search" @confirm="confirm"
 		>
@@ -26,8 +26,14 @@
 				default:'搜索内容'
 			}
 		},
+		watch:{
+			value(){
+				this.content = this.value;
+			}
+		},
 		data() {
 			return {
+				content:''
 			}
 		},
 		onLoad() {
@@ -40,7 +46,7 @@
 				// #ifdef APP-PLUS
 				plus.key.hideSoftKeybord()
 				// #endif
-				this.$emit("confirm",this.value)
+				this.$emit("confirm",this.content)
 			}
 		}
 	}

@@ -1,4 +1,4 @@
- import {toast} from '@/utils';
+ import {toast,requestHideLoading} from '@/utils';
  import QQMapWX from "@/utils/qqmap-wx-jssdk"; //腾讯地图，reverseGeocoder逆地址转码
  let qqmapsdk = new QQMapWX({
      key: "LJTBZ-A5SWU-ZDGVJ-2OV5E-SOKAJ-HIBQI" // 必填
@@ -114,3 +114,6 @@
          });
      });
  }
+export function getCityCode(cityName){
+    return requestHideLoading('Area/GetCityCode',{Name:cityName},'post');
+}
