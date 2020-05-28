@@ -2,36 +2,34 @@
 	<!-- 常用信息 -->
 	<view class="content">
 		<view class="defaultPage invoiceList__defaultPage">
-			<view class="addressList invoiceList" v-for="(val,key) in 2" :key="key">
+			<view class="addressList invoiceList" v-for="(val,key) in list" :key="key">
 				<view class="item">
-					<view class="item__bd"  @click="choseInvoice(index)">
+					<view class="item__bd">
 						<view class="remarks">
-							<text class="name">陈洛浩</text>
+							<text class="name">{{val.FullName}}</text>
 						</view>
 						<view class="info">
 							<image class="imgphone" src="../../../static/icons/phone.png" mode=""></image>
-							<view class="type" >138****5678</view>
+							<view class="type" >{{val.Mobile}}</view>
 						</view>
 						<view class="info">
 							<image class="imginfo" src="../../../static/icons/info1.png" mode=""></image>
-							<view class="type iconfont icon-shenfenxinxi">41262819********99</view>
+							<view class="type iconfont icon-shenfenxinxi">{{val.Idcard}}</view>
 						</view>
 						<view class="info">
 							<image class="imgyouxiang" src="../../../static/icons/youxiang.png" mode=""></image>
-							<view class="type iconfont icon-youxiang">122****278@qq.com</view>
+							<view class="type iconfont icon-youxiang">{{val.Email}}</view>
 						</view>
 					</view>
 					<view class="item__ft flex">
-						<view class="flexItem checkedLabel flex flexAlignCneter" @click="setDefaultInvoice(index,item.Id)">
-							<!-- <view class="IconsCK IconsCK-radio" :class="{'checked':item.IsDefault===1}"></view><text v-if="item.IsDefault===1" style="color:#89674c;">已设为默认</text> -->
-							<text class="default" v-if="key*2 ==0">默认</text>
-							<!-- <text class="IconsCK IconsCK-radio">设为默认</text> -->
+						<view class="flexItem checkedLabel flex flexAlignCneter">
+							<text class="default" v-if="val.IsDefault===1">默认</text>
 						</view>
 						<view class="flexItem flex1 text_r">
-							<view class="iconText inline-block"  @click="gotoAddInvoice(item.Id)">
+							<view class="iconText inline-block"  @click="gotoAddInvoice(val.Id,val.IsDefault)">
 								<view class="uni-icon uni-icon-compose"></view>编辑
 							</view>
-							<view class="iconText inline-block" @click="deleteBtn(index,item.Id)">
+							<view class="iconText inline-block" @click="deleteBtn(index,val.Id)">
 								<view class="iconfont icon-del"></view>删除
 							</view>
 						</view>
@@ -49,59 +47,36 @@
 			</view>
 			<!-- 没有数据的时候 end -->
 			<view class="ftBtn" style="height: 92upx;">
-				<button type="primary" class="fixed bt0 btn-active radius0" @click="gotoAddInvoice()">
+				<button type="primary" class="infos bt0 btn-active radius0" @click="gotoAddInvoice()">
 					<view class="uni-icon uni-icon-plus"></view>
 					<text>添加常用信息</text>
 				</button>
 			</view>
 		</view>
-
-
 	</view>
 </template>
 
 <script>
-	import {host,post,get,toLogin} from '@/common/util.js';
+	import {host,post,get,toLogin} from '@/utils';
 	export default {
 		data() {
 			return {
-				InvoiceId:0,
-				pagetype:"",//页面来源
 				userId: "",
 				token: "",
 				list: [],
-				shopIndex:0,
 			};
 		},
-		// #ifdef APP-PLUS
-		onLoad(e){
-			this.pagetype=e.pagetype||'';
-			this.shopIndex=e.shopIndex||0;
-		},
-		// #endif
 		onShow() {
 			this.list = [];
 			this.userId = uni.getStorageSync("userId");
 			this.token = uni.getStorageSync("token");
-			// #ifndef APP-PLUS
-			this.pagetype=this.$root.$mp.query.pagetype||'';
-			this.shopIndex=this.$root.$mp.query.shopIndex||0;
-			// #endif
-			// this.getInvoice();
+			this.getInvoice();
 		},
 		methods: {
-			choseInvoice(index){
-				let _this=this;
-				if(this.pagetype == 'confirm'){
-					this.$set(_this.list[index],'shopIndex',_this.shopIndex);
-					uni.setStorageSync("invoiceinfo",this.list[index]);
-					uni.navigateBack()
-				}
-			},
-			gotoAddInvoice(id) {
+			gotoAddInvoice(id,IsDefault) {
 				let goUrl = '';
 				if(id){
-					// goUrl = '/pages/babBar/my/addInvoice?id='+id
+					goUrl = '/pages/tabBar/my/addinformation?id='+ id + '&IsDefault=' + IsDefault
 				}else{
 					goUrl = '/pages/tabBar/my/addinformation'
 				}
@@ -109,8 +84,9 @@
 					url: goUrl
 				})
 			},
-			async getInvoice() { //获取发票列表
-				let result = await post("Invoice/invoiceList", {  //发票列表最多只能有10个，不用做分页
+			//获取用户常用信息
+			async getInvoice() { 
+				let result = await post("User/GetUserInfo", {  //发票列表最多只能有10个，不用做分页
 					userId: this.userId,
 					token: this.token
 				})
@@ -138,28 +114,6 @@
 					});
 				}
 			},
-			async setDefaultInvoice(index,id){  //设为默认
-				let result = await post("Invoice/SetDefaultInvoice",{
-					UserId:this.userId,
-					Token:this.token,
-					Id:id
-				});
-				if(result.code===0){
-					for(let i=0;i<this.list.length;i++){
-						if(index===i){
-							this.$set(this.list[i],'IsDefault',1);
-						}else{
-							this.$set(this.list[i],'IsDefault',0);
-						}
-					}
-				}else{
-					uni.showToast({
-						title: result.msg,
-						icon: "none",
-						duration: 1500
-					});
-				}
-			},
 			deleteBtn(index,fId){
 				let _this=this;
 				uni.showModal({
@@ -168,19 +122,18 @@
 					cancelColor:'#999',
 					confirmColor:'#5cc69a',
 					success: function (res) {
-							if (res.confirm) {
-								_this.Deleteinvoice(index,fId);
-							} else if (res.cancel) {
-
-							}
+						if (res.confirm) {
+							_this.Deleteinvoice(index,fId);
+						} else if (res.cancel) {}
 					}
 				});
 			},
-			async Deleteinvoice(index,fId) { //删除发票
-				let result = await post("Invoice/Deleteinvoice", {
+			//删除用户常用信息
+			async Deleteinvoice(index,fId) { 
+				let result = await post("User/DelUserInfo", {
 					userId: this.userId,
 					token: this.token,
-					Id: fId
+					Uid: fId
 				});
 				if (result.code === 0) {
 					let _this = this;
@@ -248,13 +201,13 @@
 		font-weight:bold;
 	}
 	.default{
-		width:60upx;
-		height:34upx;
+		width:80upx;
+		height:40upx;
 		background:rgba(92,198,154,1);
 		border-radius:4upx;
-		font-size:20upx;
+		font-size:24upx;
 		color:rgba(255,255,255,1);
-		line-height:34upx;
+		line-height:40upx;
 		text-align: center;
 	}
 	.info{
@@ -274,5 +227,13 @@
 		width:32upx;
 		height:26upx;
 		margin:24upx 15upx 0 0;
+	}
+	.infos{
+		position: fixed;
+		z-index: 4;
+		width: 100%;
+		height: 88upx;
+		line-height: 88upx;
+		font-size: 32upx;
 	}
 </style>
