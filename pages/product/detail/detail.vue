@@ -71,8 +71,8 @@
 				</div>
 			</scroll-view>
 		</div>
-		<div class="column-tab flex-start-between plr30 pb20">
-			<image :src="details.DevLogo" mode="widthFix"></image>
+		<div class="column-tab flex-start-between plr30 pb20" v-html="details.DevLogo">
+			<!-- <image :src="details.DevLogo" mode="widthFix"></image> -->
 			<!-- <div class="item">
 			<div class="bold">基础设施</div>
 				<div class="flex-center" v-for="(item,index) in 4" :key="index">
@@ -162,17 +162,18 @@
 			</map>
 		</div>
 		<div class="gap20"></div>
+		<date-picker ref="datePicker" @change="changeDatePicker" :option="option"></date-picker>
 		<div class="dateBox plr30 pb30">
 			<h3>入住退房日期</h3>
-			<div class="date-time flex-end-between">
+			<div class="date-time flex-end-between" @click="$refs.datePicker.open()">
 				<div class="start">
 					<p>入住</p>
-					<div class="text">5月14号</div>
+					<div class="text">{{option.currentRangeStartDate}}</div>
 				</div>
 				<p>- 最少一晚 -</p>
 				<div class="end">
 					<p>退房</p>
-					<div class="text">5月15号</div>
+					<div class="text">{{option.currentRangeEndDate}}</div>
 				</div>
 			</div>
 		</div>
@@ -269,9 +270,13 @@
 
 <script>
 	import commentItem from '../allComment/commentItem.vue';
-	import { post,navigate } from '@/utils';
+	import datePicker from '@/components/good-date-picker/good-date-picker';
+	import { post,navigate,formatTime } from '@/utils';
 	export default {
-		components:{commentItem},
+		components:{
+			commentItem,
+			datePicker
+		},
 		data() {
 			return {
 				navigate,
@@ -303,12 +308,23 @@
 				  width:50,
 				  height: 50,
 				  anchor: {x: .5, y: .5}
-			    }],	
+			    }],
+				// 日期
+				option:{
+					currentRangeStartDate: '', //根默认显示初始时间，可为空,默认今天
+					currentRangeEndDate: '', //根默认区间选择显示结束时间，可为空，默认明天
+					initStartDate: '', //可选起始时间限制，可为空,默认今天
+					initEndDate: '', //可选结束时间限制，可为空,默认4个月后
+					isRange: true, //是否开启范围选择，必填
+					isModal:true,
+					dateNum:1,
+				},
 			}
 		},
 		onLoad(options) {
 			console.log("传递过来的参数:",options)
 			this.getDetail(options.Id)
+			console.log("日期：", formatTime(Date.parse(new Date())))
 		},
 		computed:{
 			tabColor(index){
@@ -361,6 +377,7 @@
 				res.data.QJDesc = res.data.QJDesc.replace(/<img/g, '<img style="max-width:100%;"');
 				res.data.Synopsis = res.data.Synopsis.replace(/<img/g, '<img style="max-width:100%;"');
 				res.data.ContentDetail = res.data.ContentDetail.replace(/<img/g, '<img style="max-width:100%;"');
+				res.data.DevLogo = res.data.DevLogo.replace(/<img/g, '<img style="max-width:100%;"');
 				// console.log("我是精度",parseFloat(res.data.Lng))
 				res.data.Lng = parseFloat(res.data.Lng)
 				res.data.Lat = parseFloat(res.data.Lat)
@@ -379,6 +396,13 @@
 					this.$refs['priceExplainStatus'].close();
 				}
 			},
+			// 更改日历
+			changeDatePicker(e) {
+				console.log(e)
+				this.option.currentRangeStartDate = e.startDate;
+				this.option.currentRangeEndDate = e.endDate;
+				this.option.dateNum = e.dateNum;
+			}
 
 			// tabColor(index){
 			// 	let str ='color1';
