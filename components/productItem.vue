@@ -1,5 +1,5 @@
 <template>
-        <view class="bigitem" @click="navigate('product/detail/detail')">
+        <view class="bigitem" @click="navigate('product/detail/detail',{Id: item.Id})">
             <view class="imgbox">
                 <view class="like flex-center-end">
                     <view class="iconfont icon-aixin bg">
@@ -67,14 +67,6 @@ import {navigate} from '@/utils'
 		},
 		computed:{
 		   tagInit: function () {
-			 // if(this.index === 0) {
-				//  this.index++;
-				 
-				//  // this.tagList = Object.assign({},this.item.ServiceKeys.split(","))
-				//  this.tagList = this.item.ServiceKeys.split(",")
-				//  console.log("标签："this.tagList)
-				//  return this.tagList
-			 // }
 			 console.log("标签2：",this.item)
 			 // return this.item.ServiceKeys
 			 let tab = this.item.ServiceKeys.split(",")
@@ -82,13 +74,6 @@ import {navigate} from '@/utils'
 			 return tab
 		   }
 		},
-		// filters:{
-		// 	tagInit: function (value) {
-		// 	// let arr = value.split(",")
-		// 	console.log("标签：")
-		// 	return value.split(",")
-		// 	}
-		// },
 		mounted() {
 			console.log("挂载组件")
 		},
