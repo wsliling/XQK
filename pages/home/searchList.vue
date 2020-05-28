@@ -72,7 +72,9 @@
 			sortConfirm(e){
 				console.log(e)
 			}
-		}
+		},
+		onReachBottom(){
+		},
 	}
 </script>
 <style scoped lang="scss">
