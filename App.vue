@@ -1,5 +1,5 @@
 <script>
-	import {hasPosition} from '@/utils/location';
+	
 	export default {
 		onLaunch: function() {
 		},

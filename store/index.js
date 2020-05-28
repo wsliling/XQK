@@ -82,12 +82,9 @@ export default new Vuex.Store({
          */
         update(state, config) {
             Object.keys(config).map((item, key) => {
-                if(item==='cityName'&&config[item]&&config[item]!=='未授权'){
-                    requestHideLoading('Area/GetCityCode',{Name:config[item]},'post').then(res=>{
-                        state.cityCode = res.data.Code;
-                        console.log('cityCode',res.data.Code)
-                    })
-                }
+                // if(item==='cityName'&&config[item]&&config[item]!=='未授权'){
+                    
+                // }
                 state[item] = config[item]
             })
         },
