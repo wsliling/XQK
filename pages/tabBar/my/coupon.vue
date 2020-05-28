@@ -33,14 +33,13 @@
 			</view>
 		</block>
 		<noData :isShow="noDataIsShow"></noData>
-		<view class="loading" v-if="hasData"><load-more :loadingType="loadingType"></load-more></view>
+		<view class="loading" v-if="hasData"><uni-load-more :loadingType="loadingType"></uni-load-more></view>
 		<!-- <view class="btn_de" @click="goUrl('/pages/member/couponCenter/couponCenter')">领券中心</view> -->
 	</view>
 </template>
 <script>
 import { post } from '@/common/util.js';
 import noData from '@/components/noData'; //没有数据的通用提示
-import LoadMore from '@/components/uni-load-more.vue';
 export default {
 	data() {
 		return {
@@ -72,7 +71,6 @@ export default {
 	},
 	components: {
 		noData,
-		LoadMore
 	},
 	methods: {
 		goUrl(url) {

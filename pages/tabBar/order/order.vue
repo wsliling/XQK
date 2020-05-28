@@ -103,13 +103,11 @@ import { post, get, toLogin } from '@/common/util.js';
 import tabbar from '@/components/tabbar.vue';
 import popup from '@/components/uni-popup/uni-popup.vue'
 import noData from '@/components/noData.vue'; //暂无数据
-import uniLoadMore from '@/components/uni-load-more.vue'; //加载更多
 export default {
 	components: {
 		tabbar,
 		popup,
 		noData,
-		uniLoadMore
 	},
 	data() {
 		return {

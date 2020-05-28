@@ -23,7 +23,7 @@
 			// icon--图标；img--图片
 			mode:{
 				type:String,
-				default:'icon'
+				default:'img'
 			}
 		},
 		data() {

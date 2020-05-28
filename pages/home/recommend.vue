@@ -15,7 +15,7 @@
 
 <script>
 	import productItem from '@/components/productItem.vue';
-	import notData from '@/components/noData/noData.vue';
+	import notData from '@/components/notData.vue';
 	// import { mapState } from "vuex"; //vuex辅助函数
 	import {post,get,navigate} from '@/utils';
 	export default {
@@ -25,6 +25,8 @@
 				navigate,
 				userId: "",
 				token: "",
+				page:1,
+				pageSize:10,
 				goodsList: [],
 				loadMore:0,//0-loading前；1-loading中；2-没有更多了
 			} 
@@ -36,19 +38,32 @@
 			// ...mapState(['lng','lat','cityName','cityCode'])
 		},
 		methods: {
+			// 热门推荐
 			async getGoodsList () {
-				// 热门推荐
+				this.loadMore =1;
 				let GoodsList = await post("/Goods/GoodsList_yd",{
 					// AreaCode:this.cityCode||'',
 					// Lat:this.lat||0,
 					// Lng:this.lng||0,
-					IsRecommend:1
+					IsRecommend:1,
+					Page:this.page,
+					PageSize:this.pageSize
 				}) 
-				this.goodsList = GoodsList.data 
+				if(this.page===1){
+					this.goodsList = [];
+				}
+				if(GoodsList.data.length<this.pageSize){
+					this.loadMore =2;
+				}else{
+					this.loadMore =0;
+				}
+				this.goodsList.push(...GoodsList.data);
 			},
 		},
 		onReachBottom(){
-
+			if(this.loadMore===2)return;
+			this.page=1;
+			this.getGoodsList();
 		},
 
 	}
