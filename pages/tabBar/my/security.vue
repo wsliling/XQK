@@ -5,70 +5,101 @@
 			<view class="flex1 flexc" :class="{ 'active': tabIndex == index }" v-for="(item, index) in tabList" :key="index" @click="cliTab(index)">{{ item }}</view>
 			<span :style="'left:' +tabStyle + 'rpx'"></span>
 		</view>
-		<view class="security">
-			<view class="securityimg">
-				<image src="../../../static/of/p4.jpg.png" mode=""></image>
-			</view>
+		<view class="security" v-if="tabIndex == 0">
 			<view class="security-box">
-				<view class="headline">房源真实可靠</view>
-				<view class="content">若发现房源严重不符合描述并影响入住，经核实与协调仍无法入住，我们将最高全额退款并补偿您相当于首晚房费的礼金券</view>
+				<!-- <view class="headline"></view> -->
+				<view v-html="OneContent" class="content">{{OneContent}}</view>
 			</view>
+		</view>
+		<view class="security" v-if="tabIndex == 1">
 			<view class="security-box">
-				<view class="headline">旅居一尘不染</view>
-				<view class="content">若入住时发现房间未经打扫或有明显清洁问题，经核实与协调仍无法入住，我们将最高全额退款并补偿您相当于首晚房费的礼金券</view>
+				<view v-html="TwoContent" class="content">{{TwoContent}}</view>
 			</view>
+		</view>
+		<view class="security" v-if="tabIndex == 2">
 			<view class="security-box">
-				<view class="headline">费用透明安全</view>
-				<view class="content">若工作人员无故取消订单或提出不合理的站外收款，经核实与协调仍无法入住，我们将最高全额退款并补偿您相当于首晚房费的礼金券</view>
+				<view v-html="ThreeContent" class="content">{{ThreeContent}}</view>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import {post} from '@/utils'
 	export default {
 		data() {
 			return {
-				tabList: ['放心入住', '专业客服', '安全无忧'],
+				tabList: [],
 				tabIndex: 0,
+				OneContent:'',
+				TwoContent:'',
+				ThreeContent:'',
 			}
 		},
 		computed: {
 			tabStyle() {
-				console.log((750 / this.tabList.length) * this.tabIndex + (750 / this.tabList.length - 50) / 2);
 				return (750 / this.tabList.length) * this.tabIndex + (750 / this.tabList.length - 100) / 2;
 			}
+		},
+		onShow() {
+			this.getAboutUs()
 		},
 		methods:{
 			cliTab(index) {
 				this.tabIndex = index;
-				this.couponStatus = index + 1;
-				this.page = 1;
-				this.noDataIsShow = false;
-				this.hasData = false;
-				
 			},
+			getAboutUs(){
+				post('/About/AboutUs',{
+					Id:2,
+					Type: 1
+				}).then(res=>{
+					if(res.code === 0){
+						this.tabList.push(res.data.OneTitle,res.data.TwoTitle,res.data.ThreeTitle)
+						if(res.data.Title){
+							uni.setNavigationBarTitle({
+							    title: res.data.Title
+							});
+						}
+						this.OneContent = res.data.OneContent.replace(/<img/g, '<img style="max-width:100%;"');
+						this.TwoContent = res.data.TwoContent.replace(/<img/g, '<img style="max-width:100%;"');
+						this.ThreeContent = res.data.ThreeContent.replace(/<img/g, '<img style="max-width:100%;"');
+					}
+					
+				})
+			},
+			
 		},
 		
 	}
 </script>
 
 <style scoped lang='scss'>
+	*{
+		margin: 0;
+		width: 100%;
+		height: 100vh;
+	}
+	img{
+		width: 100%;
+	}
+	rich-text{
+		width: 100%;
+	}
 	.tab{
-	  height: 92upx;
-	  background-color: #fff;
-	  position: relative;
-	  .active{
-	    color: #5CC69A
-	  }
-	  span{
-	    position: absolute;
-	    bottom: 0;
-	    transition: all .2s;
-	    height: 5upx;
-	    width: 100upx;
-	    background-color: #5CC69A
-	  }
+		  height: 92upx;
+		  background-color: #fff;
+		  position: relative;
+		  .active{
+			color: #5CC69A
+		  }
+		  span{
+			position: absolute;
+			bottom: 0;
+			transition: all .2s;
+			height: 5upx;
+			width: 100upx;
+			background-color: #5CC69A
+		  }
 	}
 	.flex{
 		display: flex;
@@ -85,10 +116,8 @@
 	.security{
 		margin-top: 20upx;
 		background: #fff;
-		padding: 0 30upx;
+		padding: 0 30upx 30upx;
 		.securityimg{
-			width:621upx;
-			height:451upx;
 			padding:30upx 0;
 			image{
 				width: 100%;
@@ -108,6 +137,11 @@
 				color:rgba(102,102,102,1);
 				line-height:40upx;
 				padding-bottom: 10upx;
+				text-aliv:center;
+				display: flex;
+				justify-content: center;
+				margin: 0 auto;
+				
 			}
 		}
 	}

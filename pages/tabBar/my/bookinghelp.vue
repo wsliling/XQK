@@ -27,6 +27,7 @@
 </template>
 
 <script>
+	import { post } from '@/utils'
 	import uniCollapse from '@/components/uni-collapse/uni-collapse.vue';
 	import uniCollapseItem from '@/components/uni-collapse/uni-collapse-item.vue';
 	export default {
@@ -34,10 +35,19 @@
 			uniCollapse,
 			uniCollapseItem
 		},
+		onLoad(e) {
+			
+		},
 		data() {
 			return {
-				
+				userId:'',
+				token:'',
 			}
+		},
+		onShow() {
+			this.userId = uni.getStorageSync('userId');
+			this.token = uni.getStorageSync('token');
+			// this.getHelpInfo()
 		},
 		methods: {
 			tolick(url){
@@ -45,6 +55,16 @@
 					url:url
 				})
 			},
+			// 获取帮助详细信息
+			// getHelpInfo(){
+			// 	post('/Help/GetHelpInfo',{
+			// 		UserId: this.userId,
+			// 		Token: this.token,
+			// 		Id: this.Page,
+			// 	}).then( res => {
+			// 		console.log(res,'res2')
+			// 	})
+			// }
 		}
 	}
 </script>
