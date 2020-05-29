@@ -25,6 +25,7 @@
 <script>
 	import {post} from '@/utils';
 	export default {
+		// name:'了解星球客',
 		data() {
 			return {
 				article: {},

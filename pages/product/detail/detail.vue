@@ -271,7 +271,7 @@
 <script>
 	import commentItem from '../allComment/commentItem.vue';
 	import datePicker from '@/components/good-date-picker/good-date-picker';
-	import { post,navigate,formatTime } from '@/utils';
+	import { post,navigate } from '@/utils';
 	export default {
 		components:{
 			commentItem,
@@ -297,7 +297,6 @@
 						title: "景区介绍"
 					}
 				],
-				
 				// tab的活动索引
 				activeIndex: 0,
 				// 地图图标数组
@@ -311,20 +310,32 @@
 			    }],
 				// 日期
 				option:{
-					currentRangeStartDate: '', //根默认显示初始时间，可为空,默认今天
-					currentRangeEndDate: '', //根默认区间选择显示结束时间，可为空，默认明天
+					currentRangeStartDate: '2020-05-29', //根默认显示初始时间，可为空,默认今天
+					currentRangeEndDate: '2020-05-30', //根默认区间选择显示结束时间，可为空，默认明天
 					initStartDate: '', //可选起始时间限制，可为空,默认今天
 					initEndDate: '', //可选结束时间限制，可为空,默认4个月后
 					isRange: true, //是否开启范围选择，必填
 					isModal:true,
 					dateNum:1,
+					price: 0
 				},
+				// 产品日期对应价格数组
+				goodsDateTime: [
+					{
+						DayTime: "2020-05-29", // 其中一个日期，有很多个日期
+						ProId: 492,//产品Id
+						Price: 492, // 产品价格/间
+						Stock: 666, // 当天库存
+						SalesNum: 666 // 当天销量
+					}
+				]
 			}
 		},
 		onLoad(options) {
 			console.log("传递过来的参数:",options)
-			this.getDetail(options.Id)
-			console.log("日期：", formatTime(Date.parse(new Date())))
+			let Id = options.Id
+			this.getDetail(Id)
+			this.getGoodsDateTime(Id)
 		},
 		computed:{
 			tabColor(index){
@@ -339,7 +350,7 @@
 				return str
 			},
 			tagInit: function () {
-				console.log("详情标签2：",this.details)
+				// console.log("详情标签2：",this.details)
 				if (!this.details) {
 					return
 				}
@@ -361,6 +372,18 @@
 			}
 		},
 		methods: {
+			// 获取产品日期价格
+			async getGoodsDateTime (Id){
+				let res = await post('Goods/GoodsDateTime', {ProId:Id})
+				// console.log("产品日期价格：", res) 
+				// console.log("产品日期价格零号位：", res.data[0])
+				// console.log("产品日期价格最后号位：", res.data[res.count-1])
+				this.option.initStartDate = res.data[0].DayTime
+				this.option.initEndDate = res.data[res.count-1].DayTime
+				this.goodsDateTime = res.data
+				this.$store.commit('update',{"goodsDateTime":res.data})
+				console.log("产品日期价格数组：", this.goodsDateTime) 
+			},
 			// 收藏
 			toCollection () {
 				this.details.CollectionId = !this.details.CollectionId
@@ -379,10 +402,14 @@
 				res.data.ContentDetail = res.data.ContentDetail.replace(/<img/g, '<img style="max-width:100%;"');
 				res.data.DevLogo = res.data.DevLogo.replace(/<img/g, '<img style="max-width:100%;"');
 				// console.log("我是精度",parseFloat(res.data.Lng))
+				// 经纬度
 				res.data.Lng = parseFloat(res.data.Lng)
 				res.data.Lat = parseFloat(res.data.Lat)
+				// 地图标记
 				this.markers[0].latitude = res.data.Lat
 				this.markers[0].longitude = res.data.Lng
+				// 住房价格
+				this.option.price = res.data.Price
 				this.details = res.data
 			},
 			changeSwiper(e){

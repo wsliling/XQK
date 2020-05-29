@@ -122,4 +122,22 @@ export function timeDiff(time) {
 
   return diff;
 }
-
+// params--接收字符串,日期对象或者数组（数组三个值）
+// type= 'arr'--数组；'str'--用某个字符拼接的字符串
+export function initDate(params,type='arr'){
+  let date = null;
+  if(params instanceof Array){
+    date = new Date(params[0],params[1],params[2])
+  }else{
+    date = new Date(params)
+  }
+  console.log(params,'p')
+  const y = date.getFullYear();
+  const m = date.getMonth()+1;
+  const d = date.getDate();
+  if(type==='arr'){
+    return [y,formatNumber(m),formatNumber(d)];
+  }else{
+    return `${y}${type}${formatNumber(m)}${type}${formatNumber(d)}`
+  }
+}

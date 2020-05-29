@@ -1,9 +1,24 @@
 <script>
-	
+	import {initDate} from '@/utils/date-tools';
 	export default {
 		onLaunch: function() {
 		},
 		onShow: function() {
+			// 初始化日历
+			const option = this.$store.state.calendarOption;
+			if(!option.currentRangeStartDate){
+				const date = new Date();
+				let arr = initDate(date);
+				option.currentRangeStartDate = initDate(date,'-');
+				option.currentRangeEndDate = initDate([arr[0],arr[1]-1,(arr[2]*1)+1],'-');
+				option.initStartDate = initDate(date,'-');
+				option.initEndDate = initDate([arr[0],(arr[1]*1)+2,arr[2]],'-');//3个月后的今天
+				option.startDate = option.currentRangeStartDate.substring(option.currentRangeStartDate.indexOf('-')+1);
+				option.endDate = option.currentRangeEndDate.substring(option.currentRangeEndDate.indexOf('-')+1);
+			}
+			this.$store.commit('update',{
+				calendarOption:option
+			})
 		},
 		onHide: function() {
 			console.log('App Hide')

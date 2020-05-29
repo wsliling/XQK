@@ -1,52 +1,39 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import {requestHideLoading} from '@/utils';
+// import {requestHideLoading} from '@/utils';
 
 Vue.use(Vuex)
-
+/*
+	goodsDateTime: [
+		{
+			DayTime: "2020-05-29", // 其中一个日期，有很多个日期
+			ProId: 492,//产品Id
+			Price: 492, // 产品价格/间
+			Stock: 666, // 当天库存
+			SalesNum: undefined // 当天销量 nubmber,为了后面好判断才写undefined
+		}
+	],
+*/
 export default new Vuex.Store({
     state:{
         // token:'',
         // userId:'',
-        // cardId: "",
-        // selectCard: {
-        //     url: '',
-        //     status: false
-        // },
-        // cardInfo: { //选择的银行名称id
-        //     id: "",
-        //     bankLogo: "",
-        //     bankName: ""
-        // },
-		// peopleInfo: { //业主信息
-		//     ContactName:"",//业主姓名
-		//     Tel:"",//业主电话
-		//     IsSalesOffice:null,//去过或咨询售楼处 1-有 0-没有
-		// },
-        // selectMyCard: {
-        //     url: '',
-        //     status: false
-        // },
-        // myCardInfo: { //选择我的银行卡
-        //     id: "",
-        //     bankLogo: "",
-        //     bankCardName: "",
-        //     bankCardNo: ""
-        // },
-        // //是否为vip
-        // IsVip:0,
-        // //认证专家身份
-        // exportData:{
-        //     UserRname:"",
-        //     Idcard:"",
-        //     IdcardPositive:"",
-        //     IdcardNegative:"",
-        //     IdcardInHand:"",
-        // }
         cityName:'',//城市名称
         cityCode:'',//城市代码
         lng:'',
         lat:'',
+        calendarOption:{
+            currentRangeStartDate: '', //根默认显示初始时间，可为空,默认今天
+            currentRangeEndDate: '', //根默认区间选择显示结束时间，可为空，默认明天
+            initStartDate: '', //可选起始时间限制，可为空,默认今天
+            initEndDate: '', //可选结束时间限制，可为空,默认4个月后'2020-06-08'
+            isRange: true, //是否开启范围选择，必填
+            isModal:true,//是否显示日历插件
+            dateNum:1,//选择的总天数
+            startDate:'',//展示的不带年份的开始日期
+            endDate:'',//展示的不带年份的结束日期
+        },
+		goodsDateTime:[]//产品日期对应的数组
     },
     getters:{
         getToken(state){
@@ -89,8 +76,8 @@ export default new Vuex.Store({
             })
         },
         // 设置选择银行名称
-        setSelectCard(state, params) {
-            state.selectCard = params;
+        initCalendarOption(state, params) {
+            state.calendarOption = params;
         },
         // 设置选择我的银行卡
         setSelectMyCard(state, params) {

@@ -19,6 +19,7 @@
 	// import { mapState } from "vuex"; //vuex辅助函数
 	import {post,get,navigate} from '@/utils';
 	export default {
+		// name:'推荐列表',
 		components: {productItem,notData},
 		data() {
 			return {
@@ -27,8 +28,8 @@
 				token: "",
 				page:1,
 				pageSize:10,
-				goodsList: [],
 				loadMore:0,//0-loading前；1-loading中；2-没有更多了
+				goodsList: [],
 			} 
 		},
 		onLoad() {

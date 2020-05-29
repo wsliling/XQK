@@ -90,6 +90,7 @@
 					this.hot = data.hotlist;
 					this.near = data.nearlist;
 					this.tab = data.taglist;
+					uni.setStorageSync('tag',data.taglist)
 					console.log(res,'res')
 				})
 			},
