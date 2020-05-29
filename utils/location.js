@@ -8,7 +8,6 @@
      return new Promise((resolve, reject) => {
          uni.getSetting({
              success: res => {
-                 console.log("*****1111111111*******", res);
                  // res.authSetting['scope.userLocation'] == undefined    表示 初始化进入该页面
                  // res.authSetting['scope.userLocation'] == false    表示 非初始化进入该页面,且未授权
                  // res.authSetting['scope.userLocation'] == true    表示 地理位置授权
@@ -22,12 +21,10 @@
                      reject('未授权');
                  } else if (res.authSetting["scope.userLocation"] == undefined) {
                      //用户首次进入页面,调用wx.getLocation的API
-                     console.log("******222222222******");
                      getMyPosition().then(res=>{
                         resolve(res);
                      });
                  } else {
-                     console.log("授权成功");
                      //调用wx.getLocation的API
                      getMyPosition().then(res=>{
                         resolve(res);
@@ -43,7 +40,6 @@
      return new Promise((resolve,reject)=>{
         uni.openSetting({
             success: function (res) {
-                console.log(res, "调取授权");
                 if (res.authSetting["scope.userLocation"] == true) {
                     //再次授权，调用wx.getLocation的API
                     getMyPosition().then(res=>{
@@ -55,7 +51,6 @@
                 }
             },
             fail(err) {
-                console.log(err, 'err')
                 reject();
             }
         });
@@ -67,7 +62,6 @@
          wx.getLocation({
              type: "gcj02",
              success: data => {
-                 console.log(data, this, "微信地图");
                  let lat = data.latitude;
                  let lng = data.longitude;
                  // 根据坐标获取城市信息
@@ -76,12 +70,10 @@
                          lat,
                          lng
                      })
-                     console.log(res, 'return')
                      resolved(res);
                  });
              },
              fail(err) {
-                 console.log(err);
                  toast("获取定位失败！请重新尝试");
                  rejected();
              }

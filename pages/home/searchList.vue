@@ -3,10 +3,10 @@
 		<div class="searchBox flex-center-between">
 			<div class="city ellipsis bold" @click="navigate('location/cityList')">{{cityName||'定位失败'}}</div>
 			<ans-input class="input bold" @confirm="searchInput" :value="keyword" placeholder="输入搜索内容"></ans-input>
-			<div class="date bold flex-column-center-center">
-				<p>05/18</p>
+			<div class="date bold flex-column-center-center" @click="$refs.datePicker.open()">
+				<p>{{calendarOption.startDate}}</p>
 				<span>-</span>
-				<p>05/16</p>
+				<p>{{calendarOption.endDate}}</p>
 			</div>
 		</div>
 		<div class="sort flex-center-between plr30">
@@ -72,19 +72,24 @@
 				</div>
 			</div>
 		</uni-popup>
+		<!-- 日历 -->
+		<date-picker ref="datePicker" @change="changeDatePicker" :option="calendarOption"></date-picker>
 	</div>
 </template>
 
 <script>
-	import { mapState, mapMutations } from "vuex"; //vuex辅助函数
+	import { mapState, mapMutations} from "vuex"; //vuex辅助函数
 	import {post,navigate} from '@/utils';
 	import {getCityCode} from '@/utils/location';
 	import ansInput from '@/components/ans-input/ans-input.vue';
 	import productItem from '@/components/productItem.vue'
 	import notData from '@/components/notData.vue'
 	import wPicker from '@/components/w-picker/w-picker.vue'
+	import datePicker from '@/components/date-picker/date-picker.vue';
 	export default {
-		components:{ansInput,productItem,notData,wPicker},
+		components:{
+			ansInput,productItem,notData,wPicker,
+			datePicker},
 		data() {
 			return {
 				navigate,
@@ -93,6 +98,7 @@
 				page:1,
 				pageSize:10,
 				loadMore:0,//0-loading前；1-loading中；2-没有更多了
+				isLoad:false,//第一次进来还没有加载过数据，不执行onshow的方法
 
 				keyword:'',
 				list:[],
@@ -115,16 +121,18 @@
 			}
 		},
 		computed:{
-			...mapState(['lng','lat','cityName','cityCode'])
+			// calendarOption--日历参数
+			...mapState(['lng','lat','cityName','cityCode','calendarOption'])
 		},
 		onLoad(e) {
 			this.keyword = e.keyword;
+			this.nowCityName=this.cityName;
 			this.initAllSort();
 			this.sortTagList = uni.getStorageSync('tag')
 		},
 		onShow(){
 			console.log(this.cityName)
-			if(this.nowCityName!==this.cityName){
+			if((this.nowCityName!==this.cityName)&&this.isLoad){
 				this.nowCityName=this.cityName;
 				getCityCode(this.cityName).then((res)=>{
 					this.update({
@@ -146,8 +154,11 @@
 					PageSize:this.pageSize,
 					Sort:this.sort.value,
 					People:this.people,
-					Keywords:this.keyword
+					Keywords:this.keyword,
+					MinDate:this.calendarOption.currentRangeStartDate,
+					MaxDate:this.calendarOption.currentRangeEndDate
 				}) 
+				this.isLoad||(this.isLoad=true);//加载了数据，如果城市更新了就执行getData
 				const data = res.data;
 				if(data.length<this.pageSize){
 					this.loadMore =2;
@@ -210,6 +221,20 @@
 					IsRecommend:1,
 				}) 
 				this.recommendList = res.data;
+			},
+			// 更改日历
+			changeDatePicker(e) {
+				// 每次选择日历的更改
+				let calendarOption = this.calendarOption;
+				calendarOption.currentRangeStartDate = e.startDate;
+				calendarOption.currentRangeEndDate = e.endDate;
+				calendarOption.dateNum = e.dateNum;
+				calendarOption.startDate = e.startDate.substring(e.startDate.indexOf('-')+1);
+				calendarOption.endDate = e.endDate.substring(e.endDate.indexOf('-')+1);
+				this.update({
+					calendarOption:calendarOption
+				})
+				this.initAllSort();
 			},
 
 		},
