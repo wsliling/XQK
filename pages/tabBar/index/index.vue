@@ -33,17 +33,17 @@
 				<view class="iconfont icon-arrow_down-copy"></view>
 			</view>
 			<!-- <calendar @change="change" :startDate="initStartDate" :endDate="initEndDate" :daysCount="daysCount"></calendar> -->
-			<date-picker ref="datePicker" @change="changeDatePicker" :option="option"></date-picker>
+			<date-picker ref="datePicker" @change="changeDatePicker" :option="calendarOption"></date-picker>
 			<view class="order-time flex-center-between" @click="$refs.datePicker.open()">
 					<view class="flex-column-center">
 						<text class="mintxt">入住</text>
-						<text class="date-wrappper">{{option.currentRangeStartDate}}</text>
+						<text class="date-wrappper">{{calendarOption.startDate}}</text>
 						<!-- <text class="goInHotel2">今天</text> -->
 					</view>
-					<text class="sumCount">共{{option.dateNum}}晚</text>
+					<text class="sumCount">共{{calendarOption.dateNum}}晚</text>
 					<view class="flex-column-center">
 						<text class="mintxt">离店</text>
-						<text class="date-wrappper">{{option.currentRangeEndDate}}</text>
+						<text class="date-wrappper">{{calendarOption.endDate}}</text>
 						<!-- <text class="goInHotel2">明天</text> -->
 					</view>
 					<view class="flex-column-center" @click.stop="showNumlayer = true">
@@ -102,7 +102,11 @@
 		</view>
 		<!-- 服务保障 -->
 		<view class="serveXQ pd15 uni-mb10">
-			<image  @click="navigate('tabBar/my/security')" src="/static/of/2.jpg" mode="widthFix"></image>
+			<!-- <image  @click="navigate('tabBar/my/security')" src="/static/of/2.jpg" mode="widthFix"></image> -->
+			<image  @click="navigate('tabBar/my/security')" :src="securityContent.Logo" mode="widthFix"></image>
+			<view class="btn_line" @click="navigate('tabBar/my/security')">
+				{{ securityContent.Title }}
+			</view>
 		</view>
 		<!-- 推荐星语 -->
 		<view class="recomXQ pd15 uni-mb10">
@@ -197,10 +201,10 @@
 <script>
 	import {post,get,navigate,judgeLogin} from '@/utils';
 	import tabbar from '@/components/tabbar.vue';
-	import datePicker from '@/components/good-date-picker/good-date-picker';
+	import datePicker from '@/components/date-picker/date-picker.vue';
 	import {hasPosition,getCityCode} from '@/utils/location';
 	// #ifdef H5
-	import {MP} from '@/common/map.js';//h5百度定位
+	// import {MP} from '@/common/map.js';//h5百度定位
 	// #endif
 	import wpicker from "@/components/w-picker/w-picker.vue";
 	import { mapState, mapMutations } from "vuex"; //vuex辅助函数
@@ -239,19 +243,10 @@
 				hotRecommendList: [],
 				// 了解星球客
 				about:{},
-				//弹窗-区间模式配置：
-				option:{
-					currentRangeStartDate: '2019-12-07', //根默认显示初始时间，可为空,默认今天
-					currentRangeEndDate: '2019-12-08', //根默认区间选择显示结束时间，可为空，默认明天
-					initStartDate: '2019-12-07', //可选起始时间限制，可为空,默认今天
-					initEndDate: '2020-06-08', //可选结束时间限制，可为空,默认4个月后
-					isRange: true, //是否开启范围选择，必填
-					isModal:true,
-					dateNum:1,
-				},
 				showNumlayer:false,//人数弹窗
 				inputNum:1,
 				nowNum:1,
+				securityContent: ""
 			}
 		},
 		components: {
@@ -260,7 +255,7 @@
 			wpicker,productItem
 		},
 		computed:{
-			...mapState(['lng','lat','cityName','cityCode'])
+			...mapState(['lng','lat','cityName','cityCode','calendarOption'])
 		},
 		onLoad() {
 			this.userId = uni.getStorageSync("userId");
@@ -269,6 +264,8 @@
 			this.getAbout();
 			this.getHotGoodsList();
 			this.getPosition();
+			this.getSecurity();
+			this.initCalendarOption();// 初始化日历
 		},
 		onShow(){
 			if(this.nowCityName !== this.cityName){
@@ -284,6 +281,12 @@
 			}
 		},
 		methods: {
+			// 安全保障
+			async getSecurity (){
+				let titleContent = await post("/About/AboutUs",{Id:2,type:0});
+				this.securityContent = titleContent.data
+				console.log("this.securityContent--",this.securityContent)
+			},
 			...mapMutations(['update']),
 			// 获取定位,在所有首次会打开的页面执行，获取定位和code
 			async getPosition(){
@@ -369,10 +372,16 @@
 			},
 			// 更改日历
 			changeDatePicker(e) {
-				console.log(e)
-				this.option.currentRangeStartDate = e.startDate;
-				this.option.currentRangeEndDate = e.endDate;
-				this.option.dateNum = e.dateNum;
+				// 每次选择日历的更改
+				let calendarOption = this.calendarOption;
+				calendarOption.currentRangeStartDate = e.startDate;
+				calendarOption.currentRangeEndDate = e.endDate;
+				calendarOption.dateNum = e.dateNum;
+				calendarOption.startDate = e.startDate.substring(e.startDate.indexOf('-')+1);
+				calendarOption.endDate = e.endDate.substring(e.endDate.indexOf('-')+1);
+				this.update({
+					calendarOption:calendarOption
+				})
 			},
 			// 修改当前人数
 			numConfirm(){
@@ -414,7 +423,7 @@
 			async updateBannerHits(index) {
 				post("/Banner/BannerHits",{id:this.bannerList[index].Id}) 
 				console.log("广告图结果：",res)
-			}
+			},
 		},
 		// #ifndef MP
 		//点击导航栏 buttons 时触发

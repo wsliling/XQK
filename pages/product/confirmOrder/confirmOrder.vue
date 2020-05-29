@@ -1,24 +1,24 @@
 <template>
 	<div class="bgfff">
 		<div class="plr30">
-			<div class="pro flex-center-between ptb40">
+			<div class="pro flex-center-between ptb40" v-if="data.ProData">
 				<div class="info">
-					<h4 class="name">萍乡武功山风景区星球客</h4>
-					<h4 class="price">￥222</h4>
+					<h4 class="name">{{data.ProData.Name}}</h4>
+					<h4 class="price">￥{{data.ProData.Price}}</h4>
 					<div class="score bold flex-center">
-						<div class="iconfont icon-collect"></div> 4.8<span>(20)</span>
+						<div class="iconfont icon-collect"></div>{{data.ProData.CommentScore}}<span>({{data.ProData.CommentNum}})</span>
 					</div>
 				</div>
-				<img src="/static/of/p1.jpg" mode="widthFix" alt="">
+				<img :src="data.ProData.PicNo" mode="widthFix" alt="">
 			</div>
 			<div class="date flex-center-between p30">
 				<div class="start">
-					<h3>5月18日</h3>
+					<h3>{{calendarOption.startDate}}</h3>
 					<p>入住日期</p>
 				</div>
-				<div class="total">共1晚</div>
+				<div class="total">共{{calendarOption.dateNum}}晚</div>
 				<div class="end">
-					<h3>5月19日</h3>
+					<h3>{{calendarOption.endDate}}</h3>
 					<p>离店日期</p></div>
 			</div>
 			<div class="row flex-center-between">
@@ -83,23 +83,23 @@
 		<div class="priceInfo plr30 ptb20">
 			<div class="item flex-center-between">
 				<p>总金额：</p>
-				<p>¥288.00</p>
+				<p>¥{{data.TotalPrice}}</p>
 			</div>
-			<div class="item flex-center-between">
+			<!-- <div class="item flex-center-between">
 				<p>清洁费：</p>
 				<p>¥0.00</p>
 			</div>
 			<div class="item flex-center-between">
 				<p>服务费</p>
 				<p>¥0.00</p>
-			</div> 
+			</div>  -->
 			<div class="item flex-center-between">
 				<p>优惠券</p>
-				<p>-¥0.00</p>
+				<p>-¥{{data.yhPrice}}</p>
 			</div> 
 			<div class="totalPrice bold flex-center-between">
 				<p>实付金额</p>
-				<p>¥288.00</p>
+				<p>¥{{data.AllPrice}}</p>
 			</div>
 		</div>
 		<div class="gap20"></div>
@@ -119,14 +119,60 @@
 </template>
 
 <script>
+	import {post,get,navigate,judgeLogin,navigateBack} from '@/utils';
+	import { mapState, mapMutations } from "vuex"; //vuex辅助函数
+	import wpicker from "@/components/w-picker/w-picker.vue";
 	export default {
+		components: {
+			wpicker
+		},
 		data() {
 			return {
+				navigate,
+				userId: "",
+				token: "",
+				id:'',
+				adultNum:1,//入住人数
+				couponId:0,
+				data:{},
 			}
 		},
-		onLoad() {
+		onLoad(option) {
+			this.userId = uni.getStorageSync('userId');
+			this.token = uni.getStorageSync('token');
+			this.id = option.id;
+			this.getData();
+		},
+		onShow(){
+			this.userId = uni.getStorageSync('userId');
+			this.token = uni.getStorageSync('token');
+			// if(!this.data.TotalPrice){
+			// 	this.getData();
+			// }
+		},
+		computed:{
+			...mapState(['lng','lat','cityName','cityCode','calendarOption'])
 		},
 		methods: {
+			...mapMutations(['update']),
+			async getData(){
+				try{
+					const res = await post('Order/BookOrder',{
+						UserId: this.userId,
+						Token: this.token,
+						ProId:this.id,
+						AdultNum:this.adultNum,
+						ChildNum:0,
+						MinDate:this.calendarOption.currentRangeStartDate,
+						MaxDate:this.calendarOption.currentRangeEndDate,
+						CouponId:this.couponId,
+					})
+					const data= res.data;
+					this.data = data;
+				}catch{
+					navigateBack();
+				}
+			}
 		}
 	}
 </script>

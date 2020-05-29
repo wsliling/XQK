@@ -19,6 +19,7 @@
 	// import { mapState } from "vuex"; //vuex辅助函数
 	import {post,get,navigate} from '@/utils';
 	export default {
+		// name:'推荐列表',
 		components: {productItem,notData},
 		data() {
 			return {

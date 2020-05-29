@@ -79,12 +79,11 @@ import {navigate} from '@/utils'
 			 // return this.item.ServiceKeys
 			 if(!this.item.ServiceKeys)return;
 			 let tab = this.item.ServiceKeys.split(",")
-			 console.log(tab,'tab')
 			 return tab
 		   }
 		},
 		mounted() {
-			console.log("挂载组件",this.item)
+			// console.log("挂载组件",this.item)
 		},
 		onLoad() {
 			
