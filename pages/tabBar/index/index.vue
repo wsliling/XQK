@@ -200,7 +200,7 @@
 	import datePicker from '@/components/date-picker/date-picker.vue';
 	import {hasPosition,getCityCode} from '@/utils/location';
 	// #ifdef H5
-	import {MP} from '@/common/map.js';//h5百度定位
+	// import {MP} from '@/common/map.js';//h5百度定位
 	// #endif
 	import wpicker from "@/components/w-picker/w-picker.vue";
 	import { mapState, mapMutations } from "vuex"; //vuex辅助函数
