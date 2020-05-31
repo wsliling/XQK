@@ -310,8 +310,8 @@
 			    }],
 				// 日期
 				option:{
-					currentRangeStartDate: '2020-05-29', //根默认显示初始时间，可为空,默认今天
-					currentRangeEndDate: '2020-05-30', //根默认区间选择显示结束时间，可为空，默认明天
+					currentRangeStartDate: '2020-06-01', //根默认显示初始时间，可为空,默认今天
+					currentRangeEndDate: '2020-06-04', //根默认区间选择显示结束时间，可为空，默认明天
 					initStartDate: '', //可选起始时间限制，可为空,默认今天
 					initEndDate: '', //可选结束时间限制，可为空,默认4个月后
 					isRange: true, //是否开启范围选择，必填

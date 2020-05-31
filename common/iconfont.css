@@ -239,7 +239,8 @@
 }
 
 .icon-aixin1:before {
-  content: "\e85c";
+  /* content: "\e85c"; */
+	content: "\e643";
 }
 
 .icon-fenxiang1:before {
