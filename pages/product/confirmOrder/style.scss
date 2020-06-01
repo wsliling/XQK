@@ -84,3 +84,76 @@
     font-size:32upx;
     line-height:100upx;
 }
+// 入住人数
+.peopleNum{
+    background:#fff;
+    .content{
+        padding:60upx 50upx;
+        div:last-child{
+            margin-top:50upx;
+        }
+    }
+}
+
+.checkInInfo{
+    width:650upx;
+    border-radius:10upx;
+    .head{
+        text-align:center;
+    }
+    .content{
+        .item{
+            height:80upx;
+            line-height:80upx;
+            input{
+                width:70%;
+                height:80upx;
+                line-height:80upx;
+                text-align:left;
+            }
+            margin-bottom:10upx;
+            p{
+                font-size:28upx;
+            }
+        }
+    }
+    .btn{
+        border-top:1upx solid #e8e8e8;
+        div{
+            width:50%;
+            line-height:3;
+        }
+        .confirm{
+            color:$primary;
+            border-left:1upx solid #e8e8e8;
+        }
+    }
+}
+// 优惠券
+/* 优惠券弹窗 */
+.pop{
+    border-radius: 6px 6px 0 0;
+	background-color: #fff;
+	width: 100%;
+    .title{
+        text-align:center;
+    }
+    .centent{
+        padding:0 20upx; 
+    }
+    .btn-max{
+        border-radius:0;
+        font-size:30upx;
+        line-height:88upx;
+    }
+}
+.couponbox{
+    .couponitem{
+        width: 100%;
+        height: 120upx;
+        border-bottom: 1upx #ECECEC solid;
+    }
+    .couponname{
+        font-size: 30upx;
+    }
+}
