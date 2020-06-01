@@ -246,7 +246,7 @@
 </template>
 
 <script>
-	import {post,get,navigate,judgeLogin,navigateBack,verifyPhone,toast} from '@/utils';
+	import {post,get,navigate,judgeLogin,navigateBack,verifyPhone,toast,redirect} from '@/utils';
 	import { mapState, mapMutations } from "vuex"; //vuex辅助函数
 	import wpicker from "@/components/w-picker/w-picker.vue";
 	import ansInput from "@/components/ans-input/ans-input.vue";
@@ -279,8 +279,8 @@
 				ChildNum:0,//小孩入住人数
 				l_ChildNum:0,////临时成人入住人数
 				l_people:1,//临时人数
-				ContactName:'',//预订人
-				Tel:'',//预订人电话
+				ContactName:'絮',//预订人
+				Tel:'15014010111',//预订人电话
 			}
 		},
 		onLoad(option) {
@@ -439,13 +439,13 @@
 				this.$refs.coupon.close();
 			},
 			// 提交订单
-			submit(){
+			async submit(){
 				let checkyuding = this.checkyuding()
 				if(checkyuding){
 					toast(checkyuding)
 					return
 				};
-				post('Order/SubmitBookOrder',{
+				const res = await post('Order/SubmitBookOrder',{
 						UserId: this.userId,
 						Token: this.token,
 						ProId:this.id,
@@ -458,6 +458,7 @@
 						ContactName:this.ContactName,
 						Tel:this.Tel,
 				})
+				this.ConfirmWeiXinSmallPay(res.data);
 			},
 			// 校验预订人
 			checkyuding(){
@@ -471,6 +472,37 @@
 					return '请输入正确的预订人电话'
 				}
 				return false;
+			},
+			//微信支付需参数
+			async ConfirmWeiXinSmallPay(OrderNo){
+
+				let res = await post('Order/WechatPay',{
+					OrderNo:OrderNo,
+					UserId: this.userId,
+					Token: this.token,
+					WxCode:uni.getStorageSync("wxCode"),
+					WxOpenid:uni.getStorageSync("openId"),
+					paytype:4
+				})
+				let payData=JSON.parse(res.data.JsParam)
+				if(res.code==0){
+					let _this=this;
+					wx.requestPayment({
+					timeStamp: payData.timeStamp,
+					nonceStr: payData.nonceStr,
+					package: payData.package,
+					signType: payData.signType,
+					paySign: payData.paySign,
+					success(res) {
+						redirect('product/paysuccess/index',{OrderNo:OrderNo,money:_this.data.AllPrice})
+						},
+					fail(res) {
+						redirect('product/paysuccess/index',{OrderNo:OrderNo,msg:'fail',money:_this.data.AllPrice})
+					}
+					})
+				}else if(res.code==200){
+					redirect('product/paysuccess/index',{OrderNo:OrderNo,money:_this.data.AllPrice})
+				}
 			},
 		}
 	}
