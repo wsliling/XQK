@@ -5,25 +5,36 @@
 			<view v-for="(item, index) in tabList" :key="index" class="item" :class="{ active: item.id == tabIndex }" @click="cliTab(item.id)">{{ item.name }}</view>
 			<view class="bb_line" :style="'left:' + tabStyle + 'rpx'"></view>
 		</view>
-		<view class="list" style="padding-top: 80upx;">
-			<view class="order_item" @click.stop="goUrl('/pages/tabBar/order/orderdetails')">
+		<view class="list" style="padding-top: 80upx;" >
+			<view class="order_item" @click.stop="goUrl('/pages/tabBar/order/orderdetails')" v-for="(val, key) in orderList" :key="key">
 				<view class="flex-between">
 					<view class="txtbox">
-						<view class="name">星球客</view>
-						<view class="desc">2020/06/18-2020/06/19 •1位房客</view>
+						<view class="name">{{val.ShopName}}</view>
+						<view class="desc">{{val.MakeDate}}•{{val.MakePeople}}位房客</view>
 						<view class="flex">
-							<text class="staus red">订单待支付</text>
-							<text class="price">￥198.0</text>
+							<text class="staus red">{{val.StatusName}}</text>
+							<text class="price">￥{{val.Total}}</text>
 						</view>
 					</view>
-					<view class="imgbox"><image src="/static/of/p3.jpg" mode="aspectFill"></image></view>
+					<view class="imgbox" v-for="(item, key1) in val.OrderDetails" :key="key1">
+						<image :src="item.PicNo" mode="aspectFill"></image>
+					</view>
 				</view>
-				<view class="btns flex">
-					<view class="btn" @click.stop="tiedphone()">取消订单</view>
-					<view class="btn btn_fill" @click.stop="goUrl('/pages/tabBar/order/pay')">立即支付</view>
+				<!-- IsRefund,//按钮退款-取消预订 1-显示
+					IsComment,//按钮评价 1-显示
+					Ispay, //按钮付款 1-显示
+					IsApplyInvoice,//按钮开票 1-显示
+					IsDel,//删除订单 1-显示
+					IsCancel,//取消订单 1-显示  -->
+				<view class="btns flex" v-for="(items, key2) in val.OrderDetails" :key="key2">
+					<view class="btn" v-if="val.IsRefund === 1" @click="goUrl('/pages/tabBar/order/cancel?OrderNumber='+ val.OrderNumber + '&UnitPrice=' + items.UnitPrice + '&ActualPay=' + items.ActualPay + '&Total=' + val.Total )">取消预订</view>
+					<view class="btn btn_fill" v-if="val.IsComment === 1" @click="goUrl('/pages/tabBar/order/comment')">去评价</view>
+					<view class="btn btn_fill" v-if="val.Ispay === 1" @click.stop="goUrl('/pages/tabBar/order/pay')">立即支付</view>
+					<view class="btn" v-if="val.IsDel === 1" @click.stop="getdelorderList(val.OrderNumber)">删除订单</view>
+					<view class="btn" v-if="val.IsCancel === 1" @click.stop="tiedphone(val.OrderNumber)">取消订单</view>
 				</view>
 			</view>
-			<view class="order_item">
+			<!-- <view class="order_item">
 				<view class="flex-between">
 					<view class="txtbox">
 						<view class="name">星球客</view>
@@ -78,10 +89,10 @@
 					<view class="imgbox"><image src="/static/of/p3.jpg" mode="aspectFill"></image></view>
 				</view>
 				<view class="btns flex" @click="goUrl('/pages/tabBar/order/comment')"><view class="btn btn_fill">去评价</view></view>
-			</view>
+			</view> -->
 		</view>
-		<view class="uni-tab-bar-loading" v-if="hasData"><uni-load-more :loadingType="loadingType"></uni-load-more></view>
 		<noData :isShow="noDataIsShow"></noData>
+		<view class="uni-tab-bar-loading"><uni-load-more :loadingType="loadingType" v-if="noDataIsShow == false"></uni-load-more></view>
 		<view style="height: 120upx;"></view>
 		<tabbar :current="3"></tabbar>
 		<!-- 取消定单弹框 -->
@@ -99,30 +110,38 @@
 </template>
 
 <script>
-import { post, get, toLogin } from '@/common/util.js';
+import { post, get } from '@/utils';
 import tabbar from '@/components/tabbar.vue';
 import popup from '@/components/uni-popup/uni-popup.vue'
 import noData from '@/components/noData.vue'; //暂无数据
+import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue'; //加载更多
 export default {
 	components: {
 		tabbar,
 		popup,
 		noData,
+		
 	},
 	data() {
 		return {
-			tabList: [{ id: 0, name: '全部订单' }, { id: 1, name: '有效订单' }, { id: 2, name: '待支付' }],
+			userId:'',
+			token:'',
+			tabList: [{ id: 0, name: '全部订单' }, { id: 1, name: '待付款' },{ id: 2, name: '有效订单' }, { id: 3, name: '待支付' }],
 			tabIndex: 0,
-			hasData: false,
-			noDataIsShow: false,
+			noDataIsShow: false, //暂无数据
 			loadingType: 0, //0加载前，1加载中，2没有更多了
-			pageSize: 6,
-			page: 1,
-			isLoad: false,
-			datalist: [] //数据
+			PageSize: 10,
+			Page: 1,
+			Type:0,  //默认0-全部订单
+			Status:0,//默认0-全部状态 1://待付款 2://有效订单 3://待评价
+			orderList:[], //订单列表
 		};
 	},
-	onShow() {},
+	onShow() {
+		this.userId = uni.getStorageSync('userId');
+		this.token = uni.getStorageSync('token');
+		this.getorderList()
+	},
 	computed: {
 		tabStyle() {
 			return (750 / this.tabList.length) * this.tabIndex + (750 / this.tabList.length - 80) / 2;
@@ -135,14 +154,107 @@ export default {
 			});
 		},
 		cliTab(index) {
+			this.orderList =[];
 			this.tabIndex = index;
+			this.Status = index;
+			this.getorderList()
 		},
-		tiedphone(){
+		// 订单列表
+		getorderList(){
+			post('Order/OrderList_yd',{
+				UserId:this.userId,
+				Token:this.token,
+				Page:this.Page,
+				PageSize:this.PageSize,
+				// Type:this.Type,
+				Status:this.Status,
+			}).then( res=> {
+				console.log(res,'订单列表')
+				if(res.code === 0){
+					// this.orderList = res.data 
+					if (res.data.length > 0) {
+						this.noDataIsShow = false;
+					}
+					if (res.data.length === 0 && this.Page === 1) {
+						this.noDataIsShow = true;
+					}
+					if (this.Page === 1) {
+						this.orderList = res.data;
+					}
+					if (this.Page > 1) {
+						this.orderList = this.orderList.concat(res.data);
+					}
+					if (res.data.length < this.PageSize) {
+						this.isLoad = false;
+						this.loadingType = 2;
+					} else {
+						this.isLoad = true;
+						this.loadingType = 0;
+					}
+				}
+			})
+		},
+		// 取消订单
+		tiedphone(OrderNumber){
 			this.$refs.tiedphone.open()
+			post('Order/CancelOrders',{
+				UserId:this.userId,
+				Token:this.token,
+				OrderNo:OrderNumber, //订单号
+			}).then( res=> {
+				console.log(res,'取消订单')
+				if(res.code === 0){
+					uni.showToast({
+						title: res.msg,
+						icon: 'none',
+						duration: 1500,
+						success() {
+							this.getorderList()
+							this.$nextTick(function() {
+							 	this.orderList.splice(index, 1);
+							});
+						}
+					});
+				}
+			})
 		},
+		// 关闭模态框
 		close(){
 			this.$refs.tiedphone.close()
 		},
+		// 删除订单
+		getdelorderList(OrderNumber){
+			post('Order/DeleteOrders',{
+				UserId:this.userId,
+				Token:this.token,
+				OrderNo: OrderNumber, //订单号
+			}).then( res=> {
+				console.log(res,'删除订单')
+				if(res.code === 0){
+					uni.showToast({
+						title: res.msg,
+						icon: 'none',
+						duration: 1500,
+						success() {
+							this.getorderList()
+							this.$nextTick(function() {
+							 	this.orderList.splice(index, 1);
+							});
+						}
+					});
+				}
+			})
+		},
+	},
+	// 上拉加载
+	onReachBottom: function() {
+		if (this.isLoad) {
+			this.loadingType = 1;
+			this.Page++;
+			this.getorderList()
+		} else {
+			this.loadingType = 2;
+		}
 	}
 };
 </script>

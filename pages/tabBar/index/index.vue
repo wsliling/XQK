@@ -119,34 +119,7 @@
 			</view>
 			<view class="bd" style="margin-right: -20upx;">
 				<view class="xylist">
-					<view class="item" v-for="(item,index) in 4" :key="index">
-						<view class="itembox">
-							<view class="imgbox">
-								<view class="like flex-end">
-									<view class="iconfont icon-aixin bg">
-										<view class="iconfont icon-aixin active"></view>
-									</view>
-									<text class="num">209</text>
-								</view>
-								<image src="/static/of/p1.jpg" mode="aspectFill"></image>
-							</view>
-							<view class="txtbox">
-								<view class="title uni-ellipsis2 uni-mb5">
-									旅行为我门的生活打开了一扇窗，这扇窗~旅行为我门的生活打开了一扇窗，这扇窗~
-								</view>
-								<view class="flex-between">
-									<view class="tx flex-start">
-										<image src="/static/logo.png" mode="aspectFill"></image>
-										<text>小星君</text>
-									</view>
-									<view class="zan flex-end">
-										<text class="iconfont icon-zan"></text>
-										<text class="num">30</text>
-									</view>
-								</view>
-							</view>
-						</view>
-					</view>
+					<star-lang-item v-for="(item,index) in 4" :key="index"></star-lang-item>
 				</view>
 			</view>
 			<view class="btn_line uni-mb10">
@@ -209,6 +182,7 @@
 	import wpicker from "@/components/w-picker/w-picker.vue";
 	import { mapState, mapMutations } from "vuex"; //vuex辅助函数
 	import productItem from '@/components/productItem.vue';
+	import starLangItem from '@/components/starLangItem.vue';
 	export default {
 		data() {
 			return {
@@ -252,7 +226,7 @@
 		components: {
 			tabbar,
 			datePicker,
-			wpicker,productItem
+			wpicker,productItem,starLangItem
 		},
 		computed:{
 			...mapState(['lng','lat','cityName','cityCode','calendarOption'])
@@ -324,16 +298,18 @@
 			},
 			// 轮播图请求
 			async getBanner(){
-				let bannerRes = await post("/Banner/BannerList")
+				let bannerRes = await post("Banner/BannerList")
 				this.bannerList = bannerRes.data
 				// console.log("我是轮播图", this.bannerList)
 			},
 			async getHotGoodsList () {
 				// 热门推荐
-				const res = await post("/Goods/GoodsList_yd",{
+				const res = await post("Goods/GoodsList_yd",{
 					// AreaCode:this.cityCode||'',
 					// Lat:this.lat||0,
 					// Lng:this.lng||0,
+					Page:1,
+					PageSize:12,
 					IsRecommend:1,
 				}) 
 				this.hotRecommendList = res.data 

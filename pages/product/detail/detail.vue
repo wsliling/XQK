@@ -222,7 +222,7 @@
 					￥{{ details.MarketPrice }}/晚
 				</div>
 			</div>
-			<div class="btn disable" @click="navigate('product/confirmOrder/confirmOrder')"> 
+			<div class="btn disable" @click="navigate('product/confirmOrder/confirmOrder',{id:id})"> 
 				立即预定
 			</div>
 		</div>
@@ -261,6 +261,7 @@
 		data() {
 			return {
 				navigate,
+				id:0,
 				currentSwiper :0,
 				details: {
 					CommentScore: "",
@@ -318,7 +319,8 @@
 		},
 		onLoad(options) {
 			console.log("传递过来的参数:",options)
-			let Id = options.Id
+			let Id = options.Id;
+			this.id = options.Id;
 			this.getDetail(Id)
 			this.getGoodsDateTime(Id)
 			this.getOrderCommentInfo(Id)

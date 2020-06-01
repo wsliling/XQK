@@ -62,12 +62,6 @@
         	}
         }
         ,{
-            "path" : "pages/tabBar/order/paysuccess",
-            "style" : {
-        		"navigationBarTitleText": "支付成功"
-        	}
-        }
-        ,{
             "path" : "pages/tabBar/order/schedule",
             "style" : {
         		"navigationBarTitleText": "退款进度"
@@ -182,6 +176,12 @@
 			}
 		}
 		,{
+		    "path" : "pages/tabBar/my/helpcontent",
+		    "style" : {
+				"navigationBarTitleText": "帮助详情"
+			}
+		}
+		,{
 		    "path" : "pages/tabBar/my/feedback",
 		    "style" : {
 				"navigationBarTitleText": "意见反馈"
@@ -275,6 +275,12 @@
 					"path":"confirmOrder/confirmOrder",
 					"style": {
 						"navigationBarTitleText": "确定订单"
+					}
+				}
+				,{
+					"path" : "paysuccess/index",
+					"style" : {
+						"navigationBarTitleText": "支付成功"
 					}
 				}
 			]

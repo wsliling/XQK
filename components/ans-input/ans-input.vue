@@ -2,7 +2,7 @@
 	<div class="box">
 		<input :type="type" v-model="content"
         	@input="$emit('input', content)" :placeholder="placeholder" 
-			confirm-type="search" @confirm="confirm"
+			confirm-type="search" @confirm="confirm" :style="'text-align:'+align"
 		>
 		<div class="clear" @click="content=''" v-if="content">
 			<uni-icons color="#ccc" class="" size="20" type="clear" />
@@ -24,6 +24,10 @@
 			placeholder:{
 				type:String,
 				default:'搜索内容'
+			},
+			align:{
+				type:String,
+				default:'center'
 			}
 		},
 		watch:{

@@ -17,6 +17,9 @@
     }
 
 }
+.c999{
+    color:#999;
+}
 .date{
     background:#f8f9fb;
     text-align:center;
@@ -42,16 +45,16 @@
         border-radius:7upx;
         margin-left:15upx;
     }
-    .detail-info{
-        background:#f8f9fb;
-        padding-top:1upx;
-        padding-bottom:20upx;
-        border-radius:10upx;
-        margin-bottom:20upx;
-        p{
-            color:#999;
-            line-height:1.2;
-        }
+}
+.userInfo{
+    background:#f8f9fb;
+    padding-top:1upx;
+    padding-bottom:20upx;
+    border-radius:10upx;
+    margin-bottom:20upx;
+    p{
+        color:#999;
+        line-height:1.2;
     }
 }
 .priceInfo{
@@ -82,5 +85,68 @@
 .btn-max{
     border-radius:0;
     font-size:32upx;
-    line-height:100upx;
+}
+.submit{
+    .btn-max{
+        line-height:100upx;
+        height:100upx;
+    }
+}
+// 入住人数
+.peopleNum{
+    background:#fff;
+    .content{
+        padding:60upx 50upx;
+        div:last-child{
+            margin-top:50upx;
+        }
+    }
+}
+
+.addCheckInInfo{
+    .content{
+        .item{
+            height:80upx;
+            line-height:80upx;
+            border-bottom:1upx solid #f2f2f2;
+            input{
+                width:70%;
+                height:80upx;
+                line-height:80upx;
+                text-align:left;
+            }
+            margin-bottom:10upx;
+            p{
+                font-size:28upx;
+            }
+        }
+    }
+}
+// 优惠券
+/* 优惠券弹窗 */
+.pop{
+    border-radius: 6px 6px 0 0;
+	background-color: #fff;
+	width: 100%;
+    .title{
+        text-align:center;
+    }
+    .centent{
+        padding:0 20upx; 
+    }
+    .btn-max{
+        border-radius:0;
+        font-size:30upx;
+        line-height:88upx;
+    }
+}
+.couponbox{
+    .couponitem{
+        width: 100%;
+        height: 120upx;
+        border-bottom: 1upx #ECECEC solid;
+    }
+    .couponname{
+        font-size: 30upx;
+    }
 }
