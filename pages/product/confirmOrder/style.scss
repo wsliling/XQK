@@ -17,6 +17,9 @@
     }
 
 }
+.c999{
+    color:#999;
+}
 .date{
     background:#f8f9fb;
     text-align:center;
@@ -42,16 +45,16 @@
         border-radius:7upx;
         margin-left:15upx;
     }
-    .detail-info{
-        background:#f8f9fb;
-        padding-top:1upx;
-        padding-bottom:20upx;
-        border-radius:10upx;
-        margin-bottom:20upx;
-        p{
-            color:#999;
-            line-height:1.2;
-        }
+}
+.userInfo{
+    background:#f8f9fb;
+    padding-top:1upx;
+    padding-bottom:20upx;
+    border-radius:10upx;
+    margin-bottom:20upx;
+    p{
+        color:#999;
+        line-height:1.2;
     }
 }
 .priceInfo{
@@ -82,7 +85,12 @@
 .btn-max{
     border-radius:0;
     font-size:32upx;
-    line-height:100upx;
+}
+.submit{
+    .btn-max{
+        line-height:100upx;
+        height:100upx;
+    }
 }
 // 入住人数
 .peopleNum{
@@ -95,16 +103,12 @@
     }
 }
 
-.checkInInfo{
-    width:650upx;
-    border-radius:10upx;
-    .head{
-        text-align:center;
-    }
+.addCheckInInfo{
     .content{
         .item{
             height:80upx;
             line-height:80upx;
+            border-bottom:1upx solid #f2f2f2;
             input{
                 width:70%;
                 height:80upx;
@@ -115,17 +119,6 @@
             p{
                 font-size:28upx;
             }
-        }
-    }
-    .btn{
-        border-top:1upx solid #e8e8e8;
-        div{
-            width:50%;
-            line-height:3;
-        }
-        .confirm{
-            color:$primary;
-            border-left:1upx solid #e8e8e8;
         }
     }
 }

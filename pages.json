@@ -62,12 +62,6 @@
         	}
         }
         ,{
-            "path" : "pages/tabBar/order/paysuccess",
-            "style" : {
-        		"navigationBarTitleText": "支付成功"
-        	}
-        }
-        ,{
             "path" : "pages/tabBar/order/schedule",
             "style" : {
         		"navigationBarTitleText": "退款进度"
@@ -281,6 +275,12 @@
 					"path":"confirmOrder/confirmOrder",
 					"style": {
 						"navigationBarTitleText": "确定订单"
+					}
+				}
+				,{
+					"path" : "paysuccess/index",
+					"style" : {
+						"navigationBarTitleText": "支付成功"
 					}
 				}
 			]

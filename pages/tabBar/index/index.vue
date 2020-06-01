@@ -298,16 +298,18 @@
 			},
 			// 轮播图请求
 			async getBanner(){
-				let bannerRes = await post("/Banner/BannerList")
+				let bannerRes = await post("Banner/BannerList")
 				this.bannerList = bannerRes.data
 				// console.log("我是轮播图", this.bannerList)
 			},
 			async getHotGoodsList () {
 				// 热门推荐
-				const res = await post("/Goods/GoodsList_yd",{
+				const res = await post("Goods/GoodsList_yd",{
 					// AreaCode:this.cityCode||'',
 					// Lat:this.lat||0,
 					// Lng:this.lng||0,
+					Page:1,
+					PageSize:12,
 					IsRecommend:1,
 				}) 
 				this.hotRecommendList = res.data 
