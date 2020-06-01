@@ -19,16 +19,18 @@
 				<view class="figure">您的退款总金额</view>
 				<view class="figure">¥288.00</view>
 			</view>
-			<view class="cancelflex">
+			<view class="cancelflex" @click="showEdit = true">
 				<view class="">取消原因</view>
 				<view class="select">
-					<view class="">请选择</view>
+					<view class="">{{ typeTxt }}</view>
 					<image src="../../../static/icons/arrow.png" mode=""></image>
 				</view>
 			</view>
 			<view class="effect">取消立即生效</view>
 			<view class="reserve" @click="cancellation(1)">取消预订</view>
 		</view>
+		
+		<!-- 取消预订退款 -->
 		<view class="refund" v-if="cancel == 1">
 			<image src="../../../static/icons/cancel.png" mode=""></image>
 			<view class="refund40">预订已取消</view>
@@ -36,20 +38,63 @@
 			<view class="refund32">退款将在3-5个工作日内完成</view>
 			<view class="confirm" @click="cancellation(1)">确定</view>
 		</view>
+		<pickers v-if="showEdit" :arr="typelist" :show.sync="showEdit" @success="gettype"></pickers>
 	</view>
 	
 </template>
 <script>
+	import { post } from '@/utils'
+	import pickers from '@/components/pickers';
 	export default {
 		data(){
 			return{
+				userId:'',
+				token:'',
 				cancel:0,  //
+				typeTxt: '请选择',
+				showEdit: false,
+				typelist:[] //取消原因的数据
 			}
+		},
+		components: { pickers },
+		onShow() {
+			this.userId = uni.getStorageSync('userId');
+			this.token = uni.getStorageSync('token');
+			this.getCancelReason()
 		},
 		methods:{
 			cancellation(e){
 				this.cancel = e
-			}
+			},
+			gettype(e) {
+				console.log(e)
+				// this.type = e.code;
+				this.typeTxt = e.message;
+			},
+			// 获取取消原因
+			getCancelReason(){
+				post('Order/CancelReason',{
+				}).then(res=>{
+					if(res.code === 0){
+						console.log(res,'获取取消原因')
+						this.typelist = res.data
+						console.log(this.typelist,'this.typelist')
+					}
+				})
+			},
+			// 订单取消预订
+			getCancelReservation(){
+				post('Order/CancelReservation',{
+					UserId: this.userId,
+					Token: this.token
+					// OrderNo: this. 订单号
+					// ReMarks: this.typeTxt 取消原因
+				}).then(res=>{
+					if(res.code === 0){
+						this.typelist = res.data
+					}
+				})
+			},
 		}
 	}
 </script>
