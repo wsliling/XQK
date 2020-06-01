@@ -2,7 +2,7 @@
 	<!-- 获取帮助 -->
 	<view class="get_help">
 		<view class="gethelp">
-			<view class="gethelp-flex" v-for="(val,key) in classList" :key='key' @click="tolick('/pages/tabBar/my/bookinghelp')">
+			<view class="gethelp-flex" v-for="(val,key) in classList" :key='key' @click="tolick('/pages/tabBar/my/bookinghelp?Id=' + val.Id)">
 				<view class="">{{val.Name}}</view>
 				<image  src="../../../static/icons/arrow.png" mode=""></image>
 			</view>
@@ -29,24 +29,12 @@
 		onShow() {
 			this.userId = uni.getStorageSync('userId');
 			this.token = uni.getStorageSync('token');
-			this.getHelpList()
 			this.getClassList()
-			// this.getHelpInfo()
 		},
 		methods: {
 			tolick(url){
 				uni.navigateTo({
 					url:url
-				})
-			},
-			// 帮助列表
-			getHelpList(){
-				post('Help/HelpList',{
-					UserId: this.userId,
-					Token: this.token,
-					Page: this.Page,
-				}).then( res => {
-					console.log(res,'res')
 				})
 			},
 			// 获取帮助分类
@@ -58,7 +46,6 @@
 					}
 				})
 			},
-			
 		}
 	}
 </script>

@@ -80,8 +80,8 @@
 				<view class="btns flex" @click="goUrl('/pages/tabBar/order/comment')"><view class="btn btn_fill">去评价</view></view>
 			</view>
 		</view>
-		<view class="uni-tab-bar-loading" v-if="hasData"><uni-load-more :loadingType="loadingType"></uni-load-more></view>
-		<noData :isShow="noDataIsShow"></noData>
+		<noData :isShow="noDataIsShow" mode="img"></noData>
+		<view class="uni-tab-bar-loading"><uni-load-more :loadingType="loadingType" v-if="noDataIsShow == false"></uni-load-more></view>
 		<view style="height: 120upx;"></view>
 		<tabbar :current="3"></tabbar>
 		<!-- 取消定单弹框 -->
@@ -99,30 +99,39 @@
 </template>
 
 <script>
-import { post, get, toLogin } from '@/common/util.js';
+import { post, get } from '@/utils';
 import tabbar from '@/components/tabbar.vue';
 import popup from '@/components/uni-popup/uni-popup.vue'
-import noData from '@/components/noData.vue'; //暂无数据
+import noData from '@/components/notData.vue'; //暂无数据
+import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue'; //加载更多
 export default {
 	components: {
 		tabbar,
 		popup,
 		noData,
+		
 	},
 	data() {
 		return {
-			tabList: [{ id: 0, name: '全部订单' }, { id: 1, name: '有效订单' }, { id: 2, name: '待支付' }],
+			userId:'',
+			token:'',
+			tabList: [{ id: 0, name: '全部订单' }, { id: 1, name: '待付款' },{ id: 2, name: '有效订单' }, { id: 3, name: '待支付' }],
 			tabIndex: 0,
-			hasData: false,
-			noDataIsShow: false,
+			isLoad:false,
+			noDataIsShow: false, //暂无数据
 			loadingType: 0, //0加载前，1加载中，2没有更多了
-			pageSize: 6,
-			page: 1,
-			isLoad: false,
-			datalist: [] //数据
+			PageSize: 10,
+			Page: 1,
+			Type:0,  //默认0-全部订单
+			Status:0,//默认0-全部状态 1://待付款 2://有效订单 3://待评价
+			orderList:[], //订单列表
 		};
 	},
-	onShow() {},
+	onShow() {
+		this.userId = uni.getStorageSync('userId');
+		this.token = uni.getStorageSync('token');
+		this.getorderList()
+	},
 	computed: {
 		tabStyle() {
 			return (750 / this.tabList.length) * this.tabIndex + (750 / this.tabList.length - 80) / 2;
@@ -136,14 +145,84 @@ export default {
 		},
 		cliTab(index) {
 			this.tabIndex = index;
+			this.Status = index;
+			this.getorderList()
 		},
+		// 订单列表
+		getorderList(){
+			post('Order/OrderList_yd',{
+				UserId:this.userId,
+				Token:this.token,
+				Page:this.Page,
+				PageSize:this.PageSize,
+				// Type:this.Type,
+				Status:this.Status,
+			}).then( res=> {
+				console.log(res,'订单列表')
+				if(res.code === 0){
+					// this.orderList = res.data 
+					if (res.data.length > 0) {
+						this.noDataIsShow = false;
+					}
+					if (res.data.length == 0 && this.page == 1) {
+						this.noDataIsShow = true;
+					}
+					if (this.page === 1) {
+						this.footprintlist = res.data;
+					}
+					if (this.page > 1) {
+						this.footprintlist = this.footprintlist.concat(res.data);
+					}
+					if (res.data.length < this.pageSize) {
+						this.isLoad = false;
+						this.loadingType = 2;
+					} else {
+						this.isLoad = true;
+						this.loadingType = 0;
+					}
+				}
+			})
+		},
+		// 取消订单
 		tiedphone(){
 			this.$refs.tiedphone.open()
+			post('Order/CancelOrders',{
+				UserId:this.userId,
+				Token:this.token,
+				// OrderNo:订单号
+			}).then( res=> {
+				console.log(res,'取消订单')
+				if(res.code === 0){
+				}
+			})
 		},
+		// 关闭模态框
 		close(){
 			this.$refs.tiedphone.close()
 		},
-	}
+		// 删除订单
+		// getorderList(){
+		// 	post('Order/DeleteOrders',{
+		// 		UserId:this.userId,
+		// 		Token:this.token,
+		// 		// OrderNo:订单号
+		// 	}).then( res=> {
+		// 		console.log(res,'删除订单')
+		// 		if(res.code === 0){
+		// 			// this.orderList = res.data 
+		// 		}
+		// 	})
+		// },
+	},
+	// 上拉加载
+	// onReachBottom: function() {
+	// 	if (this.isLoad) {
+	// 		this.loadingType = 1;
+	// 		this.page++;
+	// 	} else {
+	// 		this.loadingType = 2;
+	// 	}
+	// }
 };
 </script>
 

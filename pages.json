@@ -176,6 +176,12 @@
 			}
 		}
 		,{
+		    "path" : "pages/tabBar/my/helpcontent",
+		    "style" : {
+				"navigationBarTitleText": "帮助详情"
+			}
+		}
+		,{
 		    "path" : "pages/tabBar/my/feedback",
 		    "style" : {
 				"navigationBarTitleText": "意见反馈"

@@ -92,7 +92,38 @@
 	</view>
 </template>
 
-<script></script>
+<script>
+	import { post } from '@/utils'
+	export default {
+		data(){
+			return{
+				userId:'',
+				token:'',
+			}
+		},
+		onShow() {
+			this.userId = uni.getStorageSync('userId');
+			this.token = uni.getStorageSync('token');
+		},
+		onLoad(e) {
+			console.log(e)
+		},
+		methods:{
+			//  订单详情
+			getOrderDetails(){
+				post('Order/OrderDetails',{
+					UserId : this.userId,
+					Token : this.token,
+					// OrderNo: 订单号
+				}).then( res=>{
+					if(res.code === 0) {
+						console.log(res,'订单详情')
+					}
+				})
+			}
+		}
+	}
+</script>
 
 <style lang="scss" scoped>
 	.orderdetails{
