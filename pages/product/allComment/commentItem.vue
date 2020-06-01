@@ -4,30 +4,35 @@
 			<div class="userInfo flex-center">
 				<img src="/static/of/p2.jpg" alt="">
 				<div class="info">
-					<div class="name">名字</div>
-					<p>2020-01-20</p>
+					<div class="name">{{ comment.NickName }}</div>
+					<!-- <p>2020-01-20</p> -->
+					<p>{{ comment.AddTime }}</p>
 				</div>
 			</div>
 			<div class="score">
-				<p>4.0</p>
+				<!-- <p>4.0</p> -->
+				<p>{{ comment.Rank }}</p>
 				<div class="star flex-center">
-					<div class="iconfont icon-collect" v-for="(item,index) in 4" :key="index"></div>
-					<div class="iconfont icon-collect1"></div>
+					<!-- <div class="iconfont icon-collect" v-for="(item,index) in 4" :key="index"></div>
+					<div class="iconfont icon-collect1"></div> -->
+					<div class="iconfont icon-collect" v-for="(item,index) in comment.Rank" :key="index"></div>
+					<div class="iconfont icon-collect1" v-for="(item2,index2) in ( 5- comment.Rank)" :key="index2"></div>
 				</div>
 			</div>
 
 		</div>
-		<div class="content">
-			1233333333333332222222222222222222222222222222222222222222
+		<div class="content" v-html="comment.ContentText">
 		</div>
 		<div class="imgList flex-center-between">
-			<img src="/static/of/p2.jpg" alt="" v-for="(item,index) in 4" :key="index">
+			<!-- <img src="/static/of/p2.jpg" alt="" v-for="(item,index) in 4" :key="index"> -->
+			<img :src="item.PicUrl" alt="" v-for="(item,index) in comment.PicData" :key="index">
 		</div>
 	</div>
 </template>
 
 <script>
 	export default {
+		props:["comment"],
 		data() {
 			return {
 			}

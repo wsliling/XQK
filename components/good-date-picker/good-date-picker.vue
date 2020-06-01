@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex"; //vuex辅助函数
 export default {
 	props: ['option'], //配置参数
 	data() {
@@ -76,6 +77,9 @@ export default {
 		}
 	},
 	computed: {
+		isAllow (x) {
+			console.log("我是x:", x)
+		},
 		currentDateNum() {
 			//当前起始日期与结束日期之间的天数
 			return this.dateSpace(this.currentRangeStartDate, this.currentRangeEndDate);

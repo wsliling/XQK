@@ -109,14 +109,14 @@
 					<div class="top flex-center">
 						<div class="score-num bold">
 							<!-- 4.9 -->
-							{{ CommentScore }}
+							{{ OrderCommentInfo.RankScore }}
 						</div>
 						<div class="right">
 							<div class="tab">超赞</div>
 							<div class="starBox flex-center">
 								<div class="star flex-center">
-									<div class="iconfont icon-collect" v-for="(item,index) in 4" :key="index"></div>
-									<div class="iconfont icon-collect1"></div>
+									<div class="iconfont icon-collect" v-for="(item,index) in OrderCommentInfo.RankScore" :key="index"></div>
+									<div class="iconfont icon-collect1" v-for="(item2,index2) in (5 - OrderCommentInfo.RankScore)" :key="index2"></div>
 								</div>
 								<div class="comment-num">{{ details.CommentNum }}条评价</div>
 							</div>
@@ -125,25 +125,25 @@
 					<div class="bottom flex-center-between">
 						<div class="item flex-center">
 							<p>卫生</p>
-							<span>{{ CommentScore }}</span>
+							<span>{{ OrderCommentInfo.HealthScore }}</span>
 						</div>
 						<div class="item flex-center">
 							<p>体验</p>
-							<span>{{ CommentScore }}</span>
+							<span>{{ OrderCommentInfo.ProductScore }}</span>
 						</div>
 						<div class="item flex-center">
 							<p>服务</p>
-							<span>{{ CommentScore }}</span>
+							<span>{{ OrderCommentInfo.ServiceScore }}</span>
 						</div>
 						<div class="item flex-center">
 							<p>设施</p>
-							<span>{{ CommentScore }}</span>
+							<span>{{ OrderCommentInfo.FacilityScore }}</span>
 						</div>
 					</div>
 				</div>
 			</div>
-			<commentItem v-for="(item,index) in 2" :key="index"></commentItem>
-			<div class="more" @click="navigate('product/allComment/allComment')">阅读{{details.CommentNum }}条评论</div>
+			<commentItem v-for="(item,index) in commentList" :key="index" :comment="item"></commentItem>
+			<div v-if="commentList.length >0" class="more" @click="navigate('product/allComment/allComment')">阅读{{details.CommentNum }}条评论</div>
 		</div>
 		<div class="gap20"></div>
 		<div class="position ptb30">
@@ -272,6 +272,7 @@
 	import commentItem from '../allComment/commentItem.vue';
 	import datePicker from '@/components/good-date-picker/good-date-picker';
 	import { post,navigate } from '@/utils';
+	import { mapState, mapMutations } from "vuex"; //vuex辅助函数
 	export default {
 		components:{
 			commentItem,
@@ -328,7 +329,11 @@
 						Stock: 666, // 当天库存
 						SalesNum: 666 // 当天销量
 					}
-				]
+				],
+				// 产品评论列表
+				commentList :[],
+				// 订单评价汇总信息
+				OrderCommentInfo: {}
 			}
 		},
 		onLoad(options) {
@@ -336,8 +341,12 @@
 			let Id = options.Id
 			this.getDetail(Id)
 			this.getGoodsDateTime(Id)
+			this.getOrderCommentInfo(Id)
+			this.getOrderCommentList()
 		},
 		computed:{
+			// 监听日历的变化
+			...mapState(['lng','lat','cityName','cityCode','calendarOption']),
 			tabColor(index){
 				console.log(index,'index')
 				let str ='color1';
@@ -360,18 +369,36 @@
 				return tab
 			},
 			// 分数
-			CommentScore: function () {
+			CommentScore(score) {
 				if (this.details.CommentScore.length > 1) {
-					return this.details.CommentScore
+					return score
 				}
-				return this.details.CommentScore + ".0"
+				return score + ".0"
 			},
+			// CommentScore: function () {
+			// 	if (this.details.CommentScore.length > 1) {
+			// 		return this.details.CommentScore
+			// 	}
+			// 	return this.details.CommentScore + ".0"
+			// },
 			tabType: function () {
 				console.log("我是类型",this.details[this.tabList[this.activeIndex].type])
 				return 1
 			}
 		},
 		methods: {
+			// 获取订单评价汇总信息
+			async getOrderCommentInfo (Id) {
+				let res = await post('Order/OrderCommentInfo',{ProId:Id})
+				console.log("获取订单评价汇总信息：",res)
+				this.OrderCommentInfo = res.data
+			},
+			// 获取订单评价信息列表
+			async getOrderCommentList () {
+				let res = await post('Order/OrderCommentList',{Page: 1})
+				console.log("产品评论列表：",res)
+				this.commentList = res.data
+			},
 			// 获取产品日期价格
 			async getGoodsDateTime (Id){
 				let res = await post('Goods/GoodsDateTime', {ProId:Id})
@@ -393,7 +420,7 @@
 				this.activeIndex = index
 			},
 			async getDetail(Id) {
-				let res = await post('/Goods/Goodsxq_yd',{Id: Id})
+				let res = await post('Goods/Goodsxq_yd',{Id: Id})
 				console.log(`详情返回:`,res)
 				// 正则增加富文本的样式
 				res.data.BookNote = res.data.BookNote.replace(/<img/g, '<img style="max-width:100%;"');
@@ -425,7 +452,8 @@
 			},
 			// 更改日历
 			changeDatePicker(e) {
-				console.log(e)
+				console.log("我是日历出现变更",e)
+				console.log("我是日历出现变更的vuex",this.$store.state)
 				this.option.currentRangeStartDate = e.startDate;
 				this.option.currentRangeEndDate = e.endDate;
 				this.option.dateNum = e.dateNum;
