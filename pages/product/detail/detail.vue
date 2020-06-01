@@ -335,7 +335,7 @@
 		onLoad(options) {
 			console.log("传递过来的参数:",options)
 			let Id = options.Id;
-			this.id = options.id;
+			this.id = options.Id;
 			this.getDetail(Id)
 			this.getGoodsDateTime(Id)
 		},

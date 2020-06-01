@@ -9,15 +9,15 @@
 			</view>
 			<view class="cancelflex">
 				<view class="">预订价格</view>
-				<view class="cancelcolor">¥288.00</view>
+				<view class="cancelcolor">¥{{UnitPrice}}</view>
 			</view>
 			<view class="cancelflex">
 				<view class="">已支付</view>
-				<view class="cancelcolor">¥288.00</view>
+				<view class="cancelcolor">¥{{Total}}</view>
 			</view>
 			<view class="cancelflex">
 				<view class="figure">您的退款总金额</view>
-				<view class="figure">¥288.00</view>
+				<view class="figure">¥{{Total}}</view>
 			</view>
 			<view class="cancelflex" @click="showEdit = true">
 				<view class="">取消原因</view>
@@ -27,14 +27,14 @@
 				</view>
 			</view>
 			<view class="effect">取消立即生效</view>
-			<view class="reserve" @click="cancellation(1)">取消预订</view>
+			<view class="reserve" @click="getCancelReservation()">取消预订</view>
 		</view>
 		
 		<!-- 取消预订退款 -->
 		<view class="refund" v-if="cancel == 1">
 			<image src="../../../static/icons/cancel.png" mode=""></image>
 			<view class="refund40">预订已取消</view>
-			<view class="refund32">您将会收到¥288.00的退款。</view>
+			<view class="refund32">您将会收到¥{{Total}}的退款。</view>
 			<view class="refund32">退款将在3-5个工作日内完成</view>
 			<view class="confirm" @click="cancellation(1)">确定</view>
 		</view>
@@ -43,7 +43,7 @@
 	
 </template>
 <script>
-	import { post } from '@/utils'
+	import { post, navigateBack } from '@/utils'
 	import pickers from '@/components/pickers';
 	export default {
 		data(){
@@ -53,7 +53,11 @@
 				cancel:0,  //
 				typeTxt: '请选择',
 				showEdit: false,
-				typelist:[] //取消原因的数据
+				typelist:[] ,//取消原因的数据
+				OrderNumber:'', //订单号
+				UnitPrice:'',   //一组产品的价格
+				ActualPay:'',   //一组产品的实际支付
+				Total: '',      //支付金额
 			}
 		},
 		components: { pickers },
@@ -61,6 +65,12 @@
 			this.userId = uni.getStorageSync('userId');
 			this.token = uni.getStorageSync('token');
 			this.getCancelReason()
+		},
+		onLoad(e) {
+			this.OrderNumber = e.OrderNumber
+			this.UnitPrice = e.UnitPrice
+			this.Total = e.Total
+			console.log(e,'OrderId')
 		},
 		methods:{
 			cancellation(e){
@@ -78,7 +88,6 @@
 					if(res.code === 0){
 						console.log(res,'获取取消原因')
 						this.typelist = res.data
-						console.log(this.typelist,'this.typelist')
 					}
 				})
 			},
@@ -86,12 +95,12 @@
 			getCancelReservation(){
 				post('Order/CancelReservation',{
 					UserId: this.userId,
-					Token: this.token
-					// OrderNo: this. 订单号
-					// ReMarks: this.typeTxt 取消原因
+					Token: this.token,
+					OrderNo: this.OrderNumber, // 订单号
+					ReMarks: this.typeTxt, // 取消原因
 				}).then(res=>{
 					if(res.code === 0){
-						this.typelist = res.data
+						this.cancellation(1)
 					}
 				})
 			},
