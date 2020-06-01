@@ -71,29 +71,9 @@
 				</div>
 			</scroll-view>
 		</div>
-		<div class="column-tab flex-start-between plr30 pb20" v-html="details.DevLogo">
-			<!-- <image :src="details.DevLogo" mode="widthFix"></image> -->
-			<!-- <div class="item">
-			<div class="bold">基础设施</div>
-				<div class="flex-center" v-for="(item,index) in 4" :key="index">
-					<div class="iconfont icon-gou2"></div> 
-					<div>新风空调</div>	
-				</div> 
-			</div> -->
-			<!-- <div class="item">
-				<div class="bold">智能设施</div>
-				<div class="flex-center" v-for="(item,index) in 3" :key="index">
-					<div class="iconfont icon-gou2"></div> 
-					<div>新风空调</div>	
-				</div>
-			</div> -->
-			<!-- <div class="item">
-				<div class="bold">洗浴设施</div>
-				<div class="flex-center" v-for="(item,index) in 4" :key="index">
-					<div class="iconfont icon-gou2"></div> 
-					<div>新风空调</div>	
-				</div>
-			</div> -->
+		<!-- <div class="column-tab flex-start-between plr30 pb20" v-html="details.DevLogo"> -->
+		<div class="column-tab flex-start-between plr30 pb20">
+			<image :src="details.DevLogo" mode="widthFix"></image>
 		</div>
 		<div class="gap20"></div>
 		<div v-if="details.IsVideo" class="video plr30 pb30">
@@ -109,35 +89,35 @@
 					<div class="top flex-center">
 						<div class="score-num bold">
 							<!-- 4.9 -->
-							{{ OrderCommentInfo.RankScore }}
+							{{ CommentScore(OrderCommentInfo.RankScore) }}
 						</div>
 						<div class="right">
 							<div class="tab">超赞</div>
 							<div class="starBox flex-center">
 								<div class="star flex-center">
-									<div class="iconfont icon-collect" v-for="(item,index) in OrderCommentInfo.RankScore" :key="index"></div>
-									<div class="iconfont icon-collect1" v-for="(item2,index2) in (5 - OrderCommentInfo.RankScore)" :key="index2"></div>
+									<div class="iconfont icon-collect" v-for="(item,index) in toNum(OrderCommentInfo.RankScore)" :key="index"></div>
+									<div class="iconfont icon-collect1" v-for="(item2,index2) in (5 - toNum(OrderCommentInfo.RankScore))" :key="index2"></div>
 								</div>
-								<div class="comment-num">{{ details.CommentNum }}条评价</div>
+								<div class="comment-num">{{ OrderCommentInfo.CommentNum }}条评价</div>
 							</div>
 						</div>
 					</div>
 					<div class="bottom flex-center-between">
 						<div class="item flex-center">
 							<p>卫生</p>
-							<span>{{ OrderCommentInfo.HealthScore }}</span>
+							<span>{{ CommentScore(OrderCommentInfo.HealthScore) }}</span>
 						</div>
 						<div class="item flex-center">
 							<p>体验</p>
-							<span>{{ OrderCommentInfo.ProductScore }}</span>
+							<span>{{ CommentScore(OrderCommentInfo.ProductScore) }}</span>
 						</div>
 						<div class="item flex-center">
 							<p>服务</p>
-							<span>{{ OrderCommentInfo.ServiceScore }}</span>
+							<span>{{ CommentScore(OrderCommentInfo.ServiceScore) }}</span>
 						</div>
 						<div class="item flex-center">
 							<p>设施</p>
-							<span>{{ OrderCommentInfo.FacilityScore }}</span>
+							<span>{{ CommentScore(OrderCommentInfo.FacilityScore) }}</span>
 						</div>
 					</div>
 				</div>
@@ -345,6 +325,20 @@
 			this.getOrderCommentList()
 		},
 		computed:{
+			toNum (str) {
+				return (str)=> {
+					return parseFloat(str)
+				}
+			},
+			// 分数
+			CommentScore (score) {
+				return (score)=> {
+					if (this.details.CommentScore.length > 1) {
+						return score
+					}
+					return score + ".0"
+				}
+			},
 			// 监听日历的变化
 			...mapState(['lng','lat','cityName','cityCode','calendarOption']),
 			tabColor(index){
@@ -365,22 +359,9 @@
 				}
 				// return this.item.ServiceKeys
 				let tab = this.details.ServiceKeys.split(",")
-				console.log('详情tab',tab)
+				// console.log('详情tab',tab)
 				return tab
 			},
-			// 分数
-			CommentScore(score) {
-				if (this.details.CommentScore.length > 1) {
-					return score
-				}
-				return score + ".0"
-			},
-			// CommentScore: function () {
-			// 	if (this.details.CommentScore.length > 1) {
-			// 		return this.details.CommentScore
-			// 	}
-			// 	return this.details.CommentScore + ".0"
-			// },
 			tabType: function () {
 				console.log("我是类型",this.details[this.tabList[this.activeIndex].type])
 				return 1

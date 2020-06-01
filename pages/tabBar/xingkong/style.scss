@@ -1,0 +1,230 @@
+ .handleBox {
+	position: relative;
+	height: 1200upx;
+	// background-size:100% 100%;
+	// height: 1050upx;
+	// background-image:url('@/static/xingkong-icon/wave1.png');
+	// background-color: #89D6B6;
+}
+.top {
+	color: #FFFFFF;
+	// margin: 18upx 13upx 0upx;
+	position: relative;
+	.left {
+		position: absolute;
+		top: 36upx;
+		left: 26upx;
+		width: 120upx;
+		height: 120upx;
+		font-size: 24upx;
+		// 兼容弹性居中
+		display: -webkit-box;
+		display: -moz-box;
+		display: -ms-flexbox;
+		display: -o-box;
+		display: box;
+		display: -webkit-flex; /* Safari */
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		-webkit-box-align: center;
+		-webkit-align-items: center;
+		-ms-flex-align: center;
+		align-items: center;
+		// 兼容弹性居中
+		.lock {
+			width: 80upx;
+			height: 80upx;
+			border: 3upx solid #FFFFFF;
+			border-radius: 50%;
+			// 兼容弹性居中
+			display: -webkit-box;
+			display: -moz-box;
+			display: -ms-flexbox;
+			display: -o-box;
+			display: box;
+			display: -webkit-flex; /* Safari */
+			display: flex;
+			justify-content: center;
+			-webkit-box-align: center;
+			-webkit-align-items: center;
+			-ms-flex-align: center;
+			align-items: center;
+			image {
+				width: 34upx;
+			}
+		}
+		
+	}
+	.right {
+		color: #ffffff;
+		font-size: 24upx;
+		position: absolute;
+		top: 40upx;
+		right: 26upx;
+		width: 120upx;
+		height: 200upx;
+		// background-color: green;
+		// 兼容弹性居中
+		display: -webkit-box;
+		display: -moz-box;
+		display: -ms-flexbox;
+		display: -o-box;
+		display: box;
+		display: -webkit-flex; /* Safari */
+		display: flex;
+		justify-content: space-between;
+		-webkit-box-align: center;
+		-webkit-align-items: center;
+		-ms-flex-align: center;
+		align-items: center;
+		flex-direction: column;
+		.icon {
+			width: 40upx;
+			height: 40upx;
+			image {
+				width: 40upx;
+				height: 40upx;
+			    // filter: invert(100%);
+				// filter: grayscale(0%);
+			}
+		}
+	}
+}
+.juzhong {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -o-box;
+	display: box;
+	display: -webkit-flex; /* Safari */
+	display: flex;
+	justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
+	flex-direction: column;
+}
+.switchBox {
+	position: absolute;
+	top: 235upx;
+	left: 0;
+	width: 750upx;
+	height: 690upx;
+	// background-color: pink;
+	// 一键的盒子
+	.oneKey {
+		position: absolute;
+		width: 750upx;
+		flex-wrap: nowrap;
+		.repairs {
+			position: absolute;
+			left: 30upx;
+			top: 134upx;
+			width: 145upx;
+			height: 145upx;
+			transform:rotate(-41deg);
+		}
+		.check-out {
+			position: absolute;
+			left: 50%;
+			top: 0;
+			transform:translateX(-50%);
+		}
+		.sweep {
+			transform:rotate(38deg);
+			position: absolute;
+			right: 25upx;
+			top: 134upx;
+		}
+	}
+	.circle1 {
+		width: 145upx;
+		height: 145upx;
+		border-radius: 50%;
+		background-color: #A1DEC5;
+	}
+	.circle2 {
+		width: 120upx;
+		height: 120upx;
+		border-radius: 50%;
+		background-color: #FFFFFF;
+		font-size: 22upx;
+		color: #A1DCC2;
+		image {
+			width: 52upx;
+		}
+	}
+	// 开关的圆
+	.switchCircleBox {
+		// margin: 170upx auto 0;
+		position: absolute;
+		width: 520upx;
+		height: 520upx;
+		border-radius: 50%;
+		left: 50%;
+		bottom: 0;
+		transform:translateX(-50%);
+		// transform:translate(50%,50%);
+		// left: 50%;
+		// top: 50%;
+		.switchCircle1 {
+			width: 520upx;
+			height: 520upx;
+			border-radius: 50%;
+			background: rgba(153, 220, 193, 1) none repeat scroll !important;/* rgba(0, 0, 0, 0.2) 前三个确定颜色，最后0.2确定透明度 */
+		}
+		.switchCircle2 {
+			width: 476upx;
+			height: 476upx;
+			border-radius: 50%;
+			background: rgba(172, 226, 204, 1) none repeat scroll !important;/* rgba(0, 0, 0, 0.2) 前三个确定颜色，最后0.2确定透明度 */
+		}
+		.switchCircle3 {
+			width: 435upx;
+			height: 435upx;
+			border-radius: 50%;
+			background: rgba(255, 255, 255, 1) none repeat scroll !important;/* rgba(0, 0, 0, 0.2) 前三个确定颜色，最后0.2确定透明度 */
+		}
+		.switchCircle4 {
+			width: 250upx;
+			height: 250upx;
+			border-radius: 50%;
+			background: rgba(229, 246, 239, 1) none repeat scroll !important;/* rgba(0, 0, 0, 0.2) 前三个确定颜色，最后0.2确定透明度 */
+		}
+		.switchCircle5 {
+			position: relative;
+			width: 205upx;
+			height: 205upx;
+			border-radius: 50%;
+			background: rgba(255, 255, 255, 1) none repeat scroll !important;/* rgba(0, 0, 0, 0.2) 前三个确定颜色，最后0.2确定透明度 */
+			.box {
+				display: flex;
+				flex-direction: column;
+				width: 80upx;
+				height: 140upx;
+				margin: 32upx auto 0;
+				// text-align: center;
+				color: #5CC69A;
+				image {
+					width: 80upx;
+				}
+			}
+			
+		}
+	}
+}
+.infBox {
+	.score {
+		height: 220upx;
+		background-color: pink;
+		.left {
+			width: 175upx;
+		}
+		.right {
+			font-size: 28upx;
+			color: #FF4B4B;
+		}
+	}
+}
