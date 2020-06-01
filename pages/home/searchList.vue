@@ -289,25 +289,6 @@
 			line-height:3;
 		}
 	}
-	.popup{
-		background:#fff;
-		.head{
-			line-height:90upx;
-			font-size:30upx;
-			border-bottom:1upx solid #e8e8e8;
-			div{
-				padding:0 30upx;
-			}
-			.close{
-			}
-			.confirm{
-				color:$primary;
-			}
-			h5{
-				// font-weight:200;
-			}
-		}
-	}
 	.sortNum{
 		background:#fff;
 		.content{

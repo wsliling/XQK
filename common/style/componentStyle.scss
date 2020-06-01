@@ -1,9 +1,10 @@
 
 .pop{
 	background:#fff;
+	position:relative;
 	.title{
 		padding:0 30upx;
-		font-size:36upx;
+		font-size:34upx;
 		line-height:100upx;
 		border-bottom:1upx solid #e8e8e8;
 		font-weight:600;
@@ -12,6 +13,14 @@
 			font-size:55upx;
 			font-weight:400;
 		}
+	}
+	.close{
+		transform:rotate(45deg);
+		font-size:60upx;
+		font-weight:300;
+		position:absolute;
+		right:20upx;
+		top:0;
 	}
 	.btn{
 		line-height:100upx;
@@ -32,4 +41,25 @@
             width:100%;
         }
     }
+}
+
+
+.popup{
+	background:#fff;
+	.head{
+		line-height:90upx;
+		font-size:30upx;
+		border-bottom:1upx solid #e8e8e8;
+		div{
+			padding:0 30upx;
+		}
+		.close{
+		}
+		.confirm{
+			color:$primary;
+		}
+		h5{
+			// font-weight:200;
+		}
+	}
 }
