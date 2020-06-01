@@ -3,7 +3,17 @@ import Vuex from 'vuex';
 // import {requestHideLoading} from '@/utils';
 
 Vue.use(Vuex)
-
+/*
+	goodsDateTime: [
+		{
+			DayTime: "2020-05-29", // 其中一个日期，有很多个日期
+			ProId: 492,//产品Id
+			Price: 492, // 产品价格/间
+			Stock: 666, // 当天库存
+			SalesNum: undefined // 当天销量 nubmber,为了后面好判断才写undefined
+		}
+	],
+*/
 export default new Vuex.Store({
     state:{
         // token:'',
@@ -21,8 +31,9 @@ export default new Vuex.Store({
             isModal:true,//是否显示日历插件
             dateNum:1,//选择的总天数
             startDate:'',//展示的不带年份的开始日期
-            endDate:''//展示的不带年份的结束日期
+            endDate:'',//展示的不带年份的结束日期
         },
+		goodsDateTime:[]//产品日期对应的数组
     },
     getters:{
         getToken(state){

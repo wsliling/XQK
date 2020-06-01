@@ -62,8 +62,6 @@ export default {
 		if (e.IsDefault === 1) {
 			this.IsDefault = e.IsDefault;
 			this.checked = true;
-		} else {
-			this.checked = false;
 		}
 	},
 	onShow() {
@@ -173,24 +171,28 @@ export default {
 		},
 		// 设置默认用户常用信息
 		async tacitlyInvoice() {
-			let result = await post('User/UserInfoDefault', {
-				UserId: this.userId,
-				Token: this.token,
-				Uid: this.invoiceId
-			});
-			if (result.code === 0) {
-				uni.showToast({
-					title: result.msg,
-					icon: 'none',
-					duration: 1500
+			if(this.IsDefault == 0){
+				let Uid = 0
+				let result = await post('User/UserInfoDefault', {
+					UserId: this.userId,
+					Token: this.token,
+					Uid: Uid
 				});
-			} else {
-				uni.showToast({
-					title: result.msg,
-					icon: 'none',
-					duration: 1500
-				});
+				if (result.code === 0) {
+					uni.showToast({
+						title: result.msg,
+						icon: 'none',
+						duration: 1500
+					});
+				} else {
+					uni.showToast({
+						title: result.msg,
+						icon: 'none',
+						duration: 1500
+					});
+				}
 			}
+			
 		},
 		//新增用户常用信息
 		async addInvoice() {
@@ -249,7 +251,7 @@ export default {
 				Mobile: this.Mobile, //手机号
 				Email: this.Email //邮箱
 			};
-			let result = await post('User/EditUserInfo', {
+			let result = await post('User/EtUserInfo', {
 				UserId: this.userId,
 				Token: this.token,
 				UserInfo: UserInfo

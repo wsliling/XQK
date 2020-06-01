@@ -14,24 +14,43 @@
 					<view class="title">{{ titleDateFormat(item.info[0].date) }}</view>
 					<view class="date">
 						<view
-							@click="clickDay(index, y)"
+							@click="clickDay(index, y,x)"
 							:class="{
 								range_space: x.isRangeStyle,
 								choosed: (x.isChoosed || x.isRangeStart || x.isRangeEnd)  && !x.isSpace,
-								start: x.isRangeStart && !x.isChoosed && !isDisabledBtn,
-								end: x.isRangeEnd,
 								disabled: x.isDisadled,
 								weekend: x.isWeekend && !x.isDisadled
 							}"
 							v-for="(x, y) in item.info"
 							:key="y"
 						>
-							<view v-if="!x.isDayOne && !x.isDayTwo && !x.isDayThree">{{ x.day }}</view>
+							<view v-if="!x.isDayOne && !x.isDayTwo && !x.isDayThree">{{x.day}}</view>
 							<view v-if="x.isDayOne">今天</view>
 							<view v-if="x.isDayTwo">明天</view>
 							<view v-if="x.isDayThree">后天</view>
 							<view v-if="x.isChoosed && !x.isSpace">选择</view>
 							<view v-if="x.currentRangeStartDate && !x.isSpace">入住</view>
+							<!-- <view v-if="startToEndDay(x.date,y)" class="totalPrices">{{option.price * y}}元</view> -->
+							<!-- <view class="" v-for="(item2, index2) in priceDay"> -->
+								<!-- <view v-if="(x.day && y>(innerIndex-currentDateNum-1)) || index>0" class="totalPrices">{{option.price * (x.day-priceDay+1)}}元</view> -->
+								<!-- <view v-if="x.day && (y>(innerIndex-currentDateNum-1) || index>0)" class="totalPrices">{{option.price * (x.day-priceDay+1)}}元</view> -->
+							<!-- <view v-if="x.day && (y>(innerIndex-currentDateNum-1) || index>0) && (nowPrice(x) >0)" 
+								class="totalPrices" 
+								:class="{
+									red :((x.isChoosed || x.isRangeStart || x.isRangeEnd) && (x.isWeekend && !x.isDisadled) && !x.isSpace) || x.isRangeStyle
+								}">
+								¥{{nowPrice(x)}}
+							</view> -->
+							<view v-if="x.day && (y>(innerIndex-currentDateNum-1) || index>0) && (nowPrice(x) >0)"
+								class="totalPrices" :class="{
+									red : ((x.isChoosed || x.isRangeStart || x.isRangeEnd) && (x.isWeekend && !x.isDisadled) && !x.isSpace) || x.isRangeStyle }">
+								¥{{nowPrice(x,index)}}
+							</view>
+							<!-- <view class="red totalPrice">
+								¥{{nowPrice(x)}}
+							</view> -->
+								<!-- <view v-if="x.day && (y>(innerIndex-currentDateNum-1) || index>0)" class="totalPrices">{{option.price}}元</view> -->
+							<!-- </view> -->
 							<view v-if="x.currentRangeEndDate">离店</view>
 							<view v-if="x.currentRangeEndDate" class="num">共{{ currentDateNum }}晚</view>
 						</view>
@@ -45,7 +64,35 @@
 
 <script>
 export default {
-	props: ['option'], //配置参数
+/*	
+	需要传入组件的参数
+	option:{
+		currentRangeStartDate: '2020-05-29', //根默认显示初始时间，可为空,默认今天
+		currentRangeEndDate: '2020-05-30', //根默认区间选择显示结束时间，可为空，默认明天
+		initStartDate: '', //可选起始时间限制，可为空,默认今天
+		initEndDate: '', //可选结束时间限制，可为空,默认4个月后
+		isRange: true, //是否开启范围选择，必填
+		isModal:true,
+		dateNum:1,
+		price: 0,
+		// 产品日期对应价格数组
+		// start-外面传入进来的，产品日期对应价格对象的数组，可以去看 产品详情
+		goodsDateTime: [
+			{
+				DayTime: "2020-05-29", // 其中一个日期，有很多个日期
+				ProId: 492,//产品Id
+				Price: 492, // 产品价格/间
+				Stock: 666, // 当天库存
+				SalesNum: undefined // 当天销量 nubmber,为了后面好判断才写undefined
+			}
+		],
+		// end-外面传入进来的，产品日期对应价格对象的数组，可以去看 产品详情
+	}, 
+*/
+	props: [
+		'option',
+		// 'goodsDateTimes',
+		], //配置参数
 	data() {
 		return {
 			weekData: ['日', '一', '二', '三', '四', '五', '六'],
@@ -53,13 +100,28 @@ export default {
 			chooseOneDate: '', //单选模式当前点击的日期
 			currentRangeStartDate: '', //区域选择模式当前点击的开始日期
 			currentRangeEndDate: '', //区域选择模式当前点击的结束日期
+			initStartDate: '', //可选起始时间限制，可为空,默认今天
+			initEndDate: '', //可选结束时间限制，可为空,默认4个月后
 			outIndex: 0, //当前点击外索引
 			innerIndex: 0, //当前点击内索引
-			isShow: false
+			isShow: false,
+			// 下面是自己添加的参数
+			nowEndDate: "",
+			startDate: "",
+			// start-外面传入进来的，产品日期对应价格对象的数组，可以去看 产品详情，注释在上面
+			// goodsDateTime: [],
+			// end-外面传入进来的，产品日期对应价格对象的数组，可以去看 产品详情
+			// 总价格数组，用来计算总价
+			priceList: []
 		};
 	},
 	mounted() {
+		this.myInitDate();
 		this.totalDateInit();
+		this.dateFirstInit()
+		
+		// console.log("我是可选起初和结束",this.initStartDate,this.initEndDate)
+		// console.log("我是产品日期价格数组",this.goodsDateTime)
 		if(!this.option.isModal){
 			setTimeout(()=>{
 				this.open();
@@ -69,15 +131,60 @@ export default {
 	watch: {
 		isShow(n) {
 			if (n) {
+				console.log("1我被挂在了",this.goodsDateTimes)
+				this.myInitDate();
+				this.totalDateInit();
 				this.dateFirstInit();
-				console.log("我是初始化this.goodsDateTime:",this.$store.state.goodsDateTime)
-				
+				// 打印传入的参数看看
+				console.log("传入的goodsDateTime-----",this.goodsDateTime)
+				console.log("我是vuex的goodsDateTime-----",this.$store.state.goodsDateTime)
 			}
 		}
 	},
 	computed: {
+		// 计算当天价格
+		// nowPrice(day,y){
+		// 	return (day,y) => {
+		// 		// console.log("day是什么--",day)
+		// 		if(!day.date){
+		// 			return ""
+		// 		}
+		// 		// console.log("this.goodsDateTime------", this.goodsDateTime)
+		// 		if(this.$store.state.goodsDateTime.length === 0){
+		// 			return ""
+		// 		}
+		// 		// console.log("===============",this.dateSpace(this.initEndDate,day.date))
+		// 		// let res1 = this.dateSpace(this.initStartDate,day.date) < 0
+		// 		// let res2 = this.dateSpace(this.initEndDate,day.date) > 0
+		// 		let res3 = y <= this.outIndex
+		// 		let res4 = day <= this.innerIndex
+		// 		if(res3 && res4){
+		// 			// console.log("不在范围")
+		// 			return ""
+		// 		}
+		// 		let price = null
+		// 		let index = undefined;
+		// 		for (let i = 0; i < this.goodsDateTime.length; i++) { 
+		// 			if(this.goodsDateTime[i].DayTime === day.date){
+		// 				index = i
+		// 				price = this.goodsDateTime[i].Price
+		// 				this.priceList.push(price)
+		// 				// console.log("我是价格数组，算总价的：",this.priceList)
+		// 				// if(index !== undefined){
+		// 				// 	this.goodsDateTime.splice(index,1)
+		// 				// 	// 更新goodsDateTime到 vuex
+		// 				// 	// this.$store.commit('update',{"goodsDateTime":this.goodsDateTime})
+		// 				// 	console.log("我是这天价格：",day.date,price)
+		// 				// }
+		// 				return price
+		// 			}
+		// 		 }
+		// 		 return ""
+				 
+		// 	}
+		// },
 		currentDateNum() {
-			//当前起始日期与结束日期之间的天数
+			// 当前起始日期与结束日期之间的天数
 			return this.dateSpace(this.currentRangeStartDate, this.currentRangeEndDate);
 		},
 		isDisabledBtn() {
@@ -86,9 +193,61 @@ export default {
 			} else {
 				return !this.chooseOneDate;
 			}
-		}
+		},
 	},
 	methods: {
+		nowPrice(day,y){
+			return (day,y) => {
+				// console.log("day是什么--",day)
+				if(!day.date){
+					return ""
+				}
+				// console.log("this.goodsDateTime------", this.goodsDateTime)
+				if(this.$store.state.goodsDateTime.length === 0){
+					return ""
+				}
+				// console.log("===============",this.dateSpace(this.initEndDate,day.date))
+				// let res1 = this.dateSpace(this.initStartDate,day.date) < 0
+				// let res2 = this.dateSpace(this.initEndDate,day.date) > 0
+				let res3 = y <= this.outIndex
+				let res4 = day <= this.innerIndex
+				if(res3 && res4){
+					// console.log("不在范围")
+					return ""
+				}
+				let price = null
+				let index = undefined;
+				for (let i = 0; i < this.goodsDateTime.length; i++) { 
+					if(this.goodsDateTime[i].DayTime === day.date){
+						index = i
+						// price = this.goodsDateTime[i].Price
+						this.priceList.push(price)
+						// console.log("我是价格数组，算总价的：",this.priceList)
+						// if(index !== undefined){
+						// 	this.goodsDateTime.splice(index,1)
+						// 	// 更新goodsDateTime到 vuex
+						// 	// this.$store.commit('update',{"goodsDateTime":this.goodsDateTime})
+						// 	console.log("我是这天价格：",day.date,price)
+						// }
+						return price
+					}
+				 }
+				 return ""
+				 
+			}
+		},
+		// 我的初始化
+		myInitDate() {
+			// 我是初始化
+			this.initStartDate = this.option.initStartDate
+			this.initEndDate = this.option.initEndDate
+			// this.goodsDateTime = this.option.goodsDateTime
+			console.log("vuex的1", this.$store.state.goodsDateTime)
+			let arr = this.$store.state.goodsDateTime
+			this.goodsDateTime = JSON.parse(JSON.stringify(arr))
+			// console.log("我是初始化this.goodsDateTime:",this.option.goodsDateTime,this.goodsDateTime,this.initStartDate,this.initEndDate)
+			console.log("我是初始化this.goodsDateTime:",this.$store.state.goodsDateTime)
+		},
 		catchtouchmove() {
 			return;
 		},
@@ -151,7 +310,9 @@ export default {
 				this.oneChooseFirstInit();
 			} else {
 				//区间选择
-				this.currentRangeStartDate = this.option.currentRangeStartDate ? this.option.currentRangeStartDate : this.getNextDate(0);
+				this.currentRangeStartDate =  this.option.currentRangeStartDate ? this.option.currentRangeStartDate : this.getNextDate(0);
+				// 初始化我的开始
+				this.startDate = this.option.currentRangeStartDate
 				this.currentRangeEndDate = this.option.currentRangeEndDate ? this.option.currentRangeEndDate : this.getNextDate(1);
 				this.rangeChooseFirstInit();
 				this.spaceStyleRander();
@@ -175,10 +336,14 @@ export default {
 				x.info.forEach(a => {
 					if (a.date == this.currentRangeStartDate) {
 						a.currentRangeStartDate = a.date;
+						// 需要初始化当前日期
+						this.currentRangeStartDate = a.date
 						a.isRangeStart = true;
 					}
 					if (a.date == this.currentRangeEndDate) {
 						a.currentRangeEndDate = a.date;
+						// 需要初始化结束日期
+						this.currentRangeEndDate = a.date
 						a.isRangeEnd = true;
 					}
 				});
@@ -191,7 +356,15 @@ export default {
 		open() {
 			this.isShow = true;
 		},
-		clickDay(outIndex, innerIndex) {
+		clickDay(outIndex, innerIndex,x) {
+			console.log("我是开始----------------:",this.startDate)
+			console.log("我是结束----------------:",this.nowEndDate)
+			
+			console.log("我是x:",x)
+			console.log("我是外索引:",outIndex)
+			console.log("我是内索引",innerIndex)
+			// 现在的结束日期
+			this.nowEndDate = x.date
 			this.outIndex = outIndex;
 			this.innerIndex = innerIndex;
 			if (this.option.isRange) {
@@ -204,7 +377,9 @@ export default {
 			//区域选择点击逻辑
 			const _item = this.totalDate[this.outIndex].info[this.innerIndex];
 			if (!_item.isDisadled && !_item.isSpace) {
+				console.log("我进来点击的第一个判断")
 				if (!this.currentRangeStartDate && !this.currentRangeEndDate) {
+					console.log("我进来点击的第1-1个判断--选择清空状态",)
 					//选择清空状态
 					_item.currentRangeStartDate = _item.date;
 					_item.currentRangeEndDate = '';
@@ -214,15 +389,22 @@ export default {
 					return;
 				}
 				if (this.currentRangeStartDate && !this.currentRangeEndDate) {
+					console.log("我进来点击的第1-2个判断--选择中")
 					//选择中
 					if (new Date(_item.date) > new Date(this.currentRangeStartDate)) {
+						console.log("我进来点击的第1-2-1个判断--不知道--最后日期赋值")
 						_item.currentRangeEndDate = _item.date;
 						_item.isRangeEnd = true;
+						// 我加的最后的日期
+						this.nowEndDate = _item.currentRangeEndDate
+						
 						this.currentRangeEndDate = _item.currentRangeEndDate;
 						this.spaceStyleRander();
 						this.noModalSubmit();
 						return;
 					} else {
+						console.log("我进来点击的第1-2-2个判断--最后--开始日期赋值")
+						this.startDate =  _item.date
 						this.clearRangeChoose();
 						_item.currentRangeStartDate = _item.date;
 						_item.currentRangeEndDate = '';
@@ -233,6 +415,14 @@ export default {
 					}
 				}
 				if (this.currentRangeStartDate && this.currentRangeEndDate) {
+					console.log("我进来点击的第最后判断--开始日期赋值")
+					// if(this.danxuan ===1){
+						// if(this.dateSpace(this.startDate,this.nowEndDate))
+						this.startDate =  _item.date
+						// this.nowEndDate = _item.date
+						console.log("我是开始日期aaa",this.startDate)
+						console.log("我是结束日期aaa",this.nowEndDate)
+					// }
 					//选择好了
 					this.clearRangeChoose();
 					_item.currentRangeStartDate = _item.date;
@@ -313,8 +503,7 @@ export default {
 		totalDateInit() {
 			let _dateArr = [];
 			let _initStartDate = this.option.initStartDate ? this.option.initStartDate : this.getNextDate(0);
-			// let _initEndDate = this.option.initEndDate ? this.option.initEndDate : this.getNextMonth(4);
-			 let _initEndDate = this.option.initEndDate ? this.option.initEndDate : this.getNextMonth(2);
+			let _initEndDate = this.option.initEndDate ? this.option.initEndDate : this.getNextMonth(4);
 			const _dateNum = this.getMonthBetween(_initStartDate, _initEndDate);
 			const _arrStart = _initStartDate.split('-');
 			const _arrEnd = _initEndDate.split('-');
@@ -403,7 +592,8 @@ export default {
 			sDate1 = Date.parse(sDate1);
 			sDate2 = Date.parse(sDate2);
 			dateSpan = sDate2 - sDate1;
-			dateSpan = Math.abs(dateSpan);
+			// 我把绝对值absban
+			// dateSpan = Math.abs(dateSpan);
 			iDays = Math.floor(dateSpan / (24 * 3600 * 1000));
 			return iDays;
 		}
@@ -495,7 +685,21 @@ export default {
 				padding: 0 25rpx;
 				display: flex;
 				flex-wrap: wrap;
-				font-weight: 600;
+				// 总价格样式
+				view {
+					&.totalPrices {
+						position: absolute;
+						font-size: 22rpx;
+						width: 80rpx;
+						text-align: center;
+						bottom: 14rpx;
+						left: 10rpx;
+						color: #5CC69A;
+						&.red{
+							color: #ff0000;
+						}
+					}
+				}
 				> view {
 					width: 100rpx;
 					height: 100rpx;
@@ -523,23 +727,15 @@ export default {
 					}
 					&.choosed {
 						background-color: $primary;
-						border-radius: 60rpx;
-						&.start{
-							border-radius: 60rpx 0 0 60rpx;
-						}
-						&.end{
-							border-radius: 0 60rpx 60rpx 0 ;
-						}
+						border-radius: 10rpx;
+						
 						> view {
-							&:nth-child(2) {
-								line-height: 28rpx;
-							}
 							color: #fff;
-							font-size: 28rpx;
+							font-size: 22rpx;
 							height: 50rpx;
 							line-height: 50rpx;
+							
 							&.num {
-								font-size: 22rpx;
 								position: absolute;
 								width: 80rpx;
 								text-align: center;
@@ -551,18 +747,15 @@ export default {
 						}
 					}
 					&.range_space {
-						// background: rgba($primary, 0.2);
-						background: rgba($primary, .2);
+						background: rgba($primary, 0.2);
 						> view {
-							// color: #333;
-							// color: $primary;
-							color: #ccc;
+							color: #333;
 						}
 					}
 				}
 			}
 			> .title {
-				font-size: 40rpx;
+				font-size: 30rpx;
 				color: #000;
 				height: 80rpx;
 				display: flex;
@@ -578,8 +771,6 @@ export default {
 		display: flex;
 		align-items: center;
 		border-bottom: 1rpx solid #ccc;
-		border-color: rgba(204,204,204, .5);
-		 // box-shadow: 0rpx 1rpx 0rpx 0rpx #ccc;
 		> view {
 			width: 100rpx;
 			text-align: center;

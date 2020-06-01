@@ -2,32 +2,8 @@
 	<!-- 获取帮助 -->
 	<view class="get_help">
 		<view class="gethelp">
-			<view class="gethelp-flex" @click="tolick('/pages/tabBar/my/bookinghelp')">
-				<view class="">取消预订</view>
-				<image  src="../../../static/icons/arrow.png" mode=""></image>
-			</view>
-			<view class="gethelp-flex" @click="tolick('/pages/tabBar/my/bookinghelp')">
-				<view class="">预订帮助</view>
-				<image  src="../../../static/icons/arrow.png" mode=""></image>
-			</view>
-			<view class="gethelp-flex" @click="tolick('/pages/tabBar/my/bookinghelp')">
-				<view class="">您的账号</view>
-				<image  src="../../../static/icons/arrow.png" mode=""></image>
-			</view>
-			<view class="gethelp-flex" @click="tolick('/pages/tabBar/my/bookinghelp')">
-				<view class="">订单支付</view>
-				<image  src="../../../static/icons/arrow.png" mode=""></image>
-			</view>
-			<view class="gethelp-flex" @click="tolick('/pages/tabBar/my/bookinghelp')">
-				<view class="">预定类型</view>
-				<image  src="../../../static/icons/arrow.png" mode=""></image>
-			</view>
-			<view class="gethelp-flex" @click="tolick('/pages/tabBar/my/bookinghelp')">
-				<view class="">预定与入住</view>
-				<image  src="../../../static/icons/arrow.png" mode=""></image>
-			</view>
-			<view class="gethelp-flex" @click="tolick('/pages/tabBar/my/bookinghelp')">
-				<view class="">账号与评价</view>
+			<view class="gethelp-flex" v-for="(val,key) in classList" :key='key' @click="tolick('/pages/tabBar/my/bookinghelp')">
+				<view class="">{{val.Name}}</view>
 				<image  src="../../../static/icons/arrow.png" mode=""></image>
 			</view>
 		</view>
@@ -40,11 +16,22 @@
 </template>
 
 <script>
+	import { post } from '@/utils'
 	export default {
 		data() {
 			return {
-				
+				UserId: '',
+				Token: '',
+				Page:0,
+				classList:[],
 			}
+		},
+		onShow() {
+			this.userId = uni.getStorageSync('userId');
+			this.token = uni.getStorageSync('token');
+			this.getHelpList()
+			this.getClassList()
+			// this.getHelpInfo()
 		},
 		methods: {
 			tolick(url){
@@ -52,6 +39,26 @@
 					url:url
 				})
 			},
+			// 帮助列表
+			getHelpList(){
+				post('Help/HelpList',{
+					UserId: this.userId,
+					Token: this.token,
+					Page: this.Page,
+				}).then( res => {
+					console.log(res,'res')
+				})
+			},
+			// 获取帮助分类
+			getClassList(){
+				post('Help/HelpClassList',{
+				}).then( res => {
+					if(res.code === 0) {
+						this.classList = res.data
+					}
+				})
+			},
+			
 		}
 	}
 </script>
@@ -80,16 +87,18 @@
 	}
 	.gh_flex{
 		background: #fff;
-		/* position: fixed; */
-		/* bottom: 20upx; */
+		position: fixed;
+		bottom: 20upx;
 		display: flex;
-		justify-content: space-between;
-		text-align: center;
-		padding-top: 25%;
+		width: 100%;
+		left: 0;
+		z-index: 9;
+		padding: 0 15px;
 	}
 	.help{
-		margin-top: 12upx;
+		margin-top: 16upx;
 		float: left;
+		width: 71%;
 	}
 	.service{
 		width:200upx;
@@ -99,5 +108,6 @@
 		font-size:28upx;
 		color:rgba(255,255,255,1);
 		line-height: 80upx;
+		text-align: center;
 	}
 </style>

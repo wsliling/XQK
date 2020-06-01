@@ -102,7 +102,11 @@
 		</view>
 		<!-- 服务保障 -->
 		<view class="serveXQ pd15 uni-mb10">
-			<image  @click="navigate('tabBar/my/security')" src="/static/of/2.jpg" mode="widthFix"></image>
+			<!-- <image  @click="navigate('tabBar/my/security')" src="/static/of/2.jpg" mode="widthFix"></image> -->
+			<image  @click="navigate('tabBar/my/security')" :src="securityContent.Logo" mode="widthFix"></image>
+			<view class="btn_line" @click="navigate('tabBar/my/security')">
+				{{ securityContent.Title }}
+			</view>
 		</view>
 		<!-- 推荐星语 -->
 		<view class="recomXQ pd15 uni-mb10">
@@ -216,6 +220,7 @@
 				showNumlayer:false,//人数弹窗
 				inputNum:1,
 				nowNum:1,
+				securityContent: ""
 			}
 		},
 		components: {
@@ -233,6 +238,7 @@
 			this.getAbout();
 			this.getHotGoodsList();
 			this.getPosition();
+			this.getSecurity();
 			this.initCalendarOption();// 初始化日历
 		},
 		onShow(){
@@ -249,6 +255,12 @@
 			}
 		},
 		methods: {
+			// 安全保障
+			async getSecurity (){
+				let titleContent = await post("/About/AboutUs",{Id:2,type:0});
+				this.securityContent = titleContent.data
+				console.log("this.securityContent--",this.securityContent)
+			},
 			...mapMutations(['update']),
 			// 获取定位,在所有首次会打开的页面执行，获取定位和code
 			async getPosition(){

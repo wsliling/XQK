@@ -37,7 +37,7 @@
 				</view>
 			</view>
 			<!-- 没有数据的时候 -->
-			<view class="noConPage table bg_fff" v-if="false">
+			<view class="noConPage table bg_fff" v-if="!list.length">
 				<view class="table-cell">
 					<view class="noDataImg">
 						<image src="http://www.sc-mall.nethttp://shop.dadanyipin.com/static/noCart.png" mode="widthFix"></image>
