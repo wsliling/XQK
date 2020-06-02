@@ -232,44 +232,7 @@ export default {
 				if (this.currentRangeStartDate && !this.currentRangeEndDate) {
 					//选择好了--第二次点击
 					if (new Date(_item.date) > new Date(this.currentRangeStartDate)) {
-						// *****日历价格加入逻辑
-						// console.log('入住日期：',this.currentRangeStartDate)
-						// console.log('离店日期：',_item)
-						const goodsDateTime = this.goodsDateTime;
-						let toastText = '';
-						goodsDateTime.map(item=>{
-							if(new Date(item.DayTime)>=new Date(this.currentRangeStartDate)&&
-								new Date(item.DayTime)<=new Date(_item.date)
-							){
-								// console.log(item,'选中的日历范围')
-								if(!item.Stock){
-									toastText = item.DayTime+'为不可选日期！';
-								}
-							}
-						})
-						if(toastText){
-							uni.showToast({
-								title:toastText,
-								icon:'none',
-								duration:3000
-							})
-							// 取消初始日期选择
-							this.clearRangeChoose();
-							// _item.currentRangeStartDate = _item.date;
-							_item.currentRangeEndDate = '';
-							// _item.isRangeStart = true;
-							this.currentRangeStartDate = '';
-							this.currentRangeEndDate = '';
-							return;
-						}
-
-						// ******日历价格加入逻辑end
-						// 正常选择范围
-						_item.currentRangeEndDate = _item.date;
-						_item.isRangeEnd = true;
-						this.currentRangeEndDate = _item.currentRangeEndDate;
-						this.spaceStyleRander();
-						this.noModalSubmit();
+						this.checkOut();
 						return;
 					} else {
 						// 离店比入住小
@@ -282,7 +245,59 @@ export default {
 						return;
 					}
 				}
+			}else{
+				this.checkOut();
 			}
+		},
+		// 离店点击
+		checkOut(){
+			// *****日历价格加入逻辑
+			// console.log('入住日期：',this.currentRangeStartDate)
+			// console.log('离店日期：',_item)
+			const _item = this.totalDate[this.outIndex].info[this.innerIndex];
+			const goodsDateTime = this.goodsDateTime;
+			let toastText = '';
+			let goodDay=0;//计算选择的天数
+			goodsDateTime.map(item=>{
+				if(new Date(item.DayTime)>=new Date(this.currentRangeStartDate)&&
+					new Date(item.DayTime)<new Date(_item.date)
+				){
+					// console.log(item,'选中的日历范围')
+					goodDay+=1;
+					if(!item.Stock){
+						toastText = item.DayTime+'为不可选日期！';
+					}
+				}
+			})
+			// 计算相差天数
+			let time_diff = new Date(_item.date).getTime() - new Date(this.currentRangeStartDate).getTime();
+			let day = Math.floor(time_diff / (24 * 3600 * 1000));
+			console.log(day,'相差天数');
+			// 判断选择的天数，是否存在日历价格里
+			if(day!==goodDay)return;
+			if(toastText){
+				uni.showToast({
+					title:toastText,
+					icon:'none',
+					duration:3000
+				})
+				// 取消初始日期选择
+				this.clearRangeChoose();
+				// _item.currentRangeStartDate = _item.date;
+				_item.currentRangeEndDate = '';
+				// _item.isRangeStart = true;
+				this.currentRangeStartDate = '';
+				this.currentRangeEndDate = '';
+				return;
+			}
+
+			// ******日历价格加入逻辑end
+			// 正常选择范围
+			_item.currentRangeEndDate = _item.date;
+			_item.isRangeEnd = true;
+			this.currentRangeEndDate = _item.currentRangeEndDate;
+			this.spaceStyleRander();
+			this.noModalSubmit();
 		},
 		spaceStyleRander() {
 			//区间样式渲染
