@@ -292,7 +292,7 @@ p{
 	.left{
 		color:#999;
 		margin-top:20upx;
-		border-right:1upx solid #ff5a60;
+		border-right:1upx solid #ccc;
 		button{
 		      padding: 0;
 		      background-color: #fff;
@@ -303,13 +303,18 @@ p{
 		     }
 		.item{
 			font-size:22upx;
-			margin-right:35upx;
+			padding-right:35upx;
 			.iconfont{
 				font-size:40upx;
-				line-height:.8;
+				line-height:1;
+				color:#999;
 				&.active{
 					color: #ff0000;
 				}
+			}
+			.shearch{
+				font-size:35upx;
+				line-height:1.2;
 			}
 		}
 	}
@@ -328,6 +333,7 @@ p{
 			font-size:24upx;color:#999;
 			line-height:.8;
 			margin-bottom:20upx;
+			text-decoration:line-through;
 		}
 	}
 	.btn{

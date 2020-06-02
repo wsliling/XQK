@@ -150,18 +150,18 @@
 			</map>
 		</div>
 		<div class="gap20"></div>
-		<date-price-picker ref="datePicker" @change="changeDatePicker" :option="option" :goodsDateTime="goodsDateTime"></date-price-picker>
+		<date-price-picker ref="datePicker" @change="changeDatePicker" :option="calendarOption" :goodsDateTime="goodsDateTime"></date-price-picker>
 		<div class="dateBox plr30 pb30">
 			<h3>入住退房日期</h3>
 			<div class="date-time flex-end-between" @click="$refs.datePicker.open()">
 				<div class="start">
 					<p>入住</p>
-					<div class="text">{{option.currentRangeStartDate}}</div>
+					<div class="text">{{calendarOption.currentRangeStartDate}}</div>
 				</div>
 				<p>- 最少一晚 -</p>
 				<div class="end">
 					<p>退房</p>
-					<div class="text">{{option.currentRangeEndDate}}</div>
+					<div class="text">{{calendarOption.currentRangeEndDate}}</div>
 				</div>
 			</div>
 		</div>
@@ -206,13 +206,13 @@
 		</div>
 		<div class="footer plr30 flex-center-between">
 			<div class="left flex-center">
-				<div class="item flex-column-center">
+				<div class="item  flex-column-center">
 					<!-- <div class="iconfont icon-fenxiang1"></div>分享 -->
-					<button class="iconfont icon-fenxiang1" open-type="share"></button>分享
+					<button class="shearch iconfont icon-fenxiang1" open-type="share"></button>分享
 				</div>
-				<div class="item flex-column-center">
+				<div class="item flex-column-center" @click="toCollection">
 					<!-- <div class="iconfont icon-aixin2"></div> -->
-					<div @click="toCollection" class="iconfont icon-aixin1" :class="{active : details.CollectionId}"></div>
+					<div @click="toCollection" class="iconfont" :class="details.CollectionId?'icon-aixin':'icon-aixin2'"></div>
 					收藏
 				</div>
 				<div class="item flex-column-center">
@@ -223,16 +223,15 @@
 			<div class="priceBox">
 				<div class="price flex-end">
 					<!-- <h2>待定</h2> -->
-					<h2>{{ details.Price }}</h2>
-					<p>/晚</p>
+					<h2>{{ totalPrice||details.Price }}</h2>
+					<p>/{{totalPrice&&calendarOption.dateNum>1?calendarOption.dateNum:''}}晚</p>
 				</div>
 				<div class="o-price">
 					￥{{ details.MarketPrice }}/晚
 				</div>
 			</div>
-			<div class="btn disable" @click="navigate('product/confirmOrder/confirmOrder',{id:Id})"> 
-				立即预定
-			</div>
+			<!--  -->
+			<div class="btn" :class="{'disable':!isSubmit}" @click="submit">立即预定</div>
 		</div>
 		<!-- 价格说明 -->
 		<uni-popup type="bottom" ref="priceExplainStatus">
@@ -242,7 +241,7 @@
 					起价说明
 					<div class="cancel" @click="priceExplainStatus(0)">+</div>
 				</div>
-				<div v-html="details.QJDesc">
+				<div v-html="details.QJDesc" class="p30">
 				</div>
 				<!-- <div v-else class="content">
 					本起价指未包含附加服务 ( 如房间差价等 ) 的基本价格
@@ -259,7 +258,7 @@
 <script>
 	import commentItem from '../allComment/commentItem.vue';
 	import datepricePicker from '@/components/date-price-picker/date-price-picker';
-	import { post,navigate } from '@/utils';
+	import { post,navigate,toast,debounce } from '@/utils';
 	import { mapState, mapMutations } from "vuex"; //vuex辅助函数
 	export default {
 		components:{
@@ -269,6 +268,8 @@
 		data() {
 			return {
 				navigate,
+				userId:'',
+				token:'',
 				Id:0,
 				currentSwiper :0,
 				details: {
@@ -277,6 +278,7 @@
 					Lat: 0,
 					Lng: 0,
 				},
+				isSubmit:false,//是否可以提交
 				tabList:[
 					{
 						type: "Synopsis",
@@ -298,27 +300,8 @@
 				  height: 50,
 				  anchor: {x: .5, y: .5}
 			    }],
-				// 日期
-				option:{
-					currentRangeStartDate: '2020-06-01', //根默认显示初始时间，可为空,默认今天
-					currentRangeEndDate: '2020-06-04', //根默认区间选择显示结束时间，可为空，默认明天
-					initStartDate: '', //可选起始时间限制，可为空,默认今天
-					initEndDate: '', //可选结束时间限制，可为空,默认4个月后
-					isRange: true, //是否开启范围选择，必填
-					isModal:true,
-					dateNum:1,
-					price: 0
-				},
 				// 产品日期对应价格数组
-				goodsDateTime: [
-					{
-						DayTime: "2020-05-29", // 其中一个日期，有很多个日期
-						ProId: 492,//产品Id
-						Price: 492, // 产品价格/间
-						Stock: 666, // 当天库存
-						SalesNum: 666 // 当天销量
-					}
-				],
+				goodsDateTime: [],
 				// 产品评论列表
 				commentList :[],
 				// 订单评价汇总信息
@@ -329,7 +312,9 @@
 			console.log("传递过来的参数:",options)
 			let Id = options.Id;
 			this.Id = options.Id;
-			this.getDetail(Id)
+			this.userId = uni.getStorageSync('userId');
+			this.token = uni.getStorageSync('token');
+			this.getDetail()
 			this.getGoodsDateTime(Id)
 			this.getOrderCommentInfo(Id)
 			this.getOrderCommentList()
@@ -368,8 +353,31 @@
 				}
 				// Math.round(str)
 			},
+			totalPrice(){
+				let calendarOption = this.calendarOption;
+				let startDate = new Date(calendarOption.currentRangeStartDate);
+				let endDate = new Date(calendarOption.currentRangeEndDate);
+				let price = 0;
+				this.goodsDateTime.map(item=>{
+					let itemDate = new Date(item.DayTime);
+					if(itemDate>=startDate&&itemDate<endDate){
+						if(!item.Stock){return;}
+						console.log(price,'price')
+						price+=(item.Price*1);
+					}
+				})
+
+				if(price){
+					this.isSubmit = true;
+					price = price.toFixed(2);
+				}else{
+					price=0;this.isSubmit = false;
+				}
+				return price;
+			}
 		},
 		methods: {
+			...mapMutations(['update']),
 			// 获取订单评价汇总信息
 			async getOrderCommentInfo (Id) {
 				let res = await post('Order/OrderCommentInfo',{ProId:Id})
@@ -385,25 +393,45 @@
 			// 获取产品日期价格
 			async getGoodsDateTime (Id){
 				let res = await post('Goods/GoodsDateTime', {ProId:Id})
-				// console.log("产品日期价格：", res) 
-				// console.log("产品日期价格零号位：", res.data[0])
-				// console.log("产品日期价格最后号位：", res.data[res.count-1])
-				this.option.initStartDate = res.data[0].DayTime
-				this.option.initEndDate = res.data[res.count-1].DayTime
-				this.goodsDateTime = res.data
-				this.$store.commit('update',{"goodsDateTime":res.data})
-				// console.log("产品日期价格数组：", this.goodsDateTime) 
+				this.goodsDateTime = res.data;
 			},
 			// 收藏
 			toCollection () {
-				this.details.CollectionId = !this.details.CollectionId
+				debounce(()=>{
+					if(!this.details.CollectionId){
+						// 添加
+						post('User/AddCollections',{
+							UserId:this.userId,
+							Token:this.token,
+							Type:0,
+							Id: this.Id,
+						}).then(res=>{
+							this.details.CollectionId= 1;
+						})
+					
+					}else{
+						// 取消
+						post('User/ReCollections',{
+							UserId:this.userId,
+							Token:this.token,
+							Type:0,
+							Id: this.Id,
+						}).then(res=>{
+							this.details.CollectionId= 0;
+						})
+					}
+				},100)
 			},
 			// 产品亮点和景区介绍切换
 			changeTab (index) {
 				this.activeIndex = index
 			},
-			async getDetail(Id) {
-				let res = await post('Goods/Goodsxq_yd',{Id: Id})
+			async getDetail() {
+				let res = await post('Goods/Goodsxq_yd',{
+					Id: this.Id,
+					UserId:this.userId,
+					Token:this.token
+					})
 				// console.log(`详情返回:`,res)
 				// 正则增加富文本的样式
 				res.data.BookNote = res.data.BookNote.replace(/<img/g, '<img style="max-width:100%;"');
@@ -419,7 +447,6 @@
 				this.markers[0].latitude = res.data.Lat
 				this.markers[0].longitude = res.data.Lng
 				// 住房价格
-				this.option.price = res.data.Price
 				this.details = res.data
 			},
 			changeSwiper(e){
@@ -444,10 +471,23 @@
 			// 更改日历
 			changeDatePicker(e) {
 				// console.log("我是日历出现变更",e)
-				// console.log("我是日历出现变更的vuex",this.$store.state)
-				this.option.currentRangeStartDate = e.startDate;
-				this.option.currentRangeEndDate = e.endDate;
-				this.option.dateNum = e.dateNum;
+				let calendarOption = this.calendarOption;
+				calendarOption.currentRangeStartDate = e.startDate;
+				calendarOption.startDate = e.startDate.substring(e.startDate.indexOf('-')+1);
+				calendarOption.currentRangeEndDate = e.endDate;
+				calendarOption.endDate = e.endDate.substring(e.endDate.indexOf('-')+1);
+				calendarOption.dateNum = e.dateNum;
+				this.update({
+					calendarOption:calendarOption
+				})
+			},
+			// 立即预订
+			submit(){
+				if(!this.isSubmit){
+					toast('请选择可预订的日期！');
+					return;
+				}
+				navigate('product/confirmOrder/confirmOrder',{id:this.Id})
 			}
 
 		}

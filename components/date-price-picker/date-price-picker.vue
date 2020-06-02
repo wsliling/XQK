@@ -29,6 +29,7 @@
 							<view v-if="x.isDayTwo">明天</view>
 							<view v-if="x.isDayThree">后天</view>
 							<view v-if="x.isChoosed && !x.isSpace">选择</view>
+							<view class="price" v-if="x.Price">￥{{x.Price}}</view>
 							<view v-if="x.currentRangeStartDate && !x.isSpace">入住</view>
 							<view v-if="x.currentRangeEndDate">离店</view>
 							<view v-if="x.currentRangeEndDate" class="num">共{{ currentDateNum }}晚</view>
@@ -56,8 +57,11 @@ export default {
 			isShow: false
 		};
 	},
+	activated(){
+		console.log('更新了组件激活了')
+	},
 	mounted() {
-		this.totalDateInit();
+		console.log('加载了组件')
 		if(!this.option.isModal){
 			setTimeout(()=>{
 				this.open();
@@ -68,6 +72,10 @@ export default {
 		isShow(n) {
 			if (n) {
 				this.dateFirstInit();
+				if(!this.totalDate.length){
+					console.log('获取到了数据')
+					this.totalDateInit();
+				}
 			}
 		}
 	},
@@ -191,6 +199,7 @@ export default {
 			this.outIndex = outIndex;
 			this.innerIndex = innerIndex;
 			if (this.option.isRange) {
+				console.log()
 				this.chooseRangeInit();
 			} else {
 				this.chooseOneInit();
@@ -209,27 +218,8 @@ export default {
 					this.currentRangeEndDate = '';
 					return;
 				}
-				if (this.currentRangeStartDate && !this.currentRangeEndDate) {
-					//选择中
-					if (new Date(_item.date) > new Date(this.currentRangeStartDate)) {
-						_item.currentRangeEndDate = _item.date;
-						_item.isRangeEnd = true;
-						this.currentRangeEndDate = _item.currentRangeEndDate;
-						this.spaceStyleRander();
-						this.noModalSubmit();
-						return;
-					} else {
-						this.clearRangeChoose();
-						_item.currentRangeStartDate = _item.date;
-						_item.currentRangeEndDate = '';
-						_item.isRangeStart = true;
-						this.currentRangeStartDate = _item.currentRangeStartDate;
-						this.currentRangeEndDate = '';
-						return;
-					}
-				}
 				if (this.currentRangeStartDate && this.currentRangeEndDate) {
-					//选择好了
+					//选择中-第一次点击
 					this.clearRangeChoose();
 					_item.currentRangeStartDate = _item.date;
 					_item.currentRangeEndDate = '';
@@ -238,6 +228,59 @@ export default {
 					this.currentRangeEndDate = '';
 					this.spaceStyleRander();
 					return;
+				}
+				if (this.currentRangeStartDate && !this.currentRangeEndDate) {
+					//选择好了--第二次点击
+					if (new Date(_item.date) > new Date(this.currentRangeStartDate)) {
+						// *****日历价格加入逻辑
+						// console.log('入住日期：',this.currentRangeStartDate)
+						// console.log('离店日期：',_item)
+						const goodsDateTime = this.goodsDateTime;
+						let toastText = '';
+						goodsDateTime.map(item=>{
+							if(new Date(item.DayTime)>=new Date(this.currentRangeStartDate)&&
+								new Date(item.DayTime)<=new Date(_item.date)
+							){
+								// console.log(item,'选中的日历范围')
+								if(!item.Stock){
+									toastText = item.DayTime+'为不可选日期！';
+								}
+							}
+						})
+						if(toastText){
+							uni.showToast({
+								title:toastText,
+								icon:'none',
+								duration:3000
+							})
+							// 取消初始日期选择
+							this.clearRangeChoose();
+							// _item.currentRangeStartDate = _item.date;
+							_item.currentRangeEndDate = '';
+							// _item.isRangeStart = true;
+							this.currentRangeStartDate = '';
+							this.currentRangeEndDate = '';
+							return;
+						}
+
+						// ******日历价格加入逻辑end
+						// 正常选择范围
+						_item.currentRangeEndDate = _item.date;
+						_item.isRangeEnd = true;
+						this.currentRangeEndDate = _item.currentRangeEndDate;
+						this.spaceStyleRander();
+						this.noModalSubmit();
+						return;
+					} else {
+						// 离店比入住小
+						this.clearRangeChoose();
+						_item.currentRangeStartDate = _item.date;
+						_item.currentRangeEndDate = '';
+						_item.isRangeStart = true;
+						this.currentRangeStartDate = _item.currentRangeStartDate;
+						this.currentRangeEndDate = '';
+						return;
+					}
 				}
 			}
 		},
@@ -342,7 +385,6 @@ export default {
 				_obj['info'] = [];
 				this.totalDate.push(_obj);
 			}
-			console.log('渲染前的日历数组',this.totalDate)
 			this.totalDate.forEach((x, y) => {
 				const _arr = _dateArr[y].split('-');
 				const _endDate = _arr[2] - 0;
@@ -352,7 +394,7 @@ export default {
 					let _obj = {
 						date: _currentDate,
 						day: i,
-						isDisadled: false,
+						isDisadled: true,
 						isChoosed: false,
 						isRangeStart: false,
 						isRangeEnd: false,
@@ -377,6 +419,17 @@ export default {
 					if (this.weekInit(_currentDate) == 0 || this.weekInit(_currentDate) == 6) {
 						_obj.isWeekend = true;
 					}
+					// *********日历价格加入逻辑
+					this.goodsDateTime.map(good=>{
+						if(good.DayTime===_obj.date){
+							_obj.Price = good.Price;
+							_obj.Stock = good.Stock;
+							if(good.Stock){
+								_obj.isDisadled = false;
+							}
+						}
+					})
+					// *******日历价格加入逻辑end
 					if (this.totalDate.length <= 1) {
 						if (y == 0 && (i < _day || i > _dayEnd)) {
 							_obj.isDisadled = true;
@@ -386,15 +439,6 @@ export default {
 							_obj.isDisadled = true;
 						}
 					}
-					this.goodsDateTime.map(good=>{
-						if(good.DayTime===_obj.date){
-							_obj.date.Price = good.DayTime.Price;
-							_obj.date.Stock = good.DayTime.Stock;
-							if(good.DayTime.Stock){
-								_obj.date.status = true;
-							}
-						}
-					})
 					x['info'].push(_obj);
 				}
 				// 处理星期
@@ -403,8 +447,6 @@ export default {
 					x['info'].unshift({ date: '', date: _dateArr[y], isSpace: true });
 				}
 			});
-			
-			console.log('渲染后的日历数组',this.totalDate)
 		},
 		dateSpace(sDate1, sDate2) {
 			//sDate1和sDate2是2006-12-18格式 得出量日期之间的天数
@@ -535,8 +577,8 @@ export default {
 						> view {
 							color: #fff;
 							font-size: 22rpx;
-							height: 50rpx;
-							line-height: 50rpx;
+							height: 30rpx;
+							line-height: 30rpx;
 							&.num {
 								position: absolute;
 								width: 80rpx;
@@ -552,6 +594,9 @@ export default {
 						background: rgba($primary, 0.2);
 						> view {
 							color: #333;
+						}
+						.price{
+							color:$primary;
 						}
 					}
 				}
@@ -583,5 +628,10 @@ export default {
 			}
 		}
 	}
+}
+.price{
+	color:$primary;
+	font-size:20upx;
+	height:25upx;line-height:25upx;
 }
 </style>

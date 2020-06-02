@@ -2,8 +2,8 @@
         <view class="bigitem" @click="navigate('product/detail/detail',{Id: item.Id})">
             <view class="imgbox">
                 <view class="like flex-center-end">
-                    <view class="iconfont icon-aixin bg">
-                        <view class="iconfont icon-aixin" :class="{active : item.CollectionId}"></view>
+                    <view class="iconfont bg" :class="item.CollectionId?'icon-aixin':'icon-aixin2'">
+                        <!-- <view class="iconfont"></view> -->
                     </view>
                     <text class="num">{{ item.CollectNum }}</text>
                 </view>

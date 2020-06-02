@@ -242,6 +242,8 @@
 			this.initCalendarOption();// 初始化日历
 		},
 		onShow(){
+			this.userId = uni.getStorageSync("userId");
+			this.token = uni.getStorageSync("token");
 			if(this.nowCityName !== this.cityName){
 				console.log(this.cityName,'更新的定位')
 				this.upDateCityCode(this.cityName)
@@ -308,6 +310,8 @@
 					// AreaCode:this.cityCode||'',
 					// Lat:this.lat||0,
 					// Lng:this.lng||0,
+					UserId:this.userId,
+					Token:this.token,
 					Page:1,
 					PageSize:12,
 					IsRecommend:1,
