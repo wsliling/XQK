@@ -2,7 +2,7 @@
 	<!-- 订单详情 -->
 	<view class="orderdetails">
 		<view class="order">
-			<view class="details">待支付</view>
+			<view class="details">{{orderList.StatusName}}</view>
 			<!-- <view class="">已确认</view> -->
 			<!-- <view class="">待评价</view> -->
 			<!-- <view class="">已完成</view> -->
@@ -10,21 +10,19 @@
 			<!-- <view class="">已失效</view> -->
 			<view class="detailsbox">
 				<view class="myrelease">
-					<view class="collect-box">
-						<view class="collect-left"><image src="../../../static/of/p1.jpg" mode=""></image></view>
+					<view class="collect-box" v-for="(val,key) in orderList.OrderDetails" :key="key">
+						<view class="collect-left"><image :src="val.PicNo" mode=""></image></view>
 						<view class="collect-right">
 							<view class="collect-flex">
-								<view class="name">广州.从化温泉明月山溪</view>
-								<view class="num">￥288.0</view>
+								<view class="name">{{val.ProductName}}</view>
+								<view class="num">￥{{val.UnitPrice}}</view>
 							</view>
 							<view class="point">
-								<view class="pointkey">骑行</view>
-								<view class="pointkey">游乐</view>
-								<view class="pointkey">艺术</view>
+								<view class="pointkey">{{val.ServiceKeys}}</view>
 							</view>
 							<view class="font">
 								<view class="iconfont icon-collect"></view>
-								<view class="fz12">4.8<span>(20)</span>
+								<view class="fz12">{{val.CommentScore}}<span>({{val.CommentNum}})</span>
 								</view>
 							</view>
 						</view>
@@ -35,15 +33,15 @@
 			<view class="check">
 				<view class="checkbottom">
 					<view class="">入住时间</view>
-					<view class="">5月28日至29日</view>
+					<view class="">{{orderList.MakeStartTime}}</view>
 				</view>
 				<view class="checkbottom">
 					<view class="">入住人</view>
-					<view class="">刘华强</view>
+					<view class="">{{orderList.ContactName}}</view>
 				</view>
 				<view class="checkbottom">
 					<view class="">联系方式</view>
-					<view class="">18682276868</view>
+					<view class="">{{orderList.Tel}}</view>
 				</view>
 			</view>
 		</view>
@@ -51,11 +49,11 @@
 			<view class="placename">订单信息</view>
 			<view class="placeflex">
 				<view class="">订单编号</view>
-				<view class="">20000054115841</view>
+				<view class="">{{orderList.OrderNumber}}</view>
 			</view>
 			<view class="placeflex">
 				<view class="">下单时间</view>
-				<view class="">2020-05-20 09:18:30</view>
+				<view class="">{{orderList.OrderTime}}</view>
 			</view>
 		</view>
 		<view class="place mb60">
@@ -80,47 +78,126 @@
 				<view class="">¥288.00</view>
 			</view>
 		</view>
+		<!-- IsRefund,//按钮退款-取消预订 1-显示
+			IsComment,//按钮评价 1-显示
+			Ispay, //按钮付款 1-显示
+			IsApplyInvoice,//按钮开票 1-显示
+			IsDel,//删除订单 1-显示
+			IsCancel,//取消订单 1-显示  -->
 		<view class="bottom">
-			<view class="bottomfff">取消订单</view>
-			<view class="bottomblue">立即支付</view>
-			<!-- <view class="bottomfff">取消预订</view> -->
-			<!-- <view class="bottomblue">去评价</view> -->
-			<!-- <view class="bottomfff">删除订单</view> -->
-			<!-- <view class="bottomfff">查看退款进度</view> -->
-			<!-- <view class="bottomblue">重新预订</view> -->
+			<view class="bottomfff" v-if="orderList.IsRefund ===1" @click="goUrl(orderList.Total)">取消预订</view>
+			<view class="bottomfff" v-if="orderList.IsCancel ===1" @click="tiedphone()">取消订单</view>
+			<view class="bottomfff" v-if="orderList.IsDel ===1" @click="getdelorderList()">删除订单</view>
+			<view class="bottomblue" v-if="orderList.Ispay ===1">立即支付</view>
+			<view class="bottomblue" v-if="orderList.IsComment === 1" @click.stop="goUrl()">去评价</view>
+			<!-- <view class="bottomfff" v-if="orderList. ===1">查看退款进度</view> -->
+			<!-- <view class="bottomblue" v-if="orderList. ===1">重新预订</view> -->
 		</view>
+		<!-- 取消定单弹框 -->
+		<uni-popup type="center" ref="tiedphone">
+			<view class="phonebox">
+				<view class="callorder">您确定要取消定单吗？</view>
+				<view class="boxflex">
+					<view class="cancel" @click="close()">取消</view>
+					<view class="affirm" @click="close()">确认</view>
+				</view>
+			</view>
+		</uni-popup>
+		
 	</view>
 </template>
 
 <script>
-	import { post } from '@/utils'
+	import { post, navigateBack } from '@/utils'
+	import popup from '@/components/uni-popup/uni-popup.vue'
 	export default {
 		data(){
 			return{
 				userId:'',
 				token:'',
+				OrderNumber:'',
+				orderList: {},
+				UnitPrice:'',
+				ActualPay:'',
 			}
+		},
+		onLoad(e) {
+			this.OrderNumber = e.OrderNumber
 		},
 		onShow() {
 			this.userId = uni.getStorageSync('userId');
 			this.token = uni.getStorageSync('token');
-		},
-		onLoad(e) {
-			console.log(e)
+			this.getOrderDetails()
 		},
 		methods:{
-			//  订单详情
+			goUrl(Total) {
+				if(Total){
+					uni.navigateTo({
+						url: '/pages/tabBar/order/cancel?OrderNumber='+ this.OrderNumber + '&UnitPrice=' + this.UnitPrice + '&ActualPay=' + this.ActualPay + '&Total=' + Total
+					});
+				}else{
+					uni.navigateTo({
+						url: '/pages/tabBar/order/comment',
+					});
+				}
+			},
+			// 订单详情
 			getOrderDetails(){
-				post('Order/OrderDetails',{
-					UserId : this.userId,
-					Token : this.token,
-					// OrderNo: 订单号
-				}).then( res=>{
-					if(res.code === 0) {
-						console.log(res,'订单详情')
+				post('Order/OrderDetails_yd',{
+					UserId: this.userId,
+					Token: this.token,
+					OrderNo: this.OrderNumber,
+				}).then( res => {
+					if(res.code === 0){
+						this.orderList = res.data
+						res.data.OrderDetails.forEach( val =>{
+							this.UnitPrice = val.UnitPrice
+							this.ActualPay= val.ActualPay
+						})
 					}
 				})
-			}
+			},
+			// 取消订单
+			tiedphone(){
+				this.$refs.tiedphone.open()
+				post('Order/CancelOrders',{
+					UserId:this.userId,
+					Token:this.token,
+					OrderNo:this.OrderNumber, //订单号
+				}).then( res=> {
+					console.log(res,'取消订单')
+					if(res.code === 0){
+						uni.showToast({
+							title: res.msg,
+							icon: 'none',
+							duration: 1500,
+						});
+						navigateBack()
+					}
+				})
+			},
+			// 关闭模态框
+			close(){
+				this.$refs.tiedphone.close()
+			},
+			// 删除订单
+			getdelorderList(){
+				post('Order/DeleteOrders',{
+					UserId:this.userId,
+					Token:this.token,
+					OrderNo:this.OrderNumber, //订单号
+				}).then( res=> {
+					console.log(res,'删除订单')
+					if(res.code === 0){
+						uni.showToast({
+							title: res.msg,
+							icon: 'none',
+							duration: 1500,
+						});
+						navigateBack()
+					}
+				})
+			},
 		}
 	}
 </script>
@@ -196,7 +273,7 @@
 								padding-top: 12upx;
 								.iconfont {
 									color: $primary;
-									margin: 0 6upx 0 40upx;
+									// margin: 0 6upx 0 40upx;
 									line-height: 1.2;
 								}
 								.fz12 {
