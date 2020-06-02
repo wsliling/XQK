@@ -5,7 +5,7 @@
 			<swiper class="swiper" :indicator-dots="false" autoplay :interval="5000" :duration="500" @change="changeSwiper">
 				<swiper-item v-for="(item,index) in 3" :key="index">
 					<view class="swiper-item">
-						<image class="img" src="/static/of/banner.jpg" mode="aspectFill"></image>
+						<image class="img" src="http://xqk.wtvxin.com/images/wxapp/of/banner.jpg" mode="aspectFill"></image>
 					</view>
 				</swiper-item>
 			</swiper>
@@ -16,7 +16,7 @@
 		<div class="p30">
 			<div class="user flex-center-between">
 				<div class="info flex-center">
-					<img src="/static/of/banner.jpg" alt="">
+					<img src="http://xqk.wtvxin.com/images/wxapp/of/banner.jpg" alt="">
 					<h5>名字</h5>
 				</div>
 				<div class="btnBox flex-center">
@@ -41,7 +41,7 @@
 				<div class="flex-center-between">
 					<div class="avatar flex-center">
 						<block v-for="(item,index) in 5" :key="index">
-							<img src="/static/of/banner.jpg" alt="">
+							<img src="http://xqk.wtvxin.com/images/wxapp/of/banner.jpg" alt="">
 						</block>
 					</div>
 					<div class="zan-icon flex-center">
@@ -90,11 +90,11 @@
 					`,
 				datalist:[
 					{
-						pic:'/static/of/p3.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p3.jpg',
 						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为我门的生活打开了一扇窗，这扇窗~',
 					},
 					{
-						pic:'/static/of/p2.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p2.jpg',
 						name:'旅行为我门的生活打开了一扇窗，这扇窗窗，这扇窗~',
 					},
 				]

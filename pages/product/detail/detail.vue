@@ -5,7 +5,7 @@
 			<swiper class="swiper" :indicator-dots="false" autoplay :interval="5000" :duration="500" @change="changeSwiper">
 				<swiper-item v-for="(item,index) in details.PicData" :key="index">
 					<view class="swiper-item">
-						<!-- <image class="img" src="/static/of/banner.jpg" mode="aspectFill"></image> -->
+						<!-- <image class="img" src="http://xqk.wtvxin.com/images/wxapp/of/banner.jpg" mode="aspectFill"></image> -->
 						<image class="img" :src="item.PicUrl" mode="aspectFill"></image>
 					</view>
 				</swiper-item>
@@ -51,7 +51,7 @@
 				<scroll-view scroll-x class="">
 					<div class="list flex-center ptb20">
 						<div class="item flex-column-center-center" v-for="(item,index) in details.RecPicList" :key="index">
-							<!-- <img src="/static/of/detail-icon.png" mode="widthFix" alt=""> -->
+							<!-- <img src="http://xqk.wtvxin.com/images/wxapp/of/detail-icon.png" mode="widthFix" alt=""> -->
 							<img :src="item.PicUrl" mode="widthFix" alt="">
 							<!-- <h5>云海日出</h5> -->
 						</div>
@@ -67,7 +67,7 @@
 				<scroll-view scroll-x class="">
 					<div class="list flex-center ptb20">
 						<div class="item flex-column-center-center" v-for="(item,index) in details.DevPicList" :key="index">
-							<!-- <img src="/static/of/detail-icon.png" mode="widthFix" alt=""> -->
+							<!-- <img src="http://xqk.wtvxin.com/images/wxapp/of/detail-icon.png" mode="widthFix" alt=""> -->
 							<img :src="item.PicUrl" mode="widthFix" alt="">
 							<!-- <h5>智能温控</h5> -->
 						</div>
@@ -83,7 +83,7 @@
 			<div class="gap20"></div>
 			<div class="video plr30 pb30">
 				<h3>实时摄像头</h3>
-				<!-- <img src="/static/of/p2.jpg"  alt=""> -->
+				<!-- <img src="http://xqk.wtvxin.com/images/wxapp/of/p2.jpg"  alt=""> -->
 				<video :src="details.Video"></video>
 			</div>
 		</block>
@@ -138,7 +138,7 @@
 				<!-- <h5 class="flex-center"><i class="iconfont icon-weizhi"></i>武功山风景名胜区麻田办事处大江边村</h5> -->
 				<h5 class="flex-center"><i class="iconfont icon-weizhi"></i>{{ details.Address }}</h5>
 			</div>
-			<!-- <img src="/static/of/map-img.png" mode="widthFix" alt=""> -->
+			<!-- <img src="http://xqk.wtvxin.com/images/wxapp/of/map-img.png" mode="widthFix" alt=""> -->
 			<map 
 			  id="myMap" 
 			  style="width: 750upx"
@@ -293,7 +293,7 @@
 				activeIndex: 0,
 				// 地图图标数组
 			    markers: [{
-			      iconPath: "../../../static/icons/house.png",
+			      iconPath: "http://xqk.wtvxin.com/images/wxapp/icons/house.png",
 			      latitude: 0,
 			      longitude: 0,
 				  width:50,

@@ -8,7 +8,7 @@
 		<view class="releva">
 			<view class="record">最近记录</view>
 			<view class="collect-box" v-for="(val,index) in 3" :key="index">
-				<view class="collect-left"><image src="../../static/of/p1.jpg" mode=""></image></view>
+				<view class="collect-left"><image src="http://xqk.wtvxin.com/images/wxapp/of/p1.jpg" mode=""></image></view>
 				<view class="collect-right">
 					<view class="name">广州.从化温泉明月山溪</view>
 					<view class="point">
@@ -26,7 +26,7 @@
 		</view>
 		<view class="anonymous" v-if="false">
 			<view class="anonyimg">
-				<image src="../../../static/of/p5.png" mode=""></image>
+				<image src="http://xqk.wtvxin.com/images/wxapp/of/p5.png" mode=""></image>
 			</view>
 			<view>暂无记录，可搜索其他星球客选择关联</view>
 		</view>

@@ -2,7 +2,7 @@
 	<div class="flex-start-between ptb20">
 		<div class="flex-start">
 			<div class="avatar">
-				<img src="/static/of/banner.jpg" alt="">
+				<img src="http://xqk.wtvxin.com/images/wxapp/of/banner.jpg" alt="">
 			</div>
 			<div class="center">
 				<div class="name ">

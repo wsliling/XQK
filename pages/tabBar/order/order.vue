@@ -44,7 +44,7 @@
 							<text class="price">￥198.0</text>
 						</view>
 					</view>
-					<view class="imgbox"><image src="/static/of/p3.jpg" mode="aspectFill"></image></view>
+					<view class="imgbox"><image src="http://xqk.wtvxin.com/images/wxapp/of/p3.jpg" mode="aspectFill"></image></view>
 				</view>
 				<view class="btns flex" @click="goUrl('/pages/tabBar/order/cancel')"><view class="btn">取消预订</view></view>
 			</view>
@@ -58,7 +58,7 @@
 							<text class="price">￥198.0</text>
 						</view>
 					</view>
-					<view class="imgbox"><image src="/static/of/p3.jpg" mode="aspectFill"></image></view>
+					<view class="imgbox"><image src="http://xqk.wtvxin.com/images/wxapp/of/p3.jpg" mode="aspectFill"></image></view>
 				</view>
 				<view class="btns flex" @click="goUrl('/pages/tabBar/order/schedule')"><view class="btn">查看退款进度</view></view>
 			</view>
@@ -72,7 +72,7 @@
 							<text class="price">￥198.0</text>
 						</view>
 					</view>
-					<view class="imgbox"><image src="/static/of/p3.jpg" mode="aspectFill"></image></view>
+					<view class="imgbox"><image src="http://xqk.wtvxin.com/images/wxapp/of/p3.jpg" mode="aspectFill"></image></view>
 				</view>
 				<view class="btns flex"><view class="btn">删除订单</view></view>
 			</view>
@@ -86,7 +86,7 @@
 							<text class="price">￥198.0</text>
 						</view>
 					</view>
-					<view class="imgbox"><image src="/static/of/p3.jpg" mode="aspectFill"></image></view>
+					<view class="imgbox"><image src="http://xqk.wtvxin.com/images/wxapp/of/p3.jpg" mode="aspectFill"></image></view>
 				</view>
 				<view class="btns flex" @click="goUrl('/pages/tabBar/order/comment')"><view class="btn btn_fill">去评价</view></view>
 			</view> -->

@@ -7,9 +7,9 @@
 			<view class="activered"></view>
 		</view>
 		<view class="focus">
-			<view class="focusleft"v-for="(val,key) in 2" :key="key">
+			<view class="focusleft" v-for="(val,key) in 2" :key="key">
 				<view class="forcusimg">
-					<image src="../../../static/default.png" mode=""></image>
+					<image src="http://xqk.wtvxin.com/images/wxapp/default.png" mode=""></image>
 				</view>
 				<view class="focuscenter">
 					<view class="focusbox">
@@ -19,7 +19,7 @@
 						<view class="focusfz24">回复了深漂小飞机的星语</view>
 					</view>
 					<view class="focusright">
-						<image src="../../../static/of/banner.jpg" mode=""></image>
+						<image src="http://xqk.wtvxin.com/images/wxapp/of/banner.jpg" mode=""></image>
 					</view>
 				</view>
 			</view>

@@ -2,7 +2,7 @@
 	<div class="p20 bb1">
 		<div class="top flex-center-between">
 			<div class="userInfo flex-center">
-				<img src="/static/of/p2.jpg" alt="">
+				<img src="http://xqk.wtvxin.com/images/wxapp/of/p2.jpg" alt="">
 				<div class="info">
 					<div class="name">{{ comment.NickName }}</div>
 					<!-- <p>2020-01-20</p> -->
@@ -24,7 +24,7 @@
 		<div class="content" v-html="comment.ContentText">
 		</div>
 		<div class="imgList flex-center-between">
-			<!-- <img src="/static/of/p2.jpg" alt="" v-for="(item,index) in 4" :key="index"> -->
+			<!-- <img src="http://xqk.wtvxin.com/images/wxapp/of/p2.jpg" alt="" v-for="(item,index) in 4" :key="index"> -->
 			<img :src="item.PicUrl" alt="" v-for="(item,index) in comment.PicData" :key="index">
 		</div>
 	</div>

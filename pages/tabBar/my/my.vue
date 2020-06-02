@@ -23,7 +23,7 @@
 					</view>
 				</view>
 				<view class="tx">
-					<image :src="info.Avatar||'/static/default.png'" mode="widthFix"></image>
+					<image :src="info.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="widthFix"></image>
 				</view>
 			</view>
 			<!-- 消息中心 -->
@@ -105,7 +105,7 @@
 						</view>
 						<view class="item" @click="navigate('tabBar/my/information')">
 							<view class="iconImg">
-								<image class="myimg" src="../../../static/icons/info.png" mode=""></image>
+								<image class="myimg" src="http://xqk.wtvxin.com/images/wxapp/icons/info.png" mode=""></image>
 							</view>
 							<view class="txt">常用信息</view>
 						</view>
@@ -148,12 +148,12 @@
 				<view class="binding">绑定手机号</view>
 				<view class="close" @click="close()">x</view>
 				<view class="cell-phone">
-					<image src="../../../static/icons/phones.png" mode=""></image>
+					<image src="http://xqk.wtvxin.com/images/wxapp/icons/phones.png" mode=""></image>
 					<input type="text" value="" placeholder="请绑定您的手机号码"/>
 				</view>
 				<view class="security">
 					<view class="verification">
-						<image src="../../../static/icons/code.png" mode=""></image>
+						<image src="http://xqk.wtvxin.com/images/wxapp/icons/code.png" mode=""></image>
 						<input type="text" value="" placeholder="请输入手机验证码"/>
 					</view>
 					<view class="getcode">获取验证码</view>

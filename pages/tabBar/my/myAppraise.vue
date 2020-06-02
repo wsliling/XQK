@@ -12,7 +12,7 @@
 					</view>
 				</view>
 				<view class="comment-img">
-					<image src="../../../static/of/p3.jpg" mode=""></image>
+					<image src="http://xqk.wtvxin.com/images/wxapp/of/p3.jpg" mode=""></image>
 				</view>
 			</view>
 			<view class="comment-to">去评价</view>

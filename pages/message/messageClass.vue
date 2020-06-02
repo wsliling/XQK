@@ -26,7 +26,7 @@
 				<view class="uni-list-cell" @click="tolink('/pages/message/messageList')">
 					<view class="uni-media-list">
 						<view class="uni-media-list-logo">
-							<image class="img" src="../../static/default.png" mode="aspectFill"></image>
+							<image class="img" src="http://xqk.wtvxin.com/images/wxapp/default.png" mode="aspectFill"></image>
 						</view>
 						<view  class="uni-media-list-body">
 							<view class="uni-media-list-text-top uni-ellipsis">学会笑着面对 回复</view>

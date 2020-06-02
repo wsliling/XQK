@@ -3,7 +3,7 @@
 		<div class="plr30 header pt30">
 			<div class="user flex-center-between">
 				<div class="info flex-center">
-					<img src="/static/of/p1.jpg" alt="">
+					<img src="http://xqk.wtvxin.com/images/wxapp/of/p1.jpg" alt="">
 					<div class="name">名字</div>
 				</div>
 				<div class="btn-min" v-if="type">编辑资料</div>
@@ -34,31 +34,31 @@
 				type:0,//1--我的主页；0--他人主页
 				datalist:[
 					{
-						pic:'/static/of/p3.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p3.jpg',
 						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为我门的生活打开了一扇窗，这扇窗~',
 					},
 					{
-						pic:'/static/of/p2.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p2.jpg',
 						name:'旅行为我门的生活打开了一扇窗，这扇窗窗，这扇窗~',
 					},
 					{
-						pic:'/static/of/p1.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p1.jpg',
 						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为这扇窗~',
 					},
 					{
-						pic:'/static/of/p3.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p3.jpg',
 						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为我门的生活打开了一扇窗，这扇窗~',
 					},
 					{
-						pic:'/static/of/p3.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p3.jpg',
 						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为我门的生活打开了一扇窗，这扇窗~',
 					},
 					{
-						pic:'/static/of/p1.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p1.jpg',
 						name:'旅行为我门的生活打开了一扇窗，这扇一扇窗，这扇窗~',
 					},
 					{
-						pic:'/static/of/p3.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p3.jpg',
 						name:'旅行为我门的生活打开了',
 					},
 				]

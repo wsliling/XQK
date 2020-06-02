@@ -18,7 +18,7 @@
 						<view class='IconsCK IconsCK-radio checked'></view>
 					</view>
 					<view class="collect-left">
-						<image src="../../../static/of/p1.jpg" mode=""></image>
+						<image src="http://xqk.wtvxin.com/images/wxapp/of/p1.jpg" mode=""></image>
 					</view>
 					<view class="collect-right">
 						<view class="name">广州.从化温泉明月山溪</view>
@@ -55,7 +55,7 @@
 									</view>
 									<view class="flex-between">
 										<view class="tx flex-start">
-											<image src="/static/logo.png" mode="aspectFill"></image>
+											<image src="http://xqk.wtvxin.com/images/wxapp/logo.png" mode="aspectFill"></image>
 											<text class="author uni-ellipsis">小星君</text>
 										</view>
 										<view class="zan flex-end active">
@@ -85,7 +85,7 @@
 									</view>
 									<view class="flex-between">
 										<view class="tx flex-start">
-											<image src="/static/logo.png" mode="aspectFill"></image>
+											<image src="http://xqk.wtvxin.com/images/wxapp/logo.png" mode="aspectFill"></image>
 											<text class="author uni-ellipsis">小星君</text>
 										</view>
 										<view class="zan flex-end">
@@ -161,59 +161,59 @@
 				selectlen:0,
 				datalist:[
 					{
-						pic:'/static/of/p3.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p3.jpg',
 						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为我门的生活打开了一扇窗，这扇窗~',
 					},
 					{
-						pic:'/static/of/p2.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p2.jpg',
 						name:'旅行为我门的生活打开了一扇窗，这扇窗窗，这扇窗~',
 					},
 					{
-						pic:'/static/of/p1.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p1.jpg',
 						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为这扇窗~',
 					},
 					{
-						pic:'/static/of/p3.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p3.jpg',
 						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为我门的生活打开了一扇窗，这扇窗~',
 					},
 					{
-						pic:'/static/of/p3.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p3.jpg',
 						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为我门的生活打开了一扇窗，这扇窗~',
 					},
 					{
-						pic:'/static/of/p1.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p1.jpg',
 						name:'旅行为我门的生活打开了一扇窗，这扇一扇窗，这扇窗~',
 					},
 					{
-						pic:'/static/of/p3.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p3.jpg',
 						name:'旅行为我门的生活打开了',
 					},
 					{
-						pic:'/static/of/banner.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/banner.jpg',
 						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为我一扇窗，这扇窗~',
 					},
 					{
-						pic:'/static/of/p3.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p3.jpg',
 						name:'旅行为我门的生活打开了一扇窗扇窗，这扇窗~',
 					},
 					{
-						pic:'/static/of/p1.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p1.jpg',
 						name:'旅行为我门的生活打开了一扇窗一扇窗，这扇窗~',
 					},
 					{
-						pic:'/static/of/p2.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p2.jpg',
 						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为我门的生活打开了一扇窗，这扇窗~',
 					},
 					{
-						pic:'/static/of/banner.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/banner.jpg',
 						name:'旅行为我门的生活打开了一扇窗',
 					},
 					{
-						pic:'/static/of/p1.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p1.jpg',
 						name:'旅行为我门的生活打开了一扇窗',
 					},
 					{
-						pic:'/static/of/p3.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p3.jpg',
 						name:'旅行为我门的生活打开了一扇窗一扇窗，这扇窗~',
 					}
 				]

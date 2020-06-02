@@ -5,7 +5,7 @@
 			<view class="accountflex">
 				<view class="portrait">头像</view>
 				<view class="accounthead">
-					<image src="../../../static/default.png" mode=""></image>
+					<image src="http://xqk.wtvxin.com/images/wxapp/default.png" mode=""></image>
 				</view>
 			</view>
 			<view class="accountflex">
@@ -24,7 +24,7 @@
 				<view class="">个性签名</view>
 				<view class="accountimg">
 					<view class="account28">书山有路勤为径，学海无涯苦作舟</view>
-					<image src="../../../static/icons/arrow.png" mode=""></image>
+					<image src="http://xqk.wtvxin.com/images/wxapp/icons/arrow.png" mode=""></image>
 				</view>
 			</view>
 		</view>

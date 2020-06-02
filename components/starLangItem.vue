@@ -8,7 +8,7 @@
 					</view>
 					<text class="num">209</text>
 				</view>
-				<image :src="item.pic" mode="aspectFill" class="pic"></image>
+				<image src="http://xqk.wtvxin.com/images/wxapp/of/p1.jpg" mode="aspectFill" class="pic"></image>
 			</view>
 			<view class="txtbox">
 				<view class="title uni-ellipsis2 uni-mb5">
@@ -16,7 +16,7 @@
 				</view>
 				<view class="flex-center-between">
 					<view class="tx flex-center">
-						<image src="/static/logo.png" mode="aspectFill"></image>
+						<image src="http://xqk.wtvxin.com/images/wxapp/logo.png" mode="aspectFill"></image>
 						<text class="author uni-ellipsis">小星君</text>
 					</view>
 					<view class="zan flex-center active">
