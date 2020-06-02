@@ -2,10 +2,10 @@
 	<!-- 我的 -->
 	<view class="myPage uni-bg-white">
 		<view class="pd15">
-			<view @click="navigate('tabBar/my/setting')">
+			<view>
 				<view class="myset">
-					<view class="hint iconfont icon-xiaoxi"> <span>2</span></view>
-					<view class="set iconfont icon-shezhi"></view>
+					<view class="hint iconfont icon-xiaoxi" @click="navigate('message/messageClass')"> <span>2</span></view>
+					<view class="set iconfont icon-shezhi" @click="navigate('tabBar/my/setting')"></view>
 				</view>
 				
 			</view>

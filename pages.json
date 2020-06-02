@@ -325,7 +325,31 @@
 					}
 				}
 			]
+		},
+		{
+			"root":"pages/message",
+			"pages":[
+				{
+					"path" : "messageClass",
+					"style" : {
+						"navigationBarTitleText": "消息中心"
+					}
+				}
+				,{
+					"path" : "messageList",
+					"style" : {
+						"navigationBarTitleText": "系统通知"
+					}
+				}
+				,{
+					"path" : "msgDetail",
+					"style" : {
+						"navigationBarTitleText": "消息详情"
+					}
+				}
+			]
 		}
+		
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
