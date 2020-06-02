@@ -10,7 +10,7 @@
 				
 			</view>
 			<view class="memberTop">
-				<view class="info" @click="tiedphone()">
+				<view class="info" @click="navigate('tabBar/my/account')">
 					<view class="name uni-ellipsis">{{info.NickName}}</view>
 					<view class="c_theme">查看并编辑个人资料</view>
 					<view class="datanum flex-start">
@@ -22,7 +22,7 @@
 						</view>
 					</view>
 				</view>
-				<view class="tx">
+				<view class="tx" @click="navigate('tabBar/my/account')">
 					<image :src="info.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="widthFix"></image>
 				</view>
 			</view>
