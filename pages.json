@@ -56,12 +56,6 @@
         	}
         }
         ,{
-            "path" : "pages/tabBar/order/pay",
-            "style" : {
-        		"navigationBarTitleText": "支付订单"
-        	}
-        }
-        ,{
             "path" : "pages/tabBar/order/schedule",
             "style" : {
         		"navigationBarTitleText": "退款进度"
