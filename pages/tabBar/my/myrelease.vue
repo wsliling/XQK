@@ -17,47 +17,47 @@
 			return{
 				datalist:[
 					{
-						pic:'/static/of/p3.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p3.jpg',
 						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为我门的生活打开了一扇窗，这扇窗~',
 					},
 					{
-						pic:'/static/of/p2.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p2.jpg',
 						name:'旅行为我门的生活打开了一扇窗，这扇窗窗，这扇窗~',
 					},
 					{
-						pic:'/static/of/p1.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p1.jpg',
 						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为这扇窗~',
 					},
 					{
-						pic:'/static/of/p3.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p3.jpg',
 						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为我门的生活打开了一扇窗，这扇窗~',
 					},
 					{
-						pic:'/static/of/p3.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p3.jpg',
 						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为我门的生活打开了一扇窗，这扇窗~',
 					},
 					{
-						pic:'/static/of/p1.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p1.jpg',
 						name:'旅行为我门的生活打开了一扇窗，这扇一扇窗，这扇窗~',
 					},
 					{
-						pic:'/static/of/p3.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p3.jpg',
 						name:'旅行为我门的生活打开了',
 					},
 					{
-						pic:'/static/of/banner.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/banner.jpg',
 						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为我一扇窗，这扇窗~',
 					},
 					{
-						pic:'/static/of/p3.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p3.jpg',
 						name:'旅行为我门的生活打开了一扇窗扇窗，这扇窗~',
 					},
 					{
-						pic:'/static/of/p1.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p1.jpg',
 						name:'旅行为我门的生活打开了一扇窗一扇窗，这扇窗~',
 					},
 					{
-						pic:'/static/of/p2.jpg',
+						pic:'http://xqk.wtvxin.com/images/wxapp/of/p2.jpg',
 						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为我门的生活打开了一扇窗，这扇窗~',
 					},
 				]

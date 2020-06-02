@@ -23,7 +23,7 @@
 				<view class="">取消原因</view>
 				<view class="select">
 					<view class="">{{ typeTxt }}</view>
-					<image src="../../../static/icons/arrow.png" mode=""></image>
+					<image src="http://xqk.wtvxin.com/images/wxapp/icons/arrow.png" mode=""></image>
 				</view>
 			</view>
 			<view class="effect">取消立即生效</view>
@@ -32,7 +32,7 @@
 		
 		<!-- 取消预订退款 -->
 		<view class="refund" v-if="cancel == 1">
-			<image src="../../../static/icons/cancel.png" mode=""></image>
+			<image src="http://xqk.wtvxin.com/images/wxapp/icons/cancel.png" mode=""></image>
 			<view class="refund40">预订已取消</view>
 			<view class="refund32">您将会收到¥{{Total}}的退款。</view>
 			<view class="refund32">退款将在3-5个工作日内完成</view>

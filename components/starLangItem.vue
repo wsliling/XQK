@@ -1,27 +1,30 @@
 <template>
-	<view class="item" @click="navigate('starLangSon/detail')">
+	<view class="item" @click="navigate('starLangSon/detail',{Id:item.Id})">
 		<view class="itembox">
 			<view class="imgbox">
 				<view class="like flex-center">
 					<view class="iconfont icon-aixin bg">
-						<view class="iconfont icon-aixin"></view>
+						<view class="iconfont icon-aixin" :class="{ active:item.CollectionId }"></view>
 					</view>
-					<text class="num">209</text>
+					<text class="num">{{ item.CollectNum }}</text>
 				</view>
-				<image :src="item.pic" mode="aspectFill" class="pic"></image>
+
+				<image :src="item.PicImg" mode="aspectFill" class="pic"></image>
+
 			</view>
 			<view class="txtbox">
 				<view class="title uni-ellipsis2 uni-mb5">
-					{{item.name}}
+					{{item.Title}}
 				</view>
 				<view class="flex-center-between">
 					<view class="tx flex-center">
-						<image src="/static/logo.png" mode="aspectFill"></image>
-						<text class="author uni-ellipsis">小星君</text>
+						<!-- <image src="/static/logo.png" mode="aspectFill"></image> -->
+						<image :src="item.Avatar" mode="aspectFill"></image>
+						<text class="author uni-ellipsis">{{ item.NickName }}</text>
 					</view>
-					<view class="zan flex-center active">
+					<view class="zan flex-center" :class="{ active: item.isLike }">
 						<text class="iconfont icon-zan1"></text>
-						<text class="num">30</text>
+						<text class="num">{{ item.LikeNum }}</text>
 					</view>
 				</view>
 			</view>

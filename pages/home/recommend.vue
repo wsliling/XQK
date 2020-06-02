@@ -33,6 +33,8 @@
 			} 
 		},
 		onLoad() {
+			this.userId = uni.getStorageSync('userId');
+			this.token = uni.getStorageSync('token');
 			this.getGoodsList()
 		},
 		computed:{
@@ -43,9 +45,8 @@
 			async getGoodsList () {
 				this.loadMore =1;
 				let GoodsList = await post("/Goods/GoodsList_yd",{
-					// AreaCode:this.cityCode||'',
-					// Lat:this.lat||0,
-					// Lng:this.lng||0,
+					UserId:this.userId,
+					Token:this.token,
 					IsRecommend:1,
 					Page:this.page,
 					PageSize:this.pageSize
@@ -63,6 +64,8 @@
 		},
 		onReachBottom(){
 			if(this.loadMore===2)return;
+			this.userId = uni.getStorageSync('userId');
+			this.token = uni.getStorageSync('token');
 			this.page=1;
 			this.getGoodsList();
 		},

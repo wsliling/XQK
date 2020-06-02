@@ -43,13 +43,21 @@
 		onLoad() {
 		},
 		methods: {
-			confirm(){
+			// 非空判断
+			isNull(str){
+				console.log(str)
+				return str.replace(/(^\s*)|(\s*$)/g,"");
+			},
+			confirm(){	
 				// #ifndef APP-PLUS
 				uni.hideKeyboard();
 				// #endif
 				// #ifdef APP-PLUS
 				plus.key.hideSoftKeybord()
 				// #endif
+				if(this.isNull(this.content)) {
+					console.log('我是空')
+				}
 				this.$emit("confirm",this.content)
 			}
 		}

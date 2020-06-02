@@ -4,17 +4,17 @@
       <div class="regLoginBox">
         <div class="logo">
           <div class="img">
-            <img src="/static/logo.png" />
+            <img src="http://xqk.wtvxin.com/images/wxapp/logo.png" />
           </div>
         </div>
         <div class="from pd10">
           <div class="from-line">
-            <img src="@/static/icons/phonecon.png" class="phone-icon" alt="" mode="widthFix">
+            <img src="http://xqk.wtvxin.com/images/wxapp/icons/phonecon.png" class="phone-icon" alt="" mode="widthFix">
 
             <input type="text" class="ipt phone-input" placeholder="请输入手机号码" v-model="phoneNumber" />
           </div>
           <div class="from-line">
-            <img src="@/static/icons/d_code.png" class="phoneCode-icon" alt="" mode="widthFix">
+            <img src="http://xqk.wtvxin.com/images/wxapp/icons/d_code.png" class="phoneCode-icon" alt="" mode="widthFix">
             <input type="text" class="ipt" placeholder="请输入验证码" v-model="verifyCode" />
             <!-- <div class="getcode" @click="getCode(this)">{{btnText}}</div> -->
             <button

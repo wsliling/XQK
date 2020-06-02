@@ -4,8 +4,8 @@
       <div class="search">
           <!-- <div class="topinput flex-center-between">
               <input type="text" placeholder="请输入城市名称" :value="inputName" @input="bindKeyInput">
-              <img src="/static/images/search.png" class="searchpic absolu">
-              <img src="/static/images/cancle.png" class="canclepic absolu" style="z-index:40" @click="bindBlur">
+              <img src="http://xqk.wtvxin.com/images/wxapp/images/search.png" class="searchpic absolu">
+              <img src="http://xqk.wtvxin.com/images/wxapp/images/cancle.png" class="canclepic absolu" style="z-index:40" @click="bindBlur">
           </div> -->
           <uni-search-bar :radius="100" placeholder="请输入城市名称" @input="searchInput" @cancel="searchInput"
            cancelButton="none"></uni-search-bar>

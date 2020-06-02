@@ -12,11 +12,11 @@
 						<view class="name">{{ val.ShopName }}</view>
 						<view class="desc">{{ val.MakeDate }}•{{ val.MakePeople }}位房客</view>
 						<view class="flex">
-							<text :class="['staus', val.StatusName === '待付款'? 'red' : '']">订单{{ val.StatusName }}</text>
+							<text :class="['staus', val.StatusName === '待付款' ? 'red' : '']">订单{{ val.StatusName }}</text>
 							<text class="price">￥{{ val.Total }}</text>
 						</view>
 						<view style="color: #999;">
-							<text>{{val.StatueNote}}</text>
+							<text>{{ val.StatueNote }}</text>
 						</view>
 					</view>
 					<view class="imgbox" v-for="(item, key1) in val.OrderDetails" :key="key1"><image :src="item.PicNo" mode="aspectFill"></image></view>
@@ -28,15 +28,28 @@
 					IsDel,//删除订单 1-显示
 					IsCancel,//取消订单 1-显示  -->
 				<view class="btns flex" v-for="(items, key2) in val.OrderDetails" :key="key2">
-					<view class="btn"v-if="val.IsRefund === 1"
-						@click="goUrl('/pages/tabBar/order/cancel?OrderNumber=' +
-								val.OrderNumber +'&UnitPrice=' +items.UnitPrice +'&ActualPay=' +items.ActualPay +'&Total=' +val.Total
-							)">取消预订
+					<view
+						class="btn"
+						v-if="val.IsRefund === 1"
+						@click="
+							goUrl(
+								'/pages/tabBar/order/cancel?OrderNumber=' +
+									val.OrderNumber +
+									'&UnitPrice=' +
+									items.UnitPrice +
+									'&ActualPay=' +
+									items.ActualPay +
+									'&Total=' +
+									val.Total
+							)
+						"
+					>
+						取消预订
 					</view>
 					<view class="btn" v-if="val.IsCancel === 1" @click.stop="chooseOrders(val.OrderNumber, 1)">取消订单</view>
 					<view class="btn" v-if="val.IsDel === 1" @click.stop="chooseOrders(val.OrderNumber, 2)">删除订单</view>
 					<view class="btn btn_fill" v-if="val.IsComment === 1" @click.stop="goUrl('/pages/tabBar/order/comment')">去评价</view>
-					<view class="btn btn_fill" v-if="val.Ispay === 1" @click.stop="ConfirmWeiXinSmallPay(val.OrderNumber,val.Total)">立即支付</view>
+					<view class="btn btn_fill" v-if="val.Ispay === 1" @click.stop="ConfirmWeiXinSmallPay(val.OrderNumber, val.Total)">立即支付</view>
 				</view>
 			</view>
 		</view>
@@ -54,13 +67,15 @@ import noData from '@/components/noData.vue'; //暂无数据
 import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue'; //加载更多
 export default {
 	components: {
-		tabbar, noData,uniLoadMore
+		tabbar,
+		noData,
+		uniLoadMore
 	},
 	data() {
 		return {
 			userId: '',
 			token: '',
-			tabList: [{ id: 0, name: '全部订单' }, { id: 1, name: '待支付' }, { id: 2, name: '有效订单' }, ], //{ id: 3, name: '待评价'}
+			tabList: [{ id: 0, name: '全部订单' }, { id: 1, name: '待支付' }, { id: 2, name: '有效订单' }], //{ id: 3, name: '待评价'}
 			tabIndex: 0,
 			noDataIsShow: false, //暂无数据
 			loadingType: 0, //0加载前，1加载中，2没有更多了
@@ -94,7 +109,7 @@ export default {
 			this.Status = index;
 			this.getorderList();
 		},
-		// 订单列表 
+		// 订单列表
 		getorderList() {
 			post('Order/OrderList_yd', {
 				UserId: this.userId,
@@ -128,7 +143,7 @@ export default {
 				}
 			});
 		},
-		//取消订单  订单列表 
+		//取消订单  订单列表
 		chooseOrders(OrderNumber, type) {
 			let _this = this;
 			if (type == 1) {
@@ -157,8 +172,7 @@ export default {
 							_this.getorderList();
 							uni.showToast({
 								title: res.msg,
-								icon: 'none',
-								
+								icon: 'none'
 							});
 						});
 					} else if (res.cancel) {
@@ -168,36 +182,36 @@ export default {
 			});
 		},
 		//微信支付需参数
-		ConfirmWeiXinSmallPay(OrderNo,Total){
-			post('Order/WechatPay',{
-				OrderNo:OrderNo,
+		ConfirmWeiXinSmallPay(OrderNo, Total) {
+			post('Order/WechatPay', {
+				OrderNo: OrderNo,
 				UserId: this.userId,
 				Token: this.token,
-				WxCode:uni.getStorageSync("wxCode"),
-				WxOpenid:uni.getStorageSync("openId"),
-				paytype:4
-			}).then(res=>{
-				let payData=JSON.parse(res.data.JsParam)
-				if(res.code==0){
-					let _this=this;
+				WxCode: uni.getStorageSync('wxCode'),
+				WxOpenid: uni.getStorageSync('openId'),
+				paytype: 4
+			}).then(res => {
+				let payData = JSON.parse(res.data.JsParam);
+				if (res.code == 0) {
+					let _this = this;
 					wx.requestPayment({
-					timeStamp: payData.timeStamp,
-					nonceStr: payData.nonceStr,
-					package: payData.package,
-					signType: payData.signType,
-					paySign: payData.paySign,
-					success(res) {
-						redirect('product/paysuccess/index',{OrderNo:OrderNo,money:Total})
+						timeStamp: payData.timeStamp,
+						nonceStr: payData.nonceStr,
+						package: payData.package,
+						signType: payData.signType,
+						paySign: payData.paySign,
+						success(res) {
+							redirect('product/paysuccess/index', { OrderNo: OrderNo, money: Total });
 						},
-					fail(res) {
-						redirect('product/paysuccess/index',{OrderNo:OrderNo,msg:'fail',money:Total})
-					}
+						fail(res) {
+							redirect('product/paysuccess/index', { OrderNo: OrderNo, msg: 'fail', money: Total });
+						}
 					})
-				}else if(res.code==200){
-					redirect('product/paysuccess/index',{OrderNo:OrderNo,money:Total})
+				} else if (res.code == 200) {
+					redirect('product/paysuccess/index', { OrderNo: OrderNo, money: Total });
 				}
-			})
-		},
+			});
+		}
 	},
 	// 上拉加载
 	onReachBottom: function() {

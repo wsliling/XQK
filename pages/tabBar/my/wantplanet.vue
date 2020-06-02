@@ -27,7 +27,7 @@
 				<p class="">
 					<span>{{ typeTxt }}</span>
 					<icons type="success"size="26"></icons>
-					<img src="../../../static/icons/arrow.png" alt="" />
+					<img src="http://xqk.wtvxin.com/images/wxapp/icons/arrow.png" alt="" />
 				</p>
 				
 			</div>

@@ -9,15 +9,15 @@
 					<span>{{ typeTxt }}</span>
 					<icons type="success"size="26"></icons>
 				</p> -->
-				<img v-if="acts == 0" src="../../../static/icons/success.png" alt="" />
+				<img v-if="acts == 0" src="http://xqk.wtvxin.com/images/wxapp/icons/success.png" alt="" />
 			</div>
 			<div class="fed_title" @click="act(1)" v-if="acts == 1 ? 'active' : 'fed_title'">
 				<p>上传虚假资料</p>
-				<img v-if="acts == 1" src="../../../static/icons/success.png" alt="" />
+				<img v-if="acts == 1" src="http://xqk.wtvxin.com/images/wxapp/icons/success.png" alt="" />
 			</div>
 			<div class="fed_title" @click="act(2)" v-if="acts == 2 ? 'active' : 'fed_title'">
 				<p>跳单线下交易</p>
-				<img v-if="acts == 2" src="../../../static/icons/success.png" alt="" />
+				<img v-if="acts == 2" src="http://xqk.wtvxin.com/images/wxapp/icons/success.png" alt="" />
 			</div>
 		</div>
 		<div class="">

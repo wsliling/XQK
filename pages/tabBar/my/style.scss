@@ -2,17 +2,19 @@
 	.myset{
 		display: flex;
 		justify-content: flex-end;
-	}
-	.hint{
-		margin: 20upx 47upx 0;
-		position: relative;
+		&>view{
+			position: relative;
+			padding-left:45upx;
+			font-size: 40upx;
+			margin-top:5upx;
+		}
 		span{
 			position: absolute;
 			top: 0;
-			left: 17upx;
-			width:27upx;
-			height:28upx;
-			background:rgba(255,51,51,1);
+			right: -5upx;
+			width:17upx;
+			height:17upx;
+			background:#ff3333;
 			border-radius:50%;
 			font-size:16upx;
 			color:rgba(255,255,255,1);
@@ -20,9 +22,13 @@
 			text-align: center;
 		}
 	}
+	.hint{
+		// margin: 20upx 47upx 0;
+	}
 	.set{
-		font-size: 48upx;
-		padding: 20upx 0 10upx;
+		font-size: 45upx!important;
+		padding-top:16upx;
+		// padding: 20upx 0 10upx;
 		line-height: 1;
 	}
 	.memberTop{
@@ -105,6 +111,20 @@
 					}
 				}
 			}
+		}
+	}
+	.dot{
+		position:relative;
+		&:before{
+			content:'';
+			position:absolute;
+			top:6upx;
+			right:3upx;
+			width:18upx;
+			height:18upx;
+			background:#ff3333;
+			border-radius:50%;
+
 		}
 	}
 	

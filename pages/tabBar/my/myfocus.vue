@@ -4,7 +4,7 @@
 		<view class="focus" v-for="(val,key) in 6" :key="key">
 			<view class="focusleft">
 				<view class="forcusimg">
-					<image src="../../../static/default.png" mode=""></image>
+					<image src="http://xqk.wtvxin.com/images/wxapp/default.png" mode=""></image>
 				</view>
 				<view class="focuscenter">
 					<view class="focusbox">
@@ -16,9 +16,9 @@
 			</view>
 		</view>
 		<view class="focus">
-			<view class="focusleft next"v-for="(val,key) in 2" :key="key">
+			<view class="focusleft next" v-for="(val,key) in 2" :key="key">
 				<view class="forcusimg">
-					<image src="../../../static/default.png" mode=""></image>
+					<image src="http://xqk.wtvxin.com/images/wxapp/default.png" mode=""></image>
 				</view>
 				<view class="focuscenter">
 					<view class="focusbox">

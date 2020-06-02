@@ -83,7 +83,7 @@
 			</view>
 			<view class="bd">
 				<image class="xqbg" :src="about.Logo" mode="widthFix"  @click="navigate('home/introduction',{title:about.Title})"></image>
-				<!-- <image class="logo" src="/static/logo.png" mode="aspectFill"></image> -->
+				<!-- <image class="logo" src="http://xqk.wtvxin.com/images/wxapp/logo.png" mode="aspectFill"></image> -->
 			</view>
 		</view>
 		<!-- 热门推荐 -->
@@ -102,7 +102,7 @@
 		</view>
 		<!-- 服务保障 -->
 		<view class="serveXQ pd15 uni-mb10">
-			<!-- <image  @click="navigate('tabBar/my/security')" src="/static/of/2.jpg" mode="widthFix"></image> -->
+			<!-- <image  @click="navigate('tabBar/my/security')" src="http://xqk.wtvxin.com/images/wxapp/of/2.jpg" mode="widthFix"></image> -->
 			<image  @click="navigate('tabBar/my/security')" :src="securityContent.Logo" mode="widthFix"></image>
 			<view class="btn_line" @click="navigate('tabBar/my/security')">
 				{{ securityContent.Title }}
@@ -119,7 +119,7 @@
 			</view>
 			<view class="bd" style="margin-right: -20upx;">
 				<view class="xylist">
-					<star-lang-item v-for="(item,index) in 4" :key="index"></star-lang-item>
+					<star-lang-item v-for="(item,index) in findList" :key="index" :item="item"></star-lang-item>
 				</view>
 			</view>
 			<view class="btn_line uni-mb10">
@@ -141,7 +141,7 @@
 		<view class="popCoupon" v-if="showCoupon">
 			<view class="mask"></view>
 			<view class="popContent">
-				<image class="bgimg" src="/static/popCouponbg.png" mode="widthFix"></image>
+				<image class="bgimg" src="http://xqk.wtvxin.com/images/wxapp/popCouponbg.png" mode="widthFix"></image>
 				<view class="couponlist">
 					<view class="item flex" v-for="(item,index) in 3" :key="index">
 						<view class="left flex-column">
@@ -160,7 +160,7 @@
 						</view>
 					</view>
 					<view class="getAll">
-						<image src="/static/rec_btn.png" mode="widthFix"></image>
+						<image src="http://xqk.wtvxin.com/images/wxapp/rec_btn.png" mode="widthFix"></image>
 					</view>
 				</view>
 				<view class="close iconfont icon-guanbi" @click="hideCoupon"></view>
@@ -220,7 +220,8 @@
 				showNumlayer:false,//人数弹窗
 				inputNum:1,
 				nowNum:1,
-				securityContent: ""
+				securityContent: "",
+				findList:[] // 发现列表
 			}
 		},
 		components: {
@@ -239,9 +240,12 @@
 			this.getHotGoodsList();
 			this.getPosition();
 			this.getSecurity();
+			this.getUserPublishFind()
 			this.initCalendarOption();// 初始化日历
 		},
 		onShow(){
+			this.userId = uni.getStorageSync("userId");
+			this.token = uni.getStorageSync("token");
 			if(this.nowCityName !== this.cityName){
 				console.log(this.cityName,'更新的定位')
 				this.upDateCityCode(this.cityName)
@@ -308,6 +312,8 @@
 					// AreaCode:this.cityCode||'',
 					// Lat:this.lat||0,
 					// Lng:this.lng||0,
+					UserId:this.userId,
+					Token:this.token,
 					Page:1,
 					PageSize:12,
 					IsRecommend:1,
@@ -397,9 +403,14 @@
 			},
 			// 更新广告图点击量
 			async updateBannerHits(index) {
-				post("/Banner/BannerHits",{id:this.bannerList[index].Id}) 
-				console.log("广告图结果：",res)
+				let res = post("/Banner/BannerHits",{id:this.bannerList[index].Id}) 
+				// console.log("广告图结果：",res)
 			},
+			async getUserPublishFind() {
+				let res = await post('Find/FindList',{myType:2})
+				console.log('用户发现list：',res)
+				this.findList = res.data
+			}
 		},
 		// #ifndef MP
 		//点击导航栏 buttons 时触发

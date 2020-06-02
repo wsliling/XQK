@@ -18,8 +18,6 @@
 							:class="{
 								range_space: x.isRangeStyle,
 								choosed: (x.isChoosed || x.isRangeStart || x.isRangeEnd)  && !x.isSpace,
-								start: x.isRangeStart && !x.isChoosed && !isDisabledBtn,
-								end: x.isRangeEnd,
 								disabled: x.isDisadled,
 								weekend: x.isWeekend && !x.isDisadled
 							}"
@@ -31,6 +29,7 @@
 							<view v-if="x.isDayTwo">明天</view>
 							<view v-if="x.isDayThree">后天</view>
 							<view v-if="x.isChoosed && !x.isSpace">选择</view>
+							<view class="price" v-if="x.Price">￥{{x.Price}}</view>
 							<view v-if="x.currentRangeStartDate && !x.isSpace">入住</view>
 							<view v-if="x.currentRangeEndDate">离店</view>
 							<view v-if="x.currentRangeEndDate" class="num">共{{ currentDateNum }}晚</view>
@@ -44,9 +43,8 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex"; //vuex辅助函数
 export default {
-	props: ['option'], //配置参数
+	props: ['option','goodsDateTime'], //配置参数
 	data() {
 		return {
 			weekData: ['日', '一', '二', '三', '四', '五', '六'],
@@ -59,8 +57,11 @@ export default {
 			isShow: false
 		};
 	},
+	activated(){
+		console.log('更新了组件激活了')
+	},
 	mounted() {
-		this.totalDateInit();
+		console.log('加载了组件')
 		if(!this.option.isModal){
 			setTimeout(()=>{
 				this.open();
@@ -71,15 +72,14 @@ export default {
 		isShow(n) {
 			if (n) {
 				this.dateFirstInit();
-				console.log("我是初始化this.goodsDateTime:",this.$store.state.goodsDateTime)
-				
+				if(!this.totalDate.length){
+					console.log('获取到了数据')
+					this.totalDateInit();
+				}
 			}
 		}
 	},
 	computed: {
-		isAllow (x) {
-			console.log("我是x:", x)
-		},
 		currentDateNum() {
 			//当前起始日期与结束日期之间的天数
 			return this.dateSpace(this.currentRangeStartDate, this.currentRangeEndDate);
@@ -199,6 +199,7 @@ export default {
 			this.outIndex = outIndex;
 			this.innerIndex = innerIndex;
 			if (this.option.isRange) {
+				console.log()
 				this.chooseRangeInit();
 			} else {
 				this.chooseOneInit();
@@ -217,27 +218,8 @@ export default {
 					this.currentRangeEndDate = '';
 					return;
 				}
-				if (this.currentRangeStartDate && !this.currentRangeEndDate) {
-					//选择中
-					if (new Date(_item.date) > new Date(this.currentRangeStartDate)) {
-						_item.currentRangeEndDate = _item.date;
-						_item.isRangeEnd = true;
-						this.currentRangeEndDate = _item.currentRangeEndDate;
-						this.spaceStyleRander();
-						this.noModalSubmit();
-						return;
-					} else {
-						this.clearRangeChoose();
-						_item.currentRangeStartDate = _item.date;
-						_item.currentRangeEndDate = '';
-						_item.isRangeStart = true;
-						this.currentRangeStartDate = _item.currentRangeStartDate;
-						this.currentRangeEndDate = '';
-						return;
-					}
-				}
 				if (this.currentRangeStartDate && this.currentRangeEndDate) {
-					//选择好了
+					//选择中-第一次点击
 					this.clearRangeChoose();
 					_item.currentRangeStartDate = _item.date;
 					_item.currentRangeEndDate = '';
@@ -247,7 +229,75 @@ export default {
 					this.spaceStyleRander();
 					return;
 				}
+				if (this.currentRangeStartDate && !this.currentRangeEndDate) {
+					//选择好了--第二次点击
+					if (new Date(_item.date) > new Date(this.currentRangeStartDate)) {
+						this.checkOut();
+						return;
+					} else {
+						// 离店比入住小
+						this.clearRangeChoose();
+						_item.currentRangeStartDate = _item.date;
+						_item.currentRangeEndDate = '';
+						_item.isRangeStart = true;
+						this.currentRangeStartDate = _item.currentRangeStartDate;
+						this.currentRangeEndDate = '';
+						return;
+					}
+				}
+			}else{
+				this.checkOut();
 			}
+		},
+		// 离店点击
+		checkOut(){
+			// *****日历价格加入逻辑
+			// console.log('入住日期：',this.currentRangeStartDate)
+			// console.log('离店日期：',_item)
+			const _item = this.totalDate[this.outIndex].info[this.innerIndex];
+			const goodsDateTime = this.goodsDateTime;
+			let toastText = '';
+			let goodDay=0;//计算选择的天数
+			goodsDateTime.map(item=>{
+				if(new Date(item.DayTime)>=new Date(this.currentRangeStartDate)&&
+					new Date(item.DayTime)<new Date(_item.date)
+				){
+					// console.log(item,'选中的日历范围')
+					goodDay+=1;
+					if(!item.Stock){
+						toastText = item.DayTime+'为不可选日期！';
+					}
+				}
+			})
+			// 计算相差天数
+			let time_diff = new Date(_item.date).getTime() - new Date(this.currentRangeStartDate).getTime();
+			let day = Math.floor(time_diff / (24 * 3600 * 1000));
+			console.log(day,'相差天数');
+			// 判断选择的天数，是否存在日历价格里
+			if(day!==goodDay)return;
+			if(toastText){
+				uni.showToast({
+					title:toastText,
+					icon:'none',
+					duration:3000
+				})
+				// 取消初始日期选择
+				this.clearRangeChoose();
+				// _item.currentRangeStartDate = _item.date;
+				_item.currentRangeEndDate = '';
+				// _item.isRangeStart = true;
+				this.currentRangeStartDate = '';
+				this.currentRangeEndDate = '';
+				return;
+			}
+
+			// ******日历价格加入逻辑end
+			// 正常选择范围
+			_item.currentRangeEndDate = _item.date;
+			_item.isRangeEnd = true;
+			this.currentRangeEndDate = _item.currentRangeEndDate;
+			this.spaceStyleRander();
+			this.noModalSubmit();
 		},
 		spaceStyleRander() {
 			//区间样式渲染
@@ -317,8 +367,7 @@ export default {
 		totalDateInit() {
 			let _dateArr = [];
 			let _initStartDate = this.option.initStartDate ? this.option.initStartDate : this.getNextDate(0);
-			// let _initEndDate = this.option.initEndDate ? this.option.initEndDate : this.getNextMonth(4);
-			 let _initEndDate = this.option.initEndDate ? this.option.initEndDate : this.getNextMonth(2);
+			let _initEndDate = this.option.initEndDate ? this.option.initEndDate : this.getNextMonth(4);
 			const _dateNum = this.getMonthBetween(_initStartDate, _initEndDate);
 			const _arrStart = _initStartDate.split('-');
 			const _arrEnd = _initEndDate.split('-');
@@ -351,7 +400,6 @@ export default {
 				_obj['info'] = [];
 				this.totalDate.push(_obj);
 			}
-			console.log('totalDate1',this.totalDate)
 			this.totalDate.forEach((x, y) => {
 				const _arr = _dateArr[y].split('-');
 				const _endDate = _arr[2] - 0;
@@ -361,13 +409,16 @@ export default {
 					let _obj = {
 						date: _currentDate,
 						day: i,
-						isDisadled: false,
+						isDisadled: true,
 						isChoosed: false,
 						isRangeStart: false,
 						isRangeEnd: false,
 						currentRangeStartDate: '',
 						currentRangeEndDate: '',
-						isRangeStyle: false
+						isRangeStyle: false,
+						Stock:0,//库存
+						Price:0,//价格
+						status:false,//可选状态
 					};
 					// 处理今天明天后天
 					if (this.getNextDate(0) == _obj.date) {
@@ -383,6 +434,17 @@ export default {
 					if (this.weekInit(_currentDate) == 0 || this.weekInit(_currentDate) == 6) {
 						_obj.isWeekend = true;
 					}
+					// *********日历价格加入逻辑
+					this.goodsDateTime.map(good=>{
+						if(good.DayTime===_obj.date){
+							_obj.Price = good.Price;
+							_obj.Stock = good.Stock;
+							if(good.Stock){
+								_obj.isDisadled = false;
+							}
+						}
+					})
+					// *******日历价格加入逻辑end
 					if (this.totalDate.length <= 1) {
 						if (y == 0 && (i < _day || i > _dayEnd)) {
 							_obj.isDisadled = true;
@@ -392,7 +454,6 @@ export default {
 							_obj.isDisadled = true;
 						}
 					}
-
 					x['info'].push(_obj);
 				}
 				// 处理星期
@@ -500,7 +561,6 @@ export default {
 				padding: 0 25rpx;
 				display: flex;
 				flex-wrap: wrap;
-				font-weight: 600;
 				> view {
 					width: 100rpx;
 					height: 100rpx;
@@ -528,23 +588,13 @@ export default {
 					}
 					&.choosed {
 						background-color: $primary;
-						border-radius: 60rpx;
-						&.start{
-							border-radius: 60rpx 0 0 60rpx;
-						}
-						&.end{
-							border-radius: 0 60rpx 60rpx 0 ;
-						}
+						border-radius: 10rpx;
 						> view {
-							&:nth-child(2) {
-								line-height: 28rpx;
-							}
 							color: #fff;
-							font-size: 28rpx;
-							height: 50rpx;
-							line-height: 50rpx;
+							font-size: 22rpx;
+							height: 30rpx;
+							line-height: 30rpx;
 							&.num {
-								font-size: 22rpx;
 								position: absolute;
 								width: 80rpx;
 								text-align: center;
@@ -556,18 +606,18 @@ export default {
 						}
 					}
 					&.range_space {
-						// background: rgba($primary, 0.2);
-						background: rgba($primary, .2);
+						background: rgba($primary, 0.2);
 						> view {
-							// color: #333;
-							// color: $primary;
-							color: #ccc;
+							color: #333;
+						}
+						.price{
+							color:$primary;
 						}
 					}
 				}
 			}
 			> .title {
-				font-size: 40rpx;
+				font-size: 30rpx;
 				color: #000;
 				height: 80rpx;
 				display: flex;
@@ -583,8 +633,6 @@ export default {
 		display: flex;
 		align-items: center;
 		border-bottom: 1rpx solid #ccc;
-		border-color: rgba(204,204,204, .5);
-		 // box-shadow: 0rpx 1rpx 0rpx 0rpx #ccc;
 		> view {
 			width: 100rpx;
 			text-align: center;
@@ -595,5 +643,10 @@ export default {
 			}
 		}
 	}
+}
+.price{
+	color:$primary;
+	font-size:20upx;
+	height:25upx;line-height:25upx;
 }
 </style>
