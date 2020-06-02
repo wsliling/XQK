@@ -119,7 +119,7 @@
 			</view>
 			<view class="bd" style="margin-right: -20upx;">
 				<view class="xylist">
-					<star-lang-item v-for="(item,index) in 4" :key="index"></star-lang-item>
+					<star-lang-item v-for="(item,index) in findList" :key="index" :item="item"></star-lang-item>
 				</view>
 			</view>
 			<view class="btn_line uni-mb10">
@@ -220,7 +220,8 @@
 				showNumlayer:false,//人数弹窗
 				inputNum:1,
 				nowNum:1,
-				securityContent: ""
+				securityContent: "",
+				findList:[] // 发现列表
 			}
 		},
 		components: {
@@ -239,6 +240,7 @@
 			this.getHotGoodsList();
 			this.getPosition();
 			this.getSecurity();
+			this.getUserPublishFind()
 			this.initCalendarOption();// 初始化日历
 		},
 		onShow(){
@@ -397,9 +399,14 @@
 			},
 			// 更新广告图点击量
 			async updateBannerHits(index) {
-				post("/Banner/BannerHits",{id:this.bannerList[index].Id}) 
-				console.log("广告图结果：",res)
+				let res = post("/Banner/BannerHits",{id:this.bannerList[index].Id}) 
+				// console.log("广告图结果：",res)
 			},
+			async getUserPublishFind() {
+				let res = await post('Find/FindList',{myType:2})
+				console.log('用户发现list：',res)
+				this.findList = res.data
+			}
 		},
 		// #ifndef MP
 		//点击导航栏 buttons 时触发

@@ -206,7 +206,7 @@
 		},
 		computed: {
 			Rprocess (){
-				return 10 - this.process
+				return this.process
 			},
 			leftProcess (process) {
 					return (process)=>{
