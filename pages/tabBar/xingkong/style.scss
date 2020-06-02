@@ -1,0 +1,599 @@
+ .handleBox {
+	position: relative;
+	height: 1050upx;
+	// background-size:100% 100%;
+	// height: 1050upx;
+	// background-image:url('@/static/xingkong-icon/wave1.png');
+	background-color: #89D6B6;
+	overflow: hidden;
+	.bg2 {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 750upx;
+		height: 1500upx;
+	}
+}
+.top {
+	color: #FFFFFF;
+	// margin: 18upx 13upx 0upx;
+	position: relative;
+	.left {
+		position: absolute;
+		top: 36upx;
+		left: 26upx;
+		width: 120upx;
+		height: 120upx;
+		font-size: 24upx;
+		// 兼容弹性居中
+		display: -webkit-box;
+		display: -moz-box;
+		display: -ms-flexbox;
+		display: -o-box;
+		display: box;
+		display: -webkit-flex; /* Safari */
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		-webkit-box-align: center;
+		-webkit-align-items: center;
+		-ms-flex-align: center;
+		align-items: center;
+		// 兼容弹性居中
+		.lock {
+			width: 80upx;
+			height: 80upx;
+			border: 3upx solid #FFFFFF;
+			border-radius: 50%;
+			// 兼容弹性居中
+			display: -webkit-box;
+			display: -moz-box;
+			display: -ms-flexbox;
+			display: -o-box;
+			display: box;
+			display: -webkit-flex; /* Safari */
+			display: flex;
+			justify-content: center;
+			-webkit-box-align: center;
+			-webkit-align-items: center;
+			-ms-flex-align: center;
+			align-items: center;
+			image {
+				width: 34upx;
+			}
+		}
+		
+	}
+	.right {
+		color: #ffffff;
+		font-size: 24upx;
+		position: absolute;
+		top: 40upx;
+		right: 26upx;
+		width: 120upx;
+		height: 200upx;
+		// background-color: green;
+		// 兼容弹性居中
+		display: -webkit-box;
+		display: -moz-box;
+		display: -ms-flexbox;
+		display: -o-box;
+		display: box;
+		display: -webkit-flex; /* Safari */
+		display: flex;
+		justify-content: space-between;
+		-webkit-box-align: center;
+		-webkit-align-items: center;
+		-ms-flex-align: center;
+		align-items: center;
+		flex-direction: column;
+		.icon {
+			width: 40upx;
+			height: 40upx;
+			image {
+				width: 40upx;
+				height: 40upx;
+			  filter: invert;
+					// filter: Xray;
+					// filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#B5CCFA', EndColorStr='#B5CCFA');
+				// filter: grayscale(0%);
+			}
+		}
+	}
+}
+.juzhong {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -o-box;
+	display: box;
+	display: -webkit-flex; /* Safari */
+	display: flex;
+	justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
+	flex-direction: column;
+}
+.switchBox {
+	position: absolute;
+	top: 235upx;
+	left: 0;
+	width: 750upx;
+	height: 690upx;
+	// background-color: pink;
+	// 一键的盒子
+	.oneKey {
+		position: absolute;
+		width: 750upx;
+		flex-wrap: nowrap;
+		.repairs {
+			position: absolute;
+			left: 30upx;
+			top: 134upx;
+			width: 145upx;
+			height: 145upx;
+			transform:rotate(-41deg);
+		}
+		.check-out {
+			position: absolute;
+			left: 50%;
+			top: 0;
+			transform:translateX(-50%);
+		}
+		.sweep {
+			transform:rotate(38deg);
+			position: absolute;
+			right: 25upx;
+			top: 134upx;
+		}
+	}
+	.circle1 {
+		width: 145upx;
+		height: 145upx;
+		border-radius: 50%;
+		background-color: #A1DEC5;
+	}
+	.circle2 {
+		width: 120upx;
+		height: 120upx;
+		border-radius: 50%;
+		background-color: #FFFFFF;
+		font-size: 22upx;
+		color: #A1DCC2;
+		image {
+			width: 52upx;
+		}
+	}
+	// 开关的圆
+	.switchCircleBox {
+		// margin: 170upx auto 0;
+		position: absolute;
+		width: 520upx;
+		height: 520upx;
+		border-radius: 50%;
+		left: 50%;
+		bottom: 0;
+		transform:translateX(-50%);
+		// transform:translate(50%,50%);
+		// left: 50%;
+		// top: 50%;
+		.switchCircle1 {
+			width: 520upx;
+			height: 520upx;
+			border-radius: 50%;
+			background: rgba(153, 220, 193, 1) none repeat scroll !important;/* rgba(0, 0, 0, 0.2) 前三个确定颜色，最后0.2确定透明度 */
+		}
+		.switchCircle2 {
+			width: 476upx;
+			height: 476upx;
+			border-radius: 50%;
+			background: rgba(172, 226, 204, 1) none repeat scroll !important;/* rgba(0, 0, 0, 0.2) 前三个确定颜色，最后0.2确定透明度 */
+		}
+		.switchCircle3 {
+			width: 435upx;
+			height: 435upx;
+			border-radius: 50%;
+			background: rgba(255, 255, 255, 1) none repeat scroll !important;/* rgba(0, 0, 0, 0.2) 前三个确定颜色，最后0.2确定透明度 */
+		}
+		.switchCircle4 {
+			width: 250upx;
+			height: 250upx;
+			border-radius: 50%;
+			background: rgba(229, 246, 239, 1) none repeat scroll !important;/* rgba(0, 0, 0, 0.2) 前三个确定颜色，最后0.2确定透明度 */
+		}
+		.switchCircle5 {
+			position: relative;
+			width: 205upx;
+			height: 205upx;
+			border-radius: 50%;
+			background: rgba(255, 255, 255, 1) none repeat scroll !important;/* rgba(0, 0, 0, 0.2) 前三个确定颜色，最后0.2确定透明度 */
+			.box {
+				display: flex;
+				flex-direction: column;
+				width: 80upx;
+				height: 140upx;
+				margin: 32upx auto 0;
+				// text-align: center;
+				color: #5CC69A;
+				image {
+					width: 80upx;
+				}
+			}
+			
+		}
+	}
+}
+.infoBox {
+	margin-bottom: 180upx;
+	.score {
+		height: 220upx;
+		// background-color: pink;
+		display: flex;
+		flex-wrap: nowrap;
+		align-items: center;
+		.left2 {
+			width: 222upx;
+			height: 222upx;
+			
+			// border-radius: 50%;
+		}
+		.left1 {
+			position: relative;
+			box-sizing: border-box;
+			width: 175upx;
+			height: 175upx;
+			background-color: #FFFFFF;
+			border-radius: 50%;
+			box-shadow:rgba(0,0,0,.3) 0px 0px 15px;
+			
+			.dataBox {
+				position: absolute;
+				height: 66upx;
+				.num {
+					font-size: 40upx;
+				}
+				.text {
+					font-size: 28upx;
+					margin-top: -14upx;
+				}
+			}
+			div {
+			    box-sizing: border-box;
+			  }
+			  .process-circle {
+			    margin: 0 auto;
+			    width: 145upx;
+			    height: 145upx;
+			    position: relative;
+					overflow: hidden;
+					// 旋转
+					// transform: rotate(-90deg);
+					// transform: rotateX(-1);
+					 // transform: translate3d(0deg,180deg,-90deg);
+					 // transform:translateY(180deg);
+			  }
+				/*水平翻转*/
+				.flipx {
+				    -moz-transform:scaleX(-1);
+				    -webkit-transform:scaleX(-1);
+				    -o-transform:scaleX(-1);
+				    transform:scaleX(-1);
+				    filter:FlipH();
+				}
+				/*垂直翻转*/
+				.flipy {
+				    -moz-transform:scaleY(-1);
+				    -webkit-transform:scaleY(-1);
+				    -o-transform:scaleY(-1);
+				    transform:scaleY(-1);
+				    filter:FlipV();
+				}
+				/*逆时针旋转90度*/
+				.rotate90 {
+				   -moz-transform: rotate(-90deg);
+				   -o-transform: rotate(-90deg);
+				   -webkit-transform: rotate(-90deg);
+				   transform: rotate(-90deg);
+					 filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+					 
+				}
+			  .process-circle::before {
+			    content: '';
+			    position: absolute;
+			    top: 0;
+			    left: 0;
+			    width: 100%;
+			    height: 100%;
+					
+			    // border: 20upx solid green;
+					// border: 10upx solid #EDF1F4;
+					border: 10upx solid #CCCCCC;
+					// border: 10upx solid red;
+			    border-radius: 50%;
+					
+			    box-sizing: border-box;
+			  }
+			  .left,
+			  .right {
+			    width: 50%;
+			    height: 100%;
+			    position: absolute;
+			    top: 0;
+			    overflow: hidden;
+			  }
+			  .left,
+			  .left-process {
+			    left: 0;
+			  }
+			  .right,
+			  .right-process {
+			    right: 0;
+			  }
+			  .left-process,
+			  .right-process {
+			    position: absolute;
+			    top: 0;
+			    border-radius: 50%;
+			    width: 200%;
+			    height: 100%;
+			    transform: rotateZ(135deg);
+			  }
+			  .right-process {
+			    border: 10upx solid transparent;
+			    border-right-color: red;
+			    border-bottom-color: red;
+					// border-right-color: #ccc;
+					// border-bottom-color: #ccc;
+			  }
+			  .left-process {
+			    border: 10upx solid transparent;
+			    border-left-color: red;
+			    border-top-color: red;
+					// border-left-color: #ccc;
+					// border-top-color: #ccc;
+			  }
+			
+		}
+		.right1 {
+			height: 220upx;
+			font-size: 28upx;
+			color: #FF4B4B;
+			// background-color: yellow;
+		}
+	}
+	.data {
+		display: flex;
+		justify-content: space-around;
+		height: 150upx;
+		.dataItem {
+			font-size: 28upx;
+			.text{
+				.co2{
+					font-size: 14upx;
+					vertical-align: super;
+				}
+			}
+			.number {
+				font-size: 48upx;
+				position: relative;
+				width: 80upx;
+				.unit {
+					position: absolute;
+					top: 0;
+					right: 0;
+					font-size: 24upx;
+				}
+			}
+			.percentage{
+				font-size: 24upx;
+			}
+			.rectangle {
+				width: 33upx;
+				height: 12upx;
+				background-color: #ff0000;
+				border-radius: 6upx;
+				&.red1 {
+					background-color: #FD3A3E;
+				}
+				&.green1 {
+					background-color: #79FEC5;
+				}
+				&.blue1 {
+					background-color: #49C3F6;
+				}
+				&.yellow1 {
+					background-color: #FFDE39;
+				}
+			}
+		}
+	}
+}
+//我的环形
+  // div {
+  //     box-sizing: border-box;
+  //   }
+  //   .process-circle {
+  //     margin: 50px auto;
+  //     width: 200px;
+  //     height: 200px;
+  //     position: relative;
+  //   }
+  //   .process-circle::before {
+  //     content: '';
+  //     position: absolute;
+  //     top: 0;
+  //     left: 0;
+  //     width: 100%;
+  //     height: 100%;
+  //     border: 20px solid green;
+		// 	// border: 20px solid #EDF1F4;
+  //     border-radius: 50%;
+  //     box-sizing: border-box;
+  //   }
+  //   .left,
+  //   .right {
+  //     width: 50%;
+  //     height: 100%;
+  //     position: absolute;
+  //     top: 0;
+  //     overflow: hidden;
+  //   }
+  //   .left,
+  //   .left-process {
+  //     left: 0;
+  //   }
+  //   .right,
+  //   .right-process {
+  //     right: 0;
+  //   }
+  //   .left-process,
+  //   .right-process {
+  //     position: absolute;
+  //     top: 0;
+  //     border-radius: 50%;
+  //     width: 200%;
+  //     height: 100%;
+  //     transform: rotateZ(135deg);
+  //   }
+  //   .right-process {
+  //     border: 20px solid transparent;
+  //     border-right-color: red;
+  //     border-bottom-color: red;
+  //   }
+  //   .left-process {
+  //     border: 20px solid transparent;
+  //     border-left-color: red;
+  //     border-top-color: red;
+  //   }
+
+// 我的环形
+
+// 非环型
+// #progress{
+//             width: 50%;
+//             height: 30px;
+//             border:1px solid #ccc;
+//             border-radius: 15px;
+//             margin: 50px 0 0 100px;
+//             overflow: hidden;
+//             box-shadow: 0 0 5px 0px #ddd inset;
+//         }
+//         #progress span {
+//             display: inline-block;
+//             width: 10%;
+//             height: 100%;
+//             background: #2989d8; /* Old browsers */
+//             // background: -moz-linear-gradient(45deg, #2989d8 33%, #7db9e8 34%, #7db9e8 59%, #2989d8 60%); /* FF3.6+ */
+//             // background: -webkit-gradient(linear, left bottom, right top, color-stop(33%,#2989d8), color-stop(34%,#7db9e8), color-stop(59%,#7db9e8), color-stop(60%,#2989d8)); /* Chrome,Safari4+ */
+//             // background: -webkit-linear-gradient(45deg, #2989d8 33%,#7db9e8 34%,#7db9e8 59%,#2989d8 60%); /* Chrome10+,Safari5.1+ */
+//             // background: -o-linear-gradient(45deg, #2989d8 33%,#7db9e8 34%,#7db9e8 59%,#2989d8 60%); /* Opera 11.10+ */
+//             // background: -ms-linear-gradient(45deg, #2989d8 33%,#7db9e8 34%,#7db9e8 59%,#2989d8 60%); /* IE10+ */
+//             // background: linear-gradient(45deg, #2989d8 33%,#7db9e8 34%,#7db9e8 59%,#2989d8 60%); /* W3C */
+//             // filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2989d8', endColorstr='#2989d8',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+//             background-size: 60px 30px;
+//             text-align: center;
+//             color:#fff;
+//             -webkit-animation:load 3s ease-in;
+//         }
+//         @-webkit-keyframes load{
+//             0%{
+//                 width: 0%;
+//             }
+//             100%{
+//                 width:100%;
+//             }
+//         }
+// // 环型
+// .circleProgress_wrapper{
+//             // width: 200px;
+//             // height: 200px;
+// 			width: 160px;
+// 			height: 160px;
+//             margin: 50px auto;
+//             position: relative;
+//             // border:1px solid #ddd;
+//         }
+
+//         .wrapper{
+//             // width: 100px;
+// 			// my
+// 			width: 80px;
+//             height: 200px;
+//             position: absolute;
+//             top:0;
+//             overflow: hidden;
+//         }
+//         .right{
+//             right:0;
+//         }
+//         .left{
+//             left:0;
+//         }
+//         .circleProgress{
+//             width: 160px;
+//             height: 160px;
+//             border:20px solid rgb(232, 232, 12);
+//             border-radius: 50%;
+//             position: absolute;
+//             top:0;
+//             // -webkit-transform: rotate(45deg);
+//         }
+//         .rightcircle{
+//             border-top:20px solid green;
+//             border-right:20px solid green;
+//             right:0;
+//             // -webkit-animation: circleProgressLoad_right 5s linear infinite;
+// 			// animation: circleProgressLoad_right 5s linear infinite;
+// 			// -webkit-animation: circleProgressLoad_right 5s linear;
+// 			transform: rotate(150deg);
+//         }
+//         .leftcircle{
+//             border-bottom:20px solid green;
+//             border-left:20px solid green;
+//             left:0;
+// 			transform: rotate(180deg);
+//             // -webkit-animation: circleProgressLoad_left 5s linear infinite;
+// 			// -webkit-animation: circleProgressLoad_left 5s linear;
+//         }
+//         @-webkit-keyframes circleProgressLoad_right{
+//             0%{
+//                 // border-top:20px solid #ED1A1A;
+//                 // border-right:20px solid #ED1A1A;
+//                 -webkit-transform: rotate(45deg);
+//             }
+//             50%{
+//                 // border-top:20px solid rgb(232, 232, 12);
+//                 // border-right:20px solid rgb(232, 232, 12);
+//                 // border-left:20px solid rgb(81, 197, 81);
+//                 // border-bottom:20px solid rgb(81, 197, 81);
+//                 -webkit-transform: rotate(225deg);
+//             }
+//             100%{
+//                 border-left:20px solid green;
+//                 border-bottom:20px solid green;
+//                 -webkit-transform: rotate(225deg);
+//             }
+//         }
+//         @-webkit-keyframes circleProgressLoad_left{
+//             0%{
+//                 // border-bottom:20px solid #ED1A1A;
+//                 // border-left:20px solid #ED1A1A;
+//                 -webkit-transform: rotate(45deg);
+//             }
+//             50%{
+//                 // border-bottom:20px solid rgb(232, 232, 12);
+//                 // border-left:20px solid rgb(232, 232, 12);
+//                 // border-top:20px solid rgb(81, 197, 81);
+//                 // border-right:20px solid rgb(81, 197, 81);
+//                 -webkit-transform: rotate(45deg);
+//             }
+//             100%{
+//                 border-top:20px solid green;
+//                 border-right:20px solid green;
+//                 border-bottom:20px solid green;
+//                 border-left:20px solid green;
+//                 -webkit-transform: rotate(225deg);
+//             }
+//         }

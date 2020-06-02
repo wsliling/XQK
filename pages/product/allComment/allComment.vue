@@ -51,6 +51,7 @@
 <script>
 	import notData from "@/components/notData"; //没有数据的通用提示
 	import commentItem from './commentItem.vue';
+	import { post } from '@/utils';
 	export default {
 		components:{commentItem,notData,},
 		data() {
@@ -58,10 +59,16 @@
 			}
 		},
 		onLoad() {
+			this.getOrderCommentList()
 		},
 		methods: {
+			async getOrderCommentList () {
+				let res = await post('Order/OrderCommentList',{Type:0,ProId:492})
+				console.log(res)
+			},
 		},
 		onReachBottom(){
+			console.log("触底了")
 		},
 		onPullDownRefresh(){
 			uni.stopPullDownRefresh()
