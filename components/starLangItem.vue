@@ -3,10 +3,10 @@
 		<view class="itembox">
 			<view class="imgbox">
 				<view class="like flex-center">
-					<view class="iconfont icon-aixin bg">
-						<view class="iconfont icon-aixin" :class="{ active:item.CollectionId }"></view>
+					<view class="iconfont bg" :class="details.CollectionId?'icon-aixin':'icon-aixin2'">
+						<view class="iconfont" :class="details.CollectionId?'icon-aixin':'icon-aixin2'"></view>
 					</view>
-					<text class="num">{{ item.CollectNum }}</text>
+					<text class="num" :class="{active : details.CollectionId }">{{ item.CollectNum }}</text>
 				</view>
 				<image :src="item.PicImg" mode="aspectFill" class="pic"></image>
 			</view>
@@ -20,9 +20,9 @@
 						<image :src="item.Avatar" mode="aspectFill"></image>
 						<text class="author uni-ellipsis">{{ item.NickName }}</text>
 					</view>
-					<view class="zan flex-center" :class="{ active: item.isLike }">
-						<text class="iconfont icon-zan1"></text>
-						<text class="num">{{ item.LikeNum }}</text>
+					<view class="zan flex-center" :class="{ active: item.IsLike }">
+						<text class="iconfont icon-zan" :class="{'icon-zan': item.IsLike }"></text>
+						<text class="num" :class="{ active: item.IsLike }">{{ item.LikeNum }}</text>
 					</view>
 				</view>
 			</view>
@@ -90,7 +90,13 @@
 						color: #ff6766;
 					}
 				}
-				.num{ color: #fff; margin-left: 10upx;}
+				.num{ 
+						color: #ccc; 
+						margin-left: 10upx;
+						&.active{
+						color: #ff6766;
+					}
+				}
 			}
 			.pic{
 				height:440upx;
@@ -119,6 +125,9 @@
 			}
 			.zan.active{
 				color: $primary;
+				.num.active{
+					color: $primary;
+				}
 				.iconfont.active{
 					color: $primary;
 				}

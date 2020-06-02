@@ -71,7 +71,13 @@
 						color: #ff6766;
 					}
 				}
-				.num{ color: #fff; margin-left: 10upx;}
+				.num{ 
+					color: #999; 
+					margin-left: 10upx;
+					&.active{
+						color: #ff6766;
+					}
+				}
 			}
 		}
 		.txtbox{

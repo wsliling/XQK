@@ -2,7 +2,8 @@
 	<!-- 发布 -->
 	<div>
 		<view class="feed">
-			<view class="feed-name">添加标题</view>
+			<!-- <view class="feed-name">添加标题</view> -->
+			<input type="text" v-model="title" placeholder="添加标题"/>
 			<textarea
 				name=""
 				id=""
