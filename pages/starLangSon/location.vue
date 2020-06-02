@@ -5,25 +5,25 @@
 			<input type="text" value="" placeholder="搜索附近的位置"/>
 		</view>
 		<view class="mark">
-			<image src="../../static/icons/no-location.png" mode=""></image>
+			<image src="http://xqk.wtvxin.com/images/wxapp/icons/no-location.png" mode=""></image>
 			<view class="">不显示位置</view>
 		</view>
 		<view class="mark">
-			<image class="mark-img" src="../../static/icons/location.png" mode=""></image>
+			<image class="mark-img" src="http://xqk.wtvxin.com/images/wxapp/icons/location.png" mode=""></image>
 			<view class="">
 				<view class="">深圳市</view>
 				<view class="address">广东省深圳市福田区福中三路市民中心A区</view>
 			</view>
 		</view>
 		<view class="mark">
-			<image class="mark-img" src="../../static/icons/no-location.png" mode=""></image>
+			<image class="mark-img" src="http://xqk.wtvxin.com/images/wxapp/icons/no-location.png" mode=""></image>
 			<view class="">
 				<view class="">展滔科技大厦</view>
 				<view class="address">广东省深圳市龙华区民治大道1079号A区</view>
 			</view>
 		</view>
 		<view class="mark">
-			<image class="mark-img" src="../../static/icons/location.png" mode=""></image>
+			<image class="mark-img" src="http://xqk.wtvxin.com/images/wxapp/icons/location.png" mode=""></image>
 			<view class="">
 				<view class="">998美食园</view>
 				<view class="address">广东省深圳市福田区福中三路市民中心A区</view>

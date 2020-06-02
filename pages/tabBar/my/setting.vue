@@ -4,19 +4,19 @@
 		<view class="gethelp">
 			<view class="gethelp-flex" @click="tolick('/pages/tabBar/my/account')">
 				<view class="">账号管理</view>
-				<image  src="../../../static/icons/arrow.png" mode=""></image>
+				<image  src="http://xqk.wtvxin.com/images/wxapp/icons/arrow.png" mode=""></image>
 			</view>
 			<view class="gethelp-flex" @click="tolick('/pages/tabBar/my/termsservice?type=0')">
 				<view class="">服务条款</view>
-				<image  src="../../../static/icons/arrow.png" mode=""></image>
+				<image  src="http://xqk.wtvxin.com/images/wxapp/icons/arrow.png" mode=""></image>
 			</view>
 			<view class="gethelp-flex" @click="tolick('/pages/tabBar/my/termsservice?type=1')">
 				<view class="">营业执照</view>
-				<image  src="../../../static/icons/arrow.png" mode=""></image>
+				<image  src="http://xqk.wtvxin.com/images/wxapp/icons/arrow.png" mode=""></image>
 			</view>
 			<view class="gethelp-flex">
 				<view class="">监督我们</view>
-				<image  src="../../../static/icons/arrow.png" mode=""></image>
+				<image  src="http://xqk.wtvxin.com/images/wxapp/icons/arrow.png" mode=""></image>
 			</view>
 		</view>
 		<view class="settingfz">

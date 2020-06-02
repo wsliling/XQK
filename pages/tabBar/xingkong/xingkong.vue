@@ -19,17 +19,17 @@
 			<view class="top">
 				<view class="left">
 					<view class="lock">
-						<image src="/static/xingkong-icon/lock.png" mode="widthFix"></image>
+						<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/lock.png" mode="widthFix"></image>
 					</view>
 					<view>已办理入住</view>
 				</view>
 				<view class="right">
 					<view class="icon">
-						<image src="/static/xingkong-icon/question.png" mode="widthFix"></image>
+						<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/question.png" mode="widthFix"></image>
 					</view>
 					<view>使用说明</view>
 				<view class="icon">
-					<image src="/static/xingkong-icon/camera.png" mode="widthFix"></image>
+					<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/camera.png" mode="widthFix"></image>
 				</view>
 				<view>景区摄像头</view>
 				</view>
@@ -42,7 +42,7 @@
 					<view class="repairs">
 						<view class="circle1 juzhong">
 							<view class="circle2 juzhong">
-								<image src="/static/xingkong-icon/yijianbaoxiu.png" mode="widthFix"></image>
+								<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/yijianbaoxiu.png" mode="widthFix"></image>
 								<view class="">
 									一键报修
 								</view>
@@ -53,7 +53,7 @@
 					<view class="check-out">
 						<view class="circle1 juzhong">
 							<view class="circle2 juzhong">
-								<image src="/static/xingkong-icon/yijianbaoxiu.png" mode="widthFix"></image>
+								<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/yijianbaoxiu.png" mode="widthFix"></image>
 								<view class="">
 									一键退房
 								</view>
@@ -64,7 +64,7 @@
 					<view class="sweep">
 						<view class="circle1 juzhong">
 							<view class="circle2 juzhong">
-								<image src="/static/xingkong-icon/yijianbaoxiu.png" mode="widthFix"></image>
+								<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/yijianbaoxiu.png" mode="widthFix"></image>
 								<view class="">
 									一键打扫
 								</view>
@@ -80,7 +80,7 @@
 								<view class="switchCircle4 juzhong">
 									<view class="switchCircle5">
 										<view class="box juzhong">
-											<image src="/static/xingkong-icon/switch.png" mode="widthFix"></image>
+											<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/switch.png" mode="widthFix"></image>
 											<view class="">
 												开门
 											</view>

@@ -6,7 +6,7 @@
 			<view class="bb_line" :style="'left:' + tabStyle + 'rpx'"></view>
 		</view>
 		<view class="list" style="padding-top: 80upx;" >
-			<view class="order_item" @click.stop="goUrl('/pages/tabBar/order/orderdetails')" v-for="(val, key) in orderList" :key="key">
+			<view class="order_item" @click.stop="goUrl('/pages/tabBar/order/orderdetails?OrderNumber='+ val.OrderNumber)" v-for="(val, key) in orderList" :key="key">
 				<view class="flex-between">
 					<view class="txtbox">
 						<view class="name">{{val.ShopName}}</view>
@@ -28,7 +28,7 @@
 					IsCancel,//取消订单 1-显示  -->
 				<view class="btns flex" v-for="(items, key2) in val.OrderDetails" :key="key2">
 					<view class="btn" v-if="val.IsRefund === 1" @click="goUrl('/pages/tabBar/order/cancel?OrderNumber='+ val.OrderNumber + '&UnitPrice=' + items.UnitPrice + '&ActualPay=' + items.ActualPay + '&Total=' + val.Total )">取消预订</view>
-					<view class="btn btn_fill" v-if="val.IsComment === 1" @click="goUrl('/pages/tabBar/order/comment')">去评价</view>
+					<view class="btn btn_fill" v-if="val.IsComment === 1" @click.stop="goUrl('/pages/tabBar/order/comment')">去评价</view>
 					<view class="btn btn_fill" v-if="val.Ispay === 1" @click.stop="goUrl('/pages/tabBar/order/pay')">立即支付</view>
 					<view class="btn" v-if="val.IsDel === 1" @click.stop="getdelorderList(val.OrderNumber)">删除订单</view>
 					<view class="btn" v-if="val.IsCancel === 1" @click.stop="tiedphone(val.OrderNumber)">取消订单</view>
@@ -44,7 +44,7 @@
 							<text class="price">￥198.0</text>
 						</view>
 					</view>
-					<view class="imgbox"><image src="/static/of/p3.jpg" mode="aspectFill"></image></view>
+					<view class="imgbox"><image src="http://xqk.wtvxin.com/images/wxapp/of/p3.jpg" mode="aspectFill"></image></view>
 				</view>
 				<view class="btns flex" @click="goUrl('/pages/tabBar/order/cancel')"><view class="btn">取消预订</view></view>
 			</view>
@@ -58,7 +58,7 @@
 							<text class="price">￥198.0</text>
 						</view>
 					</view>
-					<view class="imgbox"><image src="/static/of/p3.jpg" mode="aspectFill"></image></view>
+					<view class="imgbox"><image src="http://xqk.wtvxin.com/images/wxapp/of/p3.jpg" mode="aspectFill"></image></view>
 				</view>
 				<view class="btns flex" @click="goUrl('/pages/tabBar/order/schedule')"><view class="btn">查看退款进度</view></view>
 			</view>
@@ -72,7 +72,7 @@
 							<text class="price">￥198.0</text>
 						</view>
 					</view>
-					<view class="imgbox"><image src="/static/of/p3.jpg" mode="aspectFill"></image></view>
+					<view class="imgbox"><image src="http://xqk.wtvxin.com/images/wxapp/of/p3.jpg" mode="aspectFill"></image></view>
 				</view>
 				<view class="btns flex"><view class="btn">删除订单</view></view>
 			</view>
@@ -86,7 +86,7 @@
 							<text class="price">￥198.0</text>
 						</view>
 					</view>
-					<view class="imgbox"><image src="/static/of/p3.jpg" mode="aspectFill"></image></view>
+					<view class="imgbox"><image src="http://xqk.wtvxin.com/images/wxapp/of/p3.jpg" mode="aspectFill"></image></view>
 				</view>
 				<view class="btns flex" @click="goUrl('/pages/tabBar/order/comment')"><view class="btn btn_fill">去评价</view></view>
 			</view> -->
@@ -103,7 +103,6 @@
 					<view class="cancel" @click="close()">取消</view>
 					<view class="affirm" @click="close()">确认</view>
 				</view>
-				
 			</view>
 		</uni-popup>
 	</view>
@@ -155,6 +154,7 @@ export default {
 		},
 		cliTab(index) {
 			this.orderList =[];
+			this.Page = 1
 			this.tabIndex = index;
 			this.Status = index;
 			this.getorderList()
@@ -208,13 +208,10 @@ export default {
 						title: res.msg,
 						icon: 'none',
 						duration: 1500,
-						success() {
-							this.getorderList()
-							this.$nextTick(function() {
-							 	this.orderList.splice(index, 1);
-							});
-						}
 					});
+					setTimeout( val =>{
+						this.getorderList()
+					},1000)
 				}
 			})
 		},
@@ -235,13 +232,10 @@ export default {
 						title: res.msg,
 						icon: 'none',
 						duration: 1500,
-						success() {
-							this.getorderList()
-							this.$nextTick(function() {
-							 	this.orderList.splice(index, 1);
-							});
-						}
 					});
+					setTimeout( val =>{
+						this.getorderList()
+					},1000)
 				}
 			})
 		},

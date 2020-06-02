@@ -4,6 +4,7 @@
 			<div class="avatar">
 				<!-- <img src="/static/of/banner.jpg" alt=""> -->
 				<image :src="item.MemberHead" mode=""></image>
+
 			</div>
 			<div class="center">
 				<div class="name ">

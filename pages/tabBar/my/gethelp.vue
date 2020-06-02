@@ -4,7 +4,7 @@
 		<view class="gethelp">
 			<view class="gethelp-flex" v-for="(val,key) in classList" :key='key' @click="tolick('/pages/tabBar/my/bookinghelp?Id=' + val.Id)">
 				<view class="">{{val.Name}}</view>
-				<image  src="../../../static/icons/arrow.png" mode=""></image>
+				<image  src="http://xqk.wtvxin.com/images/wxapp/icons/arrow.png" mode=""></image>
 			</view>
 		</view>
 		<view class="gh_flex">

@@ -236,7 +236,7 @@
 					}
 				}else {
 					let res = await post('User/ReCollections',{UserId:this.userId,Token:this.token,Type:5,Id:this.Id})
-					console.log('取消收藏：',res)
+					// console.log('取消收藏：',res)
 					if(res.code === 0){
 						this.detail.CollectionId = 0
 						this.detail.CollectNum--

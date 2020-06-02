@@ -20,7 +20,7 @@
 								</view>
 								<view class="flex-center-between">
 									<view class="tx flex-center">
-										<image src="/static/logo.png" mode="aspectFill"></image>
+										<image src="http://xqk.wtvxin.com/images/wxapp/logo.png" mode="aspectFill"></image>
 										<text class="author uni-ellipsis">小星君</text>
 									</view>
 									<view class="zan flex-center active">
@@ -52,7 +52,7 @@
 								</view>
 								<view class="flex-center-between">
 									<view class="tx flex-center">
-										<image src="/static/logo.png" mode="aspectFill"></image>
+										<image src="http://xqk.wtvxin.com/images/wxapp/logo.png" mode="aspectFill"></image>
 										<text class="author uni-ellipsis">小星君</text>
 									</view>
 									<view class="zan flex-center">

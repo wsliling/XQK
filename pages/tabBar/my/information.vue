@@ -9,15 +9,15 @@
 							<text class="name">{{val.FullName}}</text>
 						</view>
 						<view class="info">
-							<image class="imgphone" src="../../../static/icons/phone.png" mode=""></image>
+							<image class="imgphone" src="http://xqk.wtvxin.com/images/wxapp/icons/phone.png" mode=""></image>
 							<view class="type" >{{val.Mobile}}</view>
 						</view>
 						<view class="info">
-							<image class="imginfo" src="../../../static/icons/info1.png" mode=""></image>
+							<image class="imginfo" src="http://xqk.wtvxin.com/images/wxapp/icons/info1.png" mode=""></image>
 							<view class="type iconfont icon-shenfenxinxi">{{val.Idcard}}</view>
 						</view>
 						<view class="info">
-							<image class="imgyouxiang" src="../../../static/icons/youxiang.png" mode=""></image>
+							<image class="imgyouxiang" src="http://xqk.wtvxin.com/images/wxapp/icons/youxiang.png" mode=""></image>
 							<view class="type iconfont icon-youxiang">{{val.Email}}</view>
 						</view>
 					</view>

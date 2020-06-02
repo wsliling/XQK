@@ -29,7 +29,7 @@
 				<view>所在位置</view>
 				<view class="place">
 					<view class="">展滔科技大厦</view>
-					<img src="/static/icons/arrow.png" alt="" />
+					<img src="http://xqk.wtvxin.com/images/wxapp/icons/arrow.png" alt="" />
 				</view>
 			</view>
 			<view class="myrelease">
@@ -38,7 +38,7 @@
 					<view class="addition" @click="tolick('/pages/starLangSon/relevance')">添加</view>
 				</view>
 				<view class="collect-box">
-					<view class="collect-left"><image src="/static/of/p1.jpg" mode=""></image></view>
+					<view class="collect-left"><image src="http://xqk.wtvxin.com/images/wxapp/of/p1.jpg" mode=""></image></view>
 					<view class="collect-right">
 						<view class="name">广州.从化温泉明月山溪</view>
 						<view class="point">

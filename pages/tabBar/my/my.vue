@@ -2,28 +2,28 @@
 	<!-- 我的 -->
 	<view class="myPage uni-bg-white">
 		<view class="pd15">
-			<view @click="navigate('tabBar/my/setting')">
+			<view>
 				<view class="myset">
-					<view class="hint iconfont icon-xiaoxi"> <span>2</span></view>
-					<view class="set iconfont icon-shezhi"></view>
+					<view class="hint iconfont icon-xiaoxi"  @click="navigate('message/messageClass')"> <span v-if="info.NewsRedDot"></span></view>
+					<view class="set iconfont icon-shezhi" @click="navigate('tabBar/my/setting')"><span v-if="info.SetRedDot"></span></view>
 				</view>
 				
 			</view>
 			<view class="memberTop">
 				<view class="info" @click="tiedphone()">
-					<view class="name uni-ellipsis">心善若水</view>
+					<view class="name uni-ellipsis">{{info.NickName}}</view>
 					<view class="c_theme">查看并编辑个人资料</view>
 					<view class="datanum flex-start">
 						<view class="flex-start">
-							关注<text class="num">90</text>
+							关注<text class="num">{{info.Follow}}</text>
 						</view>
 						<view class="flex-start">
-							粉丝<text class="num">490</text>
+							粉丝<text class="num">{{info.Fans}}</text>
 						</view>
 					</view>
 				</view>
 				<view class="tx">
-					<image src="/static/default.png" mode="widthFix"></image>
+					<image :src="info.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="widthFix"></image>
 				</view>
 			</view>
 			<!-- 消息中心 -->
@@ -71,7 +71,7 @@
 							<view class="txt">我的关注</view>
 						</view>
 						<view class="item" @click="navigate('tabBar/my/seereply')">
-							<view class="iconImg">
+							<view class="iconImg" :class="{'dot':info.ReplyRedDot}">
 								<view class="iconfont icon-pinglun1"></view>
 							</view>
 							<view class="txt">查看回复</view>
@@ -85,7 +85,7 @@
 				<view class="section_bd">
 					<view class="li_33">
 						<view class="item" @click="navigate('tabBar/my/coupon')">
-							<view class="iconImg">
+							<view class="iconImg" :class="{'dot':info.CouponNum}">
 								<view class="iconfont icon-youhuiquan"></view>
 							</view>
 							<view class="txt">优惠券</view>
@@ -98,19 +98,19 @@
 				
 						</view>
 						<view class="item" @click="navigate('tabBar/my/myAppraise')">
-							<view class="iconImg">
+							<view class="iconImg" :class="{'dot':info.num_dpj}">
 								<view class="iconfont icon-bianji"></view>
 							</view>
 							<view class="txt">我要评价</view>
 						</view>
 						<view class="item" @click="navigate('tabBar/my/information')">
 							<view class="iconImg">
-								<image class="myimg" src="../../../static/icons/info.png" mode=""></image>
+								<image class="myimg" src="http://xqk.wtvxin.com/images/wxapp/icons/info.png" mode=""></image>
 							</view>
 							<view class="txt">常用信息</view>
 						</view>
 						<view class="item" @click="navigate('tabBar/my/gethelp')">
-							<view class="iconImg">
+							<view class="iconImg" :class="{'dot':info.HelpRedDot}">
 								<view class="iconfont icon-help"></view>
 							</view>
 							<view class="txt">获取帮助</view>
@@ -122,7 +122,7 @@
 							<view class="txt">意见反馈</view>
 						</view>
 						<view class="item" @click="navigate('tabBar/my/security')">
-							<view class="iconImg">
+							<view class="iconImg" :class="{'dot':info.SafeRedDot}">
 								<view class="iconfont icon-anquan1"></view>
 							</view>
 							<view class="txt">安全中心</view>
@@ -143,24 +143,24 @@
 		<view style="height: 120upx;"></view>
 		<tabbar :current="4"></tabbar>
 		<!-- 绑定手机号弹框 -->
-		<uni-popup type="center" ref="tiedphone">
+		<!-- <uni-popup type="center" ref="tiedphone">
 			<view class="phonebox">
 				<view class="binding">绑定手机号</view>
 				<view class="close" @click="close()">x</view>
 				<view class="cell-phone">
-					<image src="../../../static/icons/phones.png" mode=""></image>
+					<image src="http://xqk.wtvxin.com/images/wxapp/icons/phones.png" mode=""></image>
 					<input type="text" value="" placeholder="请绑定您的手机号码"/>
 				</view>
 				<view class="security">
 					<view class="verification">
-						<image src="../../../static/icons/code.png" mode=""></image>
+						<image src="http://xqk.wtvxin.com/images/wxapp/icons/code.png" mode=""></image>
 						<input type="text" value="" placeholder="请输入手机验证码"/>
 					</view>
 					<view class="getcode">获取验证码</view>
 				</view>
 				<view class="confirm">确定</view>
 			</view>
-		</uni-popup>
+		</uni-popup> -->
 	</view>
 </template>
 
@@ -175,7 +175,10 @@
 		},
 		data() {
 			return {
-				navigate
+				navigate,
+				userId:'',
+				token:'',
+				info:{},
 			}
 		},
 		onLoad(){
@@ -183,7 +186,9 @@
 		},
 		onShow(){
 			if(!judgeLogin())return;
-			console.log('login')
+			this.userId = uni.getStorageSync('userId');
+			this.token = uni.getStorageSync('token');
+			this.getUserInfo();
 		},
 		methods: {
 			tiedphone(){
@@ -192,6 +197,13 @@
 			close(){
 				this.$refs.tiedphone.close()
 			},
+			async getUserInfo(){
+				const res = await post('User/GetCenterInfo',{
+					UserId:this.userId,
+					Token:this.token,
+				})
+				this.info = res.data;
+			}
 		}
 	}
 </script>
