@@ -18,8 +18,6 @@
 							:class="{
 								range_space: x.isRangeStyle,
 								choosed: (x.isChoosed || x.isRangeStart || x.isRangeEnd)  && !x.isSpace,
-								start: x.isRangeStart && !x.isChoosed && !isDisabledBtn,
-								end: x.isRangeEnd,
 								disabled: x.isDisadled,
 								weekend: x.isWeekend && !x.isDisadled
 							}"
@@ -44,9 +42,8 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex"; //vuex辅助函数
 export default {
-	props: ['option'], //配置参数
+	props: ['option','goodsDateTime'], //配置参数
 	data() {
 		return {
 			weekData: ['日', '一', '二', '三', '四', '五', '六'],
@@ -71,15 +68,10 @@ export default {
 		isShow(n) {
 			if (n) {
 				this.dateFirstInit();
-				console.log("我是初始化this.goodsDateTime:",this.$store.state.goodsDateTime)
-				
 			}
 		}
 	},
 	computed: {
-		isAllow (x) {
-			console.log("我是x:", x)
-		},
 		currentDateNum() {
 			//当前起始日期与结束日期之间的天数
 			return this.dateSpace(this.currentRangeStartDate, this.currentRangeEndDate);
@@ -317,8 +309,7 @@ export default {
 		totalDateInit() {
 			let _dateArr = [];
 			let _initStartDate = this.option.initStartDate ? this.option.initStartDate : this.getNextDate(0);
-			// let _initEndDate = this.option.initEndDate ? this.option.initEndDate : this.getNextMonth(4);
-			 let _initEndDate = this.option.initEndDate ? this.option.initEndDate : this.getNextMonth(2);
+			let _initEndDate = this.option.initEndDate ? this.option.initEndDate : this.getNextMonth(4);
 			const _dateNum = this.getMonthBetween(_initStartDate, _initEndDate);
 			const _arrStart = _initStartDate.split('-');
 			const _arrEnd = _initEndDate.split('-');
@@ -351,7 +342,7 @@ export default {
 				_obj['info'] = [];
 				this.totalDate.push(_obj);
 			}
-			console.log('totalDate1',this.totalDate)
+			console.log('渲染前的日历数组',this.totalDate)
 			this.totalDate.forEach((x, y) => {
 				const _arr = _dateArr[y].split('-');
 				const _endDate = _arr[2] - 0;
@@ -367,7 +358,10 @@ export default {
 						isRangeEnd: false,
 						currentRangeStartDate: '',
 						currentRangeEndDate: '',
-						isRangeStyle: false
+						isRangeStyle: false,
+						Stock:0,//库存
+						Price:0,//价格
+						status:false,//可选状态
 					};
 					// 处理今天明天后天
 					if (this.getNextDate(0) == _obj.date) {
@@ -392,7 +386,15 @@ export default {
 							_obj.isDisadled = true;
 						}
 					}
-
+					this.goodsDateTime.map(good=>{
+						if(good.DayTime===_obj.date){
+							_obj.date.Price = good.DayTime.Price;
+							_obj.date.Stock = good.DayTime.Stock;
+							if(good.DayTime.Stock){
+								_obj.date.status = true;
+							}
+						}
+					})
 					x['info'].push(_obj);
 				}
 				// 处理星期
@@ -401,6 +403,8 @@ export default {
 					x['info'].unshift({ date: '', date: _dateArr[y], isSpace: true });
 				}
 			});
+			
+			console.log('渲染后的日历数组',this.totalDate)
 		},
 		dateSpace(sDate1, sDate2) {
 			//sDate1和sDate2是2006-12-18格式 得出量日期之间的天数
@@ -500,7 +504,6 @@ export default {
 				padding: 0 25rpx;
 				display: flex;
 				flex-wrap: wrap;
-				font-weight: 600;
 				> view {
 					width: 100rpx;
 					height: 100rpx;
@@ -528,23 +531,13 @@ export default {
 					}
 					&.choosed {
 						background-color: $primary;
-						border-radius: 60rpx;
-						&.start{
-							border-radius: 60rpx 0 0 60rpx;
-						}
-						&.end{
-							border-radius: 0 60rpx 60rpx 0 ;
-						}
+						border-radius: 10rpx;
 						> view {
-							&:nth-child(2) {
-								line-height: 28rpx;
-							}
 							color: #fff;
-							font-size: 28rpx;
+							font-size: 22rpx;
 							height: 50rpx;
 							line-height: 50rpx;
 							&.num {
-								font-size: 22rpx;
 								position: absolute;
 								width: 80rpx;
 								text-align: center;
@@ -556,18 +549,15 @@ export default {
 						}
 					}
 					&.range_space {
-						// background: rgba($primary, 0.2);
-						background: rgba($primary, .2);
+						background: rgba($primary, 0.2);
 						> view {
-							// color: #333;
-							// color: $primary;
-							color: #ccc;
+							color: #333;
 						}
 					}
 				}
 			}
 			> .title {
-				font-size: 40rpx;
+				font-size: 30rpx;
 				color: #000;
 				height: 80rpx;
 				display: flex;
@@ -583,8 +573,6 @@ export default {
 		display: flex;
 		align-items: center;
 		border-bottom: 1rpx solid #ccc;
-		border-color: rgba(204,204,204, .5);
-		 // box-shadow: 0rpx 1rpx 0rpx 0rpx #ccc;
 		> view {
 			width: 100rpx;
 			text-align: center;
