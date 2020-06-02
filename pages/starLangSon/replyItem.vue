@@ -16,7 +16,7 @@
 		</div>
 		<div class="zan" @click="toZan(item.Id)" :class='{active : item.IsLike}'>
 			<div class="collect flex-center" :class='{active : item.IsLike}'>
-				<div class="iconfont icon-zan1" :class='{active : item.IsLike}'></div>
+				<div class="iconfont icon-zan" :class='{"icon-zan1" : item.IsLike,"active" : item.IsLike}'></div>
 				{{ item.LikeNum }}
 			</div>
 		</div>

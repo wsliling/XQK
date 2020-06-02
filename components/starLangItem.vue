@@ -8,9 +8,7 @@
 					</view>
 					<text class="num">{{ item.CollectNum }}</text>
 				</view>
-
 				<image :src="item.PicImg" mode="aspectFill" class="pic"></image>
-
 			</view>
 			<view class="txtbox">
 				<view class="title uni-ellipsis2 uni-mb5">

@@ -55,6 +55,12 @@
 					});
 					// 清空输入框
 					this.Comment = ""
+					// 如果评论成功需要再次请求评论列表
+					// 需要重置Page并且清空列表
+					this.Page = 1
+					this.CommnetList = []
+					this.getCommnetList(this.Id)
+					console.log('66666',this.CommnetList)
 				}
 			},
 			// 提交评论
@@ -66,6 +72,7 @@
 					});
 				}
 				this.toComment(Id)
+				
 			},
 			replyInput(e){
 				// console.log('输入中，',e)
