@@ -17,8 +17,8 @@
 								<view class="name">{{val.ProductName}}</view>
 								<view class="num">￥{{val.UnitPrice}}</view>
 							</view>
-							<view class="point">
-								<view class="pointkey">{{val.ServiceKeys}}</view>
+							<view class="point" >
+								<view class="pointkey" v-for="item in ServiceKeys">{{item}}</view>
 							</view>
 							<view class="font">
 								<view class="iconfont icon-collect"></view>
@@ -59,23 +59,23 @@
 		<view class="place mb60">
 			<view class="placeflex">
 				<view class="">总金额：</view>
-				<view class="">¥288.00</view>
+				<view class="">¥{{orderList.TotalAmount}}</view>
 			</view>
-			<view class="placeflex">
+			<view class="placeflex" v-if="false">
 				<view class="">清洁费：</view>
 				<view class="">¥0.00</view>
 			</view>
-			<view class="placeflex">
+			<view class="placeflex" v-if="false">
 				<view class="">服务费：</view>
 				<view class="">¥0.00</view>
 			</view>
 			<view class="placeflex">
 				<view class="">优惠券：</view>
-				<view class="">-¥0.00</view>
+				<view class="">-¥{{orderList.YhPrice}}</view>
 			</view>
 			<view class="placeflex red">
 				<view class="">实付金额：</view>
-				<view class="">¥288.00</view>
+				<view class="">¥{{orderList.Total}}</view>
 			</view>
 		</view>
 		<!-- IsRefund,//按钮退款-取消预订 1-显示
@@ -86,30 +86,18 @@
 			IsCancel,//取消订单 1-显示  -->
 		<view class="bottom">
 			<view class="bottomfff" v-if="orderList.IsRefund ===1" @click="goUrl(orderList.Total)">取消预订</view>
-			<view class="bottomfff" v-if="orderList.IsCancel ===1" @click="tiedphone()">取消订单</view>
-			<view class="bottomfff" v-if="orderList.IsDel ===1" @click="getdelorderList()">删除订单</view>
-			<view class="bottomblue" v-if="orderList.Ispay ===1">立即支付</view>
+			<view class="bottomfff" v-if="orderList.IsCancel ===1" @click="chooseOrders(1)">取消订单</view>
+			<view class="bottomfff" v-if="orderList.IsDel ===1" @click="chooseOrders(2)">删除订单</view>
+			<view class="bottomblue" v-if="orderList.Ispay ===1" @click="ConfirmWeiXinSmallPay()">立即支付</view>
 			<view class="bottomblue" v-if="orderList.IsComment === 1" @click.stop="goUrl()">去评价</view>
 			<!-- <view class="bottomfff" v-if="orderList. ===1">查看退款进度</view> -->
 			<!-- <view class="bottomblue" v-if="orderList. ===1">重新预订</view> -->
 		</view>
-		<!-- 取消定单弹框 -->
-		<uni-popup type="center" ref="tiedphone">
-			<view class="phonebox">
-				<view class="callorder">您确定要取消定单吗？</view>
-				<view class="boxflex">
-					<view class="cancel" @click="close()">取消</view>
-					<view class="affirm" @click="close()">确认</view>
-				</view>
-			</view>
-		</uni-popup>
-		
 	</view>
 </template>
 
 <script>
-	import { post, navigateBack } from '@/utils'
-	import popup from '@/components/uni-popup/uni-popup.vue'
+	import { post, navigateBack, redirect } from '@/utils'
 	export default {
 		data(){
 			return{
@@ -119,6 +107,7 @@
 				orderList: {},
 				UnitPrice:'',
 				ActualPay:'',
+				ServiceKeys:[],
 			}
 		},
 		onLoad(e) {
@@ -153,48 +142,75 @@
 						res.data.OrderDetails.forEach( val =>{
 							this.UnitPrice = val.UnitPrice
 							this.ActualPay= val.ActualPay
+							this.ServiceKeys = val.ServiceKeys.split(",")
+							console.log(this.ServiceKeys,'this.ServiceKeys')
 						})
 					}
 				})
 			},
-			// 取消订单
-			tiedphone(){
-				this.$refs.tiedphone.open()
-				post('Order/CancelOrders',{
-					UserId:this.userId,
-					Token:this.token,
-					OrderNo:this.OrderNumber, //订单号
-				}).then( res=> {
-					console.log(res,'取消订单')
-					if(res.code === 0){
-						uni.showToast({
-							title: res.msg,
-							icon: 'none',
-							duration: 1500,
-						});
-						navigateBack()
+			// //确认取消
+			chooseOrders(type) {
+				let _this = this;
+				if (type == 1) {
+					var content = '您确定要取消此订单吗？';
+					var url = 'Order/CancelOrders';
+				} else if (type == 2) {
+					var content = '您确定要删除此订单吗？';
+					var url = 'Order/DeleteOrders';
+				}
+				uni.showModal({
+					title: content,
+					cancelText: '取消',
+					// content: content,
+					cancelColor: '#999',
+					confirmColor: '#5cc69a',
+					success(res) {
+						if (res.confirm) {
+							post(url, {
+								UserId: uni.getStorageSync('userId'),
+								Token: uni.getStorageSync('token'),
+								OrderNo: _this.OrderNumber
+							}).then(res => {
+								uni.showToast({
+									title: res.msg,
+									icon: 'none',
+								});
+								navigateBack()
+							});
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+						}
 					}
-				})
+				});
 			},
-			// 关闭模态框
-			close(){
-				this.$refs.tiedphone.close()
-			},
-			// 删除订单
-			getdelorderList(){
-				post('Order/DeleteOrders',{
-					UserId:this.userId,
-					Token:this.token,
-					OrderNo:this.OrderNumber, //订单号
-				}).then( res=> {
-					console.log(res,'删除订单')
-					if(res.code === 0){
-						uni.showToast({
-							title: res.msg,
-							icon: 'none',
-							duration: 1500,
-						});
-						navigateBack()
+			//微信支付需参数
+			ConfirmWeiXinSmallPay(){
+				post('Order/WechatPay',{
+					OrderNo:this.OrderNumber,
+					UserId: this.userId,
+					Token: this.token,
+					WxCode:uni.getStorageSync("wxCode"),
+					WxOpenid:uni.getStorageSync("openId"),
+					paytype:4
+				}).then(res=>{
+					let payData=JSON.parse(res.data.JsParam)
+					if(res.code==0){
+						let _this=this;
+						wx.requestPayment({
+						timeStamp: payData.timeStamp,
+						nonceStr: payData.nonceStr,
+						package: payData.package,
+						signType: payData.signType,
+						paySign: payData.paySign,
+						success(res) {
+							redirect('product/paysuccess/index',{OrderNo:_this.OrderNumber,msg:'fail',money:_this.orderList.Total})
+							},
+						fail(res) {
+							redirect('product/paysuccess/index',{OrderNo:_this.OrderNumber,msg:'fail',money:_this.orderList.Total})
+						}
+						})
+					}else if(res.code==200){
+						redirect('product/paysuccess/index',{OrderNo:_this.OrderNumber,money:_this.orderList.Total})
 					}
 				})
 			},
@@ -345,6 +361,7 @@
 				border-radius:8upx;
 				color: #666666;
 				padding-top: 8upx;
+				margin-left: 20upx;
 			}
 			.bottomblue{
 				width:168upx;

@@ -5,20 +5,21 @@
 			<view v-for="(item, index) in tabList" :key="index" class="item" :class="{ active: item.id == tabIndex }" @click="cliTab(item.id)">{{ item.name }}</view>
 			<view class="bb_line" :style="'left:' + tabStyle + 'rpx'"></view>
 		</view>
-		<view class="list" style="padding-top: 80upx;" >
-			<view class="order_item" @click.stop="goUrl('/pages/tabBar/order/orderdetails?OrderNumber='+ val.OrderNumber)" v-for="(val, key) in orderList" :key="key">
+		<view class="list" style="padding-top: 80upx;">
+			<view class="order_item" @click.stop="goUrl('/pages/tabBar/order/orderdetails?OrderNumber=' + val.OrderNumber)" v-for="(val, key) in orderList" :key="key">
 				<view class="flex-between">
 					<view class="txtbox">
-						<view class="name">{{val.ShopName}}</view>
-						<view class="desc">{{val.MakeDate}}•{{val.MakePeople}}位房客</view>
+						<view class="name">{{ val.ShopName }}</view>
+						<view class="desc">{{ val.MakeDate }}•{{ val.MakePeople }}位房客</view>
 						<view class="flex">
-							<text class="staus red">{{val.StatusName}}</text>
-							<text class="price">￥{{val.Total}}</text>
+							<text :class="['staus', val.StatusName === '待付款'? 'red' : '']">订单{{ val.StatusName }}</text>
+							<text class="price">￥{{ val.Total }}</text>
+						</view>
+						<view style="color: #999;">
+							<text>{{val.StatueNote}}</text>
 						</view>
 					</view>
-					<view class="imgbox" v-for="(item, key1) in val.OrderDetails" :key="key1">
-						<image :src="item.PicNo" mode="aspectFill"></image>
-					</view>
+					<view class="imgbox" v-for="(item, key1) in val.OrderDetails" :key="key1"><image :src="item.PicNo" mode="aspectFill"></image></view>
 				</view>
 				<!-- IsRefund,//按钮退款-取消预订 1-显示
 					IsComment,//按钮评价 1-显示
@@ -27,119 +28,53 @@
 					IsDel,//删除订单 1-显示
 					IsCancel,//取消订单 1-显示  -->
 				<view class="btns flex" v-for="(items, key2) in val.OrderDetails" :key="key2">
-					<view class="btn" v-if="val.IsRefund === 1" @click="goUrl('/pages/tabBar/order/cancel?OrderNumber='+ val.OrderNumber + '&UnitPrice=' + items.UnitPrice + '&ActualPay=' + items.ActualPay + '&Total=' + val.Total )">取消预订</view>
+					<view class="btn"v-if="val.IsRefund === 1"
+						@click="goUrl('/pages/tabBar/order/cancel?OrderNumber=' +
+								val.OrderNumber +'&UnitPrice=' +items.UnitPrice +'&ActualPay=' +items.ActualPay +'&Total=' +val.Total
+							)">取消预订
+					</view>
+					<view class="btn" v-if="val.IsCancel === 1" @click.stop="chooseOrders(val.OrderNumber, 1)">取消订单</view>
+					<view class="btn" v-if="val.IsDel === 1" @click.stop="chooseOrders(val.OrderNumber, 2)">删除订单</view>
 					<view class="btn btn_fill" v-if="val.IsComment === 1" @click.stop="goUrl('/pages/tabBar/order/comment')">去评价</view>
-					<view class="btn btn_fill" v-if="val.Ispay === 1" @click.stop="goUrl('/pages/tabBar/order/pay')">立即支付</view>
-					<view class="btn" v-if="val.IsDel === 1" @click.stop="getdelorderList(val.OrderNumber)">删除订单</view>
-					<view class="btn" v-if="val.IsCancel === 1" @click.stop="tiedphone(val.OrderNumber)">取消订单</view>
+					<view class="btn btn_fill" v-if="val.Ispay === 1" @click.stop="ConfirmWeiXinSmallPay(val.OrderNumber,val.Total)">立即支付</view>
 				</view>
 			</view>
-			<!-- <view class="order_item">
-				<view class="flex-between">
-					<view class="txtbox">
-						<view class="name">星球客</view>
-						<view class="desc">2020/06/18-2020/06/19 •1位房客</view>
-						<view class="flex">
-							<text class="staus">订单已确认</text>
-							<text class="price">￥198.0</text>
-						</view>
-					</view>
-					<view class="imgbox"><image src="/static/of/p3.jpg" mode="aspectFill"></image></view>
-				</view>
-				<view class="btns flex" @click="goUrl('/pages/tabBar/order/cancel')"><view class="btn">取消预订</view></view>
-			</view>
-			<view class="order_item">
-				<view class="flex-between">
-					<view class="txtbox">
-						<view class="name">星球客</view>
-						<view class="desc">2020/06/18-2020/06/19 •1位房客</view>
-						<view class="flex">
-							<text class="staus">订单已确认</text>
-							<text class="price">￥198.0</text>
-						</view>
-					</view>
-					<view class="imgbox"><image src="/static/of/p3.jpg" mode="aspectFill"></image></view>
-				</view>
-				<view class="btns flex" @click="goUrl('/pages/tabBar/order/schedule')"><view class="btn">查看退款进度</view></view>
-			</view>
-			<view class="order_item">
-				<view class="flex-between">
-					<view class="txtbox">
-						<view class="name">星球客</view>
-						<view class="desc">2020/06/18-2020/06/19 •1位房客</view>
-						<view class="flex">
-							<text class="staus">订单已完成</text>
-							<text class="price">￥198.0</text>
-						</view>
-					</view>
-					<view class="imgbox"><image src="/static/of/p3.jpg" mode="aspectFill"></image></view>
-				</view>
-				<view class="btns flex"><view class="btn">删除订单</view></view>
-			</view>
-			<view class="order_item">
-				<view class="flex-between">
-					<view class="txtbox">
-						<view class="name">星球客</view>
-						<view class="desc">2020/06/18-2020/06/19 •1位房客</view>
-						<view class="flex">
-							<text class="staus">订单待评价</text>
-							<text class="price">￥198.0</text>
-						</view>
-					</view>
-					<view class="imgbox"><image src="/static/of/p3.jpg" mode="aspectFill"></image></view>
-				</view>
-				<view class="btns flex" @click="goUrl('/pages/tabBar/order/comment')"><view class="btn btn_fill">去评价</view></view>
-			</view> -->
 		</view>
 		<noData :isShow="noDataIsShow"></noData>
 		<view class="uni-tab-bar-loading"><uni-load-more :loadingType="loadingType" v-if="noDataIsShow == false"></uni-load-more></view>
 		<view style="height: 120upx;"></view>
 		<tabbar :current="3"></tabbar>
-		<!-- 取消定单弹框 -->
-		<uni-popup type="center" ref="tiedphone">
-			<view class="phonebox">
-				<view class="callorder">您确定要取消定单吗？</view>
-				<view class="boxflex">
-					<view class="cancel" @click="close()">取消</view>
-					<view class="affirm" @click="close()">确认</view>
-				</view>
-			</view>
-		</uni-popup>
 	</view>
 </template>
 
 <script>
-import { post, get } from '@/utils';
+import { post, redirect } from '@/utils';
 import tabbar from '@/components/tabbar.vue';
-import popup from '@/components/uni-popup/uni-popup.vue'
 import noData from '@/components/noData.vue'; //暂无数据
 import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue'; //加载更多
 export default {
 	components: {
-		tabbar,
-		popup,
-		noData,
-		
+		tabbar, noData,uniLoadMore
 	},
 	data() {
 		return {
-			userId:'',
-			token:'',
-			tabList: [{ id: 0, name: '全部订单' }, { id: 1, name: '待付款' },{ id: 2, name: '有效订单' }, { id: 3, name: '待支付' }],
+			userId: '',
+			token: '',
+			tabList: [{ id: 0, name: '全部订单' }, { id: 1, name: '待支付' }, { id: 2, name: '有效订单' }, ], //{ id: 3, name: '待评价'}
 			tabIndex: 0,
 			noDataIsShow: false, //暂无数据
 			loadingType: 0, //0加载前，1加载中，2没有更多了
 			PageSize: 10,
 			Page: 1,
-			Type:0,  //默认0-全部订单
-			Status:0,//默认0-全部状态 1://待付款 2://有效订单 3://待评价
-			orderList:[], //订单列表
+			Type: 0, //默认0-全部订单
+			Status: 0, //默认0-全部状态 1://待付款 2://有效订单 3://待评价
+			orderList: [] //订单列表
 		};
 	},
 	onShow() {
 		this.userId = uni.getStorageSync('userId');
 		this.token = uni.getStorageSync('token');
-		this.getorderList()
+		this.getorderList();
 	},
 	computed: {
 		tabStyle() {
@@ -153,25 +88,24 @@ export default {
 			});
 		},
 		cliTab(index) {
-			this.orderList =[];
-			this.Page = 1
+			this.orderList = [];
+			this.Page = 1;
 			this.tabIndex = index;
 			this.Status = index;
-			this.getorderList()
+			this.getorderList();
 		},
-		// 订单列表
-		getorderList(){
-			post('Order/OrderList_yd',{
-				UserId:this.userId,
-				Token:this.token,
-				Page:this.Page,
-				PageSize:this.PageSize,
+		// 订单列表 
+		getorderList() {
+			post('Order/OrderList_yd', {
+				UserId: this.userId,
+				Token: this.token,
+				Page: this.Page,
+				PageSize: this.PageSize,
 				// Type:this.Type,
-				Status:this.Status,
-			}).then( res=> {
-				console.log(res,'订单列表')
-				if(res.code === 0){
-					// this.orderList = res.data 
+				Status: this.Status
+			}).then(res => {
+				console.log(res, '订单列表');
+				if (res.code === 0) {
 					if (res.data.length > 0) {
 						this.noDataIsShow = false;
 					}
@@ -192,50 +126,75 @@ export default {
 						this.loadingType = 0;
 					}
 				}
-			})
+			});
 		},
-		// 取消订单
-		tiedphone(OrderNumber){
-			this.$refs.tiedphone.open()
-			post('Order/CancelOrders',{
-				UserId:this.userId,
-				Token:this.token,
-				OrderNo:OrderNumber, //订单号
-			}).then( res=> {
-				console.log(res,'取消订单')
-				if(res.code === 0){
-					uni.showToast({
-						title: res.msg,
-						icon: 'none',
-						duration: 1500,
-					});
-					setTimeout( val =>{
-						this.getorderList()
-					},1000)
+		//取消订单  订单列表 
+		chooseOrders(OrderNumber, type) {
+			let _this = this;
+			if (type == 1) {
+				var content = '您确定要取消此订单吗？';
+				var url = 'Order/CancelOrders';
+			} else if (type == 2) {
+				var content = '您确定要删除此订单吗？';
+				var url = 'Order/DeleteOrders';
+			}
+			uni.showModal({
+				title: content,
+				cancelText: '取消',
+				// content: content,
+				cancelColor: '#999',
+				confirmColor: '#5cc69a',
+				success(res) {
+					if (res.confirm) {
+						post(url, {
+							UserId: uni.getStorageSync('userId'),
+							Token: uni.getStorageSync('token'),
+							OrderNo: OrderNumber
+						}).then(res => {
+							_this.orderList = [];
+							_this.Page = 1;
+							_this.noDataIsShow = false;
+							_this.getorderList();
+							uni.showToast({
+								title: res.msg,
+								icon: 'none',
+								
+							});
+						});
+					} else if (res.cancel) {
+						console.log('用户点击取消');
+					}
 				}
-			})
+			});
 		},
-		// 关闭模态框
-		close(){
-			this.$refs.tiedphone.close()
-		},
-		// 删除订单
-		getdelorderList(OrderNumber){
-			post('Order/DeleteOrders',{
-				UserId:this.userId,
-				Token:this.token,
-				OrderNo: OrderNumber, //订单号
-			}).then( res=> {
-				console.log(res,'删除订单')
-				if(res.code === 0){
-					uni.showToast({
-						title: res.msg,
-						icon: 'none',
-						duration: 1500,
-					});
-					setTimeout( val =>{
-						this.getorderList()
-					},1000)
+		//微信支付需参数
+		ConfirmWeiXinSmallPay(OrderNo,Total){
+			post('Order/WechatPay',{
+				OrderNo:OrderNo,
+				UserId: this.userId,
+				Token: this.token,
+				WxCode:uni.getStorageSync("wxCode"),
+				WxOpenid:uni.getStorageSync("openId"),
+				paytype:4
+			}).then(res=>{
+				let payData=JSON.parse(res.data.JsParam)
+				if(res.code==0){
+					let _this=this;
+					wx.requestPayment({
+					timeStamp: payData.timeStamp,
+					nonceStr: payData.nonceStr,
+					package: payData.package,
+					signType: payData.signType,
+					paySign: payData.paySign,
+					success(res) {
+						redirect('product/paysuccess/index',{OrderNo:OrderNo,money:Total})
+						},
+					fail(res) {
+						redirect('product/paysuccess/index',{OrderNo:OrderNo,msg:'fail',money:Total})
+					}
+					})
+				}else if(res.code==200){
+					redirect('product/paysuccess/index',{OrderNo:OrderNo,money:Total})
 				}
 			})
 		},
@@ -245,7 +204,7 @@ export default {
 		if (this.isLoad) {
 			this.loadingType = 1;
 			this.Page++;
-			this.getorderList()
+			this.getorderList();
 		} else {
 			this.loadingType = 2;
 		}
@@ -255,34 +214,4 @@ export default {
 
 <style lang="scss" scoped>
 @import './style';
-	// 取消定单的样式
-	.phonebox{
-		background: #fff;
-		border-radius: 16upx;
-		font-size:38upx;
-		.callorder{
-			text-align: center;
-			padding: 40upx 100upx;
-			border-bottom: 1upx solid #ECECEC;
-		}
-		.boxflex{
-			display: flex;
-			justify-content: space-between;
-			font-size: 34upx;
-			width: 100%;
-			.cancel{
-				color: #999999;
-				border-right: 1upx solid #ECECEC;
-				width: 50%;
-				height: 120upx;
-				line-height: 120upx;
-			}
-			.affirm{
-				color: #5CC69A;
-				width: 50%;
-				height: 120upx;
-				line-height: 120upx;
-			}
-		}
-	}
 </style>

@@ -2,11 +2,13 @@
 	<!-- 我的收藏 -->
 	<view class="">
 		<view class="uni-tab-bar">
-			<scroll-view id="tab-bar" :class="['uni-swiper-tab tabList li_50',isMultipleStore>0?'':'w50']">
+			<!-- ,isMultipleStore>0?'':'w50' -->
+			<scroll-view id="tab-bar" :class="['uni-swiper-tab tabList li_50']">
 				<view :class="['swiper-tab-list',tabIndex==0 ? 'active' : '']" id="list0" @click="tapTab(0)">
 					<view class="s">星球客</view>
 				</view>
-				<view v-if="isMultipleStore>0" :class="['swiper-tab-list',tabIndex==1 ? 'active' : '']" id="list1" @click="tapTab(1)">
+				<!-- v-if="isMultipleStore>0" -->
+				<view  :class="['swiper-tab-list',tabIndex==1 ? 'active' : '']" id="list1" @click="tapTab(5)">
 					<view class="s">星语</view>
 				</view>
 			</scroll-view>
@@ -142,16 +144,15 @@
 	export default {
 		data() {
 			return {
-				barHeight: 0,
 				tabIndex: 0, //0:产品收藏；1：商家收藏 2：众筹收藏
+				Type:0,
 				curPage: "",
 				userId: "",
 				token: "",
-				isMultipleStore: 1, //0表示没有店铺
 				list: [],
 				listLength: 0,
 				page: 1,
-				pageSize: 6,
+				pageSize: 10,
 				isLoad: false,
 				isShowDel: false, //是否显示删除的底部
 				hasData: false,
@@ -223,23 +224,15 @@
 			noData,
 		},
 		onLoad() {
-			// #ifdef APP-PLUS
-			var height = plus.navigator.getStatusbarHeight();
-			this.barHeight = height;
-			// #endif
-			// #ifdef H5
-			this.barHeight = 0;
-			// #endif
 			this.tabIndex = uni.getStorageSync("collectIndex")
 			this.userId = uni.getStorageSync("userId");
 			this.token = uni.getStorageSync("token");
-			// this.initData();
-			// this.collectionsList();
+			this.initData();
+			this.collectionsList();
 		},
 		onShow() {
 			this.userId = uni.getStorageSync("userId");
 			this.token = uni.getStorageSync("token");
-			
 		},
 		methods: {
 			//跳转
@@ -257,8 +250,9 @@
 			tapTab(index) { //点击tab-bar
 				uni.setStorageSync('collectIndex',index)
 				this.tabIndex = index;
-				// this.initData();
-				// this.collectionsList();
+				this.Type = index;
+				this.initData();
+				this.collectionsList();
 			},
 			initData() {
 				this.list = [];
@@ -332,10 +326,8 @@
 					  success: function(res) {
 						if (res.confirm) {
 							  _this.DeleteCollections(proIdArr.join(","))
-							} else if (res.cancel) {
-								
-								}
-							}
+						} else if (res.cancel) {}
+						}
 					}) 
 				} else {
 					uni.showToast({
@@ -349,9 +341,8 @@
 				let result = await post("User/MemberCollections", {
 					UserId: this.userId,
 					Token: this.token,
-					Type: this.tabIndex,
+					Type: this.Type,
 					Page: this.page,
-					PageSize: this.pageSize,
 				});
 				if (result.code === 0) {
 					let _this = this;
