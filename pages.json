@@ -263,8 +263,7 @@
 				{
 					"path":"allComment/allComment",
 					"style": {
-						"navigationBarTitleText": "全部评价",
-						"enablePullDownRefresh" : true
+						"navigationBarTitleText": "全部评价"
 					}
 				},
 				{

@@ -2,7 +2,7 @@
 	<div class="p20 bb1">
 		<div class="top flex-center-between">
 			<div class="userInfo flex-center">
-				<img src="http://xqk.wtvxin.com/images/wxapp/of/p2.jpg" alt="">
+				<img :src="comment.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'" alt="">
 				<div class="info">
 					<div class="name">{{ comment.NickName }}</div>
 					<!-- <p>2020-01-20</p> -->
@@ -24,13 +24,13 @@
 		<div class="content" v-html="comment.ContentText">
 		</div>
 		<div class="imgList flex-center-between">
-			<!-- <img src="http://xqk.wtvxin.com/images/wxapp/of/p2.jpg" alt="" v-for="(item,index) in 4" :key="index"> -->
-			<img :src="item.PicUrl" alt="" v-for="(item,index) in comment.PicData" :key="index">
+			<img :src="item.PicUrl" alt="" v-for="(item,index) in comment.PicData" :key="index" @click="onPreviewImage(index)">
 		</div>
 	</div>
 </template>
 
 <script>
+	import {previewImage} from '@/utils/image-tools'
 	export default {
 		props:["comment"],
 		data() {
@@ -40,6 +40,13 @@
 		onLoad() {
 		},
 		methods: {
+			onPreviewImage(index){
+				let imgArr=[];
+				this.comment.PicData.map(item=>{
+					imgArr.push(item.PicUrl);
+				})
+				previewImage(imgArr,index)
+			}
 		}
 	}
 </script>
