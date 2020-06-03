@@ -5,25 +5,27 @@
 			<view class="accountflex">
 				<view class="portrait">头像</view>
 				<view class="accounthead">
-					<image src="http://xqk.wtvxin.com/images/wxapp/default.png" mode=""></image>
+					<image :src="myInfo.Avatar" mode=""></image>
 				</view>
 			</view>
 			<view class="accountflex">
 				<view class="">昵称</view>
-				<view class="account28">心善若水</view>
+				<view class="account28">{{myInfo.NickName}}</view>
 			</view>
 			<view class="accountflex">
 				<view class="">手机号</view>
-				<view class="account28">18228668698</view>
+				<view class="account28">{{myInfo.Mobile}}</view>
 			</view>
-			<view class="accountflex" @click="tolick('/pages/tabBar/my/emailsignature?type=0')">
+			<view class="accountflex" @click="tolick('/pages/tabBar/my/emailsignature?type=0'+ '&Email=' + myInfo.Email)">
 				<view class="">邮箱</view>
-				<view class="account28">请绑定</view>
+				<view class="account28" v-if="myInfo.Email">{{myInfo.Email}}</view>
+				<view class="account28" v-else>请绑定</view>
 			</view>
-			<view class="accountflex" @click="tolick('/pages/tabBar/my/emailsignature?type=1')">
+			<view class="accountflex" @click="tolick('/pages/tabBar/my/emailsignature?type=1' + '&Introduction=' + myInfo.Introduction)">
 				<view class="">个性签名</view>
 				<view class="accountimg">
-					<view class="account28">书山有路勤为径，学海无涯苦作舟</view>
+					<view class="account28"v-if="myInfo.Introduction">{{myInfo.Introduction}}</view>
+					<view class="account28" v-else>无</view>
 					<image src="http://xqk.wtvxin.com/images/wxapp/icons/arrow.png" mode=""></image>
 				</view>
 			</view>
@@ -33,11 +35,19 @@
 </template>
 
 <script>
+	import { post } from '@/utils'
 	export default {
 		data() {
 			return {
-				
+				UserId:'',
+				Token:'',
+				myInfo:{}
 			}
+		},
+		onShow() {
+			this.UserId = uni.getStorageSync('userId');
+			this.Token = uni.getStorageSync('token');
+			this.getMemInfo()
 		},
 		methods: {
 			tolick(url){
@@ -45,6 +55,17 @@
 					url:url
 				})
 			},
+			// 个人基本信息
+			getMemInfo(){
+				post('User/GetMemInfo', {
+					UserId:this.UserId,
+					Token:this.Token,
+				}).then( res=>{
+					if(res.code === 0){
+						this.myInfo = res.data
+					}
+				})
+			}
 		}
 	}
 </script>
@@ -81,6 +102,9 @@
 						height:20upx;
 						margin: 18upx 0 0 15upx;
 					}
+				}
+				&:last-child{
+					border-bottom:none;
 				}
 			}
 		}
