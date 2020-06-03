@@ -3,15 +3,18 @@
 		<!--轮播图-->
 		<view class="index_swiper" v-if="detail.ImgList.length">
 			<swiper class="swiper" :indicator-dots="false" autoplay :interval="5000" :duration="500" @change="changeSwiper">
-				<swiper-item v-for="(item,index) in detail.ImgList" :key="index">
+				<!-- <swiper-item v-for="(item,index) in detail.ImgList" :key="index"> -->
+				<swiper-item v-for="(item,index) in ImgList" :key="index">
 					<view class="swiper-item">
 						<!-- <image class="img" src="/static/of/banner.jpg" mode="aspectFill"></image> -->
-						<image class="img" :src="item.PicUrl" mode="aspectFill"></image>
+						<image class="img" :src="item" mode="widthFix"></image>
+						<!-- <image class="img" :src="detail.ImgList" mode="aspectFill"></image> -->
 					</view>
 				</swiper-item>
 			</swiper>
 			<view class="dots">
-				<view v-for="(item,index) in detail.ImgList" :key="index" :class="['dot',currentSwiper==index?'active':'']"></view>
+				<!-- <view v-for="(item,index) in detail.ImgList" :key="index" :class="['dot',currentSwiper==index?'active':'']"></view> -->
+				<view v-for="(item,index) in ImgList" :key="index" :class="['dot',currentSwiper==index?'active':'']"></view>
 			</view>
 		</view>
 		<div class="p30">
@@ -22,7 +25,7 @@
 					<h5>{{ detail.NickName }}</h5>
 				</div>
 				<div class="btnBox flex-center" @click="toFolloow">
-					<div class="btn-min" v-if='detail.IsFollow'>已关注</div>
+					<div class="btn-min solid" v-if='detail.IsFollow'>已关注</div>
 					<div class="btn-min" v-else>关注</div>
 					<!-- <div class="iconfont icon-fenxiang"></div> -->
 					<button class="iconfont icon-fenxiang1" open-type="share"></button>
@@ -137,6 +140,11 @@
 			this.getCommnetList(Id)
 			this.getFindList()
 		},
+		onShow() {
+			if(this.userId == '' || this.token == '') {
+				this.getUserInfo()
+			}
+		},
 		methods: {
 			// 组件点赞
 			changeItem(res){
@@ -220,7 +228,7 @@
 			},
 			/* 评论 */
 			confirm(Id) {
-			   if (this.Comment.replace(/(^s*)|(s*$)/g, "").length ==0) {
+			   if (this.Comment.trim().length ==0) {
 					return uni.showToast({
 					    title:'请输入评论内容',
 					    icon:'none'
@@ -273,7 +281,10 @@
 					return formatTime(time)
 				}
 			},
-			
+			// 处理返回来的图片数组
+			ImgList () {
+				return this.detail.ImgList.split(',')
+			},
 		}
 	}
 </script>

@@ -4,7 +4,7 @@
 			<view class="searchbox flex-start">
 				<view class="iconfont icon-sousuo"></view>
 				<!-- <view class="txt">搜索目的地/景点/星语</view> -->
-				<input confirm-type="send" @confirm="confirm(Id)" type="text" placeholder="搜索目的地/景点/星语" v-model="SearchKey">
+				<input confirm-type="send" @confirm="confirm()" type="text" placeholder="搜索目的地/景点/星语" v-model="SearchKey">
 			</view>
 		</view>
 		<div class="plr30">
@@ -13,11 +13,12 @@
 		<view class="topbtn iconfont icon-totop" @click="Top" v-if="isTop"></view>
 		<!-- 发布按钮 -->
 		<view class="fubuBtn iconfont icon-bianji1"  @click="tolick('/pages/starLangSon/release')"></view>
-		<view style="height: 120upx;"></view>
-		<tabbar :current="1"></tabbar>
 		<!-- 数据判断显示 -->
 		<not-data v-if="CommnetList.length<1"></not-data>
 		<uni-load-more :loadingType="loadMore" v-else></uni-load-more>
+		<view style="height: 120upx;"></view>
+		<tabbar :current="1"></tabbar>
+
 	</view>
 </template>
 
@@ -32,6 +33,8 @@
 		},
 		data() {
 			return {
+				userId:'',
+				token:'',
 				SearchKey:'',
 				loadMore:0,//0-loading前；1-loading中；2-没有更多了
 				Page: 1,
@@ -98,6 +101,14 @@
 			}
 		},
 		onLoad() {
+			// console.log('星语列表onload')
+			this.getFindList()
+		},
+		onShow() {
+			// console.log('星语列表onShow')
+			this.SearchKey = ''
+			this.datalist = []
+			// this.Page = 1
 			this.getFindList()
 		},
 		methods: {
@@ -113,10 +124,18 @@
 					url:url
 				})
 			},
+			// 获取用户id以及token
+			getUserInfo () {
+				this.userId = uni.getStorageSync('userId');
+				this.token = uni.getStorageSync('token');
+			},
 			// 获取星语列表
 			async getFindList() {
 				this.loadMore =1;
 				let res = await post('Find/FindList',{
+						userId: this.userId,
+						token: this.token,
+						myType:4,
 						SearchKey:this.SearchKey,
 						PageSize:this.PageSize,
 						Page:this.Page
@@ -126,15 +145,18 @@
 				}else{
 					this.loadMore =0;
 				}
+				// if(res.code == 0) {
+				// 	// 清空输入框
+				// 	this.SearchKey = ""
+				// 	// 如果搜索成功清空
+				// }
 				console.log('搜索页面用户发现list：',res)
 				let tempList = res.data
 				this.datalist = [...this.datalist,...tempList]
+				// console.log('搜索页面用户发现赋值的datalist：',this.datalist)
 			},
 			// 键盘确定按钮事件
 			confirm (){
-					// 清空输入框
-					this.SearchKey = ""
-					// 如果搜索成功清空
 					// 需要重置Page并且清空列表
 					this.Page = 1
 					this.datalist = []

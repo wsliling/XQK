@@ -3,7 +3,7 @@
 		<view class="xylist">
 			<view class="left-list">
 				<block v-for="(item,index) in list" :key="index" >
-					<view class="item" v-if="index%2==0" @click="navigate('starLangSon/detail')">
+					<view class="item" v-if="index%2==0" @click="navigate('starLangSon/detail',{Id:item.Id})">
 						<view class="itembox">
 							<view class="imgbox">
 								<view class="like flex-center">
@@ -13,7 +13,7 @@
 									<text class="num" :class="{active : item.CollectionId }">{{ item.CollectNum }}</text>
 								</view>
 								<!-- <image :src="item.pic" mode="aspectFill" class="pic"></image> -->
-								<image :src="item.PicImg" mode="aspectFill" class="pic"></image>
+								<image :src="item.PicImg" mode="widthFix" class="pic"></image>
 							</view>
 							<view class="txtbox">
 								<view class="title uni-ellipsis2 uni-mb5">
@@ -24,7 +24,7 @@
 									<view class="tx flex-center">
 										<!-- <image src="http://xqk.wtvxin.com/images/wxapp/logo.png" mode="aspectFill"></image>
 										<text class="author uni-ellipsis">小星君</text> -->
-										<image :src="item.Avatar" mode="aspectFill"></image>
+										<image :src="item.Avatar" mode="widthFix"></image>
 										<text class="author uni-ellipsis">{{ item.NickName }}</text>
 									</view>
 									<!-- <view class="zan flex-center active">
@@ -71,7 +71,7 @@
 							</view>
 						</view>
 					</view> -->
-					<view class="item" v-if="index%2==1" @click="navigate('starLangSon/detail')">
+					<view class="item" v-if="index%2==1" @click="navigate('starLangSon/detail',{Id:item.Id})">
 						<view class="itembox">
 							<view class="imgbox">
 								<view class="like flex-center">
@@ -81,7 +81,7 @@
 									<text class="num" :class="{active : item.CollectionId }">{{ item.CollectNum }}</text>
 								</view>
 								<!-- <image :src="item.pic" mode="aspectFill" class="pic"></image> -->
-								<image :src="item.PicImg" mode="aspectFill" class="pic"></image>
+								<image :src="item.PicImg" mode="widthFix" class="pic"></image>
 							</view>
 							<view class="txtbox">
 								<view class="title uni-ellipsis2 uni-mb5">
@@ -92,7 +92,7 @@
 									<view class="tx flex-center">
 										<!-- <image src="http://xqk.wtvxin.com/images/wxapp/logo.png" mode="aspectFill"></image>
 										<text class="author uni-ellipsis">小星君</text> -->
-										<image :src="item.Avatar" mode="aspectFill"></image>
+										<image :src="item.Avatar" mode="widthFix"></image>
 										<text class="author uni-ellipsis">{{ item.NickName }}</text>
 									</view>
 									<!-- <view class="zan flex-center active">
@@ -181,7 +181,11 @@
 						color: #ff6766;
 					}
 				}
-				.num{ color: #fff; margin-left: 10upx;}
+				.num{ color: #999; margin-left: 10upx;
+					&.active{
+						color: #ff6766;
+					}
+				}
 			}
 			.pic{
 				height:440upx;

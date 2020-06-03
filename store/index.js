@@ -33,7 +33,8 @@ export default new Vuex.Store({
             startDate:'',//展示的不带年份的开始日期
             endDate:'',//展示的不带年份的结束日期
         },
-		goodsDateTime:[]//产品日期对应的数组
+				goodsDateTime:[],//产品日期对应的数组
+				place: '不显示位置' //发布星语的地址
     },
     getters:{
         getToken(state){

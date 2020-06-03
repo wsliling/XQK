@@ -43,6 +43,11 @@
 		}
 		.btnBox{
 			.btn-min{
+				&.solid {
+					background-color: $primary;
+					color: #fff;
+					border-color: #fff;
+				}
 				color:$primary;
 				background:#fff;
 				border-color:$primary;
