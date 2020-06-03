@@ -1,20 +1,21 @@
 <template>
 	<!-- 退款进度 -->
 	<view class="schedule">
-		<view class="refund">您的退款¥288.00已于2020-05-20 11:40处理完成，款项将退返到您的原支付方式 (微信)到账时长预计为0-5天</view>
+		<!-- <view class="refund">您的退款¥288.00已于2020-05-20 11:40处理完成，款项将退返到您的原支付方式 (微信)到账时长预计为0-5天</view> -->
+		<view class="refund">{{data.RefundNote}}</view>
 		<view class="rate">退款进度：退款完成</view>
 		<view class="wechat">
 			<view class="price">
 				<view class="">微信</view>
-				<view class="">¥288.00</view>
+				<view class="">¥{{data.RefundAmout}}</view>
 			</view>
-			<view class="">2020-05-20 11:40</view>
+			<view class="">{{data.RefundData}}</view>
 			<view class="">交易号：</view>
-			<view class="">20200220154557815481835</view>
+			<view class="">{{data.TransactionNo}}</view>
 		</view>
 		<view class="figure">
 			<view class="">退款金额 (CNY)</view>
-			<view class="">¥288.00</view>
+			<view class="">¥{{data.RefundAmout}}</view>
 		</view>
 		<view class="received">
 			<view class="">仍未收到退款？</view>
@@ -24,13 +25,32 @@
 </template>
 
 <script>
+	import { post,navigate } from '@/utils';
 	export default{
 		data(){
 			return{
-				
+				userId: '',
+				token: '',
+				orderNo:'',
+				data:{},
 			}
 		},
+		onLoad(option){
+			this.orderNo = option.orderNo;
+			this.userId = uni.getStorageSync('userId');
+			this.token = uni.getStorageSync('token');
+			this.getData();
+		},
 		methods:{
+			getData(){
+				post('Order/RefundInfo',{
+					UserId: this.userId,
+					Token: this.token,
+					OrderNo:this.orderNo
+				}).then(res=>{
+					this.data =res.data;
+				})
+			},
 			tolick(url){
 				uni.navigateTo({
 					url:url

@@ -52,7 +52,7 @@
 			<div class="row flex-center-between">
 				<div class="left">入住人</div>
 				<div class="right flex-center" @click.stop="$refs.selectCheckInInfo.open()">
-					<input type="text" placeholder="添加入住人（选填）" disabled />
+					<input type="text" placeholder="选择入住人（选填）" disabled />
 					<div class="btn-min" @click.stop="$refs.addCheckInInfo.open()">添加</div>
 				</div>
 			</div>

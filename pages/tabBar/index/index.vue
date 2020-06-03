@@ -240,7 +240,7 @@
 			this.getHotGoodsList();
 			this.getPosition();
 			this.getSecurity();
-			this.getUserPublishFind()
+			this.getFindList()
 			this.initCalendarOption();// 初始化日历
 		},
 		onShow(){
@@ -406,7 +406,7 @@
 				let res = post("/Banner/BannerHits",{id:this.bannerList[index].Id}) 
 				// console.log("广告图结果：",res)
 			},
-			async getUserPublishFind() {
+			async getFindList() {
 				let res = await post('Find/FindList',{myType:2})
 				console.log('用户发现list：',res)
 				this.findList = res.data

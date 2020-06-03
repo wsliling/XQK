@@ -12,7 +12,9 @@
 						<view class="name">{{ val.ShopName }}</view>
 						<view class="desc">{{ val.MakeDate }}•{{ val.MakePeople }}位房客</view>
 						<view class="flex">
-							<text :class="['staus', val.StatusName === '待付款' ? 'red' : '']">订单{{ val.StatusName }}</text>
+							<text :class="['staus', val.StatusName === '待付款'||val.StatusName === '已失效'||val.StatusName === '已取消' ? 'red' : '']"
+								>订单{{ val.StatusName }}
+							</text>
 							<text class="price">￥{{ val.Total }}</text>
 						</view>
 						<view style="color: #999;">
@@ -32,17 +34,13 @@
 						class="btn"
 						v-if="val.IsRefund === 1"
 						@click="
-							goUrl(
-								'/pages/tabBar/order/cancel?OrderNumber=' +
-									val.OrderNumber +
-									'&UnitPrice=' +
-									items.UnitPrice +
-									'&ActualPay=' +
-									items.ActualPay +
-									'&Total=' +
-									val.Total
-							)
-						"
+							navigate(
+								'tabBar/order/cancel',{
+									OrderNumber:val.OrderNumber,
+									UnitPrice:items.UnitPrice,
+									ActualPay:items.ActualPay,
+									Total:val.Total}
+							)"
 					>
 						取消预订
 					</view>
@@ -61,7 +59,7 @@
 </template>
 
 <script>
-import { post, redirect } from '@/utils';
+import { post,navigate,judgeLogin } from '@/utils';
 import tabbar from '@/components/tabbar.vue';
 import noData from '@/components/noData.vue'; //暂无数据
 import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue'; //加载更多
@@ -86,7 +84,8 @@ export default {
 			orderList: [] //订单列表
 		};
 	},
-	onShow() {
+	onLoad(){
+		if(!judgeLogin())return;
 		this.userId = uni.getStorageSync('userId');
 		this.token = uni.getStorageSync('token');
 		this.getorderList();
@@ -201,14 +200,17 @@ export default {
 						signType: payData.signType,
 						paySign: payData.paySign,
 						success(res) {
-							redirect('product/paysuccess/index', { OrderNo: OrderNo, money: Total });
+							_this.getorderList();
+							navigate('product/paysuccess/index', { OrderNo: OrderNo, money: Total });
 						},
 						fail(res) {
-							redirect('product/paysuccess/index', { OrderNo: OrderNo, msg: 'fail', money: Total });
+							_this.getorderList();
+							navigate('product/paysuccess/index', { OrderNo: OrderNo, msg: 'fail', money: Total });
 						}
 					})
 				} else if (res.code == 200) {
-					redirect('product/paysuccess/index', { OrderNo: OrderNo, money: Total });
+					_this.getorderList();
+					navigate('product/paysuccess/index', { OrderNo: OrderNo, money: Total });
 				}
 			});
 		}

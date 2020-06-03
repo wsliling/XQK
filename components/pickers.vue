@@ -67,7 +67,7 @@ export default {
   }
 };
 </script>
-<style  scoped>
+<style  scoped lang="scss">
 .mask {
   position: fixed;
   top: 0;
@@ -98,6 +98,6 @@ export default {
   padding: 0 15rpx;
 }
 .confirm {
-  color: #3172f5;
+  color: $primary;
 }
 </style>

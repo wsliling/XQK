@@ -43,7 +43,7 @@
 	
 </template>
 <script>
-	import { post, navigateBack } from '@/utils'
+	import { post, navigateBack,toast } from '@/utils'
 	import pickers from '@/components/pickers';
 	export default {
 		data(){
@@ -53,7 +53,7 @@
 				cancel:0,  //
 				typeTxt: '请选择',
 				showEdit: false,
-				typelist:[] ,//取消原因的数据
+				typelist:[{code: 0, message: "请选择"}] ,//取消原因的数据
 				OrderNumber:'', //订单号
 				UnitPrice:'',   //一组产品的价格
 				ActualPay:'',   //一组产品的实际支付
@@ -70,29 +70,34 @@
 			this.OrderNumber = e.OrderNumber
 			this.UnitPrice = e.UnitPrice
 			this.Total = e.Total
-			console.log(e,'OrderId')
 		},
 		methods:{
 			cancellation(e){
-				this.cancel = e
+				this.cancel = e;
+				navigateBack();
 			},
 			gettype(e) {
 				console.log(e)
 				// this.type = e.code;
-				this.typeTxt = e.message;
+				if(e.code*1){
+					this.typeTxt = e.message;
+				}
 			},
 			// 获取取消原因
 			getCancelReason(){
 				post('Order/CancelReason',{
 				}).then(res=>{
 					if(res.code === 0){
-						console.log(res,'获取取消原因')
-						this.typelist = res.data
+						this.typelist=[{code: 0, message: "请选择"}];
+						this.typelist.push(...res.data);
 					}
 				})
 			},
 			// 订单取消预订
 			getCancelReservation(){
+				if(!this.typeTxt){
+					toast('请选择取消原因');
+				}
 				post('Order/CancelReservation',{
 					UserId: this.userId,
 					Token: this.token,
