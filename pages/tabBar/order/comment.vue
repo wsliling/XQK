@@ -36,12 +36,12 @@
 				<view class="counter">
 					<text class="num">{{ inputTxtLength }}</text>/300
 				</view>
-				<div class="p3" style="padding-bottom: 30upx;">
+				<div class="p3" style="padding: 0 30upx 30upx;">
 					<!-- <div>上传图片（不超过5张）</div> -->
 					<div class="fed_pic flex flexWrap">
 						<div v-for="(item, index) in imageList" :key="index" class="picbox">
 							<span class="" @click="delImg(index)">×</span>
-							<image :src="item" alt="" class="pic_itim"></image>
+							<image :src="item" alt="" class="pic_itim" @click="previewImage([item])"></image>
 						</div>
 						<div class="picbox upBtnImg" @click="chooseImage()" v-if="isShowBtnUpload">
 							<img src="http://jyy.wtvxin.com/static/images/icons/add2.png" alt="" class="pic_itim" />
@@ -85,7 +85,7 @@
 
 <script>
 import { post } from '@/utils';
-import { pathToBase64, base64ToPath } from '@/common/image-tools.js';
+import { pathToBase64, base64ToPath, previewImage } from '@/utils/image-tools';
 import uniRate from '@/components/uni-rate/uni-rate.vue';
 var sourceType = [['camera'], ['album'], ['camera', 'album']];
 var sizeType = [['compressed'], ['original'], ['compressed', 'original']];
@@ -93,6 +93,7 @@ export default {
 	components: { uniRate },
 	data() {
 		return {
+			previewImage,
 			text: '',
 			imageList: [],
 			sourceTypeIndex: 2,
@@ -198,13 +199,13 @@ export default {
 		delImg(index) {
 			console.log(index,'index')
 			this.imageList.splice(index, 1);
-			if (this.imageList.length < 9) {
+			if (this.imageList.length < 4) {
 				this.isShowBtnUpload = true;
 			}
 		},
 		// 选择图片 
 		chooseImage: async function() {
-			if (this.imageList.length >= 9) {
+			if (this.imageList.length >= 4) {
 				let isContinue = await this.isFullImg();
 				console.log('是否继续?', isContinue);
 				if (!isContinue) {
@@ -214,12 +215,12 @@ export default {
 			uni.chooseImage({
 				sourceType: sourceType[this.sourceTypeIndex],
 				sizeType: sizeType[this.sizeTypeIndex],
-				count: this.imageList.length + this.count[this.countIndex] > 9 ? 9 - this.imageList.length : this.count[this.countIndex],
+				count: this.imageList.length + this.count[this.countIndex] > 4 ? 4 - this.imageList.length : this.count[this.countIndex],
 				success: res => {
 					this.imageList = this.imageList.concat(res.tempFilePaths);
-					if (this.imageList.length >= 9) {
+					if (this.imageList.length >= 4) {
 						this.isShowBtnUpload = false;
-						this.imageList.splice(9);
+						this.imageList.splice(4);
 					}
 				}
 			});
@@ -343,7 +344,7 @@ export default {
 }
 
 .picbox {
-	width: 33%;
+	width: 25%;
 	box-sizing: border-box;
 	display: flex;
 	justify-content: center;

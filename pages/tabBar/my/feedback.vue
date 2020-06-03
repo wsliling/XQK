@@ -34,6 +34,7 @@ import { pathToBase64, previewImage } from '@/utils/image-tools';
 export default {
 	data() {
 		return {
+			previewImage,
 			backType: [],
 			TypeStr: 0,
 			Content: '',
@@ -195,8 +196,8 @@ export default {
 	margin-top: 20rpx;
 	position: relative;
 	.pic_itim{
-		width:200upx;
-		height:200upx;
+		width: 150upx;
+		height: 150upx;
 		padding-left: 10upx;
 	}
 	.close {
