@@ -6,7 +6,7 @@
 			<view class="bb_line" :style="'left:' + tabStyle + 'rpx'"></view>
 		</view>
 		<view class="list" style="padding-top: 80upx;">
-			<view class="order_item" @click.stop="navigate('tabBar/order/orderdetails',{OrderNumber: val.OrderNumber})" v-for="(val, key) in orderList" :key="key">
+			<view class="order_item" @click.stop="goUrl('/pages/tabBar/order/orderdetails?OrderNumber=' + val.OrderNumber)" v-for="(val, key) in orderList" :key="key">
 				<view class="flex-between">
 					<view class="txtbox">
 						<view class="name">{{ val.ShopName }}</view>
@@ -46,7 +46,7 @@
 					</view>
 					<view class="btn" v-if="val.IsCancel === 1" @click.stop="chooseOrders(val.OrderNumber, 1)">取消订单</view>
 					<view class="btn" v-if="val.IsDel === 1" @click.stop="chooseOrders(val.OrderNumber, 2)">删除订单</view>
-					<view class="btn btn_fill" v-if="val.IsComment === 1" @click.stop="navigate('tabBar/order/comment')">去评价</view>
+					<view class="btn btn_fill" v-if="val.IsComment === 1" @click.stop="goUrl('/pages/tabBar/order/comment')">去评价</view>
 					<view class="btn btn_fill" v-if="val.Ispay === 1" @click.stop="ConfirmWeiXinSmallPay(val.OrderNumber, val.Total)">立即支付</view>
 				</view>
 			</view>
@@ -71,7 +71,6 @@ export default {
 	},
 	data() {
 		return {
-			navigate,
 			userId: '',
 			token: '',
 			tabList: [{ id: 0, name: '全部订单' }, { id: 1, name: '待支付' }, { id: 2, name: '有效订单' }], //{ id: 3, name: '待评价'}
@@ -89,13 +88,7 @@ export default {
 		if(!judgeLogin())return;
 		this.userId = uni.getStorageSync('userId');
 		this.token = uni.getStorageSync('token');
-		this.init();
-	},
-	onShow() {
-		if(!this.userId||!this.token){
-			this.userId = uni.getStorageSync('userId');
-			this.token = uni.getStorageSync('token');
-		}
+		this.getorderList();
 	},
 	computed: {
 		tabStyle() {
@@ -103,11 +96,10 @@ export default {
 		}
 	},
 	methods: {
-		init(){
-			this.orderList = [];
-			this.Page = 1;
-			this.noDataIsShow = false;
-			this.getorderList();
+		goUrl(url) {
+			uni.navigateTo({
+				url: url
+			});
 		},
 		cliTab(index) {
 			this.orderList = [];
@@ -173,13 +165,14 @@ export default {
 							Token: uni.getStorageSync('token'),
 							OrderNo: OrderNumber
 						}).then(res => {
+							_this.orderList = [];
+							_this.Page = 1;
+							_this.noDataIsShow = false;
+							_this.getorderList();
 							uni.showToast({
 								title: res.msg,
 								icon: 'none'
 							});
-							setTimeout(()=>{
-								_this.init();
-							},1500)
 						});
 					} else if (res.cancel) {
 						console.log('用户点击取消');
@@ -222,20 +215,16 @@ export default {
 			});
 		}
 	},
-	onPullDownRefresh(){
-		uni.stopPullDownRefresh()
-		this.init();
-	},
 	// 上拉加载
 	onReachBottom: function() {
 		if (this.isLoad) {
 			this.loadingType = 1;
-			this.Page+=1;
+			this.Page++;
 			this.getorderList();
 		} else {
 			this.loadingType = 2;
 		}
-	},
+	}
 };
 </script>
 

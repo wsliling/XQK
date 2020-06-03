@@ -3,12 +3,14 @@
 	<div class="foot_list">
 		<div class="or_item">
 			<view class="bg_fff uni-mt10">
-				<view class="product-comment">
-					<view class="pictrue"><image class="img" src="../../../static/of/p2.jpg" mode="aspectFill"></image></view>
+				<view class="product-comment" v-for="(val, key) in OrderComment.OrderDetails" :key="key">
+					<view class="pictrue">
+						<image class="img" :src="val.PicNo" mode="aspectFill"></image>
+					</view>
 					<view class="">
-						<view class="title">星球客</view>
-						<view class="title">06/18/2020 - 06/19 . 1位房客</view>
-						<view class="title">¥288.0</view>
+						<view class="title">{{ val.ProductName }}</view>
+						<view class="title">{{ MakeDate }}•{{ MakePeople }}位房客</view>
+						<view class="title">￥{{ OrderComment.Total }}</view>
 					</view>
 				</view>
 				<!--遇到的问题-->
@@ -23,13 +25,17 @@
 					<div class="stars">
 						<uni-rate size="18" margin="10" color="#E8E8E8" :starType="1" :showtxt="true" active-color="#5CC69A" value="5" @change="onChange($event, 1)"></uni-rate>
 					</div>
-					<view class="">非常满意</view>
+					<view v-if="Rank === 5">非常满意</view>
+					<view v-if="Rank === 4">满意</view>
+					<view v-if="Rank === 3">一般</view>
+					<view v-if="Rank === 2">不满意</view>
+					<view v-if="Rank === 1">非常不满意</view>
 				</view>
 
 				<textarea cols="30" rows="10" maxlength="300" class="com_text" v-model="text" placeholder="填写您对星球客的评价~~"></textarea>
-				<!-- <view class="counter">
+				<view class="counter">
 					<text class="num">{{ inputTxtLength }}</text>/300
-				</view> -->
+				</view>
 				<div class="p3" style="padding-bottom: 30upx;">
 					<!-- <div>上传图片（不超过5张）</div> -->
 					<div class="fed_pic flex flexWrap">
@@ -49,48 +55,44 @@
 					<view class="rate-item flex flex-start">
 						<view class="title">卫生评分</view>
 						<view class="grade star">
-							<uni-rate size="18" margin="10" color="#E8E8E8" :starType="2" :showtxt="true" active-color="#5CC69A" value="4" @change="onChange($event, 2)"></uni-rate>
+							<uni-rate size="18" margin="10" color="#E8E8E8" :starType="2" :showtxt="true" active-color="#5CC69A" value="5" @change="onChange($event, 2)"></uni-rate>
 						</view>
 					</view>
 					<view class="rate-item flex flex-start">
 						<view class="title">体验评分</view>
 						<view class="grade star">
-							<uni-rate size="18" margin="10" color="#E8E8E8" :starType="3" :showtxt="true" active-color="#5CC69A" value="3" @change="onChange($event, 3)"></uni-rate>
+							<uni-rate size="18" margin="10" color="#E8E8E8" :starType="3" :showtxt="true" active-color="#5CC69A" value="5" @change="onChange($event, 3)"></uni-rate>
 						</view>
 					</view>
 					<view class="rate-item flex flex-start">
 						<view class="title">服务评分</view>
 						<view class="grade star">
-							<uni-rate size="18" margin="10" color="#E8E8E8" :starType="3" :showtxt="true" active-color="#5CC69A" value="2" @change="onChange($event, 3)"></uni-rate>
+							<uni-rate size="18" margin="10" color="#E8E8E8" :starType="3" :showtxt="true" active-color="#5CC69A" value="5" @change="onChange($event, 4)"></uni-rate>
 						</view>
 					</view>
 					<view class="rate-item flex flex-start">
 						<view class="title">设施评分</view>
 						<view class="grade star">
-							<uni-rate size="18" margin="10" color="#E8E8E8" :starType="3" :showtxt="true" active-color="#5CC69A" value="1" @change="onChange($event, 3)"></uni-rate>
+							<uni-rate size="18" margin="10" color="#E8E8E8" :starType="3" :showtxt="true" active-color="#5CC69A" value="5" @change="onChange($event, 5)"></uni-rate>
 						</view>
 					</view>
 				</view>
 			</view>
 		</div>
-		<div class="porela" @click="pub()">提交</div>
+		<div class="porela" @click="submit()">提交</div>
 	</div>
 </template>
 
 <script>
-import { switchPath, post } from '@/common/util.js';
+import { post } from '@/utils';
 import { pathToBase64, base64ToPath } from '@/common/image-tools.js';
 import uniRate from '@/components/uni-rate/uni-rate.vue';
 var sourceType = [['camera'], ['album'], ['camera', 'album']];
 var sizeType = [['compressed'], ['original'], ['compressed', 'original']];
 export default {
-	components: {
-		uniRate
-	},
+	components: { uniRate },
 	data() {
 		return {
-			// plist:[{id:1,name:'商品问题'},{id:1,name:'客服问题'},{id:1,name:'包装问题'},{id:1,name:'物流问题'},{id:1,name:'其他'}],
-			shopInfo: {},
 			text: '',
 			imageList: [],
 			sourceTypeIndex: 2,
@@ -98,24 +100,26 @@ export default {
 			sizeTypeIndex: 2,
 			sizeType: ['压缩', '原图', '压缩或原图'],
 			countIndex: 4,
-			imgs: [],
 			isShowBtnUpload: true,
 			count: [1, 2, 3, 4, 5],
-			proRank: 5, //产品评价等级
-			serRank: 5, //服务评价等级
-			logRank: 5, //物流评价等级
+			Rank: 5, //总评价
+			HealthRank: 5, //卫生评价等级
+			ProductRank: 5, //体验评价等级
+			ServiceRank: 5, //服务评价等级
+			FacilityRank: 5, //设施评价等级
 			inputTxtLength: 0, //当前输入字数
+			Id:'',
 			OrderNo: '',
-			OrderDetailId: ''
+			MakeDate: '',
+			MakePeople:'',
+			OrderComment:{}, //评价订单详情
 		};
 	},
 	onLoad(e) {
 		this.imgList = [];
-		console.log(e, 'e');
-		// #ifdef APP-PLUS
-		this.OrderNo = e.id;
-		this.OrderDetailId = e.detailId;
-		// #endif
+		this.OrderNo = e.OrderNumber;    //订单号
+		this.MakeDate = e.MakeDate;      //入住时间
+		this.MakePeople = e.MakePeople;  //入住人数
 	},
 	onShow() {
 		this.sourceTypeIndex = 2;
@@ -123,44 +127,64 @@ export default {
 		this.sizeTypeIndex = 2;
 		this.sizeType = ['压缩', '原图', '压缩或原图'];
 		this.countIndex = 4;
-		// #ifndef APP-PLUS
-		(this.OrderNo = this.$mp.query.id), (this.OrderDetailId = this.$mp.query.detailId);
-		// #endif
-		// this.getDetail()
+		this.getOrderComment()  //获取待评价订单详情
 	},
 	watch: {
 		imgList(e) {
 			console.log(e, ';;;;;;;;;;;;');
 		},
 		text(e) {
-			console.log(e);
+			console.log(e,"text");
 			this.inputTxtLength = e.length;
 		}
 	},
 	methods: {
-		async pub() {
+		// 获取待评价订单详情
+		getOrderComment() {
+			post('Order/GetOrderComment', {
+				UserId: uni.getStorageSync('userId'),
+				Token: uni.getStorageSync('token'),
+				OrderNo: this.OrderNo
+			}).then(res => {
+				if(res.code === 0) {
+					this.OrderComment = res.data
+					res.data.OrderDetails.forEach( val =>{
+						console.log(val.Id)
+						this.Id = val.Id
+					})
+				}
+			});
+		},
+		// 提交评价订单详情
+		async submit() {
 			if (this.text) {
 				let imgList = await this.base64Img(this.imageList);
-				// console.log(imgList)
-				post('Order/CommentProduct', {
+				let CommentList = [{
+					Id: this.Id,                     //订单详情Id
+					Title: "",                       //评价标题
+					ContentText: this.text,          //评价内容
+					Rank: this.Rank,                 //总评价星级
+					HealthRank: this.HealthRank,     //卫生评分
+					ProductRank: this.ProductRank,   //产品评分/体验评分
+					ServiceRank: this.ServiceRank,   //服务评分
+					FacilityRank: this.FacilityRank, //设施评分
+					PicNo: JSON.stringify(imgList),  //图片base64字符串集
+					Isanonymous: 0,                  // 1--匿名,1:是 0:否
+				}]
+				post('Order/OrderComment', {
 					UserId: uni.getStorageSync('userId'),
 					Token: uni.getStorageSync('token'),
 					OrderNo: this.OrderNo,
-					OrderDetailId: this.OrderDetailId,
-					Content: this.text,
-					PicList: JSON.stringify(imgList),
-					ProductStarNum: this.proRank,
-					ServiceStarNum: this.serRank,
-					LogisticsStarNum: this.logRank
+					CommentList,
 				}).then(res => {
 					if (res.code === 0) {
 						uni.showToast({
+							title: res.msg,
 							icon: 'none',
-							title: res.msg
 						});
 						setTimeout(() => {
 							uni.navigateBack();
-						}, 300);
+						}, 500);
 					}
 				});
 			} else {
@@ -172,14 +196,15 @@ export default {
 		},
 		//删除图片
 		delImg(index) {
+			console.log(index,'index')
 			this.imageList.splice(index, 1);
-			this.imgs.splice(index, 1);
-			if (this.imageList.length < 5) {
+			if (this.imageList.length < 9) {
 				this.isShowBtnUpload = true;
 			}
 		},
+		// 选择图片 
 		chooseImage: async function() {
-			if (this.imageList.length >= 5) {
+			if (this.imageList.length >= 9) {
 				let isContinue = await this.isFullImg();
 				console.log('是否继续?', isContinue);
 				if (!isContinue) {
@@ -189,12 +214,12 @@ export default {
 			uni.chooseImage({
 				sourceType: sourceType[this.sourceTypeIndex],
 				sizeType: sizeType[this.sizeTypeIndex],
-				count: this.imageList.length + this.count[this.countIndex] > 5 ? 5 - this.imageList.length : this.count[this.countIndex],
+				count: this.imageList.length + this.count[this.countIndex] > 9 ? 9 - this.imageList.length : this.count[this.countIndex],
 				success: res => {
 					this.imageList = this.imageList.concat(res.tempFilePaths);
-					if (this.imageList.length >= 5) {
+					if (this.imageList.length >= 9) {
 						this.isShowBtnUpload = false;
-						this.imageList.splice(5);
+						this.imageList.splice(9);
 					}
 				}
 			});
@@ -227,37 +252,24 @@ export default {
 				});
 			});
 		},
-		//设置评价等级,type:1-描述，2-物流，3--服务
+		//设置评价等级, type:1-总评分，2-卫生，3-体验，4-服务，5-设施
 		onChange(e, type) {
 			if (type === 1) {
-				this.proRank = e.value;
+				this.Rank = e.value;
 			}
 			if (type === 2) {
-				this.serRank = e.value;
+				this.HealthRank = e.value;
 			}
 			if (type === 3) {
-				this.logRank = e.value;
+				this.ProductRank = e.value;
+			}
+			if (type === 4) {
+				this.ServiceRank = e.value;
+			}
+			if (type === 5) {
+				this.FacilityRank = e.value;
 			}
 		},
-
-		getDetail() {
-			post('Order/OrderDetails', {
-				UserId: uni.getStorageSync('userId'),
-				Token: uni.getStorageSync('token'),
-				OrderNo: this.OrderNo
-			}).then(res => {
-				res.data.OrderDetails.forEach(item => {
-					if (item.Id == this.OrderDetailId) {
-						this.shopInfo = item;
-					}
-				});
-			});
-		},
-		goUrl(url, param) {
-			uni.navigateTo({
-				url: url + '?id=' + param
-			});
-		}
 	}
 };
 </script>
