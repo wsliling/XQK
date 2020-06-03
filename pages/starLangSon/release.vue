@@ -8,14 +8,14 @@
 				name=""
 				id=""
 				cols="30"
-				placeholder-style="font-size:28upx;color:#CCCCCC"
+				placeholder-style="font-size:28upx;color:#CCCCCC;line-height: 37upx;"
 				rows="10"
 				adjust-position="true"
 				class="fed_text"
 				placeholder="分享你的故事和体验~"
 				v-model="Content"
 			></textarea>
-			<view class="uploadimg">上传图片/视频</view>
+			<view class="uploadimg">上传图片/视频({{ PicList.length }}/{{maxPicLen}})</view>
 			<div class="flex">
 				<div class="picbox" v-for="(item, pindex) in PicList" :key="pindex">
 					<img :src="item" class="pic_itim" />
@@ -77,14 +77,14 @@ export default {
 	data() {
 		return {
 			showEdit: false,
-			typelist: [],
+			// typelist: [],
 			type: '',
-			typeTxt: '请选择',
-			Mobile: '',
-			Name: '',
+			// typeTxt: '请选择',
+			// Mobile: '',
+			// Name: '',
 			// Content: '',
 			PicList: [],
-			maxPicLen: 5, //最多上传
+			maxPicLen: 10, //最多上传
 			isUploadBtn: true, //显示上传图片按钮
 			// 分割线
 			userId:'',
@@ -250,15 +250,15 @@ export default {
 		// background:#f5f5f5;
 		border-radius:7upx;
 		// line-height:60upx;
-		height:60upx;
+		height:80upx;
 		// width:550upx;
 		// border:1upx solid #e8e8e8;
 		// padding:0 15upx;
 		border-bottom: 1upx solid #ececec;
-		
 		&.placeholderStyle {
+			line-height: 1.3;
 		    font-size: 28upx;
-				color: rgba(187, 188, 191, 1);
+			color: rgba(187, 188, 191, 1);
 		}
 	}
 	background: #fff;
@@ -281,7 +281,9 @@ export default {
 	}
 	.flex {
 		display: flex;
+		flex-flow: row wrap;
 		.picbox {
+			flex: 0 0 auto;
 			width: 25%;
 			box-sizing: border-box;
 			display: flex;

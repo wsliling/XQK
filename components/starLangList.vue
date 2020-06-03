@@ -13,7 +13,7 @@
 									<text class="num" :class="{active : item.CollectionId }">{{ item.CollectNum }}</text>
 								</view>
 								<!-- <image :src="item.pic" mode="aspectFill" class="pic"></image> -->
-								<image :src="item.PicImg" mode="widthFix" class="pic"></image>
+								<image :src="item.PicImg" mode="aspectFill" class="pic"></image>
 							</view>
 							<view class="txtbox">
 								<view class="title uni-ellipsis2 uni-mb5">
@@ -24,7 +24,7 @@
 									<view class="tx flex-center">
 										<!-- <image src="http://xqk.wtvxin.com/images/wxapp/logo.png" mode="aspectFill"></image>
 										<text class="author uni-ellipsis">小星君</text> -->
-										<image :src="item.Avatar" mode="widthFix"></image>
+										<image :src="item.Avatar" mode="aspectFill"></image>
 										<text class="author uni-ellipsis">{{ item.NickName }}</text>
 									</view>
 									<!-- <view class="zan flex-center active">
@@ -81,7 +81,7 @@
 									<text class="num" :class="{active : item.CollectionId }">{{ item.CollectNum }}</text>
 								</view>
 								<!-- <image :src="item.pic" mode="aspectFill" class="pic"></image> -->
-								<image :src="item.PicImg" mode="widthFix" class="pic"></image>
+								<image :src="item.PicImg" mode="aspectFill" class="pic"></image>
 							</view>
 							<view class="txtbox">
 								<view class="title uni-ellipsis2 uni-mb5">
@@ -92,7 +92,7 @@
 									<view class="tx flex-center">
 										<!-- <image src="http://xqk.wtvxin.com/images/wxapp/logo.png" mode="aspectFill"></image>
 										<text class="author uni-ellipsis">小星君</text> -->
-										<image :src="item.Avatar" mode="widthFix"></image>
+										<image :src="item.Avatar" mode="aspectFill"></image>
 										<text class="author uni-ellipsis">{{ item.NickName }}</text>
 									</view>
 									<!-- <view class="zan flex-center active">
