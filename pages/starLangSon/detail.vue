@@ -57,7 +57,8 @@
 						</block>
 					</div>
 					<div v-else class="avatar flex-center">
-							<image src="/static/default.png" mode=""></image>
+							<!-- <img src="/static/of/banner.jpg" alt=""> -->
+							<image src="http://xqk.wtvxin.com/images/wxapp/default.png" mode=""></image>
 					</div>
 					<div class="zan-icon flex-center" :class="{active: detail.IsLike}" @click="toZan(Id)">
 						<!-- <div class="iconfont icon-zan" :class="{active: detail.IsLike}"></div>{{ detail.LikeNum}} -->

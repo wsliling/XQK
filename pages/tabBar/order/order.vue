@@ -6,7 +6,7 @@
 			<view class="bb_line" :style="'left:' + tabStyle + 'rpx'"></view>
 		</view>
 		<view class="list" style="padding-top: 80upx;">
-			<view class="order_item" @click.stop="goUrl('/pages/tabBar/order/orderdetails?OrderNumber=' + val.OrderNumber)" v-for="(val, key) in orderList" :key="key">
+			<view class="order_item" @click.stop="navigate('tabBar/order/orderdetails',{OrderNumber: val.OrderNumber})" v-for="(val, key) in orderList" :key="key">
 				<view class="flex-between">
 					<view class="txtbox">
 						<view class="name">{{ val.ShopName }}</view>
@@ -32,23 +32,22 @@
 						class="btn"
 						v-if="val.IsRefund === 1"
 						@click="
-							goUrl(
-								'/pages/tabBar/order/cancel?OrderNumber=' +
-									val.OrderNumber +
-									'&UnitPrice=' +
-									items.UnitPrice +
-									'&ActualPay=' +
-									items.ActualPay +
-									'&Total=' +
-									val.Total
-							)
-						"
+							navigate(
+								'tabBar/order/cancel',{
+									OrderNumber:val.OrderNumber,
+									UnitPrice:
+									items.UnitPrice,
+									ActualPay:
+									items.ActualPay,
+									Total:
+									val.Total}
+							)"
 					>
 						取消预订
 					</view>
 					<view class="btn" v-if="val.IsCancel === 1" @click.stop="chooseOrders(val.OrderNumber, 1)">取消订单</view>
 					<view class="btn" v-if="val.IsDel === 1" @click.stop="chooseOrders(val.OrderNumber, 2)">删除订单</view>
-					<view class="btn btn_fill" v-if="val.IsComment === 1" @click.stop="goUrl('/pages/tabBar/order/comment')">去评价</view>
+					<view class="btn btn_fill" v-if="val.IsComment === 1" @click.stop="navigate('tabBar/order/comment')">去评价</view>
 					<view class="btn btn_fill" v-if="val.Ispay === 1" @click.stop="ConfirmWeiXinSmallPay(val.OrderNumber, val.Total)">立即支付</view>
 				</view>
 			</view>
@@ -61,7 +60,7 @@
 </template>
 
 <script>
-import { post, redirect } from '@/utils';
+import { post, redirect,navigate } from '@/utils';
 import tabbar from '@/components/tabbar.vue';
 import noData from '@/components/noData.vue'; //暂无数据
 import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue'; //加载更多
@@ -73,6 +72,7 @@ export default {
 	},
 	data() {
 		return {
+			navigate,
 			userId: '',
 			token: '',
 			tabList: [{ id: 0, name: '全部订单' }, { id: 1, name: '待支付' }, { id: 2, name: '有效订单' }], //{ id: 3, name: '待评价'}
@@ -86,10 +86,16 @@ export default {
 			orderList: [] //订单列表
 		};
 	},
-	onShow() {
+	onLoad(){
 		this.userId = uni.getStorageSync('userId');
 		this.token = uni.getStorageSync('token');
-		this.getorderList();
+		this.init();
+	},
+	onShow() {
+		if(!this.userId||!this.token){
+			this.userId = uni.getStorageSync('userId');
+			this.token = uni.getStorageSync('token');
+		}
 	},
 	computed: {
 		tabStyle() {
@@ -97,10 +103,11 @@ export default {
 		}
 	},
 	methods: {
-		goUrl(url) {
-			uni.navigateTo({
-				url: url
-			});
+		init(){
+			this.orderList = [];
+			this.Page = 1;
+			this.noDataIsShow = false;
+			this.getorderList();
 		},
 		cliTab(index) {
 			this.orderList = [];
@@ -166,14 +173,13 @@ export default {
 							Token: uni.getStorageSync('token'),
 							OrderNo: OrderNumber
 						}).then(res => {
-							_this.orderList = [];
-							_this.Page = 1;
-							_this.noDataIsShow = false;
-							_this.getorderList();
 							uni.showToast({
 								title: res.msg,
 								icon: 'none'
 							});
+							setTimeout(()=>{
+								_this.init();
+							},1500)
 						});
 					} else if (res.cancel) {
 						console.log('用户点击取消');
@@ -201,28 +207,35 @@ export default {
 						signType: payData.signType,
 						paySign: payData.paySign,
 						success(res) {
+							_this.getorderList();
 							redirect('product/paysuccess/index', { OrderNo: OrderNo, money: Total });
 						},
 						fail(res) {
+							_this.getorderList();
 							redirect('product/paysuccess/index', { OrderNo: OrderNo, msg: 'fail', money: Total });
 						}
 					})
 				} else if (res.code == 200) {
+					_this.getorderList();
 					redirect('product/paysuccess/index', { OrderNo: OrderNo, money: Total });
 				}
 			});
 		}
 	},
+	onPullDownRefresh(){
+		uni.stopPullDownRefresh()
+		this.init();
+	},
 	// 上拉加载
 	onReachBottom: function() {
 		if (this.isLoad) {
 			this.loadingType = 1;
-			this.Page++;
+			this.Page+=1;
 			this.getorderList();
 		} else {
 			this.loadingType = 2;
 		}
-	}
+	},
 };
 </script>
 

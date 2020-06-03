@@ -12,14 +12,12 @@
 				<view class="info" @click="tiedphone()">
 					<view class="name uni-ellipsis">心善若水</view>
 					<view class="c_theme">查看并编辑个人资料</view>
-					<view class="datanum flex-start">
-						<view class="flex-start">
-							关注
-							<text class="num">90</text>
+					<view class="datanum flex-center">
+						<view class="flex-center">
+							关注<text class="num">{{info.Follow}}</text>
 						</view>
-						<view class="flex-start">
-							粉丝
-							<text class="num">490</text>
+						<view class="flex-center">
+							粉丝<text class="num">{{info.Fans}}</text>
 						</view>
 					</view>
 				</view>
