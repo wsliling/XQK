@@ -38,7 +38,7 @@
 			this.getGoodsList()
 		},
 		onShow(){
-			if(this.userId||this.token){
+			if(!this.userId||!this.token){
 				this.userId = uni.getStorageSync('userId');
 				this.token = uni.getStorageSync('token');
 			}
