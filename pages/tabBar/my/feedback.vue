@@ -3,21 +3,9 @@
 	<div>
 		<div class="feedback">
 			<view class="elect">选择类型</view>
-			<div class="fed_title" @click="act(0)" v-if="acts == 0 ? 'active' : 'fed_title'">
-				<p>回复不及时</p>
-				<!-- <p class="">
-					<span>{{ typeTxt }}</span>
-					<icons type="success"size="26"></icons>
-				</p> -->
-				<img v-if="acts == 0" src="http://xqk.wtvxin.com/images/wxapp/icons/success.png" alt="" />
-			</div>
-			<div class="fed_title" @click="act(1)" v-if="acts == 1 ? 'active' : 'fed_title'">
-				<p>上传虚假资料</p>
-				<img v-if="acts == 1" src="http://xqk.wtvxin.com/images/wxapp/icons/success.png" alt="" />
-			</div>
-			<div class="fed_title" @click="act(2)" v-if="acts == 2 ? 'active' : 'fed_title'">
-				<p>跳单线下交易</p>
-				<img v-if="acts == 2" src="http://xqk.wtvxin.com/images/wxapp/icons/success.png" alt="" />
+			<div class="fed_title" @click="option(val.code,key)" v-if="options == key ? 'active' : 'fed_title'" v-for="(val,key) in backType" :key="key">
+				<p>{{val.message}}</p>
+				<img v-if="options == key" src="http://xqk.wtvxin.com/images/wxapp/icons/success.png" alt="" />
 			</div>
 		</div>
 		<div class="">
@@ -25,101 +13,77 @@
 			<view class="feed">
 				<textarea name="" id="" cols="30" placeholder-style="font-size:28upx;color:#CCCCCC" rows="10" adjust-position="true" class="fed_text" placeholder="请输入内容" v-model="Content"></textarea>
 				<!-- <div>上传凭证（不超过5张）</div> -->
-				<div class="">
+				<div class="fed_pic flex flexWrap">
 					<div class="picbox" v-for="(item, pindex) in PicList" :key="pindex">
-						<img :src="item" class="pic_itim" />
+						<img :src="item" class="pic_itim" @click="previewImage([item])"/>
 						<span class="close" @click="delImg(pindex)">×</span>
 					</div>
-					<div class="picbox " @click="upLoadImg" v-if="isUploadBtn"><img src="http://jd.wtvxin.com/images/images/icons/add2.png" alt="" class="pic_itim" /></div>
+					<div class="picbox upBtnImg" @click="upLoadImg" v-if="isUploadBtn">
+						<img src="http://jd.wtvxin.com/images/images/icons/add2.png" alt="" class="pic_itim" />
+					</div>
 				</div>
 			</view>
 		</div>
 		<div class="submit" @click="submit">提交</div>
-		<pickers v-if="showEdit" :arr="typelist" :show.sync="showEdit" @success="gettype"></pickers>
 	</div>
 </template>
 
 <script>
-// import { post, get, verifyPhone } from '@/utils';
-// import { pathToBase64 } from '@/utils/image-tools';
-// import pickers from '@/components/pickers';
+import { post, get, navigateBack } from '@/utils';
+import { pathToBase64, previewImage } from '@/utils/image-tools';
 export default {
-	// components: { pickers },
 	data() {
 		return {
-			showEdit: false,
-			typelist: [],
-			type: '',
-			typeTxt: '请选择',
-			Mobile: '',
-			Name: '',
+			backType: [],
+			TypeStr: 0,
 			Content: '',
 			PicList: [],
-			maxPicLen: 5, //最多上传
+			maxPicLen: 4, //最多上传
 			isUploadBtn: true ,//显示上传图片按钮
-			acts:0
+			options:0
 		};
 	},
 	onLoad() {
 		this.PicList = [];
-		this.Name = '';
-		this.Mobile = '';
 		this.Content = '';
-		this.typeTxt = '请选择';
-		this.getTypelist();
+		this.getBackType(); // 获取意见反馈类型
 	},
 	methods: {
-		gettype(e) {
-			this.type = e.code;
-			this.typeTxt = e.message;
+		option(code,key){
+			this.options = key
+			this.TypeStr = code
 		},
-		getTypelist() {
+		// 获取意见反馈类型
+		getBackType() {
 			get('User/FeedBackType').then(res => {
 				if (res.code === 0) {
-					this.typelist = res.data;
+					this.backType = res.data;
 				}
 			});
 		},
-		act(e){
-			this.acts = e
-		},
 		//提交意见反馈
-		async FeedBack(base64Arr) {
-			const res = await post(
-				'User/MemberFeedBack',
-				{
-					UserId: wx.getStorageSync('userId'),
-					Token: wx.getStorageSync('token'),
-					Type: this.type,
-					Content: this.Content,
-					PicList: base64Arr,
-					Mobile: this.Mobile,
-					Name: this.Name
-				},
-				this.getData
-			);
-			console.log('3333333');
-			if (res.code == 0) {
-				wx.showToast({
-					title: '提交成功'
-				});
-				setTimeout(() => {
-					// wx.switchTab({
-					//   url:"/pages/my/main"
-					// });
-					wx.navigateBack();
-				}, 1500);
-			}
+		FeedBack(base64Arr) {
+			post('User/MemberFeedBack',{
+				UserId: wx.getStorageSync('userId'),
+				Token: wx.getStorageSync('token'),
+				CateGory: 0,           //0-意见反馈
+				TypeStr: this.TypeStr, //所属类型名称
+				Content: this.Content, //内容
+				PicList: base64Arr,    //图片
+			}).then( res =>{
+				if (res.code == 0) {
+					wx.showToast({
+						title: '提交成功',
+						icon: 'none',
+					});
+					setTimeout(() => {
+						wx.navigateBack();
+					}, 1500);
+				}
+			})
 		},
+		// 验证
 		verify() {
-			if (this.typeTxt == '请选择') {
-				wx.showToast({
-					title: '请选择问题类型！',
-					icon: 'none',
-					duration: 2000
-				});
-				return false;
-			}
 			if (this.Content == '') {
 				wx.showToast({
 					title: '请输入建议内容！',
@@ -136,28 +100,9 @@ export default {
 				});
 				return false;
 			}
-			if (this.Name == '') {
-				wx.showToast({
-					title: '请输入您的姓名！',
-					icon: 'none',
-					duration: 2000
-				});
-				return false;
-			}
-			if (this.Mobile == '') {
-				wx.showToast({
-					title: '请输入联系方式！',
-					icon: 'none',
-					duration: 2000
-				});
-				return false;
-			}
-			if (!verifyPhone(this.Mobile)) {
-				return;
-			}
-
 			return true;
 		},
+		// 提交
 		async submit() {
 			if (this.verify()) {
 				let base64Arr = [];
@@ -167,8 +112,23 @@ export default {
 				this.FeedBack(JSON.stringify(base64Arr));
 			}
 		},
+		// 删除照片
+		delImg(index) {
+			this.PicList.splice(index, 1);
+			this.isUploadBtn = true;
+		},
+		async base64Img(arr) {
+			let base64Arr = [];
+			for (let i = 0; i < arr.length; i += 1) {
+				const res = await pathToBase64(arr[i]);
+				base64Arr.push({
+					PicUrl: res
+				});
+			}
+			return base64Arr;
+		},
+		//上传图片
 		upLoadImg() {
-			//上传图片
 			let _this = this;
 			let num = _this.maxPicLen - _this.PicList.length;
 			if (num > 0) {
@@ -189,20 +149,6 @@ export default {
 				_this.isUploadBtn = false;
 			}
 		},
-		delImg(index) {
-			this.PicList.splice(index, 1);
-			this.isUploadBtn = true;
-		},
-		async base64Img(arr) {
-			let base64Arr = [];
-			for (let i = 0; i < arr.length; i += 1) {
-				const res = await pathToBase64(arr[i]);
-				base64Arr.push({
-					PicUrl: res
-				});
-			}
-			return base64Arr;
-		}
 	}
 };
 </script>
