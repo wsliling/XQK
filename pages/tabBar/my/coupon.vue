@@ -2,14 +2,15 @@
 	<!-- 优惠劵 -->
 	<view class="ticket">
 		<view class="tab flex">
-			<view class="flex1 flexc" :class="{ active: tabIndex == index }" v-for="(item, index) in tabList" :key="index" @click="cliTab(index)">{{ item }}</view>
+			<view class="flex1 flexc" :class="{ active: tabIndex == index }" 
+			v-for="(item, index) in tabList" :key="index" @click="cliTab(index)">{{ item }}</view>
 			<span :style="'left:' + tabStyle + 'rpx'"></span>
 		</view>
 		<block v-if="datalist.length">
-			<view class="list jus-b flex" v-for="(item, index) in 3" :key="index" v-if="tabIndex == 0">
+			<view class="list jus-b flex" v-for="(item, index) in datalist" :key="index" v-if="tabIndex == 0">
 				<view class="left">
-					<view class="name">满100元减20元券</view>
-					<view class="time">有效期至2020-01-12</view>
+					<view class="name">{{item.Title}}</view>
+					<view class="time">有效期至{{item.EndTime}}</view>
 					<!-- <div class="useinfo oneline" style="left: 15upx;">仅可购买星求客店铺商品</div> -->
 					<!-- <div class="useinfo oneline">说明：指定店铺使用</div> -->
 					<!-- <view class="coupoutag flexc">'满减券':'折扣券'</view> -->
@@ -17,23 +18,33 @@
 				<view class="right flexc">
 					<view>
 						<view class="num">
-							20元
+							{{item.Denomination}}元
 							<!-- <span>'元':'折'</span> -->
 						</view>
-						<!-- <span>满100元可使用</span> -->
+						<span>满{{item.MeetConditions}}元可使用</span>
 					</view>
 				</view>
 			</view>
-			<view class="list jus-b flex" v-for="(item, index) in 3" :key="index" v-if="tabIndex == 1 || tabIndex == 2">
+			<view class="list jus-b flex" 
+			v-for="(item, index) in datalist" :key="index" v-if="tabIndex == 1 || tabIndex == 2">
 				<view class="left">
-					<view class="name">满100元减20元券</view>
-					<view class="time">有效期至2020-01-12</view>
+					<view class="name">{{item.Title}}</view>
+					<view class="time">有效期至{{item.EndTime}}</view>
 				</view>
-				<view class="right flexc" v-if="tabIndex == 1 || tabIndex == 2" :style="{ background: '#D4D5D7' }"><view class="num" style="color: #fff;">20元</view></view>
+				<view class="right flexc" v-if="tabIndex == 1 || tabIndex == 2" :style="{ background: '#D4D5D7' }">
+					<view>
+						<view class="num" style="color: #fff;">
+							{{item.Denomination}}元
+						</view>
+						<span>满{{item.MeetConditions}}元可使用</span>
+					</view>
+				</view>
 			</view>
 		</block>
 		<noData :isShow="noDataIsShow"></noData>
-		<view class="loading" v-if="hasData"><uni-load-more :loadingType="loadingType"></uni-load-more></view>
+		<view class="uni-tab-bar-loading">
+			<uni-load-more :loadingType="loadingType" v-if="noDataIsShow == false"></uni-load-more>
+		</view>
 		<!-- <view class="btn_de" @click="goUrl('/pages/member/couponCenter/couponCenter')">领券中心</view> -->
 	</view>
 </template>
@@ -48,14 +59,11 @@ export default {
 			couponStatus: 1, //0全部，1可用，2已使用，3已失效
 			userId: '',
 			token: '',
-			hasData: false,
+			Page: 1,
+			PageSize: 5,
 			noDataIsShow: false, //没有数据的提示是否显示
-			page: 1,
-			pageSize: 8,
-			isLoad: false,
-			isOved: false, //显示已经到底了
 			loadingType: 0, //0加载前，1加载中，2没有更多了
-			datalist: {}
+			datalist: [],
 		};
 	},
 	computed: {
@@ -66,7 +74,7 @@ export default {
 	onShow() {
 		this.userId = uni.getStorageSync('userId');
 		this.token = uni.getStorageSync('token');
-		this.page = 1;
+		this.Page = 1;
 		this.CouponList();
 	},
 	components: {
@@ -81,9 +89,7 @@ export default {
 		cliTab(index) {
 			this.tabIndex = index;
 			this.couponStatus = index + 1;
-			this.page = 1;
-			this.noDataIsShow = false;
-			this.hasData = false;
+			this.Page = 1;
 			this.CouponList();
 		},
 		//我的优惠券
@@ -91,55 +97,40 @@ export default {
 			post('User/CouponList', {
 				UserId: this.userId,
 				Token: this.token,
-				Page: this.page,
-				PageSize: this.pageSize,
+				Page: this.Page,
+				PageSize: this.PageSize,
 				Status: this.couponStatus
 			}).then(res => {
-				if (res.code == 0) {
-					let _this = this;
-					let len = res.data.length;
-					if (len > 0) {
-						this.hasData = true;
-						this.noDataIsShow = false;
-						res.data.map(item => {
-							item.AddTime = item.AddTime.split('T')[0];
-							item.EndTime = item.EndTime.split('T')[0];
-						});
-					}
-					if (len == 0 && this.page == 1) {
-						this.noDataIsShow = true;
-						this.hasData = false;
-					}
-					if (this.page === 1) {
-						this.datalist = res.data;
-					}
-					if (this.page > 1) {
-						this.datalist = this.datalist.concat(res.data);
-					}
-					if (len < this.pageSize) {
-						this.isLoad = false;
-						this.loadingType = 2;
-					} else {
-						this.isLoad = true;
-						this.loadingType = 0;
-					}
+				if (res.data.length > 0) {
+					this.noDataIsShow = false;
+				}
+				if (res.data.length === 0 && this.Page === 1) {
+					this.noDataIsShow = true;
+				}
+				if (this.Page === 1) {
+					this.datalist = res.data;
+				}
+				if (this.Page > 1) {
+					this.datalist = this.datalist.concat(res.data);
+				}
+				if (res.data.length < this.PageSize) {
+					this.isLoad = false;
+					this.loadingType = 2;
+				} else {
+					this.isLoad = true;
+					this.loadingType = 0;
 				}
 			});
 		}
 	},
+	// 上拉加载
 	onReachBottom: function() {
 		if (this.isLoad) {
 			this.loadingType = 1;
-			this.isOved = false;
-			this.page++;
-			this.CouponList();
+			this.Page++;
+			this.CouponList()
 		} else {
 			this.loadingType = 2;
-			if (this.page > 1) {
-				this.isOved = true;
-			} else {
-				this.isOved = false;
-			}
 		}
 	}
 };

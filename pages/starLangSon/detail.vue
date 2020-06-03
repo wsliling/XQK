@@ -58,7 +58,8 @@
 							<image src="http://xqk.wtvxin.com/images/wxapp/default.png" mode=""></image>
 					</div>
 					<div class="zan-icon flex-center" :class="{active: detail.IsLike}" @click="toZan(Id)">
-						<div class="iconfont icon-zan" :class="{active: detail.IsLike}"></div>{{ detail.LikeNum}}
+						<!-- <div class="iconfont icon-zan" :class="{active: detail.IsLike}"></div>{{ detail.LikeNum}} -->
+						<div class="iconfont icon-zan" :class='{"icon-zan1" : detail.IsLike,"active" : detail.IsLike}'></div>
 					</div>
 				</div>
 			</div>
@@ -68,8 +69,9 @@
 					<input confirm-type="send" @confirm="confirm(Id)" type="text" placeholder="写评论..." v-model="Comment">
 					<div class="line1"></div>
 					<div @click="toCollections" class="collect flex-column-center-center" :class="{active : detail.CollectionId}">
-						<div v-show='!detail.CollectionId' class="iconfont icon-aixin2"></div>
-						<div v-show='detail.CollectionId' class="iconfont icon-aixin active"></div>
+						<div class="iconfont icon-aixin2" :class='{"icon-aixin" : detail.CollectionId,"active" : detail.CollectionId}'></div>
+						<!-- <div v-show='!detail.CollectionId' class="iconfont icon-aixin2"></div>
+						<div v-show='detail.CollectionId' class="iconfont icon-aixin active"></div> -->
 						{{ detail.CollectNum}}
 					</div>
 				</div>
@@ -139,14 +141,14 @@
 		methods: {
 			// 组件点赞
 			changeItem(res){
-				console.log('我是子组件传递过来的：',res)
+				// console.log('我是子组件传递过来的：',res)
 				this.CommnetList[res.index].IsLike = !this.CommnetList[res.index].IsLike 
 				if(res.count === true) {
 					this.CommnetList[res.index].LikeNum++
 				}else {
 					this.CommnetList[res.index].LikeNum--
 				}
-				console.log('我是子组件传递过来的处理过的：',this.CommnetList[res.index])
+				// console.log('我是子组件传递过来的处理过的：',this.CommnetList[res.index])
 			},
 			// 获取用户id以及token
 			getUserInfo () {
@@ -213,6 +215,8 @@
 					});
 					// 清空输入框
 					this.Comment = ""
+					// 如果评论成功需要再次请求评论列表
+					this.getCommnetList(this.Id)
 				}
 			},
 			/* 评论 */

@@ -92,6 +92,7 @@
 		line-height:100%;
 		font-weight:100;
 		display:flex;
-		align-items:center;
+		// align-items:center;
+		align-items: left;
 	}
 </style>

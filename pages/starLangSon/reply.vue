@@ -1,7 +1,7 @@
 <template>
 	<div class="p30 bgfff">
 		<div class="footer flex-center-between plr30 ptb20">
-			<ans-input @confirm="confirm(Id)" class="input"  placeholder="写评论..." @input="replyInput" v-model="Comment"></ans-input>
+			<ans-input @confirm="confirm(Id)" class="input"  placeholder="写评论..." @input="replyInput" v-model="Comment" :align='left'></ans-input>
 			<div class="btn-min" @click="submit">评论</div>
 		</div>
 		<reply-item  v-for="(item,index) in CommnetList" :key="index" :index="index" :item="item" @changeItem="changeItem"></reply-item>
@@ -55,6 +55,12 @@
 					});
 					// 清空输入框
 					this.Comment = ""
+					// 如果评论成功需要再次请求评论列表
+					// 需要重置Page并且清空列表
+					this.Page = 1
+					this.CommnetList = []
+					this.getCommnetList(this.Id)
+					console.log('66666',this.CommnetList)
 				}
 			},
 			// 提交评论
@@ -66,6 +72,7 @@
 					});
 				}
 				this.toComment(Id)
+				
 			},
 			replyInput(e){
 				// console.log('输入中，',e)

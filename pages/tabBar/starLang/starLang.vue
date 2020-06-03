@@ -3,7 +3,8 @@
 		<view class="search">
 			<view class="searchbox flex-start">
 				<view class="iconfont icon-sousuo"></view>
-				<view class="txt">搜索目的地/景点/星语</view>
+				<!-- <view class="txt">搜索目的地/景点/星语</view> -->
+				<input confirm-type="send" @confirm="confirm(Id)" type="text" placeholder="搜索目的地/景点/星语" v-model="SearchKey">
 			</view>
 		</view>
 		<div class="plr30">
@@ -14,6 +15,9 @@
 		<view class="fubuBtn iconfont icon-bianji1"  @click="tolick('/pages/starLangSon/release')"></view>
 		<view style="height: 120upx;"></view>
 		<tabbar :current="1"></tabbar>
+		<!-- 数据判断显示 -->
+		<not-data v-if="CommnetList.length<1"></not-data>
+		<uni-load-more :loadingType="loadMore" v-else></uni-load-more>
 	</view>
 </template>
 
@@ -21,12 +25,17 @@
 	import {post,get,toLogin} from '@/common/util.js';
 	import tabbar from '@/components/tabbar.vue';
 	import starLangList from '@/components/starLangList.vue';
+	import notData from '@/components/notData.vue';
 	export default {
 		components: {
-			tabbar,starLangList
+			tabbar,starLangList,notData
 		},
 		data() {
 			return {
+				SearchKey:'',
+				loadMore:0,//0-loading前；1-loading中；2-没有更多了
+				Page: 1,
+				PageSize: 8,
 				isTop:false,//是否显示置顶
 				datalist:[
 					{
@@ -88,6 +97,9 @@
 				]
 			}
 		},
+		onLoad() {
+			this.getFindList()
+		},
 		methods: {
 			//返回顶部
 			Top(){
@@ -101,6 +113,33 @@
 					url:url
 				})
 			},
+			// 获取星语列表
+			async getFindList() {
+				this.loadMore =1;
+				let res = await post('Find/FindList',{
+						SearchKey:this.SearchKey,
+						PageSize:this.PageSize,
+						Page:this.Page
+					})
+				if(res.data.length<this.PageSize){
+					this.loadMore =2;
+				}else{
+					this.loadMore =0;
+				}
+				console.log('搜索页面用户发现list：',res)
+				let tempList = res.data
+				this.datalist = [...this.datalist,...tempList]
+			},
+			// 键盘确定按钮事件
+			confirm (){
+					// 清空输入框
+					this.SearchKey = ""
+					// 如果搜索成功清空
+					// 需要重置Page并且清空列表
+					this.Page = 1
+					this.datalist = []
+					this.getFindList()
+			}
 		},
 		onPageScroll(e){
 			if(e.scrollTop>300){
@@ -108,6 +147,11 @@
 			}else{
 				this.isTop=false;
 			}
+		},
+		onReachBottom(){
+			if(this.loadMore===2)return;
+			this.Page++
+			this.getFindList()
 		},
 	}
 </script>

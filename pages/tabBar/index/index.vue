@@ -122,7 +122,7 @@
 					<star-lang-item v-for="(item,index) in findList" :key="index" :item="item"></star-lang-item>
 				</view>
 			</view>
-			<view class="btn_line uni-mb10">
+			<view class="btn_line uni-mb10" @click="navigate('tabBar/starLang/starLang')">
 				查看更多星语
 			</view>
 		</view>
