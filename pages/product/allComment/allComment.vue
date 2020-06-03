@@ -1,46 +1,50 @@
 <template>
 	<div class="comment bgfff pt10">
 		<div class="plr30">
-			<div class="score plr30 ptb20">
+			<div class="score plr30 ptb20" v-if="OrderCommentInfo.RankScore">
 				<div class="top flex-center">
 					<div class="score-num bold">
-						4.9
+							{{ CommentScore(OrderCommentInfo.RankScore) }}
 					</div>
 					<div class="right">
 						<div class="tab">超赞</div>
 						<div class="starBox flex-center">
 							<div class="star flex-center">
-								<div class="iconfont icon-collect" v-for="(item,index) in 4" :key="index"></div>
-								<div class="iconfont icon-collect1"></div>
+								<div class="iconfont icon-collect" v-for="(item,index) in OrderCommentInfo.RankScore*1" :key="index"></div>
+								<div class="iconfont icon-collect1" v-for="(item2,index2) in (5-OrderCommentInfo.RankScore)" :key="index2"></div>
 							</div>
-							<div class="comment-num">249条评价</div>
+							<div class="comment-num">{{ OrderCommentInfo.CommentNum }}条评价</div>
 						</div>
 					</div>
 				</div>
 				<div class="bottom flex-center-between">
 					<div class="item flex-center">
 						<p>卫生</p>
-						<span>5.0</span>
+						<span>{{ CommentScore(OrderCommentInfo.HealthScore) }}</span>
 					</div>
 					<div class="item flex-center">
 						<p>体验</p>
-						<span>5.0</span>
+						<span>{{ CommentScore(OrderCommentInfo.ProductScore) }}</span>
 					</div>
 					<div class="item flex-center">
 						<p>服务</p>
-						<span>5.0</span>
+						<span>{{ CommentScore(OrderCommentInfo.ServiceScore) }}</span>
 					</div>
 					<div class="item flex-center">
 						<p>设施</p>
-						<span>5.0</span>
+						<span>{{ CommentScore(OrderCommentInfo.FacilityScore) }}</span>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="tab-all flex-center-between">
-			<div class="item" :class="{'active':index===1}" v-for="(item,index) in 5" :key="index">全部(200)</div>
+		<div class="tab-all flex-center">
+			<div class="item" :class="{'active':item.id===tagActive}" 
+				v-for="(item,index) in tag" :key="index"
+				@click="onTag(item)"
+			>{{item.name}}</div>
 		</div>
-		<commentItem v-for="(item,index) in 12" :key="index"></commentItem>
+		<commentItem v-for="(item,index) in commentList" :key="index" :comment="item"></commentItem>
+		<uni-load-more :loadingType="loadMore" v-if="commentList.length&&page>1" />
 	</div>
 	<!-- <notData ></notData>
 	<view class="uni-tab-bar-loading">
@@ -49,30 +53,81 @@
 </template>
 
 <script>
-	import notData from "@/components/notData"; //没有数据的通用提示
 	import commentItem from './commentItem.vue';
 	import { post } from '@/utils';
 	export default {
-		components:{commentItem,notData,},
+		components:{commentItem,},
 		data() {
 			return {
+				pageSize: 10,
+				page: 1,
+				loadingType: 0, //0加载前，1加载中，2没有更多了
+				proId:'',
+				tag:[
+					{id:0,name:'全部'},
+					{id:1,name:'有图'},
+					{id:2,name:'最新'},
+				],
+				tagActive:0,
+				OrderCommentInfo:{},
+				commentList:[],
 			}
 		},
-		onLoad() {
-			this.getOrderCommentList()
+		onLoad(option) {
+			this.proId = option.proId;
+			this.getOrderCommentInfo()
+			this.init()
 		},
 		methods: {
+			init(){
+				this.page=1;
+				this.loadingType=0;
+				this.commentList=[];
+				this.getOrderCommentList()
+			},
+			// 获取订单评价汇总信息
+			async getOrderCommentInfo () {
+				let res = await post('Order/OrderCommentInfo',{ProId:this.proId})
+				this.OrderCommentInfo = res.data
+			},
+			// 获取订单评价信息列表
 			async getOrderCommentList () {
-				let res = await post('Order/OrderCommentList',{Type:0,ProId:492})
-				console.log(res)
+				this.loadMore =1;
+				let res = await post('Order/OrderCommentList',{
+					ProId:this.proId,
+					Page: 1,
+					PageSize:12,
+					Type:this.tagActive,
+					})
+				const data = res.data;
+				if(data.length<this.pageSize){
+					this.loadMore =2;
+				}else{
+					this.loadMore =0;
+				}
+				if(this.page===1){
+					this.commentList = [];
+				}
+				this.commentList.push(...data);
+			},
+			onTag(item){
+				this.tagActive = item.id;
+				this.init();
+			},
+			// 分数
+			CommentScore (score) {
+					if(!score)return;
+					if (score.length > 1) {
+						return score
+					}
+					return score + ".0"
 			},
 		},
 		onReachBottom(){
-			console.log("触底了")
+			if(this.loadMore===2)return;
+			this.page+=1;
+			this.getOrderCommentList();
 		},
-		onPullDownRefresh(){
-			uni.stopPullDownRefresh()
-		}
 	}
 </script>
 <style scoped lang="scss">

@@ -129,7 +129,7 @@
 				</div>
 			</div>
 			<commentItem v-for="(item,index) in commentList" :key="index" :comment="item"></commentItem>
-			<div v-if="commentList.length" class="more" @click="navigate('product/allComment/allComment')">阅读{{details.CommentNum }}条评论</div>
+			<div v-if="commentList.length" class="more" @click="navigate('product/allComment/allComment',{proId:Id})">阅读{{details.CommentNum }}条评论</div>
 		</div>
 		<div class="gap20"></div>
 		<div class="position ptb30">
@@ -386,7 +386,12 @@
 			},
 			// 获取订单评价信息列表
 			async getOrderCommentList () {
-				let res = await post('Order/OrderCommentList',{Page: 1})
+				let res = await post('Order/OrderCommentList',{
+					ProId:this.Id,
+					Page: 1,
+					PageSize:2,
+					Type:0,
+					})
 				// console.log("产品评论列表：",res)
 				this.commentList = res.data
 			},
