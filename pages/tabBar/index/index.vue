@@ -122,7 +122,7 @@
 					<star-lang-item v-for="(item,index) in findList" :key="index" :item="item"></star-lang-item>
 				</view>
 			</view>
-			<view class="btn_line uni-mb10" @click="navigate('tabBar/starLang/starLang')">
+			<view class="btn_line uni-mb10" @click="switchTab('tabBar/starLang/starLang')">
 				查看更多星语
 			</view>
 		</view>
@@ -172,7 +172,7 @@
 </template>
 
 <script>
-	import {post,get,navigate,judgeLogin} from '@/utils';
+	import {post,get,navigate,switchTab,judgeLogin} from '@/utils';
 	import tabbar from '@/components/tabbar.vue';
 	import datePicker from '@/components/date-picker/date-picker.vue';
 	import {hasPosition,getCityCode} from '@/utils/location';
@@ -187,6 +187,7 @@
 		data() {
 			return {
 				navigate,
+				switchTab,
 				userId: "",
 				token: "",
 				currentSwiper :0,
