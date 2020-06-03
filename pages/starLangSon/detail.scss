@@ -79,6 +79,13 @@
 		.content{
 			padding:10upx 0;
 			line-height:1.5;
+			// &.allContent{
+			// 	width: 200upx;
+			// 	white-space: nowrap;
+			// 	word-break: keep-all;
+			// 	overflow: hidden;
+			// 	text-overflow: ellipsis;
+			// }
 		}
 		.more{
 			color:$primary;

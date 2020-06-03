@@ -105,10 +105,10 @@
 			this.getFindList()
 		},
 		onShow() {
-			// console.log('星语列表onShow')
-			this.SearchKey = ''
+			console.log('星语列表onShow')
+			// this.SearchKey = ''
 			this.datalist = []
-			// this.Page = 1
+			this.Page = 1
 			this.getFindList()
 		},
 		methods: {

@@ -12,7 +12,7 @@
 					</view>
 				</swiper-item>
 			</swiper>
-			<view class="dots">
+			<view v-if="ImgList.length > 1" class="dots">
 				<!-- <view v-for="(item,index) in detail.ImgList" :key="index" :class="['dot',currentSwiper==index?'active':'']"></view> -->
 				<view v-for="(item,index) in ImgList" :key="index" :class="['dot',currentSwiper==index?'active':'']"></view>
 			</view>
@@ -33,10 +33,12 @@
 			</div>
 			<div class="detail bb1 pb20">
 				<h2>{{ detail.Title}}</h2>
-				<div class="content" v-show="isShowAll" v-html="detail.ContentAbstract + detail.ContentDetails"></div>
-				<div class="content" v-show="!isShowAll" v-html="detail.ContentAbstract"></div>
-				
-				<div class="more flex-center" @click="changeIsShowAll" v-show="!isShowAll">展开全部 <uni-icons type="arrowdown" color="#5cc69a"></uni-icons></div>
+				<!-- <div class="content" v-show="isShowAll" v-html="detail.ContentAbstract + detail.ContentDetails"></div>
+				<div class="content" v-show="!isShowAll" v-html="detail.ContentAbstract"></div> -->
+				<!-- <div class="content uni-ellipsis2" :class="{allContent : !isShowAll}" v-html="detail.ContentAbstract + detail.ContentDetails"></div> -->
+				<!-- <div class="content" v-show="!isShowAll" v-html="detail.ContentAbstract"></div> -->
+				<div class="content" :class="{'uni-ellipsis2': !isShowAll}" v-html="detail.ContentAbstract + detail.ContentDetails"></div>
+				<div class="more flex-center" @click="changeIsShowAll" v-show="(!isShowAll) && isToLong ">展开全部 <uni-icons type="arrowdown" color="#5cc69a"></uni-icons></div>
 				<!-- <p>2020-04-28发布</p> -->
 				<p>{{ formatTime(detail.Addtime)}}发布</p>
 			</div>
@@ -79,7 +81,7 @@
 					</div>
 				</div>
 				<reply-item  v-for="(item,index) in CommnetList" :key="index" :index="index" :item="item" @changeItem="changeItem"></reply-item>
-				<div class="more" @click="navigate('starLangSon/reply',{Id:Id})">查看{{ detail.CommentNum}}条回复</div>
+				<div v-if='detail.CommentNum' class="more" @click="navigate('starLangSon/reply',{Id:Id})">查看{{ CommnetList.length}}条回复</div>
 			</div>
 		</div>
 		<div class="gap20"></div>
@@ -118,7 +120,9 @@
 						name:'旅行为我门的生活打开了一扇窗，这扇窗窗，这扇窗~',
 					},
 				],
-				detail: {},
+				detail: {
+					ImgList:''
+				},
 				isShowAll: false,
 				Id:0,
 				LikeList:[],
@@ -134,22 +138,24 @@
 			let Id = options.Id
 			this.Id = Id
 			this.getUserInfo()
-			// console.log('我是传递过来的Id',options)
+			console.log('我是传递过星语详情的Id',options)
 			this.getDetail(Id)
 			// this.getDataList()
 			this.getLikeList(Id)
-			this.getCommnetList(Id)
+			// this.getCommnetList(Id)
 			this.getFindList()
 		},
 		onShow() {
 			if(this.userId == '' || this.token == '') {
 				this.getUserInfo()
 			}
+			// 去了查看评论后,返回需要再次请求评论列表
+			this.getCommnetList(this.Id)
 		},
 		methods: {
 			// 组件点赞
 			changeItem(res){
-				// console.log('我是子组件传递过来的：',res)
+				console.log('我是子组件传递过来的：',res)
 				this.CommnetList[res.index].IsLike = !this.CommnetList[res.index].IsLike 
 				if(res.count === true) {
 					this.CommnetList[res.index].LikeNum++
@@ -225,6 +231,8 @@
 					this.Comment = ""
 					// 如果评论成功需要再次请求评论列表
 					this.getCommnetList(this.Id)
+					// // 如果评论成功，需要给detail的回复+1
+					// this.detail.CommentNum++
 				}
 			},
 			/* 评论 */
@@ -284,8 +292,13 @@
 			},
 			// 处理返回来的图片数组
 			ImgList () {
+				
 				return this.detail.ImgList.split(',')
 			},
+			// 根据字符长度判断是否需要显示,展开全部
+			isToLong() {
+				return (this.detail.ContentAbstract + this.detail.ContentDetails).length>48
+			}
 		}
 	}
 </script>
