@@ -37,6 +37,12 @@
 			this.token = uni.getStorageSync('token');
 			this.getGoodsList()
 		},
+		onShow(){
+			if(this.userId||this.token){
+				this.userId = uni.getStorageSync('userId');
+				this.token = uni.getStorageSync('token');
+			}
+		},
 		computed:{
 			// ...mapState(['lng','lat','cityName','cityCode'])
 		},
@@ -64,9 +70,7 @@
 		},
 		onReachBottom(){
 			if(this.loadMore===2)return;
-			this.userId = uni.getStorageSync('userId');
-			this.token = uni.getStorageSync('token');
-			this.page=1;
+			this.page+=1;
 			this.getGoodsList();
 		},
 

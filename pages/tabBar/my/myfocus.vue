@@ -1,47 +1,41 @@
 <template>
 	<!-- 我的关注 -->
-	<view class="myfocus">
-		<view class="focus" v-for="(val,key) in 6" :key="key">
+	<view class="myfocus bgfff">
+		<view class="focus" v-for="(val,key) in list" :key="key">
 			<view class="focusleft">
-				<view class="forcusimg">
-					<image src="http://xqk.wtvxin.com/images/wxapp/default.png" mode=""></image>
+				<view class="forcusimg" @click="goHonePage(val)">
+					<image :src="val.ToMemberHead||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode=""></image>
 				</view>
 				<view class="focuscenter">
-					<view class="focusbox">
-						<view class="">筱风月忆</view>
-						<view class="focusfz">慈悲如月 温暖如阳</view>
+					<view class="focusbox" @click="goHonePage(val)">
+						<view class="">{{val.ToMemberName}}</view>
+						<view class="focusfz ellipsis">{{val.Introduction||'Ta很懒，什么也没留下'}}</view>
 					</view>
-					<view class="focusright">已关注</view>
+					<div @click="follow(val)">
+						<view class="focusright" v-if="val.IsFollow">已关注</view>
+						<view class="focusright active" v-else>关注</view>
+					</div>
 				</view>
 			</view>
 		</view>
-		<view class="focus">
-			<view class="focusleft next" v-for="(val,key) in 2" :key="key">
-				<view class="forcusimg">
-					<image src="http://xqk.wtvxin.com/images/wxapp/default.png" mode=""></image>
-				</view>
-				<view class="focuscenter">
-					<view class="focusbox">
-						<view class="">筱风月忆</view>
-						<view class="focusfz">慈悲如月 温暖如阳</view>
-					</view>
-					<view class="focusright active">已关注</view>
-				</view>
-			</view>
-		</view>
+		<not-data v-if="!list.length"  tipsTitle="暂无数据哦~" />
+		<uni-load-more :loadingType="loadMore" v-if="list.length&&page>1" />
 	</view>
 </template>
 
 <script>
 import { post,navigate} from '@/utils';
+	import notData from '@/components/notData.vue'
 export default {
+		components:{
+			notData},
 	data(){
 		return {
 			navigate,
 			userId: '',
 			token: '',
-			PageSize: 10,
-			Page: 1,
+			pageSize: 10,
+			page: 1,
 			loadingType: 0, //0加载前，1加载中，2没有更多了
 			list:[],
 		}
@@ -53,7 +47,7 @@ export default {
 		init(){
 			this.userId = uni.getStorageSync('userId');
 			this.token = uni.getStorageSync('token');
-			this.loadMore===0;
+			this.loadMore=0;
 			this.Page = 1;
 			this.getData();
 		},
@@ -77,6 +71,14 @@ export default {
 			}
 			this.list.push(...data);
 		},
+		// 关注
+		async follow(val){
+			await post('Find/FollowOperation',{UserId:this.userId,Token:this.token,ToMemberId:val.ToUserId})
+			val.IsFollow = val.IsFollow?0:1;
+		},
+		goHonePage(val){
+			navigate('starLangSon/homePage',{taUserId:val.ToUserId})
+		}
 	},
 	onPullDownRefresh(){
 		uni.stopPullDownRefresh()
@@ -103,11 +105,11 @@ export default {
 				display: flex;
 				.forcusimg{
 					height:88upx;
-					border-radius:50%;
 					padding: 0 30upx;
 					image{
 						width:88upx;
 						height:88upx;
+						border-radius:50%;
 					}
 				}
 				.focuscenter{
@@ -121,6 +123,7 @@ export default {
 						font-size:32upx;
 						.focusfz{
 							font-size:24upx;
+							width:400upx;
 							color:rgba(125,125,125,1);
 						}
 					}

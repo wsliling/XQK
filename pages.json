@@ -370,7 +370,7 @@
 				"pagePath": "pages/tabBar/starLang/starLang",
 				"iconPath": "static/tabbar/ft2.png",
 				"selectedIconPath": "static/tabbar/ft2_in.png",
-				"text": "星语1"
+				"text": "星语"
 			},
 			{
 				"pagePath": "pages/tabBar/xingkong/xingkong",
