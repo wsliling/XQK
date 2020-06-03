@@ -240,6 +240,7 @@
 		},
 		onReachBottom(){
 			if(this.loadMore===2)return;
+			this.page+=1;
 			this.getData();
 		},
 	}

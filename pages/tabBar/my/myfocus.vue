@@ -33,6 +33,62 @@
 </template>
 
 <script>
+import { post,navigate} from '@/utils';
+export default {
+	data(){
+		return {
+			navigate,
+			userId: '',
+			token: '',
+			PageSize: 10,
+			Page: 1,
+			loadingType: 0, //0加载前，1加载中，2没有更多了
+			list:[],
+		}
+	},
+	onLoad(){
+		this.init();
+	},
+	methods:{
+		init(){
+			this.userId = uni.getStorageSync('userId');
+			this.token = uni.getStorageSync('token');
+			this.loadMore===0;
+			this.Page = 1;
+			this.getData();
+		},
+		async getData(){
+			this.loadMore =1;
+			const res = await post('Find/UserFollowList',{
+				UserId: this.userId,
+				Token: this.token,
+				Page:this.page,
+				PageSize:this.pageSize,
+				myType:0,//0--我的关注，1--我的粉丝
+			})
+			const data = res.data;
+			if(data.length<this.pageSize){
+				this.loadMore =2;
+			}else{
+				this.loadMore =0;
+			}
+			if(this.page===1){
+				this.list = [];
+			}
+			this.list.push(...data);
+		},
+	},
+	onPullDownRefresh(){
+		uni.stopPullDownRefresh()
+		this.init();
+	},
+	// 上拉加载
+	onReachBottom: function() {
+		if(this.loadMore===2)return;
+		this.page+=1;
+		this.getData();
+	},
+}
 </script>
 
 <style lang="scss" scoped>

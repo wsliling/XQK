@@ -18,7 +18,7 @@
 								<view class="num">￥{{val.UnitPrice}}</view>
 							</view>
 							<view class="point" >
-								<view class="pointkey" v-for="item in ServiceKeys">{{item}}</view>
+								<view class="pointkey" v-for="(item,index) in ServiceKeys" :key="index">{{item}}</view>
 							</view>
 							<view class="font">
 								<view class="iconfont icon-collect"></view>
@@ -84,12 +84,13 @@
 			IsApplyInvoice,//按钮开票 1-显示
 			IsDel,//删除订单 1-显示
 			IsCancel,//取消订单 1-显示  -->
-		<view class="bottom">
-			<view class="bottomfff" v-if="orderList.IsRefund ===1" @click="goUrl(orderList.Total)">取消预订</view>
-			<view class="bottomfff" v-if="orderList.IsCancel ===1" @click="chooseOrders(1)">取消订单</view>
-			<view class="bottomfff" v-if="orderList.IsDel ===1" @click="chooseOrders(2)">删除订单</view>
-			<view class="bottomblue" v-if="orderList.Ispay ===1" @click="ConfirmWeiXinSmallPay()">立即支付</view>
-			<view class="bottomblue" v-if="orderList.IsComment === 1" @click.stop="goUrl()">去评价</view>
+		<view class="bottom" v-if="orderList.IsRefund||orderList.IsCancel||orderList.IsDel||orderList.RefundId||orderList.Ispay||orderList.IsComment">
+			<view class="bottomfff" v-if="orderList.IsRefund" @click="goUrl(orderList.Total)">取消预订</view>
+			<view class="bottomfff" v-if="orderList.IsCancel" @click="chooseOrders(1)">取消订单</view>
+			<view class="bottomfff" v-if="orderList.IsDel" @click="chooseOrders(2)">删除订单</view>
+			<view class="bottomfff" v-if="orderList.RefundId" @click="navigate('tabBar/order/schedule',{orderNo:orderList.OrderNumber})">退款进度</view>
+			<view class="bottomblue" v-if="orderList.Ispay" @click="ConfirmWeiXinSmallPay()">立即支付</view>
+			<view class="bottomblue" v-if="orderList.IsComment" @click.stop="goUrl()">去评价</view>
 			<!-- <view class="bottomfff" v-if="orderList. ===1">查看退款进度</view> -->
 			<!-- <view class="bottomblue" v-if="orderList. ===1">重新预订</view> -->
 		</view>
@@ -97,10 +98,11 @@
 </template>
 
 <script>
-	import { post, navigateBack, redirect } from '@/utils'
+	import { post, navigateBack,navigate } from '@/utils'
 	export default {
 		data(){
 			return{
+				navigate,
 				userId:'',
 				token:'',
 				OrderNumber:'',
@@ -203,14 +205,14 @@
 						signType: payData.signType,
 						paySign: payData.paySign,
 						success(res) {
-							redirect('product/paysuccess/index',{OrderNo:_this.OrderNumber,msg:'fail',money:_this.orderList.Total})
+							navigate('product/paysuccess/index',{OrderNo:_this.OrderNumber,money:_this.orderList.Total})
 							},
 						fail(res) {
-							redirect('product/paysuccess/index',{OrderNo:_this.OrderNumber,msg:'fail',money:_this.orderList.Total})
+							navigate('product/paysuccess/index',{OrderNo:_this.OrderNumber,msg:'fail',money:_this.orderList.Total})
 						}
 						})
 					}else if(res.code==200){
-						redirect('product/paysuccess/index',{OrderNo:_this.OrderNumber,money:_this.orderList.Total})
+						navigate('product/paysuccess/index',{OrderNo:_this.OrderNumber,money:_this.orderList.Total})
 					}
 				})
 			},
