@@ -16,8 +16,9 @@
 		</div>
 		<div class="zan" @click="toZan(item.Id)" :class='{active : item.IsLike}'>
 			<div class="collect flex-center" :class='{active : item.IsLike}'>
-				<div class="iconfont icon-zan" :class='{"icon-zan1" : item.IsLike,"active" : item.IsLike}'></div>
-				{{ item.LikeNum }}
+				<div class="iconfont" :class='{"icon-zan":!item.IsLike,"icon-zan1" : item.IsLike,"active" : item.IsLike}'></div>
+				{{ item.LikeNum }} 
+				<!-- 我是is：{{item.IsLike}} -->
 			</div>
 		</div>
 	</div>
@@ -39,6 +40,11 @@
 		},
 		onLoad() {
 		},
+		// watch: {
+		//     a: function (val, oldVal) {
+		//       console.log('new: %s, old: %s', val, oldVal)
+		//     },
+		// }
 		methods: {
 			// 获取用户id以及token
 			getUserInfo () {
@@ -52,19 +58,20 @@
 				console.log("点赞返回：",res)
 				if (res.code === 0){
 					// this.item.IsLike = !this.item.IsLike
-					if(res.msg === "点赞成功！") {
-						// this.item.LikeNum++
-						console.log(this.item.LikeNum)
-						// this.$emit("changeItem",{index: this.index,data: this.item,count:true});
-						this.$emit("changeItem",{index: this.index,count:true});
+					// 调用父组件的方法
+					this.$parent.getCommnetList(this.$parent.Id)
+					// if(res.msg === "点赞成功！") {
+					// 	// this.item.LikeNum++
+					// 	console.log(this.item.LikeNum)
+					// 	// this.$emit("changeItem",{index: this.index,data: this.item,count:true});
+					// 	this.$emit("changeItem",{index: this.index,data: this.item,count:true});
 						
-					}else {
-						// this.item.LikeNum--
-						console.log(this.item.LikeNum)
-						// this.$emit("changeItem",{index: this.index,data: this.item,count:false});
-						this.$emit("changeItem",{index: this.index,count:false});
-						
-					}
+					// }else {
+					// 	// this.item.LikeNum--
+					// 	console.log(this.item.LikeNum)
+					// 	// this.$emit("changeItem",{index: this.index,data: this.item,count:false});
+					// 	this.$emit("changeItem",{index: this.index,data: this.item,count:false});
+					// }
 				}
 				uni.showToast({
 				    title:res.msg,

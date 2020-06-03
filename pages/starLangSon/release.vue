@@ -3,7 +3,7 @@
 	<div>
 		<view class="feed">
 			<!-- <view class="feed-name">添加标题</view> -->
-			<input type="text" v-model="title" placeholder="添加标题"/>
+			<input type="text" v-model="title" placeholder="添加标题" placeholder-style="font-size: 28upx;color: rgba(187, 188, 191, 1);"/>
 			<textarea
 				name=""
 				id=""
@@ -29,7 +29,11 @@
 			<view class="site" @click="tolick('/pages/starLangSon/location')">
 				<view>所在位置</view>
 				<view class="place">
-					<view class="">展滔科技大厦</view>
+					<!-- <view class="">展滔科技大厦</view> -->
+					<view class="">
+						{{ place }}
+					</view>
+					<!-- <input type="text" :placeholder="place" /> -->
 					<img src="http://xqk.wtvxin.com/images/wxapp/icons/arrow.png" alt="" />
 				</view>
 			</view>
@@ -65,11 +69,11 @@
 </template>
 
 <script>
-// import { post, get, verifyPhone } from '@/utils';
-// import { pathToBase64 } from '@/utils/image-tools';
+import { post, get, verifyPhone } from '@/utils';
+import { pathToBase64 } from '@/utils/image-tools';
 import pickers from '@/components/pickers';
 export default {
-	// components: { pickers },
+	components: { pickers },
 	data() {
 		return {
 			showEdit: false,
@@ -78,11 +82,26 @@ export default {
 			typeTxt: '请选择',
 			Mobile: '',
 			Name: '',
-			Content: '',
+			// Content: '',
 			PicList: [],
 			maxPicLen: 5, //最多上传
-			isUploadBtn: true //显示上传图片按钮
+			isUploadBtn: true, //显示上传图片按钮
+			// 分割线
+			userId:'',
+			token:'',
+			title: '',
+			Content: '',
+			place:'不显示位置',
 		};
+	},
+	onShow() {
+		// if(this.$store.state.place === '不显示位置'){
+		// 	this.place = this.$store.state.place
+		// }
+		this.place = this.$store.state.place
+		// this.$store.commit('update',{"place":"不显示位置"})
+		console.log(this.$store.state.place)
+		this.getUserInfo()
 	},
 	onLoad() {
 		this.PicList = [];
@@ -91,8 +110,17 @@ export default {
 		this.Content = '';
 		this.typeTxt = '请选择';
 		this.getTypelist();
+		// 分割线
+		this.title = ''
+		this.Content = ''
+		this.place = '不显示位置'
 	},
 	methods: {
+		// 获取用户id以及token
+		getUserInfo () {
+			this.userId = uni.getStorageSync('userId');
+			this.token = uni.getStorageSync('token');
+		},
 		gettype(e) {
 			this.type = e.code;
 			this.typeTxt = e.message;
@@ -110,24 +138,25 @@ export default {
 			})
 		},
 		//提交意见反馈
+		// 星语发布/提交发布
 		async FeedBack(base64Arr) {
+			console.log(base64Arr)
 			const res = await post(
-				'User/MemberFeedBack',
+				'Find/UserPublishFind',
 				{
-					UserId: wx.getStorageSync('userId'),
-					Token: wx.getStorageSync('token'),
-					Type: this.type,
-					Content: this.Content,
+					UserId: this.userId,
+					Token: this.token,
+					Title: this.title,
+					ContentDetails: this.Content,
 					PicList: base64Arr,
-					Mobile: this.Mobile,
-					Name: this.Name
+					Location: this.place
 				},
-				this.getData
+				// this.getData
 			);
 			console.log('3333333');
 			if (res.code == 0) {
 				wx.showToast({
-					title: '提交成功'
+					title: '发布成功'
 				});
 				setTimeout(() => {
 					// wx.switchTab({
@@ -138,17 +167,17 @@ export default {
 			}
 		},
 		verify() {
-			if (this.typeTxt == '请选择') {
+			if (this.title.trim().length === 0) {
 				wx.showToast({
-					title: '请选择问题类型！',
+					title: '请输入标题！',
 					icon: 'none',
 					duration: 2000
 				});
 				return false;
 			}
-			if (this.Content == '') {
+			if (this.Content.trim().length === 0) {
 				wx.showToast({
-					title: '请输入建议内容！',
+					title: '请输入发布内容！',
 					icon: 'none',
 					duration: 2000
 				});
@@ -161,25 +190,6 @@ export default {
 					duration: 2000
 				});
 				return false;
-			}
-			if (this.Name == '') {
-				wx.showToast({
-					title: '请输入您的姓名！',
-					icon: 'none',
-					duration: 2000
-				});
-				return false;
-			}
-			if (this.Mobile == '') {
-				wx.showToast({
-					title: '请输入联系方式！',
-					icon: 'none',
-					duration: 2000
-				});
-				return false;
-			}
-			if (!verifyPhone(this.Mobile)) {
-				return;
 			}
 
 			return true;
@@ -236,6 +246,21 @@ export default {
 <style scoped lang="scss">
 // 添加标题和图片的样式
 .feed {
+	input{
+		// background:#f5f5f5;
+		border-radius:7upx;
+		// line-height:60upx;
+		height:60upx;
+		// width:550upx;
+		// border:1upx solid #e8e8e8;
+		// padding:0 15upx;
+		border-bottom: 1upx solid #ececec;
+		
+		&.placeholderStyle {
+		    font-size: 28upx;
+				color: rgba(187, 188, 191, 1);
+		}
+	}
 	background: #fff;
 	padding: 0 30upx;
 	padding-bottom: 40upx;
