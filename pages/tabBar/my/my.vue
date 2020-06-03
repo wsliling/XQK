@@ -13,11 +13,11 @@
 				<view class="info" @click="navigate('tabBar/my/account')">
 					<view class="name uni-ellipsis">{{info.NickName}}</view>
 					<view class="c_theme">查看并编辑个人资料</view>
-					<view class="datanum flex-start">
-						<view class="flex-start">
+					<view class="datanum flex-center">
+						<view class="flex-center">
 							关注<text class="num">{{info.Follow}}</text>
 						</view>
-						<view class="flex-start">
+						<view class="flex-center">
 							粉丝<text class="num">{{info.Fans}}</text>
 						</view>
 					</view>
