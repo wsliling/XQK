@@ -35,7 +35,11 @@
 		onLoad(options) {
 			console.log("传递过来的：",options)
 			this.Id = parseFloat(options.Id)
+			this.getUserInfo()
 			this.getCommnetList(this.Id)
+		},
+		onShow() {
+			this.getUserInfo()
 		},
 		methods: {
 			// 获取用户id以及token
@@ -45,7 +49,6 @@
 			},
 			// 用户评论操作
 			async toComment (Id){
-				this.getUserInfo()
 				let res = await post('Find/CommentOperation',{UserId:this.userId,Token:this.token,FkId:Id,Comment:this.Comment})
 				console.log('评论后返回:',res)
 				if(res.code === 0){
@@ -65,7 +68,7 @@
 			},
 			// 提交评论
 			confirm(Id) {
-			   if (this.Comment.replace(/(^s*)|(s*$)/g, "").length ==0) {
+			   if (this.Comment.trim().length ==0) {
 					return uni.showToast({
 					    title:'请输入评论内容',
 					    icon:'none'
@@ -85,7 +88,7 @@
 			// 发现评论列表
 			async getCommnetList (Id){
 				this.loadMore =1;
-				let res = await post('Find/CommnetList',{FkId:Id,PageSize:this.PageSize,Page:this.Page})
+				let res = await post('Find/CommnetList',{UserId:this.userId,Token:this.token,FkId:Id,PageSize:this.PageSize,Page:this.Page})
 				// console.log('发现评论列表:',res)
 				// if(res.data.length === 0){
 				// 	return uni.showToast({
@@ -102,9 +105,20 @@
 				this.CommnetList = [...this.CommnetList,...tempList]
 				// this.CommnetList = res.data
 			},
+			// // 组件点赞
+			// changeItem(res){
+			// 	// console.log('我是子组件传递过来的：',res)
+			// 	this.CommnetList[res.index].IsLike = !this.CommnetList[res.index].IsLike 
+			// 	if(res.count === true) {
+			// 		this.CommnetList[res.index].LikeNum++
+			// 	}else {
+			// 		this.CommnetList[res.index].LikeNum--
+			// 	}
+			// 	// console.log('我是子组件传递过来的处理过的：',this.CommnetList[res.index])
+			// },
 			// 组件点赞
 			changeItem(res){
-				// console.log('我是子组件传递过来的：',res)
+				console.log('我是子组件传递过来的：',res)
 				this.CommnetList[res.index].IsLike = !this.CommnetList[res.index].IsLike 
 				if(res.count === true) {
 					this.CommnetList[res.index].LikeNum++

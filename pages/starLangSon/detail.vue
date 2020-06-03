@@ -7,7 +7,7 @@
 				<swiper-item v-for="(item,index) in ImgList" :key="index">
 					<view class="swiper-item">
 						<!-- <image class="img" src="/static/of/banner.jpg" mode="aspectFill"></image> -->
-						<image class="img" :src="item" mode="widthFix"></image>
+						<image class="img" :src="item" mode="aspectFill"></image>
 						<!-- <image class="img" :src="detail.ImgList" mode="aspectFill"></image> -->
 					</view>
 				</swiper-item>
@@ -21,7 +21,7 @@
 			<div class="user flex-center-between">
 				<div class="info flex-center">
 					<!-- <img src="/static/of/banner.jpg" alt=""> -->
-					<img :src="detail.Avatar" alt="">
+					<img @click="navigate('starLangSon/homePage',{taUserId:detail.MemberId})" :src="detail.Avatar" alt="">
 					<h5>{{ detail.NickName }}</h5>
 				</div>
 				<div class="btnBox flex-center" @click="toFolloow">
@@ -37,10 +37,16 @@
 				<div class="content" v-show="!isShowAll" v-html="detail.ContentAbstract"></div> -->
 				<!-- <div class="content uni-ellipsis2" :class="{allContent : !isShowAll}" v-html="detail.ContentAbstract + detail.ContentDetails"></div> -->
 				<!-- <div class="content" v-show="!isShowAll" v-html="detail.ContentAbstract"></div> -->
-				<div class="content" :class="{'uni-ellipsis2': !isShowAll}" v-html="detail.ContentAbstract + detail.ContentDetails"></div>
-				<div class="more flex-center" @click="changeIsShowAll" v-show="(!isShowAll) && isToLong ">展开全部 <uni-icons type="arrowdown" color="#5cc69a"></uni-icons></div>
+				<!-- 'uni-ellipsis2': !isShowAll -->
+				<view class="content" :class="{'showAll': isShowAll}" v-html="detail.ContentAbstract + detail.ContentDetails"></view>
+				<!-- <div class="more flex-center" @click="changeIsShowAll" v-show="(!isShowAll) && isToLong ">展开全部 <uni-icons type="arrowdown" color="#5cc69a"></uni-icons></div> -->
+				<view v-if="!isShowAll" class="shade" @click="changeIsShowAll">
+					<view class="text">
+						展开全部
+					</view>
+				</view>
 				<!-- <p>2020-04-28发布</p> -->
-				<p>{{ formatTime(detail.Addtime)}}发布</p>
+				<p v-if="isShowAll">{{ formatTime(detail.Addtime)}} 发布</p>
 			</div>
 			<div class="pro" v-if="detail.ExternalLink">
 				<h4>文中提及</h4>
@@ -64,7 +70,7 @@
 					</div>
 					<div class="zan-icon flex-center" :class="{active: detail.IsLike}" @click="toZan(Id)">
 						<!-- <div class="iconfont icon-zan" :class="{active: detail.IsLike}"></div>{{ detail.LikeNum}} -->
-						<div class="iconfont icon-zan" :class='{"icon-zan1" : detail.IsLike,"active" : detail.IsLike}'></div>
+						<div class="iconfont icon-zan" :class='{"icon-zan1" : detail.IsLike,"active" : detail.IsLike}'></div>{{ detail.LikeNum}}
 					</div>
 				</div>
 			</div>
@@ -74,14 +80,14 @@
 					<input confirm-type="send" @confirm="confirm(Id)" type="text" placeholder="写评论..." v-model="Comment">
 					<div class="line1"></div>
 					<div @click="toCollections" class="collect flex-column-center-center" :class="{active : detail.CollectionId}">
-						<div class="iconfont icon-aixin2" :class='{"icon-aixin" : detail.CollectionId,"active" : detail.CollectionId}'></div>
+						<div class="iconfont" :class='{"icon-aixin2": !detail.CollectionId,"icon-aixin" : detail.CollectionId,"active" : detail.CollectionId}'></div>
 						<!-- <div v-show='!detail.CollectionId' class="iconfont icon-aixin2"></div>
 						<div v-show='detail.CollectionId' class="iconfont icon-aixin active"></div> -->
 						{{ detail.CollectNum}}
 					</div>
 				</div>
 				<reply-item  v-for="(item,index) in CommnetList" :key="index" :index="index" :item="item" @changeItem="changeItem"></reply-item>
-				<div v-if='detail.CommentNum' class="more" @click="navigate('starLangSon/reply',{Id:Id})">查看{{ CommnetList.length}}条回复</div>
+				<div v-if='detail.CommentNum' class="more" @click="navigate('starLangSon/reply',{Id:Id})">查看{{ detail.CommentNum }}条回复</div>
 			</div>
 		</div>
 		<div class="gap20"></div>
@@ -90,7 +96,7 @@
 			<div class="flex-center-between">
 				<starLangItem :item="item"  v-for="(item,index) in findList" :key="index"></starLangItem>
 			</div>
-			<div class="btn-max">查看更多星语</div>
+			<div class="btn-max" @click="switchTab('tabBar/starLang/starLang')">查看更多星语</div>
 		</div>
 	</div>
 </template>
@@ -99,13 +105,14 @@
 	import proItem from '@/components/productItem.vue';
 	import starLangItem from '@/components/starLangItem.vue';
 	import replyItem from './replyItem.vue';
-	import {navigate,post} from '@/utils';
+	import {navigate,post,switchTab,getCurrentPageUrlWithArgs} from '@/utils';
 	import { formatTime } from '@/common/util.js'
 	export default {
 		components:{proItem,replyItem,starLangItem},
 		data() {
 			return {
 				navigate,
+				switchTab,
 				currentSwiper :0,
 				content:`风景是真的美，但走起来真的累！而且！最近是帐篷节，周末人多到爆！无论是等缆车！还是徒步！都会把你挤哭的！要去的记得选好时间
 					门票：可以买门票+一级索道往返票=170元，索道往返价格有些微差异，具体可美团（据说一级索道途经的风景一般，建议保存体力选择搭乘缆车。本人觉得二级索道沿途风景也很一般啊......缺乏运动的小伙伴
@@ -126,7 +133,7 @@
 				isShowAll: false,
 				Id:0,
 				LikeList:[],
-				CommnetList:{},
+				CommnetList:[],
 				userId:'',
 				token:'',
 				// 评论内容
@@ -146,12 +153,42 @@
 			this.getFindList()
 		},
 		onShow() {
+			console.log('getCurrentPages()----------- ',getCurrentPageUrlWithArgs() )
 			if(this.userId == '' || this.token == '') {
 				this.getUserInfo()
 			}
 			// 去了查看评论后,返回需要再次请求评论列表
 			this.getCommnetList(this.Id)
+			// 还需要再次请求detail信息
+			this.getDetail(this.Id)
 		},
+		onShareAppMessage: function (res) {
+		    // let gbid = res.target.dataset.info.order_id;
+			console.log('我触发分享了')
+		    return {
+		      title: '分享',
+		      path: getCurrentPageUrlWithArgs(),
+		      // imageUrl: 'https://......./img/groupshare.png',  //用户分享出去的自定义图片大小为5:4,
+		      success: function (res) {
+			   // 转发成功
+					// console.log('成功分享')
+			        uni.showToast({
+			          title: "分享成功",
+			          icon: 'success',
+			          duration: 2000
+			        })
+		       },
+		      fail: function (res) {
+		        // 分享失败
+					// console.log('分享失败')
+					uni.showToast({
+						title: "分享失败",
+						icon: 'none',
+					duration: 2000
+					})
+				},
+		    }
+		  },
 		methods: {
 			// 组件点赞
 			changeItem(res){
@@ -174,7 +211,7 @@
 			},
 			// 星语详情
 			async getDetail(Id){
-				let res = await post('Find/FindNewsInfo',{FindId:Id})
+				let res = await post('Find/FindNewsInfo',{UserId:this.userId,Token:this.token,FindId:Id})
 				console.log('星语详情：',res)
 				// 正则改变富文本
 				res.data.ContentDetails = res.data.ContentDetails.replace(/<img/g, '<img style="max-width:100%;"');
@@ -200,6 +237,7 @@
 					}else {
 						this.detail.LikeNum--
 					}
+					this.getLikeList(this.Id)
 				}
 				uni.showToast({
 				    title:res.msg,
@@ -214,7 +252,7 @@
 			},
 			// 发现评论列表
 			async getCommnetList (Id){
-				let res = await post('Find/CommnetList',{FkId:Id,PageSize:4})
+				let res = await post('Find/CommnetList',{UserId:this.userId,Token:this.token,FkId:Id,PageSize:4})
 				console.log('发现评论列表:',res)
 				this.CommnetList = res.data
 			},
@@ -232,7 +270,7 @@
 					// 如果评论成功需要再次请求评论列表
 					this.getCommnetList(this.Id)
 					// // 如果评论成功，需要给detail的回复+1
-					// this.detail.CommentNum++
+					this.detail.CommentNum++
 				}
 			},
 			/* 评论 */

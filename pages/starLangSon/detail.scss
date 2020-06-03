@@ -72,6 +72,22 @@
 		}
 	}
 	.detail{
+		position: relative;
+		.shade {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 120upx;
+			background-image: linear-gradient(rgba(255,255,255,.4),rgba(186,255,175,1));
+			.text {
+				// margin: 0 auto;
+				// color: $primary;
+				color: #999;
+				text-align: center;
+				line-height: 120upx;
+			}
+		}
 		h2{
 			line-height:1.5;
 			padding:20upx 0;
@@ -86,6 +102,11 @@
 			// 	overflow: hidden;
 			// 	text-overflow: ellipsis;
 			// }
+			height: 210upx;
+			overflow: hidden;
+			&.showAll {
+				height: auto;
+			}
 		}
 		.more{
 			color:$primary;
@@ -146,12 +167,14 @@
 			}
 			.collect{
 				line-height:1.2;
-				font-size:20upx;
+				// font-size:20upx;
+				font-size: 26upx;
 				color:#999;
 				&.active {
 					color: red;
 				}
 				.iconfont{
+					font-size: 38upx;
 					color:#333;
 				&.active {
 					color: red;

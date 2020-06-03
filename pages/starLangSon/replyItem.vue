@@ -1,7 +1,7 @@
 <template>
 	<div class="flex-start-between ptb20">
 		<div class="flex-start">
-			<div class="avatar">
+			<div @click="navigate('starLangSon/homePage',{taUserId:detail.MemberId})" class="avatar">
 				<!-- <img src="/static/of/banner.jpg" alt=""> -->
 				<image :src="item.MemberHead" mode=""></image>
 
@@ -26,7 +26,7 @@
 
 <script>
 	import { formatTime } from '@/common/util.js'
-	import {post} from '@/utils';
+	import {post,navigate} from '@/utils';
 	export default {
 		props: [
 			'item',
@@ -34,6 +34,7 @@
 			], //配置参数
 		data() {
 			return {
+				navigate,
 				userId:'',
 				token:''
 			}
@@ -57,21 +58,23 @@
 				let res = await post('Find/FindlikeOperation',{UserId:this.userId,Token:this.token,FindId:Id,TypeStatu:2})
 				console.log("点赞返回：",res)
 				if (res.code === 0){
-					// this.item.IsLike = !this.item.IsLike
+					this.item.IsLike = !this.item.IsLike
 					// 调用父组件的方法
-					this.$parent.getCommnetList(this.$parent.Id)
-					// if(res.msg === "点赞成功！") {
-					// 	// this.item.LikeNum++
-					// 	console.log(this.item.LikeNum)
-					// 	// this.$emit("changeItem",{index: this.index,data: this.item,count:true});
-					// 	this.$emit("changeItem",{index: this.index,data: this.item,count:true});
+					// this.$parent.Page =1
+					// this.$parent.CommnetList=[]
+					// this.$parent.getCommnetList(this.$parent.Id)
+					if(res.msg === "点赞成功！") {
+						// this.item.LikeNum++
+						console.log(this.item.LikeNum)
+						// this.$emit("changeItem",{index: this.index,data: this.item,count:true});
+						this.$emit("changeItem",{index: this.index,data: this.item,count:true});
 						
-					// }else {
-					// 	// this.item.LikeNum--
-					// 	console.log(this.item.LikeNum)
-					// 	// this.$emit("changeItem",{index: this.index,data: this.item,count:false});
-					// 	this.$emit("changeItem",{index: this.index,data: this.item,count:false});
-					// }
+					}else {
+						// this.item.LikeNum--
+						console.log(this.item.LikeNum)
+						// this.$emit("changeItem",{index: this.index,data: this.item,count:false});
+						this.$emit("changeItem",{index: this.index,data: this.item,count:false});
+					}
 				}
 				uni.showToast({
 				    title:res.msg,
