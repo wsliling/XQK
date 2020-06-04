@@ -75,7 +75,7 @@
 			<div class="row flex-center-between" @click="$refs.invoice.open()">
 				<div class="left">发票</div>
 				<div class="right flex-center">
-					<input type="text" placeholder="请选择发票抬头" disabled />
+					<input type="text" placeholder="请选择发票抬头" disabled  v-model="invoiceTitle"/>
 					<uni-icons type="arrowright" color="#999"/>
 				</div>
 			</div>
@@ -227,19 +227,19 @@
 				</view>
 				<scroll-view scroll-y style="width: 100%;height: 560upx;">
 					<view class="invoice">
-						<view class="couponitem flex-center-between" @click="selectCoupon(-1)">
+						<view class="couponitem flex-center-between" @click="selectInvoice(-1)">
 							<view class="couponname">不使用</view>
-							<view style="margin: 0;" :class="['IconsCK IconsCK-radio',llCouponId<0?'checked':'']"></view>
+							<view style="margin: 0;" :class="['IconsCK IconsCK-radio',l_invoiceId<0?'checked':'']"></view>
 						</view>
-						<view class="couponitem flex-center-between" v-for="(item,index) in 6" :key="index" @click="selectCoupon(item.Id)">
+						<view class="couponitem flex-center-between" v-for="(item,index) in invoiceList" :key="index" @click="selectInvoice(item.Id)">
 							<view class="couponname">
-								{{item.Title}}
+								{{item.HeaderName}}
 							</view>
-							<view style="margin: 0;" :class="['IconsCK IconsCK-radio',llCouponId==item.Id?'checked':'']"></view>
+							<view style="margin: 0;" :class="['IconsCK IconsCK-radio',l_invoiceId==item.Id?'checked':'']"></view>
 						</view>
 					</view>
 				</scroll-view>
-				<view class="btn-max" @click="selectCouponok">完成</view>
+				<view class="btn-max" @click="confirmInvoice">完成</view>
 			</view>
 		</uni-popup>
 	</div>
@@ -279,8 +279,12 @@
 				ChildNum:0,//小孩入住人数
 				l_ChildNum:0,////临时成人入住人数
 				l_people:1,//临时人数
-				ContactName:'絮',//预订人
-				Tel:'15014010111',//预订人电话
+				ContactName:'',//预订人
+				Tel:'',//预订人电话
+				invoiceList:[],//发票列表
+				invoiceId:'',//发票id
+				invoiceTitle:'',//发票抬头
+				l_invoiceId:'',//临时发票id
 			}
 		},
 		onLoad(option) {
@@ -289,6 +293,7 @@
 			this.id = option.id;
 			this.getData();
 			this.getCheckInInfo();//获取入住人常用信息
+			this.getInvoice();//获取发票列表
 		},
 		onShow(){
 			this.userId = uni.getStorageSync('userId');
@@ -312,7 +317,7 @@
 						ChildNum:this.ChildNum*1,
 						MinDate:this.calendarOption.currentRangeStartDate,
 						MaxDate:this.calendarOption.currentRangeEndDate,
-						CouponId:this.couponId,
+						CouponId:this.couponId
 					})
 					const data= res.data;
 					data.UseCouponList.map(item=>{
@@ -438,6 +443,29 @@
 				this.getData();
 				this.$refs.coupon.close();
 			},
+			// 获取发票列表
+			async getInvoice(){
+				let result = await post("Invoice/invoiceList", {
+					userId: this.userId,
+					token: this.token,
+					Page:1,
+					PageSize:10
+				})
+				this.invoiceList = result.data;
+			},
+			// 选择优惠券
+			selectInvoice(id){
+				this.l_invoiceId = id;
+			},
+			confirmInvoice(){
+				this.invoiceId = this.l_invoiceId;
+				this.invoiceList.map(item=>{
+					if(this.l_invoiceId === item.Id){
+						this.invoiceTitle = item.HeaderName;
+					}
+				})
+				this.$refs.invoice.close();
+			},
 			// 提交订单
 			async submit(){
 				let checkyuding = this.checkyuding()
@@ -457,6 +485,7 @@
 						AreaCode:this.cityCode,
 						ContactName:this.ContactName,
 						Tel:this.Tel,
+						InvoiceId:this.invoiceId
 				})
 				this.ConfirmWeiXinSmallPay(res.data);
 			},
