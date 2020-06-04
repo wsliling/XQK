@@ -131,7 +131,7 @@
 			// 获取收藏数据
 			async collectionsList() {
 				this.loadingType = 1;
-				this.isShowDel = true;
+				this.isShowDel = false;
 				let result = await post("User/MemberCollections", {
 					UserId: this.userId,
 					Token: this.token,

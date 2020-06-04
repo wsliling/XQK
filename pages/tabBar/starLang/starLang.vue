@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="bgfff">
 		<view class="search">
 			<view class="searchbox flex-start">
 				<view class="iconfont icon-sousuo"></view>
