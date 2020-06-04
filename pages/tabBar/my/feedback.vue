@@ -11,7 +11,10 @@
 		<div class="">
 			<view class="elect">详细描述</view>
 			<view class="feed">
-				<textarea name="" id="" cols="30" placeholder-style="font-size:28upx;color:#CCCCCC" rows="10" adjust-position="true" class="fed_text" placeholder="请输入内容" v-model="Content"></textarea>
+				<textarea cols="30" rows="10" maxlength="300" class="fed_text" placeholder-style="font-size:28upx;color:#CCCCCC" v-model="Content" placeholder="请输入内容~~"></textarea>
+				<view class="counter">
+					<text class="num">{{ inputTxtLength }}</text>/300
+				</view>
 				<!-- <div>上传凭证（不超过5张）</div> -->
 				<div class="fed_pic flex flexWrap">
 					<div class="picbox" v-for="(item, pindex) in PicList" :key="pindex">
@@ -41,13 +44,20 @@ export default {
 			PicList: [],
 			maxPicLen: 4, //最多上传
 			isUploadBtn: true ,//显示上传图片按钮
-			options:0
+			options:0,
+			inputTxtLength: 0, //当前输入字数
 		};
 	},
 	onLoad() {
 		this.PicList = [];
 		this.Content = '';
 		this.getBackType(); // 获取意见反馈类型
+	},
+	watch: {
+		Content(e) {
+			console.log(e,"text");
+			this.inputTxtLength = e.length;
+		}
 	},
 	methods: {
 		option(code,key){
@@ -207,7 +217,7 @@ export default {
 		right: 0;
 		top: -16rpx;
 		color: #fff;
-		background: #b2b2b2;
+		background: #5CC69A;
 		border-radius: 50%;
 		text-align: center;
 		line-height: 32rpx;
@@ -229,5 +239,11 @@ export default {
 	line-height:88upx;
 	text-align:center;
 	margin: 80upx 35upx 0;
+}
+.counter {
+	padding: 0 20upx;
+	text-align: right;
+	font-size: 24upx;
+	color: #b2b2b2;
 }
 </style>

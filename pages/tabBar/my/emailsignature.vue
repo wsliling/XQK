@@ -4,7 +4,7 @@
 		<view class="email" v-if="emails == 0">
 			<view class="emails">
 				<view class="">邮箱：</view>
-				<input type="text" value="" v-model="Email" placeholder="请输入" />
+				<input type="text" value="" v-model="Email" maxlength="16" placeholder="请输入" />
 			</view>
 			<view class="character">限1-16个字符</view>
 			<view class="confirm" @click="getEditUserEmail()">确定</view>
