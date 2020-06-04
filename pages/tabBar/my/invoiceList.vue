@@ -3,19 +3,21 @@
 	<view class="content">
 		<view class="defaultPage invoiceList__defaultPage">
 			<view class="addressList invoiceList" >
-				<view class="item">
+				<view class="item" v-for="(item,index) in list" :key="index">
 					<view class="item__bd"  @click="choseInvoice(index)">
 						<view class="remarks">
-							<text class="name">抬头名称：深圳市网坛科技有限公司</text>
+							<text class="name">抬头名称：{{item.HeaderName}}</text>
 						</view>
-						<view class="type">类型：公司</view>
-						<view class="type">税号：8888888888888</view>
+						<view class="type">类型：{{item.InvoiceTitleStr}}</view>
+						<view class="type" v-if="item.TaxNumber">税号：{{item.TaxNumber}}</view>
+						<view class="type">邮箱：{{item.Email}}</view>
 					</view>
 					<view class="item__ft flex">
 						<view class="flexItem checkedLabel flex flexAlignCneter" @click="setDefaultInvoice(index,item.Id)">
-							<!-- <view class="IconsCK IconsCK-radio" :class="{'checked':item.IsDefault===1}"></view><text v-if="item.IsDefault===1" style="color:#89674c;">已设为默认</text> -->
-							<text >设为默认</text>
-							<!-- <text class="IconsCK IconsCK-radio">设为默认</text> -->
+							<view class="IconsCK IconsCK-radio" :class="{'checked':item.IsDefault===1}"></view>
+							<text v-if="item.IsDefault===1" style="color:#89674c;">已设为默认</text>
+							<text  v-else>设为默认</text>
+							<!-- <text class="IconsCK IconsCK-radio" v-else>设为默认</text> -->
 						</view>
 						<view class="flexItem flex1 text_r">
 							<view class="iconText inline-block"  @click="gotoAddInvoice(item.Id)">
@@ -29,21 +31,12 @@
 				</view>
 			</view>
 			<!-- 没有数据的时候 -->
-			<view class="noConPage table bg_fff" v-if="false">
-				<view class="table-cell">
-					<view class="noDataImg">
-						<image src="http://www.sc-mall.nethttp://shop.dadanyipin.com/static/noCart.png" mode="widthFix"></image>
-					</view>
-					<view class="tips">抱歉，您还没有添加发票哦~</view>
-				</view>
-			</view>
+			<notData v-if="!list.length"></notData>
 			<!-- 没有数据的时候 end -->
-			<view class="ftBtn" style="height: 92upx;">
-				<button type="primary" class="fixed bt0 btn-active radius0" @click="gotoAddInvoice()">
-					<view class="uni-icon uni-icon-plus"></view>
-					<text>新增发票信息</text>
-				</button>
-			</view>
+			<div class="fixed bt0 btn-active radius0 btn-max flex-center-center" @click="gotoAddInvoice()">
+				<view class="uni-icon uni-icon-plus"></view>
+				<text>新增发票信息</text>
+			</div>
 		</view>
 
 
@@ -51,33 +44,26 @@
 </template>
 
 <script>
-	import {host,post,get,toLogin} from '@/common/util.js';
+	import {post} from '@/utils';
+	import notData from '@/components/notData.vue';
 	export default {
+		components:{notData},
 		data() {
 			return {
-				InvoiceId:0,
-				pagetype:"",//页面来源
 				userId: "",
 				token: "",
 				list: [],
-				shopIndex:0,
 			};
 		},
 		// #ifdef APP-PLUS
-		onLoad(e){
-			this.pagetype=e.pagetype||'';
-			this.shopIndex=e.shopIndex||0;
+		onLoad(){
 		},
 		// #endif
 		onShow() {
 			this.list = [];
 			this.userId = uni.getStorageSync("userId");
 			this.token = uni.getStorageSync("token");
-			// #ifndef APP-PLUS
-			this.pagetype=this.$root.$mp.query.pagetype||'';
-			this.shopIndex=this.$root.$mp.query.shopIndex||0;
-			// #endif
-			// this.getInvoice();
+			this.getInvoice();
 		},
 		methods: {
 			choseInvoice(index){
@@ -91,7 +77,7 @@
 			gotoAddInvoice(id) {
 				let goUrl = '';
 				if(id){
-					goUrl = '/pages/babBar/my/addInvoice?id='+id
+					goUrl = '/pages/tabBar/my/addInvoice?id='+id
 				}else{
 					goUrl = '/pages/tabBar/my/addInvoice'
 				}
@@ -102,31 +88,11 @@
 			async getInvoice() { //获取发票列表
 				let result = await post("Invoice/invoiceList", {  //发票列表最多只能有10个，不用做分页
 					userId: this.userId,
-					token: this.token
+					token: this.token,
+					Page:1,
+					PageSize:10
 				})
-				let _this = this;
-				if (result.code === 0) {
-					if (result.data.length > 0) {
-						_this.list = _this.list.concat(result.data);
-					}
-				} else if (result.code === 2) {
-					uni.showToast({
-						title: "登录超时！",
-						icon: "none",
-						duration: 1500,
-						success: function() {
-							uni.navigateTo({
-								url: "/pages/login/login?askUrl=" + _this.curPage
-							})
-						}
-					});
-				} else {
-					uni.showToast({
-						title: result.msg,
-						icon: "none",
-						duration: 1500
-					});
-				}
+				this.list = result.data;
 			},
 			async setDefaultInvoice(index,id){  //设为默认
 				let result = await post("Invoice/SetDefaultInvoice",{
@@ -142,12 +108,6 @@
 							this.$set(this.list[i],'IsDefault',0);
 						}
 					}
-				}else{
-					uni.showToast({
-						title: result.msg,
-						icon: "none",
-						duration: 1500
-					});
 				}
 			},
 			deleteBtn(index,fId){
@@ -184,30 +144,13 @@
 							});
 						}
 					});
-				} else if (result.code === 2) {
-					uni.showToast({
-						title: "登录超时！",
-						icon: "none",
-						duration: 1500,
-						success: function() {
-							uni.navigateTo({
-								url: "/pages/login/login?askUrl=" + _this.curPage
-							})
-						}
-					});
-				} else {
-					uni.showToast({
-						title: result.msg,
-						icon: "none",
-						duration: 1500
-					});
 				}
 			}
 		}
 	}
 </script>
 
-<style>
+<style lang="scss" scoped>
 	@import "../../../common/dd_style.css";
 	.content {
 		height: 100%;
@@ -229,5 +172,11 @@
 	}
 	.addInvoice__weui-cells .tag.active{
 		border-color: #5cc69a
+	}
+	.btn-max{
+		.uni-icon{
+			color:#fff;
+			margin-right:15upx;
+		}
 	}
 </style>

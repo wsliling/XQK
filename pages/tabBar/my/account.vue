@@ -2,13 +2,13 @@
 	<!-- 账号管理 -->
 	<view class="account">
 		<view class="management">
-			<view class="accountflex">
+			<view class="accountflex" @click="tolick('/pages/tabBar/my/emailsignature?type=0'+ '&Avatar=' + myInfo.Avatar)">
 				<view class="portrait">头像</view>
 				<view class="accounthead">
 					<image :src="myInfo.Avatar" mode=""></image>
 				</view>
 			</view>
-			<view class="accountflex">
+			<view class="accountflex" @click="tolick('/pages/tabBar/my/emailsignature?type=1'+ '&NickName=' + myInfo.NickName)">
 				<view class="">昵称</view>
 				<view class="account28">{{myInfo.NickName}}</view>
 			</view>
@@ -16,12 +16,12 @@
 				<view class="">手机号</view>
 				<view class="account28">{{myInfo.Mobile}}</view>
 			</view>
-			<view class="accountflex" @click="tolick('/pages/tabBar/my/emailsignature?type=0'+ '&Email=' + myInfo.Email)">
+			<view class="accountflex" @click="tolick('/pages/tabBar/my/emailsignature?type=2'+ '&Email=' + myInfo.Email)">
 				<view class="">邮箱</view>
 				<view class="account28" v-if="myInfo.Email">{{myInfo.Email}}</view>
 				<view class="account28" v-else>请绑定</view>
 			</view>
-			<view class="accountflex" @click="tolick('/pages/tabBar/my/emailsignature?type=1' + '&Introduction=' + myInfo.Introduction)">
+			<view class="accountflex" @click="tolick('/pages/tabBar/my/emailsignature?type=3' + '&Introduction=' + myInfo.Introduction)">
 				<view class="">个性签名</view>
 				<view class="accountimg">
 					<view class="account28"v-if="myInfo.Introduction">{{myInfo.Introduction}}</view>

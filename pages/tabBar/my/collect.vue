@@ -1,6 +1,6 @@
 <template>
 	<!-- 我的收藏 -->
-	<view class="">
+	<view class="collect bgfff">
 		<view class="uni-tab-bar">
 			<!-- ,isMultipleStore>0?'':'w50' -->
 			<scroll-view id="tab-bar" :class="['uni-swiper-tab tabList li_50']">
@@ -8,106 +8,44 @@
 					<view class="s">星球客</view>
 				</view>
 				<!-- v-if="isMultipleStore>0" -->
-				<view  :class="['swiper-tab-list',tabIndex==1 ? 'active' : '']" id="list1" @click="tapTab(5)">
+				<view  :class="['swiper-tab-list',tabIndex==5 ? 'active' : '']" id="list1" @click="tapTab(5)">
 					<view class="s">星语</view>
 				</view>
 			</scroll-view>
 		</view>
 		<view class="hasContentPage">
 			<view v-if="tabIndex==0">
-				<view class="collect-box" v-for="(val,index) in 4" :key="index">
-					<view class="item__hd" v-if="isShowDel" @click="shiftChecked(index)">
-						<view class='IconsCK IconsCK-radio checked'></view>
+				<view class="collect-box" v-for="(val,index) in list" :key="index" @click="onClickPro(val.Id,index)">
+					<view class="item__hd" v-if="isShowDel">
+						<view class='IconsCK IconsCK-radio' :class="{'checked':val.checked}"></view>
 					</view>
 					<view class="collect-left">
-						<image src="http://xqk.wtvxin.com/images/wxapp/of/p1.jpg" mode=""></image>
+						<image :src="val.PicNo" mode="aspectFill"></image>
 					</view>
 					<view class="collect-right">
-						<view class="name">广州.从化温泉明月山溪</view>
+						<view class="name">{{val.Name}}</view>
 						<view class="point">
-							<view class="pointkey">骑行</view>
-							<view class="pointkey">游乐</view>
-							<view class="pointkey">艺术</view>
+							<view class="pointkey" v-for="(item,index) in val.ServiceKeysArr" :key="index">{{item}}</view>
 						</view>
 						<view class="font">
-							<view class="num">￥288</view>
+							<view class="num">￥{{val.Price}}</view>
 							<view class="iconfont icon-collect"></view>
-							<view class="fz12">4.8 <span>(20)</span> </view>
+							<view class="fz12">{{val.CommentScore}}<span>({{val.CommentNum}})</span> </view>
 						</view>
 					</view>
 				</view>
 			</view>
-			<view v-if="tabIndex==1">
-				<view class="xylist">
-					<view class="left-list">
-						<view class="item" v-for="(item,index) in datalist" :key="index" v-if="index%2==0">
-							<view class="itembox">
-								<view class="imgbox">
-									<!-- <view class="like flex-end"> -->
-										<!-- <view class="iconfont icon-aixin bg">
-											<view class="iconfont icon-aixin"></view>
-										</view> -->
-										<!-- <text class="num">209</text> -->
-									<!-- </view> -->
-									<image :src="item.pic" mode="widthFix"></image>
-								</view>
-								<view class="txtbox">
-									<view class="title uni-ellipsis2 uni-mb5">
-										{{item.name}}
-									</view>
-									<view class="flex-between">
-										<view class="tx flex-start">
-											<image src="http://xqk.wtvxin.com/images/wxapp/logo.png" mode="aspectFill"></image>
-											<text class="author uni-ellipsis">小星君</text>
-										</view>
-										<view class="zan flex-end active">
-											<text class="iconfont icon-zan1"></text>
-											<text class="num">30</text>
-										</view>
-									</view>
-								</view>
-							</view>
-						</view>
-					</view>
-					<view class="right-list">
-						<view class="item" v-for="(item,index) in datalist" :key="index" v-if="index%2==1">
-							<view class="itembox">
-								<view class="imgbox">
-									<!-- <view class="like flex-end">
-										<view class="iconfont icon-aixin bg">
-											<view class="iconfont icon-aixin active"></view>
-										</view>
-										<text class="num">209</text>
-									</view> -->
-									<image :src="item.pic" mode="widthFix"></image>
-								</view>
-								<view class="txtbox">
-									<view class="title uni-ellipsis2 uni-mb5">
-										{{item.name}}
-									</view>
-									<view class="flex-between">
-										<view class="tx flex-start">
-											<image src="http://xqk.wtvxin.com/images/wxapp/logo.png" mode="aspectFill"></image>
-											<text class="author uni-ellipsis">小星君</text>
-										</view>
-										<view class="zan flex-end">
-											<text class="iconfont icon-zan"></text>
-											<text class="num">30</text>
-										</view>
-									</view>
-								</view>
-							</view>
-						</view>
-					</view>
+			<view v-if="tabIndex==5">
+				<view class="xylist flex-center-between">
+					<starLangItem  v-for="(item,index) in list" :key="index" :item="item" 
+						:showSelect="isShowDel" @selectChange="selectChange"></starLangItem>
 				</view>
 				
 			</view>
 			
 			<!-- 没有更多数据了 -->
-			<view class="uni-tab-bar-loading" v-if="hasData">
-				<uni-load-more :loadingType="loadingType"></uni-load-more>
-			</view>
-			<noData :isShow="noDataIsShow"></noData>
+			<notData v-if="!list.length"></notData>
+			<uni-load-more :loadingType="loadingType" v-if="list.length&&page>1"></uni-load-more>
 		</view>
 		<view class="dd_foot">
 			<view class="foot-fixed bt0">
@@ -117,9 +55,9 @@
 							<view :class="['IconsCK IconsCK-radio',allSelect?'checked':'' ]"></view>全选
 						</view>
 						<view class="btn0" @click="cancelDel">取消</view>
-						<view class="btn0 btn1 active" @click="btnDel">删除</view>
+						<view class="btn0 btn1 active" @click="btnDel">取消收藏</view>
 					</block>
-					<view class="compile" v-else @click="ShowDel">编辑</view>
+					<view class="compile" v-else @click="isShowDel = true">编辑</view>
 				</view>
 				<!-- <view class="flex" v-else>
 					<view class="btn btn_100 red" @click="tolink('/pages/index/index',true)">
@@ -132,99 +70,30 @@
 </template>
 
 <script>
-	import noData from '@/components/noData.vue'; //暂无数据
-	import {
-		host,
-		post,
-		get,
-		dateUtils,
-		toLogin,
-		getCurrentPageUrlWithArgs
-	} from '@/common/util.js';
+	import notData from '@/components/notData.vue'; //暂无数据
+	import starLangItem from '@/components/starLangItem.vue'; 
+	import {post,navigate} from '@/utils';
 	export default {
 		data() {
 			return {
-				tabIndex: 0, //0:产品收藏；1：商家收藏 2：众筹收藏
-				Type:0,
-				curPage: "",
+				tabIndex: 5, //0:产品收藏；5：星语
 				userId: "",
 				token: "",
 				list: [],
-				listLength: 0,
 				page: 1,
 				pageSize: 10,
 				isLoad: false,
 				isShowDel: false, //是否显示删除的底部
-				hasData: false,
-				noDataIsShow: false,
 				loadingType: 0, //0加载前，1加载中，2没有更多了
 				allSelect:false,//全选
 				selectlen:0,
-				datalist:[
-					{
-						pic:'http://xqk.wtvxin.com/images/wxapp/of/p3.jpg',
-						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为我门的生活打开了一扇窗，这扇窗~',
-					},
-					{
-						pic:'http://xqk.wtvxin.com/images/wxapp/of/p2.jpg',
-						name:'旅行为我门的生活打开了一扇窗，这扇窗窗，这扇窗~',
-					},
-					{
-						pic:'http://xqk.wtvxin.com/images/wxapp/of/p1.jpg',
-						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为这扇窗~',
-					},
-					{
-						pic:'http://xqk.wtvxin.com/images/wxapp/of/p3.jpg',
-						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为我门的生活打开了一扇窗，这扇窗~',
-					},
-					{
-						pic:'http://xqk.wtvxin.com/images/wxapp/of/p3.jpg',
-						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为我门的生活打开了一扇窗，这扇窗~',
-					},
-					{
-						pic:'http://xqk.wtvxin.com/images/wxapp/of/p1.jpg',
-						name:'旅行为我门的生活打开了一扇窗，这扇一扇窗，这扇窗~',
-					},
-					{
-						pic:'http://xqk.wtvxin.com/images/wxapp/of/p3.jpg',
-						name:'旅行为我门的生活打开了',
-					},
-					{
-						pic:'http://xqk.wtvxin.com/images/wxapp/of/banner.jpg',
-						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为我一扇窗，这扇窗~',
-					},
-					{
-						pic:'http://xqk.wtvxin.com/images/wxapp/of/p3.jpg',
-						name:'旅行为我门的生活打开了一扇窗扇窗，这扇窗~',
-					},
-					{
-						pic:'http://xqk.wtvxin.com/images/wxapp/of/p1.jpg',
-						name:'旅行为我门的生活打开了一扇窗一扇窗，这扇窗~',
-					},
-					{
-						pic:'http://xqk.wtvxin.com/images/wxapp/of/p2.jpg',
-						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为我门的生活打开了一扇窗，这扇窗~',
-					},
-					{
-						pic:'http://xqk.wtvxin.com/images/wxapp/of/banner.jpg',
-						name:'旅行为我门的生活打开了一扇窗',
-					},
-					{
-						pic:'http://xqk.wtvxin.com/images/wxapp/of/p1.jpg',
-						name:'旅行为我门的生活打开了一扇窗',
-					},
-					{
-						pic:'http://xqk.wtvxin.com/images/wxapp/of/p3.jpg',
-						name:'旅行为我门的生活打开了一扇窗一扇窗，这扇窗~',
-					}
-				]
 			};
 		},
 		components: {
-			noData,
+			notData,starLangItem
 		},
 		onLoad() {
-			this.tabIndex = uni.getStorageSync("collectIndex")
+			// this.tabIndex = uni.getStorageSync("collectIndex")
 			this.userId = uni.getStorageSync("userId");
 			this.token = uni.getStorageSync("token");
 			this.initData();
@@ -248,9 +117,8 @@
 				}
 			},
 			tapTab(index) { //点击tab-bar
-				uni.setStorageSync('collectIndex',index)
+				// uni.setStorageSync('collectIndex',index)
 				this.tabIndex = index;
-				this.Type = index;
 				this.initData();
 				this.collectionsList();
 			},
@@ -259,8 +127,41 @@
 				this.page = 1;
 				this.isShowDel = false;
 				this.loadingType = 0;
-				this.noDataIsShow = false;
-				this.hasData = false;
+			},
+			// 获取收藏数据
+			async collectionsList() {
+				this.loadingType = 1;
+				this.isShowDel = true;
+				let result = await post("User/MemberCollections", {
+					UserId: this.userId,
+					Token: this.token,
+					Page: this.page,
+					PageSize:this.pageSize,
+					Type:this.tabIndex
+				});
+				const data= result.data;
+				data.forEach((item)=> {
+					this.$set(item, "checked", false);
+					this.$set(item, "collectTxt", true);
+					if(item.ServiceKeys){
+						item.ServiceKeysArr = item.ServiceKeys.split(',',5)
+					}
+					if(this.tabIndex===5){
+						item.Avatar = item.Headimgurl;
+						item.PicImg = item.PicNo;
+						item.cId = item.Id;//收藏id
+						item.Id = item.FindId;//转成组件公用id跳转
+					}
+				})
+				if (this.page === 1) {
+					this.list =[];
+				}
+				this.list = this.list.concat(data);
+				if (data.length < this.pageSize) {
+					this.loadingType = 2;
+				} else {
+					this.loadingType = 0;
+				}
 			},
 			//全选
 			selectAll(){
@@ -297,9 +198,19 @@
 					_this.allSelect=false
 				}
 			},
-			//点击编辑
-			ShowDel() {
-				this.isShowDel = true;
+			// 选择星语
+			selectChange(e){
+				console.log(e,'xuanz')
+				let allStatus = true;
+				this.list.map(item=>{
+					if(item.Id ===e.Id){
+						item.checked = !e.checked;
+					}
+					if(!item.checked){
+						allStatus = false;
+					}
+				})
+				this.allSelect = allStatus;
 			},
 			cancelDel() {
 				this.isShowDel = false;
@@ -309,17 +220,21 @@
 					item.checked = false;
 				})
 			},
-			btnDel() { //删除收藏的产品
+			btnDel() { //取消收藏的产品
 				let _this = this,
-				    proIdArr = [];
+				proIdArr = [];
 				this.list.forEach(function(item) {
 					if (item.checked == true) {
-						proIdArr.push(item.Id);
+						if(_this.tabIndex==5){
+							proIdArr.push(item.cId);
+						}else{
+							proIdArr.push(item.Id);
+						}
 					}
 				})
-				if (proIdArr.length > 0) {
+				if (proIdArr.length) {
 					uni.showModal({
-					  content: "您确定要删除所选商品吗？",
+					  content: "您确定要取消所选收藏吗？",
 					  confirmColor:"#5cc69a",
 					cancelColor:'#999',
 					confirmColor:'#5cc69a',
@@ -329,51 +244,15 @@
 						} else if (res.cancel) {}
 						}
 					}) 
-				} else {
-					uni.showToast({
-						title: "请选择需要删除的项！",
-						icon: "none",
-						duration: 1500
-					});
 				}
 			},
-			async collectionsList() {
-				let result = await post("User/MemberCollections", {
-					UserId: this.userId,
-					Token: this.token,
-					Type: this.Type,
-					Page: this.page,
-				});
-				if (result.code === 0) {
-					let _this = this;
-					if (result.data.length > 0) {
-						this.hasData = true;
-						this.noDataIsShow = false;
-						result.data.forEach(function(item) {
-							_this.$set(item, "checked", false);
-							_this.$set(item, "collectTxt", true);
-						})
-					}
-					if (result.data.length == 0 && this.page == 1) {
-						this.noDataIsShow = true;
-						this.hasData = false;
-					}
-					if (this.page === 1) {
-						this.list = result.data;
-					}
-					if (this.page > 1) {
-						this.list = this.list.concat(
-							result.data
-						);
-					}
-					if (result.data.length < this.pageSize) {
-						this.isLoad = false;
-						this.loadingType = 2;
-					} else {
-						this.isLoad = true;
-						this.loadingType = 0
-					}
-					this.listLength = this.list.length;
+			onClickPro(id,index){
+				// 编辑产品
+				if(this.isShowDel){
+					this.shiftChecked(index)
+				}else{
+					// 跳转产品
+					navigate('product/detail/detail',{Id,id})
 				}
 			},
 			async DeleteCollections(ids) { //取消产品收藏
@@ -381,7 +260,7 @@
 					UserId: this.userId,
 					Token: this.token,
 					IdArr: ids,
-					Type:0
+					Type:this.tabIndex
 				});
 				if (result.code === 0) {
 					let _this = this;
@@ -399,35 +278,32 @@
 		},
 		onPullDownRefresh() { //下拉刷新
 			//监听下拉刷新动作的执行方法，每次手动下拉刷新都会执行一次
-			let _this = this;
-			_this.initData();
-			setTimeout(function() {
-				_this.collectionsList();
-				uni.stopPullDownRefresh(); //停止下拉刷新动画
-			}, 1000);
+			this.initData();
+			this.collectionsList();
+			uni.stopPullDownRefresh(); //停止下拉刷新动画
 		},
 		onReachBottom() { //上拉加载
-			if (this.isLoad) {
-				this.loadingType = 1;
-				this.page++;
-				this.collectionsList();
-			} else {
-				this.loadingType = 2;
-			}
+			if (this.loadingType === 2||this.isShowDel)return;
+			this.page+=1;
+			this.collectionsList();
 		},
 	}
 </script>
 
 <style scoped lang="scss">
+	.collect{
+		padding-bottom:90upx;
+	}
 	.item__bd{
 		width:100%;
 	}
 	.hasContentPage {
 		position: relative;
-		top:100upx;
+		top:80upx;
 		height: calc(100% - 88upx);
 		overflow-y: auto;
 		background: #fff;
+		border-top:20upx solid #f2f2f2;
 	}
 	.uni-tab-bar {
 		height: 80upx;
@@ -614,12 +490,10 @@
 	
 	// 星语样式
 	.xylist{
-		display: flex;
 		width: 100%;
 		flex-wrap: wrap;
 		flex-direction: row;
-		padding-left: 20upx;
-		padding-top: 30upx;
+		padding: 30upx;
 		background: #fff !important;
 		.left-list,.right-list{
 			width: 50%;

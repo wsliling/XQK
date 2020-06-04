@@ -11,31 +11,23 @@
 			</view>
 			<view class="weui-cell">
 				<view class="weui-cell__hd"><label class="weui-label">发票抬头</label></view>
-				<view class="weui-cell__bd"><input type="text" class="weui-input" v-model="headerName" placeholder="个人姓名或公司名称" /></view>
+				<view class="weui-cell__bd"><input type="text" class="weui-input" v-model="headerName" :placeholder="invoiceType===1?'请输入个人姓名':'请输入公司名称'" /></view>
 			</view>
 			<!-- 这个是公司的 -->
 			<view class="weui-cell" v-if="invoiceType === 2">
 				<view class="weui-cell__hd"><label class="weui-label">公司税号</label></view>
 				<view class="weui-cell__bd"><input type="text" class="weui-input" v-model="taxNumber" placeholder="请输入公司纳税人识别号" /></view>
 			</view>
+			<view class="weui-cell">
+				<view class="weui-cell__hd"><label class="weui-label">邮箱</label></view>
+				<view class="weui-cell__bd"><input type="text" class="weui-input" v-model="email" placeholder="请输入收发票邮箱" /></view>
+			</view>
 		</view>
 		<view class="weui-cells addInvoice__weui-cells mb10">
 			<!-- 这个是个人的 -->
 			<view class="weui-cell" v-if="invoiceType === 1">
-				<view class="weui-cell__hd"><label class="weui-label">身份证号</label></view>
-				<view class="weui-cell__bd"><input type="text" class="weui-input" v-model="regCall" placeholder="选填" /></view>
-			</view>
-			<!-- <view class="weui-cell" v-if="invoiceType === 1">
 				<view class="weui-cell__hd"><label class="weui-label">电话号码</label></view>
 				<view class="weui-cell__bd"><input type="text" class="weui-input" v-model="regCall" placeholder="选填" /></view>
-			</view> -->
-			<view class="weui-cell">
-				<view class="weui-cell__hd">
-					<label class="weui-label">邮箱</label>
-				</view>
-				<view class="weui-cell__bd">
-					<input type="text" class="weui-input" placeholder="选填" value="" />
-				</view>
 			</view>
 			<!-- 以下是公司的 -->
 			<view class="weui-cell" v-if="invoiceType === 2">
@@ -62,7 +54,7 @@
 				<view class="weui-cell__hd"><label class="weui-label">银行账号</label></view>
 				<view class="weui-cell__bd"><input type="text" class="weui-input" v-model="bankAccount" placeholder="请输入公司银行账号" value="" /></view>
 			</view>
-			<view class="weui-cell" v-if="isOpen && invoiceType === 2">
+			<!-- <view class="weui-cell" v-if="isOpen && invoiceType === 2">
 				<view class="weui-cell__hd"><label class="weui-label">快递收件人</label></view>
 				<view class="weui-cell__bd"><input type="text" class="weui-input" v-model="bankAccount" placeholder="请输入收货人的姓名" value="" /></view>
 			</view>
@@ -77,47 +69,44 @@
 			<view class="weui-cell" v-if="isOpen && invoiceType === 2">
 				<view class="weui-cell__hd"><label class="weui-label">详细地址</label></view>
 				<view class="weui-cell__bd"><input type="text" class="weui-input" v-model="bankAccount" placeholder="请输入街道门牌等信息" value="" /></view>
-			</view>
-			<!-- <view class="weui-cell">
+			</view> -->
+			<view class="weui-cell">
 				<view class="weui-cell__bd">设为默认发票</view>
 				<view class="weui-cell__ft text_r"><switch :checked="checked" @change="tab" color="#89674c" /></view>
-			</view> -->
+			</view>
 		</view>
-		<view class="btnBox" style="padding:60upx 20upx"><button type="primary" class="bg_89674c" @click="btnSure">保存</button></view>
+		<view class="btn-max" style="margin:60upx 30upx"><button type="primary" class="bg_89674c" @click="btnSure">保存</button></view>
 	</view>
 </template>
 
 <script>
-import { host, post, get, getCurrentPageUrlWithArgs, toLogin } from '@/common/util.js';
+import {post } from '@/utils';
 
 export default {
 	onLoad(e) {
 		if (e.id) {
 			this.invoiceId = e.id;
-			uni.setNavigationBarTitle({
-				title: this.hasSetText
-			});
+			this.hasSetText="编辑常用发票信息"
 		}
+		uni.setNavigationBarTitle({
+			title: this.hasSetText
+		});
 	},
 	onShow() {
-		this.curPage = getCurrentPageUrlWithArgs()
-			.replace(/\?/g, '%3F')
-			.replace(/\=/g, '%3D')
-			.replace(/\&/g, '%26');
+		console.log(this.userId)
 		this.userId = uni.getStorageSync('userId');
 		this.token = uni.getStorageSync('token');
 		if (this.invoiceId) {
-			// this.getInvoiceInfo();
+			this.getInvoiceInfo();
 		}
 	},
 	data() {
 		return {
 			invoiceId: '', //编辑的时候传进来的id
-			curPage: '',
-			hasSetText: '编辑常用发票信息',
+			hasSetText: '新增常用发票信息',
 			checked: true,
 			isDefault: 1,
-			invoiceType: 0, //1:个人；2：公司
+			invoiceType: 1, //1:个人；2：公司
 			isOpen: false, //是否打开需要增值税专用发票
 			isVATExclusive: 0, //0:不需要专用发票；1：需要
 			userId: '',
@@ -127,7 +116,8 @@ export default {
 			bankName: '', //开户银行
 			regCall: '', //注册电话
 			bankAccount: '', //银行账号
-			regAddress: '' //注册地址
+			regAddress: '', //注册地址
+			email:'',//邮箱
 		};
 	},
 	methods: {
@@ -153,10 +143,28 @@ export default {
 				this.checked = true;
 			}
 		},
+		// 校验
 		Authentication() {
 			if (this.headerName == '') {
 				uni.showToast({
 					title: '请输入抬头名称！',
+					icon: 'none',
+					duration: 1500
+				});
+				return false;
+			}
+			if (this.email == '') {
+				uni.showToast({
+					title: '请输入收件邮箱！',
+					icon: 'none',
+					duration: 1500
+				});
+				return false;
+			}
+			const myReg=/^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/;
+			if(!myReg.test(this.email)){
+				uni.showToast({
+					title: '请输入正确的邮箱！',
 					icon: 'none',
 					duration: 1500
 				});
@@ -201,7 +209,7 @@ export default {
 						return false;
 					}
 					if (this.regCall != '') {
-						if (!(/^0\d{2,3}-\d{7,8}$/.test(this.regCall) || /^[1][3,4,5,6,7,8][0-9]{9}$/.test(this.regCall))) {
+						if (!(/^0\d{2,3}-\d{7,8}$/.test(this.regCall) || /^[1][3,4,5,6,7,8,9][0-9]{9}$/.test(this.regCall))) {
 							uni.showToast({
 								title: '请输入正确的电话格式！',
 								icon: 'none',
@@ -241,7 +249,7 @@ export default {
 		},
 		btnSure() {
 			//点击保存按钮
-			if (this.invoiceId == '') {
+			if (!this.invoiceId) {
 				if (this.Authentication()) {
 					this.addInvoice();
 				}
@@ -258,25 +266,22 @@ export default {
 				UserId: this.userId,
 				Token: this.token
 			});
-			if (result.code === 0) {
-				this.headerName = result.data.HeaderName;
-				this.taxNumber = result.data.TaxNumber;
-				this.bankName = result.data.BankName;
-				this.regCall = result.data.RegCall;
-				this.bankAccount = result.data.BankAccount;
-				this.bankName = result.data.BankName;
-				this.regAddress = result.data.RegAddress;
-				this.isVATExclusive = result.data.IsVATExclusive;
-				if (this.isVATExclusive === 1) {
-					this.isOpen = true;
-				}
-				this.invoiceType = result.data.InvoiceTitle;
-				this.isDefault = result.data.IsDefault;
-
-				if (this.isDefault === 1) {
-					this.checked = true;
-				}
+			const data = result.data;
+			this.headerName = data.HeaderName;
+			this.taxNumber = data.TaxNumber;
+			this.bankName = data.BankName;
+			this.email = data.Email;
+			this.regCall = data.RegCall;
+			this.bankAccount = data.BankAccount;
+			this.bankName = data.BankName;
+			this.regAddress = data.RegAddress;
+			this.isVATExclusive = data.IsVATExclusive;
+			if (this.regCall) {
+				this.isOpen = true;
 			}
+			this.invoiceType = data.InvoiceTitle;
+			this.isDefault = data.IsDefault;
+			this.checked = Boolean(data.IsDefault);
 		},
 		async addInvoice() {
 			//新增发票信息
@@ -285,6 +290,7 @@ export default {
 				Token: this.token,
 				InvoiceTitle: this.invoiceType,
 				HeaderName: this.headerName,
+				Email:this.email,
 				RegCall: this.regCall,
 				IsDefault: this.isDefault,
 				TaxNumber: this.taxNumber,
@@ -308,23 +314,6 @@ export default {
 						}, 1500);
 					}
 				});
-			} else if (result.code === 2) {
-				uni.showToast({
-					title: '登录超时！',
-					icon: 'none',
-					duration: 1500,
-					success: function() {
-						uni.navigateTo({
-							url: '/pages/login/login?askUrl=' + _this.curPage
-						});
-					}
-				});
-			} else {
-				uni.showToast({
-					title: result.msg,
-					icon: 'none',
-					duration: 1500
-				});
 			}
 		},
 		async updateInvoice() {
@@ -335,6 +324,7 @@ export default {
 				Token: this.token,
 				InvoiceTitle: this.invoiceType,
 				HeaderName: this.headerName,
+				Email:this.email,
 				RegCall: this.regCall,
 				IsDefault: this.isDefault,
 				TaxNumber: this.taxNumber,
@@ -356,23 +346,6 @@ export default {
 							// })
 						}, 1500);
 					}
-				});
-			} else if (result.code === 2) {
-				uni.showToast({
-					title: '登录超时！',
-					icon: 'none',
-					duration: 1500,
-					success: function() {
-						uni.navigateTo({
-							url: '/pages/login/login?askUrl=' + _this.curPage
-						});
-					}
-				});
-			} else {
-				uni.showToast({
-					title: result.msg,
-					icon: 'none',
-					duration: 1500
 				});
 			}
 		}
