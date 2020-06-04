@@ -1,14 +1,25 @@
 <template>
 	<!-- 我也想要星球客 -->
 	<div>
-		<div class="">
+		<div>
 			<view class="elect">详细描述</view>
 			<view class="feed">
-				<textarea name="" id="" cols="30" placeholder-style="font-size:28upx;color:#CCCCCC" rows="10" adjust-position="true" class="fed_text" placeholder="请输入内容" v-model="Content"></textarea>
-				<!-- <div>上传凭证（不超过5张）</div> -->
-				<div class="">
+				<textarea
+					maxlength="300"
+					cols="30"
+					placeholder-style="font-size:28upx;color:#CCCCCC"
+					rows="10"
+					class="fed_text"
+					placeholder="请输入内容"
+					v-model="Content"
+				></textarea>
+				<view class="counter">
+					<text class="num">{{ inputTxtLength }}</text>/300
+				</view>
+				<!-- <div>上传凭证（不超过4张）</div> -->
+				<div class="fed_pic flex flexWrap">
 					<div class="picbox" v-for="(item, pindex) in PicList" :key="pindex">
-						<img :src="item" class="pic_itim" />
+						<img :src="item" class="pic_itim" @click="previewImage([item])" />
 						<span class="close" @click="delImg(pindex)">×</span>
 					</div>
 					<div class="picbox " @click="upLoadImg" v-if="isUploadBtn"><img src="http://jd.wtvxin.com/images/images/icons/add2.png" alt="" class="pic_itim" /></div>
@@ -17,23 +28,21 @@
 		</div>
 		<div class="feedback">
 			<view class="elect">请留下您的联系方式，我们会联系您</view>
-			<div class="fed_title active">
-				<view class="" style="width: 10%;">姓名</view>
-				<input type="text" value="" placeholder="请输入您的姓名" placeholder-style="font-size:28upx;display: flex;justify-content: flex-end;"style="width: 87%;"/>
-				
+			<div class="fed_title">
+				<view style="width: 10%;">姓名</view>
+				<input type="text" v-model="RealName" placeholder="请输入您的姓名" maxlength="8" style="text-align: right;" />
 			</div>
 			<div class="fed_title" @click="showEdit = true">
-				<p>性名</p>
-				<p class="">
+				<p>性别</p>
+				<p>
 					<span>{{ typeTxt }}</span>
-					<icons type="success"size="26"></icons>
+					<icons type="success" size="26"></icons>
 					<img src="http://xqk.wtvxin.com/images/wxapp/icons/arrow.png" alt="" />
 				</p>
-				
 			</div>
 			<div class="fed_title">
-				<view class="" style="width: 10%;">电话</view>
-				<input type="text" value="" placeholder="请输入您的电话号码" placeholder-style="font-size:28upx;display: flex;justify-content: flex-end;"style="width: 87%;"/>
+				<view style="width: 10%;">电话</view>
+				<input type="text" v-model="Mobile" maxlength="13" placeholder="请输入您的电话号码" style="text-align: right;" />
 			</div>
 		</div>
 		<div class="submit" @click="submit">提交</div>
@@ -42,132 +51,38 @@
 </template>
 
 <script>
-import { post, get, verifyPhone } from '@/utils';
-import { pathToBase64 } from '@/utils/image-tools';
+import { post, verifyPhone } from '@/utils';
+import { pathToBase64, previewImage } from '@/utils/image-tools';
 import pickers from '@/components/pickers';
 export default {
 	components: { pickers },
 	data() {
 		return {
+			previewImage,
 			showEdit: false,
-			typelist: ['男','女'],
-			type: '',
+			typelist: [{ code: 1, message: '男' }, { code: 2, message: '女' }],
 			typeTxt: '请选择',
-			Mobile: '',
-			Name: '',
-			Content: '',
-			PicList: [],
-			maxPicLen: 5, //最多上传
-			isUploadBtn: true //显示上传图片按钮
+			Mobile: '',   //电话/联系方式
+			RealName: '', //姓名/联系人
+			Content: '',  //内容
+			PicList: [],  //上图的图片
+			maxPicLen: 4, //最多上传
+			isUploadBtn: true, //显示上传图片按钮
+			inputTxtLength: 0  //内容的字数
 		};
 	},
-	onLoad() {
-		this.PicList = [];
-		this.Name = '';
-		this.Mobile = '';
-		this.Content = '';
-		this.typeTxt = '请选择';
-		this.getTypelist();
+	watch: {
+		Content(e) {
+			this.inputTxtLength = e.length;
+		}
 	},
 	methods: {
 		gettype(e) {
-			console.log(e)
-			this.type = e.code;
+			console.log(e);
 			this.typeTxt = e.message;
 		},
-		getTypelist() {
-			get('User/FeedBackType').then(res => {
-				if (res.code === 0) {
-					this.typelist = res.data;
-				}
-			});
-		},
-		//提交意见反馈
-		async FeedBack(base64Arr) {
-			const res = await post(
-				'User/MemberFeedBack',
-				{
-					UserId: wx.getStorageSync('userId'),
-					Token: wx.getStorageSync('token'),
-					Type: this.type,
-					Content: this.Content,
-					PicList: base64Arr,
-					Mobile: this.Mobile,
-					Name: this.Name
-				},
-				this.getData
-			);
-			console.log('3333333');
-			if (res.code == 0) {
-				wx.showToast({
-					title: '提交成功'
-				});
-				setTimeout(() => {
-					// wx.switchTab({
-					//   url:"/pages/my/main"
-					// });
-					wx.navigateBack();
-				}, 1500);
-			}
-		},
-		verify() {
-			if (this.typeTxt == '请选择') {
-				wx.showToast({
-					title: '请选择问题类型！',
-					icon: 'none',
-					duration: 2000
-				});
-				return false;
-			}
-			if (this.Content == '') {
-				wx.showToast({
-					title: '请输入建议内容！',
-					icon: 'none',
-					duration: 2000
-				});
-				return false;
-			}
-			if (this.PicList.length == 0) {
-				wx.showToast({
-					title: '请上传至少一张图片！',
-					icon: 'none',
-					duration: 2000
-				});
-				return false;
-			}
-			if (this.Name == '') {
-				wx.showToast({
-					title: '请输入您的姓名！',
-					icon: 'none',
-					duration: 2000
-				});
-				return false;
-			}
-			if (this.Mobile == '') {
-				wx.showToast({
-					title: '请输入联系方式！',
-					icon: 'none',
-					duration: 2000
-				});
-				return false;
-			}
-			if (!verifyPhone(this.Mobile)) {
-				return;
-			}
-
-			return true;
-		},
-		async submit() {
-			if (this.verify()) {
-				let base64Arr = [];
-				if (this.PicList.length > 0) {
-					base64Arr = await this.base64Img(this.PicList);
-				}
-				this.FeedBack(JSON.stringify(base64Arr));
-			}
-		},
+		//上传图片
 		upLoadImg() {
-			//上传图片
 			let _this = this;
 			let num = _this.maxPicLen - _this.PicList.length;
 			if (num > 0) {
@@ -188,9 +103,20 @@ export default {
 				_this.isUploadBtn = false;
 			}
 		},
+		// 删除图片
 		delImg(index) {
 			this.PicList.splice(index, 1);
 			this.isUploadBtn = true;
+		},
+		// 提交
+		async submit() {
+			if (this.verify()) {
+				let base64Arr = [];
+				if (this.PicList.length > 0) {
+					base64Arr = await this.base64Img(this.PicList);
+				}
+				this.FeedBack(JSON.stringify(base64Arr));
+			}
 		},
 		async base64Img(arr) {
 			let base64Arr = [];
@@ -201,14 +127,82 @@ export default {
 				});
 			}
 			return base64Arr;
+		},
+		// 验证
+		verify() {
+			if (this.Content == '') {
+				wx.showToast({
+					title: '请输入建议内容！',
+					icon: 'none',
+					duration: 2000
+				});
+				return false;
+			}
+			if (this.PicList.length == 0) {
+				wx.showToast({
+					title: '请上传至少一张图片！',
+					icon: 'none',
+					duration: 2000
+				});
+				return false;
+			}
+			if (this.RealName == '') {
+				wx.showToast({
+					title: '请输入您的姓名！',
+					icon: 'none',
+					duration: 2000
+				});
+				return false;
+			}
+			if (this.typeTxt == '请选择') {
+				wx.showToast({
+					title: '请选择性别！',
+					icon: 'none',
+					duration: 2000
+				});
+				return false;
+			}
+			if (this.Mobile == '') {
+				wx.showToast({
+					title: '请输入联系方式！',
+					icon: 'none',
+					duration: 2000
+				});
+				return false;
+			}
+			if (!verifyPhone(this.Mobile)) {
+				return;
+			}
+			return true;
+		},
+		//我也想要星球客
+		FeedBack(base64Arr) {
+			post('User/MemberFeedBack', {
+				UserId: wx.getStorageSync('userId'),
+				Token: wx.getStorageSync('token'),
+				CateGory: 1, //1-我也想要星球客
+				Content: this.Content, //内容
+				PicList: base64Arr, //图片
+				RealName: this.RealName, //姓名/联系人
+				Gender: this.typeTxt, //性别
+				Mobile: this.Mobile, //电话/联系方式
+			}).then(res => {
+				if (res.code == 0) {
+					wx.showToast({
+						title: '提交成功',
+						icon: 'none'
+					});
+					setTimeout(() => {
+						wx.navigateBack();
+					}, 1500);
+				}
+			});
 		}
 	}
 };
 </script>
 
 <style scoped lang="scss">
-.feedback {
-}
 .elect {
 	width: 100%;
 	height: 80upx;
@@ -226,15 +220,15 @@ export default {
 	display: flex;
 	justify-content: space-between;
 	padding: 30upx;
-	img {
-		width:11upx;
-		height:20upx;
-		margin-top: 14upx;
-		margin-left: 10upx;
+	input {
+		margin-top: 5upx;
 	}
-}
-.active{
-	color: #5CC69A;
+	img {
+		width: 11upx;
+		height: 20upx;
+		margin-top: -6upx;
+		margin-left: 15upx;
+	}
 }
 .fed_text {
 	padding-top: 30rpx;
@@ -248,9 +242,9 @@ export default {
 	justify-content: center;
 	margin-top: 20rpx;
 	position: relative;
-	.pic_itim{
-		width:200upx;
-		height:200upx;
+	.pic_itim {
+		width: 200upx;
+		height: 200upx;
 		padding-left: 10upx;
 	}
 	.close {
@@ -260,27 +254,33 @@ export default {
 		right: 0;
 		top: -16rpx;
 		color: #fff;
-		background: #b2b2b2;
+		background: #5cc69a;
 		border-radius: 50%;
 		text-align: center;
 		line-height: 32rpx;
 		font-size: 32rpx;
 	}
 }
-.feed{
+.feed {
 	background: #fff;
 	padding: 0 30upx;
 	padding-bottom: 40upx;
 }
-.submit{
-	width:90%;
-	height:88upx;
-	background:rgba(92,198,154,1);
-	border-radius:10upx;
-	font-size:32upx;
-	color:rgba(255,255,255,1);
-	line-height:88upx;
-	text-align:center;
+.submit {
+	width: 90%;
+	height: 88upx;
+	background: rgba(92, 198, 154, 1);
+	border-radius: 10upx;
+	font-size: 32upx;
+	color: rgba(255, 255, 255, 1);
+	line-height: 88upx;
+	text-align: center;
 	margin: 94upx 35upx 0;
+}
+.counter {
+	padding: 0 20upx;
+	text-align: right;
+	font-size: 24upx;
+	color: #b2b2b2;
 }
 </style>

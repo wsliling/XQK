@@ -108,13 +108,14 @@ export default {
 					icon: 'none',
 					duration:1500,
 				});
-				return false
+			}else{
+				for (let i = 0; i < this.Avatar.length; i += 1) {
+					const res = await pathToBase64(this.Avatar[i]);
+					base64 = res
+				}
+				this.getUploadPhoto(JSON.stringify(base64));
 			}
-			for (let i = 0; i < this.Avatar.length; i += 1) {
-				const res = await pathToBase64(this.Avatar[i]);
-				base64 = res
-			}
-			this.getUploadPhoto(JSON.stringify(base64));
+			
 		},
 		// 修改会员头像
 		getUploadPhoto(base64){
