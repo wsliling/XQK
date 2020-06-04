@@ -6,7 +6,7 @@
 					<img :src="info.Headimgurl||'http://xqk.wtvxin.com/images/wxapp/default.png'" alt="">
 					<div class="name">{{info.NickName}}</div>
 				</div>
-				<div class="btn-min" v-if="type">编辑资料</div>
+				<div class="btn-min" v-if="type" @click="navigate('tabBar/my/account')">编辑资料</div>
 				<div class="ta" v-else @click="follow()">
 					<view class="focusright" v-if="info.IsFollow*1">已关注</view>
 					<view class="focusright active" v-else>关注</view>
