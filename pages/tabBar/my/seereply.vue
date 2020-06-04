@@ -4,53 +4,111 @@
 		<view class="tab flex">
 			<view class="flex1 flexc" :class="{ 'active': tabIndex == index }" v-for="(item, index) in tabList" :key="index" @click="cliTab(index)">{{ item }}</view>
 			<span :style="'left:'+tabStyle+'rpx'"></span>
-			<view class="activered"></view>
+			<view class="activered" v-if="false"></view>
 		</view>
 		<view class="focus">
-			<view class="focusleft" v-for="(val,key) in 2" :key="key">
+			<view class="focusleft" v-for="(val,key) in replyList" :key="key" @click="navigate('starLangSon/detail',{Id:val.FkId})">
 				<view class="forcusimg">
-					<image src="http://xqk.wtvxin.com/images/wxapp/default.png" mode=""></image>
+					<image :src="val.MemberHead" mode=""></image>
 				</view>
 				<view class="focuscenter">
 					<view class="focusbox">
-						<view class="focusname">学会笑着面对 <span v-if="key*2 == 0"></span></view>
-						<view class="focusfz22">2020-05-14</view>
-						<view class="focusfz28">文艺、繁华、却不失自然本质浪漫温暖、又充满人文温情</view>
-						<view class="focusfz24">回复了深漂小飞机的星语</view>
+						<view class="focusname">{{val.MemberName}}<span v-if="false"></span></view>
+						<view class="focusfz22">{{val.AddTime}}</view>
+						<view class="focusfz28">{{val.Comment}}</view>
+						<view class="focusfz24">回复了{{val.NickName}}的星语</view>
 					</view>
 					<view class="focusright">
-						<image src="http://xqk.wtvxin.com/images/wxapp/of/banner.jpg" mode=""></image>
+						<image :src="'http://xqk.wtvxin.com' + val.PicNo" mode=""></image>
 					</view>
 				</view>
 			</view>
+		</view>
+		<noData :isShow="noDataIsShow"></noData>
+		<view class="uni-tab-bar-loading">
+			<uni-load-more :loadingType="loadingType" v-if="noDataIsShow == false"></uni-load-more>
 		</view>
 	</view>
 </template>
 
 <script>
+	import { post, navigate } from '@/utils'
 	export default{
 		data(){
 			return{
+				navigate,
 				tabList: ['我的回复', '回复我的'],
 				tabIndex: 0,
+				Type:0,  //0-我的回复 1-回复我的
+				Page:1,
+				PageSize:10,
+				replyList:[],
+				noDataIsShow: false, //没有数据的提示是否显示
+				loadingType: 0, //0加载前，1加载中，2没有更多了
 			}
 		},
 		computed: {
 			tabStyle() {
-				console.log((750 / this.tabList.length) * this.tabIndex + (750 / this.tabList.length - 50) / 2);
 				return (750 / this.tabList.length) * this.tabIndex + (750 / this.tabList.length - 50) / 2;
 			}
 		},
-		methods: {
-			cliTab(index) {
-				this.tabIndex = index;
-				// this.couponStatus = index + 1;
-				// this.page = 1;
-				// this.noDataIsShow = false;
-				// this.hasData = false;
-				
-			},
+		onLoad() {
+			this.getReplyList()
 		},
+		methods: {
+			tolick(url){
+				uni.navigateTo({
+					url:url
+				})
+			},
+			cliTab(index) {
+				this.Type = index;
+				this.tabIndex = index;
+				this.getReplyList()
+			},
+			// 我/他人的评论回复
+			getReplyList(){
+				post('Find/UserReplyList',{
+					UserId : uni.getStorageSync('userId'),
+					Token : uni.getStorageSync('token'),
+					Page : this.Page,
+					PageSize : this.PageSize,
+					Type :this.Type,    //0-我的回复 1-回复我的
+				}).then( res=> {
+					if(res.code === 0){
+						if (res.data.length > 0) {
+							this.noDataIsShow = false;
+						}
+						if (res.data.length === 0 && this.Page === 1) {
+							this.noDataIsShow = true;
+						}
+						if (this.Page === 1) {
+							this.replyList = res.data;
+						}
+						if (this.Page > 1) {
+							this.replyList = this.replyList.concat(res.data);
+						}
+						if (res.data.length < this.PageSize) {
+							this.isLoad = false;
+							this.loadingType = 2;
+						} else {
+							this.isLoad = true;
+							this.loadingType = 0;
+						}
+					}
+				})
+			}
+		},
+		// 上拉加载
+		onReachBottom: function() {
+			if (this.isLoad) {
+				this.loadingType = 1;
+				this.Page++;
+				this.getReplyList()
+			} else {
+				this.loadingType = 2;
+			}
+		}
 	}
 </script>
 
@@ -107,6 +165,7 @@
 					image{
 						width:88upx;
 						height:88upx;
+						border-radius: 50%;
 					}
 				}
 				.focuscenter{
@@ -153,10 +212,10 @@
 						}
 					}
 				}
+				&:last-child{
+					border-bottom:none;
+				}
 			}
-			
-			
 		}
 	}
-	
 </style>
