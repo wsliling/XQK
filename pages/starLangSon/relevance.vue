@@ -2,38 +2,204 @@
 	<!-- 发布 -> 关联星球客 -->
 	<view class="relevance">
 		<view class="seek">
-			<input type="text" value="" placeholder="搜索星球客" />
-			<span class="close" @click="delImg(pindex)">×</span>
+			<input @confirm="confirm" v-model="Keywords" type="text" value="" placeholder="搜索星球客" />
+			<!-- <span class="close" @click="delImg(pindex)">×</span> -->
+			<span class="close" @click="emptyKeyWord">×</span>
 		</view>
 		<view class="releva">
 			<view class="record">最近记录</view>
-			<view class="collect-box" v-for="(val,index) in 3" :key="index">
-				<view class="collect-left"><image src="http://xqk.wtvxin.com/images/wxapp/of/p1.jpg" mode=""></image></view>
+			<view class="collect-box" v-for="(val,index) in goodList" :key="index" v-if="val!==0">
+				<!-- <view class="">
+					没有更多数据了
+				</view> -->
+				<view class="collect-left">
+					<!-- <image src="http://xqk.wtvxin.com/images/wxapp/of/p1.jpg" mode=""> -->
+					<image :src="val.PicNo" mode="aspectFill">
+					</image></view>
 				<view class="collect-right">
-					<view class="name">广州.从化温泉明月山溪</view>
+					<view class="name">
+						<!-- 广州.从化温泉明月山溪 -->
+						{{ val.Name }}
+					</view>
 					<view class="point">
-						<view class="pointkey">骑行</view>
+						<!-- <view class="pointkey">骑行</view>
 						<view class="pointkey">游乐</view>
-						<view class="pointkey">艺术</view>
+						<view class="pointkey">艺术</view> -->
+						<block v-for="(item2,index2) in (val.ServiceKeys)" :key="index2">
+							<view v-if="index2 < 5" class="pointkey">{{ item2 }}</view>
+						</block>
 					</view>
 					<view class="font">
-						<view class="num">￥288</view>
-						<view class="iconfont icon-collect"><view class="fz12">4.8<span>(20)</span></view></view>
-						<view class="add">添加</view>
+						<!-- <view class="num">￥288</view> -->
+						<view class="num">￥{{ val.Price }}</view>
+						<!-- <view class="iconfont icon-collect"><view class="fz12">4.8<span>(20)</span></view></view> -->
+						<!-- <view class="iconfont icon-collect"><view class="fz12">{{ val.CommentScore }}<span>(20)</span></view></view> -->
+						<view class="star flex-center">
+							<view class="iconfont icon-collect" v-for="(item3,index3) in val.CommentScore*1" :key="index3"></view>
+							<view class="iconfont icon-collect1" v-for="(item4,index4) in (5-(val.CommentScore))" :key="index4"></view>
+							<view class="fz12">{{val.CommentScore}}<span>({{ val.CommentNum }})</span></view>
+						</view>
+						<view @click="add(index,val.Id)" class="add">添加</view>
 					</view>
 				</view>
 			</view>
 		</view>
-		<view class="anonymous" v-if="false">
+		
+		<!-- <view class="anonymous" v-if="goodList.length === 0">
 			<view class="anonyimg">
 				<image src="http://xqk.wtvxin.com/images/wxapp/of/p5.png" mode=""></image>
 			</view>
 			<view>暂无记录，可搜索其他星球客选择关联</view>
-		</view>
+		</view> -->
+		<!-- 数据判断显示 -->
+		<not-data v-if="goodList.length<1"></not-data>
+		<uni-load-more :loadingType="loadMore" v-else></uni-load-more>
+		<view style="height: 120upx;"></view>
 	</view>
 </template>
 
 <script>
+	import {post,get,navigate} from '@/utils';
+	import notData from '@/components/notData.vue';
+	export default {
+		data() {
+			 return {
+					userId: '',
+					token: '',
+					Keywords:'',
+					Page: 1,
+					PageSize: 6,
+					keyword: '',
+					goodList: '',
+					tagList: [],
+					notData: false,
+					loadMore:0,//0-loading前；1-loading中；2-没有更多了
+				}
+			},
+			onLoad() {
+				// this.getUserInfo()
+				this.init()
+				// this.getGoodsList()
+			},
+			methods:{
+				confirm() {
+					// this.getGoodsList()
+					this.init()
+				},
+				// 获取用户id以及token
+				getUserInfo () {
+					this.userId = uni.getStorageSync('userId');
+					this.token = uni.getStorageSync('token');
+				},
+				// 清空输入框
+				emptyKeyWord() {
+					this.keyword = ''
+				},
+				// 初始化
+				init(){
+					// this.userId = uni.getStorageSync('userId');
+					// this.token = uni.getStorageSync('token');
+					this.getUserInfo()
+					this.loadMore=0;
+					this.Page = 1;
+					this.getGoodsList();
+				},
+				// 获取预订产品列表
+				async getGoodsList() {
+					this.loadMore =1;
+					this.getUserInfo()
+					// this.userId = this.$store.getters.getUserId;
+					// this.token = this.$store.getters.getToken;
+					console.log('vuex---',this.$store.state)
+					console.log('id',this.userId)
+					console.log('Token',this.token)
+					
+					let res = await post(
+					'Goods/GoodsList_yd',
+					// 'Order/OrderList_yd',
+					{
+						UserId:this.userId,
+						Token:this.token,
+						Keywords: this.Keywords,
+						Page:this.Page,
+						PageSize:this.PageSize,
+						IsNearRecords: 1  // 最近入住记录
+					})
+					if(res.data.length<this.PageSize){
+						this.loadMore =2;
+					}else{
+						this.loadMore =0;
+					}
+						
+					console.log('获取预定产品列表：', res)
+					let ProIdArr = this.$store.state.ProIdArr
+					// 处理字符串标签为数组,处理星星个数
+					for(let i =0; i < res.data.length;i++){
+						let tempArr = res.data[i].ServiceKeys.split(",")
+						res.data[i].ServiceKeys = tempArr
+						console.log('处理产品列表：', res.data[i].ServiceKeys)
+						res.data[i].CommentScore = this.toNum(res.data[i].CommentScore)
+						for(let j =0; j < ProIdArr.length;j++){
+							if(ProIdArr[j] === res.data[i].Id) {
+								console.log('已经添加了',ProIdArr[j],res.data[i].Id)
+								res.data[i] = 0
+							}
+						}
+					}
+					this.goodList = res.data
+					
+				},
+				// 添加方法
+				add(index,Id) {
+					// 需要删除掉相应的渲染goodList的元素
+					this.goodList.splice(index,1)
+					// 添加成功之后，需要去重vuex关联产品id组
+					let tempArr = [...new Set( [...this.$store.state.ProIdArr,Id] )]
+					this.$store.commit('update',{"ProIdArr": tempArr})
+					console.log('我是预定产品Id数组：',this.$store.state.ProIdArr)
+					uni.showToast({
+						title:'添加成功！'
+					})
+				}
+			},
+			onReachBottom(){
+				if(this.loadMore===2)return;
+				this.Page++
+				this.getCommnetList(this.Id)
+			},
+			onPullDownRefresh(){
+				uni.stopPullDownRefresh()
+				this.init();
+			},
+			computed: {
+				toNum (str) {
+					return (str)=>{
+						console.log('评分：',Math.round(str),'str')
+						return Math.round(str);
+					}
+					// Math.round(str)
+				},
+				// 分数
+				CommentScore (score) {
+					if(!score)return;
+					if (score.length > 1) {
+						return score
+					}
+					return score + ".0"
+				},
+				// tagInit(item) {
+				// 	// return this.item.ServiceKeys
+				// 	return (item)=> {
+				// 		// if(!item){
+				// 		// 	return
+				// 		// }
+				// 		let tab = item.ServiceKeys.split(",")
+				// 		console.log('我是计算后====',tab)
+				// 		return tab
+				// 	}
+				// },
+			}
+		}
 </script>
 
 <style lang="scss" scoped>

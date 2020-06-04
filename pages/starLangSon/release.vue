@@ -39,24 +39,39 @@
 			</view>
 			<view class="myrelease">
 				<view class="relevancy">
-					<view>关联星球客 (1/5)</view>
+					<view>关联星球客 ({{ goodList.length }}/5)</view>
 					<view class="addition" @click="tolick('/pages/starLangSon/relevance')">添加</view>
 				</view>
-				<view class="collect-box">
+				<view class="collect-box"  v-for="(val,index) in goodList" :key="index">
 					<view class="collect-left"><image src="http://xqk.wtvxin.com/images/wxapp/of/p1.jpg" mode=""></image></view>
 					<view class="collect-right">
-						<view class="name">广州.从化温泉明月山溪</view>
+						<!-- <view class="name">广州.从化温泉明月山溪</view> -->
+						<view class="name">
+							{{ val.Name }}
+						</view>
 						<view class="point">
-							<view class="pointkey">骑行</view>
+							<!-- <view class="pointkey">骑行</view>
 							<view class="pointkey">游乐</view>
-							<view class="pointkey">艺术</view>
+							<view class="pointkey">艺术</view> -->
+							<block v-for="(item2,index2) in (val.ServiceKeys)" :key="index2">
+								<view v-if="index2 < 5" class="pointkey">{{ item2 }}</view>
+							</block>
 						</view>
 						<view class="font">
-							<view class="num">￥288</view>
-							<view class="iconfont icon-collect"></view>
+							<view class="num">￥{{ val.Price }}</view>
+
+							<!-- <view class="iconfont icon-collect"></view>
 							<view class="fz12">
 								4.8
 								<span>(20)</span>
+							</view> -->
+							<view class="star flex-center">
+								<view class="iconfont icon-collect" v-for="(item3,index3) in val.CommentScore*1" :key="index3"></view>
+								<view class="iconfont icon-collect1" v-for="(item4,index4) in (5-(val.CommentScore))" :key="index4"></view>
+								<view class="fz12">{{val.CommentScore}}<span>({{ val.CommentNum }})</span></view>
+							</view>
+							<view  @click="del(val.index)" class="del">
+								<image src="@/static/delBox.png" mode=""></image>
 							</view>
 						</view>
 					</view>
@@ -77,12 +92,7 @@ export default {
 	data() {
 		return {
 			showEdit: false,
-			// typelist: [],
 			type: '',
-			// typeTxt: '请选择',
-			// Mobile: '',
-			// Name: '',
-			// Content: '',
 			PicList: [],
 			maxPicLen: 10, //最多上传
 			isUploadBtn: true, //显示上传图片按钮
@@ -92,6 +102,7 @@ export default {
 			title: '',
 			Content: '',
 			place:'不显示位置',
+			goodList:[]
 		};
 	},
 	onShow() {
@@ -102,18 +113,37 @@ export default {
 		// this.$store.commit('update',{"place":"不显示位置"})
 		console.log(this.$store.state.place)
 		this.getUserInfo()
+		this.getGoodsList()
 	},
 	onLoad() {
 		this.PicList = [];
-		this.Name = '';
-		this.Mobile = '';
-		this.Content = '';
-		this.typeTxt = '请选择';
-		this.getTypelist();
+		// this.Name = '';
+		// this.Mobile = '';
+		// this.Content = '';
+		// this.typeTxt = '请选择';
+		// this.getTypelist();
 		// 分割线
 		this.title = ''
 		this.Content = ''
 		this.place = '不显示位置'
+		this.goodList = []
+	},
+	computed:{
+		toNum (str) {
+			return (str)=>{
+				console.log('评分：',Math.round(str),'str')
+				return Math.round(str);
+			}
+			// Math.round(str)
+		},
+		// 分数
+		CommentScore (score) {
+			if(!score)return;
+			if (score.length > 1) {
+				return score
+			}
+			return score + ".0"
+		},
 	},
 	methods: {
 		// 获取用户id以及token
@@ -137,6 +167,13 @@ export default {
 				url:url
 			})
 		},
+		del(index) {
+			this.goodList.splice(index,1)
+			// 删除成功之后，需要清除掉vuex关联产品id组
+			let tempArr = this.$store.state.ProIdArr
+			tempArr.splice(index,1)
+			this.$store.commit('update',{"ProIdArr": tempArr})
+		},
 		//提交意见反馈
 		// 星语发布/提交发布
 		async FeedBack(base64Arr) {
@@ -149,12 +186,15 @@ export default {
 					Title: this.title,
 					ContentDetails: this.Content,
 					PicList: base64Arr,
-					Location: this.place
+					Location: this.place,
+					ProIdArr: this.ProIdArr
 				},
 				// this.getData
 			);
 			console.log('3333333');
 			if (res.code == 0) {
+				// 发布成功之后，需要清除掉vuex关联产品id组
+				this.$store.commit('update',{"ProIdArr": []})
 				wx.showToast({
 					title: '发布成功'
 				});
@@ -238,7 +278,38 @@ export default {
 				});
 			}
 			return base64Arr;
-		}
+		},
+		// 获取预订产品列表
+		async getGoodsList() {
+			let temp = this.$store.state.ProIdArr
+			// 获取vuex的产品idArr
+			console.log('获取vuex的产品idArr:', this.ProIdArr)
+			this.ProIdArr = temp.join(',')
+			if(!this.ProIdArr) {
+				return false
+			}
+			this.getUserInfo()
+			// console.log('vuex---',this.$store.state)
+			// console.log('id',this.userId)
+			// console.log('Token',this.token)
+			
+			let res = await post(
+			'Goods/GoodsList_yd',
+			{
+				UserId:this.userId,
+				Token:this.token,
+				ProIdArr: this.ProIdArr
+			})
+			console.log('获取预定产品列表：', res)
+			// 处理字符串标签为数组,处理星星个数
+			for(let i =0; i < res.data.length;i++){
+				let tempArr = res.data[i].ServiceKeys.split(",")
+				res.data[i].ServiceKeys = tempArr
+				// console.log('处理产品列表：', res.data[i].ServiceKeys)
+				res.data[i].CommentScore = this.toNum(res.data[i].CommentScore)
+			}
+			this.goodList = res.data
+		},
 	}
 };
 </script>
@@ -332,6 +403,7 @@ export default {
 // 关联系星球客样式
 .myrelease {
 	background: #fff;
+	margin-bottom: 120upx;
 	.relevancy {
 		display: flex;
 		justify-content: space-between;
@@ -367,6 +439,7 @@ export default {
 		}
 		.collect-right {
 			color: #333333;
+			flex: 1;
 			.name {
 				font-size: 28upx;
 			}
@@ -385,7 +458,15 @@ export default {
 			}
 			.font {
 				display: flex;
+				justify-content: space-between;
 				padding-top: 12upx;
+				margin-right: 30upx;
+				.del {
+					image {
+						width: 32upx;
+						height: 32upx;
+					}
+				}
 				.num {
 					font-size: 24upx;
 					color: rgba(255, 51, 51, 1);
@@ -393,16 +474,55 @@ export default {
 				}
 				.iconfont {
 					color: $primary;
-					margin: 0 6upx 0 40upx;
 					line-height: 1.2;
+					display: flex;
 				}
 				.fz12 {
+					margin-top: 8upx;
+					padding-left: 6upx;
 					span {
 						font-size: 22upx;
 						color: rgba(153, 153, 153, 1);
 						padding-left: 6upx;
+						
 					}
 				}
+				.add{
+					width:88upx;
+					height:44upx;
+					border:1upx solid rgba(255,51,51,1);
+					border-radius:22upx;
+					font-size:24upx;
+					font-family:PingFang;
+					font-weight:500;
+					color:rgba(255,51,51,1);
+					line-height:44upx;
+					text-align: center;
+				}
+				// display: flex;
+				// justify-content: space-between;
+				// padding-top: 12upx;
+				// .star {
+				// 	margin: 0 0 0 30upx;
+				// }
+				// .delBox {}
+				// .num {
+				// 	font-size: 24upx;
+				// 	color: rgba(255, 51, 51, 1);
+				// 	line-height: 40upx;
+				// }
+				// .iconfont {
+				// 	color: $primary;
+				// 	margin: 0 6upx 0 40upx;
+				// 	line-height: 1.2;
+				// }
+				// .fz12 {
+				// 	span {
+				// 		font-size: 22upx;
+				// 		color: rgba(153, 153, 153, 1);
+				// 		padding-left: 6upx;
+				// 	}
+				// }
 			}
 		}
 	}

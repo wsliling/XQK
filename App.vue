@@ -4,6 +4,9 @@
 		onLaunch: function() {
 		},
 		onShow: function() {
+			// 获取UserId和Token
+			this.$store.commit('update',{"userId":uni.getStorageSync('userId')})
+			this.$store.commit('update',{"token":uni.getStorageSync('token')})
 			// 初始化日历
 			const option = this.$store.state.calendarOption;
 			if(!option.currentRangeStartDate){

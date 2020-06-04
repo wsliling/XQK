@@ -99,13 +99,21 @@
 				   let _this = this
 				   let {lng,lat} = this.$store.state
 				   console.log(lng,lat)
+				   if(this.keyword.trim().length ===0 ) {
+					   return uni.showToast({
+							title:'搜索不能为空！',
+							icon: "none"
+					   })
+				   }
 				   // 调用接口
-				   qqmapsdk.search({
+				   qqmapsdk.search(
+					 {
 				      keyword: this.keyword,  //搜索关键词
 				      location: {
 							latitude: lat,
 							longitude: lng
-						},  //设置周边搜索中心点
+						},  
+						//设置周边搜索中心点
 				      success: function (res) { //搜索成功后的回调
 						console.log('成功！',res)
 				        var mks = []

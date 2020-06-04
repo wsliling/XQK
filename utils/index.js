@@ -145,8 +145,8 @@ export function autoImg(img) {
 }
 
 // 后退到上一页,防抖
-export function navigateBack(){
-  debounce(function(){uni.navigateBack();console.log('回退了一次')},2000)
+export function navigateBack(time=2000){
+	debounce(function(){uni.navigateBack();console.log('回退了一次')},time)
 }
 // 跳转url,带参
 export function navigate(url,params,isLogin){

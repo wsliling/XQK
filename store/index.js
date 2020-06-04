@@ -16,8 +16,9 @@ Vue.use(Vuex)
 */
 export default new Vuex.Store({
     state:{
-        // token:'',
-        // userId:'',
+        token:'',
+        userId:'',
+		ProIdArr: [], // 星语添加的关联星球客（预定产品的id组）
         cityName:'',//城市名称
         cityCode:'',//城市代码
         lng:'',
