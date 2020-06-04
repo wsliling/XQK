@@ -1,78 +1,115 @@
 <template>
 	<!-- 我的发布 -->
-	<view class="myrelease">
-		<view class="box" v-for="(val,key) in datalist" :key="key">
-			<view class="boximg">
-				<image :src="val.pic" v-if="key%2==0" :style="{height: '444upx'}" mode=""></image>
-				<image :src="val.pic" v-if="key%2==1" :style="{height: '356upx'}" mode=""></image>
-			</view>
-			<view class="boxname uni-ellipsis2">{{val.name}}</view>
-		</view>
+	<view class="myrelease plr30 bgfff">
+		<starLangList class="list p30" :list="list" pageStr="issue" @remove="remove"></starLangList>	
+		<!-- 没有更多数据了 -->
+		<notData v-if="!list.length"></notData>
+		<uni-load-more :loadingType="loadingType" v-if="list.length&&page>1"></uni-load-more>
+		
 	</view>
 </template>
 
 <script>
+	import starLangList from '@/components/starLangList.vue';
+	import {post,navigate,toast} from '@/utils';
+	import notData from '@/components/notData.vue'; //暂无数据
 	export default {
+		components:{starLangList,notData},
 		data(){
 			return{
-				datalist:[
-					{
-						pic:'http://xqk.wtvxin.com/images/wxapp/of/p3.jpg',
-						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为我门的生活打开了一扇窗，这扇窗~',
-					},
-					{
-						pic:'http://xqk.wtvxin.com/images/wxapp/of/p2.jpg',
-						name:'旅行为我门的生活打开了一扇窗，这扇窗窗，这扇窗~',
-					},
-					{
-						pic:'http://xqk.wtvxin.com/images/wxapp/of/p1.jpg',
-						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为这扇窗~',
-					},
-					{
-						pic:'http://xqk.wtvxin.com/images/wxapp/of/p3.jpg',
-						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为我门的生活打开了一扇窗，这扇窗~',
-					},
-					{
-						pic:'http://xqk.wtvxin.com/images/wxapp/of/p3.jpg',
-						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为我门的生活打开了一扇窗，这扇窗~',
-					},
-					{
-						pic:'http://xqk.wtvxin.com/images/wxapp/of/p1.jpg',
-						name:'旅行为我门的生活打开了一扇窗，这扇一扇窗，这扇窗~',
-					},
-					{
-						pic:'http://xqk.wtvxin.com/images/wxapp/of/p3.jpg',
-						name:'旅行为我门的生活打开了',
-					},
-					{
-						pic:'http://xqk.wtvxin.com/images/wxapp/of/banner.jpg',
-						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为我一扇窗，这扇窗~',
-					},
-					{
-						pic:'http://xqk.wtvxin.com/images/wxapp/of/p3.jpg',
-						name:'旅行为我门的生活打开了一扇窗扇窗，这扇窗~',
-					},
-					{
-						pic:'http://xqk.wtvxin.com/images/wxapp/of/p1.jpg',
-						name:'旅行为我门的生活打开了一扇窗一扇窗，这扇窗~',
-					},
-					{
-						pic:'http://xqk.wtvxin.com/images/wxapp/of/p2.jpg',
-						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为我门的生活打开了一扇窗，这扇窗~',
-					},
-				]
+				userId: "",
+				token: "",
+				list: [],
+				page: 1,
+				pageSize: 10,
+				loadingType: 0, //0加载前，1加载中，2没有更多了
 			}
-		}
+		},
+		onLoad(){
+			this.userId = uni.getStorageSync("userId");
+			this.token = uni.getStorageSync("token");
+			this.init();
+			this.getData();
+		},
+		onShow() {
+			this.userId = uni.getStorageSync("userId");
+			this.token = uni.getStorageSync("token");
+		},
+		methods:{
+			init() {
+				this.list = [];
+				this.page = 1;
+				this.loadingType = 0;
+			},
+			async getData(){
+				this.loadingType = 1;
+				let result = await post("News/MyFindNewsList", {
+					UserId: this.userId,
+					Token: this.token,
+					Page: this.page,
+					PageSize:this.pageSize,
+				});
+				const data= result.data;
+				data.map((item)=> {
+					item.PicImg = item.PicNo
+				})
+				if (this.page === 1) {
+					this.list =[];
+				}
+				this.list = this.list.concat(data);
+				if (data.length < this.pageSize) {
+					this.loadingType = 2;
+				} else {
+					this.loadingType = 0;
+				}
+			},
+			remove(params){
+				const that = this;
+				uni.showModal({
+					content:'您确定要取消该发布吗？',
+					confirmColor:"#5cc69a",
+					cancelColor:'#999',
+					confirmColor:'#5cc69a',
+					success(e){
+						if(e.confirm){
+							post('News/DelMyFind',{
+								UserId: that.userId,
+								Token: that.token,
+								IdArr:params.Id
+							}).then(res=>{
+								toast('删除成功',{icon:true})
+								setTimeout(()=>{
+									that.init();
+									that.getData();
+								},1500)
+							})
+						}
+					}
+				})
+
+			},
+		},
+		onPullDownRefresh() { //下拉刷新
+			//监听下拉刷新动作的执行方法，每次手动下拉刷新都会执行一次
+			this.init();
+			this.getData();
+			uni.stopPullDownRefresh(); //停止下拉刷新动画
+		},
+		onReachBottom() { //上拉加载
+			if (this.loadingType === 2)return;
+			this.page+=1;
+			this.getData();
+		},
 	}
 </script>
 
 <style lang="scss" scoped>
 	.myrelease{
 		background: #fff;
-		padding:0 30upx;
-		display: flex;
-		justify-content: space-between;
-		flex-wrap: wrap; 
+		.list{
+			width:100%;
+			flex-wrap: wrap; 
+		}
 		.box{
 			width: 48%;
 			background:rgba(255,255,255,1);

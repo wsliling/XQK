@@ -6,31 +6,26 @@
 					<view class="item" v-if="index%2==0" @click="navigate('starLangSon/detail',{Id:item.Id})">
 						<view class="itembox">
 							<view class="imgbox">
-								<view class="like flex-center">
+								<view class="like flex-center" v-if="pageStr!=='issue'">
 									<view class="iconfont bg" :class="item.CollectionId?'icon-aixin':'icon-aixin2'">
 										<view class="iconfont" :class="item.CollectionId?'icon-aixin':'icon-aixin2'"></view>
 									</view>
 									<text class="num" :class="{active : item.CollectionId }">{{ item.CollectNum }}</text>
 								</view>
-								<!-- <image :src="item.pic" mode="aspectFill" class="pic"></image> -->
+								<view class="trash" v-if="pageStr==='issue'" @click.stop="$emit('remove',item)">
+									<uni-icons type="trash" color="#fff" size="25"></uni-icons>
+								</view>
 								<image :src="item.PicImg" mode="aspectFill" class="pic"></image>
 							</view>
 							<view class="txtbox">
 								<view class="title uni-ellipsis2 uni-mb5">
-									<!-- {{item.name}} -->
 									{{item.Title}}
 								</view>
-								<view class="flex-center-between">
+								<view class="flex-center-between" v-if="pageStr!=='issue'">
 									<view class="tx flex-center">
-										<!-- <image src="http://xqk.wtvxin.com/images/wxapp/logo.png" mode="aspectFill"></image>
-										<text class="author uni-ellipsis">小星君</text> -->
 										<image :src="item.Avatar" mode="aspectFill"></image>
 										<text class="author uni-ellipsis">{{ item.NickName }}</text>
 									</view>
-									<!-- <view class="zan flex-center active">
-										<text class="iconfont icon-zan1"></text>
-										<text class="num">30</text>
-									</view> -->
 									<view class="zan flex-center" :class="{ active: item.IsLike }">
 										<text class="iconfont icon-zan" :class="{'icon-zan': item.IsLike }"></text>
 										<text class="num" :class="{ active: item.IsLike }">{{ item.LikeNum }}</text>
@@ -43,42 +38,17 @@
 			</view>
 			<view class="right-list">
 				<block v-for="(item,index) in list" :key="index" >
-					<!-- <view class="item" v-if="index%2==1" @click="navigate('starLangSon/detail')">
-						<view class="itembox">
-							<view class="imgbox">
-								<view class="like flex-center">
-									<view class="iconfont icon-aixin bg">
-										<view class="iconfont icon-aixin active"></view>
-									</view>
-									<text class="num">209</text>
-								</view>
-								<image :src="item.pic" mode="aspectFill" class="pic"></image>
-							</view>
-							<view class="txtbox">
-								<view class="title uni-ellipsis2 uni-mb5">
-									{{item.name}}
-								</view>
-								<view class="flex-center-between">
-									<view class="tx flex-center">
-										<image src="http://xqk.wtvxin.com/images/wxapp/logo.png" mode="aspectFill"></image>
-										<text class="author uni-ellipsis">小星君</text>
-									</view>
-									<view class="zan flex-center">
-										<text class="iconfont icon-zan"></text>
-										<text class="num">30</text>
-									</view>
-								</view>
-							</view>
-						</view>
-					</view> -->
 					<view class="item" v-if="index%2==1" @click="navigate('starLangSon/detail',{Id:item.Id})">
 						<view class="itembox">
 							<view class="imgbox">
-								<view class="like flex-center">
+								<view class="like flex-center" v-if="pageStr!=='issue'">
 									<view class="iconfont bg" :class="item.CollectionId?'icon-aixin':'icon-aixin2'">
 										<view class="iconfont" :class="item.CollectionId?'icon-aixin':'icon-aixin2'"></view>
 									</view>
 									<text class="num" :class="{active : item.CollectionId }">{{ item.CollectNum }}</text>
+								</view>
+								<view class="trash" v-if="pageStr==='issue'" @click.stop="$emit('remove',item)">
+									<uni-icons type="trash" color="#fff" size="25"></uni-icons>
 								</view>
 								<!-- <image :src="item.pic" mode="aspectFill" class="pic"></image> -->
 								<image :src="item.PicImg" mode="aspectFill" class="pic"></image>
@@ -88,17 +58,11 @@
 									<!-- {{item.name}} -->
 									{{item.Title}}
 								</view>
-								<view class="flex-center-between">
+								<view class="flex-center-between" v-if="pageStr!=='issue'">
 									<view class="tx flex-center">
-										<!-- <image src="http://xqk.wtvxin.com/images/wxapp/logo.png" mode="aspectFill"></image>
-										<text class="author uni-ellipsis">小星君</text> -->
 										<image :src="item.Avatar" mode="aspectFill"></image>
 										<text class="author uni-ellipsis">{{ item.NickName }}</text>
 									</view>
-									<!-- <view class="zan flex-center active">
-										<text class="iconfont icon-zan1"></text>
-										<text class="num">30</text>
-									</view> -->
 									<view class="zan flex-center" :class="{ active: item.IsLike }">
 										<text class="iconfont icon-zan" :class="{'icon-zan': item.IsLike }"></text>
 										<text class="num" :class="{ active: item.IsLike }">{{ item.LikeNum }}</text>
@@ -121,6 +85,11 @@
 				default(){
 					return []
 				}
+			},
+			//issue--发布页面,list--列表页面
+			pageStr:{
+				type:String,
+				default:'list'
 			}
 		},
 		data() {
@@ -181,11 +150,21 @@
 						color: #ff6766;
 					}
 				}
-				.num{ color: #999; margin-left: 10upx;
+				.num{ color: #fff; margin-left: 10upx;
 					&.active{
 						color: #ff6766;
 					}
 				}
+			}
+			.trash{
+				position:absolute;
+				right:0;top:0upx;
+				padding-right:10upx;
+				padding-left:20upx;
+				padding-bottom:20upx;
+				// font-size:40upx;
+				// color:#fff;
+				
 			}
 			.pic{
 				height:440upx;
