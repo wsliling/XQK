@@ -1,8 +1,11 @@
 <template>
-	<view class="item" @click="navigate('starLangSon/detail',{Id:item.Id})">
+	<view class="item" @click="onClick">
+		<div v-if="showSelect" class="checkBox">
+			<div class='IconsCK IconsCK-radio' :class="{'checked':item.checked}"></div>
+		</div>
 		<view class="itembox">
 			<view class="imgbox">
-				<view class="like flex-center">
+				<view class="like flex-center" v-if="details.CollectionId">
 					<view class="iconfont bg" :class="details.CollectionId?'icon-aixin':'icon-aixin2'">
 						<view class="iconfont" :class="details.CollectionId?'icon-aixin':'icon-aixin2'"></view>
 					</view>
@@ -39,16 +42,28 @@
 				default(){
 					return {}
 				}
+			},
+			// 是否展示选择框
+			showSelect:{
+				type:Boolean,
+				default:false
 			}
 		},
 		data() {
 			return {
-				navigate
 			}
 		},
 		onLoad() {
 		},
 		methods: {
+			onClick(){
+				if(this.showSelect){
+					// this.item.checked = !this.item.checked
+					this.$emit('selectChange',this.item)
+				}else{
+					navigate('starLangSon/detail',{Id:this.item.Id})
+				}
+			}
 		}
 	}
 </script>
@@ -59,6 +74,19 @@
 		flex-direction: column;
 		width: 336upx;
 		margin-bottom: 20upx;
+		position:relative;
+		.checkBox{
+			position:absolute;
+			top:0;
+			right:0;
+			z-index:100;
+			.IconsCK{
+				&:after{
+					font-size:60upx;
+					color:$primary;
+				}
+			}
+		}
 		.itembox{
 			background-color: #fff;
 			border-radius: 12upx;
