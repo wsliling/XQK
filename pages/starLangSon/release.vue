@@ -14,6 +14,7 @@
 				class="fed_text"
 				placeholder="分享你的故事和体验~"
 				v-model="Content"
+				style="line-height: 1.3;"
 			></textarea>
 			<view class="uploadimg">上传图片/视频({{ PicList.length }}/{{maxPicLen}})</view>
 			<div class="flex">
@@ -70,12 +71,15 @@
 								<view class="iconfont icon-collect1" v-for="(item4,index4) in (5-(val.CommentScore))" :key="index4"></view>
 								<view class="fz12">{{val.CommentScore}}<span>({{ val.CommentNum }})</span></view>
 							</view>
-							<view  @click="del(val.index)" class="del">
+							<view  @click="del(val.Id,index)" class="del">
 								<image src="@/static/delBox.png" mode=""></image>
 							</view>
 						</view>
 					</view>
 				</view>
+			</view>
+			<view class="bottomBox">
+				
 			</view>
 		</div>
 		<div class="submit" @click="submit">发布</div>
@@ -114,6 +118,8 @@ export default {
 		console.log(this.$store.state.place)
 		this.getUserInfo()
 		this.getGoodsList()
+		console.log('我是发布页onshow的idarr：',this.$store.state.ProIdArr)
+		
 	},
 	onLoad() {
 		this.PicList = [];
@@ -167,12 +173,24 @@ export default {
 				url:url
 			})
 		},
-		del(index) {
-			this.goodList.splice(index,1)
-			// 删除成功之后，需要清除掉vuex关联产品id组
+		del(id,index) {
 			let tempArr = this.$store.state.ProIdArr
-			tempArr.splice(index,1)
+			for(let i =0; i < this.goodList.length;i++) {
+				console.log('id对比=============-',this.goodList[i],this.goodList[i].Id,id,this.$store.state.ProIdArr)
+				if(this.goodList[i].Id === id) {
+					console.log('老铁对比--',this.goodList[i].id,id)
+					this.goodList.splice(i,1)
+					for(let j =0; j < tempArr.length;j++) {
+						if(tempArr[j] === id) {
+							// 删除成功之后，需要清除掉vuex关联产品id组
+							tempArr.splice(j,1)
+						}
+					}
+					
+				}
+			}
 			this.$store.commit('update',{"ProIdArr": tempArr})
+			console.log('我删除了之后的数组：',this.$store.state.ProIdArr)
 		},
 		//提交意见反馈
 		// 星语发布/提交发布
@@ -528,7 +546,9 @@ export default {
 	}
 }
 
-
+.bottomBox {
+	height: 120upx;
+}
 
 .submit {
 	width: 100%;
