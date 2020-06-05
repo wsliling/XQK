@@ -15,7 +15,7 @@
 								<view class="trash" v-if="pageStr==='issue'" @click.stop="$emit('remove',item)">
 									<uni-icons type="trash" color="#fff" size="25"></uni-icons>
 								</view>
-								<image :src="item.PicImg" mode="aspectFill" class="pic"></image>
+								<image :src="item.PicImg" mode="widthFix" class="pic"></image>
 							</view>
 							<view class="txtbox">
 								<view class="title uni-ellipsis2 uni-mb5">
@@ -51,7 +51,7 @@
 									<uni-icons type="trash" color="#fff" size="25"></uni-icons>
 								</view>
 								<!-- <image :src="item.pic" mode="aspectFill" class="pic"></image> -->
-								<image :src="item.PicImg" mode="aspectFill" class="pic"></image>
+								<image :src="item.PicImg" mode="widthFix" class="pic"></image>
 							</view>
 							<view class="txtbox">
 								<view class="title uni-ellipsis2 uni-mb5">

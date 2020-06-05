@@ -21,7 +21,8 @@
 			<div class="user flex-center-between">
 				<div class="info flex-center">
 					<!-- <img src="/static/of/banner.jpg" alt=""> -->
-					<img @click="navigate('starLangSon/homePage',{taUserId:detail.MemberId})" :src="detail.Avatar" alt="">
+					<!-- <img @click="navigate('starLangSon/homePage',{taUserId:detail.MemberId})" :src="detail.Avatar" alt=""> -->
+					<image :src="detail.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'"></image>
 					<h5>{{ detail.NickName }}</h5>
 				</div>
 				<div class="btnBox flex-center" @click="toFolloow">
@@ -155,7 +156,7 @@
 			let Id = options.Id
 			this.Id = Id
 			this.getUserInfo()
-			console.log('我是传递过星语详情的Id',options)
+			// console.log('我是传递过星语详情的Id',options)
 			// this.getDetail(Id)
 			// this.getDataList()
 			this.getLikeList(Id)
@@ -163,7 +164,7 @@
 			// this.getFindList()
 		},
 		onShow() {
-			console.log('getCurrentPages()----------- ',getCurrentPageUrlWithArgs() )
+			// console.log('getCurrentPages()----------- ',getCurrentPageUrlWithArgs() )
 			if(this.userId == '' || this.token == '') {
 				this.getUserInfo()
 			}
@@ -174,7 +175,7 @@
 		},
 		onShareAppMessage: function (res) {
 		    // let gbid = res.target.dataset.info.order_id;
-			console.log('我触发分享了')
+			// console.log('我触发分享了')
 		    return {
 		      title: '分享',
 		      path: getCurrentPageUrlWithArgs(),
@@ -237,14 +238,14 @@
 									size: true
 								},
 							    data => {
-									console.log('我是this------', this)
-									console.log('查看this.$refs:',view,this.$refs)
+									// console.log('我是this------', this)
+									// console.log('查看this.$refs:',view,this.$refs)
 									// console.log(this.$refs.content.$el.getBoundingClientRect())
-									console.log('我是行数------', data,this.textHeight,data.height)
-									if(data.height > 150 ) {
+									// console.log('我是行数------', data,this.textHeight,data.height)
+									if(data.height > 140 ) {
 										// this.textHeight = data.height;
-										console.log('改变后的行数--===----', data,this.textHeight)
-										this.textHeight = 150
+										// console.log('改变后的行数--===----', data,this.textHeight)
+										this.textHeight = 140
 										this.isShowAll = true
 									}
 						}).exec();
@@ -305,7 +306,7 @@
 			changeIsShowAll(){
 				this.isShowAll = !this.isShowAll
 				this.textHeight = 'auto'
-				console.log(this.isShowAll)
+				// console.log(this.isShowAll)
 			},
 			// // 推荐列表
 			// async getDataList (){
@@ -333,7 +334,7 @@
 			// 发现点赞列表
 			async getLikeList (Id){
 				let res = await post('Find/FindLikesList',{FindId:Id,Page:1})
-				console.log('发现点赞列表:',res)
+				// console.log('发现点赞列表:',res)
 				if(res.code === 0 ){
 					this.LikeList = res.data
 				}
@@ -341,7 +342,7 @@
 			// 发现评论列表
 			async getCommnetList (Id){
 				let res = await post('Find/CommnetList',{UserId:this.userId,Token:this.token,FkId:Id,PageSize:4})
-				console.log('发现评论列表:',res)
+				// console.log('发现评论列表:',res)
 				if(res.code === 0 ){
 					this.CommnetList = res.data
 				}
@@ -349,7 +350,7 @@
 			// 用户评论操作
 			async toComment (Id){
 				let res = await post('Find/CommentOperation',{UserId:this.userId,Token:this.token,FkId:Id,Comment:this.Comment})
-				console.log('评论后返回:',res)
+				// console.log('评论后返回:',res)
 				if(res.code === 0){
 					uni.showToast({
 					    title: res.msg,
@@ -394,7 +395,7 @@
 			// 关注
 			async toFolloow (){
 				let res = await post('Find/FollowOperation',{UserId:this.userId,Token:this.token,ToMemberId:this.detail.MemberId})
-				console.log('点击关注返回：',res)
+				// console.log('点击关注返回：',res)
 				
 				if(res.code ===0){
 					this.detail.IsFollow = !this.detail.IsFollow
@@ -408,9 +409,9 @@
 			async getFindList() {
 				// let tempArr = this.detail.ProIdArr
 				this.ProIdArr = this.detail.ProIdArr
-				console.log('this.ProIdArr---',this.ProIdArr,this.detail.ProIdArr)
+				// console.log('this.ProIdArr---',this.ProIdArr,this.detail.ProIdArr)
 				let res = await post('Goods/GoodsList_yd',{Page:this.Page,UserId:this.userId,Token:this.token,ProIdArr:this.ProIdArr})
-				console.log('下面-用户发现list：',res)
+				// console.log('下面-用户发现list：',res)
 				if(res.code === 0 ){
 					this.findList = res.data
 				}
