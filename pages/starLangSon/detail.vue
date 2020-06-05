@@ -38,15 +38,17 @@
 				<!-- <div class="content uni-ellipsis2" :class="{allContent : !isShowAll}" v-html="detail.ContentAbstract + detail.ContentDetails"></div> -->
 				<!-- <div class="content" v-show="!isShowAll" v-html="detail.ContentAbstract"></div> -->
 				<!-- 'uni-ellipsis2': !isShowAll -->
-				<view class="content" :class="{'showAll': isShowAll}" v-html="detail.ContentAbstract + detail.ContentDetails"></view>
+				<!-- <view ref='content' id='content' class="content" :class="{'showAll': isShowAll }" v-html="detail.ContentAbstract + detail.ContentDetails"></view> -->
+				 <view ref='content' id='content' class="content" :class="{'showAll': isShowAll }" v-html="detail.ContentDetails" :style="{'white-space': 'pre-wrap',height:textHeight+'rpx'}"></view>
 				<!-- <div class="more flex-center" @click="changeIsShowAll" v-show="(!isShowAll) && isToLong ">展开全部 <uni-icons type="arrowdown" color="#5cc69a"></uni-icons></div> -->
-				<view v-if="!isShowAll" class="shade" @click="changeIsShowAll">
+				<view v-if="isShowAll" class="shade" @click="changeIsShowAll">
 					<view class="text">
-						展开全部
+						点击展开
+					<!-- <image src="" mode=""></image> -->
 					</view>
 				</view>
 				<!-- <p>2020-04-28发布</p> -->
-				<p v-if="isShowAll">{{ formatTime(detail.Addtime)}} 发布</p>
+				<p>{{ formatTime(detail.Addtime)}} 发布</p>
 			</div>
 			<div class="pro" v-if="detail.ExternalLink">
 				<h4>文中提及</h4>
@@ -58,7 +60,7 @@
 				<h4>点赞区</h4>
 				<!-- <div v-if="LikeList.length" class="flex-center-between"> -->
 				<div class="flex-center-between">
-					<div v-if="LikeList.length >0" class="avatar flex-center">
+					<div v-if="LikeList.length > 0" class="avatar flex-center">
 						<block v-for="(item,index) in LikeList" :key="index">
 							<!-- <img src="/static/of/banner.jpg" alt=""> -->
 							<image :src="item.Avatar" mode=""></image>
@@ -70,7 +72,8 @@
 					</div>
 					<div class="zan-icon flex-center" :class="{active: detail.IsLike}" @click="toZan(Id)">
 						<!-- <div class="iconfont icon-zan" :class="{active: detail.IsLike}"></div>{{ detail.LikeNum}} -->
-						<div class="iconfont icon-zan" :class='{"icon-zan1" : detail.IsLike,"active" : detail.IsLike}'></div>{{ detail.LikeNum}}
+						<div class="iconfont icon-zan" :class='{"icon-zan1" : detail.IsLike,"active" : detail.IsLike}'></div>
+						<text>{{ detail.LikeNum ? detail.LikeNum : 0 }}</text>
 					</div>
 				</div>
 			</div>
@@ -79,11 +82,11 @@
 				<div class="add flex-center-between">
 					<input confirm-type="send" @confirm="confirm(Id)" type="text" placeholder="写评论..." v-model="Comment">
 					<div class="line1"></div>
-					<div @click="toCollections" class="collect flex-column-center-center" :class="{active : detail.CollectionId}">
+					<div  @click="toCollections" class="collect flex-column-center-center" :class="{active : detail.CollectionId}">
 						<div class="iconfont" :class='{"icon-aixin2": !detail.CollectionId,"icon-aixin" : detail.CollectionId,"active" : detail.CollectionId}'></div>
 						<!-- <div v-show='!detail.CollectionId' class="iconfont icon-aixin2"></div>
 						<div v-show='detail.CollectionId' class="iconfont icon-aixin active"></div> -->
-						{{ detail.CollectNum}}
+						<text>{{ detail.CollectNum}}</text>
 					</div>
 				</div>
 				<reply-item  v-for="(item,index) in CommnetList" :key="index" :index="index" :item="item" @changeItem="changeItem"></reply-item>
@@ -92,9 +95,12 @@
 		</div>
 		<div class="gap20"></div>
 		<div class="other plr30 pb30">
-			<h4>其他推荐星语</h4>
-			<div class="flex-center-between">
-				<starLangItem :item="item"  v-for="(item,index) in findList" :key="index"></starLangItem>
+			<!-- <h4>其他推荐星语</h4> -->
+			<h4>关联星球客</h4>
+			<div class="flex-center-between2">
+				<!-- <starLangItem :item="item"  v-for="(item,index) in findList" :key="index"></starLangItem> -->
+				<product-item v-for="(item,index) in findList" :key="index" :item="item"></product-item>
+				<!-- <starLangItem :item="item"  v-for="(item,index) in 6" :key="index"></starLangItem> -->
 			</div>
 			<div class="btn-max" @click="switchTab('tabBar/starLang/starLang')">查看更多星语</div>
 		</div>
@@ -106,13 +112,16 @@
 	import starLangItem from '@/components/starLangItem.vue';
 	import replyItem from './replyItem.vue';
 	import {navigate,post,switchTab,getCurrentPageUrlWithArgs} from '@/utils';
+	import productItem from '@/components/productItem.vue';
 	import { formatTime } from '@/common/util.js'
 	export default {
-		components:{proItem,replyItem,starLangItem},
+		components:{proItem,replyItem,starLangItem,productItem},
 		data() {
 			return {
 				navigate,
 				switchTab,
+				Page:1,
+				ProIdArr:'',
 				currentSwiper :0,
 				content:`风景是真的美，但走起来真的累！而且！最近是帐篷节，周末人多到爆！无论是等缆车！还是徒步！都会把你挤哭的！要去的记得选好时间
 					门票：可以买门票+一级索道往返票=170元，索道往返价格有些微差异，具体可美团（据说一级索道途经的风景一般，建议保存体力选择搭乘缆车。本人觉得二级索道沿途风景也很一般啊......缺乏运动的小伙伴
@@ -138,6 +147,7 @@
 				token:'',
 				// 评论内容
 				Comment:'',
+				textHeight: 'auto',
 				findList:[]
 			}
 		},
@@ -146,11 +156,11 @@
 			this.Id = Id
 			this.getUserInfo()
 			console.log('我是传递过星语详情的Id',options)
-			this.getDetail(Id)
+			// this.getDetail(Id)
 			// this.getDataList()
 			this.getLikeList(Id)
 			// this.getCommnetList(Id)
-			this.getFindList()
+			// this.getFindList()
 		},
 		onShow() {
 			console.log('getCurrentPages()----------- ',getCurrentPageUrlWithArgs() )
@@ -189,7 +199,76 @@
 				},
 		    }
 		  },
+			mounted() {
+				//获取#content的高度
+				// this.$nextTick()
+				//   .then(() =>{
+				// 		console.log('我是this------', this)
+				//     // DOM 更新了
+				// 		let view = uni.createSelectorQuery().select('#content');
+				// 				view.fields({
+				// 					size: true
+				// 				},
+				// 			    data => {
+				// 					console.log('我是this------', this)
+				// 					this.textHeight = data.height + 'upx';
+				// 					console.log('查看this.$refs:',view,this.$refs)
+				// 					console.log(this.$refs.content.$el.getBoundingClientRect())
+				// 					console.log('我是行数------', data,this.textHeight,data.height)
+				// 					if(data.height > 0) {
+				// 						this.isShowAll = true
+				// 					}
+				// 		}).exec();
+				//   })
+				// 第二种方案
+				// this.getReactBox({class:'content'})
+			},
+		onReady() {
+		},
 		methods: {
+			getReactBox(data) {
+				// 第一
+				this.$nextTick()
+				  .then(() =>{
+						console.log('我是this------', this)
+				    // DOM 更新了
+						let view = uni.createSelectorQuery().select('#content');
+								view.fields({
+									size: true
+								},
+							    data => {
+									console.log('我是this------', this)
+									console.log('查看this.$refs:',view,this.$refs)
+									// console.log(this.$refs.content.$el.getBoundingClientRect())
+									console.log('我是行数------', data,this.textHeight,data.height)
+									if(data.height > 150 ) {
+										// this.textHeight = data.height;
+										console.log('改变后的行数--===----', data,this.textHeight)
+										this.textHeight = 150
+										this.isShowAll = true
+									}
+						}).exec();
+				  })
+				// 第二
+				// uni.createSelectorQuery().select(`.${data.class}`).boundingClientRect.exec(res=>{
+				// 	if(res[0]) {
+				// 		data.tempReact = {
+				// 			top: res[0].top,
+				// 			left: res[0].left,
+				// 			width: res[0].width,
+				// 			height: res[0].height
+				// 		}
+				// 		data.viewReac = Object.assign({}, data.tempReact)
+				// 		console.log('我是conten的呀', data)
+				// 	}else {
+				// 		// 如果获取失败,延迟到下次DOM更新循环之后再次获取
+				// 		this.$nextTick(()=>{
+				// 			this.getReactBox(data)
+				// 		})
+				// 	}
+				// })
+				
+			},
 			// 组件点赞
 			changeItem(res){
 				console.log('我是子组件传递过来的：',res)
@@ -213,12 +292,19 @@
 			async getDetail(Id){
 				let res = await post('Find/FindNewsInfo',{UserId:this.userId,Token:this.token,FindId:Id})
 				console.log('星语详情：',res)
-				// 正则改变富文本
-				res.data.ContentDetails = res.data.ContentDetails.replace(/<img/g, '<img style="max-width:100%;"');
-				this.detail = res.data
+				if(res.code ===0 ){
+					// 正则改变富文本
+					res.data.ContentDetails = res.data.ContentDetails.replace(/<img/g, '<img style="max-width:100%;"');
+					this.detail = res.data
+					// 异步需要在这个成功之后,才能根据这个ProIdArr请求
+					this.getFindList()
+					// 更新dom之后
+					this.getReactBox()
+				}
 			},
 			changeIsShowAll(){
 				this.isShowAll = !this.isShowAll
+				this.textHeight = 'auto'
 				console.log(this.isShowAll)
 			},
 			// // 推荐列表
@@ -239,22 +325,26 @@
 					}
 					this.getLikeList(this.Id)
 				}
-				uni.showToast({
-				    title:res.msg,
-				    icon:'none'
-				});
+				// uni.showToast({
+				//     title:res.msg,
+				//     icon:'none'
+				// });
 			},
 			// 发现点赞列表
 			async getLikeList (Id){
 				let res = await post('Find/FindLikesList',{FindId:Id,Page:1})
 				console.log('发现点赞列表:',res)
-				this.LikeList = res.data
+				if(res.code === 0 ){
+					this.LikeList = res.data
+				}
 			},
 			// 发现评论列表
 			async getCommnetList (Id){
 				let res = await post('Find/CommnetList',{UserId:this.userId,Token:this.token,FkId:Id,PageSize:4})
 				console.log('发现评论列表:',res)
-				this.CommnetList = res.data
+				if(res.code === 0 ){
+					this.CommnetList = res.data
+				}
 			},
 			// 用户评论操作
 			async toComment (Id){
@@ -314,16 +404,25 @@
 					icon:'none'
 				})
 			},
-			// 星语列表
+			// 星语列表,根据返回的ProIdArr请求，发布时候的关联星球客
 			async getFindList() {
-				let res = await post('Find/FindList',{myType:2})
-				console.log('用户发现list：',res)
-				this.findList = res.data
+				// let tempArr = this.detail.ProIdArr
+				this.ProIdArr = this.detail.ProIdArr
+				console.log('this.ProIdArr---',this.ProIdArr,this.detail.ProIdArr)
+				let res = await post('Goods/GoodsList_yd',{Page:this.Page,UserId:this.userId,Token:this.token,ProIdArr:this.ProIdArr})
+				console.log('下面-用户发现list：',res)
+				if(res.code === 0 ){
+					this.findList = res.data
+				}
+				
 			}
 		},
 		computed:{
 			formatTime (time){
 				return (time)=>{
+					if(!time) {
+						return ''
+					}
 					// console.log('格式化时间：',time,formatTime(time))
 					return formatTime(time)
 				}

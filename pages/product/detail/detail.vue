@@ -378,6 +378,12 @@
 		},
 		methods: {
 			...mapMutations(['update']),
+			// 获取textarea的行数
+			// getRow () {
+			// 	console.log('我是富文本',this.$refs.)
+			// 	this.$refs.textarea.val().split("\n").length
+			// },
+			
 			// 获取订单评价汇总信息
 			async getOrderCommentInfo (Id) {
 				let res = await post('Order/OrderCommentInfo',{ProId:Id})

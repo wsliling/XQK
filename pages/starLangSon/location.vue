@@ -19,27 +19,6 @@
 				<view class="address">{{ item.address }}</view>
 			</view>
 		</view>
-<!-- 		<view class="mark">
-			<image class="mark-img" src="http://xqk.wtvxin.com/images/wxapp/icons/location.png" mode=""></image>
-			<view class="">
-				<view class="">深圳市</view>
-				<view class="address">广东省深圳市福田区福中三路市民中心A区</view>
-			</view>
-		</view>
-		<view class="mark">
-			<image class="mark-img" src="http://xqk.wtvxin.com/images/wxapp/icons/no-location.png" mode=""></image>
-			<view class="">
-				<view class="">展滔科技大厦</view>
-				<view class="address">广东省深圳市龙华区民治大道1079号A区</view>
-			</view>
-		</view>
-		<view class="mark">
-			<image class="mark-img" src="http://xqk.wtvxin.com/images/wxapp/icons/location.png" mode=""></image>
-			<view class="">
-				<view class="">998美食园</view>
-				<view class="address">广东省深圳市福田区福中三路市民中心A区</view>
-			</view>
-		</view> -->
 	</view>
 </template>
 
@@ -54,27 +33,13 @@
 		data() {
 			return {
 				keyword:'',
+				filter: 'category=景点', //分类
 				placeList: [
 					// {
 					// 	placeName: '不显示位置',
 					// 	address:'',
 					// 	imgUrl: 'http://xqk.wtvxin.com/images/wxapp/icons/no-location.png'
-					// },
-					// {
-					// 	placeName: '深圳市',
-					// 	address:'广东省深圳市福田区福中三路市民中心A区',
-					// 	imgUrl: 'http://xqk.wtvxin.com/images/wxapp/icons/location.png'
-					// },
-					// {
-					// 	placeName: '展滔科技大厦',
-					// 	address:'广东省深圳市龙华区民治大道1079号A区',
-					// 	imgUrl: 'http://xqk.wtvxin.com/images/wxapp/icons/location.png'
-					// },
-					// {
-					// 	placeName: '998美食园',
-					// 	address:'广东省深圳市福田区福中三路市民中心A区',
-					// 	imgUrl: 'http://xqk.wtvxin.com/images/wxapp/icons/location.png'
-					// },
+					// }
 				]
 			}
 		},
@@ -92,42 +57,41 @@
 			},
 			confirm() {
 				// qqmapsdk.search({keyword:this.keyword});
-				this.getCircum()
+				this.getCircum(true)
 			},
 			// 获取周边地点
-			getCircum() {
+			getCircum(isSearch) {
+					let keyword = ''
+					let filter = ''
+					if(isSearch){
+						filter = this.filter
+						keyword = this.keyword
+						if(this.keyword.trim().length ===0 ) {
+							return uni.showToast({
+								title:'搜索不能为空！',
+								icon: "none"
+							})
+						}
+					}else {
+						keyword = this.$store.state.cityName
+					}
 				   let _this = this
 				   let {lng,lat} = this.$store.state
 				   console.log(lng,lat)
-				   if(this.keyword.trim().length ===0 ) {
-					   return uni.showToast({
-							title:'搜索不能为空！',
-							icon: "none"
-					   })
-				   }
 				   // 调用接口
 				   qqmapsdk.search(
 					 {
-				      keyword: this.keyword,  //搜索关键词
-				      location: {
-							latitude: lat,
-							longitude: lng
-						},  
+				      keyword: keyword,  //搜索关键词
+					//     location: {
+						// 	latitude: lat,
+						// 	longitude: lng
+						// },  
 						//设置周边搜索中心点
+						// 'category=景点'
+						filter:this.filter,
 				      success: function (res) { //搜索成功后的回调
 						console.log('成功！',res)
 				        var mks = []
-				        // for (var i = 0; i < res.data.length; i++) {
-				        //   mks.push({ // 获取返回结果，放到mks数组中
-				        //     title: res.data[i].title,
-				        //     id: res.data[i].id,
-				        //     latitude: res.data[i].location.lat,
-				        //     longitude: res.data[i].location.lng,
-				        //     iconPath: "/static/tabbar/ft1_in.png", //图标路径
-				        //     width: 20,
-				        //     height: 20
-				        //   })
-				        // }
 						for (var i = 0; i < res.data.length; i++) {
 						  mks.push({
 							  placeName:res.data[i].title,
@@ -136,9 +100,6 @@
 						  })
 						}
 						_this.placeList = mks
-				        // _this.setData({ //设置markers属性，将搜索结果显示在地图中
-				        //   markers: mks
-				        // })
 						console.log('我是地址列表',_this.placeList)
 				      },
 				      fail: function (res) {
@@ -151,8 +112,9 @@
 			}
 		},
 		onLoad() {
-			// console.log(this.$store.state)
+			console.log('位置页面：',this.$store.state)
 			// this.getMyPosition()
+			this.getCircum(false)
 		}
 	}
 

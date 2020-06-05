@@ -1,7 +1,7 @@
 <template>
 	<view class="content uni-bg-white">
 		<!-- #ifdef MP -->
-		<view class="scan uni-icon uni-icon-scan" @click="scan"></view>
+		<view class="scan uni-icon uni-icon-scan" :style="{'top':scanObj.top+'px'}" @click="scan"></view>
 		<!-- #endif -->
 		<!--轮播图-->
 		<view class="index_swiper">
@@ -195,6 +195,8 @@
 				dateStr: '',
 				daysCount: 130,
 				singleDate: true,
+				scanObj: {},
+				top:0,
 				
 				nowCityName:'',//现在的国家
 				classifyDefault:{label:'不限',value:0},
@@ -226,6 +228,7 @@
 			...mapState(['lng','lat','cityName','cityCode','calendarOption'])
 		},
 		onLoad() {
+			this.getScan()
 			this.userId = uni.getStorageSync("userId");
 			this.token = uni.getStorageSync("token");
 			this.getBanner();
@@ -252,6 +255,14 @@
 			}
 		},
 		methods: {
+			// // 获取小程序右边菜单栏的宽高以及定位
+			getScan (){
+				// getSystemInfo,还是下面的好
+				let res = uni.getMenuButtonBoundingClientRect()
+				this.scanObj = res
+				// this.top = this.scanObj.top
+				console.log('我是菜单：',res)
+			},
 			// 安全保障
 			async getSecurity (){
 				let titleContent = await post("/About/AboutUs",{Id:2,type:0});
