@@ -2,7 +2,7 @@
 	<div class="bgfff plr30">
 		<div class="searchBox flex-center-between">
 			<div class="city ellipsis bold" @click="navigate('location/cityList')">{{cityName||'定位失败'}}</div>
-			<ans-input class="input bold" @confirm="searchInput" :value="keyword" placeholder="输入搜索内容"></ans-input>
+			<ans-input class="input bold" @confirm="searchInput" :value="keyword" placeholder="输入搜索内容" align="left"></ans-input>
 			<div class="date bold flex-column-center-center" @click="$refs.datePicker.open()">
 				<p>{{calendarOption.startDate}}</p>
 				<span>-</span>
