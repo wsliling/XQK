@@ -38,7 +38,7 @@
 			</view>
 			<!-- 没有数据的时候 -->
 			<view class="noConPage table bg_fff" v-if="!list.length">
-				<view class="table-cell">
+				<view style="margin-top: 20%;">  <!-- table-cell -->
 					<view class="noDataImg">
 						<image src="http://xqk.wtvxin.com/images/wxapp/notData.png" mode="widthFix"></image>
 					</view>

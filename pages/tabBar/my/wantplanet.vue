@@ -274,7 +274,7 @@ export default {
 	color: rgba(255, 255, 255, 1);
 	line-height: 88upx;
 	text-align: center;
-	margin: 130upx 35upx 0;
+	margin: 100upx 35upx 0;
 }
 .counter {
 	padding: 0 20upx;
