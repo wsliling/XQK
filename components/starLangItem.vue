@@ -6,11 +6,11 @@
 		<view class="itembox">
 			<view class="imgbox">
 				<view class="like flex-center" v-if="item.CollectionId!=undefined" @click.stop="onCollect">
-					<view class="iconfont bg" :class="item.CollectionId?'icon-aixin':'icon-aixin2'">
-						<view class="iconfont" :class="item.CollectionId?'icon-aixin':'icon-aixin2'"></view>
-					</view>
+					<!-- <view class="iconfont bg" :class="item.CollectionId?'icon-aixin':'icon-aixin2'"> -->
+					<text class="iconfont bg" :class="item.CollectionId?'icon-aixin':'icon-aixin2'"></text>
+					<!-- </view> -->
 					<!-- <text class="num" :class="{active : item.CollectionId }">{{ item.CollectNum }}</text> -->
-					<text class="num">{{ item.CollectNum }}</text>
+					<text class="num" :class="{'active':item.CollectionId}">{{ item.CollectNum }}</text>
 				</view>
 				<image :src="item.PicImg" mode="aspectFill" class="pic"></image>
 			</view>
@@ -132,32 +132,44 @@
 			position: relative;
 			.like{
 				position: absolute;
-				top: 12upx;
+				// top: 12upx;
+				top: 18rpx;
 				right: 20upx;
 				z-index: 2;
+				// font-size: 28upx;
+				font-size: 28upx;
 				.iconfont.bg{
 					color: #fff;
-					font-size: 36upx;
+					// font-size: 36upx;
+					font-size: 28upx;
 					position: relative;
 					line-height: 1;
-					.iconfont{
-						position: absolute;
-						font-size: 32upx;
-						color: #fff;
-						line-height: 1;
-						top: 2upx;
-						left: 2upx;
-					}
+					// .iconfont{
+					// 	position: absolute;
+					// 	// font-size: 32upx;
+					// 	font-size: 28upx;
+					// 	color: #fff;
+					// 	line-height: 1;
+					// 	// top: 2upx;
+					// 	// left: 2upx;
+					// 	top: 0upx;
+					// 	left: 0upx;
+					// }
 					.iconfont.active{
-						color: #ff6766;
+						color: #ff2213;
 					}
 				}
 				.num{ 
+						font-size: 28upx;
+						line-height: 1;
 						color: #fff; 
 						margin-left: 10upx;
 						// &.active{
 						// color: #ff6766;
 						// }
+						&.active{
+							color: #ff2213;
+						}
 				}
 			}
 			.pic{
@@ -183,6 +195,9 @@
 				.iconfont{
 					font-size:28upx;
 					margin-right:10upx;
+				}
+				.num.active {
+					color: $primary;
 				}
 			}
 			.zan.active{

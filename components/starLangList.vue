@@ -7,9 +7,9 @@
 						<view class="itembox">
 							<view class="imgbox">
 								<view class="like flex-center" v-if="pageStr!=='issue'" @click.stop="onCollect(item)">
-									<view class="iconfont bg" :class="item.CollectionId?'icon-aixin':'icon-aixin2'">
-										<view class="iconfont" :class="item.CollectionId?'icon-aixin':'icon-aixin2'"></view>
-									</view>
+									<!-- <view class="iconfont bg"> -->
+										<text class="iconfont bg" :class="item.CollectionId?'icon-aixin':'icon-aixin2'"></text>
+									<!-- </view> -->
 									<text class="num" :class="{active : item.CollectionId }">{{ item.CollectNum }}</text>
 								</view>
 								<view class="trash" v-if="pageStr==='issue'" @click.stop="$emit('remove',item)">
@@ -23,6 +23,7 @@
 								</view>
 								<view class="flex-center-between" v-if="pageStr!=='issue'">
 									<view class="tx flex-center">
+										<!-- <image :src="item.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="widthFix"></image> -->
 										<image :src="item.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="widthFix"></image>
 										<text class="author uni-ellipsis">{{ item.NickName }}</text>
 									</view>
@@ -42,9 +43,9 @@
 						<view class="itembox">
 							<view class="imgbox">
 								<view class="like flex-center" v-if="pageStr!=='issue'" @click.stop="onCollect(item)">
-									<view class="iconfont bg" :class="item.CollectionId?'icon-aixin':'icon-aixin2'">
-										<view class="iconfont" :class="item.CollectionId?'icon-aixin':'icon-aixin2'"></view>
-									</view>
+									<!-- <view class="iconfont bg" :class="item.CollectionId?'icon-aixin':'icon-aixin2'"> -->
+									<text class="iconfont bg" :class="item.CollectionId?'icon-aixin':'icon-aixin2'"></text>
+									<!-- </view> -->
 									<text class="num" :class="{active : item.CollectionId }">{{ item.CollectNum }}</text>
 								</view>
 								<view class="trash" v-if="pageStr==='issue'" @click.stop="$emit('remove',item)">
@@ -60,6 +61,7 @@
 								</view>
 								<view class="flex-center-between" v-if="pageStr!=='issue'">
 									<view class="tx flex-center">
+										<!-- <image :src="item.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="widthFix"></image> -->
 										<image :src="item.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="widthFix"></image>
 										<text class="author uni-ellipsis">{{ item.NickName }}</text>
 									</view>
@@ -163,29 +165,43 @@
 			position: relative;
 			.like{
 				position: absolute;
-				top: 12upx;
+				// top: 12upx;
+				top: 18rpx;
 				right: 20upx;
 				z-index: 2;
+				// font-size: 30upx;
+				font-size: 28upx;
 				.iconfont.bg{
 					color: #fff;
-					font-size: 36upx;
+					// font-size: 36upx;
+					// font-size: 30upx;
+					font-size: 28upx;
 					position: relative;
 					line-height: 1;
-					.iconfont{
-						position: absolute;
-						font-size: 32upx;
-						color: #999;
-						line-height: 1;
-						top: 2upx;
-						left: 2upx;
-					}
+					// .iconfont{
+					// 	position: absolute;
+					// 	// font-size: 32upx;
+					// 	// font-size: 30upx;
+					// 	font-size: 28upx;
+					// 	color: #fff;
+					// 	line-height: 1;
+					// 	// top: 2upx;
+					// 	// left: 2upx;
+					// 	top: 0upx;
+					// 	left: 0upx;
+					// }
 					.iconfont.active{
-						color: #ff6766;
+						// color: #ff6766;
+						color: #ff2213;
 					}
 				}
 				.num{ color: #fff; margin-left: 10upx;
+					// font-size: 30upx;
+					line-height: 1;
+					font-size: 28upx;
 					&.active{
-						color: #ff6766;
+						// color: #ff6766;
+						color: #ff2213;
 					}
 				}
 			}
@@ -223,6 +239,9 @@
 					font-size:28upx;
 					margin-right:10upx;
 				}
+				.num.active {
+					color: $primary;
+				}
 			}
 			.zan.active{
 				color: $primary;
@@ -237,9 +256,9 @@
 		.item{
 			padding-right: 0;
 		}
-		.pic{
-			height:380upx!important;
-		}
+		// .pic{
+		// 	height:380upx!important;
+		// }
 	}
 }
 </style>

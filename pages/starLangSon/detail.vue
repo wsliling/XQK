@@ -22,7 +22,7 @@
 				<div class="info flex-center">
 					<!-- <img src="/static/of/banner.jpg" alt=""> -->
 					<!-- <img @click="navigate('starLangSon/homePage',{taUserId:detail.MemberId})" :src="detail.Avatar" alt=""> -->
-					<image :src="detail.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'"></image>
+					<image @click="navigate('starLangSon/homePage',{taUserId:detail.MemberId})" :src="detail.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'"></image>
 					<h5>{{ detail.NickName }}</h5>
 				</div>
 				<div class="btnBox flex-center" @click="toFolloow">
@@ -62,9 +62,9 @@
 				<!-- <div v-if="LikeList.length" class="flex-center-between"> -->
 				<div class="flex-center-between">
 					<div v-if="LikeList.length > 0" class="avatar flex-center">
-						<block v-for="(item,index) in LikeList" :key="index">
+						<block v-for="(item2,index) in LikeList" :key="index">
 							<!-- <img src="/static/of/banner.jpg" alt=""> -->
-							<image :src="item.Avatar" mode=""></image>
+							<image :src="item2.Avatar ||'http://xqk.wtvxin.com/images/wxapp/default.png'"></image>
 						</block>
 					</div>
 					<div v-else class="avatar flex-center">

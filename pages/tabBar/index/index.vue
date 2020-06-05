@@ -71,7 +71,7 @@
 			</view>
 		</view>
 		<!-- 了解星球客 -->
-		<view class="ljXQ pd15 uni-mb10" v-if="about.Title">
+		<view class="ljXQ pd15 mg-top20 uni-mb10" v-if="about.Title">
 			<view class="index_hd uni-mb10">
 				<view class="flex-center-between">
 					<view class="title">{{about.Title}}</view>
@@ -87,7 +87,7 @@
 			</view>
 		</view>
 		<!-- 热门推荐 -->
-		<view class="hotrecomXQ pd15 uni-mb10" v-if="hotRecommendList.length">
+		<view class="hotrecomXQ pd15 mg-top20 uni-mb10" v-if="hotRecommendList.length">
 			<view class="index_hd uni-mb10">
 				<view class="flex-between">
 					<view class="title">
@@ -101,7 +101,7 @@
 			</view>
 		</view>
 		<!-- 服务保障 -->
-		<view class="serveXQ pd15 uni-mb10">
+		<view class="serveXQ pd15 mg-top20 uni-mb10">
 			<!-- <image  @click="navigate('tabBar/my/security')" src="http://xqk.wtvxin.com/images/wxapp/of/2.jpg" mode="widthFix"></image> -->
 			<image  @click="navigate('tabBar/my/security')" :src="securityContent.Logo" mode="widthFix"></image>
 			<!-- <view class="btn_line" @click="navigate('tabBar/my/security')">
@@ -109,7 +109,7 @@
 			</view> -->
 		</view>
 		<!-- 推荐星语 -->
-		<view class="recomXQ pd15 uni-mb10">
+		<view class="recomXQ pd15 mg-top20 uni-mb10">
 			<view class="index_hd uni-mb10">
 				<view class="flex-between">
 					<view class="title">
