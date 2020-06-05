@@ -53,7 +53,7 @@
 					<view class="check-out">
 						<view class="circle1 juzhong">
 							<view class="circle2 juzhong">
-								<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/yijianbaoxiu.png" mode="widthFix"></image>
+								<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/yijiantuifang.png" mode="widthFix"></image>
 								<view class="">
 									一键退房
 								</view>
@@ -64,7 +64,7 @@
 					<view class="sweep">
 						<view class="circle1 juzhong">
 							<view class="circle2 juzhong">
-								<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/yijianbaoxiu.png" mode="widthFix"></image>
+								<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/yijiandasao.png" mode="widthFix"></image>
 								<view class="">
 									一键打扫
 								</view>
@@ -259,7 +259,11 @@
 	}
 </script>
 
-
+<style>
+	page {
+		background-color: #FFFFFF;
+	}
+</style>
 <style lang="scss" scoped>
 	@import './style';
 </style>
