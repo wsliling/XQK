@@ -145,6 +145,7 @@
 			  :latitude="details.Lat"
 			  :longitude="details.Lng"
 			  :markers="markers"
+				:enable-scroll="0"
 			  v-if="details.Lat&&details.Lng"
 			  >
 			</map>
