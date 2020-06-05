@@ -23,24 +23,10 @@
 								</view>
 								<view class="flex-center-between" v-if="pageStr!=='issue'">
 									<view class="tx flex-center">
-<<<<<<< HEAD
-										<!-- <image src="http://xqk.wtvxin.com/images/wxapp/logo.png" mode="aspectFill"></image>
-										<text class="author uni-ellipsis">小星君</text> -->
-										<!-- <image :src="item.Avatar" mode="aspectFill"></image> -->
 										<image :src="item.Avatar" mode="widthFix"></image>
 										<text class="author uni-ellipsis">{{ item.NickName }}</text>
 									</view>
-									<!-- <view class="zan flex-center active">
-										<text class="iconfont icon-zan1"></text>
-										<text class="num">30</text>
-									</view> -->
-									<view class="zan flex-center" :class="{ active: item.IsLike }">
-=======
-										<image :src="item.Avatar" mode="aspectFill"></image>
-										<text class="author uni-ellipsis">{{ item.NickName }}</text>
-									</view>
 									<view class="zan flex-center" @click.stop="onLike(item)">
->>>>>>> 64f25f16e2acf47dcc52c51aaaaebeaa6a15d961
 										<text class="iconfont icon-zan" :class="{'icon-zan1': item.IsLike }"></text>
 										<text class="num" :class="{ active: item.IsLike }">{{ item.LikeNum }}</text>
 									</view>
@@ -74,23 +60,10 @@
 								</view>
 								<view class="flex-center-between" v-if="pageStr!=='issue'">
 									<view class="tx flex-center">
-<<<<<<< HEAD
-										<!-- <image src="http://xqk.wtvxin.com/images/wxapp/logo.png" mode="aspectFill"></image>
-										<text class="author uni-ellipsis">小星君</text> -->
 										<image :src="item.Avatar" mode="widthFix"></image>
 										<text class="author uni-ellipsis">{{ item.NickName }}</text>
 									</view>
-									<!-- <view class="zan flex-center active">
-										<text class="iconfont icon-zan1"></text>
-										<text class="num">30</text>
-									</view> -->
-									<view class="zan flex-center" :class="{ active: item.IsLike }">
-=======
-										<image :src="item.Avatar" mode="aspectFill"></image>
-										<text class="author uni-ellipsis">{{ item.NickName }}</text>
-									</view>
 									<view class="zan flex-center" @click.stop="onLike(item)">
->>>>>>> 64f25f16e2acf47dcc52c51aaaaebeaa6a15d961
 										<text class="iconfont icon-zan" :class="{'icon-zan1': item.IsLike }"></text>
 										<text class="num" :class="{ active: item.IsLike }">{{ item.LikeNum }}</text>
 									</view>
