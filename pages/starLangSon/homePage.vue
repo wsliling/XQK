@@ -6,7 +6,7 @@
 					<img :src="info.Headimgurl||'http://xqk.wtvxin.com/images/wxapp/default.png'" alt="">
 					<div class="name">{{info.NickName}}</div>
 				</div>
-				<div class="btn-min" v-if="type">编辑资料</div>
+				<div class="btn-min" v-if="type" @click="navigate('tabBar/my/account')">编辑资料</div>
 				<div class="ta" v-else @click="follow()">
 					<view class="focusright" v-if="info.IsFollow*1">已关注</view>
 					<view class="focusright active" v-else>关注</view>
@@ -22,7 +22,7 @@
 		<div class="listBox plr30">
 			<h3>{{type?'我的':'Ta的'}}发布</h3>
 			<div class="list">
-				<star-lang-list :list="list"></star-lang-list>
+				<star-lang-list :list="list" @onCollect="onCollect" @onLike="onLike"></star-lang-list>
 			</div>
 		</div>
 		<not-data v-if="!list.length"  tipsTitle="暂无数据哦~" />
@@ -108,6 +108,25 @@
 				await post('Find/FollowOperation',{UserId:this.userId,Token:this.token,ToMemberId:this.taUserId})
 				this.info.IsFollow = this.info.IsFollow*1?0:1;
 			},
+			// 点击了星语收藏
+			async onCollect(item){
+				this.list.map(async(tem)=>{
+					if(tem.Id===item.Id){
+						tem.CollectNum = item.CollectNum;
+						tem.CollectionId = item.CollectionId;
+					}
+				})
+
+			},
+			// 点击了星语点赞
+			async onLike(item){
+				this.list.map(async(tem)=>{
+					if(tem.Id===item.Id){
+						tem.IsLike = item.IsLike;
+						tem.LikeNum = item.LikeNum;
+					}
+				})
+			}
 		},
 		// 上拉加载
 		onReachBottom: function() {

@@ -18,11 +18,11 @@
 				<!-- <div>上传凭证（不超过5张）</div> -->
 				<div class="fed_pic flex flexWrap">
 					<div class="picbox" v-for="(item, pindex) in PicList" :key="pindex">
-						<img :src="item" class="pic_itim" @click="previewImage([item])"/>
+						<img :src="item" class="pic_itim" @click="previewImage([item])" mode="scaleToFill"/>
 						<span class="close" @click="delImg(pindex)">×</span>
 					</div>
 					<div class="picbox upBtnImg" @click="upLoadImg" v-if="isUploadBtn">
-						<img src="http://jd.wtvxin.com/images/images/icons/add2.png" alt="" class="pic_itim" />
+						<img src="http://jd.wtvxin.com/images/images/icons/add2.png" class="pic_itim" />
 					</div>
 				</div>
 			</view>
@@ -208,7 +208,6 @@ export default {
 	.pic_itim{
 		width: 150upx;
 		height: 150upx;
-		padding-left: 10upx;
 	}
 	.close {
 		position: absolute;
@@ -220,8 +219,8 @@ export default {
 		background: #5CC69A;
 		border-radius: 50%;
 		text-align: center;
-		line-height: 32rpx;
-		font-size: 32rpx;
+		line-height: 30rpx;
+		font-size: 30rpx;
 	}
 }
 .feed{
@@ -238,7 +237,7 @@ export default {
 	color:rgba(255,255,255,1);
 	line-height:88upx;
 	text-align:center;
-	margin: 80upx 35upx 0;
+	margin: 80upx 35upx 50upx;
 }
 .counter {
 	padding: 0 20upx;

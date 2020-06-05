@@ -15,7 +15,7 @@
 		</view>
 		<view class="hasContentPage">
 			<view v-if="tabIndex==0">
-				<view class="collect-box" v-for="(val,index) in list" :key="index" @click="onClickPro(val.Id,index)">
+				<view class="collect-box" v-for="(val,index) in list" :key="index" @click="onClickPro(val.ProId,index)">
 					<view class="item__hd" v-if="isShowDel">
 						<view class='IconsCK IconsCK-radio' :class="{'checked':val.checked}"></view>
 					</view>
@@ -38,7 +38,9 @@
 			<view v-if="tabIndex==5">
 				<view class="xylist flex-center-between">
 					<starLangItem  v-for="(item,index) in list" :key="index" :item="item" 
-						:showSelect="isShowDel" @selectChange="selectChange"></starLangItem>
+						:showSelect="isShowDel" @selectChange="selectChange"
+						@onLike="onLike"
+						></starLangItem>
 				</view>
 				
 			</view>
@@ -76,7 +78,7 @@
 	export default {
 		data() {
 			return {
-				tabIndex: 5, //0:产品收藏；5：星语
+				tabIndex: 0, //0:产品收藏；5：星语
 				userId: "",
 				token: "",
 				list: [],
@@ -131,7 +133,7 @@
 			// 获取收藏数据
 			async collectionsList() {
 				this.loadingType = 1;
-				this.isShowDel = true;
+				this.isShowDel = false;
 				let result = await post("User/MemberCollections", {
 					UserId: this.userId,
 					Token: this.token,
@@ -246,13 +248,13 @@
 					}) 
 				}
 			},
-			onClickPro(id,index){
+			onClickPro(ProId,index){
 				// 编辑产品
 				if(this.isShowDel){
 					this.shiftChecked(index)
 				}else{
 					// 跳转产品
-					navigate('product/detail/detail',{Id,id})
+					navigate('product/detail/detail',{Id:ProId})
 				}
 			},
 			async DeleteCollections(ids) { //取消产品收藏
@@ -273,6 +275,15 @@
 						_this.collectionsList();
 					 },1500)
 				}
+			},
+			// 点击了星语点赞
+			async onLike(item){
+				this.list.map(async(tem)=>{
+					if(tem.Id===item.Id){
+						tem.IsLike = item.IsLike;
+						tem.LikeNum = item.LikeNum;
+					}
+				})
 			}
 			
 		},

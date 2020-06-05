@@ -102,19 +102,21 @@ export default {
 		// 提交
 		async submit() {
 			let base64 = '';
-			if(base64 === ''){
+			if(typeof(this.Avatar) !== 'object'){
 				uni.showToast({
-					title: "你暂未更换头像!!!",
+					title: '您暂未更换头像！！！',
 					icon: 'none',
-					duration:1500,
 				});
+				console.log(111)
 				return false
 			}
+			console.log(typeof(this.Avatar),'this.Avatar')
 			for (let i = 0; i < this.Avatar.length; i += 1) {
 				const res = await pathToBase64(this.Avatar[i]);
 				base64 = res
 			}
 			this.getUploadPhoto(JSON.stringify(base64));
+			
 		},
 		// 修改会员头像
 		getUploadPhoto(base64){

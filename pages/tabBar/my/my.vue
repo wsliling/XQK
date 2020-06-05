@@ -22,7 +22,7 @@
 						</view>
 					</view>
 				</view>
-				<view class="tx" @click="navigate('tabBar/my/account')">
+				<view class="tx"  @click="navigate('starLangSon/homePage',{taUserId:userId})" >
 					<image :src="info.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="widthFix"></image>
 				</view>
 			</view>

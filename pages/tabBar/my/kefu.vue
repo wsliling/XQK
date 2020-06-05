@@ -86,14 +86,17 @@
 	line-height: 40px;
 }
 button, input[type='number'], input[type='text'], input[type='password'], input[type='email'], input[type='search'], ._select, textarea {
-margin: 80upx auto;
-font-family: inherit;
--webkit-appearance: none;
-width: 90%;
+	margin: 80upx auto;
+	font-family: inherit;
+	-webkit-appearance: none;
+	width: 90%;
+	height: 88rpx;
+	line-height: 88rpx;
+	border-radius: 10rpx;
 }
 button[type=primary] {
-color: #fff;
-background-color: #5CC69A;
+	color: #fff;
+	background-color: #5CC69A;
 }
 button::after {
 	border: none;
