@@ -2,133 +2,180 @@
 	<view>
 		<view class="uni-list">
 			<block class="mt20" v-for="(item,index) in TypeList" :key="index">
-				<view class="uni-list-cell" @click="tolink('/pages/message/messageList?index=' + index)">
+				<view class="uni-list-cell" @click="navigate('message/messageList',{id:item.Id})">
 					<view class="uni-media-list">
 						<view class="uni-media-list-logo">
 							<image class="img" :src="item.TypeImg" mode="aspectFill"></image>
 						</view>
 						<view  class="uni-media-list-body">
 							<view class="uni-media-list-text-top uni-ellipsis">{{item.MsgName}}</view>
-							<view  class="uni-media-list-text-bottom uni-ellipsis">
+							<view  class="uni-media-list-text-bottom uni-ellipsis" v-if="item.NoticeTitle">
 								{{item.NoticeTitle}}
 							</view>
 						</view>
 						<view class="uni-media-list-r">
 							<view class="time">{{item.PubTime}}</view>
-							<view class="uni-badge uni-badge-red" v-if="item.unCount!=0">{{item.unCount}}</view>
+							<view class="uni-badge uni-badge-red" v-if="item.unCount*1"></view>
+						</view>
+					</view>
+				</view>
+			</block>
+			<block class="mt20">
+				<view class="uni-list-cell" @click="navigate('message/messageList',{id:-1})">
+					<view class="uni-media-list">
+						<view class="uni-media-list-logo">
+							<image class="img" src="http://xqk.wtvxin.com/images/wxapp/default.png" mode="aspectFill"></image>
+						</view>
+						<view  class="uni-media-list-body">
+							<view class="uni-media-list-text-top uni-ellipsis">小星君</view>
+							<view  class="uni-media-list-text-bottom uni-ellipsis" v-if="commonMessage.title" v-html="commonMessage.title">
+							</view>
+						</view>
+						<view class="uni-media-list-r">
+							<view class="time">{{commonMessage.PubTime}}</view>
+							<view class="uni-badge uni-badge-red" v-if="commonMessage.unCount*1"></view>
 						</view>
 					</view>
 				</view>
 			</block>
 		</view>
 		<view class="uni-list">
-			<block class="mt20" v-for="(item,index) in 3" :key="index">
-				<view class="uni-list-cell" @click="tolink('/pages/message/messageList')">
+			<block class="mt20" v-for="(item,index) in messageList" :key="index">
+				<view class="uni-list-cell" @click="navigate('starLangSon/detail',{Id:item.FkId})">
 					<view class="uni-media-list">
-						<view class="uni-media-list-logo">
-							<image class="img" src="http://xqk.wtvxin.com/images/wxapp/default.png" mode="aspectFill"></image>
+						<view class="uni-media-list-logo" @click.stop="navigate('starLangSon/homePage',{taUserId:item.FromMemberId})">
+							<image class="img" :src="item.FromHeadimgurl||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="aspectFill"></image>
 						</view>
 						<view  class="uni-media-list-body">
-							<view class="uni-media-list-text-top uni-ellipsis">学会笑着面对 回复</view>
+							<view class="uni-media-list-text-top uni-ellipsis">{{item.Memo}}</view>
 							<view  class="uni-media-list-text-bottom uni-ellipsis">
-								文艺繁华又不失温情
+								{{item.Comment}}
 							</view>
 						</view>
-						<view class="uni-media-list-r">
-							<view class="time">2020/05/22</view>
-							<view class="uni-badge uni-badge-red" v-if="item.unCount!=0">{{item.unCount}}</view>
+						<view class="uni-media-list-r flex-column-end-between">
+							<view class="time">{{item.PubTime}}</view>
+							<!-- 红点 -->
+							<!-- <view class="uni-badge uni-badge-red" v-if="!item.IsRead"></view> -->
+							<view class="replyBtn"  @click.stop="reply(item)">查看并回复</view>
 						</view>
 					</view>
 				</view>
 			</block>
+			<uni-load-more :loadingType="loadingType" v-if="messageList.length&&page>1"></uni-load-more>
 		</view>
-		<noData :isShow="noDataIsShow"></noData>
+		<uni-popup ref="popup" type="center">
+			<div class="content">
+				<div class="title">{{replyItem.Memo}}</div>
+				<div class="text">
+					{{replyItem.Comment}}
+				</div>
+				<div class="textarea">
+					<textarea name="" id="" cols="30" rows="10" v-model="replyContent" :maxlength="250" placeholder="输入回复内容" :cursor-spacing="30" @confirm="replaysubmit"></textarea>
+				</div>
+				<div class="btn flex-center-between">
+					<p @click="$refs.popup.close()">取消</p>
+					<p @click="replaysubmit">回复</p>
+				</div>
+			</div>
+		</uni-popup>
+		<!-- <noData v-if="!messageList.length"></noData> -->
 	</view>
 </template>
 
 <script>
-	import {host,post,get,dateUtils,toLogin,getCurrentPageUrlWithArgs} from '@/common/util.js';
-	import noData from '@/components/noData.vue'; //暂无数据
+	import {post,get,navigate,toast} from '@/utils';
+	import noData from '@/components/notData.vue'; //暂无数据
 	export default {
 		components: {
 			noData
 		},
 		data() {
 			return {
-				curPage: "",
+				navigate,
 				userId: "",
 				token: "",
-				hasData:false,
-				noDataIsShow: false,
+				page: 1,
+				pageSize: 10,
+				loadingType: 0, //0加载前，1加载中，2没有更多了
 				
-				TypeList:[{
-					TypeImg:'http://shop.dadanyipin.com/static/icons/notice0.png',
-					MsgName:'系统通知',
-					NoticeTitle:'您的新人礼券即将到期',
-					PubTime:'03/26/ 10:00',
-					unCount:0
-				},{
-					TypeImg:'http://shop.dadanyipin.com/static/icons/notice1.png',
-					MsgName:'小星君',
-					NoticeTitle:'活动预约已取消成功',
-					PubTime:'03/26/ 10:00',
-					unCount:0
-				}]
+				TypeList:[],//系统消息
+				commonMessage:{},//小星君
+				messageList:[],//互动列表
+				replyItem:{},
+				replyContent:'',//评论内容
 			};
 		},
 		onLoad() {
-			this.curPage = getCurrentPageUrlWithArgs().replace(/\?/g, '%3F').replace(/\=/g, '%3D').replace(/\&/g, '%26');
 		},
 		onShow() {
 			this.userId = uni.getStorageSync("userId");
 			this.token = uni.getStorageSync("token");
-			// if (toLogin(this.curPage)) {
-				// this.NoticeTypeList();
-			// }
+			this.NoticeTypeList();
+			this.getMessage();
+			this.getCommonMessage();
 		},
 		methods:{
+			getNotice(){
+				
+			},
 			async NoticeTypeList() {
 				let result = await post("News/NoticeTypeList", {
 					"UserId": this.userId,
 					"Token": this.token
 				});
-				if (result.code === 0) {
-					console.log(result,"news")
-					this.TypeList=result.data;
-					if (result.data.length > 0){
-						this.hasData = true;
-						result.data.forEach(function(item){
-							item.PubTime=dateUtils.format(item.PubTime);
-						})
-					}else{
-						this.noDataIsShow = true;
-					}
-				} else if (result.code === 2) {
-					let _this = this;
-					uni.showToast({
-						title: "登录超时，请重新登录!",
-						icon: "none",
-						duration: 2000,
-						success: function() {
-							setTimeout(function() {
-								uni.redirectTo({
-									url: "/pages/login/login?askUrl=" + _this.curPage
-								});
-							}, 2000);
-						}
-					}); //如果未登录则跳转到登陆页面
+				this.TypeList = result.data;
+			},
+			// 小星君
+			async getCommonMessage(){
+				let result = await post("News/NoticeList", {
+					"UserId": this.userId,
+					"Token": this.token,
+					Page:1,
+					PageSize:1
+				});
+				this.commonMessage = result.data[0];
+			},
+			async getMessage(){
+				this.loadingType=1;
+				const res = await post('News/MyInteractList',{
+					"UserId": this.userId,
+					"Token": this.token,
+					Page:this.page,
+					PageSize:this.pageSize
+				})
+				const data = res.data;
+				if (this.page === 1) {
+					this.messageList = [];
+				}
+				this.messageList = this.messageList.concat(data);
+				if (data.length < this.pageSize) {
+					this.loadingType = 2;
 				} else {
-					uni.showToast({
-						title: result.msg,
-						icon: "none",
-						duration: 2000
-					});
+					this.loadingType = 0
 				}
 			},
 			MessageList(type,keyname,shopid){
 				uni.navigateTo({
 					url: '/pages/Message/MessageList/MessageList?type='+type+'&keyname='+keyname+'&shopId='+shopid
 				});
+			},
+			reply(item){
+				this.$refs.popup.open();
+				this.replyItem = item;
+
+			},
+			// 提交回复
+			async replaysubmit(){
+				const res = await post('Find/CommentOperation',{
+					"UserId": this.userId,
+					"Token": this.token,
+					FkId:this.replyItem.FkId,
+					ParentCommentId:this.replyItem.CommentId,
+					// NoticeId:this.replyItem.Id,
+					Comment:this.replyContent
+				})
+				toast('回复成功',{icon:true})
+				this.$refs.popup.close()
 			},
 			//跳转
 			tolink(Url) {
@@ -140,13 +187,67 @@
 	}
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 	.uni-media-list-logo{ width: 80upx; height: 80upx;}
-	.uni-media-list-body{ padding: 8upx 0;}
-	.uni-media-list-r{ text-align: right; height: 84upx; padding: 8upx 0;}
+	.uni-media-list-body{}
+	.uni-media-list-r{ text-align: right;
+		.time{
+			font-size:25upx;
+		}
+	}
 	.uni-media-list-r .time{ color: #999; line-height: 36upx;}
-	.uni-badge-red{ background: #fa3d34;}
+	.uni-badge-red{ background: #fa3d34;padding:8upx;}
 	.uni-list-cell::after{left: 150upx;}
 	.img{width: 80upx;height: 80upx; border-radius: 50%;}
 	.uni-list{margin-top: 20upx;}
+	.content{
+		background:#fff;
+		width:700upx;
+		text-align:center;
+		border-radius:10upx;
+		.title{
+			font-size:30upx;
+			line-height:2;
+			padding-top:20upx;
+		}
+		.text{
+			padding:0 30upx;
+			word-break:break-all;
+			word-wrap:break-word;/*支持IE，chrome，FF*/
+			line-height:1.3;
+			text-align:left;
+			margin-top:20upx;
+		}
+		.textarea{
+			margin:30upx;
+			background:#f2f2f2;
+			padding:15upx;
+			border-radius:5upx;
+			textarea{
+				line-height:1.4;
+				text-align:left;
+				height:200upx;
+			}
+		}
+		.btn{
+			border-top:1upx solid #f2f2f2;
+			p{
+				width:50%;
+				line-height:3.3;
+				font-size:30upx;
+				&:last-child{
+					border-left:1upx solid #f2f2f2;
+					color:$primary;
+				}
+			}
+		}
+	}
+	.replyBtn{
+		font-size:23upx;
+		color:$primary;
+		border-radius:30upx;
+		border:1upx solid $primary;
+		padding:0 15upx;
+		line-height:1.8;
+	}
 </style>

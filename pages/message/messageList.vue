@@ -2,8 +2,8 @@
 	<view>
 		<!-- :class="['uni-mt10',index==1?'uni-list':'Messagelist']" -->
 		<view class="Messagelist">
-			<block v-for="(item,index) in datalist" :key="index">
-				<view class="list-item" @click="tolink('/pages/message/msgDetail?id='+item.id)">
+			<block v-for="(item,index) in list" :key="index">
+				<view class="list-item" @click="navigate('message/msgDetail',{id:item.id})">
 					<view class="center uni-mb10">
 						<text class="time">{{item.PubTime}}</text>
 					</view>
@@ -20,64 +20,45 @@
 				</view>
 			</block>
 		</view>
-		<view class="uni-tab-bar-loading" v-if="hasData">
+		<view class="uni-tab-bar-loading" v-if="list.length&&page>1">
 			<uni-load-more :loadingType="loadingType"></uni-load-more>
 		</view>
-		<noData :isShow="noDataIsShow"></noData>
+		<noData v-if="!list.length"></noData>
 	</view>
 </template>
 
 <script>
-	import {host,post,get,dateUtils,getCurrentPageUrlWithArgs,toLogin} from '@/common/util.js';
+	import {post,navigate} from '@/utils';
 	import uParse from '@/components/uParse/src/wxParse.vue';
-	import noData from '@/components/noData.vue'; //暂无数据
+	import noData from '@/components/notData.vue'; //暂无数据
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue'; //加载更多
 	export default {
 		components: {
-			uParse,
-			noData,
-			uniLoadMore
+			noData,uParse
 		},
 		data() {
 			return {
+				navigate,
 				userId: "",
 				token: "",
-				curPage:"",
-				keyname:"",
-				shopId:"",
+				id:0,//0 系统消息 1 小星君
 				loadingType: 0, //0加载前，1加载中，2没有更多了
-				isLoad: false,
-				hasData: false,
-				noDataIsShow: false,
 				page: 1,
 				pageSize: 10,
-				allPage: 0,
-				count: 0,
-				newslist:[],
-				datalist:[{
-					title:'测试消息',
-					PubTime:'2019-07-02 18:07:56',
-					Memo:'<p>这是一条测试消息这是一条测试消息，这是一条测试消息，这是一条测试消息，这是一条测试消息，这是一条测试消息</p>'
-				},{
-					title:'测试消息2',
-					PubTime:'2020-03-02 18:07:56',
-					Memo:'<p>这是一条测试消息这是一条测试消息，这是一条测试消息，这是一条测试消息，这是一条测试消息，这是一条测试消息</p>'
-				}],
-				index:0  //0 系统消息 1 小星君
+				list:[],
 				
 			}
 		}, 
 		onLoad: function(e) {
 			this.userId = uni.getStorageSync("userId");
 			this.token = uni.getStorageSync("token");
-			this.keyname=e.keyname;
-			this.shopId=e.shopId;
-			console.log(e,'e')
-			if(e.index == 1){
+			this.id=e.id;
+			if(e.id == -1){
 				uni.setNavigationBarTitle({
 					title: "小星君"
 				})
 			}
+			this.NoticeList();
 		},
 		onShow(){
 			// if (toLogin(this.curPage)) {
@@ -88,48 +69,43 @@
 			// }
 		},
 		methods: {
+			// Islook: 0
+			// Memo: "<p>系统通知1系统通知1系统通知1系统通知1</p>"
+			// MsgType: 0
+			// NoticeType: 0
+			// PubTime: "15小时前"
+			// id: 6
+			// title: "系统通知1"
+			// unCount: 1
 			/*获取消息列表*/
 			async NoticeList() {
-				let result = await post("News/MyNoticeList", {
+				this.loadingType = 1;
+				let url = this.id==-1?'News/NoticeList':'News/MyNoticeList';
+				let result = await post(url, {
 					UserId: this.userId, 
 					Token: this.token,
 					page: this.page,
 					pageSize: this.pageSize,
 					MsgType: this.Msgtype,
-					ShopId:this.shopId
+					ShopId:this.id
 				});
-					let _this=this;
-					if (result.data.length > 0) {
-						this.hasData = true;
-						result.data.forEach(function(item) {
-							item.PubTime=dateUtils.format(item.PubTime);
-							if(item.Islook==0){
-								_this.ReadNoticeInfo(item.id);
-							}
-						})
-					}
-					this.count = result.count;
-					if (this.count == 0) {
-						this.noDataIsShow = true;
-					}
-					if (parseInt(this.count) % this.pageSize === 0) {
-						this.allPage = this.count / this.pageSize;
-					} else {
-						this.allPage = parseInt(this.count / this.pageSize) + 1;
-					}
+				const data = result.data;
+					// if (result.data.length > 0) {
+					// 	this.hasData = true;
+					// 	result.data.forEach(function(item) {
+					// 		item.PubTime=dateUtils.format(item.PubTime);
+					// 		if(item.Islook==0){
+					// 			_this.ReadNoticeInfo(item.id);
+					// 		}
+					// 	})
+					// }
 					if (this.page === 1) {
-						this.newslist = result.data;
+						this.list = [];
 					}
-					if (this.page > 1) {
-						this.newslist = this.newslist.concat(
-							result.data
-						);
-					}
-					if (this.allPage <= this.page) {
-						this.isLoad = false;
+					this.list = this.list.concat(data);
+					if (data.length < this.pageSize) {
 						this.loadingType = 2;
 					} else {
-						this.isLoad = true;
 						this.loadingType = 0
 					}
 			},
@@ -149,21 +125,11 @@
 					
 				}
 			},
-			//跳转
-			tolink(Url) {
-				uni.navigateTo({
-					url: Url
-				})
-			},
 		},
 		onReachBottom: function() {
-			if (this.isLoad) {
-				this.loadingType = 1;
-				this.page++;
-				this.NoticeList();
-			} else {
-				this.loadingType = 2;
-			}
+			if (this.loadingType === 2)return;
+			this.page+=1;
+			this.NoticeList();
 		}
 	}
 </script>

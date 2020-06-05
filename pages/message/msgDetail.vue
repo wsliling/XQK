@@ -1,7 +1,7 @@
 <template>
 	<view class="comment">
 		<view class="newsInfo">
-			<view class="title">
+			<view class="title bold">
 				{{datainfo.Title}} 
 			</view>
 			<view class="desc">
@@ -15,7 +15,7 @@
 </template>
   
 <script>
-	import {post,get,dateUtils} from '@/common/util.js';
+	import {post,dateUtils} from '@/utils';
 	import uParse from '@/components/uParse/src/wxParse.vue';
 	export default {
 		components:{
@@ -37,6 +37,7 @@
 			this.userId = uni.getStorageSync("userId");
 			this.token = uni.getStorageSync("token");
 			this.Msgid=e.id;
+			this.NoticeInfo();
 		},
 		onShow(){
 			// this.NoticeInfo();
@@ -49,8 +50,9 @@
 					newsid:this.Msgid,
 				})
 				if (result.code === 0) {
-					this.datainfo=result.data;
-					this.datainfo.PubTime=dateUtils.format(this.datainfo.PubTime);
+					const data = result.data;
+					data.PubTime=dateUtils.format(data.PubTime);
+					this.datainfo=data;
 				}
 			}
 		}
@@ -61,7 +63,7 @@
 
 .comment{ padding: 0; margin: 0 auto; background: #fff; min-height: 100%;}
 .newsInfo{ padding: 30upx;}
-.newsInfo .title{ font-size: 30upx;}
+.newsInfo .title{ font-size: 30upx;text-align:center;}
 .newsInfo .desc{ color: #666; margin: 20upx 0;}
 .newsInfo .time{ color: #999; font-size: 26upx;}
 .comment {
