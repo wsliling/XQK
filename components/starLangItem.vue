@@ -35,7 +35,7 @@
 </template>
 
 <script>
-	import {navigate,requestHideLoading} from '@/utils'
+	import {navigate,requestHideLoading} from '@/utils';
 	export default {
 		props:{
 			item:{
