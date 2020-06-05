@@ -20,8 +20,7 @@
 				</view>
 				<view class="flex-center-between">
 					<view class="tx flex-center">
-						<!-- <image src="/static/logo.png" mode="aspectFill"></image> -->
-						<image :src="item.Avatar" mode="aspectFill"></image>
+						<image :src="detail.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'"></image>
 						<text class="author uni-ellipsis">{{ item.NickName }}</text>
 					</view>
 					<view class="zan flex-center" @click.stop="onLike">

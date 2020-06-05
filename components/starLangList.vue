@@ -23,7 +23,7 @@
 								</view>
 								<view class="flex-center-between" v-if="pageStr!=='issue'">
 									<view class="tx flex-center">
-										<image :src="item.Avatar" mode="widthFix"></image>
+										<image :src="detail.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'"></image>
 										<text class="author uni-ellipsis">{{ item.NickName }}</text>
 									</view>
 									<view class="zan flex-center" @click.stop="onLike(item)">
@@ -60,7 +60,7 @@
 								</view>
 								<view class="flex-center-between" v-if="pageStr!=='issue'">
 									<view class="tx flex-center">
-										<image :src="item.Avatar" mode="widthFix"></image>
+										<image :src="detail.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'"></image>
 										<text class="author uni-ellipsis">{{ item.NickName }}</text>
 									</view>
 									<view class="zan flex-center" @click.stop="onLike(item)">

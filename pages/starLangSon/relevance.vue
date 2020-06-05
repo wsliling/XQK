@@ -129,12 +129,10 @@
 				},
 				// 初始化
 				init(){
-					// this.userId = uni.getStorageSync('userId');
-					// this.token = uni.getStorageSync('token');
 					this.getUserInfo()
 					this.loadMore=0;
 					this.Page = 1;
-					console.log('我初始化了-----')
+					// console.log('我初始化了-----')
 					
 				},
 				// 获取预订产品列表
@@ -145,9 +143,9 @@
 					this.getUserInfo()
 					// this.userId = this.$store.getters.getUserId;
 					// this.token = this.$store.getters.getToken;
-					console.log('vuex---',this.$store.state)
-					console.log('id',this.userId)
-					console.log('Token',this.token)
+					// console.log('vuex---',this.$store.state)
+					// console.log('id',this.userId)
+					// console.log('Token',this.token)
 					
 					if(this.IsNearRecords){
 						res = await post(
@@ -165,7 +163,7 @@
 							this.IsNearRecords = 0
 							// this.msg = '为您推荐'
 						}
-						console.log('我是最近入住：',res)
+						// console.log('我是最近入住：',res)
 					}else {
 						res = await post(
 						'Goods/GoodsList_yd',
@@ -183,9 +181,9 @@
 								// 4-距离
 								// 5-好评
 						})
-						console.log('搜索列表：',res)
+						// console.log('搜索列表：',res)
 					}
-					console.log('我是外面列表：',res)
+					// console.log('我是外面列表：',res)
 					
 					if(res.data.length<this.PageSize){
 						this.loadMore =2;
@@ -195,7 +193,7 @@
 					if (!res.data.length) {
 						return this.loadMore =2;
 					}
-					console.log('获取预定产品列表：', res)
+					// console.log('获取预定产品列表：', res)
 					let ProIdArr = this.$store.state.ProIdArr
 					// 处理字符串标签为数组,处理星星个数
 					for(let i =0; i < res.data.length;i++){
@@ -210,57 +208,12 @@
 						// 	}
 						// }
 					}
-					
-					// // 推荐
-					// this.RecommendList = [...this.RecommendList,res.data]
-					console.log('拓展运算--处理过goodList：', this.goodList)
-					// this.getRecommend()
+
 					this.goodList = [...this.goodList,...res.data]
 					// this.goodList = res.data
-					console.log('处理过goodList：', this.goodList)
+					// console.log('处理过goodList：', this.goodList)
 					
 				},
-				// 获取最近入住和搜索
-				getNearRecords() {
-					
-				},
-				// 获取推荐列表，为您推荐
-				// async getRecommend () {
-				// 	let res = await post(
-				// 	'Goods/GoodsList_yd',
-				// 	{
-				// 		UserId:this.userId,
-				// 		Token:this.token,
-				// 		Page:this.Page,
-				// 		PageSize:this.PageSize,
-				// 		Sort:3 ,//排序类型
-				// 			// 0-默认
-				// 			// 1-人气
-				// 			// 2-价格
-				// 			// 3-推荐
-				// 			// 4-距离
-				// 			// 5-好评
-				// 	})
-				// 	console.log('我是推荐列表：',res)
-					
-				// 	let ProIdArr = this.$store.state.ProIdArr
-				// 	// 处理字符串标签为数组,处理星星个数
-				// 	for(let i =0; i < res.data.length;i++){
-				// 		let tempArr = res.data[i].ServiceKeys.split(",")
-				// 		res.data[i].ServiceKeys = tempArr
-				// 		console.log('处理产品列表：', res.data[i].ServiceKeys)
-				// 		res.data[i].CommentScore = this.toNum(res.data[i].CommentScore)
-				// 		// for(let j =0; j < ProIdArr.length;j++){
-				// 		// 	if(ProIdArr[j] === res.data[i].Id) {
-				// 		// 		console.log('已经添加了',ProIdArr[j],res.data[i].Id)
-				// 		// 		res.data[i] = 0
-				// 		// 	}
-				// 		// }
-				// 	}
-					
-				// 	this.RecommendList = [...this.RecommendList,res.data]
-					
-				// },
 				// 添加方法
 				add(index,Id) {
 					// 需要删除掉相应的渲染goodList的元素
@@ -284,7 +237,7 @@
 			onReachBottom(){
 				if(this.loadMore===2)return;
 				this.Page++
-				console.log('我触底了')
+				// console.log('我触底了')
 				this.getGoodsList()
 			},
 			// onPullDownRefresh(){
