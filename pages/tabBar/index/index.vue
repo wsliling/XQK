@@ -46,7 +46,8 @@
 						<text class="date-wrappper">{{calendarOption.endDate}}</text>
 						<!-- <text class="goInHotel2">明天</text> -->
 					</view>
-					<view class="flex-column-center" @click.stop="showNumlayer = true">
+					<!-- <view class="flex-column-center" @click.stop="showNumlayer = true"> -->
+					<view class="flex-column-center" @click.stop="toChooseNum">
 						<text class="mintxt">人数</text>
 						<text class="date-wrappper">{{nowNum}}人</text>
 					</view>
@@ -247,6 +248,8 @@
 				this.upDateCityCode(this.cityName)
 				this.nowCityName = this.cityName;
 			}
+			// 需要更新人数
+			this.nowNum = this.$store.state.chooseNum
 		},
 		onBackPress() {
 			if (this.showCaledar !== false) {
@@ -462,6 +465,9 @@
 						tem.LikeNum = item.LikeNum;
 					}
 				})
+			},
+			toChooseNum() {
+				navigate('tabBar/index/chooseNum')
 			}
 		},
 		// #ifndef MP

@@ -252,6 +252,10 @@
 				"navigationBarTitleText": "用户协议"
 			}
         }
+        ,{
+            "path" : "pages/tabBar/index/chooseNum",
+            "style" : {}
+        }
     ],
 	"subPackages":[
 		{
