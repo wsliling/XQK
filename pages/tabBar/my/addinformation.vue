@@ -58,6 +58,7 @@ export default {
 			uni.setNavigationBarTitle({
 				title: this.hasSetText
 			});
+			this.checked = false;
 		}
 		if (e.IsDefault === 1) {
 			this.IsDefault = e.IsDefault;
@@ -171,6 +172,7 @@ export default {
 		},
 		// 设置默认用户常用信息
 		async tacitlyInvoice() {
+			console.log(111)
 			if(this.IsDefault == 0){
 				let Uid = 0
 				let result = await post('User/UserInfoDefault', {

@@ -40,7 +40,7 @@
 			<view class="noConPage table bg_fff" v-if="!list.length">
 				<view class="table-cell">
 					<view class="noDataImg">
-						<image src="http://www.sc-mall.nethttp://shop.dadanyipin.com/static/noCart.png" mode="widthFix"></image>
+						<image src="http://xqk.wtvxin.com/images/wxapp/notData.png" mode="widthFix"></image>
 					</view>
 					<view class="tips">抱歉，您还没有常用信息哦~</view>
 				</view>
@@ -234,6 +234,6 @@
 		width: 100%;
 		height: 88upx;
 		line-height: 88upx;
-		font-size: 32upx;
+		font-size: 30upx;
 	}
 </style>
