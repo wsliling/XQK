@@ -147,7 +147,7 @@
 				token:'',
 				// 评论内容
 				Comment:'',
-				textHeight: 0,
+				textHeight: 'auto',
 				findList:[]
 			}
 		},
@@ -238,12 +238,13 @@
 								},
 							    data => {
 									console.log('我是this------', this)
-									this.textHeight = data.height;
 									console.log('查看this.$refs:',view,this.$refs)
 									// console.log(this.$refs.content.$el.getBoundingClientRect())
 									console.log('我是行数------', data,this.textHeight,data.height)
-									if(data.height > 100 ) {
-										// this.textHeight = 100
+									if(data.height > 150 ) {
+										// this.textHeight = data.height;
+										console.log('改变后的行数--===----', data,this.textHeight)
+										this.textHeight = 150
 										this.isShowAll = true
 									}
 						}).exec();
