@@ -10,7 +10,9 @@
 			<!-- <view class="">已失效</view> -->
 			<view class="detailsbox">
 				<view class="myrelease">
-					<view class="collect-box" v-for="(val,key) in orderList.OrderDetails" :key="key">
+					<view class="collect-box" 
+					v-for="(val,key) in orderList.OrderDetails" :key="key"
+					@click="navigate('product/detail/detail',{Id : val.ProductId})">
 						<view class="collect-left"><image :src="val.PicNo" mode=""></image></view>
 						<view class="collect-right">
 							<view class="collect-flex">
