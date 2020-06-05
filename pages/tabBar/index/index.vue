@@ -117,9 +117,9 @@
 					</view>
 				</view>
 			</view>
-			<view class="bd" style="margin-right: -20upx;">
-				<view class="xylist">
-					<star-lang-item v-for="(item,index) in findList" :key="index" :item="item"></star-lang-item>
+			<view class="bd">
+				<view class="xylist flex-center-between">
+					<star-lang-item v-for="(item,index) in findList" :key="index" :item="item" @onCollect="onCollect" @onLike="onLike"></star-lang-item>
 				</view>
 			</view>
 			<view class="btn_line uni-mb10" @click="switchTab('tabBar/starLang/starLang')">
@@ -407,10 +407,34 @@
 				let res = post("/Banner/BannerHits",{id:this.bannerList[index].Id}) 
 				// console.log("广告图结果：",res)
 			},
+			// 星语
 			async getFindList() {
-				let res = await post('Find/FindList',{myType:2})
+				let res = await post('Find/FindList',{
+					myType:2,
+					UserId: this.userId,
+					Token: this.token,
+					})
 				console.log('用户发现list：',res)
 				this.findList = res.data
+			},
+			// 点击了星语收藏
+			async onCollect(item){
+				this.findList.map(async(tem)=>{
+					if(tem.Id===item.Id){
+						tem.CollectNum = item.CollectNum;
+						tem.CollectionId = item.CollectionId;
+					}
+				})
+
+			},
+			// 点击了星语点赞
+			async onLike(item){
+				this.findList.map(async(tem)=>{
+					if(tem.Id===item.Id){
+						tem.IsLike = item.IsLike;
+						tem.LikeNum = item.LikeNum;
+					}
+				})
 			}
 		},
 		// #ifndef MP

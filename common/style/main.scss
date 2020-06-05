@@ -357,6 +357,22 @@ p{
   justify-content:space-between;
 
 }
+.flex-column-end-between{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display:flex;
+  flex-flow:column nowrap;
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  -webkit-align-items: flex-end;
+  align-items:flex-end;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content:space-between;
+
+}
 .flex-column-end{
   display: -webkit-box;
   display: -ms-flexbox;

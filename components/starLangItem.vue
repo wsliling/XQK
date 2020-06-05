@@ -5,11 +5,12 @@
 		</div>
 		<view class="itembox">
 			<view class="imgbox">
-				<view class="like flex-center" v-if="details.CollectionId">
-					<view class="iconfont bg" :class="details.CollectionId?'icon-aixin':'icon-aixin2'">
-						<view class="iconfont" :class="details.CollectionId?'icon-aixin':'icon-aixin2'"></view>
+				<view class="like flex-center" v-if="item.CollectionId!=undefined" @click.stop="onCollect">
+					<view class="iconfont bg" :class="item.CollectionId?'icon-aixin':'icon-aixin2'">
+						<view class="iconfont" :class="item.CollectionId?'icon-aixin':'icon-aixin2'"></view>
 					</view>
-					<text class="num" :class="{active : details.CollectionId }">{{ item.CollectNum }}</text>
+					<!-- <text class="num" :class="{active : item.CollectionId }">{{ item.CollectNum }}</text> -->
+					<text class="num">{{ item.CollectNum }}</text>
 				</view>
 				<image :src="item.PicImg" mode="aspectFill" class="pic"></image>
 			</view>
@@ -23,8 +24,8 @@
 						<image :src="item.Avatar" mode="aspectFill"></image>
 						<text class="author uni-ellipsis">{{ item.NickName }}</text>
 					</view>
-					<view class="zan flex-center" :class="{ active: item.IsLike }">
-						<text class="iconfont icon-zan" :class="{'icon-zan': item.IsLike }"></text>
+					<view class="zan flex-center" @click.stop="onLike">
+						<text class="iconfont icon-zan" :class="{'icon-zan1': item.IsLike }"></text>
 						<text class="num" :class="{ active: item.IsLike }">{{ item.LikeNum }}</text>
 					</view>
 				</view>
@@ -34,7 +35,7 @@
 </template>
 
 <script>
-	import {navigate} from '@/utils'
+	import {navigate,requestHideLoading} from '@/utils'
 	export default {
 		props:{
 			item:{
@@ -63,6 +64,39 @@
 				}else{
 					navigate('starLangSon/detail',{Id:this.item.Id})
 				}
+			},
+			// 收藏
+			async onCollect(){
+				const params = {
+					UserId:this.$store.getters.getUserId,
+					Token:this.$store.getters.getToken,
+					Type:5,
+					Id:this.item.Id
+				}
+				if(!this.item.CollectionId){
+					await requestHideLoading('User/AddCollections',params,'post')
+					this.item.CollectNum+=1
+				}else{
+					await requestHideLoading('User/ReCollections',params,'post')
+					this.item.CollectNum-=1
+				}
+				this.item.CollectionId = !this.item.CollectionId;
+				this.$emit('onCollect',this.item)
+			},
+			// 点赞
+			async onLike(){
+				await requestHideLoading('Find/FindlikeOperation',{
+					UserId:this.$store.getters.getUserId,
+					Token:this.$store.getters.getToken,
+					FindId:this.item.Id
+				},'post')
+				if(!this.item.IsLike){
+					this.item.LikeNum+=1
+				}else{
+					this.item.LikeNum-=1
+				}
+				this.item.IsLike = !this.item.IsLike;
+				this.$emit('onLike',this.item)
 			}
 		}
 	}
@@ -109,7 +143,7 @@
 					.iconfont{
 						position: absolute;
 						font-size: 32upx;
-						color: #999;
+						color: #fff;
 						line-height: 1;
 						top: 2upx;
 						left: 2upx;
@@ -119,11 +153,11 @@
 					}
 				}
 				.num{ 
-						color: #ccc; 
+						color: #fff; 
 						margin-left: 10upx;
-						&.active{
-						color: #ff6766;
-					}
+						// &.active{
+						// color: #ff6766;
+						// }
 				}
 			}
 			.pic{

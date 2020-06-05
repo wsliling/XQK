@@ -38,7 +38,9 @@
 			<view v-if="tabIndex==5">
 				<view class="xylist flex-center-between">
 					<starLangItem  v-for="(item,index) in list" :key="index" :item="item" 
-						:showSelect="isShowDel" @selectChange="selectChange"></starLangItem>
+						:showSelect="isShowDel" @selectChange="selectChange"
+						@onLike="onLike"
+						></starLangItem>
 				</view>
 				
 			</view>
@@ -76,7 +78,7 @@
 	export default {
 		data() {
 			return {
-				tabIndex: 5, //0:产品收藏；5：星语
+				tabIndex: 0, //0:产品收藏；5：星语
 				userId: "",
 				token: "",
 				list: [],
@@ -273,6 +275,15 @@
 						_this.collectionsList();
 					 },1500)
 				}
+			},
+			// 点击了星语点赞
+			async onLike(item){
+				this.list.map(async(tem)=>{
+					if(tem.Id===item.Id){
+						tem.IsLike = item.IsLike;
+						tem.LikeNum = item.LikeNum;
+					}
+				})
 			}
 			
 		},

@@ -6,7 +6,7 @@
 					<view class="item" v-if="index%2==0" @click="navigate('starLangSon/detail',{Id:item.Id})">
 						<view class="itembox">
 							<view class="imgbox">
-								<view class="like flex-center" v-if="pageStr!=='issue'">
+								<view class="like flex-center" v-if="pageStr!=='issue'" @click.stop="onCollect(item)">
 									<view class="iconfont bg" :class="item.CollectionId?'icon-aixin':'icon-aixin2'">
 										<view class="iconfont" :class="item.CollectionId?'icon-aixin':'icon-aixin2'"></view>
 									</view>
@@ -26,8 +26,8 @@
 										<image :src="item.Avatar" mode="aspectFill"></image>
 										<text class="author uni-ellipsis">{{ item.NickName }}</text>
 									</view>
-									<view class="zan flex-center" :class="{ active: item.IsLike }">
-										<text class="iconfont icon-zan" :class="{'icon-zan': item.IsLike }"></text>
+									<view class="zan flex-center" @click.stop="onLike(item)">
+										<text class="iconfont icon-zan" :class="{'icon-zan1': item.IsLike }"></text>
 										<text class="num" :class="{ active: item.IsLike }">{{ item.LikeNum }}</text>
 									</view>
 								</view>
@@ -41,7 +41,7 @@
 					<view class="item" v-if="index%2==1" @click="navigate('starLangSon/detail',{Id:item.Id})">
 						<view class="itembox">
 							<view class="imgbox">
-								<view class="like flex-center" v-if="pageStr!=='issue'">
+								<view class="like flex-center" v-if="pageStr!=='issue'" @click.stop="onCollect(item)">
 									<view class="iconfont bg" :class="item.CollectionId?'icon-aixin':'icon-aixin2'">
 										<view class="iconfont" :class="item.CollectionId?'icon-aixin':'icon-aixin2'"></view>
 									</view>
@@ -63,8 +63,8 @@
 										<image :src="item.Avatar" mode="aspectFill"></image>
 										<text class="author uni-ellipsis">{{ item.NickName }}</text>
 									</view>
-									<view class="zan flex-center" :class="{ active: item.IsLike }">
-										<text class="iconfont icon-zan" :class="{'icon-zan': item.IsLike }"></text>
+									<view class="zan flex-center" @click.stop="onLike(item)">
+										<text class="iconfont icon-zan" :class="{'icon-zan1': item.IsLike }"></text>
 										<text class="num" :class="{ active: item.IsLike }">{{ item.LikeNum }}</text>
 									</view>
 								</view>
@@ -77,7 +77,7 @@
 </template>
 
 <script>
-	import {navigate} from '@/utils'
+	import {navigate,requestHideLoading} from '@/utils'
 	export default {
 		props:{
 			list:{
@@ -100,6 +100,39 @@
 		onLoad() {
 		},
 		methods: {
+			// 收藏
+			async onCollect(item){
+				const params = {
+					UserId:this.$store.getters.getUserId,
+					Token:this.$store.getters.getToken,
+					Type:5,
+					Id:item.Id
+				}
+				if(!item.CollectionId){
+					await requestHideLoading('User/AddCollections',params,'post')
+					item.CollectNum+=1
+				}else{
+					await requestHideLoading('User/ReCollections',params,'post')
+					item.CollectNum-=1
+				}
+				item.CollectionId = !item.CollectionId;
+				this.$emit('onCollect',item)
+			},
+			// 点赞
+			async onLike(item){
+				await requestHideLoading('Find/FindlikeOperation',{
+					UserId:this.$store.getters.getUserId,
+					Token:this.$store.getters.getToken,
+					FindId:item.Id
+				},'post')
+				if(!item.IsLike){
+					item.LikeNum+=1
+				}else{
+					item.LikeNum-=1
+				}
+				item.IsLike = !item.IsLike;
+				this.$emit('onLike',item)
+			}
 		}
 	}
 </script>
