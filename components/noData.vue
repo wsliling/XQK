@@ -27,6 +27,7 @@
     padding-bottom: 80upx;
     padding-top:180upx;
     margin-top:0 !important;
+	background: #F8F8F8;
   }
   .iconimg{
 	  display: flex;justify-content: center;align-items: center;

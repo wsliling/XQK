@@ -998,6 +998,7 @@ radio-group label, checkbox-group label{
 /* #endif */
 .uni-tab-bar-loading{
 	padding:20upx 0;
+	background: #F8F8F8;
 }
 
 /* steps */
