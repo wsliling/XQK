@@ -2,7 +2,7 @@
 	<!-- 我要评价 -->
 	<view class="myappraise">
 		<view class="comment" v-for="(val, key) in orderList" :key="key">
-			<view class="comment-flex">
+			<view class="comment-flex" @click="goDetail(val.OrderDetails[0].ProductId)">
 				<view>
 					<view class="comment-name">{{ val.ShopName }}</view>
 					<view class="comment-time">{{ val.MakeDate }}•{{ val.MakePeople }}位房客</view>
@@ -58,9 +58,9 @@
 				})
 			},
 			// 产品详情
-			goDetail(Id){
+			goDetail(ProductId){
 				uni.navigateTo({
-					url:'/pages/product/detail/detail?Id='+Id
+					url:'/pages/product/detail/detail?Id=' + ProductId
 				})
 			},
 			// 订单评价列表
