@@ -124,10 +124,10 @@ export default {
 		// }
 		this.place = this.$store.state.place
 		// this.$store.commit('update',{"place":"不显示位置"})
-		console.log(this.$store.state.place)
+		// console.log(this.$store.state.place)
 		this.getUserInfo()
 		this.getGoodsList()
-		console.log('我是发布页onshow的idarr：',this.$store.state.ProIdArr)
+		// console.log('我是发布页onshow的idarr：',this.$store.state.ProIdArr)
 		
 	},
 	onLoad() {
@@ -146,7 +146,7 @@ export default {
 	computed:{
 		toNum (str) {
 			return (str)=>{
-				console.log('评分：',Math.round(str),'str')
+				// console.log('评分：',Math.round(str),'str')
 				return Math.round(str);
 			}
 			// Math.round(str)
@@ -185,9 +185,9 @@ export default {
 		del(id,index) {
 			let tempArr = this.$store.state.ProIdArr
 			for(let i =0; i < this.goodList.length;i++) {
-				console.log('id对比=============-',this.goodList[i],this.goodList[i].Id,id,this.$store.state.ProIdArr)
+				// console.log('id对比=============-',this.goodList[i],this.goodList[i].Id,id,this.$store.state.ProIdArr)
 				if(this.goodList[i].Id === id) {
-					console.log('老铁对比--',this.goodList[i].id,id)
+					// console.log('老铁对比--',this.goodList[i].id,id)
 					this.goodList.splice(i,1)
 					for(let j =0; j < tempArr.length;j++) {
 						if(tempArr[j] === id) {
@@ -199,7 +199,7 @@ export default {
 				}
 			}
 			this.$store.commit('update',{"ProIdArr": tempArr})
-			console.log('我删除了之后的数组：',this.$store.state.ProIdArr)
+			// console.log('我删除了之后的数组：',this.$store.state.ProIdArr)
 		},
 		//提交意见反馈
 		// 星语发布/提交发布
@@ -210,7 +210,7 @@ export default {
 			}else {
 				place = this.place
 			}
-			console.log(base64Arr)
+			// console.log(base64Arr)
 			const res = await post(
 				'Find/UserPublishFind',
 				{
@@ -224,7 +224,7 @@ export default {
 				},
 				// this.getData
 			);
-			console.log('3333333');
+			// console.log('3333333');
 			if (res.code == 0) {
 				// 发布成功之后，需要清除掉vuex关联产品id组
 				this.$store.commit('update',{"ProIdArr": []})
@@ -316,7 +316,7 @@ export default {
 		async getGoodsList() {
 			let temp = this.$store.state.ProIdArr
 			// 获取vuex的产品idArr
-			console.log('获取vuex的产品idArr:', this.ProIdArr)
+			// console.log('获取vuex的产品idArr:', this.ProIdArr)
 			this.ProIdArr = temp.join(',')
 			if(!this.ProIdArr) {
 				return false
@@ -333,7 +333,7 @@ export default {
 				Token:this.token,
 				ProIdArr: this.ProIdArr
 			})
-			console.log('获取预定产品列表：', res)
+			// console.log('获取预定产品列表：', res)
 			// 处理字符串标签为数组,处理星星个数
 			for(let i =0; i < res.data.length;i++){
 				let tempArr = res.data[i].ServiceKeys.split(",")

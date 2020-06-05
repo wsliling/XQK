@@ -15,7 +15,7 @@
 								<view class="trash" v-if="pageStr==='issue'" @click.stop="$emit('remove',item)">
 									<uni-icons type="trash" color="#fff" size="25"></uni-icons>
 								</view>
-								<image :src="item.PicImg" mode="aspectFill" class="pic"></image>
+								<image :src="item.PicImg" mode="widthFix" class="pic"></image>
 							</view>
 							<view class="txtbox">
 								<view class="title uni-ellipsis2 uni-mb5">
@@ -23,7 +23,7 @@
 								</view>
 								<view class="flex-center-between" v-if="pageStr!=='issue'">
 									<view class="tx flex-center">
-										<image :src="item.Avatar" mode="widthFix"></image>
+										<image :src="item.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="widthFix"></image>
 										<text class="author uni-ellipsis">{{ item.NickName }}</text>
 									</view>
 									<view class="zan flex-center" @click.stop="onLike(item)">
@@ -51,7 +51,7 @@
 									<uni-icons type="trash" color="#fff" size="25"></uni-icons>
 								</view>
 								<!-- <image :src="item.pic" mode="aspectFill" class="pic"></image> -->
-								<image :src="item.PicImg" mode="aspectFill" class="pic"></image>
+								<image :src="item.PicImg" mode="widthFix" class="pic"></image>
 							</view>
 							<view class="txtbox">
 								<view class="title uni-ellipsis2 uni-mb5">
@@ -60,7 +60,7 @@
 								</view>
 								<view class="flex-center-between" v-if="pageStr!=='issue'">
 									<view class="tx flex-center">
-										<image :src="item.Avatar" mode="widthFix"></image>
+										<image :src="item.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="widthFix"></image>
 										<text class="author uni-ellipsis">{{ item.NickName }}</text>
 									</view>
 									<view class="zan flex-center" @click.stop="onLike(item)">

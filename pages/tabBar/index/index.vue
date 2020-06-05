@@ -104,9 +104,9 @@
 		<view class="serveXQ pd15 uni-mb10">
 			<!-- <image  @click="navigate('tabBar/my/security')" src="http://xqk.wtvxin.com/images/wxapp/of/2.jpg" mode="widthFix"></image> -->
 			<image  @click="navigate('tabBar/my/security')" :src="securityContent.Logo" mode="widthFix"></image>
-			<view class="btn_line" @click="navigate('tabBar/my/security')">
+			<!-- <view class="btn_line" @click="navigate('tabBar/my/security')">
 				{{ securityContent.Title }}
-			</view>
+			</view> -->
 		</view>
 		<!-- 推荐星语 -->
 		<view class="recomXQ pd15 uni-mb10">
