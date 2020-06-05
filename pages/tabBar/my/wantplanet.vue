@@ -79,7 +79,7 @@ export default {
 	methods: {
 		gettype(e) {
 			console.log(e);
-			this.typeTxt = e.message;
+			this.typeTxt = e.message || '男';
 		},
 		//上传图片
 		upLoadImg() {
@@ -243,9 +243,8 @@ export default {
 	margin-top: 20rpx;
 	position: relative;
 	.pic_itim {
-		width: 200upx;
-		height: 200upx;
-		padding-left: 10upx;
+		width: 150upx;
+		height: 150upx;
 	}
 	.close {
 		position: absolute;
@@ -257,7 +256,7 @@ export default {
 		background: #5cc69a;
 		border-radius: 50%;
 		text-align: center;
-		line-height: 32rpx;
+		line-height: 30rpx;
 		font-size: 32rpx;
 	}
 }
@@ -275,7 +274,7 @@ export default {
 	color: rgba(255, 255, 255, 1);
 	line-height: 88upx;
 	text-align: center;
-	margin: 94upx 35upx 0;
+	margin: 100upx 35upx 0;
 }
 .counter {
 	padding: 0 20upx;

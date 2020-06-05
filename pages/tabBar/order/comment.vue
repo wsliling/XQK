@@ -7,7 +7,7 @@
 					<view class="pictrue">
 						<image class="img" :src="val.PicNo" mode="aspectFill"></image>
 					</view>
-					<view class="">
+					<view @click="navigate('product/detail/detail',{Id :val.ProductId})">
 						<view class="title">{{ val.ProductName }}</view>
 						<view class="title">{{ MakeDate }}•{{ MakePeople }}位房客</view>
 						<view class="title">￥{{ OrderComment.Total }}</view>
@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import { post } from '@/utils';
+import { post, navigate } from '@/utils';
 import { pathToBase64, base64ToPath, previewImage } from '@/utils/image-tools';
 import uniRate from '@/components/uni-rate/uni-rate.vue';
 var sourceType = [['camera'], ['album'], ['camera', 'album']];
@@ -93,6 +93,7 @@ export default {
 	components: { uniRate },
 	data() {
 		return {
+			navigate,
 			previewImage,
 			text: '',
 			imageList: [],

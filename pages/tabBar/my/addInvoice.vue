@@ -72,10 +72,10 @@
 			</view> -->
 			<view class="weui-cell">
 				<view class="weui-cell__bd">设为默认发票</view>
-				<view class="weui-cell__ft text_r"><switch :checked="checked" @change="tab" color="#89674c" /></view>
+				<view class="weui-cell__ft text_r"><switch :checked="checked" @change="tab" color="#5CC69A" /></view>
 			</view>
 		</view>
-		<view class="btn-max" style="margin:60upx 30upx"><button type="primary" class="bg_89674c" @click="btnSure">保存</button></view>
+		<view class="save"><button type="primary" class="bg_89674c" @click="btnSure">保存</button></view>
 	</view>
 </template>
 
@@ -355,4 +355,17 @@ export default {
 
 <style lang="scss">
 @import '../../../common/dd_style.css';
+ .save{
+	 background: #5cc69a;
+	 color: #fff;
+	 width: 90%;
+	 height: 88rpx;
+	 line-height: 88rpx;
+	 border-radius: 10rpx;
+	 text-align: center;
+	 margin: 60rpx 30rpx;
+	button{
+		border-radius: 10rpx;
+	}
+ }
 </style>
