@@ -3,26 +3,31 @@
 	<div>
 		<view class="feed">
 			<!-- <view class="feed-name">添加标题</view> -->
-			<input type="text" v-model="title" placeholder="添加标题" placeholder-style="font-size: 28upx;color: rgba(187, 188, 191, 1);"/>
+			<input maxlength="35" type="text" v-model="title" placeholder="添加标题" placeholder-style="font-size: 28upx;color: rgba(187, 188, 191, 1);"/>
 			<textarea
 				name=""
 				id=""
 				cols="30"
 				placeholder-style="font-size:28upx;color:#CCCCCC;line-height: 37upx;"
-				rows="10"
+				rows="100"
+				maxlength= 3000
 				adjust-position="true"
 				class="fed_text"
 				placeholder="分享你的故事和体验~"
 				v-model="Content"
 				style="line-height: 1.3;"
 			></textarea>
-			<view class="uploadimg">上传图片/视频({{ PicList.length }}/{{maxPicLen}})</view>
+			<view class="uploadimg">上传图片({{ PicList.length }}/{{maxPicLen}})</view>
 			<div class="flex">
 				<div class="picbox" v-for="(item, pindex) in PicList" :key="pindex">
-					<img :src="item" class="pic_itim" />
+					<!-- <img :src="item" class="pic_itim" /> -->
+					<image :src="item" mode="aspectFill" class="pic_itim"></image>
 					<span class="close" @click="delImg(pindex)">×</span>
 				</div>
-				<div class="picbox " @click="upLoadImg" v-if="isUploadBtn"><img src="http://jd.wtvxin.com/images/images/icons/add2.png" alt="" class="pic_itim" /></div>
+				<div class="picbox " @click="upLoadImg" v-if="isUploadBtn">
+					<image src="http://jd.wtvxin.com/images/images/icons/add2.png" mode="aspectFill" class="pic_itim"></image>
+					<!-- <img src="http://jd.wtvxin.com/images/images/icons/add2.png" alt="" class="pic_itim" /> -->
+				</div>
 			</div>
 		</view>
 
@@ -43,8 +48,11 @@
 					<view>关联星球客 ({{ goodList.length }}/5)</view>
 					<view class="addition" @click="tolick('/pages/starLangSon/relevance')">添加</view>
 				</view>
-				<view class="collect-box"  v-for="(val,index) in goodList" :key="index">
-					<view class="collect-left"><image src="http://xqk.wtvxin.com/images/wxapp/of/p1.jpg" mode=""></image></view>
+				<view class="collect-box"  v-for="(val,index) in goodList" :key="index" @click="navigate('product/detail/detail',{Id: val.Id})">
+					<view class="collect-left">
+						<!-- <image src="http://xqk.wtvxin.com/images/wxapp/of/p1.jpg" mode=""> -->
+							<image :src="val.PicNo" mode=""></image>
+						</image></view>
 					<view class="collect-right">
 						<!-- <view class="name">广州.从化温泉明月山溪</view> -->
 						<view class="name">
@@ -71,7 +79,7 @@
 								<view class="iconfont icon-collect1" v-for="(item4,index4) in (5-(val.CommentScore))" :key="index4"></view>
 								<view class="fz12">{{val.CommentScore}}<span>({{ val.CommentNum }})</span></view>
 							</view>
-							<view  @click="del(val.Id,index)" class="del">
+							<view  @click.stop="del(val.Id,index)" class="del">
 								<image src="@/static/delBox.png" mode=""></image>
 							</view>
 						</view>
@@ -88,13 +96,14 @@
 </template>
 
 <script>
-import { post, get, verifyPhone } from '@/utils';
+import { post, get, verifyPhone,navigate } from '@/utils';
 import { pathToBase64 } from '@/utils/image-tools';
 import pickers from '@/components/pickers';
 export default {
 	components: { pickers },
 	data() {
 		return {
+			navigate,
 			showEdit: false,
 			type: '',
 			PicList: [],
@@ -195,6 +204,12 @@ export default {
 		//提交意见反馈
 		// 星语发布/提交发布
 		async FeedBack(base64Arr) {
+			let place = ''
+			if(this.place === '不显示位置') {
+				place = ''
+			}else {
+				place = this.place
+			}
 			console.log(base64Arr)
 			const res = await post(
 				'Find/UserPublishFind',
@@ -204,7 +219,7 @@ export default {
 					Title: this.title,
 					ContentDetails: this.Content,
 					PicList: base64Arr,
-					Location: this.place,
+					Location: place,
 					ProIdArr: this.ProIdArr
 				},
 				// this.getData
@@ -363,6 +378,7 @@ export default {
 		padding-top: 15rpx;
 		height: 200rpx;
 		width: 100%;
+		overflow: hidden;
 	}
 	.uploadimg {
 		font-size: 28upx;
@@ -382,6 +398,7 @@ export default {
 			.pic_itim {
 				width: 160upx;
 				height: 160upx;
+				border-radius: 7upx;
 			}
 			.close {
 				position: absolute;

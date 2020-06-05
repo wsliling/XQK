@@ -1,7 +1,7 @@
 <template>
 	<view class="content uni-bg-white">
 		<!-- #ifdef MP -->
-		<view class="scan uni-icon uni-icon-scan" style="{'margin-top':top+'px'}" @click="scan"></view>
+		<view class="scan uni-icon uni-icon-scan" :style="{'top':scanObj.top+'px'}" @click="scan"></view>
 		<!-- #endif -->
 		<!--轮播图-->
 		<view class="index_swiper">
@@ -263,11 +263,12 @@
 			}
 		},
 		methods: {
-			// 获取小程序右边菜单栏的宽高以及定位
+			// // 获取小程序右边菜单栏的宽高以及定位
 			getScan (){
+				// getSystemInfo,还是下面的好
 				let res = uni.getMenuButtonBoundingClientRect()
 				this.scanObj = res
-				this.top = this.scanObj.top
+				// this.top = this.scanObj.top
 				console.log('我是菜单：',res)
 			},
 			// 安全保障

@@ -79,11 +79,11 @@
 			left: 0;
 			width: 100%;
 			height: 120upx;
-			background-image: linear-gradient(rgba(255,255,255,.4),rgba(186,255,175,1));
+			background-image: linear-gradient(transparent,rgba(255, 255, 255, .8));
 			.text {
 				// margin: 0 auto;
-				// color: $primary;
-				color: #999;
+				color: $primary;
+				// color: #999;
 				text-align: center;
 				line-height: 120upx;
 			}
@@ -95,6 +95,7 @@
 		.content{
 			padding:10upx 0;
 			line-height:1.5;
+			word-wrap:break-word;
 			// &.allContent{
 			// 	width: 200upx;
 			// 	white-space: nowrap;
@@ -102,7 +103,7 @@
 			// 	overflow: hidden;
 			// 	text-overflow: ellipsis;
 			// }
-			height: 210upx;
+			// height: 210upx;
 			overflow: hidden;
 			&.showAll {
 				height: auto;
@@ -189,6 +190,11 @@
 		}
 	}
 	.other{
+		// .flex-center-between2 {
+		// 	display: flex;
+		// 	justify-content: space-between;
+		// 	flex-wrap: wrap;
+		// }
 		.btn-max{
 			color:$primary;
 			background:#fff;

@@ -4,6 +4,7 @@
 			"path": "pages/tabBar/index/index",
 			"style": {
 				"navigationBarTitleText": "星球客",
+				  "navigationBarTextStyle": "white",
 				// #ifdef MP
 				"navigationStyle": "custom",
 				// #endif

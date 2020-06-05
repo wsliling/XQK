@@ -4,12 +4,13 @@
 		<view class="seek">
 			<input @confirm="confirm" v-model="Keywords" type="text" value="" placeholder="搜索星球客" />
 			<!-- <span class="close" @click="delImg(pindex)">×</span> -->
-			<span class="close" @click="emptyKeyWord">×</span>
+			<span v-if="Keywords.length" class="close" @click ="emptyKeyWord">×</span>
 		</view>
 		<view class="releva">
-			<view class="record" v-if="IsNearRecords">最近记录</view>
-			<view class="record" v-else>推荐列表</view>
-			<view class="collect-box" v-if="goodList.length" v-for="(val,index) in goodList" :key="index">
+		<!-- 	<view class="record" v-if="IsNearRecords">最近记录</view>
+			<view class="record" v-else>推荐列表</view> -->
+			<view class="record">{{ msg }}</view>
+			<view class="collect-box" v-if="goodList.length" v-for="(val,index) in goodList" :key="index" @click="navigate('product/detail/detail',{Id: val.Id})">
 				<!-- <view class="">
 					没有更多数据了
 				</view> -->
@@ -40,7 +41,7 @@
 							<view class="iconfont icon-collect1" v-for="(item4,index4) in (5-(val.CommentScore))" :key="index4"></view>
 							<view class="fz12">{{val.CommentScore}}<span>({{ val.CommentNum }})</span></view>
 						</view>
-						<view @click="add(index,val.Id)" class="add">添加</view>
+						<view @click.stop="add(index,val.Id)" class="add">添加</view>
 					</view>
 				</view>
 			</view>
@@ -53,8 +54,12 @@
 			<view>暂无记录，可搜索其他星球客选择关联</view>
 		</view> -->
 		<!-- 数据判断显示 -->
-		<not-data v-if="goodList.length <1"></not-data>
-		<uni-load-more :loadingType="loadMore" v-else></uni-load-more>
+		<!-- <not-data v-if="goodList.length <1"></not-data> -->
+		<!-- <uni-load-more :loadingType="loadMore" v-else></uni-load-more> -->
+			<!-- <not-data tipsText="小星君正在规划中，现在不如看看别的推荐" tipsTitle="暂无找到匹配的结果" /> -->
+		<not-data v-if="!goodList.length && (loadMore==2)" tipsText="暂无记录,可搜索其他星球客选择关联" />
+			 <!-- <not-data tipsTitle="" /> -->
+		<uni-load-more :loadingType="loadMore" v-if="goodList.length"></uni-load-more>
 		<view style="height: 120upx;"></view>
 	</view>
 </template>
@@ -63,8 +68,12 @@
 	import {post,get,navigate,navigateBack} from '@/utils';
 	import notData from '@/components/notData.vue';
 	export default {
+		components:{
+			notData},
 		data() {
 			 return {
+					msg: '',
+					navigate,
 					userId: '',
 					token: '',
 					Keywords:'',
@@ -72,6 +81,7 @@
 					PageSize: 6,
 					keyword: '',
 					goodList: [],
+					RecommendList:[],//推荐列表
 					tagList: [],
 					notData: false,
 					loadMore:0,//0-loading前；1-loading中；2-没有更多了
@@ -83,11 +93,15 @@
 				// this.getUserInfo()
 				// this.goodList = [1] //用来判断最近到底有没有入住记录
 				this.IsNearRecords = 1
+				this.msg = '最近入住'
 				this.init()
+				this.getGoodsList();
 				if(this.IsNearRecords === 0){
 					console.log('数组空了，准备请求推荐')
 					this.IsNearRecords = 0
+					this.msg = '为您推荐'
 					this.init()
+					this.getGoodsList();
 				}
 				
 			},
@@ -98,7 +112,9 @@
 				confirm() {
 					this.goodList = []
 					this.IsNearRecords = 0
+					this.msg = '搜索结果'
 					this.init()
+					this.getGoodsList();
 				},
 				// 获取用户id以及token
 				getUserInfo () {
@@ -107,7 +123,9 @@
 				},
 				// 清空输入框
 				emptyKeyWord() {
-					this.keyword = ''
+					// console.log('点了chacha')
+					// 我要清空
+					this.Keywords = ''
 				},
 				// 初始化
 				init(){
@@ -117,11 +135,12 @@
 					this.loadMore=0;
 					this.Page = 1;
 					console.log('我初始化了-----')
-					this.getGoodsList();
+					
 				},
 				// 获取预订产品列表
 				async getGoodsList() {
 					let res = {}
+					// let res2 = {}
 					this.loadMore =1;
 					this.getUserInfo()
 					// this.userId = this.$store.getters.getUserId;
@@ -144,19 +163,19 @@
 						})
 						if(res.data.length === 0) {
 							this.IsNearRecords = 0
+							// this.msg = '为您推荐'
 						}
 						console.log('我是最近入住：',res)
 					}else {
 						res = await post(
 						'Goods/GoodsList_yd',
-						// 'Order/OrderList_yd',
 						{
 							UserId:this.userId,
 							Token:this.token,
 							Keywords: this.Keywords,
 							Page:this.Page,
 							PageSize:this.PageSize,
-							Sort:3 ,//排序类型
+							// Sort:3 ,//排序类型
 								// 0-默认
 								// 1-人气
 								// 2-价格
@@ -164,7 +183,7 @@
 								// 4-距离
 								// 5-好评
 						})
-						console.log('我是推荐列表：',res)
+						console.log('搜索列表：',res)
 					}
 					console.log('我是外面列表：',res)
 					
@@ -174,7 +193,7 @@
 						this.loadMore =0;
 					}
 					if (!res.data.length) {
-						return
+						return this.loadMore =2;
 					}
 					console.log('获取预定产品列表：', res)
 					let ProIdArr = this.$store.state.ProIdArr
@@ -191,13 +210,57 @@
 						// 	}
 						// }
 					}
-					console.log('拓展运算--处理过goodList：', this.goodList)
 					
+					// // 推荐
+					// this.RecommendList = [...this.RecommendList,res.data]
+					console.log('拓展运算--处理过goodList：', this.goodList)
+					// this.getRecommend()
 					this.goodList = [...this.goodList,...res.data]
 					// this.goodList = res.data
 					console.log('处理过goodList：', this.goodList)
 					
 				},
+				// 获取最近入住和搜索
+				getNearRecords() {
+					
+				},
+				// 获取推荐列表，为您推荐
+				// async getRecommend () {
+				// 	let res = await post(
+				// 	'Goods/GoodsList_yd',
+				// 	{
+				// 		UserId:this.userId,
+				// 		Token:this.token,
+				// 		Page:this.Page,
+				// 		PageSize:this.PageSize,
+				// 		Sort:3 ,//排序类型
+				// 			// 0-默认
+				// 			// 1-人气
+				// 			// 2-价格
+				// 			// 3-推荐
+				// 			// 4-距离
+				// 			// 5-好评
+				// 	})
+				// 	console.log('我是推荐列表：',res)
+					
+				// 	let ProIdArr = this.$store.state.ProIdArr
+				// 	// 处理字符串标签为数组,处理星星个数
+				// 	for(let i =0; i < res.data.length;i++){
+				// 		let tempArr = res.data[i].ServiceKeys.split(",")
+				// 		res.data[i].ServiceKeys = tempArr
+				// 		console.log('处理产品列表：', res.data[i].ServiceKeys)
+				// 		res.data[i].CommentScore = this.toNum(res.data[i].CommentScore)
+				// 		// for(let j =0; j < ProIdArr.length;j++){
+				// 		// 	if(ProIdArr[j] === res.data[i].Id) {
+				// 		// 		console.log('已经添加了',ProIdArr[j],res.data[i].Id)
+				// 		// 		res.data[i] = 0
+				// 		// 	}
+				// 		// }
+				// 	}
+					
+				// 	this.RecommendList = [...this.RecommendList,res.data]
+					
+				// },
 				// 添加方法
 				add(index,Id) {
 					// 需要删除掉相应的渲染goodList的元素
@@ -279,6 +342,7 @@
 			}
 			.close {
 				position: absolute;
+				z-index: 9;
 				width: 32rpx;
 				height: 32rpx;
 				right: 0;
@@ -294,6 +358,11 @@
 		}
 		.releva{
 			padding: 20upx 30upx;
+			h3{
+				font-size:32upx;
+				font-weight:bold;
+				line-height:3;
+			}
 			.record{
 				padding-bottom: 20upx;
 			}

@@ -102,7 +102,7 @@
 		},
 		onLoad() {
 			// console.log('星语列表onload')
-			this.getFindList()
+			// this.getFindList()
 		},
 		onShow() {
 			console.log('星语列表onShow')
