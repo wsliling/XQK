@@ -28,7 +28,7 @@
 			</view>
 			<view class="item item-end flex-center-between" @click="onClassify">
 				<view class="item-l uni-ellipsis c_999">
-					{{classifyDefault}}
+					{{classifyDefault.label}}
 				</view>
 				<view class="iconfont icon-arrow_down-copy"></view>
 			</view>
@@ -66,7 +66,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="btn" @click="navigate('home/search')">
+			<view class="btn" @click="searchPro">
 				搜索星球客
 			</view>
 		</view>
@@ -130,7 +130,7 @@
 		<wpicker
 			mode="selector"
 			:level="1" 
-			:defaultVal="classifyDefault"
+			:defaultVal="classifyDefault.label"
 			@confirm="pickerclassOk"
 			ref="selector"
 			:options="classifyList"
@@ -199,20 +199,12 @@
 				top:0,
 				
 				nowCityName:'',//现在的国家
-				classifyDefault:'深圳华侨城5A级景区',
+				classifyDefault:{label:'不限',value:0},
 				classifyList:[
 						{
-							label:"深圳华侨城5A级景区",
-							value:"1",
+							label:"不限",
+							value:0,
 						},
-						{
-							label:"深圳华小梅沙度假区",
-							value:"2",
-						},
-						{
-							label:"深圳华梧桐山景区",
-							value:"3",
-						}
 					],
 				// 轮播图
 				bannerList: [],
@@ -294,7 +286,7 @@
 					this.update({
 						cityName:'定位失败'
 					});
-					this.getData();
+					this.getOpsitionPro();
 				};
 			},
 			// 更新城市代码
@@ -304,13 +296,37 @@
 					this.update({
 						cityCode:codeData.data.Code
 					});
-					this.getData();
+					this.getOpsitionPro();
 				}catch(err){
-					this.getData();
+					this.getOpsitionPro();
 				};
 			},
 			// 定位完成后执行的方法
-			async getData(){
+			async getOpsitionPro(){
+				const res = await post("Goods/GoodsList_yd",{
+					AreaCode:this.cityCode||'',
+					Lat:this.lat||0,
+					Lng:this.lng||0,
+					UserId:this.userId,
+					Token:this.token,
+					Page:1,
+					PageSize:20,
+				}) 
+				const data = res.data;
+				data.map(item=>{
+					this.classifyList.push({
+						label:item.Name,
+						value:item.Id,
+					})
+				})
+			},
+			// 点击搜索星球客
+			searchPro(){
+				if(this.classifyDefault.value*1){
+					navigate('product/detail/detail',{Id: this.classifyDefault.value})
+				}else{
+					navigate('home/searchList')
+				}
 			},
 			// 轮播图请求
 			async getBanner(){
@@ -327,7 +343,7 @@
 					UserId:this.userId,
 					Token:this.token,
 					Page:1,
-					PageSize:12,
+					PageSize:6,
 					IsRecommend:1,
 				}) 
 				this.hotRecommendList = res.data 
@@ -411,7 +427,7 @@
 				this.$refs['selector'].show();
 			},
 			pickerclassOk(e){
-				this.classifyDefault=e.result;
+				this.classifyDefault=e.obj;
 			},
 			// 更新广告图点击量
 			async updateBannerHits(index) {
