@@ -16,9 +16,10 @@
 									<uni-icons type="trash" color="#fff" size="25"></uni-icons>
 								</view>
 								<image :src="item.PicImg" mode="widthFix" class="pic"></image>
+								<!-- <image :src="item.PicImg" mode="aspectFill" class="pic" :style="{'width':'336rpx','height':'auto'}"></image> -->
 							</view>
 							<view class="txtbox">
-								<view class="title uni-ellipsis2 uni-mb5">
+								<view class="title uni-ellipsis uni-mb5">
 									{{item.Title}}
 								</view>
 								<view class="flex-center-between" v-if="pageStr!=='issue'">
@@ -56,7 +57,7 @@
 								<image :src="item.PicImg" mode="widthFix" class="pic"></image>
 							</view>
 							<view class="txtbox">
-								<view class="title uni-ellipsis2 uni-mb5">
+								<view class="title uni-ellipsis uni-mb5">
 									<!-- {{item.name}} -->
 									{{item.Title}}
 								</view>
@@ -106,6 +107,9 @@
 		computed:{
 			isDefaultImg (src) {
 				return (src)=>{
+					if(!src) {
+						return ''
+					}
 					// console.log('我是src',src)
 					if (src.includes('输入的不是有效的')) {
 					    // console.log("显示默认头像，src为",src)
@@ -178,6 +182,9 @@
 		.imgbox{
 			height: auto;
 			position: relative;
+			// image {
+			// 	height: auto;
+			// }
 			.like{
 				position: absolute;
 				// top: 12upx;

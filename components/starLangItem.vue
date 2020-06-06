@@ -12,7 +12,7 @@
 					<!-- <text class="num" :class="{active : item.CollectionId }">{{ item.CollectNum }}</text> -->
 					<text class="num" :class="{'active':item.CollectionId}">{{ item.CollectNum }}</text>
 				</view>
-				<image :src="item.PicImg" mode="aspectFill" class="pic"></image>
+				<image :src="item.PicImg" mode="aspectFill" class="pic" style="width: 336rpx;height: auto;"></image>
 			</view>
 			<view class="txtbox">
 				<view class="title uni-ellipsis uni-mb5">
@@ -144,6 +144,9 @@
 		.imgbox{
 			height: auto;
 			position: relative;
+			// image {
+			// 	height: auto;
+			// }
 			.like{
 				position: absolute;
 				// top: 12upx;

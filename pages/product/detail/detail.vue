@@ -140,7 +140,7 @@
 			</div>
 			<!-- <img src="http://xqk.wtvxin.com/images/wxapp/of/map-img.png" mode="widthFix" alt=""> -->
 			<map 
-				@click="navigate('product/map/map',{Lat:details.Lat,Lng:details.Lng})"
+			  @click="navigate('product/map/map',{Lat:details.Lat,Lng:details.Lng})"
 			  id="myMap" 
 			  style="width: 750upx"
 			  :latitude="details.Lat"

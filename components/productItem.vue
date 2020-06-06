@@ -27,8 +27,11 @@
 						</block>
                     </view>
                     <view class="score flex-center-end">
-                        <view class="iconfont icon-collect"></view>
-                        <view class="num">{{ item.CommentScore }}</view>
+                        <!-- <view class="iconfont icon-collect"></view> -->
+						<view class="iconfont icon-collect" v-for="(item3,index3) in item.CommentScore*1" :key="index3"></view>
+						<view class="iconfont icon-collect1" v-for="(item4,index4) in (5-(item.CommentScore))" :key="index4"></view>
+                        <!-- <view class="num">{{ item.CommentScore }}</view> -->
+						<view class="num">{{ toFloat(item.CommentScore) }}</view>
                         <view class="fz12 c_999">({{ item.CommentNum }})</view>
                     </view>
                 </view>
@@ -67,6 +70,18 @@ import {navigate} from '@/utils'
 			}
 		},
 		computed:{
+			toFloat (num) {
+				return (num)=>{
+					return parseFloat(num)
+				}
+			},
+			toNum (str) {
+				return (str)=>{
+					console.log('评分：',Math.round(str),'str')
+					return Math.round(str);
+				}
+				// Math.round(str)
+			},
 		   tagInit: function () {
 			 // if(this.index === 0) {
 				//  this.index++;
