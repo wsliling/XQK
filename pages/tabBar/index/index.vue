@@ -250,6 +250,7 @@
 			}
 			// 需要更新人数
 			this.nowNum = this.$store.state.chooseNum
+			this.getHotGoodsList();
 		},
 		onBackPress() {
 			if (this.showCaledar !== false) {
