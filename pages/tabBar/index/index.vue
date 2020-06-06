@@ -238,7 +238,7 @@
 			this.getPosition();
 			this.getSecurity();
 			this.getFindList()
-			this.initCalendarOption();// 初始化日历
+			// this.initCalendarOption();// 初始化日历
 		},
 		onShow(){
 			this.userId = uni.getStorageSync("userId");

@@ -3,7 +3,7 @@
 		<!--轮播图-->
 		<view class="index_swiper">
 			<swiper class="swiper" :indicator-dots="false" autoplay :interval="5000" :duration="500" @change="changeSwiper">
-				<swiper-item v-for="(item,index) in details.PicData" :key="index">
+				<swiper-item @click="previewImage(index)" v-for="(item,index) in details.PicData" :key="index">
 					<view class="swiper-item">
 						<!-- <image class="img" src="http://xqk.wtvxin.com/images/wxapp/of/banner.jpg" mode="aspectFill"></image> -->
 						<image class="img" :src="item.PicUrl" mode="aspectFill"></image>
@@ -11,7 +11,7 @@
 				</swiper-item>
 			</swiper>
 			<view class="dots">
-				<view v-for="(item,index) in details.PicData" :key="index" :class="['dot',currentSwiper==index?'active':'']"></view>
+				<view v-if="index>1" v-for="(item,index) in details.PicData" :key="index" :class="['dot',currentSwiper==index?'active':'']"></view>
 			</view>
 		</view>
 		<div class="topBlock p30">
@@ -262,6 +262,7 @@
 	import datepricePicker from '@/components/date-price-picker/date-price-picker';
 	import { post,navigate,toast,debounce } from '@/utils';
 	import { mapState, mapMutations } from "vuex"; //vuex辅助函数
+	import { previewImage } from '@/utils/image-tools';
 	export default {
 		components:{
 			commentItem,
@@ -379,6 +380,10 @@
 			}
 		},
 		methods: {
+			// 全屏预览图片
+			previewImage(index) {
+				previewImage(this.details.PicData,index)
+			},
 			...mapMutations(['update']),
 			// 获取textarea的行数
 			// getRow () {
