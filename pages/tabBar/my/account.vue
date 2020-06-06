@@ -30,7 +30,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="save">保存</view>
+		<!-- <view class="save">保存</view> -->
 	</view>
 </template>
 
