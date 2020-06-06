@@ -101,13 +101,12 @@ export default {
 		},
 		// 提交
 		async submit() {
-			let base64 = '';
+			let base64 ;
 			if(typeof(this.Avatar) !== 'object'){
 				uni.showToast({
 					title: '您暂未更换头像！！！',
 					icon: 'none',
 				});
-				console.log(111)
 				return false
 			}
 			console.log(typeof(this.Avatar),'this.Avatar')
@@ -115,8 +114,7 @@ export default {
 				const res = await pathToBase64(this.Avatar[i]);
 				base64 = res
 			}
-			this.getUploadPhoto(JSON.stringify(base64));
-			
+			this.getUploadPhoto(base64);
 		},
 		// 修改会员头像
 		getUploadPhoto(base64){
