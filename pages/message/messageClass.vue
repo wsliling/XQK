@@ -65,7 +65,7 @@
 		</view>
 		<uni-popup ref="popup" type="center">
 			<div class="content">
-				<div class="title">{{replyItem.Memo}}</div>
+				<div class="title plr30">{{replyItem.Memo}}</div>
 				<div class="text">
 					{{replyItem.Comment}}
 				</div>
