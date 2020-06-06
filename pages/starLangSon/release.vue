@@ -96,9 +96,10 @@
 </template>
 
 <script>
-import { post, get, verifyPhone,navigate } from '@/utils';
+import { post, get, verifyPhone,navigate,debounce } from '@/utils';
 import { pathToBase64 } from '@/utils/image-tools';
 import pickers from '@/components/pickers';
+let timer;
 export default {
 	components: { pickers },
 	data() {
@@ -239,6 +240,7 @@ export default {
 				}, 1500);
 			}
 		},
+		
 		verify() {
 			if (this.title.trim().length === 0) {
 				wx.showToast({
@@ -267,13 +269,37 @@ export default {
 
 			return true;
 		},
+		// debounce(cb,wait =1000,res) {
+		//     // 发送网络请求，就会发送很多次
+		//     // 清除之前定时器
+		// 	console.log('进来了',res,this,this.base64Img)
+		//     return ()=>{
+		//       clearTimeout(timer)
+		//       timer = setTimeout(() => {
+		// 		  console.log('我发不了啦啦啦啦啦啦啦',this.base64Img)
+		//         return cb(this.base64Img)
+		//       }, wait);
+		//     }
+		// 	console.log('出去了')
+		//   },
 		async submit() {
 			if (this.verify()) {
 				let base64Arr = [];
 				if (this.PicList.length > 0) {
 					base64Arr = await this.base64Img(this.PicList);
 				}
-				this.FeedBack(JSON.stringify(base64Arr));
+				// console.log('点了发布')
+				// 发布防抖
+				clearTimeout(timer)
+				timer = setTimeout(() => {
+					// console.log('发布了')
+				  return this.FeedBack(JSON.stringify(base64Arr))
+				}, 1000)
+				// debounce(this.FeedBack,1000,JSON.stringify(base64Arr))
+				// console.log('我出来了') 
+				// this.FeedBack(JSON.stringify(base64Arr));
+				// this.debounce(this.FeedBack(JSON.stringify(base64Arr)))
+				// this.debounce(this.FeedBack,1000,JSON.stringify(this.base64Img))
 			}
 		},
 		upLoadImg() {
