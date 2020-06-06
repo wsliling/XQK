@@ -242,10 +242,10 @@
 									// console.log('查看this.$refs:',view,this.$refs)
 									// console.log(this.$refs.content.$el.getBoundingClientRect())
 									// console.log('我是行数------', data,this.textHeight,data.height)
-									if(data.height > 140 ) {
+									if(data.height > 144 ) {
 										// this.textHeight = data.height;
 										// console.log('改变后的行数--===----', data,this.textHeight)
-										this.textHeight = 140
+										this.textHeight = 144
 										this.isShowAll = true
 									}
 						}).exec();
