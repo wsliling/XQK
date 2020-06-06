@@ -285,6 +285,12 @@
 						"navigationBarTitleText": "支付成功"
 					}
 				}
+				,{
+					"path" : "map/map",
+					"style" : {
+						"navigationBarTitleText": "具体位置"
+					}
+				}
 			]
 		},
 		{

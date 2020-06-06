@@ -140,6 +140,7 @@
 			</div>
 			<!-- <img src="http://xqk.wtvxin.com/images/wxapp/of/map-img.png" mode="widthFix" alt=""> -->
 			<map 
+				@click="navigate('product/map/map',{Lat:details.Lat,Lng:details.Lng})"
 			  id="myMap" 
 			  style="width: 750upx"
 			  :latitude="details.Lat"
@@ -367,7 +368,7 @@
 						price+=(item.Price*1);
 					}
 				})
-
+				
 				if(price){
 					this.isSubmit = true;
 					price = price.toFixed(2);
@@ -453,8 +454,8 @@
 				res.data.DevLogo = res.data.DevLogo.replace(/<img/g, '<img style="max-width:100%;"');
 				// console.log("我是精度",parseFloat(res.data.Lng))
 				// 经纬度
-				res.data.Lng = parseFloat(res.data.Lng)
-				res.data.Lat = parseFloat(res.data.Lat)
+				// res.data.Lng = parseFloat(res.data.Lng)
+				// res.data.Lat = parseFloat(res.data.Lat)
 				// 地图标记
 				this.markers[0].latitude = res.data.Lat
 				this.markers[0].longitude = res.data.Lng
