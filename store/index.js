@@ -26,6 +26,16 @@ export default new Vuex.Store({
 		aduNum: 0,  // 成人数量
 		kidNum: 0,	// 小孩数量
 		chooseNum: 1,
+		replyObj: {
+			isMy: 0,
+			index1: 0,
+			index2: 0,
+		},
+		replyAll: {
+			FkId: 0,
+			CommentId: 0,
+			ParentCommentId: 0
+		},
         calendarOption:{
             currentRangeStartDate: '', //根默认显示初始时间，可为空,默认今天
             currentRangeEndDate: '', //根默认区间选择显示结束时间，可为空，默认明天

@@ -13,6 +13,7 @@
 </template>
 
 <script>
+	import { mapState, mapMutations } from "vuex"; //vuex辅助函数
 	import replyItem from './replyItem.vue';
 	import ansInput from '@/components/ans-input/ans-input.vue';
 	import notData from '@/components/notData.vue';
@@ -38,10 +39,14 @@
 			this.getUserInfo()
 			this.getCommnetList(this.Id)
 		},
+		computed:{
+			...mapState(['lng','lat','cityName','cityCode'])
+		},
 		onShow() {
 			this.getUserInfo()
 		},
 		methods: {
+			...mapMutations(['update']),
 			// 获取用户id以及token
 			getUserInfo () {
 				this.userId = uni.getStorageSync('userId');

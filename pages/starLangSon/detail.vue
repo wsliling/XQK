@@ -96,7 +96,7 @@
 						<text>{{ detail.CollectNum}}</text>
 					</div>
 				</div>
-				<reply-item  v-for="(item,index) in CommnetList" :key="index" :index="index" :item="item" @changeItem="changeItem"></reply-item>
+				<reply-item  v-for="(item,index) in CommnetList" :key="index" :index="index" :item="item" :detail='detail' @changeItem="changeItem"></reply-item>
 				<div v-if='detail.CommentNum' class="more" @click="navigate('starLangSon/reply',{Id:Id})">查看{{ detail.CommentNum }}条回复</div>
 			</div>
 		</div>
@@ -285,11 +285,24 @@
 			// 组件点赞
 			changeItem(res){
 				console.log('我是子组件传递过来的：',res)
-				this.CommnetList[res.index].IsLike = !this.CommnetList[res.index].IsLike 
-				if(res.count === true) {
-					this.CommnetList[res.index].LikeNum++
+				if (res.isItem) {
+					this.CommnetList[res.index].IsLike = !this.CommnetList[res.index].IsLike 
 				}else {
-					this.CommnetList[res.index].LikeNum--
+					this.CommnetList[res.index].MyCommnetList[res.val].IsLike = !this.CommnetList[res.index].MyCommnetList[res.val].IsLike
+				}
+				
+				if(res.count === true) {
+					if (res.isItem) {
+						this.CommnetList[res.index].LikeNum++	
+					}else {
+						this.CommnetList[res.index].MyCommnetList[res.val].LikeNum++	
+					}
+				}else {
+					if (res.isItem) {
+						this.CommnetList[res.index].LikeNum--
+					}else {
+						this.CommnetList[res.index].MyCommnetList[res.val].LikeNum--
+					}
 				}
 				// console.log('我是子组件传递过来的处理过的：',this.CommnetList[res.index])
 			},
@@ -354,7 +367,7 @@
 			// 发现评论列表
 			async getCommnetList (Id){
 				let res = await post('Find/CommnetList',{UserId:this.userId,Token:this.token,FkId:Id,PageSize:4})
-				// console.log('发现评论列表:',res)
+				console.log('发现评论列表:',res)
 				if(res.code === 0 ){
 					this.CommnetList = res.data
 				}
