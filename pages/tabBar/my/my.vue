@@ -23,7 +23,7 @@
 					</view>
 				</view>
 				<view class="tx"  @click="navigate('starLangSon/homePage',{taUserId:userId})" >
-					<image :src="info.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="widthFix"></image>
+					<image :src="info.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="aspectFill"></image>
 				</view>
 			</view>
 			<!-- 消息中心 -->
@@ -291,5 +291,10 @@
 			margin: 0 auto;
 			margin-top: 56upx;
 		}
+	}
+	.tx_image{
+		width:116upx;
+		height:116upx;
+		border-radius: 50%;
 	}
 </style>

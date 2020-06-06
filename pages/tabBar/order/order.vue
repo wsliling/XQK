@@ -89,13 +89,13 @@ export default {
 		if(!judgeLogin())return;
 		this.userId = uni.getStorageSync('userId');
 		this.token = uni.getStorageSync('token');
-		this.init();
 	},
 	onShow() {
 		if(!this.userId||!this.token){
 			this.userId = uni.getStorageSync('userId');
 			this.token = uni.getStorageSync('token');
 		}
+		this.init();
 	},
 	computed: {
 		tabStyle() {

@@ -12,7 +12,7 @@
 					<!-- <text class="num" :class="{active : item.CollectionId }">{{ item.CollectNum }}</text> -->
 					<text class="num" :class="{'active':item.CollectionId}">{{ item.CollectNum }}</text>
 				</view>
-				<image :src="item.PicImg" mode="aspectFill" class="pic" style="width: 336rpx;height: auto;"></image>
+				<image :src="item.PicImg" mode="aspectFill" class="pic" style="width: 336rpx;"></image>
 			</view>
 			<view class="txtbox">
 				<view class="title uni-ellipsis uni-mb5">
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-	import {navigate,requestHideLoading} from '@/utils';
+	import {navigate,requestHideLoading,judgeLogin} from '@/utils';
 	export default {
 		props:{
 			item:{
@@ -81,6 +81,7 @@
 			},
 			// 收藏
 			async onCollect(){
+			   if(!judgeLogin()){return;}
 				const params = {
 					UserId:this.$store.getters.getUserId,
 					Token:this.$store.getters.getToken,
@@ -99,6 +100,7 @@
 			},
 			// 点赞
 			async onLike(){
+			   if(!judgeLogin()){return;}
 				await requestHideLoading('Find/FindlikeOperation',{
 					UserId:this.$store.getters.getUserId,
 					Token:this.$store.getters.getToken,

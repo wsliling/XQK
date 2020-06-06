@@ -277,6 +277,7 @@
 							}
 							.point {
 								display: flex;
+								flex-wrap: wrap;
 								.pointkey {
 									height: 46upx;
 									background: rgba(92, 198, 154, 0.08);
