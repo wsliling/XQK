@@ -54,6 +54,8 @@
 		onLoad(options) {
 			this.taUserId = options.taUserId;
 			console.log(this.taUserId,'id')
+		},
+		onShow() {
 			this.init();
 		},
 		methods: {
