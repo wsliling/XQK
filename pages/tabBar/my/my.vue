@@ -292,4 +292,9 @@
 			margin-top: 56upx;
 		}
 	}
+	.tx_image{
+		width:116upx;
+		height:116upx;
+		border-radius: 50%;
+	}
 </style>

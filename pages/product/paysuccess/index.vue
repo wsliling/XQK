@@ -68,7 +68,7 @@ export default {
       })
     },
     goOrder(){
-      redirect('tabBar/order/orderdetails',{OrderNo:this.OrderNo})
+      redirect('tabBar/order/orderdetails',{OrderNumber:this.OrderNo})
     },
   },
   onReachBottom: function() {

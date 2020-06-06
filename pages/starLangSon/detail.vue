@@ -4,10 +4,10 @@
 		<view class="index_swiper" v-if="detail.ImgList.length">
 			<swiper class="swiper" :indicator-dots="false" autoplay :interval="5000" :duration="500" @change="changeSwiper">
 				<!-- <swiper-item v-for="(item,index) in detail.ImgList" :key="index"> -->
-				<swiper-item v-for="(item,index) in ImgList" :key="index">
+				<swiper-item @click='previewImage(index)' v-for="(item,index) in ImgList" :key="index">
 					<view class="swiper-item">
 						<!-- <image class="img" src="/static/of/banner.jpg" mode="aspectFill"></image> -->
-						<image class="img" :src="item" mode="aspectFill"></image>
+						<image class="img" :src="item" mode="widthFix"></image>
 						<!-- <image class="img" :src="detail.ImgList" mode="aspectFill"></image> -->
 					</view>
 				</swiper-item>
@@ -40,7 +40,13 @@
 				<!-- <div class="content" v-show="!isShowAll" v-html="detail.ContentAbstract"></div> -->
 				<!-- 'uni-ellipsis2': !isShowAll -->
 				<!-- <view ref='content' id='content' class="content" :class="{'showAll': isShowAll }" v-html="detail.ContentAbstract + detail.ContentDetails"></view> -->
-				 <view ref='content' id='content' class="content" :class="{'showAll': isShowAll }" v-html="detail.ContentDetails" :style="{'white-space': 'pre-wrap',height:textHeight+'rpx'}"></view>
+				 <view ref='content' 
+				 id='content' 
+				 class="content" 
+				 :class="{'showAll': isShowAll }" 
+				 v-html="detail.ContentDetails" 
+				 :style="{'white-space': 'pre-wrap',height:textHeight+'rpx','font-size':'28rpx','line-hieght': '36rpx'}">
+				 </view>
 				<!-- <div class="more flex-center" @click="changeIsShowAll" v-show="(!isShowAll) && isToLong ">展开全部 <uni-icons type="arrowdown" color="#5cc69a"></uni-icons></div> -->
 				<view v-if="isShowAll" class="shade" @click="changeIsShowAll">
 					<view class="text">
@@ -115,6 +121,7 @@
 	import {navigate,post,switchTab,getCurrentPageUrlWithArgs} from '@/utils';
 	import productItem from '@/components/productItem.vue';
 	import { formatTime } from '@/common/util.js'
+	import { previewImage } from '@/utils/image-tools';
 	export default {
 		components:{proItem,replyItem,starLangItem,productItem},
 		data() {
@@ -227,6 +234,11 @@
 		onReady() {
 		},
 		methods: {
+			// 全屏预览图片
+			previewImage(index) {
+				previewImage(this.ImgList,index)
+			},
+			// 获取富文本高度
 			getReactBox(data) {
 				// 第一
 				this.$nextTick()
@@ -242,10 +254,10 @@
 									// console.log('查看this.$refs:',view,this.$refs)
 									// console.log(this.$refs.content.$el.getBoundingClientRect())
 									// console.log('我是行数------', data,this.textHeight,data.height)
-									if(data.height > 144 ) {
+									if(data.height > 216 ) {
 										// this.textHeight = data.height;
 										// console.log('改变后的行数--===----', data,this.textHeight)
-										this.textHeight = 144
+										this.textHeight = 216
 										this.isShowAll = true
 									}
 						}).exec();
