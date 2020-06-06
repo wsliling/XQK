@@ -29,7 +29,7 @@
 				anchor: {x: .5, y: .5}
 			}]
 			this.map.hasMarkers = true
-			console.log('我是地图页面被传递的参数:',options,this.map)
+			// console.log('我是地图页面被传递的参数:',options,this.map)
 		},
 		methods: {
 			

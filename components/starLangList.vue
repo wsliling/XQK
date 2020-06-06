@@ -24,7 +24,8 @@
 								<view class="flex-center-between" v-if="pageStr!=='issue'">
 									<view class="tx flex-center">
 										<!-- <image :src="item.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="widthFix"></image> -->
-										<image :src="item.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="widthFix"></image>
+										<!-- <image :src="item.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="widthFix"></image> -->
+										<image :src="isDefaultImg(item.Avatar)" mode="widthFix"></image>
 										<text class="author uni-ellipsis">{{ item.NickName }}</text>
 									</view>
 									<view class="zan flex-center" @click.stop="onLike(item)">
@@ -55,14 +56,15 @@
 								<image :src="item.PicImg" mode="widthFix" class="pic"></image>
 							</view>
 							<view class="txtbox">
-								<view class="title uni-ellipsis2 uni-mb5">
+								<view class="title uni-ellipsis uni-mb5">
 									<!-- {{item.name}} -->
 									{{item.Title}}
 								</view>
 								<view class="flex-center-between" v-if="pageStr!=='issue'">
 									<view class="tx flex-center">
 										<!-- <image :src="item.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="widthFix"></image> -->
-										<image :src="item.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="widthFix"></image>
+										<!-- <image :src="item.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="widthFix"></image> -->
+										<image :src="isDefaultImg(item.Avatar)" mode="widthFix"></image>
 										<text class="author uni-ellipsis">{{ item.NickName }}</text>
 									</view>
 									<view class="zan flex-center" @click.stop="onLike(item)">
@@ -100,6 +102,19 @@
 			}
 		},
 		onLoad() {
+		},
+		computed:{
+			isDefaultImg (src) {
+				return (src)=>{
+					// console.log('我是src',src)
+					if (src.includes('输入的不是有效的')) {
+					    // console.log("显示默认头像，src为",src)
+						return 'http://xqk.wtvxin.com/images/wxapp/default.png'
+					}else {
+						return src
+					}
+				}
+			},
 		},
 		methods: {
 			// 收藏

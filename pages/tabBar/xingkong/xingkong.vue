@@ -13,10 +13,10 @@
 		        </div>
 		 </div> -->
 		<!-- 上面盒子  background:url(bgimg.gif) no-repeat 5px 5px; -->
-		<!-- <view class="handleBox" :style="{background:`url(${imageSrc}) no-repeat center / 100% 90%`}"> -->
-		<view class="handleBox">
+		<view class="handleBox" :style="{background:`url(${imageSrc}) no-repeat center / 100%`}">
+		<!-- <view class="handleBox"> -->
 		    <!-- <image class="bg2" :style="{background:`url(http://xqk.wtvxin.com/images/wxapp/xingkong-icon/wave2.png) no-repeat center / 100%`}"></image> -->
-			<image class="bg2" :style="{background:`url(${imageSrc}) no-repeat center / 100%`}"></image>
+			<!-- <image class="bg2" :style="{background:`url(${imageSrc}) no-repeat center / 100%`}"></image> -->
 			<view class="top">
 				<view class="left">
 					<view class="lock">
@@ -196,7 +196,7 @@
 		},
 		data() {
 			return {
-				imageSrc: 'http://xqk.wtvxin.com/images/wxapp/xingkong-icon/wave2.png',
+				imageSrc: 'http://xqk.wtvxin.com/images/wxapp/xingkong-icon/xingkong-bg.png',
 				process: 4
 			}
 		},
