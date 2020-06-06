@@ -212,7 +212,7 @@
 					<!-- <div class="iconfont icon-fenxiang1"></div>分享 -->
 					<button class="shearch iconfont icon-fenxiang1" open-type="share"></button>分享
 				</div>
-				<div class="item flex-column-center" @click="toCollection">
+				<div class="item collect flex-column-center" :class="{active: details.CollectionId}" @click="toCollection">
 					<!-- <div class="iconfont icon-aixin2"></div> -->
 					<div @click="toCollection" class="iconfont" :class="details.CollectionId?'icon-aixin':'icon-aixin2'"></div>
 					收藏

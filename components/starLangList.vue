@@ -56,7 +56,7 @@
 								<image :src="item.PicImg" mode="widthFix" class="pic"></image>
 							</view>
 							<view class="txtbox">
-								<view class="title uni-ellipsis uni-mb5">
+								<view class="title uni-ellipsis2 uni-mb5">
 									<!-- {{item.name}} -->
 									{{item.Title}}
 								</view>
