@@ -96,7 +96,7 @@
 					</view>
 				</view>
 			</view>
-			<product-item v-for="(item,index) in hotRecommendList" :key="index" :item="item"></product-item>
+			<product-item v-for="(item,index) in hotRecommendList" :key="index" :item="item" @onCollect="onProCollect"></product-item>
 			<view class="btn_line" @click="navigate('home/recommend')">
 				查看更多推荐
 			</view>
@@ -234,7 +234,6 @@
 			this.token = uni.getStorageSync("token");
 			this.getBanner();
 			this.getAbout();
-			this.getHotGoodsList();
 			this.getPosition();
 			this.getSecurity();
 			this.getFindList()
@@ -248,6 +247,7 @@
 				this.upDateCityCode(this.cityName)
 				this.nowCityName = this.cityName;
 			}
+			this.getHotGoodsList();
 			// 需要更新人数
 			this.nowNum = this.$store.state.chooseNum
 		},
@@ -351,6 +351,15 @@
 				}) 
 				this.hotRecommendList = res.data 
 			},
+			// 推荐产品点击收藏
+			onProCollect(params){
+				this.hotRecommendList.map(item=>{
+					if(params.Id===item.Id){
+						item.CollectionId = params.CollectionId;
+						item.CollectNum = params.CollectNum;
+					}
+				})
+			},
 			getAbout(){
 				post('About/AboutUs',{
 					id:1,
@@ -444,8 +453,8 @@
 					UserId: this.userId,
 					Token: this.token,
 					})
-				console.log('用户发现list：',res)
-				this.findList = res.data
+				const data = res.data;
+				this.findList = data;
 			},
 			// 点击了星语收藏
 			async onCollect(item){

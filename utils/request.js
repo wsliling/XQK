@@ -114,8 +114,34 @@ export function requestHideLoading(url, data,method) {
         success: function (res) {
           const ret = res.data;
           if(ret.code===code.success){
+            console.log(123)
              resolve(ret)
-         }else{
+         }else 
+         if(ret.code===code.notLogin){
+           
+            // 没登录或登录过期，询问是否跳转到登录页面
+            uni.setStorageSync("userId",'')
+            uni.setStorageSync("token",'')
+            if(!loginTipsStatus){
+                loginTipsStatus = true;
+                
+                uni.showModal({
+                  title:'需要登录',
+                  content:'是否跳转到登录页面？',
+                  cancelColor:'#999',
+                  confirmColor:'#5cc69a',
+                  success(res){
+                    if(res.confirm){
+                      navigate(LoginPath)
+                    }
+                  },
+                  complete(){
+                    loginTipsStatus = false;
+                  }
+                })
+              }
+         }
+         else{
               toast(ret.msg)
               reject(ret)
          }
