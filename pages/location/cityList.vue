@@ -180,7 +180,7 @@ export default {
       console.log(e)
       this.update({ cityName: e.currentTarget.dataset.city });
       // this.cityList()
-      navigateBack()
+      navigateBack(100)
     },
     setBarTitle() {
       wx.setNavigationBarTitle({

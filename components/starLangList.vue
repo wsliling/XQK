@@ -25,6 +25,8 @@
 								<view class="flex-center-between" v-if="pageStr!=='issue'">
 									<view class="tx flex-center">
 										<!-- <image :src="item.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="widthFix"></image> -->
+										<!-- <image :src="item.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="widthFix"></image> -->
+										<!-- <image :src="isDefaultImg(item.Avatar)" mode="widthFix"></image> -->
 										<image :src="isDefaultImg(item.Avatar)" mode="aspectFill"></image>
 										<text class="author uni-ellipsis">{{ item.NickName }}</text>
 									</view>

@@ -43,8 +43,9 @@
 			<block class="mt20" v-for="(item,index) in messageList" :key="index">
 				<view class="uni-list-cell" @click="navigate('starLangSon/detail',{Id:item.FkId})">
 					<view class="uni-media-list">
-						<view class="uni-media-list-logo" @click.stop="navigate('starLangSon/homePage',{taUserId:item.FromMemberId})">
+						<view class="uni-media-list-logo position" @click.stop="navigate('starLangSon/homePage',{taUserId:item.FromMemberId})">
 							<image class="img" :src="item.FromHeadimgurl||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="aspectFill"></image>
+							<div class="dot" v-if="!item.IsRead"></div>
 						</view>
 						<view  class="uni-media-list-body">
 							<view class="uni-media-list-text-top uni-ellipsis">{{item.Memo}}</view>
@@ -161,17 +162,24 @@
 			},
 			reply(item){
 				this.$refs.popup.open();
+				item.IsRead=1;
 				this.replyItem = item;
-
+				post('News/ReadNoticeInfo',{
+					"UserId": this.userId,
+					"Token": this.token,
+					newsid:this.replyItem.Id,
+				})
 			},
 			// 提交回复
 			async replaysubmit(){
+				const replyItem = this.replyItem;
 				const res = await post('Find/CommentOperation',{
 					"UserId": this.userId,
 					"Token": this.token,
-					FkId:this.replyItem.FkId,
-					ParentCommentId:this.replyItem.CommentId,
-					// NoticeId:this.replyItem.Id,
+					FkId:replyItem.FkId,
+					ParentCommentId:replyItem.CommentId,
+					NoticeId:replyItem.Id,
+					CommentId:replyItem.FindId,
 					Comment:this.replyContent
 				})
 				toast('回复成功',{icon:true})
@@ -249,5 +257,15 @@
 		border:1upx solid $primary;
 		padding:0 15upx;
 		line-height:1.8;
+	}
+	.position{
+		position:relative;
+	}
+	.dot{
+		position:absolute;
+		left:0;top:0;
+		width:13upx;height:13upx;
+		background:#ff3333;
+		border-radius:50%;
 	}
 </style>
