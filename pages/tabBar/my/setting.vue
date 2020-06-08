@@ -14,26 +14,30 @@
 				<view class="">营业执照</view>
 				<image  src="http://xqk.wtvxin.com/images/wxapp/icons/arrow.png" mode=""></image>
 			</view>
-			<view class="gethelp-flex">
+			<view class="gethelp-flex" @click="tolick('/pages/tabBar/my/termsservice?type=2')">
 				<view class="">监督我们</view>
 				<image  src="http://xqk.wtvxin.com/images/wxapp/icons/arrow.png" mode=""></image>
 			</view>
 		</view>
 		<view class="settingfz">
-			<view class="">星球客关注和保障每一位用户的权益。如您对我们的政策条款或服务存在疑虑，或不甚满意，请通过一下方式向我们举报或投诉。</view>
-			<view class="settingfzs">电话：+86 400-288-1262</view>
-			<view class="">邮箱：cnjdhusaf@jasf.com</view>
+			<view class="">{{list.UsIntro}}</view>
+			<view class="settingfzs">电话：{{list.WebTel}}</view>
+			<view class="">邮箱：{{list.Email}}</view>
 		</view>
 	</view>
 
 </template>
 
 <script>
+	import { post } from '@/utils'
 	export default {
 		data() {
 			return {
-				
+				list:{},
 			}
+		},
+		onLoad() {
+			this.getWebConfiguration()
 		},
 		methods: {
 			tolick(url){
@@ -41,6 +45,11 @@
 					url:url
 				})
 			},
+			getWebConfiguration(){
+				post('System/GetWebConfiguration').then( res=> {
+					this.list = res.data
+				})
+			}
 		}
 	}
 </script>
