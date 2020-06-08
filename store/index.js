@@ -25,20 +25,9 @@ export default new Vuex.Store({
         lat:'',
 		aduNum: 0,  // 成人数量
 		kidNum: 0,	// 小孩数量
-		chooseNum: 1,
-		headComment: {},
-		replyObj: {
-			isMy: 0,
-			index1: 0,
-			index2: 0,
-		},
-		allComment:[],
-		replayDetail: {
-			FkId: 0,
-			CommentId: 0,
-			ParentCommentId: 0
-		},
-		allReply: [],
+		chooseNum: 1,	// 选择的人数
+		headComment: {},// 1级评论
+		toZanComment: {}, // 星语点赞的评论
         calendarOption:{
             currentRangeStartDate: '', //根默认显示初始时间，可为空,默认今天
             currentRangeEndDate: '', //根默认区间选择显示结束时间，可为空，默认明天
