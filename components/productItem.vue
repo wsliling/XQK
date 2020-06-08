@@ -1,7 +1,7 @@
 <template>
         <view class="bigitem" @click="navigate('product/detail/detail',{Id: item.Id})">
             <view class="imgbox">
-                <view class="like flex-center-end">
+                <view class="like flex-center-end" @click.stop="onCollect">
                     <view class="iconfont bg" :class="item.CollectionId?'icon-aixin':'icon-aixin2'">
                         <!-- <view class="iconfont"></view> -->
                     </view>
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import {navigate} from '@/utils'
+import {navigate,requestHideLoading,judgeLogin} from '@/utils'
 	export default {
         props:{
             item:{
@@ -95,7 +95,7 @@ import {navigate} from '@/utils'
 			 if(!this.item.ServiceKeys)return;
 			 let tab = this.item.ServiceKeys.split(",")
 			 return tab
-		   }
+		   },
 		},
 		mounted() {
 			// console.log("挂载组件",this.item)
@@ -104,6 +104,25 @@ import {navigate} from '@/utils'
 			
 		},
 		methods: {
+		   async onCollect(){
+			   console.log('userid',uni.getStorageSync("userId"));
+			   if(!judgeLogin()){return;}
+			   const params ={
+					UserId:uni.getStorageSync("userId"),
+					Token:uni.getStorageSync("token"),
+					Type:0,
+					Id: this.item.Id
+			   }
+			   if(this.item.CollectionId){
+			   	   await requestHideLoading('User/ReCollections',params,'post')
+				   this.item.CollectNum-=1;
+			   }else{
+			   	   await requestHideLoading('User/AddCollections',params,'post')
+				   this.item.CollectNum+=1;
+			   }
+			   this.item.CollectionId = this.item.CollectionId?0:1;
+			   this.$emit('onCollect',this.item)
+		   }
 		}
 	}
 </script>
