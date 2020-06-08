@@ -96,8 +96,13 @@
 						<text>{{ detail.CollectNum}}</text>
 					</div>
 				</div>
-				<reply-item  v-for="(item,index) in CommnetList" :key="index" :index="index" :item="item" :MemberId='detail.MemberId' @changeItem="changeItem"></reply-item>
-				<div v-if='detail.CommentNum' class="more" @click="navigate('starLangSon/reply',{Id:Id})">查看{{ CommnetList.length }}条回复</div>
+				<reply-item 
+				v-for="(item,index2) in CommnetList" :key="index2" 
+				:item="item"
+				:index='index2'
+				:MemberId='detail.MemberId' 
+				@changeItem="changeItem"></reply-item>
+				<div v-if='detail.CommentNum' class="more" @click="navigate('starLangSon/reply',{Id:Id})">查看{{ CommnetList.length }}条评论</div>
 			</div>
 		</div>
 		<div class="gap20"></div>
@@ -129,6 +134,7 @@
 				navigate,
 				switchTab,
 				Page:1,
+				index: 0,
 				ProIdArr:'',
 				currentSwiper :0,
 				content:`风景是真的美，但走起来真的累！而且！最近是帐篷节，周末人多到爆！无论是等缆车！还是徒步！都会把你挤哭的！要去的记得选好时间
@@ -161,7 +167,7 @@
 		},
 		onLoad(options) {
 			let Id = options.Id
-			this.Id = Id
+			this.Id = Number(Id)
 			this.getUserInfo()
 			// console.log('我是传递过星语详情的Id',options)
 			// this.getDetail(Id)
@@ -169,6 +175,10 @@
 			this.getLikeList(Id)
 			// this.getCommnetList(Id)
 			// this.getFindList()
+			// 去了查看评论后,返回需要再次请求评论列表
+			this.getCommnetList(this.Id)
+			// 还需要再次请求detail信息
+			this.getDetail(this.Id)
 		},
 		onShow() {
 			// console.log('getCurrentPages()----------- ',getCurrentPageUrlWithArgs() )
@@ -177,8 +187,7 @@
 			}
 			// 去了查看评论后,返回需要再次请求评论列表
 			this.getCommnetList(this.Id)
-			// 还需要再次请求detail信息
-			this.getDetail(this.Id)
+			
 		},
 		onShareAppMessage: function (res) {
 		    // let gbid = res.target.dataset.info.order_id;
@@ -283,28 +292,58 @@
 				
 			},
 			// 组件点赞
+			// changeItem(res){
+			// 	console.log('我是子组件传递过来的：',res)
+			// 	if (res.isReply) {
+			// 		this.CommnetList[res.index].IsLike = !this.CommnetList[res.index].IsLike 
+			// 	}else {
+			// 		this.CommnetList[res.index].MyCommnetList[res.val].IsLike = !this.CommnetList[res.index].MyCommnetList[res.val].IsLike
+			// 	}
+				
+			// 	if(res.count === true) {
+			// 		if (res.isReply) {
+			// 			this.CommnetList[res.index].LikeNum++	
+			// 		}else {
+			// 			this.CommnetList[res.index].MyCommnetList[res.val].LikeNum++	
+			// 		}
+			// 	}else {
+			// 		if (res.isReply) {
+			// 			this.CommnetList[res.index].LikeNum--
+			// 		}else {
+			// 			this.CommnetList[res.index].MyCommnetList[res.val].LikeNum--
+			// 		}
+			// 	}
+			// 	// console.log('我是子组件传递过来的处理过的：',this.CommnetList[res.index])
+			// },
+			// 组件点赞
 			changeItem(res){
 				console.log('我是子组件传递过来的：',res)
-				if (res.isItem) {
-					this.CommnetList[res.index].IsLike = !this.CommnetList[res.index].IsLike 
+				if (!res.isReply) {
+					this.CommnetList[res.index].IsLike = !this.CommnetList[res.index].IsLike
+					// this.CommnetList[this.index] = JSON.parse(JSON.stringify(res.data))
 				}else {
-					this.CommnetList[res.index].MyCommnetList[res.val].IsLike = !this.CommnetList[res.index].MyCommnetList[res.val].IsLike
+					this.replyList[res.index].IsLike = !this.replyList[res.index].IsLike
+					// this.replyList[this.index] = JSON.parse(JSON.stringify(res.data))
 				}
-				
+				// console.log('我是子组件传递过来的处理之后：',this.CommnetList,this.CommnetList[this.index])
 				if(res.count === true) {
-					if (res.isItem) {
+					if (!res.isReply) {
 						this.CommnetList[res.index].LikeNum++	
+						// this.CommnetList[this.index] = res.data
 					}else {
-						this.CommnetList[res.index].MyCommnetList[res.val].LikeNum++	
+						this.replyList[res.index].LikeNum++	
+						// this.replyList[this.index] = res.data
 					}
 				}else {
-					if (res.isItem) {
+					if (!res.isReply) {
 						this.CommnetList[res.index].LikeNum--
 					}else {
-						this.CommnetList[res.index].MyCommnetList[res.val].LikeNum--
+						this.replyList[res.index].LikeNum--
 					}
 				}
 				// console.log('我是子组件传递过来的处理过的：',this.CommnetList[res.index])
+				console.log('我是子组件传递过来的处理之后：',this.CommnetList,this.CommnetList[this.index])
+				
 			},
 			// 获取用户id以及token
 			getUserInfo () {
