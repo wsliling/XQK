@@ -46,7 +46,7 @@
 					</view>
 					<view class="btn" v-if="val.IsCancel === 1" @click.stop="chooseOrders(val.OrderNumber, 1)">取消订单</view>
 					<view class="btn" v-if="val.IsDel === 1" @click.stop="chooseOrders(val.OrderNumber, 2)">删除订单</view>
-					<view class="btn btn_fill" v-if="val.IsComment === 1" @click.stop="navigate('tabBar/order/comment')">去评价</view>
+					<view class="btn btn_fill" v-if="val.IsComment === 1" @click.stop="navigate('tabBar/order/comment',{OrderNumber:val.OrderNumber})">去评价</view>
 					<view class="btn btn_fill" v-if="val.Ispay === 1" @click.stop="ConfirmWeiXinSmallPay(val.OrderNumber, val.Total)">立即支付</view>
 				</view>
 			</view>
