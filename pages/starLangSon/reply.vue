@@ -4,7 +4,11 @@
 			<ans-input @confirm="confirm(Id)" class="input"  placeholder="写评论..." @input="replyInput" v-model="Comment" :align='left'></ans-input>
 			<div class="btn-min" @click="submit">评论</div>
 		</div>
-		<reply-item  v-for="(item,index) in CommnetList" :key="index" :index="index" :item="item" @changeItem="changeItem"></reply-item>
+		<reply-item  v-for="(item,index) in CommnetList" 
+			:key="index" 
+			:index="index" 
+			:item="item" 
+			@changeItem="changeItem"></reply-item>
 		<!-- 数据判断显示 -->
 		<not-data v-if="CommnetList.length<1"></not-data>
 		<uni-load-more :loadingType="loadMore" v-else></uni-load-more>
@@ -101,11 +105,14 @@
 				// 		icon:'none'
 				// 	});
 				// }
-				if(res.data.length<this.PageSize){
-					this.loadMore =2;
-				}else{
-					this.loadMore =0;
+				if(res.code === 0 ){
+					if(res.data.length<this.PageSize){
+						this.loadMore =2;
+					}else{
+						this.loadMore =0;
+					}
 				}
+				
 				let tempList = res.data
 				this.CommnetList = [...this.CommnetList,...tempList]
 				// this.CommnetList = res.data
@@ -122,15 +129,48 @@
 			// 	// console.log('我是子组件传递过来的处理过的：',this.CommnetList[res.index])
 			// },
 			// 组件点赞
+			// changeItem(res){
+			// 	console.log('我是子组件传递过来的：',res)
+			// 	this.CommnetList[res.index].IsLike = !this.CommnetList[res.index].IsLike 
+			// 	if(res.count === true) {
+			// 		this.CommnetList[res.index].LikeNum++
+			// 	}else {
+			// 		this.CommnetList[res.index].LikeNum--
+			// 	}
+			// 	// console.log('我是子组件传递过来的处理过的：',this.CommnetList[res.index])
+			// },
+			changeIndex(index) {
+				this.index = index
+			},
+			// 组件点赞
 			changeItem(res){
 				console.log('我是子组件传递过来的：',res)
-				this.CommnetList[res.index].IsLike = !this.CommnetList[res.index].IsLike 
-				if(res.count === true) {
-					this.CommnetList[res.index].LikeNum++
+				if (!res.isReply) {
+					this.CommnetList[res.index].IsLike = !this.CommnetList[res.index].IsLike
+					// this.CommnetList[this.index] = JSON.parse(JSON.stringify(res.data))
 				}else {
-					this.CommnetList[res.index].LikeNum--
+					this.replyList[res.index].IsLike = !this.replyList[res.index].IsLike
+					// this.replyList[this.index] = JSON.parse(JSON.stringify(res.data))
+				}
+				// console.log('我是子组件传递过来的处理之后：',this.CommnetList,this.CommnetList[this.index])
+				if(res.count === true) {
+					if (!res.isReply) {
+						this.CommnetList[res.index].LikeNum++	
+						// this.CommnetList[this.index] = res.data
+					}else {
+						this.replyList[res.index].LikeNum++	
+						// this.replyList[this.index] = res.data
+					}
+				}else {
+					if (!res.isReply) {
+						this.CommnetList[res.index].LikeNum--
+					}else {
+						this.replyList[res.index].LikeNum--
+					}
 				}
 				// console.log('我是子组件传递过来的处理过的：',this.CommnetList[res.index])
+				console.log('我是子组件传递过来的处理之后：',this.CommnetList,this.CommnetList[this.index])
+				
 			},
 		},
 		onReachBottom(){

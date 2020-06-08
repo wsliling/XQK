@@ -332,6 +332,12 @@
 						"navigationBarTitleText": "全部回复"
 					}
 				}
+        ,{
+            "path" : "commentDetail",
+            "style" : {
+							"navigationBarTitleText": "评论详情"
+						}
+        }
 			]
 		},
 		{
