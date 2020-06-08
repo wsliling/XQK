@@ -96,8 +96,8 @@
 						<text>{{ detail.CollectNum}}</text>
 					</div>
 				</div>
-				<reply-item  v-for="(item,index) in CommnetList" :key="index" :index="index" :item="item" :detail='detail' @changeItem="changeItem"></reply-item>
-				<div v-if='detail.CommentNum' class="more" @click="navigate('starLangSon/reply',{Id:Id})">查看{{ detail.CommentNum }}条回复</div>
+				<reply-item  v-for="(item,index) in CommnetList" :key="index" :index="index" :item="item" :MemberId='detail.MemberId' @changeItem="changeItem"></reply-item>
+				<div v-if='detail.CommentNum' class="more" @click="navigate('starLangSon/reply',{Id:Id})">查看{{ CommnetList.length }}条回复</div>
 			</div>
 		</div>
 		<div class="gap20"></div>
@@ -366,10 +366,17 @@
 			},
 			// 发现评论列表
 			async getCommnetList (Id){
-				let res = await post('Find/CommnetList',{UserId:this.userId,Token:this.token,FkId:Id,PageSize:4})
+				let res = await post('Find/CommnetList',
+				{
+					UserId:this.userId,
+					Token:this.token,
+					FkId:Id,
+					PageSize:4})
 				console.log('发现评论列表:',res)
 				if(res.code === 0 ){
 					this.CommnetList = res.data
+					this.$store.commit('update',{"allComment":this.CommnetList})
+					console.log('发现评论列表vuex存储allComment：',this.$store.state.allComment)
 				}
 			},
 			// 用户评论操作

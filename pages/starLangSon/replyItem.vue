@@ -1,6 +1,6 @@
 <template>
 	<view class="">
-		<div class="flex-start-between ptb20" @click="toReply">
+		<div  v-if="!isReply" class="flex-start-between ptb20" @click="toReply">
 			<div class="flex-start">
 				<div @click="navigate('starLangSon/homePage',{taUserId:item.MemberId})" class="avatar">
 					<!-- <img src="/static/of/banner.jpg" alt=""> -->
@@ -14,7 +14,7 @@
 					<div class="content pt10">{{ item.Comment }}</div>
 				</div>
 			</div>
-			<div class="zan" @click="toZan(item.Id,true,-1)" :class='{active : item.IsLike}'>
+			<div v-if="isReply" class="zan" @click="toZan(item.Id,true,-1)" :class='{active : item.IsLike}'>
 				<div class="collect flex-center" :class='{active : item.IsLike}'>
 					<div class="iconfont" :class='{"icon-zan":!item.IsLike,"icon-zan1" : item.IsLike,"active" : item.IsLike}'></div>
 					{{ item.LikeNum }} 
@@ -22,8 +22,8 @@
 				</div>
 			</div>
 		</div>
-		
-		<div v-if="0" class="flex-start-between ptb20"  v-for="(val,index2) in item.MyCommnetList" :key="index2">
+		<!-- <div v-if="isReply">112e21</div> -->
+		<div v-if="isReply" class="flex-start-between ptb20"  v-for="(val,index2) in item2" :key="index2">
 			<!-- 回复别人的 -->
 			<div class="flex-start">
 				<div @click="navigate('starLangSon/homePage',{taUserId:val.MemberId})" class="avatar">
@@ -87,11 +87,30 @@
 	import { formatTime } from '@/common/util.js'
 	import {post,navigate,toast} from '@/utils';
 	export default {
-		props: [
-			'item',
-			'index',
-			'detail'
-			], //配置参数
+		props: {
+			isReply:{
+				type: Boolean,
+				default: false,
+			},
+			item:{
+				type: Object,
+				default: {}
+			},
+			item2:{
+				type: Object,
+				default: {}
+			},
+			MemberId: {
+				type: String,
+				default: ''
+			}
+		}, //配置参数
+		// props:[
+		// 	'isReply',
+		// 	'item',
+		// 	'index',
+		// 	'detail'
+		// ],
 		data() {
 			return {
 				navigate,
@@ -107,7 +126,7 @@
 		mounted() {
 			this.$nextTick()
 				.then(function () {
-					console.log('是不是我',this.detail)
+					// console.log('是不是我',this.detail)
 			// DOM 更新了
 			})
 		},
@@ -120,19 +139,24 @@
 		// 	console.log('我是评论组件更新')
 		// },
 		watch: {
-		  // '$store.state.replyAll': {
-		  //   handler(newName, oldName) {
-		  //     console.log('obj.a changed');
-			 //  this.reply = this.$store.state.replyAll
-			  
-		  //   },
-		  //   immediate: true,
-		  //   // deep: true
-		  // }
+		  '$store.state.replyObj': {
+		    handler(newName, oldName) {
+		      console.log('obj.a changed:',newName);
+			  this.reply = this.$store.state.replyObj
+		    },
+		    immediate: true,
+		    // deep: true
+		  }
 		},
 		methods: {
 			toReply () {
-				navigate('starLangSon/reply',{FkId: item.FkId,CommentId: item.Id,ParentCommentId: item.ParentCommentId})
+				console.log('我是item',this.item)
+				navigate('starLangSon/commentDetail',{
+					FkId: this.item.FkId,
+					CommentId: this.item.Id,
+					ParentCommentId: this.item.Id,
+				})
+				this.$store.commit('update',{"headComment":[this.item]})
 			},
 			// 获取用户id以及token
 			getUserInfo () {
@@ -172,9 +196,15 @@
 			async toZan (Id,isItem,val) {
 				this.getUserInfo()
 				console.log('当前id',Id)
-				let res = await post('Find/FindlikeOperation',{UserId:this.userId,Token:this.token,FindId:Id,TypeStatu:2})
+				let res = await post(
+					'Find/FindlikeOperation',
+					{
+						UserId:this.userId,
+						Token:this.token,
+						FindId:Id,
+						TypeStatu:2,
+					})
 				console.log("点赞返回：",res)
-				
 				if (res.code === 0){
 					// if(isItem) {
 					// 	this.item.IsLike = !this.item.IsLike
