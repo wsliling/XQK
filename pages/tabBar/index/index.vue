@@ -247,7 +247,6 @@
 				this.upDateCityCode(this.cityName)
 				this.nowCityName = this.cityName;
 			}
-			this.getHotGoodsList();
 			// 需要更新人数
 			this.nowNum = this.$store.state.chooseNum
 			this.getHotGoodsList();
@@ -307,6 +306,10 @@
 			},
 			// 定位完成后执行的方法
 			async getOpsitionPro(){
+				this.classifyList=[
+						{label:"不限",
+							value:0,
+						}];
 				const res = await post("Goods/GoodsList_yd",{
 					AreaCode:this.cityCode||'',
 					Lat:this.lat||0,

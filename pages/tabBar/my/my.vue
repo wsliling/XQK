@@ -297,4 +297,12 @@
 		height:116upx;
 		border-radius: 50%;
 	}
+	.tx{
+		height: 116upx; width: 116upx;
+		border-radius: 50%;
+		overflow: hidden;
+		image{
+			width:100%;height:100%;
+		}
+	}
 </style>
