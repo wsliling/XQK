@@ -378,12 +378,17 @@
 					this.about = res.data;
 				})
 			},
+			// 扫码
 			scan() {
 				uni.scanCode({
 					success:function(res){
+						navigate('home/scanResult',{
+							result:res.result
+						})
 						console.log(JSON.stringify(res));
 					},
 					fail(err){
+						toast('扫码失败，请重试！')
 						console.log(err)
 					}
 				});
