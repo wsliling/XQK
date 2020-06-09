@@ -1,6 +1,7 @@
 <template>
 	<view>
 		<tabbar :current="2"></tabbar>
+		<canvas style="width: 370rpx; height: 632rpx;" :canvas-id="myCanvasId" class=""></canvas>
 		    <!-- <div>
 		      <canvas ref="canvas1" id="myCanvas" :style='{border: "1px solid #000000",width:"200px",height:"200px" }'/>
 		   </div> -->
@@ -197,11 +198,12 @@
 		data() {
 			return {
 				imageSrc: 'http://xqk.wtvxin.com/images/wxapp/xingkong-icon/xingkong-bg.png',
-				process: 4
+				process: 4,
+				myCanvasId: 'myCanvasId'
 			}
 		},
 		onLoad() {
-			// this.canvas()
+			this.canvas()
 		},
 		computed: {
 			Rprocess (){
@@ -230,6 +232,34 @@
 			// }
 		},
 		methods: {
+			canvas() {
+				//百分比
+					let percent=0.7;
+				    // const ctx = document.getElementById("myCanvas").getContext("2d");
+					let ctx = uni.createCanvasContext(this.myCanvasId,this);
+				    //外圆环
+				    ctx.beginPath();
+				    ctx.arc(100, 100, 50, 0, 2 * Math.PI);
+				    ctx.strokeStyle = "#fff";
+				    ctx.fillStyle = "#EDEDED";
+				    ctx.fill();
+				    ctx.stroke();
+				    //内圆环
+				    ctx.beginPath();
+				    ctx.arc(100, 100, 40, 0, 2 * Math.PI);
+				    ctx.strokeStyle = "#fff";
+				    ctx.fillStyle = "#fff";
+				    ctx.fill();
+				    ctx.stroke();
+				    //环形图的进度条
+				    ctx.beginPath();
+				    ctx.arc( 100,100, 44, -Math.PI / 2,-Math.PI / 2 + percent * (Math.PI * 2),false);
+				    ctx.lineWidth = 8;
+				    ctx.lineCap = "round";
+				    ctx.strokeStyle = "rgb(255, 127, 105)";
+				    ctx.stroke();
+					ctx.draw(0,0)
+			}
 			// canvas () {
 			// 	let percent=0.7;
 

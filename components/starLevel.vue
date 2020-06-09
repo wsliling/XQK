@@ -37,8 +37,7 @@
 				// setTimeout(()=> {
 						this.xin()
 				// }, 3000);
-				
-				console.log('this.value,星星数量',this.value)
+				// console.log('this.value,星星数量',this.value)
 			})
 			// xin(this.value)
 		},

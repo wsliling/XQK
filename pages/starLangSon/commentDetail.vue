@@ -12,7 +12,7 @@
 			@changeItem="changeItem"></replyItem>
 		<!-- 数据判断显示 -->
 		<not-data v-if="replyList.length<1"></not-data>
-		<uni-load-more :loadingType="loadMore" v-else></uni-load-more>
+		<uni-load-more :loadingType="loadMore" :contentText='contentText' v-else></uni-load-more>
 		<view v-if="IsMy" class="seek">
 			<input class="replyItem" confirm-type="send" @confirm="confirm" type="text" placeholder="写回复..." v-model="Comment" />
 			<span v-if="Comment.length" class="close" @click ="emptyComment">×</span>
@@ -45,7 +45,12 @@
 				isReply: true,
 				isToReply: false,
 				Comment: '',
-				IsMy:0
+				IsMy:0, // 是否是我发布的
+				contentText: {
+					contentdown: "上拉显示更多",
+					contentrefresh: "正在加载...",
+					contentnomore: "没有更多回复了"
+				}
 			};
 		},
 		onLoad(options) {
@@ -155,7 +160,7 @@
 					}else{
 						this.loadMore =0;
 					}
-					this.replyList = res.data
+					this.replyList = [...this.replyList,...res.data]
 					console.log('replyList----',this.replyList)
 				}
 			},

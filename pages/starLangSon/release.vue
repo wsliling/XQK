@@ -83,7 +83,8 @@ export default {
 			title: '',
 			Content: '',
 			place:'不显示位置',
-			goodList:[]
+			goodList:[],
+			isSubmit: false // 是否已经发布
 		};
 	},
 	onShow() {
@@ -202,6 +203,8 @@ export default {
 					// });
 					wx.navigateBack();
 				}, 1500);
+			}else {
+				this.isSubmit = false
 			}
 		},
 		
@@ -247,18 +250,20 @@ export default {
 		// 	console.log('出去了')
 		//   },
 		async submit() {
-			if (this.verify()) {
+			if (this.verify() && !this.isSubmit) {
 				let base64Arr = [];
 				if (this.PicList.length > 0) {
 					base64Arr = await this.base64Img(this.PicList);
 				}
-				// console.log('点了发布')
+				console.log('点了发布')
 				// 发布防抖
-				clearTimeout(timer)
-				timer = setTimeout(() => {
-					// console.log('发布了')
-				  return this.FeedBack(JSON.stringify(base64Arr))
-				}, 1000)
+				this.isSubmit = true
+				this.FeedBack(JSON.stringify(base64Arr))
+				// clearTimeout(timer)
+				// timer = setTimeout(() => {
+				// 	// console.log('发布了')
+				//   return this.FeedBack(JSON.stringify(base64Arr))
+				// }, 1000)
 				// debounce(this.FeedBack,1000,JSON.stringify(base64Arr))
 				// console.log('我出来了') 
 				// this.FeedBack(JSON.stringify(base64Arr));

@@ -4,6 +4,7 @@
 		onLaunch: function() {
 		},
 		onShow: function() {
+			console.log('app展示了')
 			// 获取UserId和Token
 			this.$store.commit('update',{"userId":uni.getStorageSync('userId')})
 			this.$store.commit('update',{"token":uni.getStorageSync('token')})
