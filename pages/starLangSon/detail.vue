@@ -112,7 +112,7 @@
 			<h4>{{ footTitle }}</h4>
 			<div class="flex-center-between2">
 				<!-- <starLangItem :item="item"  v-for="(item,index) in findList" :key="index"></starLangItem> -->
-				<product-item v-for="(item,index) in findList" :key="index" :item="item" @onCollect='onCollect'></product-item>
+				<product-item v-for="(item,index) in findList" :key="index" :item="item" @onCollect="onProCollect"></product-item>
 				<!-- <starLangItem :item="item"  v-for="(item,index) in 6" :key="index"></starLangItem> -->
 			</div>
 			<div class="btn-max" @click="switchTab('tabBar/starLang/starLang')">查看更多星语</div>
@@ -270,19 +270,19 @@
 			// this.xin(4.2)
 		},
 		methods: {
-			xing() {
-				const ctx = uni.createCanvasContext('myCanvas')
+			// xing() {
+			// 	const ctx = uni.createCanvasContext('myCanvas')
 
-				// Create linear gradient
-				const grd = ctx.createLinearGradient(0, 0, 200, 0)
-				grd.addColorStop(0, 'yellow')
-				grd.addColorStop(1, 'white')
+			// 	// Create linear gradient
+			// 	const grd = ctx.createLinearGradient(0, 0, 200, 0)
+			// 	grd.addColorStop(0, 'yellow')
+			// 	grd.addColorStop(1, 'white')
 
-				// Fill with gradient
-				ctx.setFillStyle(grd)
-				ctx.fillRect(10, 10, 150, 80)
-				ctx.draw()
-			},
+			// 	// Fill with gradient
+			// 	ctx.setFillStyle(grd)
+			// 	ctx.fillRect(10, 10, 150, 80)
+			// 	ctx.draw()
+			// },
 			// // 关联卡片的收藏星球客
 			// onCollect(res) {
 			// 	console.log('点赞返回',res)
@@ -575,7 +575,15 @@
 				if (res.code === 0) {
 					this.findList = res.data
 				}
-
+			},
+			// 推荐产品点击收藏
+			onProCollect(params){
+				this.findList.map(item=>{
+					if(params.Id===item.Id){
+						item.CollectionId = params.CollectionId;
+						item.CollectNum = params.CollectNum;
+					}
+				})
 			},
 		},
 		computed: {

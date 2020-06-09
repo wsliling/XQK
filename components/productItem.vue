@@ -13,7 +13,7 @@
                 <view class="flex-center-between">
                     <view class="title uni-ellipsis">
                         <!-- 广州.从化温泉明月山溪 -->
-						{{ item.KeywordName }}
+						{{ item.Name}}
                     </view>
                     <view class="location">
                         <text class="iconfont icon-weizhi"></text><!-- 广州.从化 -->{{ item.AreaSite }}
