@@ -36,12 +36,14 @@
 				userId:'',
 				token:'',
 				loadMore:0,//0-loading前；1-loading中；2-没有更多了
-				isCheckReply: true
+				isCheckReply: true,
+				// IsMy:0,
 			}
 		},
 		onLoad(options) {
 			console.log("传递过来的：",options)
 			this.Id = parseFloat(options.Id)
+			// this.IsMy = Number(IsMy)
 			this.getUserInfo()
 			this.getCommnetList(this.Id)
 		},

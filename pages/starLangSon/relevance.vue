@@ -37,9 +37,10 @@
 						<!-- <view class="iconfont icon-collect"><view class="fz12">4.8<span>(20)</span></view></view> -->
 						<!-- <view class="iconfont icon-collect"><view class="fz12">{{ val.CommentScore }}<span>(20)</span></view></view> -->
 						<view class="star flex-center">
-							<view class="iconfont icon-collect" v-for="(item3,index3) in val.CommentScore*1" :key="index3"></view>
-							<view class="iconfont icon-collect1" v-for="(item4,index4) in (5-(val.CommentScore))" :key="index4"></view>
-							<view class="fz12">{{val.CommentScore}}<span>({{ val.CommentNum }})</span></view>
+							<start-level v-if='isStartShow' :myCanvasId="val.Id" :value="val.CommentScore"></start-level>
+							<!-- <view class="iconfont icon-collect" v-for="(item3,index3) in val.CommentScore*1" :key="index3"></view>
+							<view class="iconfont icon-collect1" v-for="(item4,index4) in (5-(val.CommentScore))" :key="index4"></view> -->
+							<view class="fz12">{{ CommentScore(val.CommentScore) }}<span>({{ val.CommentNum }})</span></view>
 						</view>
 						<view @click.stop="add(index,val.Id)" class="add">添加</view>
 					</view>
@@ -67,9 +68,12 @@
 <script>
 	import {post,get,navigate,navigateBack} from '@/utils';
 	import notData from '@/components/notData.vue';
+	import {startLevel} from '@/components/starLevel';
 	export default {
 		components:{
-			notData},
+			notData,
+			startLevel
+			},
 		data() {
 			 return {
 					msg: '',
@@ -85,7 +89,8 @@
 					tagList: [],
 					notData: false,
 					loadMore:0,//0-loading前；1-loading中；2-没有更多了
-					IsNearRecords: 1
+					IsNearRecords: 1,
+					isStartShow: false
 				}
 			},
 			onLoad() {
@@ -200,7 +205,8 @@
 						let tempArr = res.data[i].ServiceKeys.split(",")
 						res.data[i].ServiceKeys = tempArr
 						console.log('处理产品列表：', res.data[i].ServiceKeys)
-						res.data[i].CommentScore = this.toNum(res.data[i].CommentScore)
+						// 不用处理分数
+						// res.data[i].CommentScore = this.toNum(res.data[i].CommentScore)
 						// for(let j =0; j < ProIdArr.length;j++){
 						// 	if(ProIdArr[j] === res.data[i].Id) {
 						// 		console.log('已经添加了',ProIdArr[j],res.data[i].Id)
@@ -211,7 +217,8 @@
 
 					this.goodList = [...this.goodList,...res.data]
 					// this.goodList = res.data
-					// console.log('处理过goodList：', this.goodList)
+					console.log('处理过goodList：', this.goodList)
+					this.isStartShow = true
 					
 				},
 				// 添加方法
@@ -245,20 +252,23 @@
 			// 	this.init();
 			// },
 			computed: {
-				toNum (str) {
-					return (str)=>{
-						console.log('评分：',Math.round(str),'str')
-						return Math.round(str);
-					}
-					// Math.round(str)
-				},
+				// toNum (str) {
+				// 	return (str)=>{
+				// 		console.log('评分：',Math.round(str),'str')
+				// 		return Math.round(str);
+				// 	}
+				// 	// Math.round(str)
+				// },
 				// 分数
 				CommentScore (score) {
-					if(!score)return;
-					if (score.length > 1) {
-						return score
+					return (score)=> {
+						// console.log('计算分数',score)
+						if(!score)return;
+						if (score.length > 1) {
+							return score
+						}
+						return score + ".0"
 					}
-					return score + ".0"
 				},
 				// tagInit(item) {
 				// 	// return this.item.ServiceKeys
@@ -374,7 +384,7 @@
 							display: flex;
 						}
 						.fz12 {
-							margin-top: 8upx;
+							// margin-top: 8upx;
 							padding-left: 6upx;
 							span {
 								font-size: 22upx;

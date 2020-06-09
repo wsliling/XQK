@@ -75,9 +75,10 @@
 								<span>(20)</span>
 							</view> -->
 							<view class="star flex-center">
-								<view class="iconfont icon-collect" v-for="(item3,index3) in val.CommentScore*1" :key="index3"></view>
-								<view class="iconfont icon-collect1" v-for="(item4,index4) in (5-(val.CommentScore))" :key="index4"></view>
-								<view class="fz12">{{val.CommentScore}}<span>({{ val.CommentNum }})</span></view>
+								<start-level :myCanvasId="val.Id" :value="CommentScore(val.CommentScore)"></start-level>
+								<!-- <view class="iconfont icon-collect" v-for="(item3,index3) in val.CommentScore*1" :key="index3"></view>
+								<view class="iconfont icon-collect1" v-for="(item4,index4) in (5-(val.CommentScore))" :key="index4"></view> -->
+								<view class="fz12">{{ CommentScore(val.CommentScore) }}<span>({{ val.CommentNum }})</span></view>
 							</view>
 							<view  @click.stop="del(val.Id,index)" class="del">
 								<image src="@/static/delBox.png" mode=""></image>
@@ -99,9 +100,10 @@
 import { post, get, verifyPhone,navigate,debounce } from '@/utils';
 import { pathToBase64 } from '@/utils/image-tools';
 import pickers from '@/components/pickers';
+import {startLevel} from '@/components/starLevel';
 let timer;
 export default {
-	components: { pickers },
+	components: { pickers,startLevel },
 	data() {
 		return {
 			navigate,
@@ -145,20 +147,22 @@ export default {
 		this.goodList = []
 	},
 	computed:{
-		toNum (str) {
-			return (str)=>{
-				// console.log('评分：',Math.round(str),'str')
-				return Math.round(str);
-			}
-			// Math.round(str)
-		},
+		// toNum (str) {
+		// 	return (str)=>{
+		// 		// console.log('评分：',Math.round(str),'str')
+		// 		return Math.round(str);
+		// 	}
+		// 	// Math.round(str)
+		// },
 		// 分数
 		CommentScore (score) {
-			if(!score)return;
-			if (score.length > 1) {
-				return score
+			return (score)=> {
+				if(!score)return;
+				if (score.length > 1) {
+					return score
+				}
+				return score + ".0"
 			}
-			return score + ".0"
 		},
 	},
 	methods: {
@@ -365,7 +369,8 @@ export default {
 				let tempArr = res.data[i].ServiceKeys.split(",")
 				res.data[i].ServiceKeys = tempArr
 				// console.log('处理产品列表：', res.data[i].ServiceKeys)
-				res.data[i].CommentScore = this.toNum(res.data[i].CommentScore)
+				// 不用处理分数
+				// res.data[i].CommentScore = this.toNum(res.data[i].CommentScore)
 			}
 			this.goodList = res.data
 		},

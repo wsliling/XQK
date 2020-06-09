@@ -13,7 +13,7 @@
 		<!-- 数据判断显示 -->
 		<not-data v-if="replyList.length<1"></not-data>
 		<uni-load-more :loadingType="loadMore" v-else></uni-load-more>
-		<view class="seek">
+		<view v-if="IsMy" class="seek">
 			<input class="replyItem" confirm-type="send" @confirm="confirm" type="text" placeholder="写回复..." v-model="Comment" />
 			<span v-if="Comment.length" class="close" @click ="emptyComment">×</span>
 		</view>
@@ -44,13 +44,18 @@
 				headComment:{},
 				isReply: true,
 				isToReply: false,
-				Comment: ''
+				Comment: '',
+				IsMy:0
 			};
 		},
 		onLoad(options) {
 			this.getUserInfo()
 			this.FkId = Number(options.FkId)
 			this.ParentCommentId = Number(options.ParentCommentId)
+			console.log('传递过来的',options,'我是my',this.$store.state.IsMy)
+			this.IsMy = this.$store.state.IsMy
+			// this.isMy = Number(options.IsMy)
+			// console.log('传递过来的',this.IsMy)
 			this.CommentId = Number(options.CommentId)
 			this.headComment = this.$store.state.headComment
 			console.log('头部id：',this.CommentId)

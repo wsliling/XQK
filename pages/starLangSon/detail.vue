@@ -1,6 +1,15 @@
 <template>
 	<div class="bgfff">
 		<!--轮播图-->
+		<!-- <canvas style="width: 100%;height: 500rpx;" canvas-id="myCanvas"> </canvas> -->
+		<!-- <canvas style="width: 100%;height: 500rpx;" canvas-id="myCanvas"></canvas> -->
+		<!-- <canvas canvas-id="myCanvas"></canvas> -->
+		<!-- <canvas style="width: 160rpx; height: 32rpx;" canvas-id="myCanvas" class=""></canvas> -->
+		<!-- 		<start-level :myCanvasId='myCanvas' v-model="score"></start-level>
+
+ -->
+<!-- 		<canvas style="width: 160rpx; height: 32rpx;" :canvas-id="score" class=""></canvas>
+		<start-level :myCanvasId="score" v-model="score"></start-level> -->
 		<view class="index_swiper" v-if="detail.ImgList.length">
 			<swiper class="swiper" :indicator-dots="false" autoplay :interval="5000" :duration="500" @change="changeSwiper">
 				<!-- <swiper-item v-for="(item,index) in detail.ImgList" :key="index"> -->
@@ -40,18 +49,14 @@
 				<!-- <div class="content" v-show="!isShowAll" v-html="detail.ContentAbstract"></div> -->
 				<!-- 'uni-ellipsis2': !isShowAll -->
 				<!-- <view ref='content' id='content' class="content" :class="{'showAll': isShowAll }" v-html="detail.ContentAbstract + detail.ContentDetails"></view> -->
-				 <view ref='content' 
-				 id='content' 
-				 class="content" 
-				 :class="{'showAll': isShowAll }" 
-				 v-html="detail.ContentDetails" 
+				<view ref='content' id='content' class="content" :class="{'showAll': isShowAll }" v-html="detail.ContentDetails"
 				 :style="{'white-space': 'pre-wrap',height:textHeight+'rpx','font-size':'28rpx','line-hieght': '36rpx'}">
-				 </view>
+				</view>
 				<!-- <div class="more flex-center" @click="changeIsShowAll" v-show="(!isShowAll) && isToLong ">展开全部 <uni-icons type="arrowdown" color="#5cc69a"></uni-icons></div> -->
 				<view v-if="isShowAll" class="shade" @click="changeIsShowAll">
 					<view class="text">
 						点击展开
-					<!-- <image src="" mode=""></image> -->
+						<!-- <image src="" mode=""></image> -->
 					</view>
 				</view>
 				<!-- <p>2020-04-28发布</p> -->
@@ -74,8 +79,8 @@
 						</block>
 					</div>
 					<div v-else class="avatar flex-center">
-							<!-- <img src="/static/of/banner.jpg" alt=""> -->
-							<image src="http://xqk.wtvxin.com/images/wxapp/default.png" mode=""></image>
+						<!-- <img src="/static/of/banner.jpg" alt=""> -->
+						<image src="http://xqk.wtvxin.com/images/wxapp/default.png" mode=""></image>
 					</div>
 					<div class="zan-icon flex-center" :class="{active: detail.IsLike}" @click="toZan(Id)">
 						<!-- <div class="iconfont icon-zan" :class="{active: detail.IsLike}"></div>{{ detail.LikeNum}} -->
@@ -89,20 +94,16 @@
 				<div class="add flex-center-between">
 					<input confirm-type="send" @confirm="confirm(Id)" type="text" placeholder="写评论..." v-model="Comment">
 					<div class="line1"></div>
-					<div  @click="toCollections" class="collect flex-column-center-center" :class="{active : detail.CollectionId}">
+					<div @click="toCollections" class="collect flex-column-center-center" :class="{active : detail.CollectionId}">
 						<div class="iconfont" :class='{"icon-aixin2": !detail.CollectionId,"icon-aixin" : detail.CollectionId,"active" : detail.CollectionId}'></div>
 						<!-- <div v-show='!detail.CollectionId' class="iconfont icon-aixin2"></div>
 						<div v-show='detail.CollectionId' class="iconfont icon-aixin active"></div> -->
 						<text>{{ detail.CollectNum}}</text>
 					</div>
 				</div>
-				<reply-item 
-				v-for="(item,index2) in CommnetList.data" :key="index2" 
-				:item="item"
-				:index='index2'
-				:isCheckReply="isCheckReply"
-				@changeItem="changeItem"></reply-item>
-				<div v-if='CommnetList.count' class="more" @click="navigate('starLangSon/reply',{Id:Id})">点击查看{{ CommnetList.count }}条评论</div>
+				<reply-item v-for="(item,index2) in CommnetList.data" :key="index2" :item="item" :index='index2' :isCheckReply="isCheckReply"
+				 @changeItem="changeItem"></reply-item>
+				<div v-if='CommnetList.count' class="more" @click="navigate('starLangSon/reply',{Id:Id,IsMy:detail.IsMy})">点击查看{{ CommnetList.count }}条评论</div>
 			</div>
 		</div>
 		<div class="gap20"></div>
@@ -123,48 +124,66 @@
 	import proItem from '@/components/productItem.vue';
 	import starLangItem from '@/components/starLangItem.vue';
 	import replyItem from './replyItem.vue';
-	import {navigate,post,switchTab,getCurrentPageUrlWithArgs} from '@/utils';
+	import {
+		navigate,
+		post,
+		switchTab,
+		getCurrentPageUrlWithArgs
+	} from '@/utils';
 	import productItem from '@/components/productItem.vue';
-	import { formatTime } from '@/common/util.js'
-	import { previewImage } from '@/utils/image-tools';
+	import {
+		formatTime
+	} from '@/common/util.js'
+	import {
+		previewImage
+	} from '@/utils/image-tools';
+	import {
+		startLevel
+	} from '@/components/starLevel';
 	export default {
-		components:{proItem,replyItem,starLangItem,productItem},
+		components: {
+			proItem,
+			replyItem,
+			starLangItem,
+			productItem,
+			startLevel
+		},
 		data() {
 			return {
+				score: 3.4,
 				navigate,
 				switchTab,
-				Page:1,
+				Page: 1,
 				index: 0,
 				oneLoad: 1,
-				ProIdArr:'',
-				currentSwiper :0,
-				content:`风景是真的美，但走起来真的累！而且！最近是帐篷节，周末人多到爆！无论是等缆车！还是徒步！都会把你挤哭的！要去的记得选好时间
+				ProIdArr: '',
+				currentSwiper: 0,
+				content: `风景是真的美，但走起来真的累！而且！最近是帐篷节，周末人多到爆！无论是等缆车！还是徒步！都会把你挤哭的！要去的记得选好时间
 					门票：可以买门票+一级索道往返票=170元，索道往返价格有些微差异，具体可美团（据说一级索道途经的风景一般，建议保存体力选择搭乘缆车。本人觉得二级索道沿途风景也很一般啊......缺乏运动的小伙伴
 					`,
-				datalist:[
-					{
-						pic:'/static/of/p3.jpg',
-						name:'旅行为我门的生活打开了一扇窗，这扇窗~旅行为我门的生活打开了一扇窗，这扇窗~',
+				datalist: [{
+						pic: '/static/of/p3.jpg',
+						name: '旅行为我门的生活打开了一扇窗，这扇窗~旅行为我门的生活打开了一扇窗，这扇窗~',
 					},
 					{
-						pic:'/static/of/p2.jpg',
-						name:'旅行为我门的生活打开了一扇窗，这扇窗窗，这扇窗~',
+						pic: '/static/of/p2.jpg',
+						name: '旅行为我门的生活打开了一扇窗，这扇窗窗，这扇窗~',
 					},
 				],
 				detail: {
-					ImgList:''
+					ImgList: ''
 				},
 				isShowAll: false,
 				isCheckReply: true,
-				Id:0,
-				LikeList:[],
-				CommnetList:[],
-				userId:'',
-				token:'',
+				Id: 0,
+				LikeList: [],
+				CommnetList: [],
+				userId: '',
+				token: '',
 				// 评论内容
-				Comment:'',
+				Comment: '',
 				textHeight: 'auto',
-				findList:[]
+				findList: []
 			}
 		},
 		onLoad(options) {
@@ -184,69 +203,84 @@
 		},
 		onShow() {
 			// console.log('getCurrentPages()----------- ',getCurrentPageUrlWithArgs() )
-			if(this.userId == '' || this.token == '') {
+			if (this.userId == '' || this.token == '') {
 				this.getUserInfo()
 			}
 			// 去了查看评论后,返回需要再次请求评论列表
-			if(!this.oneLoad) {
+			if (!this.oneLoad) {
 				this.getCommnetList(this.Id)
 			}
-			
+
 		},
-		onShareAppMessage: function (res) {
-		    // let gbid = res.target.dataset.info.order_id;
+		onShareAppMessage: function(res) {
+			// let gbid = res.target.dataset.info.order_id;
 			// console.log('我触发分享了')
-		    return {
-		      title: '分享',
-		      path: getCurrentPageUrlWithArgs(),
-		      // imageUrl: 'https://......./img/groupshare.png',  //用户分享出去的自定义图片大小为5:4,
-		      success: function (res) {
-			   // 转发成功
+			return {
+				title: '分享',
+				path: getCurrentPageUrlWithArgs(),
+				// imageUrl: 'https://......./img/groupshare.png',  //用户分享出去的自定义图片大小为5:4,
+				success: function(res) {
+					// 转发成功
 					// console.log('成功分享')
-			        uni.showToast({
-			          title: "分享成功",
-			          icon: 'success',
-			          duration: 2000
-			        })
-		       },
-		      fail: function (res) {
-		        // 分享失败
+					uni.showToast({
+						title: "分享成功",
+						icon: 'success',
+						duration: 2000
+					})
+				},
+				fail: function(res) {
+					// 分享失败
 					// console.log('分享失败')
 					uni.showToast({
 						title: "分享失败",
 						icon: 'none',
-					duration: 2000
+						duration: 2000
 					})
 				},
-		    }
-		  },
-			mounted() {
-				//获取#content的高度
-				// this.$nextTick()
-				//   .then(() =>{
-				// 		console.log('我是this------', this)
-				//     // DOM 更新了
-				// 		let view = uni.createSelectorQuery().select('#content');
-				// 				view.fields({
-				// 					size: true
-				// 				},
-				// 			    data => {
-				// 					console.log('我是this------', this)
-				// 					this.textHeight = data.height + 'upx';
-				// 					console.log('查看this.$refs:',view,this.$refs)
-				// 					console.log(this.$refs.content.$el.getBoundingClientRect())
-				// 					console.log('我是行数------', data,this.textHeight,data.height)
-				// 					if(data.height > 0) {
-				// 						this.isShowAll = true
-				// 					}
-				// 		}).exec();
-				//   })
-				// 第二种方案
-				// this.getReactBox({class:'content'})
-			},
+			}
+		},
+		mounted() {
+			//获取#content的高度
+			// this.$nextTick()
+			//   .then(() =>{
+			// 		console.log('我是this------', this)
+			//     // DOM 更新了
+			// 		let view = uni.createSelectorQuery().select('#content');
+			// 				view.fields({
+			// 					size: true
+			// 				},
+			// 			    data => {
+			// 					console.log('我是this------', this)
+			// 					this.textHeight = data.height + 'upx';
+			// 					console.log('查看this.$refs:',view,this.$refs)
+			// 					console.log(this.$refs.content.$el.getBoundingClientRect())
+			// 					console.log('我是行数------', data,this.textHeight,data.height)
+			// 					if(data.height > 0) {
+			// 						this.isShowAll = true
+			// 					}
+			// 		}).exec();
+			//   })
+			// 第二种方案
+			// this.getReactBox({class:'content'})
+		},
 		onReady() {
+			// this.xing()
+			// this.xin(4.2)
 		},
 		methods: {
+			xing() {
+				const ctx = uni.createCanvasContext('myCanvas')
+
+				// Create linear gradient
+				const grd = ctx.createLinearGradient(0, 0, 200, 0)
+				grd.addColorStop(0, 'yellow')
+				grd.addColorStop(1, 'white')
+
+				// Fill with gradient
+				ctx.setFillStyle(grd)
+				ctx.fillRect(10, 10, 150, 80)
+				ctx.draw()
+			},
 			// // 关联卡片的收藏星球客
 			// onCollect(res) {
 			// 	console.log('点赞返回',res)
@@ -254,9 +288,9 @@
 			// 	this.$set(this.findList,'CollectNum',res.CollectNum)
 			// },
 			// 点击了星语收藏
-			async onCollect(item){
-				this.findList.map(async(tem)=>{
-					if(tem.Id===item.Id){
+			async onCollect(item) {
+				this.findList.map(async (tem) => {
+					if (tem.Id === item.Id) {
 						tem.CollectNum = item.CollectNum;
 						tem.CollectionId = item.CollectionId;
 					}
@@ -264,32 +298,32 @@
 			},
 			// 全屏预览图片
 			previewImage(index) {
-				previewImage(this.ImgList,index)
+				previewImage(this.ImgList, index)
 			},
 			// 获取富文本高度
 			getReactBox(data) {
 				// 第一
 				this.$nextTick()
-				  .then(() =>{
+					.then(() => {
 						console.log('我是this------', this)
-				    // DOM 更新了
+						// DOM 更新了
 						let view = uni.createSelectorQuery().select('#content');
-								view.fields({
-									size: true
-								},
-							    data => {
-									// console.log('我是this------', this)
-									// console.log('查看this.$refs:',view,this.$refs)
-									// console.log(this.$refs.content.$el.getBoundingClientRect())
-									// console.log('我是行数------', data,this.textHeight,data.height)
-									if(data.height > 216 ) {
-										// this.textHeight = data.height;
-										// console.log('改变后的行数--===----', data,this.textHeight)
-										this.textHeight = 216
-										this.isShowAll = true
-									}
-						}).exec();
-				  })
+						view.fields({
+								size: true
+							},
+							data => {
+								// console.log('我是this------', this)
+								// console.log('查看this.$refs:',view,this.$refs)
+								// console.log(this.$refs.content.$el.getBoundingClientRect())
+								// console.log('我是行数------', data,this.textHeight,data.height)
+								if (data.height > 216) {
+									// this.textHeight = data.height;
+									// console.log('改变后的行数--===----', data,this.textHeight)
+									this.textHeight = 216
+									this.isShowAll = true
+								}
+							}).exec();
+					})
 				// 第二
 				// uni.createSelectorQuery().select(`.${data.class}`).boundingClientRect.exec(res=>{
 				// 	if(res[0]) {
@@ -308,46 +342,54 @@
 				// 		})
 				// 	}
 				// })
-				
+
 			},
 			// 组件点赞
-			changeItem(item){
-				console.log('我是子组件传递过来的：',item)
+			changeItem(item) {
+				console.log('我是子组件传递过来的：', item)
 				if (!item.isReply) {
 					// this.$set( this.CommnetList[res.index], 'IsLike', res.data.IsLike )
 					// this.$set( this.CommnetList[res.index], 'LikeNum', res.data.LikeNum )
-					this.CommnetList.data.map((tem)=>{
-						if(tem.Id===item.data.Id){
+					this.CommnetList.data.map((tem) => {
+						if (tem.Id === item.data.Id) {
 							tem.IsLike = item.data.IsLike;
 							tem.LikeNum = item.data.LikeNum;
 						}
 					})
-				}else {
+				} else {
 					// this.$set( this.replyList[res.index], 'IsLike', res.data.IsLike )
 					// this.$set( this.replyList[res.index], 'LikeNum',res.data.LikeNum )
-					this.replyList.map((tem)=>{
-						if(tem.Id===item.data.Id){
+					this.replyList.map((tem) => {
+						if (tem.Id === item.data.Id) {
 							tem.IsLike = item.data.IsLike;
-							tem.LikeNum =item.data.LikeNum;
+							tem.LikeNum = item.data.LikeNum;
 						}
 					})
 				}
-				
+
 				// console.log('我是子组件传递过来的处理之后：',this.CommnetList,this.CommnetList[this.index])
 			},
 			// 获取用户id以及token
-			getUserInfo () {
+			getUserInfo() {
 				this.userId = uni.getStorageSync('userId');
 				this.token = uni.getStorageSync('token');
 			},
-			changeSwiper(e){
-				this.currentSwiper=e.detail.current;
+			changeSwiper(e) {
+				this.currentSwiper = e.detail.current;
 			},
 			// 星语详情
-			async getDetail(Id){
-				let res = await post('Find/FindNewsInfo',{UserId:this.userId,Token:this.token,FindId:Id})
-				console.log('星语详情：',res)
-				if(res.code ===0 ){
+			async getDetail(Id) {
+				let res = await post('Find/FindNewsInfo', {
+					UserId: this.userId,
+					Token: this.token,
+					FindId: Id
+				})
+				console.log('星语详情：', res)
+				if (res.code === 0) {
+					// 确定是否是自己写的文章,并且存储到vuex中
+					this.$store.commit('update', {
+						"IsMy": res.data.IsMy
+					})
 					// 正则改变富文本
 					res.data.ContentDetails = res.data.ContentDetails.replace(/<img/g, '<img style="max-width:100%;"');
 					this.detail = res.data
@@ -355,12 +397,12 @@
 					this.getFindList()
 					// 更新dom之后
 					this.getReactBox()
-					this.$nextTick().then(()=>{
+					this.$nextTick().then(() => {
 						this.oneLoad = 0
 					})
 				}
 			},
-			changeIsShowAll(){
+			changeIsShowAll() {
 				this.isShowAll = !this.isShowAll
 				this.textHeight = 'auto'
 				// console.log(this.isShowAll)
@@ -371,14 +413,18 @@
 			// 	this.datalist = res.data
 			// },
 			// 点赞
-			async toZan (Id) {
-				let res = await post('Find/FindlikeOperation',{UserId:this.userId,Token:this.token,FindId:Id})
+			async toZan(Id) {
+				let res = await post('Find/FindlikeOperation', {
+					UserId: this.userId,
+					Token: this.token,
+					FindId: Id
+				})
 				// console.log("点赞返回：",res)
-				if (res.code === 0){
+				if (res.code === 0) {
 					this.detail.IsLike = !this.detail.IsLike
-					if(this.detail.IsLike === true) {
+					if (this.detail.IsLike === true) {
 						this.detail.LikeNum++
-					}else {
+					} else {
 						this.detail.LikeNum--
 					}
 					this.getLikeList(this.Id)
@@ -389,36 +435,46 @@
 				// });
 			},
 			// 发现点赞列表
-			async getLikeList (Id){
-				let res = await post('Find/FindLikesList',{FindId:Id,Page:1})
+			async getLikeList(Id) {
+				let res = await post('Find/FindLikesList', {
+					FindId: Id,
+					Page: 1
+				})
 				// console.log('发现点赞列表:',res)
-				if(res.code === 0 ){
+				if (res.code === 0) {
 					this.LikeList = res.data
 				}
 			},
 			// 发现评论列表
-			async getCommnetList (Id){
-				let res = await post('Find/CommnetList',
-				{
-					UserId:this.userId,
-					Token:this.token,
-					FkId:Id,
-					PageSize:4})
-				console.log('发现评论列表:',res)
-				if(res.code === 0 ){
+			async getCommnetList(Id) {
+				let res = await post('Find/CommnetList', {
+					UserId: this.userId,
+					Token: this.token,
+					FkId: Id,
+					PageSize: 4
+				})
+				console.log('发现评论列表:', res)
+				if (res.code === 0) {
 					this.CommnetList = res
-					this.$store.commit('update',{"allComment":this.CommnetList})
-					console.log('发现评论列表vuex存储allComment：',this.$store.state.allComment)
+					this.$store.commit('update', {
+						"allComment": this.CommnetList
+					})
+					console.log('发现评论列表vuex存储allComment：', this.$store.state.allComment)
 				}
 			},
 			// 用户评论操作
-			async toComment (Id){
-				let res = await post('Find/CommentOperation',{UserId:this.userId,Token:this.token,FkId:Id,Comment:this.Comment})
+			async toComment(Id) {
+				let res = await post('Find/CommentOperation', {
+					UserId: this.userId,
+					Token: this.token,
+					FkId: Id,
+					Comment: this.Comment
+				})
 				// console.log('评论后返回:',res)
-				if(res.code === 0){
+				if (res.code === 0) {
 					uni.showToast({
-					    title: res.msg,
-					    icon:'none'
+						title: res.msg,
+						icon: 'none'
 					});
 					// 清空输入框
 					this.Comment = ""
@@ -430,43 +486,57 @@
 			},
 			/* 评论 */
 			confirm(Id) {
-			   if (this.Comment.trim().length ==0) {
+				if (this.Comment.trim().length == 0) {
 					return uni.showToast({
-					    title:'请输入评论内容',
-					    icon:'none'
+						title: '请输入评论内容',
+						icon: 'none'
 					});
 				}
 				this.toComment(Id)
 			},
 			// 收藏/取消收藏
 			async toCollections() {
-				if (this.detail.CollectionId === 0){
+				if (this.detail.CollectionId === 0) {
 					// 收藏
-					let res = await post('User/AddCollections',{UserId:this.userId,Token:this.token,Type:5,Id:this.Id})
-					if(res.code === 0){
+					let res = await post('User/AddCollections', {
+						UserId: this.userId,
+						Token: this.token,
+						Type: 5,
+						Id: this.Id
+					})
+					if (res.code === 0) {
 						this.detail.CollectionId = 1
 						this.detail.CollectNum++
 					}
-				}else {
-					let res = await post('User/ReCollections',{UserId:this.userId,Token:this.token,Type:5,Id:this.Id})
+				} else {
+					let res = await post('User/ReCollections', {
+						UserId: this.userId,
+						Token: this.token,
+						Type: 5,
+						Id: this.Id
+					})
 					// console.log('取消收藏：',res)
-					if(res.code === 0){
+					if (res.code === 0) {
 						this.detail.CollectionId = 0
 						this.detail.CollectNum--
 					}
-				}			
+				}
 			},
 			// 关注
-			async toFolloow (){
-				let res = await post('Find/FollowOperation',{UserId:this.userId,Token:this.token,ToMemberId:this.detail.MemberId})
+			async toFolloow() {
+				let res = await post('Find/FollowOperation', {
+					UserId: this.userId,
+					Token: this.token,
+					ToMemberId: this.detail.MemberId
+				})
 				// console.log('点击关注返回：',res)
-				
-				if(res.code ===0){
+
+				if (res.code === 0) {
 					this.detail.IsFollow = !this.detail.IsFollow
-				}				
+				}
 				uni.showToast({
 					title: res.msg,
-					icon:'none'
+					icon: 'none'
 				})
 			},
 			// 星语列表,根据返回的ProIdArr请求，发布时候的关联星球客
@@ -474,18 +544,23 @@
 				// let tempArr = this.detail.ProIdArr
 				this.ProIdArr = this.detail.ProIdArr
 				// console.log('this.ProIdArr---',this.ProIdArr,this.detail.ProIdArr)
-				let res = await post('Goods/GoodsList_yd',{Page:this.Page,UserId:this.userId,Token:this.token,ProIdArr:this.ProIdArr})
+				let res = await post('Goods/GoodsList_yd', {
+					Page: this.Page,
+					UserId: this.userId,
+					Token: this.token,
+					ProIdArr: this.ProIdArr
+				})
 				// console.log('下面-用户发现list：',res)
-				if(res.code === 0 ){
+				if (res.code === 0) {
 					this.findList = res.data
 				}
-				
-			}
+
+			},
 		},
-		computed:{
-			formatTime (time){
-				return (time)=>{
-					if(!time) {
+		computed: {
+			formatTime(time) {
+				return (time) => {
+					if (!time) {
 						return ''
 					}
 					// console.log('格式化时间：',time,formatTime(time))
@@ -493,17 +568,17 @@
 				}
 			},
 			// 处理返回来的图片数组
-			ImgList () {
-				
+			ImgList() {
+
 				return this.detail.ImgList.split(',')
 			},
 			// 根据字符长度判断是否需要显示,展开全部
 			isToLong() {
-				return (this.detail.ContentAbstract + this.detail.ContentDetails).length>48
+				return (this.detail.ContentAbstract + this.detail.ContentDetails).length > 48
 			}
 		}
 	}
 </script>
 <style scoped lang="scss">
-@import './detail.scss';
+	@import './detail.scss';
 </style>
