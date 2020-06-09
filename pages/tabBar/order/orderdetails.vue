@@ -130,7 +130,7 @@
 					});
 				}else{
 					uni.navigateTo({
-						url: '/pages/tabBar/order/comment',
+						url: '/pages/tabBar/order/comment?OrderNumber='+ this.OrderNumber
 					});
 				}
 			},

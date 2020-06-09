@@ -130,7 +130,8 @@
 				token:'',
 				replyContent:'',//评论内容
 				headComment: {},
-				toZanComment: {}
+				toZanComment: {},
+				// IsMy:0
 			}
 		},
 		onLoad() {
@@ -163,6 +164,7 @@
 					FkId: this.item.FkId,
 					CommentId: this.item.Id,
 					ParentCommentId: this.item.Id,
+					// IsMy: this.$store.state.IsMy
 				})
 				this.$store.commit('update',{"headComment":[this.item]})
 			},
