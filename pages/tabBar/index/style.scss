@@ -281,6 +281,7 @@
 			position: absolute;
 			top: 190upx;
 			left: 88upx;
+			height:580upx;
 			.item{
 				width: 530upx;
 				height: 140upx;
@@ -319,7 +320,7 @@
 					padding: 4upx 12upx;}
 				}
 			}
-			.getAll{ width: 344upx;height:112upx; margin: 0 auto;}
+			.getAll{ width: 344upx;height:112upx; margin: 0 auto;position:absolute;bottom:0;left:100upx;}
 		}
 		.close{
 			color: #fff;

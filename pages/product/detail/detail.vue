@@ -260,7 +260,7 @@
 <script>
 	import commentItem from '../allComment/commentItem.vue';
 	import datepricePicker from '@/components/date-price-picker/date-price-picker';
-	import { post,navigate,toast,debounce } from '@/utils';
+	import { post,navigate,toast,debounce,getCurrentPageUrlWithArgs} from '@/utils';
 	import { mapState, mapMutations } from "vuex"; //vuex辅助函数
 	import { previewImage } from '@/utils/image-tools';
 	export default {
@@ -508,7 +508,29 @@
 				navigate('product/confirmOrder/confirmOrder',{id:this.Id})
 			}
 
-		}
+		},
+		onShareAppMessage: function (res) {
+		    return {
+		      title: '分享',
+		      path: getCurrentPageUrlWithArgs(),
+		      success: function (res) {
+			   	// 转发成功
+			        uni.showToast({
+			          title: "分享成功",
+			          icon: 'success',
+			          duration: 2000
+			        })
+		       },
+		      fail: function (res) {
+		        	// 分享失败
+					uni.showToast({
+						title: "分享失败",
+						icon: 'none',
+					duration: 2000
+					})
+				},
+		    }
+		},
 	}
 </script>
 <style scoped lang="scss">

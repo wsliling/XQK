@@ -240,6 +240,7 @@ export function call(phone){
 // 获取当前地址
 export function getCurrentPageUrlWithArgs() {
   const pages = getCurrentPages();
+  console.log(pages,'pages')
   const currentPage = pages[pages.length - 1];
   const url = currentPage.route;
   // #ifndef H5

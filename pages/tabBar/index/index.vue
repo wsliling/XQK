@@ -310,6 +310,8 @@
 			// 定位完成后执行的方法
 			//获取根据市区定位的产品
 			async getOpsitionPro(){
+				
+				this.classifyDefault={label:'不限',value:0};
 				this.classifyList=[
 						{label:"不限",
 							value:0,
@@ -380,6 +382,9 @@
 				uni.scanCode({
 					success:function(res){
 						console.log(JSON.stringify(res));
+					},
+					fail(err){
+						console.log(err)
 					}
 				});
 			},
