@@ -111,7 +111,7 @@
 			<h4>关联星球客</h4>
 			<div class="flex-center-between2">
 				<!-- <starLangItem :item="item"  v-for="(item,index) in findList" :key="index"></starLangItem> -->
-				<product-item v-for="(item,index) in findList" :key="index" :item="item"></product-item>
+				<product-item v-for="(item,index) in findList" :key="index" :item="item" @onCollect="onProCollect"></product-item>
 				<!-- <starLangItem :item="item"  v-for="(item,index) in 6" :key="index"></starLangItem> -->
 			</div>
 			<div class="btn-max" @click="switchTab('tabBar/starLang/starLang')">查看更多星语</div>
@@ -487,7 +487,16 @@
 					this.findList = res.data
 				}
 				
-			}
+			},
+			// 推荐产品点击收藏
+			onProCollect(params){
+				this.findList.map(item=>{
+					if(params.Id===item.Id){
+						item.CollectionId = params.CollectionId;
+						item.CollectNum = params.CollectNum;
+					}
+				})
+			},
 		},
 		computed:{
 			formatTime (time){
