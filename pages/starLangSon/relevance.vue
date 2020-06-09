@@ -10,42 +10,7 @@
 		<!-- 	<view class="record" v-if="IsNearRecords">最近记录</view>
 			<view class="record" v-else>推荐列表</view> -->
 			<view class="record">{{ msg }}</view>
-			<view class="collect-box" v-if="goodList.length" v-for="(val,index) in goodList" :key="index" @click="navigate('product/detail/detail',{Id: val.Id})">
-				<!-- <view class="">
-					没有更多数据了
-				</view> -->
-				<view class="collect-left">
-					<!-- <image src="http://xqk.wtvxin.com/images/wxapp/of/p1.jpg" mode=""> -->
-					<image :src="val.PicNo" mode="aspectFill">
-					</image></view>
-				<view class="collect-right">
-					<view class="name">
-						<!-- 广州.从化温泉明月山溪 -->
-						{{ val.Name }}
-					</view>
-					<view class="point">
-						<!-- <view class="pointkey">骑行</view>
-						<view class="pointkey">游乐</view>
-						<view class="pointkey">艺术</view> -->
-						<block v-for="(item2,index2) in (val.ServiceKeys)" :key="index2">
-							<view v-if="index2 < 5" class="pointkey">{{ item2 }}</view>
-						</block>
-					</view>
-					<view class="font">
-						<!-- <view class="num">￥288</view> -->
-						<view class="num">￥{{ val.Price }}</view>
-						<!-- <view class="iconfont icon-collect"><view class="fz12">4.8<span>(20)</span></view></view> -->
-						<!-- <view class="iconfont icon-collect"><view class="fz12">{{ val.CommentScore }}<span>(20)</span></view></view> -->
-						<view class="star flex-center">
-							<start-level v-if='isStartShow' :myCanvasId="val.Id" :value="val.CommentScore"></start-level>
-							<!-- <view class="iconfont icon-collect" v-for="(item3,index3) in val.CommentScore*1" :key="index3"></view>
-							<view class="iconfont icon-collect1" v-for="(item4,index4) in (5-(val.CommentScore))" :key="index4"></view> -->
-							<view class="fz12">{{ CommentScore(val.CommentScore) }}<span>({{ val.CommentNum }})</span></view>
-						</view>
-						<view @click.stop="add(index,val.Id)" class="add">添加</view>
-					</view>
-				</view>
-			</view>
+			<related-product :goodList='goodList'></related-product>
 		</view>
 		
 		<!-- <view class="anonymous" v-if="goodList.length === 0">
@@ -68,11 +33,13 @@
 <script>
 	import {post,get,navigate,navigateBack} from '@/utils';
 	import notData from '@/components/notData.vue';
-	import {startLevel} from '@/components/starLevel';
+	// import {startLevel} from '@/components/starLevel';
+	import {relatedProduct} from '@/components/relatedProduct';
 	export default {
 		components:{
 			notData,
-			startLevel
+			// startLevel,
+			relatedProduct
 			},
 		data() {
 			 return {
@@ -90,7 +57,7 @@
 					notData: false,
 					loadMore:0,//0-loading前；1-loading中；2-没有更多了
 					IsNearRecords: 1,
-					isStartShow: false
+					// isStartShow: false
 				}
 			},
 			onLoad() {
@@ -218,7 +185,7 @@
 					this.goodList = [...this.goodList,...res.data]
 					// this.goodList = res.data
 					console.log('处理过goodList：', this.goodList)
-					this.isStartShow = true
+					// this.isStartShow = true
 					
 				},
 				// 添加方法

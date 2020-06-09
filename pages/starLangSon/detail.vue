@@ -109,7 +109,7 @@
 		<div class="gap20"></div>
 		<div class="other plr30 pb30">
 			<!-- <h4>其他推荐星语</h4> -->
-			<h4>关联星球客</h4>
+			<h4>{{ footTitle }}</h4>
 			<div class="flex-center-between2">
 				<!-- <starLangItem :item="item"  v-for="(item,index) in findList" :key="index"></starLangItem> -->
 				<product-item v-for="(item,index) in findList" :key="index" :item="item" @onCollect='onCollect'></product-item>
@@ -154,9 +154,10 @@
 				navigate,
 				switchTab,
 				Page: 1,
+				PageSize:4,// 关联星球客的页容量
 				index: 0,
 				oneLoad: 1,
-				ProIdArr: '',
+				ProIdArr: [],
 				currentSwiper: 0,
 				content: `风景是真的美，但走起来真的累！而且！最近是帐篷节，周末人多到爆！无论是等缆车！还是徒步！都会把你挤哭的！要去的记得选好时间
 					门票：可以买门票+一级索道往返票=170元，索道往返价格有些微差异，具体可美团（据说一级索道途经的风景一般，建议保存体力选择搭乘缆车。本人觉得二级索道沿途风景也很一般啊......缺乏运动的小伙伴
@@ -183,7 +184,8 @@
 				// 评论内容
 				Comment: '',
 				textHeight: 'auto',
-				findList: []
+				findList: [],
+				footTitle: '关联星球客'
 			}
 		},
 		onLoad(options) {
@@ -539,18 +541,37 @@
 					icon: 'none'
 				})
 			},
-			// 星语列表,根据返回的ProIdArr请求，发布时候的关联星球客
+			// 关联星球客列表,根据返回的ProIdArr请求，发布时候的关联星球客
 			async getFindList() {
 				// let tempArr = this.detail.ProIdArr
+				let res;
 				this.ProIdArr = this.detail.ProIdArr
-				// console.log('this.ProIdArr---',this.ProIdArr,this.detail.ProIdArr)
-				let res = await post('Goods/GoodsList_yd', {
-					Page: this.Page,
-					UserId: this.userId,
-					Token: this.token,
-					ProIdArr: this.ProIdArr
-				})
-				// console.log('下面-用户发现list：',res)
+				console.log('ProIdArr:',this.ProIdArr)
+				if(this.ProIdArr.length > 0){
+					this.footTitle = '关联星球客'
+					// console.log('this.ProIdArr---',this.ProIdArr,this.detail.ProIdArr)
+					res = await post('Goods/GoodsList_yd', {
+						Page: this.Page,
+						UserId: this.userId,
+						Token: this.token,
+						ProIdArr: this.ProIdArr
+					})
+					// console.log('下面-用户发现list：',res)
+					// if (res.code === 0) {
+					// 	this.findList = res.data
+					// }
+				}else {
+					// 如果没有关联就推荐
+					this.footTitle = '推荐星球客'
+					res = await post('Goods/GoodsList_yd', {
+						Page: this.Page,
+						PageSize: this.PageSize,
+						UserId: this.userId,
+						Token: this.token,
+						Sort: 3
+					})
+				}
+				console.log('下面-用户发现list：',res)
 				if (res.code === 0) {
 					this.findList = res.data
 				}
