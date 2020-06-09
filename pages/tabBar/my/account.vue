@@ -5,7 +5,7 @@
 			<view class="accountflex" @click="tolick('/pages/tabBar/my/emailsignature?type=0'+ '&Avatar=' + myInfo.Avatar)">
 				<view class="portrait">头像</view>
 				<view class="accounthead">
-					<image :src="myInfo.Avatar || 'http://xqk.wtvxin.com/images/wxapp/default.png'" mode=""></image>
+					<image :src="myInfo.Avatar || 'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="aspectFill"></image>
 				</view>
 			</view>
 			<view class="accountflex" @click="tolick('/pages/tabBar/my/emailsignature?type=1'+ '&NickName=' + myInfo.NickName)">

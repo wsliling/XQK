@@ -70,7 +70,7 @@
 					<div v-if="LikeList.length > 0" class="avatar flex-center">
 						<block v-for="(item2,index) in LikeList" :key="index">
 							<!-- <img src="/static/of/banner.jpg" alt=""> -->
-							<image :src="item2.Avatar ||'http://xqk.wtvxin.com/images/wxapp/default.png'"></image>
+							<image v-if='index < 6' :src="item2.Avatar ||'http://xqk.wtvxin.com/images/wxapp/default.png'"></image>
 						</block>
 					</div>
 					<div v-else class="avatar flex-center">
@@ -97,12 +97,12 @@
 					</div>
 				</div>
 				<reply-item 
-				v-for="(item,index2) in CommnetList" :key="index2" 
+				v-for="(item,index2) in CommnetList.data" :key="index2" 
 				:item="item"
 				:index='index2'
-				:MemberId='detail.MemberId' 
+				:isCheckReply="isCheckReply"
 				@changeItem="changeItem"></reply-item>
-				<div v-if='detail.CommentNum' class="more" @click="navigate('starLangSon/reply',{Id:Id})">查看{{ CommnetList.length }}条评论</div>
+				<div v-if='CommnetList.count' class="more" @click="navigate('starLangSon/reply',{Id:Id})">点击查看{{ CommnetList.count }}条评论</div>
 			</div>
 		</div>
 		<div class="gap20"></div>
@@ -135,6 +135,7 @@
 				switchTab,
 				Page:1,
 				index: 0,
+				oneLoad: 1,
 				ProIdArr:'',
 				currentSwiper :0,
 				content:`风景是真的美，但走起来真的累！而且！最近是帐篷节，周末人多到爆！无论是等缆车！还是徒步！都会把你挤哭的！要去的记得选好时间
@@ -154,6 +155,7 @@
 					ImgList:''
 				},
 				isShowAll: false,
+				isCheckReply: true,
 				Id:0,
 				LikeList:[],
 				CommnetList:[],
@@ -186,7 +188,9 @@
 				this.getUserInfo()
 			}
 			// 去了查看评论后,返回需要再次请求评论列表
-			this.getCommnetList(this.Id)
+			if(!this.oneLoad) {
+				this.getCommnetList(this.Id)
+			}
 			
 		},
 		onShareAppMessage: function (res) {
@@ -292,58 +296,29 @@
 				
 			},
 			// 组件点赞
-			// changeItem(res){
-			// 	console.log('我是子组件传递过来的：',res)
-			// 	if (res.isReply) {
-			// 		this.CommnetList[res.index].IsLike = !this.CommnetList[res.index].IsLike 
-			// 	}else {
-			// 		this.CommnetList[res.index].MyCommnetList[res.val].IsLike = !this.CommnetList[res.index].MyCommnetList[res.val].IsLike
-			// 	}
-				
-			// 	if(res.count === true) {
-			// 		if (res.isReply) {
-			// 			this.CommnetList[res.index].LikeNum++	
-			// 		}else {
-			// 			this.CommnetList[res.index].MyCommnetList[res.val].LikeNum++	
-			// 		}
-			// 	}else {
-			// 		if (res.isReply) {
-			// 			this.CommnetList[res.index].LikeNum--
-			// 		}else {
-			// 			this.CommnetList[res.index].MyCommnetList[res.val].LikeNum--
-			// 		}
-			// 	}
-			// 	// console.log('我是子组件传递过来的处理过的：',this.CommnetList[res.index])
-			// },
-			// 组件点赞
-			changeItem(res){
-				console.log('我是子组件传递过来的：',res)
-				if (!res.isReply) {
-					this.CommnetList[res.index].IsLike = !this.CommnetList[res.index].IsLike
-					// this.CommnetList[this.index] = JSON.parse(JSON.stringify(res.data))
+			changeItem(item){
+				console.log('我是子组件传递过来的：',item)
+				if (!item.isReply) {
+					// this.$set( this.CommnetList[res.index], 'IsLike', res.data.IsLike )
+					// this.$set( this.CommnetList[res.index], 'LikeNum', res.data.LikeNum )
+					this.CommnetList.data.map((tem)=>{
+						if(tem.Id===item.data.Id){
+							tem.IsLike = item.data.IsLike;
+							tem.LikeNum = item.data.LikeNum;
+						}
+					})
 				}else {
-					this.replyList[res.index].IsLike = !this.replyList[res.index].IsLike
-					// this.replyList[this.index] = JSON.parse(JSON.stringify(res.data))
+					// this.$set( this.replyList[res.index], 'IsLike', res.data.IsLike )
+					// this.$set( this.replyList[res.index], 'LikeNum',res.data.LikeNum )
+					this.replyList.map((tem)=>{
+						if(tem.Id===item.data.Id){
+							tem.IsLike = item.data.IsLike;
+							tem.LikeNum =item.data.LikeNum;
+						}
+					})
 				}
+				
 				// console.log('我是子组件传递过来的处理之后：',this.CommnetList,this.CommnetList[this.index])
-				if(res.count === true) {
-					if (!res.isReply) {
-						this.CommnetList[res.index].LikeNum++	
-						// this.CommnetList[this.index] = res.data
-					}else {
-						this.replyList[res.index].LikeNum++	
-						// this.replyList[this.index] = res.data
-					}
-				}else {
-					if (!res.isReply) {
-						this.CommnetList[res.index].LikeNum--
-					}else {
-						this.replyList[res.index].LikeNum--
-					}
-				}
-				// console.log('我是子组件传递过来的处理过的：',this.CommnetList[res.index])
-				console.log('我是子组件传递过来的处理之后：',this.CommnetList,this.CommnetList[this.index])
-				
 			},
 			// 获取用户id以及token
 			getUserInfo () {
@@ -365,6 +340,9 @@
 					this.getFindList()
 					// 更新dom之后
 					this.getReactBox()
+					this.$nextTick().then(()=>{
+						this.oneLoad = 0
+					})
 				}
 			},
 			changeIsShowAll(){
@@ -413,7 +391,7 @@
 					PageSize:4})
 				console.log('发现评论列表:',res)
 				if(res.code === 0 ){
-					this.CommnetList = res.data
+					this.CommnetList = res
 					this.$store.commit('update',{"allComment":this.CommnetList})
 					console.log('发现评论列表vuex存储allComment：',this.$store.state.allComment)
 				}

@@ -1,6 +1,6 @@
 <template>
 	<view class="">
-		<div  v-if="!isReply" class="flex-start-between ptb20" @click="toReply">
+		<div v-if="!isReply" class="flex-start-between ptb20">
 			<div class="flex-start">
 				<div @click="navigate('starLangSon/homePage',{taUserId:item.MemberId})" class="avatar">
 					<!-- <img src="/static/of/banner.jpg" alt=""> -->
@@ -8,12 +8,13 @@
 				</div>
 				<div class="center">
 					<div class="name ">
-						<div v-if='1' class="bold">{{ item.MemberName }}
+						<div @click="navigate('starLangSon/homePage',{taUserId:item.MemberId})" class="bold">{{ item.MemberName }}
 						<!-- <text class="reply" @click="reply(item.Id)">回复</text> -->
 						</div>
 						<p>{{ formatTime(item.AddTime) }}</p>
 					</div>
-					<div class="content pt10">{{ item.Comment }}</div>
+					<div class="content pt10"  @click="toReply">{{ item.Comment }}</div>
+					<div v-if='isCheckReply && item.MyCommnetList.length' class="checkReply"  @click="toReply">点击查看{{ item.MyCommnetList.length }}条回复</div>
 				</div>
 			</div>
 			<!-- <div class="zan" @click="toZan(item.Id,true,-1)" :class='{active : item.IsLike}'> -->
@@ -79,11 +80,6 @@
 			</div>
 		</uni-popup> -->
 	</view>
-	
-		
-
-		
-		
 </template>
 
 <script>
@@ -115,7 +111,11 @@
 			MemberId: {
 				type: String,
 				default: ''
-			}
+			},
+			isCheckReply: {
+				type: Boolean,
+				default: false
+			},
 		}, //配置参数
 		// props:[
 		// 	'isReply',
@@ -144,32 +144,6 @@
 			// DOM 更新了
 			})
 		},
-		// watch: {
-		//     a: function (val, oldVal) {
-		//       console.log('new: %s, old: %s', val, oldVal)
-		//     },
-		// } 
-		// beforeUpdate() {
-		// 	console.log('我是评论组件更新')
-		// },
-		// watch: {
-		//   '$store.state.headComment': {
-		//     handler(newName, oldName) {
-		//       console.log('$store.state.headComment changed:',newName,this.$store.state.headComment);
-		// 	  this.headComment = this.$store.state.headComment
-		//     },
-		//     immediate: true,
-		//     // deep: true
-		//   },
-		//   'headComment': {
-		//     handler(newName, oldName) {
-		//       console.log('headComment changed:',newName,this.$store.state.headComment);
-		//   			 // this.$store.state.headComment = this.headComment
-		// 			 this.$store.commit('update',{"headComment":this.headComment})
-		//     },
-		//     immediate: true,
-		//     // deep: true
-		//   },
 		//   '$store.state.toZanComment': {
 		//     handler(newName, oldName) {
 		// 		console.log('$store.state.toZanComment changed:',newName,this.$store.state.toZanComment);
@@ -178,16 +152,7 @@
 		//     immediate: true,
 		//     // deep: true
 		//   },
-		//   'toZanComment': {
-		//     handler(newName, oldName) {
-		//   			console.log('toZanComment changed:',newName,this.$store.state.toZanComment);
-		// 			// this.$store.state.toZanComment = this.toZanComment
-		// 			this.$store.commit('update',{"toZanComment":this.toZanComment})
-		//     },
-		//     immediate: true,
-		//     // deep: true
-		//   },
-		// },
+
 		methods: {
 			toReply () {
 				if(!this.isToReply){
@@ -259,7 +224,6 @@
 						// this.$emit("changeItem",{index: this.index,data: this.item,count:true});
 						// this.$emit("changeItem",{index: this.index,data: this.item,count:true,isItem:isItem,val:val});
 						this.$emit("changeItem",{data: this.toZanComment,count:true,isReply:this.isReply,index:this.index});
-						
 					}else {
 						this.toZanComment.LikeNum--
 						// console.log(this.item.LikeNum)
@@ -413,5 +377,7 @@
 			line-height:1.8;
 		}
 	}
-	
+	.checkReply {
+		color: $primary;
+	}
 </style>

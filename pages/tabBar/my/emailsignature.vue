@@ -3,7 +3,7 @@
 	<view class="emailsignature">
 		<view class="email" v-if="emails == 0">
 			<view class="avatar" @click.stop="upLoadImg()">
-				<image :src="Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'"></image>
+				<image :src="Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="aspectFill"></image>
 				<view class="">可更换头像哦~~</view>
 			</view>
 			<view class="confirm" @click="submit()">确定</view>
