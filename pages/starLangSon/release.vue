@@ -48,43 +48,7 @@
 					<view>关联星球客 ({{ goodList.length }}/5)</view>
 					<view class="addition" @click="tolick('/pages/starLangSon/relevance')">添加</view>
 				</view>
-				<view class="collect-box"  v-for="(val,index) in goodList" :key="index" @click="navigate('product/detail/detail',{Id: val.Id})">
-					<view class="collect-left">
-						<!-- <image src="http://xqk.wtvxin.com/images/wxapp/of/p1.jpg" mode=""> -->
-							<image :src="val.PicNo" mode=""></image>
-						</image></view>
-					<view class="collect-right">
-						<!-- <view class="name">广州.从化温泉明月山溪</view> -->
-						<view class="name">
-							{{ val.Name }}
-						</view>
-						<view class="point">
-							<!-- <view class="pointkey">骑行</view>
-							<view class="pointkey">游乐</view>
-							<view class="pointkey">艺术</view> -->
-							<block v-for="(item2,index2) in (val.ServiceKeys)" :key="index2">
-								<view v-if="index2 < 5" class="pointkey">{{ item2 }}</view>
-							</block>
-						</view>
-						<view class="font">
-							<view class="num">￥{{ val.Price }}</view>
-
-							<!-- <view class="iconfont icon-collect"></view>
-							<view class="fz12">
-								4.8
-								<span>(20)</span>
-							</view> -->
-							<view class="star flex-center">
-								<view class="iconfont icon-collect" v-for="(item3,index3) in val.CommentScore*1" :key="index3"></view>
-								<view class="iconfont icon-collect1" v-for="(item4,index4) in (5-(val.CommentScore))" :key="index4"></view>
-								<view class="fz12">{{val.CommentScore}}<span>({{ val.CommentNum }})</span></view>
-							</view>
-							<view  @click.stop="del(val.Id,index)" class="del">
-								<image src="@/static/delBox.png" mode=""></image>
-							</view>
-						</view>
-					</view>
-				</view>
+				<related-product :isAdd='false' :goodList='goodList'></related-product>
 			</view>
 			<view class="bottomBox">
 				
@@ -99,9 +63,12 @@
 import { post, get, verifyPhone,navigate,debounce } from '@/utils';
 import { pathToBase64 } from '@/utils/image-tools';
 import pickers from '@/components/pickers';
+import {startLevel} from '@/components/starLevel';
+import {relatedProduct} from '@/components/relatedProduct';
+
 let timer;
 export default {
-	components: { pickers },
+	components: { pickers,startLevel,relatedProduct },
 	data() {
 		return {
 			navigate,
@@ -145,20 +112,22 @@ export default {
 		this.goodList = []
 	},
 	computed:{
-		toNum (str) {
-			return (str)=>{
-				// console.log('评分：',Math.round(str),'str')
-				return Math.round(str);
-			}
-			// Math.round(str)
-		},
+		// toNum (str) {
+		// 	return (str)=>{
+		// 		// console.log('评分：',Math.round(str),'str')
+		// 		return Math.round(str);
+		// 	}
+		// 	// Math.round(str)
+		// },
 		// 分数
 		CommentScore (score) {
-			if(!score)return;
-			if (score.length > 1) {
-				return score
+			return (score)=> {
+				if(!score)return;
+				if (score.length > 1) {
+					return score
+				}
+				return score + ".0"
 			}
-			return score + ".0"
 		},
 	},
 	methods: {
@@ -365,7 +334,8 @@ export default {
 				let tempArr = res.data[i].ServiceKeys.split(",")
 				res.data[i].ServiceKeys = tempArr
 				// console.log('处理产品列表：', res.data[i].ServiceKeys)
-				res.data[i].CommentScore = this.toNum(res.data[i].CommentScore)
+				// 不用处理分数
+				// res.data[i].CommentScore = this.toNum(res.data[i].CommentScore)
 			}
 			this.goodList = res.data
 		},

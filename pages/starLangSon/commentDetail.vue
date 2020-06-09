@@ -8,13 +8,13 @@
 			:item='headComment[0]'
 			:item2='item2' 
 			:isReply='isReply' 
-			:isToReply="isToReply" 
+			:isToReply="isToReply"
 			@changeItem="changeItem"></replyItem>
 		<!-- 数据判断显示 -->
 		<not-data v-if="replyList.length<1"></not-data>
 		<uni-load-more :loadingType="loadMore" v-else></uni-load-more>
-		<view class="seek">
-			<input class="replyItem" confirm-type="send" @confirm="confirm()" type="text" placeholder="写回复..." v-model="Comment" />
+		<view v-if="IsMy" class="seek">
+			<input class="replyItem" confirm-type="send" @confirm="confirm" type="text" placeholder="写回复..." v-model="Comment" />
 			<span v-if="Comment.length" class="close" @click ="emptyComment">×</span>
 		</view>
 	</view>
@@ -44,13 +44,18 @@
 				headComment:{},
 				isReply: true,
 				isToReply: false,
-				Comment: ''
+				Comment: '',
+				IsMy:0
 			};
 		},
 		onLoad(options) {
 			this.getUserInfo()
 			this.FkId = Number(options.FkId)
 			this.ParentCommentId = Number(options.ParentCommentId)
+			console.log('传递过来的',options,'我是my',this.$store.state.IsMy)
+			this.IsMy = this.$store.state.IsMy
+			// this.isMy = Number(options.IsMy)
+			// console.log('传递过来的',this.IsMy)
 			this.CommentId = Number(options.CommentId)
 			this.headComment = this.$store.state.headComment
 			console.log('头部id：',this.CommentId)
@@ -78,28 +83,29 @@
 				this.index = index
 			},
 			// 组件点赞
-			changeItem(res){
-				console.log('我是子组件传递过来的：',res)
-				if (!res.isReply) {
-					this.headComment[0].IsLike = !this.headComment[0].IsLike
+			changeItem(item){
+				console.log('我是子组件传递过来的：',item)
+				if (!item.isReply) {
+					// this.$set( this.CommnetList[res.index], 'IsLike', res.data.IsLike )
+					// this.$set( this.CommnetList[res.index], 'LikeNum', res.data.LikeNum )
+					this.CommnetList.map((tem)=>{
+						if(tem.Id===item.data.Id){
+							tem.IsLike = item.data.IsLike;
+							tem.LikeNum = item.data.LikeNum;
+						}
+					})
 				}else {
-					this.replyList[res.index].IsLike = !this.replyList[res.index].IsLike
+					// this.$set( this.replyList[res.index], 'IsLike', res.data.IsLike )
+					// this.$set( this.replyList[res.index], 'LikeNum',res.data.LikeNum )
+					this.replyList.map((tem)=>{
+						if(tem.Id===item.data.Id){
+							tem.IsLike = item.data.IsLike;
+							tem.LikeNum =item.data.LikeNum;
+						}
+					})
 				}
 				
-				if(res.count === true) {
-					if (!res.isReply) {
-						this.headComment[0].LikeNum++	
-					}else {
-						this.replyList[res.index].LikeNum++	
-					}
-				}else {
-					if (!res.isReply) {
-						this.headComment[0].LikeNum--
-					}else {
-						this.replyList[res.index].LikeNum--
-					}
-				}
-				// console.log('我是子组件传递过来的处理过的：',this.CommnetList[res.index])
+				// console.log('我是子组件传递过来的处理之后：',this.CommnetList,this.CommnetList[this.index])
 			},
 			// 获取用户id以及token
 			getUserInfo () {
@@ -149,7 +155,7 @@
 					}else{
 						this.loadMore =0;
 					}
-					this.replyList = [ ...res.data,...this.replyList]
+					this.replyList = res.data
 					console.log('replyList----',this.replyList)
 				}
 			},

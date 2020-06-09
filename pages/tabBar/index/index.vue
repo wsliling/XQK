@@ -139,28 +139,28 @@
 			>
 		</wpicker>
 		<!--优惠弹窗-->
-		<view class="popCoupon" v-if="showCoupon">
+		<view class="popCoupon" v-if="showCoupon&&couponList.length">
 			<view class="mask"></view>
 			<view class="popContent">
 				<image class="bgimg" src="http://xqk.wtvxin.com/images/wxapp/popCouponbg.png" mode="widthFix"></image>
 				<view class="couponlist">
-					<view class="item flex" v-for="(item,index) in 3" :key="index">
+					<view class="item flex-center" v-for="(item,index) in couponList" :key="index">
 						<view class="left flex-column">
-							<view class="money flex-center">
-								<text class="num">10</text>元
+							<view class="money flex-center-center">
+								<text class="num">{{item.Denomination}}</text>元
 							</view>
 						</view>
-						<view class="right flex-between">
+						<view class="right flex-center-between">
 							<view>
-								<view class="title">满300可用</view>
-								<view class="desc">全场通用</view>
+								<view class="title ellipsis">{{item.MeetConditions?`满${item.MeetConditions}可用`:'无限制条件'}}</view>
+								<view class="desc">{{item.ScopeOfUse}}</view>
 							</view>
-							<view class="btn_re">
+							<view class="btn_re" @click="receiveCoupon(item.Id)">
 								立即领取
 							</view>
 						</view>
 					</view>
-					<view class="getAll">
+					<view class="getAll" @click="receiveCouponAll">
 						<image src="http://xqk.wtvxin.com/images/wxapp/rec_btn.png" mode="widthFix"></image>
 					</view>
 				</view>
@@ -173,7 +173,7 @@
 </template>
 
 <script>
-	import {post,get,navigate,switchTab,judgeLogin} from '@/utils';
+	import {post,get,navigate,switchTab,judgeLogin,toast} from '@/utils';
 	import tabbar from '@/components/tabbar.vue';
 	import datePicker from '@/components/date-picker/date-picker.vue';
 	import {hasPosition,getCityCode} from '@/utils/location';
@@ -217,7 +217,9 @@
 				inputNum:1,
 				nowNum:1,
 				securityContent: "",
-				findList:[] // 发现列表
+				findList:[], // 发现列表
+				showCoupon:false,//领券中心
+				couponList:[],//优惠券弹窗
 			}
 		},
 		components: {
@@ -236,7 +238,8 @@
 			this.getAbout();
 			this.getPosition();
 			this.getSecurity();
-			this.getFindList()
+			this.getFindList();
+			this.getCoupon();
 			// this.initCalendarOption();// 初始化日历
 		},
 		onShow(){
@@ -305,6 +308,7 @@
 				};
 			},
 			// 定位完成后执行的方法
+			//获取根据市区定位的产品
 			async getOpsitionPro(){
 				this.classifyList=[
 						{label:"不限",
@@ -481,6 +485,45 @@
 			},
 			toChooseNum() {
 				navigate('tabBar/index/chooseNum')
+			},
+			async getCoupon(){
+				const res = await post('Coupon/CouponCenter',{
+					UserId:this.userId,
+					Token:this.token,
+					Page:1,
+					PageSize:3,
+					ShopId:0,
+					Category:-1
+				})
+				this.couponList = res.data;
+				this.showCoupon = true;
+			},
+			// 领取优惠券
+			async receiveCoupon(id){
+				const res = await post('Coupon/GetCoupon',{
+					UserId:this.userId,
+					Token:this.token,
+					CouponId:id
+				})
+				toast('领取成功',{icon:true})
+			},
+			// 领取全部优惠券
+			receiveCouponAll(){
+				let arr =[];
+				console.log(this.couponList,'all')
+				this.couponList.map(item=>{
+					arr.push(
+						post('Coupon/GetCoupon',{
+							UserId:this.userId,
+							Token:this.token,
+							CouponId:item.Id
+						})
+					)
+				})
+				Promise.all(arr).then(res=>{
+					toast('领取成功',{icon:true})
+					this.hideCoupon();
+				})
 			}
 		},
 		// #ifndef MP

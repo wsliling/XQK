@@ -7,7 +7,8 @@
 		<reply-item  v-for="(item,index) in CommnetList" 
 			:key="index" 
 			:index="index" 
-			:item="item" 
+			:item="item"
+			:isCheckReply="isCheckReply"
 			@changeItem="changeItem"></reply-item>
 		<!-- 数据判断显示 -->
 		<not-data v-if="CommnetList.length<1"></not-data>
@@ -35,11 +36,14 @@
 				userId:'',
 				token:'',
 				loadMore:0,//0-loading前；1-loading中；2-没有更多了
+				isCheckReply: true,
+				// IsMy:0,
 			}
 		},
 		onLoad(options) {
 			console.log("传递过来的：",options)
 			this.Id = parseFloat(options.Id)
+			// this.IsMy = Number(IsMy)
 			this.getUserInfo()
 			this.getCommnetList(this.Id)
 		},
@@ -143,34 +147,29 @@
 				this.index = index
 			},
 			// 组件点赞
-			changeItem(res){
-				console.log('我是子组件传递过来的：',res)
-				if (!res.isReply) {
-					this.CommnetList[res.index].IsLike = !this.CommnetList[res.index].IsLike
-					// this.CommnetList[this.index] = JSON.parse(JSON.stringify(res.data))
+			changeItem(item){
+				console.log('我是子组件传递过来的：',item)
+				if (!item.isReply) {
+					// this.$set( this.CommnetList[res.index], 'IsLike', res.data.IsLike )
+					// this.$set( this.CommnetList[res.index], 'LikeNum', res.data.LikeNum )
+					this.CommnetList.map((tem)=>{
+						if(tem.Id===item.data.Id){
+							tem.IsLike = item.data.IsLike;
+							tem.LikeNum = item.data.LikeNum;
+						}
+					})
 				}else {
-					this.replyList[res.index].IsLike = !this.replyList[res.index].IsLike
-					// this.replyList[this.index] = JSON.parse(JSON.stringify(res.data))
+					// this.$set( this.replyList[res.index], 'IsLike', res.data.IsLike )
+					// this.$set( this.replyList[res.index], 'LikeNum',res.data.LikeNum )
+					this.replyList.map((tem)=>{
+						if(tem.Id===item.data.Id){
+							tem.IsLike = item.data.IsLike;
+							tem.LikeNum =item.data.LikeNum;
+						}
+					})
 				}
-				// console.log('我是子组件传递过来的处理之后：',this.CommnetList,this.CommnetList[this.index])
-				if(res.count === true) {
-					if (!res.isReply) {
-						this.CommnetList[res.index].LikeNum++	
-						// this.CommnetList[this.index] = res.data
-					}else {
-						this.replyList[res.index].LikeNum++	
-						// this.replyList[this.index] = res.data
-					}
-				}else {
-					if (!res.isReply) {
-						this.CommnetList[res.index].LikeNum--
-					}else {
-						this.replyList[res.index].LikeNum--
-					}
-				}
-				// console.log('我是子组件传递过来的处理过的：',this.CommnetList[res.index])
-				console.log('我是子组件传递过来的处理之后：',this.CommnetList,this.CommnetList[this.index])
 				
+				// console.log('我是子组件传递过来的处理之后：',this.CommnetList,this.CommnetList[this.index])
 			},
 		},
 		onReachBottom(){

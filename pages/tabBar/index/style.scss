@@ -270,7 +270,8 @@
 	align-items: center;
 	justify-content: center;
 	.popContent{
-		width: 676upx;
+		width: 700upx;
+		height:810upx;
 		position: relative;
 		z-index: 100;
 		.bgimg{
@@ -281,8 +282,8 @@
 			top: 190upx;
 			left: 88upx;
 			.item{
-				width: 506upx;
-				height: 130upx;
+				width: 530upx;
+				height: 140upx;
 				margin-bottom: 20upx;
 				background: url(http://xqk.wtvxin.com/images/wxapp/couponbg.png) center center no-repeat;
 				background-size: 100% 100%;
@@ -297,9 +298,10 @@
 					.num{ font-size: 48upx; color: #f74e40; margin-right: 4upx;}
 				}
 				.right{
-					width: 366upx;
+					width: 400upx;
 					padding: 0 20upx;
-					.title{font-size: 30upx;}
+					.title{font-size: 30upx;
+					width:220upx;}
 					.desc{
 						color: #888;
 						font-size: 24upx;
@@ -317,7 +319,7 @@
 					padding: 4upx 12upx;}
 				}
 			}
-			.getAll{ width: 344upx; margin: 0 auto;}
+			.getAll{ width: 344upx;height:112upx; margin: 0 auto;}
 		}
 		.close{
 			color: #fff;

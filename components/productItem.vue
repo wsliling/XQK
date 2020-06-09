@@ -13,7 +13,7 @@
                 <view class="flex-center-between">
                     <view class="title uni-ellipsis">
                         <!-- 广州.从化温泉明月山溪 -->
-						{{ item.KeywordName }}
+						{{ item.Name}}
                     </view>
                     <view class="location">
                         <text class="iconfont icon-weizhi"></text><!-- 广州.从化 -->{{ item.AreaSite }}
@@ -27,11 +27,13 @@
 						</block>
                     </view>
                     <view class="score flex-center-end">
+<!-- 					<canvas style="width: 160rpx; height: 32rpx;" :canvas-id="item.Id" class=""></canvas>
+ -->					<start-level :myCanvasId="item.Id" :value="item.CommentScore"></start-level>
                         <!-- <view class="iconfont icon-collect"></view> -->
-						<view class="iconfont icon-collect" v-for="(item3,index3) in item.CommentScore*1" :key="index3"></view>
-						<view class="iconfont icon-collect1" v-for="(item4,index4) in (5-(item.CommentScore))" :key="index4"></view>
+						<!-- <view class="iconfont icon-collect" v-for="(item3,index3) in item.CommentScore*1" :key="index3"></view>
+						<view class="iconfont icon-collect1" v-for="(item4,index4) in (5-(item.CommentScore))" :key="index4"></view> -->
                         <!-- <view class="num">{{ item.CommentScore }}</view> -->
-						<view class="num">{{ toFloat(item.CommentScore) }}</view>
+						<view class="num">{{ CommentScore(item.CommentScore) }}</view>
                         <view class="fz12 c_999">({{ item.CommentNum }})</view>
                     </view>
                 </view>
@@ -49,7 +51,9 @@
 
 <script>
 import {navigate,requestHideLoading,judgeLogin} from '@/utils'
+import {startLevel} from '@/components/starLevel';
 	export default {
+		components:{startLevel},
         props:{
             item:{
                 type:Object,
@@ -66,10 +70,31 @@ import {navigate,requestHideLoading,judgeLogin} from '@/utils'
 		data() {
 			return {
 				navigate,
+				score: 3,
 				// tagList: [],
 			}
 		},
+		mounted() {
+			// this.$nextTick(()=>{
+			// 	// setTimeout(()=> {
+			// 			this.score =this.item.CommentScore
+			// 	// }, 3000);
+				
+			// 	console.log('我的分数：',this.score)
+			// })
+			
+		},
 		computed:{
+			CommentScore (score) {
+				return (score)=> {
+					// console.log('计算分数',score)
+					if(!score)return;
+					if (score.length > 1) {
+						return score
+					}
+					return score + ".0"
+				}
+			},
 			toFloat (num) {
 				return (num)=>{
 					return parseFloat(num)
