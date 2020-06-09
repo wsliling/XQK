@@ -10,7 +10,7 @@
 			<view class="list jus-b flex" v-for="(item, index) in datalist" :key="index" v-if="tabIndex == 0">
 				<view class="left">
 					<view class="name">{{item.Title}}</view>
-					<view class="time">有效期至{{item.EndTime}}</view>
+					<view class="time">有效期至{{editTime(item.EndTime)}}</view>
 					<!-- <div class="useinfo oneline" style="left: 15upx;">仅可购买星求客店铺商品</div> -->
 					<!-- <div class="useinfo oneline">说明：指定店铺使用</div> -->
 					<!-- <view class="coupoutag flexc">'满减券':'折扣券'</view> -->
@@ -29,7 +29,7 @@
 			v-for="(item, index) in datalist" :key="index" v-if="tabIndex == 1 || tabIndex == 2">
 				<view class="left">
 					<view class="name">{{item.Title}}</view>
-					<view class="time">有效期至{{item.EndTime}}</view>
+					<view class="time">有效期至{{editTime(item.EndTime)}}</view>
 				</view>
 				<view class="right flexc" v-if="tabIndex == 1 || tabIndex == 2" :style="{ background: '#D4D5D7' }">
 					<view>
@@ -49,11 +49,12 @@
 	</view>
 </template>
 <script>
-import { post } from '@/common/util.js';
+import { post,editTime } from '@/utils';
 import noData from '@/components/noData'; //没有数据的通用提示
 export default {
 	data() {
 		return {
+			editTime,
 			tabList: ['未使用', '已使用', '已失效'],
 			tabIndex: 0,
 			couponStatus: 1, //0全部，1可用，2已使用，3已失效

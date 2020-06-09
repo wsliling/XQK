@@ -8,7 +8,7 @@
 		</view>
 		<view v-if="terms == 1">
 			<view class="business">
-				<image :src="list.BusinessLicense" mode=""></image>
+				<image :src="list.BusinessLicense" mode="aspectFill"></image>
 			</view>
 		</view>
 		<view v-if="terms == 2">
@@ -70,7 +70,11 @@ export default {
 		.business{
 			font-size: 40upx;
 			text-align: center;
-			padding-top: 100upx;
+			// padding-top: 100upx;
+			image{
+				width: 100%;
+				height: 100vh;
+			}
 		}
 		
 	}

@@ -310,6 +310,8 @@
 			// 定位完成后执行的方法
 			//获取根据市区定位的产品
 			async getOpsitionPro(){
+				
+				this.classifyDefault={label:'不限',value:0};
 				this.classifyList=[
 						{label:"不限",
 							value:0,
@@ -376,10 +378,18 @@
 					this.about = res.data;
 				})
 			},
+			// 扫码
 			scan() {
 				uni.scanCode({
 					success:function(res){
+						navigate('home/scanResult',{
+							result:res.result
+						})
 						console.log(JSON.stringify(res));
+					},
+					fail(err){
+						toast('扫码失败，请重试！')
+						console.log(err)
 					}
 				});
 			},

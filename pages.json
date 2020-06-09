@@ -235,6 +235,12 @@
 			}
         }
         ,{
+            "path" : "pages/home/scanResult",
+            "style" : {
+				"navigationBarTitleText": "扫码结果"
+			}
+        }
+        ,{
             "path" : "pages/login/login",
             "style" : {
 				"navigationBarTitleText": "登录"
