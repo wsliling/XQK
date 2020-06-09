@@ -203,7 +203,7 @@
 			}
 		},
 		onLoad() {
-			this.canvas()
+			// this.canvas()
 		},
 		computed: {
 			Rprocess (){
