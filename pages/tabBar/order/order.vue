@@ -52,7 +52,9 @@
 			</view>
 		</view>
 		<noData :isShow="noDataIsShow"></noData>
-		<view class="uni-tab-bar-loading"><uni-load-more :loadingType="loadingType" v-if="noDataIsShow == false"></uni-load-more></view>
+		<view class="uni-tab-bar-loading">
+			<uni-load-more :loadingType="loadingType" v-if="noDataIsShow == false&&orderList.length"></uni-load-more>
+		</view>
 		<view style="height: 120upx;"></view>
 		<tabbar :current="3"></tabbar>
 	</view>
@@ -76,7 +78,7 @@ export default {
 			token: '',
 			tabList: [{ id: 0, name: '全部订单' }, { id: 1, name: '待支付' }, { id: 2, name: '有效订单' }], //{ id: 3, name: '待评价'}
 			tabIndex: 0,
-			noDataIsShow: false, //暂无数据
+			noDataIsShow: true, //暂无数据
 			loadingType: 0, //0加载前，1加载中，2没有更多了
 			PageSize: 10,
 			Page: 1,
@@ -91,10 +93,9 @@ export default {
 		this.token = uni.getStorageSync('token');
 	},
 	onShow() {
-		if(!this.userId||!this.token){
-			this.userId = uni.getStorageSync('userId');
-			this.token = uni.getStorageSync('token');
-		}
+		if(!judgeLogin())return;
+		this.userId = uni.getStorageSync('userId');
+		this.token = uni.getStorageSync('token');
 		this.init();
 	},
 	computed: {
@@ -106,7 +107,7 @@ export default {
 		init(){
 			this.orderList = [];
 			this.Page = 1;
-			this.noDataIsShow = false;
+			this.noDataIsShow = true; 
 			this.getorderList();
 		},
 		cliTab(index) {
