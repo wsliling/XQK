@@ -204,10 +204,7 @@
 			this.getDetail(this.Id)
 		},
 		onShow() {
-			// console.log('getCurrentPages()----------- ',getCurrentPageUrlWithArgs() )
-			if (this.userId == '' || this.token == '') {
-				this.getUserInfo()
-			}
+			this.getUserInfo()
 			// 去了查看评论后,返回需要再次请求评论列表
 			if (!this.oneLoad) {
 				this.getCommnetList(this.Id)

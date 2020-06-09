@@ -322,6 +322,10 @@
 			this.getOrderCommentInfo(Id)
 			this.getOrderCommentList()
 		},
+		onShow(){
+			this.userId = uni.getStorageSync('userId');
+			this.token = uni.getStorageSync('token');
+		},
 		computed:{
 			// 监听日历的变化
 			...mapState(['lng','lat','cityName','cityCode','calendarOption']),
