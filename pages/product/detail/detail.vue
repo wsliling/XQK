@@ -140,15 +140,16 @@
 			</div>
 			<!-- <img src="http://xqk.wtvxin.com/images/wxapp/of/map-img.png" mode="widthFix" alt=""> -->
 			<map 
-			  @click="navigate('product/map/map',{Lat:details.Lat,Lng:details.Lng})"
+			  @click="toMap"
 			  id="myMap" 
 			  style="width: 750upx"
 			  :latitude="details.Lat"
 			  :longitude="details.Lng"
 			  :markers="markers"
-				:enable-scroll="0"
+			  :bindmarkertap='toMap'
+			  :enable-scroll="0"
 			  v-if="details.Lat&&details.Lng"
-			  >
+			  show-location>
 			</map>
 		</div>
 		<div class="gap20"></div>
@@ -384,6 +385,9 @@
 			}
 		},
 		methods: {
+			toMap() {
+				navigate('product/map/map',{Lat:this.details.Lat,Lng:this.details.Lng})
+			},
 			// 全屏预览图片
 			previewImage(index) {
 				previewImage(this.details.PicData,index)
