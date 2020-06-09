@@ -29,6 +29,7 @@ export default new Vuex.Store({
 		headComment: {},// 1级评论
 		toZanComment: {}, // 星语点赞的评论
 		IsMy: 0,
+		address: '',
         calendarOption:{
             currentRangeStartDate: '', //根默认显示初始时间，可为空,默认今天
             currentRangeEndDate: '', //根默认区间选择显示结束时间，可为空，默认明天
