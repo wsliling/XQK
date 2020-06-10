@@ -94,5 +94,6 @@
 		display:flex;
 		// align-items:center;
 		align-items: left;
+		padding-top:6upx;
 	}
 </style>

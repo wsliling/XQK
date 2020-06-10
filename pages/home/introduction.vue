@@ -33,7 +33,7 @@
 		},
 		onLoad(option) {
 			uni.setNavigationBarTitle({
-				title:option.title
+				title:option.title||''
 			})
 			this.getArticle()
 		},

@@ -15,11 +15,11 @@ const LoginPath = "login/login";//登录路径
 const RegisterPath = "login/register";//注册路径
 
 import {get,post,requestHideLoading} from '@/utils/request';
-import {editTime,dateUtils,timeDiff,formatNumber} from '@/utils/date-tools';
+import {editTime,dateUtils,timeDiff,formatNumber,initDate} from '@/utils/date-tools';
 export {
   host,filePath,hostPath,LoginPath,RegisterPath,
   get,post,requestHideLoading,
-  editTime,dateUtils,timeDiff,formatNumber,
+  editTime,dateUtils,timeDiff,formatNumber,initDate
 }
 
 // icon--是否显示图标，mask--是否显示防触摸穿透蒙层

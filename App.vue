@@ -1,7 +1,13 @@
 <script>
-	import {initDate} from '@/utils/date-tools';
+	import {initDate,requestHideLoading} from '@/utils';
 	export default {
 		onLaunch: function() {
+			requestHideLoading('System/GetWebConfiguration',{},'get').then(res=>{
+				this.$store.commit('update',{
+					commonSetting:res.data
+				})
+				console.log(this.$store.state.commonSetting,'setting')
+			})
 		},
 		onShow: function() {
 			// 获取UserId和Token
