@@ -13,15 +13,17 @@
 			<!-- 			<related-product :goodList='goodList'></related-product>
  -->
 			<div class="list">
+				<related-product :goodList='goodList'></related-product>
+				<uni-load-more :loadingType="loadMore" v-if="goodList.length"></uni-load-more>
 				<block v-if="!goodList.length">
-					<not-data tipsText="暂无记录,可搜索其他星球客选择关联" tipsTitle="暂无找到匹配的结果" />
-					<h3>为你推荐</h3>
+					<!-- <not-data tipsText="暂无记录,可搜索其他星球客选择关联" tipsTitle="暂无找到匹配的结果" /> -->
+					<not-data tipsText="暂无记录,可搜索其他星球客选择关联" />
 				</block>
+				<h3 v-if='RecommendList.length'>为你推荐</h3>
 				<!-- <product-item v-for="(item,index) in list" :key="index" :item="item"></product-item> -->
 				<!-- <product-item v-for="(item,index) in recommendList" :key="index" :item="item"></product-item> -->
-				<related-product :goodList='goodList'></related-product>
 				<related-product :goodList='RecommendList'></related-product>
-				<uni-load-more :loadingType="loadMore" v-if="goodList.length"></uni-load-more>
+				<uni-load-more :loadingType="loadMore2" v-if="RecommendList.length"></uni-load-more>
 			</div>
 		</view>
 
@@ -36,7 +38,7 @@
 		<!-- <not-data v-if="!goodList.length && (loadMore==2)" tipsText="暂无记录,可搜索其他星球客选择关联" /> -->
 		<!-- <not-data tipsTitle="" /> -->
 		<!-- <uni-load-more :loadingType="loadMore" v-if="goodList.length"></uni-load-more> -->
-		<view style="height: 120upx;"></view>
+		<view style="height: 60upx;"></view>
 	</view>
 </template>
 
@@ -73,7 +75,11 @@
 				tagList: [],
 				notData: false,
 				loadMore: 0, //0-loading前；1-loading中；2-没有更多了
+				loadMore2: 0,
+				Page2: 1,
+				PageSize2: 4,
 				IsNearRecords: 1,
+				onlyRecommend: 0,
 				// isStartShow: false
 			}
 		},
@@ -128,16 +134,19 @@
 			// 初始化
 			init() {
 				this.getUserInfo()
+				this.onlyRecommend = 0
 				this.loadMore = 0;
 				this.Page = 1;
+				this.loadMore2 = 0;
+				this.Page2 = 1;
 				// console.log('我初始化了-----')
 
 			},
 			// 获取预订产品列表
 			async getGoodsList() {
 				let res = {}
+				let res2 = {}
 				// let res2 = {}
-				this.loadMore = 1;
 				this.getUserInfo()
 				// this.userId = this.$store.getters.getUserId;
 				// this.token = this.$store.getters.getToken;
@@ -145,7 +154,8 @@
 				// console.log('id',this.userId)
 				// console.log('Token',this.token)
 
-				if (this.IsNearRecords) {
+				if (this.IsNearRecords && !this.onlyRecommend) {
+					this.loadMore = 1;
 					this.msg = '最近入住'
 					// 最近入住
 					res = await post(
@@ -164,9 +174,10 @@
 						// this.msg = '为您推荐'
 					}
 					console.log('我是最近入住：', res)
-				} else {
+				} else if (!this.IsNearRecords && !this.onlyRecommend) {
 					if (this.Keywords || this.Keywords === '') {
 						// 搜索;
+						this.loadMore = 1;
 						this.msg = '搜索结果'
 						res = await post(
 							'Goods/GoodsList_yd', {
@@ -187,56 +198,63 @@
 					}
 				}
 				console.log('我是外面列表：', res)
+				if (res.data) {
+					if (res.data.length < this.PageSize) {
+						this.loadMore = 2;
+					} else {
+						this.loadMore = 0;
+					}
+					if (!res.data.length) {
+						// 如果都是空
+						this.loadMore = 2;
+					} else {
+						// console.log('获取预定产品列表：', res)
+						let ProIdArr = this.$store.state.ProIdArr
+						// 处理字符串标签为数组,处理星星个数
+						for (let i = 0; i < res.data.length; i++) {
+							// 处理tag
+							let tempArr = res.data[i].ServiceKeys.split(",")
+							res.data[i].ServiceKeys = tempArr
+							console.log('处理产品列表：', res.data[i].ServiceKeys)
+							// 不用处理分数
+							// res.data[i].CommentScore = this.toNum(res.data[i].CommentScore)
+							// for(let j =0; j < ProIdArr.length;j++){
+							// 	if(ProIdArr[j] === res.data[i].Id) {
+							// 		console.log('已经添加了',ProIdArr[j],res.data[i].Id)
+							// 		res.data[i] = 0
+							// 	}
+							// }
+						}
+						switch (this.msg) {
+							case '最近入住':
+								this.goodList = [...this.goodList, ...res.data]
+								console.log('最近入住dadada', this.goodList)
+								break;
+							case '搜索结果':
+								console.log('搜索结果dadada')
+								this.goodList = [...this.goodList, ...res.data]
+								console.log('搜索结果dadada', this.goodList)
+								break;
+							default:
+								this.RecommendList = [...this.RecommendList, ...res.data]
+						}
+						// this.goodList = [...this.goodList,...res.data]
+					}
+				}
 
-				if (res.data.length < this.PageSize) {
-					this.loadMore = 2;
-				} else {
-					this.loadMore = 0;
-				}
-				if (!res.data.length) {
-					// 如果都是空
-					this.loadMore = 2;
-				} else {
-					// console.log('获取预定产品列表：', res)
-					let ProIdArr = this.$store.state.ProIdArr
-					// 处理字符串标签为数组,处理星星个数
-					for (let i = 0; i < res.data.length; i++) {
-						// 处理tag
-						let tempArr = res.data[i].ServiceKeys.split(",")
-						res.data[i].ServiceKeys = tempArr
-						console.log('处理产品列表：', res.data[i].ServiceKeys)
-						// 不用处理分数
-						// res.data[i].CommentScore = this.toNum(res.data[i].CommentScore)
-						// for(let j =0; j < ProIdArr.length;j++){
-						// 	if(ProIdArr[j] === res.data[i].Id) {
-						// 		console.log('已经添加了',ProIdArr[j],res.data[i].Id)
-						// 		res.data[i] = 0
-						// 	}
-						// }
-					}
-					switch (this.msg) {
-						case '最近入住':
-							this.goodList = [...this.goodList, ...res.data]
-							console.log('最近入住dadada')
-							break;
-						case '搜索结果':
-							console.log('搜索结果dadada')
-							this.goodList = [...this.goodList, ...res.data]
-							break;
-						default:
-							this.RecommendList = [...this.RecommendList, ...res.data]
-					}
-					// this.goodList = [...this.goodList,...res.data]
-				}
+
 
 				// 如果搜索或者最近入住的结果,都是空的话,再请求一次
-				if (!this.goodList.length) {
-					res = await post(
+				if (!this.goodList.length || this.msg === '最近入住') {
+					this.loadMore2 = 1;
+					this.onlyRecommend = 1
+					// 为您推荐
+					res2 = await post(
 						'Goods/GoodsList_yd', {
 							UserId: this.userId,
 							Token: this.token,
-							Page: this.Page,
-							PageSize: this.PageSize,
+							Page: this.Page2,
+							PageSize: this.PageSize2,
 							IsRecommend: 1,
 							// Sort:3 ,//排序类型
 							// 0-默认
@@ -246,15 +264,24 @@
 							// 4-距离
 							// 5-好评
 						})
-					console.log('为您推荐：', res)
-					for (let i = 0; i < res.data.length; i++) {
-						// 处理tag
-						let tempArr = res.data[i].ServiceKeys.split(",")
-						res.data[i].ServiceKeys = tempArr
-						console.log('处理推荐列表：', res.data[i].ServiceKeys)
+					console.log('为您推荐：', res2)
+					if (res2.data.length < this.PageSize2) {
+						this.loadMore2 = 2;
+					} else {
+						this.loadMore2 = 0;
 					}
-					this.RecommendList = [...this.RecommendList, ...res.data]
-					console.log('处理过RecommendList：', this.goodList)
+					if (!res2.data.length) {
+						// 如果都是空
+						this.loadMore2 = 2;
+					}
+					for (let i = 0; i < res2.data.length; i++) {
+						// 处理tag
+						let tempArr = res2.data[i].ServiceKeys.split(",")
+						res2.data[i].ServiceKeys = tempArr
+						console.log('处理推荐列表：', res2.data[i].ServiceKeys)
+					}
+					this.RecommendList = [...this.RecommendList, ...res2.data]
+					console.log('处理过RecommendList：', this.RecommendList)
 				}
 
 
@@ -266,9 +293,14 @@
 			},
 		},
 		onReachBottom() {
+			console.log('我触底了')
+			if (this.loadMore2 === 2) return
+			this.Page2++
+			console.log('我触底了11')
+			this.getGoodsList()
 			if (this.loadMore === 2) return;
 			this.Page++
-			console.log('我触底了')
+			console.log('我触底了22')
 			this.getGoodsList()
 		},
 		// onPullDownRefresh(){

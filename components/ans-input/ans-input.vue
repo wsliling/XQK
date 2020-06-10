@@ -95,6 +95,7 @@
 		display:flex;
 		// align-items:center;
 		align-items: left;
+		padding-top:6upx;
 	}
 	.my-close {
 		position:absolute;

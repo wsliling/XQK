@@ -92,7 +92,8 @@
 			<div class="reply">
 				<h4>回复</h4>
 				<div class="add flex-center-between">
-					<input confirm-type="send" @confirm="confirm(Id)" type="text" placeholder="写评论..." v-model="Comment">
+					<!-- <input confirm-type="send" @confirm="confirm(Id)" type="text" placeholder="写评论..." v-model="Comment"> -->
+					<ans-input @confirm="confirm(Id)" class="input"  placeholder="写评论..." v-model="Comment" :align='left'></ans-input>
 					<div class="line1"></div>
 					<div @click="toCollections" class="collect flex-column-center-center" :class="{active : detail.CollectionId}">
 						<div class="iconfont" :class='{"icon-aixin2": !detail.CollectionId,"icon-aixin" : detail.CollectionId,"active" : detail.CollectionId}'></div>
@@ -124,11 +125,12 @@
 	import proItem from '@/components/productItem.vue';
 	import starLangItem from '@/components/starLangItem.vue';
 	import replyItem from './replyItem.vue';
+	import ansInput from '@/components/ans-input/ans-input.vue';
 	import {
 		navigate,
 		post,
 		switchTab,
-		getCurrentPageUrlWithArgs
+		getCurrentPageUrlWithArgs,
 	} from '@/utils';
 	import productItem from '@/components/productItem.vue';
 	import {
@@ -146,7 +148,8 @@
 			replyItem,
 			starLangItem,
 			productItem,
-			startLevel
+			startLevel,
+			ansInput
 		},
 		data() {
 			return {

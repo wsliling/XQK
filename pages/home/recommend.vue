@@ -4,7 +4,7 @@
 		cancelButton="none"></uni-search-bar> -->
 		<div class="search flex-center-center" @click="navigate('home/search')">
 			<uni-icons type="search" color="#999"></uni-icons>
-			<p>搜索目的地/景点/星球客等</p>
+			<p >{{searchTips}}</p>
 		</div>
 		<product-item v-for="(item,index) in goodsList" :key="index" :item="item"></product-item>
 		
@@ -30,12 +30,14 @@
 				pageSize:10,
 				loadMore:0,//0-loading前；1-loading中；2-没有更多了
 				goodsList: [],
+				searchTips:'',
 			} 
 		},
 		onLoad() {
 			this.userId = uni.getStorageSync('userId');
 			this.token = uni.getStorageSync('token');
-			this.getGoodsList()
+			this.getGoodsList();
+			this.searchTips = this.$store.state.commonSetting.SearchBox;
 		},
 		onShow(){
 			if(!this.userId||!this.token){

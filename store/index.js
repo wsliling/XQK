@@ -16,6 +16,36 @@ Vue.use(Vuex)
 */
 export default new Vuex.Store({
     state:{
+        commonSetting:{
+            WebLogo:'',
+            SEOTitle:'',//SEO优化标题
+            SEOKeywords:'',//SEO优化关键字
+            SEODescription:'',//SEO优化简介
+            WebDescription:'',//网站描述//关于我们
+            WebName:'',//网站名称
+            WebQQ:'',//QQ号
+            WebTel:'',//联系电话
+            Email:'',//电子邮箱
+            AddressTest:'',//详细地址
+
+            ThemeColor:'',//主题色
+            SearchBox:'',//产品搜索框文字
+            NoProImg:'',//暂无产品图片
+            UsTitle:'',//监督我们
+            UsIntro:'',//我们简介
+            ServiceTerms:'',//服务条款
+            BusinessLicense:'',//营业执照
+
+            HotSearch:'',//热门搜索
+            NearbyScene:'',//附近景点
+            TagsClass:'',//特色分类
+            HotRecTitle:'',//热门推荐
+            StarRecTitle:'',//推荐星语
+
+            Pp_Desc:'',//品牌特惠说明
+            Pp_ExpireTime:'',//品牌特惠剩余时间
+
+        },//通用配置
         token:'',
         userId:'',
 		ProIdArr: [], // 星语添加的关联星球客（预定产品的id组）
@@ -41,9 +71,9 @@ export default new Vuex.Store({
             startDate:'',//展示的不带年份的开始日期
             endDate:'',//展示的不带年份的结束日期
         },
-				goodsDateTime:[],//产品日期对应的数组
-				place: '不显示位置' ,//发布星语的地址
-				SystemInfoWidth: 0 //屏幕宽度
+        goodsDateTime:[],//产品日期对应的数组
+        place: '不显示位置' ,//发布星语的地址
+        SystemInfoWidth: 0 //屏幕宽度
     },
     getters:{
         getToken(state){

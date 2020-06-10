@@ -5,7 +5,7 @@
 				<uni-icons type="search" color="#666" size="22" class="icons"></uni-icons>
 				<div class="area ellipsis" @click="navigate('location/cityList')">{{cityName||'定位失败'}}</div>
 				<div class="line"></div>
-				<ans-input class="input" @confirm="searchInput" placeholder="搜索目的地/景点/星球客等"></ans-input>
+				<ans-input class="input" @confirm="searchInput" :placeholder="commonSetting.SearchBox" align="left"></ans-input>
 			</div>
 		</div>
 		<div class="content">
@@ -22,24 +22,24 @@
 				</div>
 			</div>
 			<div class="tabBlock" v-if="hot.length"> 
-				<div class="tit flex-center-between">
-					<h3>热门搜索</h3>
+				<div class="tit flex-center-between" v-if="commonSetting.HotSearch">
+					<h3>{{commonSetting.HotSearch}}</h3>
 				</div>
 				<div class="tab flex-center">
 					<div class="item" v-for="(item,index) in hot" :key="index" @click="onSearch(item.Name)">{{item.Name}}</div>
 				</div>
 			</div>
 			<div class="tabBlock" v-if="near.length">  
-				<div class="tit flex-center-between">
-					<h3>附近星球客</h3>
+				<div class="tit flex-center-between" v-if="commonSetting.NearbyScene">
+					<h3>{{commonSetting.NearbyScene}}</h3>
 				</div>
 				<div class="tab flex-center">
 					<div class="item" v-for="(item,index) in near" :key="index" @click="onSearch(item.Name)">{{item.Name}}</div>
 				</div>
 			</div>
 			<div class="tabBlock" v-if="tab.length">  
-				<div class="tit flex-center-between">
-					<h3>特色主题</h3>
+				<div class="tit flex-center-between" v-if="commonSetting.TagsClass">
+					<h3>{{commonSetting.TagsClass}}</h3>
 				</div>
 				<div class="tab flex-center">
 					<div class="item" v-for="(item,index) in tab" :key="index" @click="onSearch(item.Name)">{{item.Name}}</div>
@@ -68,7 +68,7 @@
 			}
 		},
 		computed:{
-			...mapState(['lng','lat','cityName','cityCode'])
+			...mapState(['lng','lat','cityName','cityCode','commonSetting'])
 		},
 		onLoad() {
 			this.getTab();
@@ -96,11 +96,13 @@
 			},
 			searchInput(val){
 				console.log(val,'eee')
-				this.historySerch.push(val);
-				if(this.historySerch.length>8){
-					this.historySerch.shift()
+				if(val.length<9){
+					this.historySerch.push(val);
+					if(this.historySerch.length>8){
+						this.historySerch.shift()
+					}
+					uni.setStorageSync('historySerch',this.historySerch)
 				}
-				uni.setStorageSync('historySerch',this.historySerch)
 				navigate('home/searchList',{keyword:val})
 			},
 			cancelInput(){

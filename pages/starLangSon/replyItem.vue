@@ -14,7 +14,7 @@
 						<p>{{ formatTime(item.AddTime) }}</p>
 					</div>
 					<div class="content pt10"  @click="toReply">{{ item.Comment }}</div>
-					<div v-if='isCheckReply && item.MyCommnetList.length' class="checkReply"  @click="toReply">点击查看{{ item.MyCommnetList.length }}条回复</div>
+					<div v-if='isCheckReply && item.MyCommnetList.length' class="checkReply"  @click="toReply">点击查看{{ item.ReplyNum }}条回复</div>
 				</div>
 			</div>
 			<!-- <div class="zan" @click="toZan(item.Id,true,-1)" :class='{active : item.IsLike}'> -->
@@ -233,6 +233,11 @@
 						// this.$emit("changeItem",{index: this.index,data: this.item,count:false,isItem:isItem,val:val});
 						this.$emit("changeItem",{data: this.toZanComment,count:false,isReply:this.isReply,index:this.index});
 					}
+					// // 返回提示
+					// uni.showToast({
+					//     title:res.msg,
+					//     icon:'none'
+					// })
 					// this.$store.commit('update',{"toZanComment":this.toZanComment})
 					// if(this.isReply){
 					// 	this.item2 = this.toZanComment
@@ -261,11 +266,7 @@
 					// 	this.$emit("changeItem",{index: this.index,data: this.item,count:false,isItem:isItem,val:val});
 					// }
 				}
-				// 返回提示
-				uni.showToast({
-				    title:res.msg,
-				    icon:'none'
-				})
+				
 			},
 		},
 		computed:{
