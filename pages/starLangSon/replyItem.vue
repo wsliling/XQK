@@ -303,6 +303,8 @@
 		}
 		.content{
 			color:#484848;
+			word-break:break-all;
+			word-wrap:break-word;/*支持IE，chrome，FF*/
 		}
 	}
 	.reply {

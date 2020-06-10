@@ -258,3 +258,14 @@ export function getCurrentPageUrlWithArgs() {
   urlWithArgs = urlWithArgs.substring(0, urlWithArgs.length - 1)
   return urlWithArgs
 }
+// 获取当前屏幕宽度,去app的onshow调用,存储vuex
+export function getSystemInfoWidth() {
+  let w = 0;
+  uni.getSystemInfo({
+    success: function (res) {
+  		console.log(res)
+      w = res.windowWidth / 375;//按照750的屏宽
+    },
+  })
+  return w
+}

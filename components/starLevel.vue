@@ -37,8 +37,7 @@
 				// setTimeout(()=> {
 						this.xin()
 				// }, 3000);
-				
-				console.log('this.value,星星数量',this.value)
+				// console.log('this.value,星星数量',this.value)
 			})
 			// xin(this.value)
 		},
@@ -73,12 +72,13 @@
 			// 	console.log(ctx)
 			// },
 			xin() {
+				let w = this.$store.state.SystemInfoWidth
 				var score = parseFloat(this.value)
 				var pscore = parseInt(this.value)
 				var yscore = this.value % 1
 				var scoreNum = 5 // 星星个数
-				var spacing = 0 // 间距
-				var radius = 8 // 半径
+				var spacing = 0 / 2 * w  // 间距
+				var radius = 16 / 2 * w // 半径
 				var diameter = radius * 2 // 直径
 				// console.log('')
 				// 开始画星星

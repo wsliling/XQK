@@ -12,10 +12,12 @@
 			@changeItem="changeItem"></replyItem>
 		<!-- 数据判断显示 -->
 		<not-data v-if="replyList.length<1"></not-data>
-		<uni-load-more :loadingType="loadMore" v-else></uni-load-more>
-		<view v-if="IsMy" class="seek">
-			<input class="replyItem" confirm-type="send" @confirm="confirm" type="text" placeholder="写回复..." v-model="Comment" />
-			<span v-if="Comment.length" class="close" @click ="emptyComment">×</span>
+		<uni-load-more :loadingType="loadMore" :contentText='contentText' v-else></uni-load-more>
+		<view v-if="IsMy" class="seek-box">
+			<view class="seek">
+				<input class="replyItem" confirm-type="send" @confirm="confirm" type="text" placeholder="写回复..." v-model="Comment" />
+				<span v-if="Comment.length" class="close" id='close' @click ="emptyComment">×</span>
+			</view>
 		</view>
 	</view>
 </template>
@@ -45,7 +47,12 @@
 				isReply: true,
 				isToReply: false,
 				Comment: '',
-				IsMy:0
+				IsMy:0, // 是否是我发布的
+				contentText: {
+					contentdown: "上拉显示更多",
+					contentrefresh: "正在加载...",
+					contentnomore: "没有更多回复了"
+				}
 			};
 		},
 		onLoad(options) {
@@ -155,7 +162,7 @@
 					}else{
 						this.loadMore =0;
 					}
-					this.replyList = res.data
+					this.replyList = [...this.replyList,...res.data]
 					console.log('replyList----',this.replyList)
 				}
 			},
@@ -214,37 +221,82 @@
 		padding: 30upx;
 		margin-bottom: 184upx;
 	}
-	.seek{
-		position: fixed;
-		left: 0;
-		bottom: 0;
-		width: 100%;
-		background: #fff;
-		padding: 30upx 0;
-		.replyItem {
-			font-size:24upx;
-			height:64upx;
-			line-height: 64upx;
-			width:90%;
-			background:rgba(242,242,242,1);
-			border-radius:32upx;
-			margin-left: 4%;
-			padding-left: 30upx;
+	.seek-box {
+			position: fixed;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+			background: #fff;
+			padding: 30upx 0;
+		.seek {
+			// width: 100%;
+			// background: #fff;
+			input {
+				font-size: 24upx;
+				height: 64upx;
+				line-height: 64upx;
+				width: 90%;
+				background: rgba(242, 242, 242, 1);
+				border-radius: 32upx;
+				margin-left: 4%;
+				padding-left: 30upx;
+			}
+			// .clear.data-v-5902f8d2 {
+			// 	top: 15rpx;
+			// }
+			#close {
+				position: absolute;
+				z-index: 9;
+				width: 40rpx;
+				height: 40rpx;
+				right: 72upx;
+				// top: 46upx;
+				top: 40upx;
+				color: #fff;
+				background: #b2b2b2;
+				border-radius: 50%;
+				text-align: center;
+				line-height: 40rpx;
+				font-size: 28rpx;
+				
+			}
 		}
-		.close {
-			position: absolute;
-			z-index: 9;
-			width: 32rpx;
-			height: 32rpx;
-			right: 0;
-			right: 72upx;
-			top: 46upx;
-			color: #fff;
-			background: #b2b2b2;
-			border-radius: 50%;
-			text-align: center;
-			line-height: 32rpx;
-			font-size: 32rpx;
-		}
+		
 	}
+	
+	
+	// .seek{
+	// 	position: fixed;
+	// 	left: 0;
+	// 	bottom: 0;
+	// 	width: 100%;
+	// 	background: #fff;
+	// 	padding: 30upx 0;
+	// 	.replyItem {
+	// 		font-size:24upx;
+	// 		height:64upx;
+	// 		line-height: 64upx;
+	// 		width:90%;
+	// 		background:rgba(242,242,242,1);
+	// 		border-radius:32upx;
+	// 		margin-left: 4%;
+	// 		padding-left: 30upx;
+	// 	}
+	// 	.close {
+	// 		position: absolute;
+	// 		z-index: 9;
+	// 		width: 32rpx;
+	// 		height: 64rpx;
+	// 		right: 0;
+	// 		right: 72upx;
+	// 		top: 46upx;
+	// 		color: #fff;
+	// 		background: #b2b2b2;
+	// 		border-radius: 50%;
+	// 		text-align: center;
+	// 		// line-height: 32rpx;
+	// 		line-height: 64rpx;
+	// 		font-size: 32rpx;
+	// 	}
+	// }
 </style>

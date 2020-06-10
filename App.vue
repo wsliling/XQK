@@ -1,9 +1,14 @@
 <script>
 	import {initDate} from '@/utils/date-tools';
+	import {getSystemInfoWidth} from '@/utils';
 	export default {
 		onLaunch: function() {
+		// 	this.$store.commit('update',{"SystemInfoWidth":getSystemInfoWidth()})
 		},
 		onShow: function() {
+			// console.log('app展示了')
+			// 获取屏幕宽度,方便适配
+			this.$store.commit('update',{"SystemInfoWidth":getSystemInfoWidth()})
 			// 获取UserId和Token
 			this.$store.commit('update',{"userId":uni.getStorageSync('userId')})
 			this.$store.commit('update',{"token":uni.getStorageSync('token')})
