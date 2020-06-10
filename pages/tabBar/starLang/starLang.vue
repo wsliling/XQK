@@ -88,7 +88,11 @@
 				// 	this.SearchKey = ""
 				// 	// 如果搜索成功清空
 				// }
-				this.datalist.push(...res.data)
+				if(res.code ===0 ){
+					this.datalist.push(...res.data)
+					// 停止下拉动画
+					uni.stopPullDownRefresh()
+				}
 				// console.log('搜索页面用户发现赋值的datalist：',this.datalist)
 			},
 			// 键盘确定按钮事件
@@ -125,6 +129,13 @@
 				this.isTop=false;
 			}
 		},
+		// 下拉刷新
+		onPullDownRefresh() {
+			this.datalist = []
+			this.Page = 1
+			this.getFindList()
+		},
+		// 上拉加载更多
 		onReachBottom(){
 			if(this.loadMore===2)return;
 			this.Page+=1;

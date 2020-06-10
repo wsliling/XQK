@@ -5,7 +5,7 @@
 			confirm-type="search" @confirm="confirm" :style="'text-align:'+align"
 		>
 		<div class="clear" @click="content=''" v-if="content">
-			<uni-icons color="#ccc" class="" size="20" type="clear" />
+			<uni-icons color="#ccc" class="my-close" size="20" type="clear" />
 		</div>
 	</div>
 </template>
@@ -86,7 +86,8 @@
 	}
 	.clear{
 		position:absolute;
-		right:10upx;
+		// right:10upx;
+		right: 50rpx;
 		top:0;
 		height:100%;
 		line-height:100%;
@@ -95,5 +96,10 @@
 		// align-items:center;
 		align-items: left;
 		padding-top:6upx;
+	}
+	.my-close {
+		position:absolute;
+		top: 50%;
+		transform: translateY(-50%);
 	}
 </style>

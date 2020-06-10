@@ -48,7 +48,7 @@
 					<view>关联星球客 ({{ goodList.length }}/5)</view>
 					<view class="addition" @click="tolick('/pages/starLangSon/relevance')">添加</view>
 				</view>
-				<related-product :isAdd='false' :goodList='goodList'></related-product>
+				<related-product @del='del' :isAdd='false' :goodList='goodList'></related-product>
 			</view>
 			<view class="bottomBox">
 				
@@ -83,16 +83,12 @@ export default {
 			title: '',
 			Content: '',
 			place:'不显示位置',
-			goodList:[]
+			goodList:[],
+			isSubmit: false // 是否已经发布
 		};
 	},
 	onShow() {
-		// if(this.$store.state.place === '不显示位置'){
-		// 	this.place = this.$store.state.place
-		// }
 		this.place = this.$store.state.place
-		// this.$store.commit('update',{"place":"不显示位置"})
-		// console.log(this.$store.state.place)
 		this.getUserInfo()
 		this.getGoodsList()
 		// console.log('我是发布页onshow的idarr：',this.$store.state.ProIdArr)
@@ -152,7 +148,7 @@ export default {
 				url:url
 			})
 		},
-		del(id,index) {
+		del(id) {
 			let tempArr = this.$store.state.ProIdArr
 			for(let i =0; i < this.goodList.length;i++) {
 				// console.log('id对比=============-',this.goodList[i],this.goodList[i].Id,id,this.$store.state.ProIdArr)
@@ -207,6 +203,8 @@ export default {
 					// });
 					wx.navigateBack();
 				}, 1500);
+			}else {
+				this.isSubmit = false
 			}
 		},
 		
@@ -252,18 +250,20 @@ export default {
 		// 	console.log('出去了')
 		//   },
 		async submit() {
-			if (this.verify()) {
+			if (this.verify() && !this.isSubmit) {
 				let base64Arr = [];
 				if (this.PicList.length > 0) {
 					base64Arr = await this.base64Img(this.PicList);
 				}
-				// console.log('点了发布')
+				console.log('点了发布')
 				// 发布防抖
-				clearTimeout(timer)
-				timer = setTimeout(() => {
-					// console.log('发布了')
-				  return this.FeedBack(JSON.stringify(base64Arr))
-				}, 1000)
+				this.isSubmit = true
+				this.FeedBack(JSON.stringify(base64Arr))
+				// clearTimeout(timer)
+				// timer = setTimeout(() => {
+				// 	// console.log('发布了')
+				//   return this.FeedBack(JSON.stringify(base64Arr))
+				// }, 1000)
 				// debounce(this.FeedBack,1000,JSON.stringify(base64Arr))
 				// console.log('我出来了') 
 				// this.FeedBack(JSON.stringify(base64Arr));

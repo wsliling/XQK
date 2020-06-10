@@ -101,8 +101,9 @@
 							<div class="tab">超赞</div>
 							<div class="starBox flex-center">
 								<div class="star flex-center">
-									<div class="iconfont icon-collect" v-for="(item,index) in OrderCommentInfo.RankScore*1" :key="index"></div>
-									<div class="iconfont icon-collect1" v-for="(item2,index2) in (5-OrderCommentInfo.RankScore)" :key="index2"></div>
+									<!-- <div class="iconfont icon-collect" v-for="(item,index) in OrderCommentInfo.RankScore*1" :key="index"></div>
+									<div class="iconfont icon-collect1" v-for="(item2,index2) in (5-OrderCommentInfo.RankScore)" :key="index2"></div> -->
+									<start-level :value="OrderCommentInfo.RankScore"></start-level>
 								</div>
 								<div class="comment-num">{{ OrderCommentInfo.CommentNum }}条评价</div>
 							</div>
@@ -140,15 +141,16 @@
 			</div>
 			<!-- <img src="http://xqk.wtvxin.com/images/wxapp/of/map-img.png" mode="widthFix" alt=""> -->
 			<map 
-			  @click="navigate('product/map/map',{Lat:details.Lat,Lng:details.Lng})"
+			  @click="toMap"
 			  id="myMap" 
 			  style="width: 750upx"
 			  :latitude="details.Lat"
 			  :longitude="details.Lng"
 			  :markers="markers"
-				:enable-scroll="0"
+			  :bindmarkertap='toMap'
+			  :enable-scroll="0"
 			  v-if="details.Lat&&details.Lng"
-			  >
+			  show-location>
 			</map>
 		</div>
 		<div class="gap20"></div>
@@ -263,10 +265,12 @@
 	import { post,navigate,toast,debounce,getCurrentPageUrlWithArgs} from '@/utils';
 	import { mapState, mapMutations } from "vuex"; //vuex辅助函数
 	import { previewImage } from '@/utils/image-tools';
+	import {startLevel} from '@/components/starLevel';
 	export default {
 		components:{
 			commentItem,
-			datepricePicker
+			datepricePicker,
+			startLevel
 		},
 		data() {
 			return {
@@ -384,6 +388,9 @@
 			}
 		},
 		methods: {
+			toMap() {
+				navigate('product/map/map',{Lat:this.details.Lat,Lng:this.details.Lng})
+			},
 			// 全屏预览图片
 			previewImage(index) {
 				previewImage(this.details.PicData,index)

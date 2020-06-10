@@ -59,6 +59,7 @@ export default new Vuex.Store({
 		headComment: {},// 1级评论
 		toZanComment: {}, // 星语点赞的评论
 		IsMy: 0,
+		address: '',
         calendarOption:{
             currentRangeStartDate: '', //根默认显示初始时间，可为空,默认今天
             currentRangeEndDate: '', //根默认区间选择显示结束时间，可为空，默认明天
@@ -71,7 +72,8 @@ export default new Vuex.Store({
             endDate:'',//展示的不带年份的结束日期
         },
         goodsDateTime:[],//产品日期对应的数组
-        place: '不显示位置' //发布星语的地址
+        place: '不显示位置' ,//发布星语的地址
+        SystemInfoWidth: 0 //屏幕宽度
     },
     getters:{
         getToken(state){

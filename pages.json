@@ -29,7 +29,8 @@
         ,{
             "path" : "pages/tabBar/starLang/starLang",
             "style" : {
-				"navigationBarTitleText": "星语"
+				"navigationBarTitleText": "星语",
+				"enablePullDownRefresh" : true
 			}
         }
 		,{

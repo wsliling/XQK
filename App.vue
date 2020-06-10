@@ -1,18 +1,18 @@
 <script>
-	import {initDate,requestHideLoading} from '@/utils';
+	import {initDate,requestHideLoading,getSystemInfoWidth} from '@/utils';
 	export default {
 		onLaunch: function() {
+			// 获取全局配置
 			requestHideLoading('System/GetWebConfiguration',{},'get').then(res=>{
 				this.$store.commit('update',{
 					commonSetting:res.data
 				})
-				console.log(this.$store.state.commonSetting,'setting')
 			})
 		},
 		onShow: function() {
-			// 获取UserId和Token
-			this.$store.commit('update',{"userId":uni.getStorageSync('userId')})
-			this.$store.commit('update',{"token":uni.getStorageSync('token')})
+			// console.log('app展示了')
+			// 获取屏幕宽度,方便适配
+			this.$store.commit('update',{"SystemInfoWidth":getSystemInfoWidth()})
 			// 初始化日历
 			const option = this.$store.state.calendarOption;
 			if(!option.currentRangeStartDate){

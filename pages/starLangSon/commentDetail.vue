@@ -12,10 +12,12 @@
 			@changeItem="changeItem"></replyItem>
 		<!-- 数据判断显示 -->
 		<not-data v-if="replyList.length<1"></not-data>
-		<uni-load-more :loadingType="loadMore" v-else></uni-load-more>
-		<view v-if="IsMy" class="seek">
-			<input class="replyItem" confirm-type="send" @confirm="confirm" type="text" placeholder="写回复..." v-model="Comment" />
-			<span v-if="Comment.length" class="close" @click ="emptyComment">×</span>
+		<uni-load-more :loadingType="loadMore" :contentText='contentText' v-else></uni-load-more>
+		<view v-if="IsMy" class="seek-box">
+			<view class="seek">
+				<input class="replyItem" confirm-type="send" @confirm="confirm" type="text" placeholder="写回复..." v-model="Comment" />
+				<span v-if="Comment.length" class="close" id='close' @click ="emptyComment">×</span>
+			</view>
 		</view>
 	</view>
 </template>
@@ -45,7 +47,12 @@
 				isReply: true,
 				isToReply: false,
 				Comment: '',
-				IsMy:0
+				IsMy:0, // 是否是我发布的
+				contentText: {
+					contentdown: "上拉显示更多",
+					contentrefresh: "正在加载...",
+					contentnomore: "没有更多回复了"
+				}
 			};
 		},
 		onLoad(options) {
@@ -60,7 +67,6 @@
 			this.headComment = this.$store.state.headComment
 			console.log('头部id：',this.CommentId)
 			console.log('头部：',this.headComment)
-			// this.getCommnetList()
 			this.getReplyList()
 		},
 		computed:{
@@ -88,7 +94,7 @@
 				if (!item.isReply) {
 					// this.$set( this.CommnetList[res.index], 'IsLike', res.data.IsLike )
 					// this.$set( this.CommnetList[res.index], 'LikeNum', res.data.LikeNum )
-					this.CommnetList.map((tem)=>{
+					this.headComment.map((tem)=>{
 						if(tem.Id===item.data.Id){
 							tem.IsLike = item.data.IsLike;
 							tem.LikeNum = item.data.LikeNum;
@@ -112,30 +118,6 @@
 				this.userId = uni.getStorageSync('userId');
 				this.token = uni.getStorageSync('token');
 			},
-			// 发现评论列表
-			// async getCommnetList (){
-				// let res = await post('Find/CommnetList',
-				// {
-				// 	UserId: this.userId,
-				// 	Token: this.token,
-				// 	PageSize: this.PageSize,
-				// 	FkId: this.FkId,
-				// 	ParentCommentId: this.ParentCommentId
-				// })
-				// console.log('回复详情页 --发现评论详情列表:',res)
-				// let tempArr = []
-				// if(res.code === 0 ){
-				// 	for(let i =0; i < res.data.length;i++){
-				// 		console.log('对上号了',res.data[i].Id,this.ParentCommentId)
-				// 		if(res.data[i].Id === this.ParentCommentId) {
-				// 			console.log('对上号了')
-				// 			tempArr = [res.data[i]]
-				// 		}
-				// 	}
-				// 	this.CommnetList = tempArr
-				// 	console.log('回复详情页 --发现评论详情列表:',this.CommnetList)
-				// }
-			// },
 			// 发现详情回复列表
 			async getReplyList (){
 				this.loadMore =1;
@@ -155,7 +137,7 @@
 					}else{
 						this.loadMore =0;
 					}
-					this.replyList = res.data
+					this.replyList = [...this.replyList,...res.data]
 					console.log('replyList----',this.replyList)
 				}
 			},
@@ -182,6 +164,8 @@
 					// 清空输入框
 					this.Comment = ""
 					// 如果评论成功需要再次请求评论列表
+					this.Page = 1
+					this.replyList =[]
 					this.getReplyList()
 					// // 如果评论成功，需要给detail的回复+1
 					// this.detail.CommentNum++
@@ -214,37 +198,82 @@
 		padding: 30upx;
 		margin-bottom: 184upx;
 	}
-	.seek{
-		position: fixed;
-		left: 0;
-		bottom: 0;
-		width: 100%;
-		background: #fff;
-		padding: 30upx 0;
-		.replyItem {
-			font-size:24upx;
-			height:64upx;
-			line-height: 64upx;
-			width:90%;
-			background:rgba(242,242,242,1);
-			border-radius:32upx;
-			margin-left: 4%;
-			padding-left: 30upx;
+	.seek-box {
+			position: fixed;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+			background: #fff;
+			padding: 30upx 0;
+		.seek {
+			// width: 100%;
+			// background: #fff;
+			input {
+				font-size: 24upx;
+				height: 64upx;
+				line-height: 64upx;
+				width: 90%;
+				background: rgba(242, 242, 242, 1);
+				border-radius: 32upx;
+				margin-left: 4%;
+				padding-left: 30upx;
+			}
+			// .clear.data-v-5902f8d2 {
+			// 	top: 15rpx;
+			// }
+			#close {
+				position: absolute;
+				z-index: 9;
+				width: 40rpx;
+				height: 40rpx;
+				right: 72upx;
+				// top: 46upx;
+				top: 40upx;
+				color: #fff;
+				background: #b2b2b2;
+				border-radius: 50%;
+				text-align: center;
+				line-height: 40rpx;
+				font-size: 28rpx;
+				
+			}
 		}
-		.close {
-			position: absolute;
-			z-index: 9;
-			width: 32rpx;
-			height: 32rpx;
-			right: 0;
-			right: 72upx;
-			top: 46upx;
-			color: #fff;
-			background: #b2b2b2;
-			border-radius: 50%;
-			text-align: center;
-			line-height: 32rpx;
-			font-size: 32rpx;
-		}
+		
 	}
+	
+	
+	// .seek{
+	// 	position: fixed;
+	// 	left: 0;
+	// 	bottom: 0;
+	// 	width: 100%;
+	// 	background: #fff;
+	// 	padding: 30upx 0;
+	// 	.replyItem {
+	// 		font-size:24upx;
+	// 		height:64upx;
+	// 		line-height: 64upx;
+	// 		width:90%;
+	// 		background:rgba(242,242,242,1);
+	// 		border-radius:32upx;
+	// 		margin-left: 4%;
+	// 		padding-left: 30upx;
+	// 	}
+	// 	.close {
+	// 		position: absolute;
+	// 		z-index: 9;
+	// 		width: 32rpx;
+	// 		height: 64rpx;
+	// 		right: 0;
+	// 		right: 72upx;
+	// 		top: 46upx;
+	// 		color: #fff;
+	// 		background: #b2b2b2;
+	// 		border-radius: 50%;
+	// 		text-align: center;
+	// 		// line-height: 32rpx;
+	// 		line-height: 64rpx;
+	// 		font-size: 32rpx;
+	// 	}
+	// }
 </style>
