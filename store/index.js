@@ -42,7 +42,8 @@ export default new Vuex.Store({
             endDate:'',//展示的不带年份的结束日期
         },
 				goodsDateTime:[],//产品日期对应的数组
-				place: '不显示位置' //发布星语的地址
+				place: '不显示位置' ,//发布星语的地址
+				SystemInfoWidth: 0 //屏幕宽度
     },
     getters:{
         getToken(state){
