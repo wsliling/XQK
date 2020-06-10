@@ -18,7 +18,6 @@
 		</view>
 	</view>
 </template>
-
 <script>
 	import { post } from '@/utils'
 export default {
@@ -55,9 +54,8 @@ export default {
 
 <style scoped lang="scss">
 	.termsservice{
-		padding: 0 30upx 70upx;
 		.terms{
-			padding-top: 40upx;
+			padding: 40upx 30upx 70upx;
 			.termsname{
 				font-size:32upx;
 				font-weight:500;
@@ -70,13 +68,10 @@ export default {
 		.business{
 			font-size: 40upx;
 			text-align: center;
-			// padding-top: 100upx;
 			image{
 				width: 100%;
-				height: 100vh;
+				height: 90vh;
 			}
 		}
-		
 	}
-	
 </style>
