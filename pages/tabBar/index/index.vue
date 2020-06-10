@@ -5,7 +5,7 @@
 		<!-- #endif -->
 		<!--轮播图-->
 		<view class="index_swiper">
-			<swiper class="swiper" :indicator-dots="false" autoplay :interval="5000" :duration="500" @change="changeSwiper">
+			<swiper class="swiper" :indicator-dots="false" autoplay :interval="commonSetting.SwitchSeconds * 1000" :duration="500" @change="changeSwiper">
 				<swiper-item v-for="(item,index) in bannerList" :key="index">
 					<view class="swiper-item">
 						<image class="img" :src="item.Pic" mode="aspectFill" @click="updateBannerHits(index)"></image>
@@ -114,7 +114,7 @@
 			<view class="index_hd uni-mb10">
 				<view class="flex-between">
 					<view class="title">
-						推荐星语
+						{{ commonSetting.StarRecTitle }}
 					</view>
 				</view>
 			</view>
@@ -228,7 +228,7 @@
 			wpicker,productItem,starLangItem
 		},
 		computed:{
-			...mapState(['lng','lat','cityName','cityCode','calendarOption'])
+			...mapState(['lng','lat','cityName','cityCode','calendarOption','commonSetting'])
 		},
 		onLoad() {
 			this.getScan()
