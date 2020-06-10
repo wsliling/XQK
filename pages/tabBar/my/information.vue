@@ -78,7 +78,7 @@
 				if(id){
 					goUrl = '/pages/tabBar/my/addinformation?id='+ id + '&IsDefault=' + IsDefault
 				}else{
-					goUrl = '/pages/tabBar/my/addinformation'
+					goUrl = '/pages/tabBar/my/addinformation?type=0'
 				}
 				uni.navigateTo({
 					url: goUrl
