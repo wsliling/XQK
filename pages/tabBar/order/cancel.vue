@@ -5,7 +5,7 @@
 			<view class="policy">
 				<view class="call">确认取消</view>
 				<view class="stack">取消政策</view>
-				<view class="limit">5月26日下午5点前可免费取消</view>
+				<view class="limit">商家确认订单前可取消</view>
 			</view>
 			<view class="cancelflex">
 				<view class="">预订价格</view>
@@ -95,7 +95,7 @@
 			},
 			// 订单取消预订
 			getCancelReservation(){
-				if(!this.typeTxt){
+				if(!this.typeTxt||this.typeTxt==='请选择'){
 					toast('请选择取消原因');
 				}
 				post('Order/CancelReservation',{

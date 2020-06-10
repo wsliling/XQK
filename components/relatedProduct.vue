@@ -34,7 +34,7 @@
 						<view class="fz12">{{ CommentScore(val.CommentScore) }}<span>({{ val.CommentNum }})</span></view>
 					</view>
 					<view v-if="isAdd" @click.stop="add(index,val.Id)" class="add">添加</view>
-					<view v-else @click.stop="del(val.Id,index)" class="del">
+					<view v-else @click.stop="del(val.Id)" class="del">
 						<image src="@/static/delBox.png" mode=""></image>
 					</view>
 				</view>
@@ -73,7 +73,7 @@
 		computed: {
 			CommentScore(score) {
 				return (score) => {
-					console.log('计算分数', score)
+					// console.log('计算分数', score)
 					if (!score) return;
 					if (score.length > 1) {
 						return score
@@ -102,22 +102,23 @@
 				// 	title:'添加成功！'
 				// })
 			},
-			del(id,index) {
-				let tempArr = this.$store.state.ProIdArr
-				for(let i =0; i < this.goodList.length;i++) {
-					// console.log('id对比=============-',this.goodList[i],this.goodList[i].Id,id,this.$store.state.ProIdArr)
-					if(this.goodList[i].Id === id) {
-						// console.log('老铁对比--',this.goodList[i].id,id)
-						this.goodList.splice(i,1)
-						for(let j =0; j < tempArr.length;j++) {
-							if(tempArr[j] === id) {
-								// 删除成功之后，需要清除掉vuex关联产品id组
-								tempArr.splice(j,1)
-							}
-						}
-					}
-				}
-				this.$store.commit('update',{"ProIdArr": tempArr})
+			del(id) {
+				this.$emit('del', id)
+				// let tempArr = this.$store.state.ProIdArr
+				// for(let i =0; i < this.goodList.length;i++) {
+				// 	// console.log('id对比=============-',this.goodList[i],this.goodList[i].Id,id,this.$store.state.ProIdArr)
+				// 	if(this.goodList[i].Id === id) {
+				// 		// console.log('老铁对比--',this.goodList[i].id,id)
+				// 		this.goodList.splice(i,1)
+				// 		for(let j =0; j < tempArr.length;j++) {
+				// 			if(tempArr[j] === id) {
+				// 				// 删除成功之后，需要清除掉vuex关联产品id组
+				// 				tempArr.splice(j,1)
+				// 			}
+				// 		}
+				// 	}
+				// }
+				// this.$store.commit('update',{"ProIdArr": tempArr})
 				// console.log('我删除了之后的数组：',this.$store.state.ProIdArr)
 			},
 		}
