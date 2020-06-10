@@ -10,7 +10,6 @@
 			})
 		},
 		onShow: function() {
-			// console.log('app展示了')
 			// 获取屏幕宽度,方便适配
 			this.$store.commit('update',{"SystemInfoWidth":getSystemInfoWidth()})
 			// 初始化日历

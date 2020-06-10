@@ -149,18 +149,6 @@ export default {
       this.searchlist=[]
       this.cityList()
     },
-    // bindKeyInput(e){  //输入搜索
-    //    this.inputName = e.mp.detail.value;
-    //    // 空搜索框时 取消匹配显示
-    //     if (this.inputName.length < 1) {
-    //       this.searchlist=[]
-    //       this.cityList()
-    //     }
-    //     this.scrollTopId='citylist' 
-    //     this.citylist=[]
-    //     this.auto() 
-        
-    // },
     auto(){
       let inputSd = this.inputName.trim();//去掉空格
       let sd = inputSd.toLowerCase();  //转为小写

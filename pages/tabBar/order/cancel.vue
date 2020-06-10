@@ -5,7 +5,7 @@
 			<view class="policy">
 				<view class="call">确认取消</view>
 				<view class="stack">取消政策</view>
-				<view class="limit">商家确认订单前可取消</view>
+				<view class="limit">{{refundInfo.RefundNote}}</view>
 			</view>
 			<view class="cancelflex">
 				<view class="">预订价格</view>
@@ -13,11 +13,11 @@
 			</view>
 			<view class="cancelflex">
 				<view class="">已支付</view>
-				<view class="cancelcolor">¥{{Total}}</view>
+				<view class="cancelcolor">¥{{refundInfo.Total}}</view>
 			</view>
 			<view class="cancelflex">
 				<view class="figure">您的退款总金额</view>
-				<view class="figure">¥{{Total}}</view>
+				<view class="figure">¥{{refundInfo.RefundAmout}}</view>
 			</view>
 			<view class="cancelflex" @click="showEdit = true">
 				<view class="">取消原因</view>
@@ -33,9 +33,9 @@
 		<!-- 取消预订退款 -->
 		<view class="refund" v-if="cancel == 1">
 			<image src="http://xqk.wtvxin.com/images/wxapp/icons/cancel.png" mode=""></image>
-			<view class="refund40">预订已取消</view>
-			<view class="refund32">您将会收到¥{{Total}}的退款。</view>
-			<view class="refund32">退款将在3-5个工作日内完成</view>
+			<view class="refund40">{{cancelInfo.msg}}</view>
+			<view class="refund32">{{cancelInfo.RefundStr}}</view>
+			<view class="refund32">{{cancelInfo.RefundNote}}</view>
 			<view class="confirm" @click="cancellation(1)">确定</view>
 		</view>
 		<pickers v-if="showEdit" :arr="typelist" :show.sync="showEdit" @success="gettype"></pickers>
@@ -57,7 +57,13 @@
 				OrderNumber:'', //订单号
 				UnitPrice:'',   //一组产品的价格
 				ActualPay:'',   //一组产品的实际支付
-				Total: '',      //支付金额
+				cancelInfo:{
+					RefundAmout: "0.10",
+					RefundNote: "退款将在3-5个工作日内完成",
+					RefundStr: "您将会收到￥0.10的退款。",
+					msg: "预订已取消"
+				},//取消成功
+				refundInfo:{},//退款信息
 			}
 		},
 		components: { pickers },
@@ -69,7 +75,6 @@
 		onLoad(e) {
 			this.OrderNumber = e.OrderNumber
 			this.UnitPrice = e.UnitPrice
-			this.Total = e.Total
 		},
 		methods:{
 			cancellation(e){
@@ -92,6 +97,9 @@
 						this.typelist.push(...res.data);
 					}
 				})
+				post('Order/RefundScreen',{OrderNo:this.OrderNumber}).then(res=>{
+					this.refundInfo = res.data;
+				})
 			},
 			// 订单取消预订
 			getCancelReservation(){
@@ -105,7 +113,8 @@
 					ReMarks: this.typeTxt, // 取消原因
 				}).then(res=>{
 					if(res.code === 0){
-						this.cancellation(1)
+						this.cancelInfo = res.data;
+						this.cancel = e;
 					}
 				})
 			},
