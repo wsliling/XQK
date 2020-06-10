@@ -98,7 +98,7 @@
 							{{ CommentScore(OrderCommentInfo.RankScore) }}
 						</div>
 						<div class="right">
-							<div class="tab">超赞</div>
+							<div class="tab" :class="{'isHidden': isHidden}">超赞</div>
 							<div class="starBox flex-center">
 								<div class="star flex-center">
 									<!-- <div class="iconfont icon-collect" v-for="(item,index) in OrderCommentInfo.RankScore*1" :key="index"></div>
@@ -312,7 +312,9 @@
 				// 产品评论列表
 				commentList :[],
 				// 订单评价汇总信息
-				OrderCommentInfo: {}
+				OrderCommentInfo: {},
+				// 多少分才显示超赞
+				maxScore: 4.5
 			}
 		},
 		onLoad(options) {
@@ -357,13 +359,13 @@
 				// console.log("我是类型",this.details[this.tabList[this.activeIndex].type])
 				return 1
 			},
-			toNum (str) {
-				return (str)=>{
-					console.log(Math.round(str),'str')
-					return 5;
-				}
-				// Math.round(str)
-			},
+			// toNum (str) {
+			// 	return (str)=>{
+			// 		console.log(Math.round(str),'str')
+			// 		return 5;
+			// 	}
+			// 	// Math.round(str)
+			// },
 			totalPrice(){
 				let calendarOption = this.calendarOption;
 				let startDate = new Date(calendarOption.currentRangeStartDate);
@@ -385,7 +387,40 @@
 					price=0;this.isSubmit = false;
 				}
 				return price;
-			}
+			},
+			isHidden() {
+				let score = Number(this.CommentScore(this.OrderCommentInfo.RankScore))
+				if(!score){
+					return
+				}
+				let res = score < this.maxScore
+				console.log('算出来的分数',
+					score,
+					this.maxScore,
+					score < this.maxScore)
+				return  res
+			},
+			// 分数
+			CommentScore (score) {
+				    return function(score) {
+						if(!score)return;
+						score =  this.intToFloat(score,1)
+						if (score.length > 1) {
+							console.log('我是2个字',score)
+							return score
+							// return score
+						}
+						console.log('我是一个字',score)
+						return score
+				    }
+					
+			},
+			intToFloat (num, decPlaces) {
+				    return function(num, decPlaces) {
+						return num + '.' + Array(decPlaces + 1).join('0'); 
+					}
+					
+			},
 		},
 		methods: {
 			toMap() {
@@ -481,14 +516,14 @@
 			changeSwiper(e){
 				this.currentSwiper=e.detail.current;
 			},
-			// 分数
-			CommentScore (score) {
-					if(!score)return;
-					if (score.length > 1) {
-						return score
-					}
-					return score + ".0"
-			},
+			// // 分数
+			// CommentScore (score) {
+			// 		if(!score)return;
+			// 		if (score.length > 1) {
+			// 			return Number(score)
+			// 		}
+			// 		return Number(score + ".0")
+			// },
 			// 价格说明
 			priceExplainStatus(status){
 				if(status){
