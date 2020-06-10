@@ -38,7 +38,7 @@
 		<!-- <not-data v-if="!goodList.length && (loadMore==2)" tipsText="暂无记录,可搜索其他星球客选择关联" /> -->
 		<!-- <not-data tipsTitle="" /> -->
 		<!-- <uni-load-more :loadingType="loadMore" v-if="goodList.length"></uni-load-more> -->
-		<view style="height: 120upx;"></view>
+		<view style="height: 60upx;"></view>
 	</view>
 </template>
 

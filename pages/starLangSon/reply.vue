@@ -1,7 +1,7 @@
 <template>
 	<div class="p30 bgfff">
 		<div class="footer flex-center-between plr30 ptb20">
-			<ans-input @confirm="confirm(Id)" class="input"  placeholder="写评论..." @input="replyInput" v-model="Comment" :align='left'></ans-input>
+			<ans-input @confirm="confirm(Id)" class="input"  placeholder="写评论..." v-model="Comment" :align='left'></ans-input>
 			<div class="btn-min" @click="submit">评论</div>
 		</div>
 		<reply-item  v-for="(item,index) in CommnetList" 
@@ -11,8 +11,9 @@
 			:isCheckReply="isCheckReply"
 			@changeItem="changeItem"></reply-item>
 		<!-- 数据判断显示 -->
-		<not-data v-if="CommnetList.length<1"></not-data>
-		<uni-load-more :loadingType="loadMore" v-else></uni-load-more>
+		<!-- <not-data v-if="CommnetList.length<1"></not-data> -->
+		<not-data v-if="CommnetList.length<1" :tipsTitle="tipsTitle" />
+		<uni-load-more :loadingType="loadMore" :contentText='contentText' v-else></uni-load-more>
 
 	</div>
 </template>
@@ -37,7 +38,14 @@
 				token:'',
 				loadMore:0,//0-loading前；1-loading中；2-没有更多了
 				isCheckReply: true,
+				onLoad: 1,
 				// IsMy:0,
+				tipsTitle: '暂无回复',
+				contentText: {
+					contentdown: "上拉显示更多",
+					contentrefresh: "正在加载...",
+					contentnomore: "没有更多回复了"
+				}
 			}
 		},
 		onLoad(options) {
@@ -52,6 +60,9 @@
 		},
 		onShow() {
 			this.getUserInfo()
+			if(!this.onLoad){
+				this.getCommnetList(this.Id)
+			}
 		},
 		methods: {
 			...mapMutations(['update']),
@@ -90,10 +101,10 @@
 				this.toComment(Id)
 				
 			},
-			replyInput(e){
-				// console.log('输入中，',e)
-				this.Comment = e;
-			},
+			// replyInput(e){
+			// 	// console.log('输入中，',e)
+			// 	this.Comment = e;
+			// },
 			submit(){
 				console.log(this.Comment,'评论内容')
 				this.confirm(this.Id)
@@ -115,6 +126,7 @@
 					}else{
 						this.loadMore =0;
 					}
+					this.onLoad = 0
 				}
 				
 				let tempList = res.data

@@ -67,7 +67,6 @@
 			this.headComment = this.$store.state.headComment
 			console.log('头部id：',this.CommentId)
 			console.log('头部：',this.headComment)
-			// this.getCommnetList()
 			this.getReplyList()
 		},
 		computed:{
@@ -95,7 +94,7 @@
 				if (!item.isReply) {
 					// this.$set( this.CommnetList[res.index], 'IsLike', res.data.IsLike )
 					// this.$set( this.CommnetList[res.index], 'LikeNum', res.data.LikeNum )
-					this.CommnetList.map((tem)=>{
+					this.headComment.map((tem)=>{
 						if(tem.Id===item.data.Id){
 							tem.IsLike = item.data.IsLike;
 							tem.LikeNum = item.data.LikeNum;
@@ -119,30 +118,6 @@
 				this.userId = uni.getStorageSync('userId');
 				this.token = uni.getStorageSync('token');
 			},
-			// 发现评论列表
-			// async getCommnetList (){
-				// let res = await post('Find/CommnetList',
-				// {
-				// 	UserId: this.userId,
-				// 	Token: this.token,
-				// 	PageSize: this.PageSize,
-				// 	FkId: this.FkId,
-				// 	ParentCommentId: this.ParentCommentId
-				// })
-				// console.log('回复详情页 --发现评论详情列表:',res)
-				// let tempArr = []
-				// if(res.code === 0 ){
-				// 	for(let i =0; i < res.data.length;i++){
-				// 		console.log('对上号了',res.data[i].Id,this.ParentCommentId)
-				// 		if(res.data[i].Id === this.ParentCommentId) {
-				// 			console.log('对上号了')
-				// 			tempArr = [res.data[i]]
-				// 		}
-				// 	}
-				// 	this.CommnetList = tempArr
-				// 	console.log('回复详情页 --发现评论详情列表:',this.CommnetList)
-				// }
-			// },
 			// 发现详情回复列表
 			async getReplyList (){
 				this.loadMore =1;
@@ -189,6 +164,8 @@
 					// 清空输入框
 					this.Comment = ""
 					// 如果评论成功需要再次请求评论列表
+					this.Page = 1
+					this.replyList =[]
 					this.getReplyList()
 					// // 如果评论成功，需要给detail的回复+1
 					// this.detail.CommentNum++
