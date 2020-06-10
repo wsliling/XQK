@@ -48,11 +48,14 @@ export default {
 			Type: 0, // 0-身份证
 			Idcard: '', // 证件号码
 			Mobile: '', // 手机号
-			Email: '' // 邮箱
+			Email: '' ,// 邮箱
+			empty:'',
 		};
 	},
 	onLoad(e) {
 		// 编辑传过来的id
+		this.empty = e.type
+		console.log(this.empty ,'this.empty ')
 		if (e.id) {
 			this.invoiceId = e.id;
 			uni.setNavigationBarTitle({
@@ -172,7 +175,7 @@ export default {
 		},
 		// 设置默认用户常用信息
 		async tacitlyInvoice() {
-			console.log(111)
+			if(this.empty)return
 			if(this.IsDefault == 0){
 				let Uid = 0
 				let result = await post('User/UserInfoDefault', {
