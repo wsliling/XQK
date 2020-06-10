@@ -61,7 +61,7 @@
 					<div class="confirm" @click="sortTagConfirm">确定</div>
 				</div>
 				<div class="content plr30 pb30">
-					<h3>特色标签</h3>
+					<h3 v-if="commonSetting.TagsClass">{{commonSetting.TagsClass}}</h3>
 					<div class="tag flex-center">
 						<div class="item" :class="{'tabActive':index===l_tag}" 
 							v-for="(item,index) in sortTagList" :key="index" @click="changeTag(index)"
@@ -122,7 +122,7 @@
 		},
 		computed:{
 			// calendarOption--日历参数
-			...mapState(['lng','lat','cityName','cityCode','calendarOption'])
+			...mapState(['lng','lat','cityName','cityCode','calendarOption','commonSetting'])
 		},
 		onLoad(e) {
 			this.keyword = e.keyword;

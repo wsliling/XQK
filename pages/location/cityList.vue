@@ -2,11 +2,6 @@
   <div class="bgfff">
       <!--顶部输入框-->
       <div class="search">
-          <!-- <div class="topinput flex-center-between">
-              <input type="text" placeholder="请输入城市名称" :value="inputName" @input="bindKeyInput">
-              <img src="http://xqk.wtvxin.com/images/wxapp/images/search.png" class="searchpic absolu">
-              <img src="http://xqk.wtvxin.com/images/wxapp/images/cancle.png" class="canclepic absolu" style="z-index:40" @click="bindBlur">
-          </div> -->
           <uni-search-bar :radius="100" placeholder="请输入城市名称" @input="searchInput" @cancel="searchInput"
            cancelButton="none"></uni-search-bar>
       </div>
@@ -18,12 +13,14 @@
               <div style="margin-top:0;">当前</div>
               <div style="margin-top:0;">热门</div>
             </div>
-            <div class="tab" v-for="(item, idx) in searchLetter" :key="idx" :data-letter="item" @click="clickLetter">
-              {{ item }}   
-            </div>
+            <block v-for="(item, idx) in citylist" :key="idx" >
+                <div class="tab" :data-letter="item.initial" @click="clickLetter" v-if="item.cityInfo.length">
+                  {{ item.initial }}   
+                </div>
+            </block>
           </div>
           <div class="container">
-              <scroll-view scroll-y="true" v-bind:style="{height: winHeight + 'px'}" :scroll-into-view="scrollTopId" scroll-with-animation>
+              <scroll-view scroll-y="true" v-bind:style="{height: winHeight-52 + 'px'}" :scroll-into-view="scrollTopId" scroll-with-animation>
                 <!--定位当前城市-->
 
                 <div class="item mylocal flex-center-between" id="currentcity">
@@ -43,7 +40,7 @@
                 
                   <div class="item title pl30">热门城市</div>
                   <div class="flex-center cityhot">
-                      <div class="name" v-for="item in hotCity" :key="item.id" :data-city="item.name"  @click="bindCity">{{item.name}}</div>
+                      <div class="name" v-for="(item,index) in hotCity" :key="index" :data-city="item.name"  @click="bindCity">{{item.name}}</div>
                   </div>
                   <!--搜索城市-->
                   <div class="citylist" v-for="(item,sindex) in searchlist" :key="sindex">
@@ -54,8 +51,12 @@
                   </div>
                   <!--城市列表-->
                     <div class="citylist" v-for="(item, idx) in citylist" :key="idx">
-                      <div class="item pl30" :id="item.initial">{{ item.initial }}</div>
-                      <div style="padding:20rpx 30rpx;border-bottom:1rpx solid #f4f4f4" v-for="(cityItem, index) in item.cityInfo" :key="index" :data-code="cityItem.code" :data-city="cityItem.city" @click="bindCity">
+                      <div class="item pl30" v-if="item.cityInfo.length">{{ item.initial }}</div>
+                      <div style="padding:20rpx 30rpx;border-bottom:1rpx solid #f4f4f4" 
+                        v-for="(cityItem, index) in item.cityInfo" :key="index" :data-code="cityItem.code" 
+                        :data-city="cityItem.city" @click="bindCity"
+                         :id="index===0?item.initial:''"
+                        >
                           {{cityItem.city}}
                       </div>
                     </div>
@@ -69,10 +70,11 @@
 <script>
 // import "../../css/global.css";
 // import "../../css/common.css";
-import {navigateBack} from '@/utils';
+import {navigateBack,get} from '@/utils';
 import {hasPosition} from '@/utils/location';
 import { mapState, mapMutations } from "vuex"; //vuex辅助函数
-import city from './city'
+import city from './city';
+import pinyin from '@/components/pinyin';
 export default {
   data () {
     return {
@@ -104,49 +106,60 @@ export default {
   },
   onLoad(){
     this.setBarTitle();
-    this.cityList()
+    this.getData();
     console.log(city)
   },
   methods: {
     ...mapMutations(["update"]),
+    async getData(){
+      const res = await get('Area/AreaList');
+      this.allCity=[];
+      let newHot=[];
+      // 获取到数据，改成需要格式
+      res.data.map((item,index)=>{
+        // 城市拿到首页拼音
+        let piny = pinyin(item.Name,{
+              style:pinyin.STYLE_FIRST_LETTER
+            });
+        let piny2 = ''
+        piny.map(pinyItem=>{
+          piny2+=pinyItem;
+        })
+        this.allCity.push({
+            id:index,
+            'code': item.Code,
+            'city': item.Name,
+            'initial': piny[0][0].toLocaleUpperCase(),
+            'short': piny2
+        })
+        // 只有存在热门城市存在的时候才会展示
+        this.hotCity.map((hot,hotIndex)=>{
+          if(hot.name===item.Name){
+            newHot.push(hot)
+          }
+        })
+      })
+      this.hotCity=newHot;
+      this.cityList()
+
+      console.log(this.allCity)
+    },
      bindBlur(e) {
       this.inputName = '';
       this.searchlist=[]
       this.cityList()
     },
-    bindKeyInput(e){  //输入搜索
-      //console.log(e)
-       this.inputName = e.mp.detail.value;
-       // 空搜索框时 取消匹配显示
-        if (this.inputName.length < 1) {
-          this.searchlist=[]
-          this.cityList()
-        }
-        this.scrollTopId='citylist' 
-        this.citylist=[]
-        this.auto() 
-        
-    },
     auto(){
       let inputSd = this.inputName.trim();//去掉空格
       let sd = inputSd.toLowerCase();  //转为小写
-      let num = sd.length;
+      // let num = sd.length;
       let finalCityList = [];
       //拼音搜索
       let temp = this.allCity.filter(
         item => {
-          let text = item.short.slice(0, num).toLowerCase(); //把拼音转为小写
-          // eslint-disable-next-line
-          return (text && text == sd);
+          return item.short.indexOf(sd)!==-1||item.city.indexOf(inputSd)!==-1
         }
       );
-      //中文搜索
-      let tempChinese = this.allCity.filter(
-        itemChinese => {
-          let textChinese = itemChinese.city.slice(0,num);
-          return (textChinese && textChinese == sd)
-        }
-      )
       if (temp[0]) {
         temp.map(
           item=>{
@@ -156,28 +169,16 @@ export default {
             finalCityList.push(testObj)
           }
         );
-        
-        this.searchlist = finalCityList
-      }else if(tempChinese[0]){
-        tempChinese.map(
-          item => {
-            let testObj = {}
-            testObj.city=item.city
-            testObj.code=item.code
-            finalCityList.push(testObj)
-          }
-        );
-        console.log(finalCityList,"城市集合")
-        this.searchlist=finalCityList
       }
+        
+       finalCityList.length?(this.searchlist = finalCityList):this.searchlist =[]
     },
     clickLetter(e){
-        console.log(e)
+        this.scrollTopId='';
         const showLetter=e.currentTarget.dataset.letter
         this.scrollTopId = showLetter;
     },
     bindCity(e){ //点击城市
-      console.log(e)
       this.update({ cityName: e.currentTarget.dataset.city });
       // this.cityList()
       navigateBack(100)
@@ -210,7 +211,6 @@ export default {
     },
     // input的change事件
     searchInput(e){
-      console.log(e)
        this.inputName = e.value;
        // 空搜索框时 取消匹配显示
         if (this.inputName.length < 1) {
@@ -220,9 +220,6 @@ export default {
         this.scrollTopId='citylist' 
         this.citylist=[]
         this.auto() 
-    },
-    searchCancel(){
-
     },
     // 重新定位
     reloadCity(){

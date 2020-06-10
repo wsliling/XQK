@@ -190,7 +190,7 @@
 		,{
 		    "path" : "pages/tabBar/my/security",
 		    "style" : {
-				"navigationBarTitleText": "星球客旅行保障"  //安全中心
+				"navigationBarTitleText": ""  //安全中心
 			}
 		}
 		,{
@@ -214,7 +214,7 @@
         ,{
             "path" : "pages/home/introduction",
             "style" : {
-				"navigationBarTitleText": "了解星球客"
+				"navigationBarTitleText": ""
 			}
         }
         ,{

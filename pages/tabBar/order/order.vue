@@ -12,14 +12,15 @@
 						<view class="name">{{ val.ShopName }}</view>
 						<view class="desc">{{ val.MakeDate }}•{{ val.MakePeople }}位房客</view>
 						<view class="flex">
-							<text :class="['staus', val.StatusName === '待付款'||val.StatusName === '已失效'||val.StatusName === '已取消' ? 'red' : '']"
+							<text :class="['staus', val.StatusName === '待付款' ? 'red' : '']"
 								>订单{{ val.StatusName }}
 							</text>
 							<text class="price">￥{{ val.Total }}</text>
 						</view>
-						<view style="color: #999;">
+						<view style="color: #999;" v-if="val.StatusName === '待付款'">
 							<text>{{ val.StatueNote }}</text>
 						</view>
+						<view style="color: #999;" v-else></view>
 					</view>
 					<view class="imgbox" v-for="(item, key1) in val.OrderDetails" :key="key1"><image :src="item.PicNo" mode="aspectFill"></image></view>
 				</view>
@@ -39,7 +40,7 @@
 									OrderNumber:val.OrderNumber,
 									UnitPrice:items.UnitPrice,
 									ActualPay:items.ActualPay,
-									Total:val.Total}
+									}
 							)"
 					>
 						取消预订
