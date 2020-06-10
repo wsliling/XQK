@@ -200,7 +200,7 @@
 			return {
 				imageSrc: 'http://xqk.wtvxin.com/images/wxapp/xingkong-icon/xingkong-bg.png',
 				// 星控的环形图数据
-				process: 7, // 分数 0 ~10
+				process: 1, // 分数 0 ~10
 				describe: '优', // 描述
 				color: '#ff0000', // 描述文字颜色
 				canvasHeight: 222, // 固定的高度，不用改

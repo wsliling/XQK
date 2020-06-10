@@ -270,25 +270,6 @@
 			// this.xin(4.2)
 		},
 		methods: {
-			// xing() {
-			// 	const ctx = uni.createCanvasContext('myCanvas')
-
-			// 	// Create linear gradient
-			// 	const grd = ctx.createLinearGradient(0, 0, 200, 0)
-			// 	grd.addColorStop(0, 'yellow')
-			// 	grd.addColorStop(1, 'white')
-
-			// 	// Fill with gradient
-			// 	ctx.setFillStyle(grd)
-			// 	ctx.fillRect(10, 10, 150, 80)
-			// 	ctx.draw()
-			// },
-			// // 关联卡片的收藏星球客
-			// onCollect(res) {
-			// 	console.log('点赞返回',res)
-			// 	this.$set(this.findList,'CollectionId',res.CollectNum)
-			// 	this.$set(this.findList,'CollectNum',res.CollectNum)
-			// },
 			// 点击了星语收藏
 			async onCollect(item) {
 				this.findList.map(async (tem) => {
@@ -399,21 +380,20 @@
 					this.getFindList()
 					// 更新dom之后
 					this.getReactBox()
-					this.$nextTick().then(() => {
-						this.oneLoad = 0
-					})
+					// this.$nextTick().then(() => {
+					// 	this.oneLoad = 0
+					// })
 				}
+				// 更新Dom之后
+				this.$nextTick().then(() => {
+					this.oneLoad = 0
+				})
 			},
 			changeIsShowAll() {
 				this.isShowAll = !this.isShowAll
 				this.textHeight = 'auto'
 				// console.log(this.isShowAll)
 			},
-			// // 推荐列表
-			// async getDataList (){
-			// 	let res = await post('Find/FindList',{myType:2})
-			// 	this.datalist = res.data
-			// },
 			// 点赞
 			async toZan(Id) {
 				let res = await post('Find/FindlikeOperation', {
@@ -461,7 +441,7 @@
 					this.$store.commit('update', {
 						"allComment": this.CommnetList
 					})
-					console.log('发现评论列表vuex存储allComment：', this.$store.state.allComment)
+					// console.log('发现评论列表vuex存储allComment：', this.$store.state.allComment)
 				}
 			},
 			// 用户评论操作

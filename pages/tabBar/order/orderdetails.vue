@@ -126,7 +126,7 @@
 			goUrl(Total) {
 				if(Total){
 					uni.navigateTo({
-						url: '/pages/tabBar/order/cancel?OrderNumber='+ this.OrderNumber + '&UnitPrice=' + this.UnitPrice + '&ActualPay=' + this.ActualPay + '&Total=' + Total
+						url: '/pages/tabBar/order/cancel?OrderNumber='+ this.OrderNumber + '&UnitPrice=' + this.UnitPrice + '&ActualPay=' + this.ActualPay 
 					});
 				}else{
 					uni.navigateTo({

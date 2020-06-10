@@ -163,6 +163,9 @@ p{
 						width:10upx;height:10upx;
 						transform:rotate(45deg);
 					}
+					&.isHidden {
+						visibility: hidden;
+					}
 				}
 				.starBox{
 					font-size:22upx;

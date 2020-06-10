@@ -40,7 +40,7 @@
 									OrderNumber:val.OrderNumber,
 									UnitPrice:items.UnitPrice,
 									ActualPay:items.ActualPay,
-									Total:val.Total}
+									}
 							)"
 					>
 						取消预订

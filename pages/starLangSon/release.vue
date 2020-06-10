@@ -75,7 +75,7 @@ export default {
 			showEdit: false,
 			type: '',
 			PicList: [],
-			maxPicLen: 10, //最多上传
+			maxPicLen: 9, //最多上传
 			isUploadBtn: true, //显示上传图片按钮
 			// 分割线
 			userId:'',
