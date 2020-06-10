@@ -199,12 +199,13 @@
 		data() {
 			return {
 				imageSrc: 'http://xqk.wtvxin.com/images/wxapp/xingkong-icon/xingkong-bg.png',
-				process: 7,
-				describe: '优',
-				color: '#ff0000',
-				canvasHeight: 222,
-				canvasWiidth: 222,
-				myCanvasId: 'myCanvasId'
+				// 星控的环形图数据
+				process: 7, // 分数 0 ~10
+				describe: '优', // 描述
+				color: '#ff0000', // 描述文字颜色
+				canvasHeight: 222, // 固定的高度，不用改
+				canvasWiidth: 222, // 固定的宽度，不用改
+				myCanvasId: 'myCanvasId' // 固定的id，不用改
 			}
 		},
 		onLoad() {
