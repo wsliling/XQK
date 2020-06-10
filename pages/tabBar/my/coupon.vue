@@ -10,17 +10,11 @@
 			<view class="list jus-b flex" v-for="(item, index) in datalist" :key="index" v-if="tabIndex == 0">
 				<view class="left">
 					<view class="name">{{item.Title}}</view>
-					<view class="time">有效期至{{editTime(item.EndTime)}}</view>
-					<!-- <div class="useinfo oneline" style="left: 15upx;">仅可购买星求客店铺商品</div> -->
-					<!-- <div class="useinfo oneline">说明：指定店铺使用</div> -->
-					<!-- <view class="coupoutag flexc">'满减券':'折扣券'</view> -->
+					<view class="time">有效期至{{shijiantime(item.EndTime)}}</view>
 				</view>
 				<view class="right flexc">
 					<view>
-						<view class="num">
-							{{item.Denomination}}元
-							<!-- <span>'元':'折'</span> -->
-						</view>
+						<view class="num">{{item.Denomination}}元</view>
 						<span>满{{item.MeetConditions}}元可使用</span>
 					</view>
 				</view>
@@ -29,13 +23,11 @@
 			v-for="(item, index) in datalist" :key="index" v-if="tabIndex == 1 || tabIndex == 2">
 				<view class="left">
 					<view class="name">{{item.Title}}</view>
-					<view class="time">有效期至{{editTime(item.EndTime)}}</view>
+					<view class="time">有效期至{{shijiantime(item.EndTime)}}</view>
 				</view>
 				<view class="right flexc" v-if="tabIndex == 1 || tabIndex == 2" :style="{ background: '#D4D5D7' }">
 					<view>
-						<view class="num" style="color: #fff;">
-							{{item.Denomination}}元
-						</view>
+						<view class="num" style="color: #fff;">{{item.Denomination}}元</view>
 						<span>满{{item.MeetConditions}}元可使用</span>
 					</view>
 				</view>
@@ -45,16 +37,14 @@
 		<view class="uni-tab-bar-loading">
 			<uni-load-more :loadingType="loadingType" v-if="noDataIsShow == false"></uni-load-more>
 		</view>
-		<!-- <view class="btn_de" @click="goUrl('/pages/member/couponCenter/couponCenter')">领券中心</view> -->
 	</view>
 </template>
 <script>
-import { post,editTime } from '@/utils';
+import { post } from '@/utils';
 import noData from '@/components/noData'; //没有数据的通用提示
 export default {
 	data() {
 		return {
-			editTime,
 			tabList: ['未使用', '已使用', '已失效'],
 			tabIndex: 0,
 			couponStatus: 1, //0全部，1可用，2已使用，3已失效
@@ -122,7 +112,12 @@ export default {
 					this.loadingType = 0;
 				}
 			});
-		}
+		},
+		shijiantime(times){
+		    var timearr = times.replace(" ", ":").replace(/\:/g, "-").split("-");
+		    var timestr = ""+timearr[0]+"-" + timearr[1] + "-" + timearr[2]
+		    return timestr
+		},
 	},
 	// 上拉加载
 	onReachBottom: function() {
