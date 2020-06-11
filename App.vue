@@ -49,5 +49,4 @@
 		font-size: 28upx;
 		line-height: 1.8;
 	}
-	$primary:#1776E1; /* 更换的颜色 */
 </style>

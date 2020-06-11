@@ -1,6 +1,5 @@
 <template>
 	<view>
-		<tabbar :current="2"></tabbar>
 		<!-- <canvas :style="'width:'+canvasWiidth+'rpx; height:' +canvasHeight +'rpx;'" :canvas-id="myCanvasId" class=""></canvas> -->
 		<!-- <div>
 		      <canvas ref="canvas1" id="myCanvas" :style='{border: "1px solid #000000",width:"200px",height:"200px" }'/>
@@ -180,9 +179,12 @@
 			<!-- 			<div id="progress">
 			      <span></span>
 			</div> -->
-
 		</view>
-
+		<!-- <tabbar-copy :current="2"></tabbar-copy> -->
+		<tabbar :current="2"></tabbar>
+		<cover-view style="height: 120rpx;" @click="switchTab('tabBar/xingkong/xingkong')" class="xingkong-box">
+			<cover-image class="xingkong-img" src="/static/tabbar/f.png"></cover-image>
+		</cover-view>
 	</view>
 </template>
 
@@ -190,11 +192,14 @@
 	// import imageSrc from "@/static/xingkong-icon/xingkong-bg.png"
 	import tabbar from '@/components/tabbar.vue';
 	import circularProgressBar from '@/components/circularProgressBar.vue';
+	import tabbarCopy from '@/components/tabbarCopy.vue';
+
 	// import uCharts from '@'
 	export default {
 		components: {
 			tabbar,
-			circularProgressBar
+			circularProgressBar,
+			tabbarCopy
 		},
 		data() {
 			return {

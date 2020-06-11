@@ -183,7 +183,7 @@ import {startLevel} from '@/components/starLevel';
 					position: absolute;
 					top: 8upx;
 					left:-162upx;
-					z-index: -2;
+					z-index: 0;
 				}
 				.iconfont{
 					color: $primary;
