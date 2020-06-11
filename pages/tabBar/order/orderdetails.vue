@@ -38,13 +38,23 @@
 					<view class="">{{orderList.MakeStartTime}}</view>
 				</view>
 				<view class="checkbottom">
-					<view class="">入住人</view>
+					<view class="">预定人</view>
 					<view class="">{{orderList.ContactName}}</view>
 				</view>
 				<view class="checkbottom">
 					<view class="">联系方式</view>
 					<view class="">{{orderList.Tel}}</view>
 				</view>
+				<!-- 入住人信息 -->
+				<div class="checkIn">
+					<div class="tit">入住人</div>
+					<div class="item" v-for="(item,index) in orderList.dt_uinfo" :key="index">
+						<h5>{{item.FullName}}</h5>
+						<p>{{item.Idcard}}</p>
+						<p>{{item.Mobile}}</p>
+						<p>{{item.Email}}</p>
+					</div>
+				</div>
 			</view>
 		</view>
 		<view class="place">
@@ -320,6 +330,19 @@
 					padding: 20upx 0;
 					&:last-child{
 						border-bottom:none;
+					}
+				}
+				.checkIn{
+					padding-bottom:10rpx;
+					.tit{
+						line-height:70upx;
+					}
+					.item{
+						background:#f2f2f2;
+						margin-bottom:20upx;
+						color:#666;
+						padding:20upx;
+						border-radius:10upx;
 					}
 				}
 				
