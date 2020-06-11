@@ -4,7 +4,7 @@
       <div class="regLoginBox">
         <div class="logo">
           <div class="img">
-            <img src="http://xqk.wtvxin.com/images/wxapp/logo.png" />
+            <img :src="logoImg"/>
           </div>
         </div>
         <div class="from pd10">
@@ -72,9 +72,11 @@ export default {
       shareId: "",
       timeout: false,
       inviteCode:"",//邀请码
+      logoImg:'',
     };
   },
   onLoad(params) {
+    this.logoImg = this.$store.state.commonSetting.WebLogo;
     this.btnText = "获取验证码";
     this.phoneNumber = "";
     this.verifyCode = "";

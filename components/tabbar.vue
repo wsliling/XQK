@@ -58,7 +58,10 @@
 					},
 				]
 			}
-		},
+        },
+        onShow(){
+            wx.hideTabBar()
+        },
 		methods: {
 			navigatorTo(e) {
 				uni.switchTab({

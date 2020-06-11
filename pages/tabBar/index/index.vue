@@ -92,13 +92,13 @@
 			<view class="index_hd uni-mb10">
 				<view class="flex-between">
 					<view class="title">
-						热门推荐
+						{{ commonSetting.HotRecTitle }}
 					</view>
 				</view>
 			</view>
 			<product-item v-for="(item,index) in hotRecommendList" :key="index" :item="item" @onCollect="onProCollect"></product-item>
 			<view class="btn_line" @click="navigate('home/recommend')">
-				查看更多推荐
+				查看更多
 			</view>
 		</view>
 		<!-- 服务保障 -->
@@ -124,7 +124,7 @@
 				</view>
 			</view>
 			<view class="btn_line uni-mb10" @click="switchTab('tabBar/starLang/starLang')">
-				查看更多星语
+				查看更多
 			</view>
 		</view>
 		<!-- 景点选择 -->

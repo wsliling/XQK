@@ -2,7 +2,7 @@
 	<view class="emptybox">
 		<view class="iconimg">
 			<view class="iconfont icon-wushuju" v-if="mode==='icon'"></view>
-			<image class="img" v-if="mode==='img'" src="http://xqk.wtvxin.com/images/wxapp/notData.png" mode="widthFix"></image>
+			<image class="img" v-if="mode==='img'" :src="notDataImg" mode="widthFix"></image>
 		</view>
 		<view class="tips uni-center">{{tipsTitle}}</view>
 		<div class="tips-min" v-if="tipsText">{{tipsText}}</div>
@@ -28,11 +28,11 @@
 		},
 		data() {
 			return {
-				
+				notDataImg:'',
 			};
 		},
 		created: function(){
-			
+			this.notDataImg= this.$store.state.commonSetting.NoProImg;
 		}
 	}
 </script>
