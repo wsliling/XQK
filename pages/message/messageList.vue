@@ -7,7 +7,7 @@
 					<view class="center uni-mb10">
 						<text class="time">{{item.PubTime}}</text>
 					</view>
-					<view class="txtbox">
+					<view class="txtbox" :class="{'islook':item.Islook}">
 						<view class="title">
 							{{item.title}}
 						</view>
@@ -134,7 +134,7 @@
 	}
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 	.tabList .swiper-tab-list{ width: 50%;}
 	.uni-swiper-tab .active .s{ display: inline-block;}
 	.list-item{margin: 20upx 20upx 0;}
@@ -160,4 +160,10 @@
 	.uni-media-list .time{ color: #999; line-height: 36upx; font-size: 26upx;}
 	.uni-badge-red{ background: #fa3d34;}
 	.uni-list-cell::after{left: 150upx;}
+	.islook{ 
+		background: #fcfcfc;
+		.title{
+			color:#888;
+		}
+	}
 </style>

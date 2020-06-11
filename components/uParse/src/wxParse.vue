@@ -36,7 +36,7 @@ export default {
     },
     noData: {
       type: String,
-      default: '<div style="color: red;">数据不能为空</div>',
+      default: '暂无数据',
     },
     startHandler: {
       type: Function,

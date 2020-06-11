@@ -191,6 +191,11 @@
 					url: Url
 				})
 			},
+		},
+		onReachBottom: function() {
+			if (this.loadingType === 2)return;
+			this.page+=1;
+			this.getMessage();
 		}
 	}
 </script>
