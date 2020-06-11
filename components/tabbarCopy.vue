@@ -1,14 +1,17 @@
 <template>
-	<cover-view class="TabBar">
-		<cover-view class="tab" v-for="(item,index) in list" :key="index" @tap="navigatorTo(item.pagePath)">
+	<view class="TabBar">
+		<view class="tab" v-for="(item,index) in list" :key="index" @tap="navigatorTo(item.pagePath)">
 			<!-- 判断是否有点击，如果没有就不是激活样式，点击就是激活的样式 -->
-			<cover-image class="imgsize" v-if="item.type == 0" :src="current == index ? item.selectedIconPath : item.iconPath"
-			 mode="widthFix"></cover-image>
+			<image class="imgsize" v-if="item.type == 0" :src="current == index ? item.selectedIconPath : item.iconPath"
+			 mode="widthFix"></image>
 			<!-- 设置一个状态值（type），判断加号是否展示 -->
-			<cover-image class="addimgsize" v-if="item.type == 1" src="/static/tabbar/f.png" mode="widthFix"></cover-image>
-			<cover-view :class="['text',current == index ?'active':'', index==2 ?'text-centent':'']">{{item.text}}</cover-view>
-		</cover-view>
-	</cover-view>
+			<image class="addimgsize" v-if="item.type == 1" src="/static/tabbar/f.png" mode="widthFix"></image>
+			<view class="imgsize">
+
+			</view>
+			<view :class="['text',current == index ?'active':'', index==2 ?'text-centent':'']">{{item.text}}</view>
+		</view>
+	</view>
 </template>
 
 <script>
@@ -58,10 +61,7 @@
 					},
 				]
 			}
-        },
-        onShow(){
-            wx.hideTabBar()
-        },
+		},
 		methods: {
 			navigatorTo(e) {
 				uni.switchTab({
@@ -117,7 +117,7 @@
 			position: absolute;
 			left: 50%;
 			transform: translateX(-50%);
-			bottom: 10upx;
+			bottom: 2upx;
 			text-align: center;
 		}
 

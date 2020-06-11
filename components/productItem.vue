@@ -28,7 +28,7 @@
                     </view>
                     <view class="score flex-center-end">
 <!-- 					<canvas style="width: 160rpx; height: 32rpx;" :canvas-id="item.Id" class=""></canvas>
- -->					<start-level :myCanvasId="item.Id" :value="item.CommentScore"></start-level>
+ -->					<start-level class='canvas' :myCanvasId="item.Id" :value="item.CommentScore"></start-level>
                         <!-- <view class="iconfont icon-collect"></view> -->
 						<!-- <view class="iconfont icon-collect" v-for="(item3,index3) in item.CommentScore*1" :key="index3"></view>
 						<view class="iconfont icon-collect1" v-for="(item4,index4) in (5-(item.CommentScore))" :key="index4"></view> -->
@@ -178,6 +178,13 @@ import {startLevel} from '@/components/starLevel';
 				}
 			}
 			.score{
+				position: relative;
+				.canvas {
+					position: absolute;
+					top: 8upx;
+					left:-162upx;
+					z-index: 0;
+				}
 				.iconfont{
 					color: $primary;
 				}

@@ -473,6 +473,10 @@
 					toast(checkyuding)
 					return
 				};
+				let Uid=[];
+				this.useUserInfo.map(item=>{
+					Uid.push(item.Id)
+				})
 				const res = await post('Order/SubmitBookOrder',{
 						UserId: this.userId,
 						Token: this.token,
@@ -485,7 +489,8 @@
 						AreaCode:this.cityCode,
 						ContactName:this.ContactName,
 						Tel:this.Tel,
-						InvoiceId:this.invoiceId
+						InvoiceId:this.invoiceId,
+						Uid:Uid.join(',')
 				})
 				this.ConfirmWeiXinSmallPay(res.data);
 			},

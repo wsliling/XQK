@@ -5,7 +5,7 @@
 		<!-- #endif -->
 		<!--轮播图-->
 		<view class="index_swiper">
-			<swiper class="swiper" :indicator-dots="false" autoplay :interval="5000" :duration="500" @change="changeSwiper">
+			<swiper v-if="commonSetting.SwitchSeconds" class="swiper" :indicator-dots="false" autoplay :interval="commonSetting.SwitchSeconds * 1000" :duration="500" @change="changeSwiper">
 				<swiper-item v-for="(item,index) in bannerList" :key="index">
 					<view class="swiper-item">
 						<image class="img" :src="item.Pic" mode="aspectFill" @click="updateBannerHits(index)"></image>
@@ -75,9 +75,9 @@
 		<view class="ljXQ pd15 mg-top20 uni-mb10" v-if="about.Title">
 			<view class="index_hd uni-mb10">
 				<view class="flex-center-between">
-					<view class="title">{{about.Title}}</view>
-					<view class="more flex-end" @click="navigate('home/introduction',{title:about.Title})">
-						查看详情<text class="iconfont icon-you"></text>
+					<view @click="adds" class="title">{{about.Title}}</view>
+					<view :style="'color:' +commonSetting.ThemeColor + ';'" class="more flex-end" @click="navigate('home/introduction',{title:about.Title})">
+						查看详情<text :style="'color:' +commonSetting.ThemeColor + ';'" class="iconfont icon-you"></text>
 					</view>
 				</view>
 				<view class="sutitle">{{about.SubTitle}}</view>
@@ -92,13 +92,13 @@
 			<view class="index_hd uni-mb10">
 				<view class="flex-between">
 					<view class="title">
-						热门推荐
+						{{ commonSetting.HotRecTitle }}
 					</view>
 				</view>
 			</view>
 			<product-item v-for="(item,index) in hotRecommendList" :key="index" :item="item" @onCollect="onProCollect"></product-item>
 			<view class="btn_line" @click="navigate('home/recommend')">
-				查看更多推荐
+				查看更多
 			</view>
 		</view>
 		<!-- 服务保障 -->
@@ -114,7 +114,7 @@
 			<view class="index_hd uni-mb10">
 				<view class="flex-between">
 					<view class="title">
-						推荐星语
+						{{ commonSetting.StarRecTitle }}
 					</view>
 				</view>
 			</view>
@@ -124,7 +124,7 @@
 				</view>
 			</view>
 			<view class="btn_line uni-mb10" @click="switchTab('tabBar/starLang/starLang')">
-				查看更多星语
+				查看更多
 			</view>
 		</view>
 		<!-- 景点选择 -->
@@ -168,13 +168,22 @@
 			</view>
 		</view>
 		<view style="height: 120upx;"></view>
-		<tabbar :current="0"></tabbar>
+			<!-- <start-level style="width: 170rpx; height: 32rpx;" class='canvas' :value="3"></start-level> -->
+			<!-- <view @click="dian" class="canvas2">
+				点击哥
+			</view> -->
+			<tabbar-copy :current="0"></tabbar-copy>
+			<tabbar :current="0"></tabbar>
+			<cover-view style="height: 120rpx;" @click="switchTab('tabBar/xingkong/xingkong')" class="xingkong-box">
+				<cover-image class="xingkong-img" src="/static/tabbar/f.png"></cover-image>
+			</cover-view>
 	</view>
 </template>
 
 <script>
 	import {post,get,navigate,switchTab,judgeLogin,toast} from '@/utils';
 	import tabbar from '@/components/tabbar.vue';
+	import tabbarCopy from '@/components/tabbarCopy.vue';
 	import datePicker from '@/components/date-picker/date-picker.vue';
 	import {hasPosition,getCityCode} from '@/utils/location';
 	// #ifdef H5
@@ -184,6 +193,8 @@
 	import { mapState, mapMutations } from "vuex"; //vuex辅助函数
 	import productItem from '@/components/productItem.vue';
 	import starLangItem from '@/components/starLangItem.vue';
+	import {startLevel} from '@/components/starLevel';
+	
 	export default {
 		data() {
 			return {
@@ -220,16 +231,29 @@
 				findList:[], // 发现列表
 				showCoupon:false,//领券中心
 				couponList:[],//优惠券弹窗
+				// myInterval: 0
 			}
 		},
 		components: {
-			tabbar,
+			tabbar,tabbarCopy,
 			datePicker,
-			wpicker,productItem,starLangItem
+			wpicker,productItem,starLangItem,startLevel
 		},
 		computed:{
-			...mapState(['lng','lat','cityName','cityCode','calendarOption'])
+			...mapState(['lng','lat','cityName','cityCode','calendarOption','commonSetting']),
 		},
+		// watch:{
+		// 	  '$store.state.commonSetting': {
+		// 	    handler(newName, oldName) {
+		// 			console.log('$store.state.commonSetting changed:',newName,this.$store.state.commonSetting.SwitchSeconds);
+		// 			this.myInterval = newName.SwitchSeconds * 1000
+		// 			console.log('我是间隔',this.myInterval)
+		// 	    },
+		// 	    immediate: true,
+		// 	    // deep: true
+		// 	  },
+			
+		// },
 		onLoad() {
 			this.getScan()
 			this.userId = uni.getStorageSync("userId");
@@ -261,6 +285,12 @@
 			}
 		},
 		methods: {
+			dian() {
+				uni.showToast({
+					title:'点我啊',
+					icon:'none'
+				})
+			},
 			// // 获取小程序右边菜单栏的宽高以及定位
 			getScan (){
 				// getSystemInfo,还是下面的好
@@ -514,13 +544,13 @@
 					UserId:this.userId,
 					Token:this.token,
 					CouponId:id
-				})
+				},{isLogin:true})
 				toast('领取成功',{icon:true})
 			},
 			// 领取全部优惠券
 			receiveCouponAll(){
+				if(!judgeLogin())return;
 				let arr =[];
-				console.log(this.couponList,'all')
 				this.couponList.map(item=>{
 					arr.push(
 						post('Coupon/GetCoupon',{
@@ -555,4 +585,29 @@
 
 <style lang="scss" scoped>
 	@import './style';
+	// .canvas {
+	// 	position: fixed;
+	// 	bottom: 85upx;
+	// 	left: 0;
+	// }
+	// .canvas2 {
+	// 	position: fixed;
+	// 	bottom: 1upx;
+	// 	right: 0;
+	// }
+	// .xingkong-box {
+	// 	position: fixed;
+	// 	width: 20%;
+	// 	height: 120upx;
+	// 	left: 50%;
+	// 	bottom: 0;
+	// 	transform: translateX(-50%);
+	// }
+	// .xingkong-img {
+	// 	position:	absolute;
+	// 	left: 50%;
+	// 	width: 80upx;
+	// 	height: 80upx;
+	// 	transform: translateX(-50%);
+	// }
 </style>

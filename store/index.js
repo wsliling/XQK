@@ -29,6 +29,7 @@ export default new Vuex.Store({
             AddressTest:'',//详细地址
 
             ThemeColor:'',//主题色
+			SwitchSeconds:'',//轮播图秒数
             SearchBox:'',//产品搜索框文字
             NoProImg:'',//暂无产品图片
             UsTitle:'',//监督我们

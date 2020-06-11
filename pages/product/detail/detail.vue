@@ -11,7 +11,9 @@
 				</swiper-item>
 			</swiper>
 			<view class="dots">
-				<view v-if="index>1" v-for="(item,index) in details.PicData" :key="index" :class="['dot',currentSwiper==index?'active':'']"></view>
+				<block v-for="(item,index) in details.PicData" :key="index" >
+					<view v-if="index>1" :class="['dot',currentSwiper==index?'active':'']"></view>
+				</block>
 			</view>
 		</view>
 		<div class="topBlock p30">
