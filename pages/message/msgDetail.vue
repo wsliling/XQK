@@ -1,5 +1,5 @@
 <template>
-	<view class="comment">
+	<view class="comment" v-if="datainfo.Title != ''">
 		<view class="newsInfo">
 			<view class="title bold">
 				{{datainfo.Title}} 
