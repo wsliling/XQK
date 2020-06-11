@@ -142,7 +142,7 @@
 		<view class="popCoupon" v-if="showCoupon&&couponList.length">
 			<view class="mask"></view>
 			<view class="popContent">
-				<image class="bgimg" src="http://xqk.wtvxin.com/images/wxapp/popCouponbg.png" mode="widthFix"></image>
+				<image class="bgimg" src="http://xqk.wtvxin.com/images/wxapp/popCouponbg.png"></image>
 				<view class="couponlist">
 					<view class="item flex-center" v-for="(item,index) in couponList" :key="index">
 						<view class="left flex-column">
@@ -161,7 +161,7 @@
 						</view>
 					</view>
 					<view class="getAll" @click="receiveCouponAll">
-						<image src="http://xqk.wtvxin.com/images/wxapp/rec_btn.png" mode="widthFix"></image>
+						<image src="http://xqk.wtvxin.com/images/wxapp/rec_btn.png"></image>
 					</view>
 				</view>
 				<view class="close iconfont icon-guanbi" @click="hideCoupon"></view>
@@ -181,7 +181,7 @@
 </template>
 
 <script>
-	import {post,get,navigate,switchTab,judgeLogin,toast} from '@/utils';
+	import {post,get,navigate,switchTab,judgeLogin,toast,throttle} from '@/utils';
 	import tabbar from '@/components/tabbar.vue';
 	import tabbarCopy from '@/components/tabbarCopy.vue';
 	import datePicker from '@/components/date-picker/date-picker.vue';
@@ -348,6 +348,7 @@
 						}];
 				const res = await post("Goods/GoodsList_yd",{
 					AreaCode:this.cityCode||'',
+					AreaType:1,
 					Lat:this.lat||0,
 					Lng:this.lng||0,
 					UserId:this.userId,
@@ -540,29 +541,34 @@
 			},
 			// 领取优惠券
 			async receiveCoupon(id){
-				const res = await post('Coupon/GetCoupon',{
-					UserId:this.userId,
-					Token:this.token,
-					CouponId:id
-				},{isLogin:true})
-				toast('领取成功',{icon:true})
+				if(!judgeLogin())return;
+				throttle(async ()=>{
+					const res = await post('Coupon/GetCoupon',{
+						UserId:this.userId,
+						Token:this.token,
+						CouponId:id
+					})
+					toast('领取成功',{icon:true})
+				})
 			},
 			// 领取全部优惠券
 			receiveCouponAll(){
 				if(!judgeLogin())return;
-				let arr =[];
-				this.couponList.map(item=>{
-					arr.push(
-						post('Coupon/GetCoupon',{
-							UserId:this.userId,
-							Token:this.token,
-							CouponId:item.Id
-						})
-					)
-				})
-				Promise.all(arr).then(res=>{
-					toast('领取成功',{icon:true})
-					this.hideCoupon();
+				throttle(async ()=>{
+					let arr =[];
+					this.couponList.map(item=>{
+						arr.push(
+							post('Coupon/GetCoupon',{
+								UserId:this.userId,
+								Token:this.token,
+								CouponId:item.Id
+							})
+						)
+					})
+					Promise.all(arr).then(res=>{
+						toast('领取成功',{icon:true})
+						this.hideCoupon();
+					})
 				})
 			}
 		},

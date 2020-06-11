@@ -22,11 +22,12 @@
 							<view class="point" >
 								<view class="pointkey" v-for="(item,index) in ServiceKeys" :key="index">{{item}}</view>
 							</view>
-							<view class="font">
+							<!-- 评分 -->
+							<!-- <view class="font">
 								<view class="iconfont icon-collect"></view>
 								<view class="fz12">{{val.CommentScore}}<span>({{val.CommentNum}})</span>
 								</view>
-							</view>
+							</view> -->
 						</view>
 					</view>
 				</view>

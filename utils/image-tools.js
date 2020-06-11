@@ -1,6 +1,6 @@
 
 // 打开选取图片，获取图片临时路径
-export function getImgPath(num = 1, sourceType = ["album", "camera"], sizeType = ['original']) {
+export function getImgPath(num = 1, sourceType = ["album", "camera"], sizeType = ['compressed']) {
 	return new Promise((resolve, reject) => {
 	  uni.chooseImage({
 		count: num, //最大图片数量=最大数量-临时路径的数量

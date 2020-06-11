@@ -11,20 +11,20 @@
 						<view class="">¥{{ val.Total }}</view>
 					</view>
 				</view>
-				<view class="comment-img" v-for="item in val.OrderDetails">
+				<view class="comment-img" v-for="(item,index) in val.OrderDetails" :key="index">
 					<image :src="item.PicNo" mode=""></image>
 				</view>
 			</view>
 			<view class="comment-to" @click="gocomment(val.OrderNumber,val.MakeDate,val.MakePeople)">去评价</view>
 		</view>
-		<noData :isShow="noDataIsShow"></noData>
+		<noData v-if="noDataIsShow"></noData>
 		<view class="uni-tab-bar-loading"><uni-load-more :loadingType="loadingType" v-if="noDataIsShow == false"></uni-load-more></view>
 	</view>
 </template>
 
 <script>
 	import { post } from '@/utils';
-	import noData from '@/components/noData.vue'; //暂无数据
+	import noData from '@/components/notData.vue'; //暂无数据
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue'; //加载更多
 	export default {
 		data() {

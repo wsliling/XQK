@@ -1,7 +1,7 @@
 <template>
 	<div class="p30 bgfff">
 		<div class="footer flex-center-between plr30 ptb20">
-			<ans-input @confirm="confirm(Id)" class="input" placeholder="写评论..." v-model="Comment" :align='left'></ans-input>
+			<ans-input @confirm="confirm(Id)" class="input" placeholder="写评论..." v-model="Comment" :align='left' maxlength="250"></ans-input>
 			<div class="btn-min" @click="submit">评论</div>
 		</div>
 		<reply-item v-for="(item,index) in CommnetList" :key="index" :index="index" :item="item" :isCheckReply="isCheckReply"

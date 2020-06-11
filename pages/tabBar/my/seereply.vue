@@ -24,7 +24,7 @@
 				</view>
 			</view>
 		</view>
-		<noData :isShow="noDataIsShow"></noData>
+		<noData v-if="noDataIsShow"></noData>
 		<view class="uni-tab-bar-loading">
 			<uni-load-more :loadingType="loadingType" v-if="noDataIsShow == false"></uni-load-more>
 		</view>
@@ -33,7 +33,9 @@
 
 <script>
 	import { post, navigate } from '@/utils'
-	export default{
+	import noData from '@/components/notData.vue'; //暂无数据
+export default{
+		components:{noData},
 		data(){
 			return{
 				navigate,

@@ -51,7 +51,7 @@
 
 <script>
 	import { mapState, mapMutations } from "vuex"; //vuex辅助函数
-	import {post,get,navigate,judgeLogin} from '@/utils';
+	import {post,get,navigate,judgeLogin,redirect} from '@/utils';
 	import ansInput from '@/components/ans-input/ans-input.vue'
 	export default {
 		components:{ansInput},
@@ -103,13 +103,13 @@
 					}
 					uni.setStorageSync('historySerch',this.historySerch)
 				}
-				navigate('home/searchList',{keyword:val})
+				redirect('home/searchList',{keyword:val})
 			},
 			cancelInput(){
 
 			},
 			onSearch(val){
-				navigate('home/searchList',{keyword:val})
+				redirect('home/searchList',{keyword:val})
 			},
 			removeHistorySerch(){
 

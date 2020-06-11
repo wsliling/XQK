@@ -71,7 +71,7 @@
 					{{replyItem.Comment}}
 				</div>
 				<div class="textarea">
-					<textarea name="" id="" cols="30" rows="10" v-model="replyContent" :maxlength="250" placeholder="输入回复内容" :cursor-spacing="30" @confirm="replaysubmit"></textarea>
+					<textarea name="" id="" cols="30" rows="10" v-model="replyContent" :maxlength="250" placeholder="输入回复内容" :cursor-spacing="70" @confirm="replaysubmit"></textarea>
 				</div>
 				<div class="btn flex-center-between">
 					<p @click="$refs.popup.close()">取消</p>

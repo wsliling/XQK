@@ -28,6 +28,10 @@
 			align:{
 				type:String,
 				default:'center'
+			},
+			maxLength:{
+				type:[String,Number],
+				default:-1
 			}
 		},
 		watch:{

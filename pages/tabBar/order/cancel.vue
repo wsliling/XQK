@@ -67,14 +67,14 @@
 			}
 		},
 		components: { pickers },
+		onLoad(e) {
+			this.OrderNumber = e.OrderNumber
+			this.UnitPrice = e.UnitPrice
+		},
 		onShow() {
 			this.userId = uni.getStorageSync('userId');
 			this.token = uni.getStorageSync('token');
 			this.getCancelReason()
-		},
-		onLoad(e) {
-			this.OrderNumber = e.OrderNumber
-			this.UnitPrice = e.UnitPrice
 		},
 		methods:{
 			cancellation(e){
@@ -97,7 +97,11 @@
 						this.typelist.push(...res.data);
 					}
 				})
-				post('Order/RefundScreen',{OrderNo:this.OrderNumber}).then(res=>{
+				post('Order/RefundScreen',{
+					UserId: this.userId,
+					Token: this.token,
+					OrderNo:this.OrderNumber
+					}).then(res=>{
 					this.refundInfo = res.data;
 				})
 			},

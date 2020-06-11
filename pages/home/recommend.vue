@@ -2,7 +2,7 @@
 	<div class="plr30 bgfff pt10">
 		<!-- <uni-search-bar :radius="100" placeholder="请输入城市名称" @input="searchInput" @cancel="searchInput"
 		cancelButton="none"></uni-search-bar> -->
-		<div class="search flex-center-center" @click="navigate('home/search')">
+		<div class="search flex-center-center" @click="redirect('home/search')">
 			<uni-icons type="search" color="#999"></uni-icons>
 			<p >{{searchTips}}</p>
 		</div>
@@ -17,13 +17,13 @@
 	import productItem from '@/components/productItem.vue';
 	import notData from '@/components/notData.vue';
 	// import { mapState } from "vuex"; //vuex辅助函数
-	import {post,get,navigate} from '@/utils';
+	import {post,get,redirect} from '@/utils';
 	export default {
 		// name:'推荐列表',
 		components: {productItem,notData},
 		data() {
 			return {
-				navigate,
+				redirect,
 				userId: "",
 				token: "",
 				page:1,

@@ -142,18 +142,22 @@
 				<h5 class="flex-center"><i class="iconfont icon-weizhi"></i>{{ details.Address }}</h5>
 			</div>
 			<!-- <img src="http://xqk.wtvxin.com/images/wxapp/of/map-img.png" mode="widthFix" alt=""> -->
-			<map 
-			  @click="toMap"
-			  id="myMap" 
-			  style="width: 750upx"
-			  :latitude="details.Lat"
-			  :longitude="details.Lng"
-			  :markers="markers"
-			  :bindmarkertap='toMap'
-			  :enable-scroll="0"
-			  v-if="details.Lat&&details.Lng"
-			  show-location>
-			</map>
+			<div class="mapBox">
+				<map 
+				@click="toMap"
+				id="myMap" 
+				:scale="12"
+				style="width: 750upx"
+				:latitude="details.Lat"
+				:longitude="details.Lng"
+				:markers="markers"
+				:bindmarkertap='toMap'
+				:enable-scroll="0"
+				v-if="details.Lat&&details.Lng"
+				show-location>
+				</map>
+				<cover-view class="cover" @click="openLocation"></cover-view>
+			</div>
 		</div>
 		<div class="gap20"></div>
 		<date-price-picker ref="datePicker" @change="changeDatePicker" :option="calendarOption" :goodsDateTime="goodsDateTime"></date-price-picker>
@@ -320,7 +324,6 @@
 			}
 		},
 		onLoad(options) {
-			console.log("传递过来的参数:",options)
 			let Id = options.Id;
 			this.Id = options.Id;
 			this.userId = uni.getStorageSync('userId');
@@ -396,10 +399,6 @@
 					return
 				}
 				let res = score < this.maxScore
-				console.log('算出来的分数',
-					score,
-					this.maxScore,
-					score < this.maxScore)
 				return  res
 			},
 			// 分数
@@ -408,11 +407,9 @@
 						if(!score)return;
 						score =  this.intToFloat(score,1)
 						if (score.length > 1) {
-							console.log('我是2个字',score)
 							return score
 							// return score
 						}
-						console.log('我是一个字',score)
 						return score
 				    }
 					
@@ -554,6 +551,20 @@
 					return;
 				}
 				navigate('product/confirmOrder/confirmOrder',{id:this.Id})
+			},
+			// 打开地图
+			openLocation(){
+				console.log(123)
+				uni.openLocation({
+					latitude:this.details.Lat*1,
+					longitude:this.details.Lng*1,
+					address:this.details.Address,
+					success(res){
+				console.log(res)
+					},fail(err){
+				console.log(err)
+					}
+				})
 			}
 
 		},
@@ -583,4 +594,13 @@
 </script>
 <style scoped lang="scss">
 @import './style.scss';
+.mapBox{
+	position:relative;
+}
+.cover{
+	position:absolute;
+	width: 100%;
+	height: 150px;
+	top:0;left:0;
+}
 </style>

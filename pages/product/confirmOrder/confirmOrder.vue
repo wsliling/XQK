@@ -259,6 +259,7 @@
 				navigate,
 				userId: "",
 				token: "",
+				isSubmit:false,//是否已经点击了提交
 				id:'',
 				couponId:0,
 				useCouponText:'',//使用的优惠券文本
@@ -473,6 +474,11 @@
 					toast(checkyuding)
 					return
 				};
+				// 是否已经点击了提交
+				if(this.isSubmit){
+					return;
+				}
+				this.isSubmit = true;
 				let Uid=[];
 				this.useUserInfo.map(item=>{
 					Uid.push(item.Id)
@@ -492,6 +498,7 @@
 						InvoiceId:this.invoiceId,
 						Uid:Uid.join(',')
 				})
+				this.isSubmit = false;
 				this.ConfirmWeiXinSmallPay(res.data);
 			},
 			// 校验预订人

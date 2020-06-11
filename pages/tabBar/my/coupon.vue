@@ -7,33 +7,37 @@
 			<span :style="'left:' + tabStyle + 'rpx'"></span>
 		</view>
 		<block v-if="datalist.length">
-			<view class="list jus-b flex" v-for="(item, index) in datalist" :key="index" v-if="tabIndex == 0">
-				<view class="left">
-					<view class="name">{{item.Title}}</view>
-					<view class="time">有效期至{{shijiantime(item.EndTime)}}</view>
-				</view>
-				<view class="right flexc">
-					<view>
-						<view class="num">{{item.Denomination}}元</view>
-						<span>满{{item.MeetConditions}}元可使用</span>
+			<block v-for="(item, index) in datalist" :key="index">
+				<view class="list jus-b flex" v-if="tabIndex == 0">
+					<view class="left">
+						<view class="name">{{item.Title}}</view>
+						<view class="time">有效期至{{shijiantime(item.EndTime)}}</view>
+					</view>
+					<view class="right flexc">
+						<view>
+							<view class="num">{{item.Denomination}}元</view>
+							<span>满{{item.MeetConditions}}元可使用</span>
+						</view>
 					</view>
 				</view>
-			</view>
-			<view class="list jus-b flex" 
-			v-for="(item, index) in datalist" :key="index" v-if="tabIndex == 1 || tabIndex == 2">
-				<view class="left">
-					<view class="name">{{item.Title}}</view>
-					<view class="time">有效期至{{shijiantime(item.EndTime)}}</view>
-				</view>
-				<view class="right flexc" v-if="tabIndex == 1 || tabIndex == 2" :style="{ background: '#D4D5D7' }">
-					<view>
-						<view class="num" style="color: #fff;">{{item.Denomination}}元</view>
-						<span>满{{item.MeetConditions}}元可使用</span>
+			</block>
+			<block v-for="(item, index) in datalist" :key="index" >
+				<view class="list jus-b flex" 
+					v-if="tabIndex == 1 || tabIndex == 2">
+					<view class="left">
+						<view class="name">{{item.Title}}</view>
+						<view class="time">有效期至{{shijiantime(item.EndTime)}}</view>
+					</view>
+					<view class="right flexc" v-if="tabIndex == 1 || tabIndex == 2" :style="{ background: '#D4D5D7' }">
+						<view>
+							<view class="num" style="color: #fff;">{{item.Denomination}}元</view>
+							<span>满{{item.MeetConditions}}元可使用</span>
+						</view>
 					</view>
 				</view>
-			</view>
+			</block>
 		</block>
-		<noData :isShow="noDataIsShow"></noData>
+		<noData v-if="noDataIsShow"></noData>
 		<view class="uni-tab-bar-loading">
 			<uni-load-more :loadingType="loadingType" v-if="noDataIsShow == false"></uni-load-more>
 		</view>
@@ -41,7 +45,7 @@
 </template>
 <script>
 import { post } from '@/utils';
-import noData from '@/components/noData'; //没有数据的通用提示
+import noData from '@/components/notData'; //没有数据的通用提示
 export default {
 	data() {
 		return {

@@ -15,7 +15,7 @@
                         <!-- 广州.从化温泉明月山溪 -->
 						{{ item.Name}}
                     </view>
-                    <view class="location">
+                    <view class="location" v-if="item.AreaSit">
                         <text class="iconfont icon-weizhi"></text><!-- 广州.从化 -->{{ item.AreaSite }}
                     </view>
                 </view>
@@ -34,7 +34,7 @@
 						<view class="iconfont icon-collect1" v-for="(item4,index4) in (5-(item.CommentScore))" :key="index4"></view> -->
                         <!-- <view class="num">{{ item.CommentScore }}</view> -->
 						<view class="num">{{ CommentScore(item.CommentScore) }}</view>
-                        <view class="fz12 c_999">({{ item.CommentNum }})</view>
+                        <view class="fz12 c_999" v-if="tem.CommentNum">({{ item.CommentNum }})</view>
                     </view>
                 </view>
                 <view class="flex-center">

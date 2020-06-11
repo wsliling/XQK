@@ -52,7 +52,7 @@
 				</view>
 			</view>
 		</view>
-		<noData :isShow="noDataIsShow"></noData>
+		<noData v-if="noDataIsShow"></noData>
 		<view class="uni-tab-bar-loading">
 			<uni-load-more :loadingType="loadingType" v-if="noDataIsShow == false&&orderList.length"></uni-load-more>
 		</view>
@@ -69,7 +69,7 @@
 import { post,navigate,judgeLogin } from '@/utils';
 import tabbar from '@/components/tabbar.vue';
 import tabbarCopy from '@/components/tabbarCopy.vue';
-import noData from '@/components/noData.vue'; //暂无数据
+import noData from '@/components/notData.vue'; //暂无数据
 import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue'; //加载更多
 export default {
 	components: {
