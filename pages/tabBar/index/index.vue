@@ -514,13 +514,13 @@
 					UserId:this.userId,
 					Token:this.token,
 					CouponId:id
-				})
+				},{isLogin:true})
 				toast('领取成功',{icon:true})
 			},
 			// 领取全部优惠券
 			receiveCouponAll(){
+				if(!judgeLogin())return;
 				let arr =[];
-				console.log(this.couponList,'all')
 				this.couponList.map(item=>{
 					arr.push(
 						post('Coupon/GetCoupon',{
