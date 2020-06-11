@@ -1,9 +1,8 @@
 <template>
-	<view>
+	<view class="myMain">
 		<!-- <canvas style="width: 200rpx;height: 200rpx;" canvas-id="myCanvas"> </canvas> -->
 		<!-- <canvas style="width: 160rpx; height: 56rpx;" canvas-id="myCanvas" class=""></canvas> -->
-		<canvas style="width: 170rpx; height: 32rpx;" :canvas-id="myCanvasId" class=""></canvas>
-		
+		<canvas :canvas-id="myCanvasId" class="myCanvas"></canvas>
 	</view>
 </template>
 
@@ -133,7 +132,7 @@
 					// context.setFillStyle(grd)
 					// context.fillRect(10, 10, 150, 80)
 					context.fill()
-					context.draw(-88,-88)
+					context.draw(true)
 					// console.log('context',context)
 				}
 			},
@@ -142,9 +141,17 @@
 </script>
 
 <style lang="scss" scoped>
-	// main {
-	// 	position: relative;
-	// }
+	.myMain {
+		position: relative;
+		width: 170rpx; height: 32rpx;
+	}
+	.myCanvas {
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 0;
+		width: 170rpx; height: 32rpx;
+	}
 
 	// .star_line {
 	// 	/*  设置强制不换行 */

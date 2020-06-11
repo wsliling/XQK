@@ -74,103 +74,63 @@
 		position: fixed;
 		bottom: 0;
 		left: 0;
+		right: 0;
 		height: 100upx;
-		width: 750upx;
-		background-color: #fff;//white
-		// background-color: rgba(255, 255,255,0);
-		// background-color: #FF3333;
+		background-color: #fff;
+		width: 100%;
+		z-index: 66;
 		overflow: visible;
-		// background: linear-gradient(bottom,  red 0%, red 89%, rgba(255,255,255,0)  98% , rgba(255,255,255,0)   100%);
-		// background: linear-gradient(red, orange); 
 		// display: flex;
 		// justify-content: space-around;
 		// align-items: center;
-		// z-index: 9;
-		z-index: 66;
+		z-index: 9;
 	}
 
 	.tab {
-		// overflow: visible;
+		overflow: visible;
 		// flex-direction: column;
 		// align-items: center;
-		// width: 80rpx;
-		float: left;
-		width: 150upx;
-		height: 100upx;
+		width: 80rpx;
+		height: 100rpx;
 		text-align: center;
-		// margin-left: -28upx;
-		// margin-left: -24upx;
-		position: relative;
+		// margin-left: 28upx;
+		position: absolute;
+		top: 0;
 
-		// top: 0;
-		.imgsize,
-		.addimgsize {
-			position: absolute;
-			left: 50%;
-			transform: translateX(-50%);
+		transform: translateX(100%);
+
+		:nth-child(1) {
+			left: 0%;
 		}
-
-		.text {
-			position: absolute;
-			left: 50%;
-			transform: translateX(-50%);
-			bottom: 10upx;
-			text-align: center;
-		}
-
-		// transform: translateX(100%);
-
-		// &:nth-child(1) {
-		// 	left: 0%;
-		// 	transform: translateX(50%);
-		// }
 
 		&:nth-child(2) {
-
-			// 	left: 20%;
-			// 	// margin-left: -38upx;
-			// 	transform: translateX(50%);
-			.imgsize,
-			.text,
-				{
-				margin-left: -8upx;
-			}
+			left: 20%;
+			margin-left: -8upx;
 		}
 
 		&:nth-child(3) {
-			width: 20%;
-			// width: 80upx;
+			left: 40%;
+			width: 80upx;
 			height: 120upx;
-			margin-top: -20upx;
-			// left: 50%;
-			// // margin-left: -8upx;
-			// transform: translateX(-50%);
+			margin-left: -8upx;
+			margin-top: -40upx;
+			transform: translateX(50%);
 		}
 
 
 		&:nth-child(4) {
-			
-			.imgsize,
-			.text,
-				{
-				margin-left: 8upx;
-			}
-			// 	left: 0%;
-			// 	// margin-left: -18upx;
-			// 	transform: translateX(50%);
-			// 	margin-left: 8upx;
+			left: 60%;
+			margin-left: 8upx;
 		}
 
-		// &:nth-child(5) {
-		// 	left: 80%;
-		// 	transform: translateX(-50%);
-		// }
+		&:nth-child(5) {
+			left: 80%;
+		}
 	}
 
 	.imgsize {
 		width: 48upx;
 		height: 48upx;
-		// margin-top: 10upx;
 		margin-top: 10upx;
 		overflow: visible;
 	}
@@ -183,16 +143,14 @@
 	}
 
 	.text {
-		font-size: 24upx;
+		font-size: 12px;
 		color: #8a8a8a;
 		text-align: left;
 
 	}
-
 	.text-centent {
 		text-align: center;
 	}
-
 	.text.active {
 		color: #5cc69a;
 	}
