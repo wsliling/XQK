@@ -79,7 +79,7 @@
 
 <script>
 	import { mapState, mapMutations} from "vuex"; //vuex辅助函数
-	import {post,navigate} from '@/utils';
+	import {post,navigate,requestHideLoading} from '@/utils';
 	import {getCityCode} from '@/utils/location';
 	import ansInput from '@/components/ans-input/ans-input.vue';
 	import productItem from '@/components/productItem.vue'
@@ -210,6 +210,7 @@
 			sortTagConfirm(){
 				this.page=1;
 				this.keyword=this.sortTagList[this.l_tag].Name;
+				requestHideLoading('Goods/TagHits',{Id:this.sortTagList[this.l_tag].Id})
 				this.getData();
 				this.$refs.sortTag.close();
 			},

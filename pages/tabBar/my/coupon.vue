@@ -7,7 +7,7 @@
 			<span :style="'left:' + tabStyle + 'rpx'"></span>
 		</view>
 		<block v-if="datalist.length">
-			<block v-for="(item, index) in datalist" :key="index">
+			<block v-for="(item, index) in datalist" :key="index" @click="navigate('product/detail/detail',{Id:item.ProductId})">
 				<view class="list jus-b flex" v-if="tabIndex == 0">
 					<view class="left flex-column-start-between">
 						<view class="name">{{item.Title}}</view>
@@ -22,7 +22,7 @@
 					</view>
 				</view>
 			</block>
-			<block v-for="(item, index) in datalist" :key="index" >
+			<block v-for="(item, index) in datalist" :key="index" @click="navigate('product/detail/detail',{Id:item.ProductId})">
 				<view class="list jus-b flex" 
 					v-if="tabIndex == 1 || tabIndex == 2">
 					<view class="left flex-column-start-between">

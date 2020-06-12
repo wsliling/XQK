@@ -42,7 +42,7 @@
 					<h3>{{commonSetting.TagsClass}}</h3>
 				</div>
 				<div class="tab flex-center">
-					<div class="item" v-for="(item,index) in tab" :key="index" @click="onSearch(item.Name)">{{item.Name}}</div>
+					<div class="item" v-for="(item,index) in tab" :key="index" @click="onSearch(item)">{{item.Name}}</div>
 				</div>
 			</div>
 		</div>
@@ -51,7 +51,7 @@
 
 <script>
 	import { mapState, mapMutations } from "vuex"; //vuex辅助函数
-	import {post,get,navigate,judgeLogin,redirect} from '@/utils';
+	import {post,get,navigate,judgeLogin,redirect,requestHideLoading} from '@/utils';
 	import ansInput from '@/components/ans-input/ans-input.vue'
 	export default {
 		components:{ansInput},
@@ -108,8 +108,9 @@
 			cancelInput(){
 
 			},
-			onSearch(val){
-				redirect('home/searchList',{keyword:val})
+			onSearch(item){
+				requestHideLoading('Goods/TagHits',{Id:item.Id})
+				redirect('home/searchList',{keyword:item.Name})
 			},
 			removeHistorySerch(){
 
