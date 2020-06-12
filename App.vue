@@ -24,7 +24,7 @@
 				option.startDate = option.currentRangeStartDate.substring(option.currentRangeStartDate.indexOf('-')+1);
 				option.endDate = option.currentRangeEndDate.substring(option.currentRangeEndDate.indexOf('-')+1);
 			}
-			this.$store.commit('update',{
+			this.$store.commit('update',{ 
 				calendarOption:option
 			})
 		},

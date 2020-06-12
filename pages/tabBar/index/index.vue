@@ -153,7 +153,7 @@
 						<view class="right flex-center-between">
 							<view>
 								<view class="title ellipsis">{{item.MeetConditions?`满${item.MeetConditions}可用`:'无限制条件'}}</view>
-								<view class="desc">{{item.ScopeOfUse}}</view>
+								<view class="desc ellipsis-col2">{{item.ScopeOfUse}}</view>
 							</view>
 							<view class="btn_re" @click="receiveCoupon(item.Id)">
 								立即领取
@@ -285,6 +285,7 @@
 			}
 		},
 		methods: {
+			...mapMutations(['update']),
 			dian() {
 				uni.showToast({
 					title:'点我啊',
@@ -305,7 +306,6 @@
 				this.securityContent = titleContent.data
 				console.log("this.securityContent--",this.securityContent)
 			},
-			...mapMutations(['update']),
 			// 获取定位,在所有首次会打开的页面执行，获取定位和code
 			async getPosition(){
 				try{

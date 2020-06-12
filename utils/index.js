@@ -79,7 +79,7 @@ export function debounce(fn, wait = 500) {
 // 函数节流,多少秒内只允许执行一次，重复点击会无视
 let throttleStatus = false
 export function throttle(fn, wait = 500) {
-  if (throtteStatus) return;
+  if (throttleStatus) return;
   throttleStatus = true;
   fn();
   // setTimeout(fn, wait)

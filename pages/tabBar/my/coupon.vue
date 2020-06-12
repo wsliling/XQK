@@ -9,8 +9,9 @@
 		<block v-if="datalist.length">
 			<block v-for="(item, index) in datalist" :key="index">
 				<view class="list jus-b flex" v-if="tabIndex == 0">
-					<view class="left">
+					<view class="left flex-column-start-between">
 						<view class="name">{{item.Title}}</view>
+						<view class="subtitle ellipsis-col2" v-if="item.ScopeOfUse">{{item.ScopeOfUse}}</view>
 						<view class="time">有效期至{{shijiantime(item.EndTime)}}</view>
 					</view>
 					<view class="right flexc">
@@ -24,8 +25,9 @@
 			<block v-for="(item, index) in datalist" :key="index" >
 				<view class="list jus-b flex" 
 					v-if="tabIndex == 1 || tabIndex == 2">
-					<view class="left">
+					<view class="left flex-column-start-between">
 						<view class="name">{{item.Title}}</view>
+						<view class="subtitle ellipsis-col2" v-if="item.ScopeOfUse">{{item.ScopeOfUse}}</view>
 						<view class="time">有效期至{{shijiantime(item.EndTime)}}</view>
 					</view>
 					<view class="right flexc" v-if="tabIndex == 1 || tabIndex == 2" :style="{ background: '#D4D5D7' }">
@@ -171,12 +173,16 @@ export default {
 	}
 	.left {
 		width: 460upx;
-		padding: 40upx 0 0 35upx;
+		padding: 20upx 0 20upx 30upx;
 		position: relative;
-
+		.subtitle{
+			color:#999;
+			font-size:24upx;
+			line-height: 1.4;
+		}
 		.time {
 			font-size: 24upx;
-			line-height: 60upx;
+			line-height: 50upx;
 			color: #999;
 		}
 		.coupoutag {
