@@ -26,7 +26,7 @@
 					<h3>{{commonSetting.HotSearch}}</h3>
 				</div>
 				<div class="tab flex-center">
-					<div class="item" v-for="(item,index) in hot" :key="index" @click="onSearch(item.Name)">{{item.Name}}</div>
+					<div class="item" v-for="(item,index) in hot" :key="index" @click="navigate('product/detail/detail',{Id:item.Id})">{{item.Name}}</div>
 				</div>
 			</div>
 			<div class="tabBlock" v-if="near.length">  
@@ -34,7 +34,7 @@
 					<h3>{{commonSetting.NearbyScene}}</h3>
 				</div>
 				<div class="tab flex-center">
-					<div class="item" v-for="(item,index) in near" :key="index" @click="onSearch(item.Name)">{{item.Name}}</div>
+					<div class="item" v-for="(item,index) in near" :key="index" @click="navigate('product/detail/detail',{Id:item.Id})">{{item.Name}}</div>
 				</div>
 			</div>
 			<div class="tabBlock" v-if="tab.length">  
@@ -42,7 +42,7 @@
 					<h3>{{commonSetting.TagsClass}}</h3>
 				</div>
 				<div class="tab flex-center">
-					<div class="item" v-for="(item,index) in tab" :key="index" @click="onSearch(item)">{{item.Name}}</div>
+					<div class="item" v-for="(item,index) in tab" :key="index" @click="onSearch(item,1)">{{item.Name}}</div>
 				</div>
 			</div>
 		</div>
@@ -108,8 +108,11 @@
 			cancelInput(){
 
 			},
-			onSearch(item){
-				requestHideLoading('Goods/TagHits',{Id:item.Id})
+			onSearch(item,tabClass){
+				// 特色标签存在的时候
+				if(tabClass){
+					requestHideLoading('Goods/TagHits',{Id:item.Id})
+				}
 				redirect('home/searchList',{keyword:item.Name})
 			},
 			removeHistorySerch(){

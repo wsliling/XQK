@@ -7,11 +7,12 @@
 			<span :style="'left:' + tabStyle + 'rpx'"></span>
 		</view>
 		<block v-if="datalist.length">
-			<block v-for="(item, index) in datalist" :key="index" @click="navigate('product/detail/detail',{Id:item.ProductId})">
-				<view class="list jus-b flex" v-if="tabIndex == 0">
+			<block v-for="(item, index) in datalist" :key="index">
+				<view class="list jus-b flex" v-if="tabIndex == 0" @click="navigeteTo(item.ProductId)">
 					<view class="left flex-column-start-between">
 						<view class="name">{{item.Title}}</view>
 						<view class="subtitle ellipsis-col2" v-if="item.ProName">指定产品可用【{{item.ProName}}】</view>
+						<view class="subtitle ellipsis-col2" v-else>{{item.ScopeOfUse}}</view>
 						<view class="time">有效期至{{shijiantime(item.EndTime)}}</view>
 					</view>
 					<view class="right flexc">
@@ -22,12 +23,13 @@
 					</view>
 				</view>
 			</block>
-			<block v-for="(item, index) in datalist" :key="index" @click="navigate('product/detail/detail',{Id:item.ProductId})">
+			<block v-for="(item, index) in datalist" :key="index">
 				<view class="list jus-b flex" 
-					v-if="tabIndex == 1 || tabIndex == 2">
+					v-if="tabIndex == 1 || tabIndex == 2" @click="navigeteTo(item.ProductId)">
 					<view class="left flex-column-start-between">
 						<view class="name">{{item.Title}}</view>
 						<view class="subtitle ellipsis-col2" v-if="item.ProName">指定产品可用【{{item.ProName}}】</view>
+						<view class="subtitle ellipsis-col2" v-else>{{item.ScopeOfUse}}</view>
 						<view class="time">有效期至{{shijiantime(item.EndTime)}}</view>
 					</view>
 					<view class="right flexc" v-if="tabIndex == 1 || tabIndex == 2" :style="{ background: '#D4D5D7' }">
@@ -46,7 +48,7 @@
 	</view>
 </template>
 <script>
-import { post } from '@/utils';
+import { post,navigate } from '@/utils';
 import noData from '@/components/notData'; //没有数据的通用提示
 export default {
 	data() {
@@ -82,6 +84,11 @@ export default {
 			uni.navigateTo({
 				url: url
 			});
+		},
+		navigeteTo(ProductId){ 
+			if(ProductId){
+				navigate('product/detail/detail',{Id:ProductId})
+			}
 		},
 		cliTab(index) {
 			this.tabIndex = index;
