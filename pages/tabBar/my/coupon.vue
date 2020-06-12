@@ -11,7 +11,7 @@
 				<view class="list jus-b flex" v-if="tabIndex == 0">
 					<view class="left flex-column-start-between">
 						<view class="name">{{item.Title}}</view>
-						<view class="subtitle ellipsis-col2" v-if="item.ScopeOfUse">{{item.ScopeOfUse}}</view>
+						<view class="subtitle ellipsis-col2" v-if="item.ProName">指定产品可用【{{item.ProName}}】</view>
 						<view class="time">有效期至{{shijiantime(item.EndTime)}}</view>
 					</view>
 					<view class="right flexc">
@@ -27,7 +27,7 @@
 					v-if="tabIndex == 1 || tabIndex == 2">
 					<view class="left flex-column-start-between">
 						<view class="name">{{item.Title}}</view>
-						<view class="subtitle ellipsis-col2" v-if="item.ScopeOfUse">{{item.ScopeOfUse}}</view>
+						<view class="subtitle ellipsis-col2" v-if="item.ProName">指定产品可用【{{item.ProName}}】</view>
 						<view class="time">有效期至{{shijiantime(item.EndTime)}}</view>
 					</view>
 					<view class="right flexc" v-if="tabIndex == 1 || tabIndex == 2" :style="{ background: '#D4D5D7' }">
