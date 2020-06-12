@@ -171,13 +171,24 @@ p{
 					font-size:22upx;
 					color:#999;
 					.star{
+						position:relative;
+						.star-active{
+							position:absolute;
+							top:0;
+							left:0;
+							overflow:hidden;
+							div{
+								margin-right:7upx;
+								font-size:28upx;
+							}
+						}
 						.icon-collect{
 							color:$primary;
 						}
 						.icon-collect1{
 							color:#999;
 						}
-						div{
+						.star-no{
 							margin-right:7upx;
 							font-size:28upx;
 						}

@@ -101,11 +101,14 @@
 						</div>
 						<div class="right">
 							<div class="tab" :class="{'isHidden': isHidden}">超赞</div>
-							<div class="starBox flex-center">
+							<div class="starBox flex-center"> 
 								<div class="star flex-center">
-									<!-- <div class="iconfont icon-collect" v-for="(item,index) in OrderCommentInfo.RankScore*1" :key="index"></div>
-									<div class="iconfont icon-collect1" v-for="(item2,index2) in (5-OrderCommentInfo.RankScore)" :key="index2"></div> -->
-									<start-level :value="OrderCommentInfo.RankScore"></start-level>
+									<!-- OrderCommentInfo.RankScore -->
+									<div class="star-no iconfont icon-collect1" v-for="(item2,index2) in 5" :key="index2"></div>
+									<div class="star-active flex-center" :style="{width:(OrderCommentInfo.RankScore/5)*100+'%'}">
+										<div class="iconfont icon-collect" v-for="(item,index) in 5" :key="index"></div>
+									</div>
+									<!-- <start-level :value="OrderCommentInfo.RankScore"></start-level> -->
 								</div>
 								<div class="comment-num">{{ OrderCommentInfo.CommentNum }}条评价</div>
 							</div>
@@ -156,7 +159,7 @@
 				v-if="details.Lat&&details.Lng"
 				show-location>
 				</map>
-				<cover-view class="cover" @click="openLocation"></cover-view>
+				<!-- <cover-view class="cover" @click="openLocation"></cover-view> -->
 			</div>
 		</div>
 		<div class="gap20"></div>
