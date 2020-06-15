@@ -182,9 +182,6 @@
 		</view>
 		<!-- <tabbar-copy :current="2"></tabbar-copy> -->
 		<tabbar :current="2"></tabbar>
-		<cover-view style="height: 120rpx;" @click="switchTab('tabBar/xingkong/xingkong')" class="xingkong-box bottomAuto">
-			<cover-image class="xingkong-img" src="/static/tabbar/f.png"></cover-image>
-		</cover-view>
 	</view>
 </template>
 

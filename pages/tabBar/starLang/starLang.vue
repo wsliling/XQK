@@ -18,9 +18,6 @@
 		<uni-load-more :loadingType="loadMore" v-else></uni-load-more>
 		<view style="height: 120upx;"></view>
 		<tabbar :current="1"></tabbar>
-		<cover-view style="height: 120rpx;"  @click="switchTab('tabBar/xingkong/xingkong')" class="bottomAuto xingkong-box">
-			<cover-image class="xingkong-img" src="/static/tabbar/f.png"></cover-image>
-		</cover-view>
 	</view>
 </template>
 

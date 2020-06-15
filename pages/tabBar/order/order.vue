@@ -57,11 +57,7 @@
 			<uni-load-more :loadingType="loadingType" v-if="noDataIsShow == false&&orderList.length"></uni-load-more>
 		</view>
 		<view style="height: 120upx;"></view>
-		<!-- <tabbar :current="3"></tabbar> -->
 		<tabbar :current="3"></tabbar>
-		<cover-view style="height: 120rpx;" @click="switchTab('tabBar/xingkong/xingkong')" class="bottomAuto xingkong-box">
-			<cover-image class="xingkong-img" src="/static/tabbar/f.png"></cover-image>
-		</cover-view>
 	</view>
 </template>
 

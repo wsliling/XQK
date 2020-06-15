@@ -173,9 +173,6 @@
 				点击哥
 			</view> -->
 			<tabbar :current="0"></tabbar>
-			<cover-view style="height: 120rpx;" @click="switchTab('tabBar/xingkong/xingkong')" class="xingkong-box bottomAuto">
-				<cover-image class="xingkong-img" src="/static/tabbar/f.png"></cover-image>
-			</cover-view>
 	</view>
 </template>
 

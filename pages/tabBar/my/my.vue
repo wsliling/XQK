@@ -143,9 +143,6 @@
 		<view style="height: 120upx;"></view>
 		<!-- <tabbar-copy :current="4"></tabbar-copy> -->
 		<tabbar :current="4"></tabbar>
-		<cover-view style="height: 120rpx;" @click="switchTab('tabBar/xingkong/xingkong')" class="bottomAuto xingkong-box">
-			<cover-image class="xingkong-img" src="/static/tabbar/f.png"></cover-image>
-		</cover-view>
 		<!-- 绑定手机号弹框 -->
 		<!-- <uni-popup type="center" ref="tiedphone">
 			<view class="phonebox">

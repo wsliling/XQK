@@ -5,12 +5,6 @@ page{
   background:$bg;
   width:100%;
 }
-//底部安全距离
-.bottomAuto{
-  padding-bottom: 0;  
-  padding-bottom: constant(safe-area-inset-bottom);  
-  padding-bottom: env(safe-area-inset-bottom);
-}
 view{padding:0;margin:0;box-sizing:border-box;}
 input{box-sizing:border-box;}
 a{text-decoration: none;color:inherit;}
