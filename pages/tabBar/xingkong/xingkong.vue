@@ -182,7 +182,7 @@
 		</view>
 		<!-- <tabbar-copy :current="2"></tabbar-copy> -->
 		<tabbar :current="2"></tabbar>
-		<cover-view style="height: 120rpx;" @click="switchTab('tabBar/xingkong/xingkong')" class="xingkong-box">
+		<cover-view style="height: 120rpx;" @click="switchTab('tabBar/xingkong/xingkong')" class="xingkong-box bottomAuto">
 			<cover-image class="xingkong-img" src="/static/tabbar/f.png"></cover-image>
 		</cover-view>
 	</view>
@@ -190,16 +190,14 @@
 
 <script>
 	// import imageSrc from "@/static/xingkong-icon/xingkong-bg.png"
-	import tabbar from '@/components/tabbar.vue';
 	import circularProgressBar from '@/components/circularProgressBar.vue';
-	import tabbarCopy from '@/components/tabbarCopy.vue';
+	import tabbar from '@/components/tabbar.vue';
 
 	// import uCharts from '@'
 	export default {
 		components: {
 			tabbar,
 			circularProgressBar,
-			tabbarCopy
 		},
 		data() {
 			return {

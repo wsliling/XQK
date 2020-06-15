@@ -172,9 +172,8 @@
 			<!-- <view @click="dian" class="canvas2">
 				点击哥
 			</view> -->
-			<tabbar-copy :current="0"></tabbar-copy>
 			<tabbar :current="0"></tabbar>
-			<cover-view style="height: 120rpx;" @click="switchTab('tabBar/xingkong/xingkong')" class="xingkong-box">
+			<cover-view style="height: 120rpx;" @click="switchTab('tabBar/xingkong/xingkong')" class="xingkong-box bottomAuto">
 				<cover-image class="xingkong-img" src="/static/tabbar/f.png"></cover-image>
 			</cover-view>
 	</view>
@@ -183,7 +182,6 @@
 <script>
 	import {post,get,navigate,switchTab,judgeLogin,toast,throttle} from '@/utils';
 	import tabbar from '@/components/tabbar.vue';
-	import tabbarCopy from '@/components/tabbarCopy.vue';
 	import datePicker from '@/components/date-picker/date-picker.vue';
 	import {hasPosition,getCityCode} from '@/utils/location';
 	// #ifdef H5
@@ -235,7 +233,7 @@
 			}
 		},
 		components: {
-			tabbar,tabbarCopy,
+			tabbar,
 			datePicker,
 			wpicker,productItem,starLangItem,startLevel
 		},

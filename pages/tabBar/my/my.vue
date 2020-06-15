@@ -141,11 +141,11 @@
 			</view>
 		</view>
 		<view style="height: 120upx;"></view>
-		<tabbar-copy :current="4"></tabbar-copy>
-		<!-- <tabbar :current="4"></tabbar> -->
-		<!-- <cover-view style="height: 120rpx;" @click="switchTab('tabBar/xingkong/xingkong')" class="xingkong-box">
+		<!-- <tabbar-copy :current="4"></tabbar-copy> -->
+		<tabbar :current="4"></tabbar>
+		<cover-view style="height: 120rpx;" @click="switchTab('tabBar/xingkong/xingkong')" class="bottomAuto xingkong-box">
 			<cover-image class="xingkong-img" src="/static/tabbar/f.png"></cover-image>
-		</cover-view> -->
+		</cover-view>
 		<!-- 绑定手机号弹框 -->
 		<!-- <uni-popup type="center" ref="tiedphone">
 			<view class="phonebox">
@@ -171,12 +171,10 @@
 <script>
 	import {post,get,judgeLogin,navigate} from '@/utils';
 	import tabbar from '@/components/tabbar.vue';
-	import tabbarCopy from '@/components/tabbarCopy.vue';
 	import popup from '@/components/uni-popup/uni-popup.vue'
 	export default {
 		components: {
 			tabbar,
-			tabbarCopy,
 			popup
 		},
 		data() {

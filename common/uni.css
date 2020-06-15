@@ -1981,7 +1981,7 @@ radio-group label, checkbox-group label{
 	border-radius: 50%;
 	position: fixed;
 	right: 20upx;
-	bottom: 200upx;
+	bottom: 300upx;
 	z-index: 99;
 	border: 1px solid #ddd;
 	background: rgba(255,255,255,.8);

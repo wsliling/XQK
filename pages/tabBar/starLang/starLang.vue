@@ -17,11 +17,10 @@
 		<not-data v-if="CommnetList.length<1"></not-data>
 		<uni-load-more :loadingType="loadMore" v-else></uni-load-more>
 		<view style="height: 120upx;"></view>
-		<tabbar-copy :current="1"></tabbar-copy>
-	<!-- 	<tabbar :current="1"></tabbar>
-		<cover-view style="height: 120rpx;"  @click="switchTab('tabBar/xingkong/xingkong')" class="xingkong-box">
+		<tabbar :current="1"></tabbar>
+		<cover-view style="height: 120rpx;"  @click="switchTab('tabBar/xingkong/xingkong')" class="bottomAuto xingkong-box">
 			<cover-image class="xingkong-img" src="/static/tabbar/f.png"></cover-image>
-		</cover-view> -->
+		</cover-view>
 	</view>
 </template>
 
@@ -30,10 +29,9 @@
 	import tabbar from '@/components/tabbar.vue';
 	import starLangList from '@/components/starLangList.vue';
 	import notData from '@/components/notData.vue';
-	import tabbarCopy from '@/components/tabbarCopy.vue';
 	export default {
 		components: {
-			tabbar,starLangList,notData,tabbarCopy
+			tabbar,starLangList,notData
 		},
 		data() {
 			return {

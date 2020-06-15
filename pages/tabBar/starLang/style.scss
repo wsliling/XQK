@@ -18,7 +18,7 @@
 .fubuBtn{
 	position: fixed;
 	right: 20upx;
-	bottom: 110upx;
+	bottom: 190upx;
     width: 100upx;
     height: 100upx;
 	text-align: center;
@@ -128,5 +128,6 @@ uni-load-more {
 		left: 50%;
 		width: 80upx;
 		height: 80upx;
-		transform: translateX(-50%);
+		// transform: translateX(-50%);
+		margin-left:-28%;
 	}

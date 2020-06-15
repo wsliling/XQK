@@ -57,18 +57,17 @@
 			<uni-load-more :loadingType="loadingType" v-if="noDataIsShow == false&&orderList.length"></uni-load-more>
 		</view>
 		<view style="height: 120upx;"></view>
-		<tabbar-copy :current="3"></tabbar-copy>
-		<!-- <tabbar :current="3"></tabbar>
-		<cover-view style="height: 120rpx;" @click="switchTab('tabBar/xingkong/xingkong')" class="xingkong-box">
+		<!-- <tabbar :current="3"></tabbar> -->
+		<tabbar :current="3"></tabbar>
+		<cover-view style="height: 120rpx;" @click="switchTab('tabBar/xingkong/xingkong')" class="bottomAuto xingkong-box">
 			<cover-image class="xingkong-img" src="/static/tabbar/f.png"></cover-image>
-		</cover-view> -->
+		</cover-view>
 	</view>
 </template>
 
 <script>
 import { post,navigate,judgeLogin } from '@/utils';
 import tabbar from '@/components/tabbar.vue';
-import tabbarCopy from '@/components/tabbarCopy.vue';
 import noData from '@/components/notData.vue'; //暂无数据
 import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue'; //加载更多
 export default {
@@ -76,7 +75,6 @@ export default {
 		tabbar,
 		noData,
 		uniLoadMore,
-		tabbarCopy
 	},
 	data() {
 		return {
