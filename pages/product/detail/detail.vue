@@ -21,7 +21,7 @@
 				<!-- <p>江西省 萍乡市</p> -->
 				<p>{{ details.AreaSite }}</p>
 				<!-- <div class="tab">5A景区</div> -->
-				<div class="tab">{{ details.ShowArea }}</div>
+				<div class="tab" v-if="details.ShowArea">{{ details.ShowArea }}</div>
 			</div>
 			<!-- <h2>萍乡武功山风景区星球客生态度假</h2> -->
 			<h2>{{ details.Name }}</h2>

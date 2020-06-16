@@ -86,7 +86,7 @@
 					<view class="li_33">
 						<view class="item" @click="navigate('tabBar/my/coupon')">
 							<view class="iconImg" :class="{'dot':info.CouponNum}">
-								<view class="iconfont icon-youhuiquan"></view>
+								<image class="myimg coupon" src="http://xqk.wtvxin.com/images/wxapp/icons/coupon.png" mode="heightFix"></image>
 							</view>
 							<view class="txt">优惠券</view>
 						</view>
@@ -105,19 +105,19 @@
 						</view>
 						<view class="item" @click="navigate('tabBar/my/information')">
 							<view class="iconImg">
-								<image class="myimg" src="http://xqk.wtvxin.com/images/wxapp/icons/info.png" mode=""></image>
+								<image class="myimg" src="http://xqk.wtvxin.com/images/wxapp/icons/info.png" mode="heightFix"></image>
 							</view>
 							<view class="txt">常用信息</view>
 						</view>
 						<view class="item" @click="navigate('tabBar/my/gethelp')">
 							<view class="iconImg" :class="{'dot':info.HelpRedDot}">
-								<view class="iconfont icon-help"></view>
+								<image class="myimg help" src="http://xqk.wtvxin.com/images/wxapp/icons/help.png" mode="heightFix"></image>
 							</view>
 							<view class="txt">获取帮助</view>
 						</view>
 						<view class="item" @click="navigate('tabBar/my/feedback')">
 							<view class="iconImg">
-								<view class="iconfont icon-fankui"></view>
+								<image class="myimg fankui" src="http://xqk.wtvxin.com/images/wxapp/icons/fankui.png" mode="heightFix"></image>
 							</view>
 							<view class="txt">意见反馈</view>
 						</view>
@@ -305,5 +305,11 @@
 		image{
 			width:100%;height:100%;
 		}
+	}
+	.help,.fankui{
+		width:50upx;
+	}
+	.coupon{
+		height:44upx;
 	}
 </style>

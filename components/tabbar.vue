@@ -1,16 +1,16 @@
 <template>
 	<div>
 		<cover-view class="TabBar tabBarAuto flex-center-between">
-			<cover-view class="tab flex-column-center-center" v-for="(item,index) in list" :key="index" @click="navigatorTo(item)">
+			<cover-view class="tab flex-column-center-center" v-for="(item,index) in list" :key="index" @click="navigatorTo(item.pagePath)">
 				<!-- 普通navbar -->
 				<cover-image class="plain" v-if="index !== 2" :src="current === index ? item.selectedIconPath : item.iconPath"></cover-image>
 				<!-- 展示中间项 -->
 				<cover-image class="special" v-else src="/static/tabbar/f.png"></cover-image>
 				<cover-view :class="['text',{'active':current === index}]">{{item.text}}</cover-view>
 			</cover-view>
-			<cover-view  @click="switchTab('tabBar/xingkong/xingkong')" class="centerIcon tabBarAuto">
-				<cover-image class="centerIcon-img" src="/static/tabbar/f.png"></cover-image>
-			</cover-view>
+		</cover-view>
+		<cover-view class="centerIcon tabBarAuto">
+			<cover-image class="centerIcon-img" src="/static/tabbar/f.png" @click="navigatorTo('/pages/tabBar/xingkong/xingkong')"></cover-image>
 		</cover-view>
 	</div>
 </template>
@@ -62,7 +62,7 @@
 		methods: {
 			navigatorTo(params) {
 				uni.switchTab({
-					url: params.pagePath,
+					url: params,
 				})
 			}
 		}
