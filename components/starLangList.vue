@@ -214,7 +214,7 @@
 					// }
 					.iconfont.active{
 						// color: #ff6766;
-						color: #ff2213;
+						color: #ff6766;
 					}
 				}
 				.num{ color: #fff; margin-left: 10upx;
@@ -223,7 +223,7 @@
 					font-size: 28upx;
 					&.active{
 						// color: #ff6766;
-						color: #ff2213;
+						// color: #ff6766;
 					}
 				}
 			}

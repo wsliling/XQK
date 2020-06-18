@@ -81,10 +81,12 @@
 								<view class="switchCircle4 juzhong">
 									<view class="switchCircle5">
 										<view class="box juzhong">
-											<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/switch.png" mode="widthFix"></image>
-											<view class="">
-												开门
-											</view>
+											<div class="btn-top">空调</div>
+											<div class="center">
+												<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/switch.png" mode="widthFix"></image>
+												<view class="">开门</view>
+											</div>
+											<div class="btn-down">灯光</div>
 										</view>
 									</view>
 								</view>
@@ -119,59 +121,59 @@
 						</div>
 					</view> -->
 				</view>
-				<view class="right1 juzhong">
+				<!-- <view class="right1 juzhong">
 					建议提示变为“优”后，再进入星球客
-				</view>
-			</view>
-			<view class="data">
-				<view class="dataItem juzhong">
-					<view class="text">
-						温度
-					</view>
-					<view class="number">
-						28
-						<view class="unit">
-							℃
+				</view> -->
+				<view class="data">
+					<view class="dataItem juzhong">
+						<view class="text">
+							温度
+						</view>
+						<view class="number">
+							28
+							<view class="unit">
+								℃
+							</view>
+						</view>
+						<view class="rectangle red1">
 						</view>
 					</view>
-					<view class="rectangle red1">
-					</view>
-				</view>
-				<view class="dataItem juzhong">
-					<view class="text">
-						湿度
-					</view>
-					<view class="number">
-						92
-						<view class="unit">
-							%
+					<view class="dataItem juzhong">
+						<view class="text">
+							湿度
+						</view>
+						<view class="number">
+							92
+							<view class="unit">
+								%
+							</view>
+						</view>
+						<view class="rectangle green1">
 						</view>
 					</view>
-					<view class="rectangle green1">
+					<view class="dataItem juzhong">
+						<view class="text">
+							PM2.5
+						</view>
+						<view class="number">
+							45
+						</view>
+						<view class="rectangle blue1">
+						</view>
 					</view>
-				</view>
-				<view class="dataItem juzhong">
-					<view class="text">
-						PM2.5
-					</view>
-					<view class="number">
-						45
-					</view>
-					<view class="rectangle blue1">
-					</view>
-				</view>
-				<view class="dataItem juzhong">
-					<view class="text">
-						CO
-						<text class="co2">
-							2
-						</text>
-						浓度
-					</view>
-					<view class="number">
-						28
-					</view>
-					<view class="rectangle yellow1">
+					<view class="dataItem juzhong">
+						<view class="text">
+							CO
+							<text class="co2">
+								2
+							</text>
+							浓度
+						</view>
+						<view class="number">
+							28
+						</view>
+						<view class="rectangle yellow1">
+						</view>
 					</view>
 				</view>
 			</view>

@@ -46,12 +46,13 @@
 		onLoad() {
 			// console.log('星语列表onload')
 			// this.getFindList()
+			this.datalist = []
+			this.Page = 1;
+			this.getUserInfo();
+			this.getFindList()
 		},
 		onShow() {
 			// this.SearchKey = ''
-			this.datalist = []
-			this.Page = 1
-			this.getFindList()
 		},
 		methods: {
 			//返回顶部

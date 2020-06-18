@@ -175,7 +175,7 @@
 					// 	left: 0upx;
 					// }
 					.iconfont.active{
-						color: #ff2213;
+						color: #ff6766;
 					}
 				}
 				.num{ 
@@ -187,7 +187,7 @@
 						// color: #ff6766;
 						// }
 						&.active{
-							color: #ff2213;
+							// color: #ff2213;
 						}
 				}
 			}

@@ -34,7 +34,7 @@
 						<view class="iconfont icon-collect1" v-for="(item4,index4) in (5-(item.CommentScore))" :key="index4"></view> -->
                         <!-- <view class="num">{{ item.CommentScore }}</view> -->
 						<view class="num">{{ CommentScore(item.CommentScore) }}</view>
-                        <view class="fz12 c_999" v-if="tem.CommentNum">({{ item.CommentNum }})</view>
+                        <view class="fz12 c_999">({{ item.CommentNum }})</view>
                     </view>
                 </view>
                 <view class="flex-center">
@@ -154,9 +154,11 @@ import {startLevel} from '@/components/starLevel';
 <style scoped lang="scss">
 
 	.bigitem{
-		margin-bottom: 20upx;
+		margin-bottom: 30upx;
 		border-radius: 15upx;
 		overflow: hidden;
+		box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, 0.1);
+
 		.txtbox{
 			padding: 10upx 20upx;
 			.title{

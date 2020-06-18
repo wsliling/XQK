@@ -31,7 +31,7 @@ export default {
 		this.terms = e.type
 		if(this.terms == 1){ 
 			uni.setNavigationBarTitle({
-			    title: '营业执照'
+			    title: '关于我们'
 			});
 		}
 		if(this.terms == 2){

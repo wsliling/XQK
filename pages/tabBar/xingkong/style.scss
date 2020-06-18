@@ -186,16 +186,17 @@
 			background: rgba(153, 220, 193, 1) none repeat scroll !important;/* rgba(0, 0, 0, 0.2) 前三个确定颜色，最后0.2确定透明度 */
 		}
 		.switchCircle2 {
-			width: 476upx;
-			height: 476upx;
+			width: 470upx;
+			height: 470upx;
 			border-radius: 50%;
 			background: rgba(172, 226, 204, 1) none repeat scroll !important;/* rgba(0, 0, 0, 0.2) 前三个确定颜色，最后0.2确定透明度 */
 		}
 		.switchCircle3 {
-			width: 435upx;
-			height: 435upx;
+			width: 420upx;
+			height: 420upx;
 			border-radius: 50%;
 			background: rgba(255, 255, 255, 1) none repeat scroll !important;/* rgba(0, 0, 0, 0.2) 前三个确定颜色，最后0.2确定透明度 */
+			position:relative;
 		}
 		.switchCircle4 {
 			width: 250upx;
@@ -204,7 +205,6 @@
 			background: rgba(229, 246, 239, 1) none repeat scroll !important;/* rgba(0, 0, 0, 0.2) 前三个确定颜色，最后0.2确定透明度 */
 		}
 		.switchCircle5 {
-			position: relative;
 			width: 205upx;
 			height: 205upx;
 			border-radius: 50%;
@@ -212,13 +212,31 @@
 			.box {
 				display: flex;
 				flex-direction: column;
-				width: 80upx;
-				height: 140upx;
-				margin: 32upx auto 0;
+				justify-content:space-between;
+				width: 420upx;
+				height: 420upx;
+				position:absolute;
+				top:0;left:0;
 				// text-align: center;
-				color: #5CC69A;
+				font-size:30upx;
 				image {
 					width: 80upx;
+				}
+				.center{
+					width:205upx;height:205upx;
+					color: #5CC69A;
+					line-height:2;
+					display:flex;
+					flex-direction: column;
+					justify-content:center;
+					align-items:center;
+
+				}
+				.btn-top{
+					line-height:3;
+				}
+				.btn-down{
+					line-height:3;
 				}
 			}
 			
@@ -226,7 +244,7 @@
 	}
 }
 .infoBox {
-	margin-bottom: 180upx;
+	margin-bottom: 120upx;
 	.score {
 		height: 220upx;
 		// background-color: pink;
@@ -365,8 +383,10 @@
 	}
 	.data {
 		display: flex;
-		justify-content: space-around;
+		justify-content: space-between;
 		height: 150upx;
+		margin-right:20upx;
+		width:100%;
 		.dataItem {
 			font-size: 28upx;
 			.text{

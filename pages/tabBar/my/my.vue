@@ -136,7 +136,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="ftbtn flex-column uni-mb10"  @click="navigate('tabBar/my/wantplanet')">
+			<view class="ftbtn flex-column uni-mb10 wy"  @click="navigate('tabBar/my/wantplanet')">
 				我也想要星球客
 			</view>
 		</view>
@@ -311,5 +311,9 @@
 	}
 	.coupon{
 		height:44upx;
+	}
+	.wy{
+		background:$primary!important;
+		color:#fff!important;
 	}
 </style>

@@ -11,7 +11,7 @@
 				<image  src="http://xqk.wtvxin.com/images/wxapp/icons/arrow.png" mode=""></image>
 			</view>
 			<view class="gethelp-flex" @click="tolick('/pages/tabBar/my/termsservice?type=1')">
-				<view class="">营业执照</view>
+				<view class="">关于我们</view>
 				<image  src="http://xqk.wtvxin.com/images/wxapp/icons/arrow.png" mode=""></image>
 			</view>
 			<view class="gethelp-flex" @click="tolick('/pages/tabBar/my/termsservice?type=2')">
