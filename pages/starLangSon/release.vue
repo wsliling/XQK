@@ -4,7 +4,7 @@
 		<view class="feed">
 			<!-- <view class="feed-name">添加标题</view> -->
 			<input maxlength="35" type="text" v-model="title" placeholder="添加标题" placeholder-style="font-size: 28upx;color: rgba(187, 188, 191, 1);"/>
-			<textarea
+			<!-- <textarea
 				name=""
 				id=""
 				cols="30"
@@ -16,7 +16,44 @@
 				placeholder="分享你的故事和体验~"
 				v-model="Content"
 				style="line-height: 1.3;"
-			></textarea>
+			></textarea> -->
+			<view class="container">
+				<!-- 富文本输入按钮 -->
+				<view class="btnBox" v-show="isEdit">
+					<scroll-view :scroll-x="true" class="srcoll">
+						<view class="toolbar" @click.stop="format" :style="'bottom: ' + (isIOS ? keyboardHeight : 0) + 'px'">
+							<i class="iconfont icon-charutupian" @click.stop="insertImage"></i>
+							<i :class="'iconfont icon-format-header-3 ' + (formats.header === 3 ? 'ql-active' : '')" data-name="header"
+							:data-value="3"></i>
+							<!-- 加粗 -->
+							<i :class="'iconfont icon-zitijiacu ' + (formats.bold ? 'ql-active' : '')" data-name="bold"></i>
+							<!-- 下划线 -->
+							<i :class="'iconfont icon-zitixiahuaxian ' + (formats.underline ? 'ql-active' : '')" data-name="underline"></i>
+							<!-- 对齐方式 -->
+							<i :class="'iconfont icon-zuoduiqi ' + (formats.align === 'left' ? 'ql-active' : '')" data-name="align" data-value="left"></i>
+							<i :class="'iconfont icon-juzhongduiqi ' + (formats.align === 'center' ? 'ql-active' : '')" data-name="align"
+							data-value="center"></i>
+							<i :class="'iconfont icon-youduiqi ' + (formats.align === 'right' ? 'ql-active' : '')" data-name="align" data-value="right"></i>
+							<i :class="'iconfont icon-youxupailie ' + (formats.list === 'ordered' ? 'ql-active' : '')" data-name="list"
+							data-value="ordered"></i>
+							<i :class="'iconfont icon-wuxupailie ' + (formats.list === 'bullet' ? 'ql-active' : '')" data-name="list" data-value="bullet"></i>
+							<!-- 分割线 -->
+							<i class="iconfont icon-fengexian" @tap="insertDivider"></i>
+							<i class="iconfont icon-preview" @tap="store" id="2"></i>
+							<i class="iconfont icon-shanchu" @tap="clear"></i>
+							<i class="iconfont icon-baocun" @tap="store" id="1"></i>
+						</view>
+					</scroll-view> 
+					<div class="right flex-center">
+						<!-- 撤销or前进 -->
+						<i class="iconfont icon-undo" @tap="undo"></i>
+						<i class="iconfont icon-redo" @tap="redo"></i>
+					</div>
+				</view>
+				<editor id="editor" show-img-size :read-only="isEdit" show-img-resize show-img-toolbar class="ql-container"
+				:placeholder="placeholder" @statuschange="onStatusChange" @ready="onEditorReady">
+				</editor>
+			</view>
 			<view class="uploadimg">上传图片({{ PicList.length }}/{{maxPicLen}})</view>
 			<div class="flex">
 				<div class="picbox" v-for="(item, pindex) in PicList" :key="pindex">
@@ -67,6 +104,7 @@ import {startLevel} from '@/components/starLevel';
 import {relatedProduct} from '@/components/relatedProduct';
 
 let timer;
+let that;
 export default {
 	components: { pickers,startLevel,relatedProduct },
 	data() {
@@ -84,7 +122,17 @@ export default {
 			Content: '',
 			place:'不显示位置',
 			goodList:[],
-			isSubmit: false // 是否已经发布
+			isSubmit: false, // 是否已经发布
+
+			// 富文本变量
+			isEdit: false,
+			fontColor: '#000',
+			formats: {},
+			readOnly: false,
+			placeholder: '分享你的故事和体验',
+			editorHeight: 300,
+			keyboardHeight: 0,
+			isIOS: false
 		};
 	},
 	onShow() {
@@ -106,6 +154,7 @@ export default {
 		this.Content = ''
 		this.place = '不显示位置'
 		this.goodList = []
+		that = this;
 	},
 	computed:{
 		// toNum (str) {
@@ -339,11 +388,106 @@ export default {
 			}
 			this.goodList = res.data
 		},
+		// 富文本
+		readOnlyChange() {
+				this.readOnly = !this.readOnly
+			},
+			onEditorReady() {
+				uni.createSelectorQuery().select('#editor').context(function(res) {
+					that.editorCtx = res.context;
+				}).exec();
+			},
+			undo() {
+				this.editorCtx.undo();
+			},
+
+			redo() {
+				this.editorCtx.redo();
+			},
+
+			blur() {
+				this.editorCtx.blur();
+			},
+
+			format(e) {
+				// this.hideKey();
+				let {
+					name,
+					value
+				} = e.target.dataset;
+				if (!name) return; // console.log('format', name, value)
+				this.editorCtx.format(name, value);
+			},
+
+			onStatusChange(e) {
+				this.formats = e.detail;
+			},
+
+			insertDivider() {
+				this.editorCtx.insertDivider({
+					success: function() {
+						console.log('insert divider success');
+					}
+				});
+			},
+
+			store(e) {
+				this.editorCtx.getContents({
+					success: function(res) {
+						e.currentTarget.id == 1 ? console.log('保存内容:', res.html) : uni.navigateTo({
+							url: `../preview/preview?rich=${encodeURIComponent(res.html)}`
+						});
+					}
+				});
+			},
+
+			clear() {
+				this.editorCtx.clear({
+					success: function(res) {
+						console.log("clear success");
+					}
+				});
+			},
+
+			removeFormat() {
+				this.editorCtx.removeFormat();
+			},
+
+			insertDate() {
+				const date = new Date();
+				const formatDate = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+				this.editorCtx.insertText({
+					text: formatDate
+				});
+			},
+
+			insertImage() {
+				// const that = this;
+				uni.chooseImage({
+					count: 1,
+					success: function(res) {
+						that.editorCtx.insertImage({
+							src: res.tempFilePaths[0],
+							data: {
+								id: 'abcd',
+								role: 'god'
+							},
+							width: '100%',
+							success: function() {
+								console.log('insert image success');
+							}
+						});
+					}
+				});
+			}
+			// 富文本end
 	}
 };
 </script>
 
 <style scoped lang="scss">
+	@import url("./release/iconfont.css");
+	@import "./release/editor.scss";
 // 添加标题和图片的样式
 .feed {
 	input{

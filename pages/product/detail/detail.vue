@@ -81,12 +81,18 @@
 		<div class="column-tab flex-start-between plr30 pb20" v-if="details.DevLogo">
 			<image :src="details.DevLogo" mode="widthFix"></image>
 		</div>
-		<block v-if="details.IsVideo">
+		<!-- <block v-if="details.IsVideo"> -->
+		<block>
 			<div class="gap20"></div>
 			<div class="video plr30 pb30">
 				<h3>实时摄像头</h3>
-				<!-- <img src="http://xqk.wtvxin.com/images/wxapp/of/p2.jpg"  alt=""> -->
-				<video :src="details.Video"></video>
+				<div class="videoImg" @click="onOpenVideo">
+					<img :src="details.VideoCover" mode="widthFix"  alt="">
+					<div class="mask">
+						<img src="/static/icons/video.png" alt="">
+					</div>
+				</div>
+				<video :src="details.Video" id="myVideo" style="display:none"></video>
 			</div>
 		</block>
 		<div class="gap20"></div>
@@ -323,7 +329,8 @@
 				// 订单评价汇总信息
 				OrderCommentInfo: {},
 				// 多少分才显示超赞
-				maxScore: 4.5
+				maxScore: 4.5,
+				VideoContext:null,//视频实例
 			}
 		},
 		onLoad(options) {
@@ -331,6 +338,7 @@
 			this.Id = options.Id;
 			this.userId = uni.getStorageSync('userId');
 			this.token = uni.getStorageSync('token');
+			this.VideoContext = uni.createVideoContext('myVideo');
 			this.getDetail()
 			this.getGoodsDateTime(Id)
 			this.getOrderCommentInfo(Id)
@@ -568,6 +576,14 @@
 				console.log(err)
 					}
 				})
+			},
+			// 打开视频
+			onOpenVideo(){
+				console.log(this.VideoContext,'video')
+				if(this.details.Video){
+					this.VideoContext.requestFullScreen();
+					this.VideoContext.play()
+				}
 			}
 
 		},

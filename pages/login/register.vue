@@ -324,9 +324,9 @@ radio {
 	color: #0bd5a9;
 }
 .phone-icon{
-	width:30upx;
+	width:40upx;
 	height:40upx;
-	margin-left:30upx;
+	margin-left:20upx;
 }
 .phoneCode-icon{
 	width:40upx;

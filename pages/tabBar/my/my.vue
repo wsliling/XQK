@@ -4,8 +4,18 @@
 		<view class="pd15">
 			<view>
 				<view class="myset">
-					<view class="hint iconfont icon-xiaoxi"  @click="navigate('message/messageClass')"> <span v-if="info.NewsRedDot"></span></view>
-					<view class="set iconfont icon-shezhi" @click="navigate('tabBar/my/setting')"><span v-if="info.SetRedDot"></span></view>
+					<view class="hint"  @click="navigate('message/messageClass')">
+						<view class="iconImg">
+							<image class="myimg coupon" src="http://xqk.wtvxin.com/images/wxapp/icons/message.png" mode="widthFix"></image>
+						</view>
+					 	<span v-if="info.NewsRedDot"></span>
+					</view>
+					<view class="set" @click="navigate('tabBar/my/setting')">
+						<view class="iconImg">
+							<image class="myimg coupon" src="http://xqk.wtvxin.com/images/wxapp/icons/setting.png" mode="widthFix"></image>
+						</view>
+						<span v-if="info.SetRedDot"></span>
+					</view>
 				</view>
 				
 			</view>
@@ -54,25 +64,25 @@
 					<view class="li_33">
 						<view class="item" @click="navigate('tabBar/my/collect')">
 							<view class="iconImg">
-								<view class="iconfont icon-aixin2"></view>
+								<image class="myimg coupon" src="http://xqk.wtvxin.com/images/wxapp/icons/collect.png" mode="widthFix"></image>
 							</view>
 							<view class="txt">我的收藏</view>
 						</view>
 						<view class="item" @click="navigate('tabBar/my/myrelease')">
 							<view class="iconImg">
-								<view class="iconfont icon-xiangji"></view>
+								<image class="myimg coupon" src="http://xqk.wtvxin.com/images/wxapp/icons/myrelease.png" mode="widthFix"></image>
 							</view>
 							<view class="txt">我的发布</view>
 						</view>
 						<view class="item" @click="navigate('tabBar/my/myfocus')">
 							<view class="iconImg">
-								<view class="iconfont icon-guanzhu"></view>
+								<image class="myimg coupon" src="http://xqk.wtvxin.com/images/wxapp/icons/myfocus.png" mode="widthFix"></image>
 							</view>
 							<view class="txt">我的关注</view>
 						</view>
 						<view class="item" @click="navigate('tabBar/my/seereply')">
 							<view class="iconImg" :class="{'dot':info.ReplyRedDot}">
-								<view class="iconfont icon-pinglun1"></view>
+								<image class="myimg coupon" src="http://xqk.wtvxin.com/images/wxapp/icons/seereply.png" mode="widthFix"></image>
 							</view>
 							<view class="txt">查看回复</view>
 						</view>
@@ -86,50 +96,50 @@
 					<view class="li_33">
 						<view class="item" @click="navigate('tabBar/my/coupon')">
 							<view class="iconImg" :class="{'dot':info.CouponNum}">
-								<image class="myimg coupon" src="http://xqk.wtvxin.com/images/wxapp/icons/coupon.png" mode="heightFix"></image>
+								<image class="myimg coupon" src="http://xqk.wtvxin.com/images/wxapp/icons/coupon.png" mode="widthFix"></image>
 							</view>
 							<view class="txt">优惠券</view>
 						</view>
 						<view class="item" @click="navigate('tabBar/my/invoiceList')">
 							<view class="iconImg">
-								<view class="iconfont icon-fapiao"></view>
+								<image class="myimg coupon" src="http://xqk.wtvxin.com/images/wxapp/icons/invoiceList.png" mode="widthFix"></image>
 							</view>
 							<view class="txt">发票中心</view>
 				
 						</view>
 						<view class="item" @click="navigate('tabBar/my/myAppraise')">
 							<view class="iconImg" :class="{'dot':info.num_dpj}">
-								<view class="iconfont icon-bianji"></view>
+								<image class="myimg coupon" src="http://xqk.wtvxin.com/images/wxapp/icons/myAppraise.png" mode="widthFix"></image>
 							</view>
 							<view class="txt">我要评价</view>
 						</view>
 						<view class="item" @click="navigate('tabBar/my/information')">
 							<view class="iconImg">
-								<image class="myimg" src="http://xqk.wtvxin.com/images/wxapp/icons/info.png" mode="heightFix"></image>
+								<image class="myimg" src="http://xqk.wtvxin.com/images/wxapp/icons/info.png" mode="widthFix"></image>
 							</view>
 							<view class="txt">常用信息</view>
 						</view>
 						<view class="item" @click="navigate('tabBar/my/gethelp')">
 							<view class="iconImg" :class="{'dot':info.HelpRedDot}">
-								<image class="myimg help" src="http://xqk.wtvxin.com/images/wxapp/icons/help.png" mode="heightFix"></image>
+								<image class="myimg help" src="http://xqk.wtvxin.com/images/wxapp/icons/help.png" mode="widthFix"></image>
 							</view>
 							<view class="txt">获取帮助</view>
 						</view>
 						<view class="item" @click="navigate('tabBar/my/feedback')">
 							<view class="iconImg">
-								<image class="myimg fankui" src="http://xqk.wtvxin.com/images/wxapp/icons/fankui.png" mode="heightFix"></image>
+								<image class="myimg fankui" src="http://xqk.wtvxin.com/images/wxapp/icons/fankui.png" mode="widthFix"></image>
 							</view>
 							<view class="txt">意见反馈</view>
 						</view>
 						<view class="item" @click="navigate('tabBar/my/security')">
 							<view class="iconImg" :class="{'dot':info.SafeRedDot}">
-								<view class="iconfont icon-anquan1"></view>
+								<image class="myimg coupon" src="http://xqk.wtvxin.com/images/wxapp/icons/security.png" mode="widthFix"></image>
 							</view>
 							<view class="txt">安全中心</view>
 						</view>
 						<view class="item" @click="navigate('tabBar/my/kefu')">
 							<view class="iconImg">
-								<view class="iconfont icon-kefu"></view>
+								<image class="myimg coupon" src="http://xqk.wtvxin.com/images/wxapp/icons/kefu.png" mode="widthFix"></image>
 							</view>
 							<view class="txt">联系客服</view>
 						</view>
