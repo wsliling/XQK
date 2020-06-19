@@ -326,7 +326,7 @@ radio {
 .phone-icon{
 	width:40upx;
 	height:40upx;
-	margin-left:20upx;
+	margin-left:20upx; 
 }
 .phoneCode-icon{
 	width:40upx;

@@ -43,16 +43,14 @@
 			</div>
 			<div class="detail bb1 pb20">
 				<h2>{{ detail.Title}}</h2>
-				<!-- <div class="content" v-show="isShowAll" v-html="detail.ContentAbstract + detail.ContentDetails"></div>
-				<div class="content" v-show="!isShowAll" v-html="detail.ContentAbstract"></div> -->
-				<!-- <div class="content uni-ellipsis2" :class="{allContent : !isShowAll}" v-html="detail.ContentAbstract + detail.ContentDetails"></div> -->
-				<!-- <div class="content" v-show="!isShowAll" v-html="detail.ContentAbstract"></div> -->
-				<!-- 'uni-ellipsis2': !isShowAll -->
-				<!-- <view ref='content' id='content' class="content" :class="{'showAll': isShowAll }" v-html="detail.ContentAbstract + detail.ContentDetails"></view> -->
-				<view ref='content' id='content' class="content" :class="{'showAll': isShowAll }" v-html="detail.ContentDetails"
+				<rich-text ref='content' id='content' class="content" :class="{'showAll': isShowAll }"
+				 :style="{'white-space': 'pre-wrap',height:textHeight+'rpx','font-size':'28rpx','line-hieght': '36rpx'}" 
+				 :nodes="detail.ContentDetails" :selectable="true"
+				 >
+				</rich-text>
+				<!-- <view ref='content' id='content' class="content" :class="{'showAll': isShowAll }" v-html="detail.ContentDetails"
 				 :style="{'white-space': 'pre-wrap',height:textHeight+'rpx','font-size':'28rpx','line-hieght': '36rpx'}">
-				</view>
-				<!-- <div class="more flex-center" @click="changeIsShowAll" v-show="(!isShowAll) && isToLong ">展开全部 <uni-icons type="arrowdown" color="#5cc69a"></uni-icons></div> -->
+				</view> -->
 				<view v-if="isShowAll" class="shade" @click="changeIsShowAll">
 					<view class="text">
 						点击展开

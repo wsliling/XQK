@@ -3,7 +3,7 @@
 	<div>
 		<view class="feed">
 			<!-- <view class="feed-name">添加标题</view> -->
-			<input maxlength="35" type="text" v-model="title" placeholder="添加标题" placeholder-style="font-size: 28upx;color: rgba(187, 188, 191, 1);"/>
+			<input maxlength="35" type="text" v-model="title" placeholder="添加标题（1-34）" placeholder-style="font-size: 28upx;color: rgba(187, 188, 191, 1);"/>
 			<!-- <textarea
 				name=""
 				id=""
@@ -39,7 +39,6 @@
 							<i :class="'iconfont icon-wuxupailie ' + (formats.list === 'bullet' ? 'ql-active' : '')" data-name="list" data-value="bullet"></i>
 							<!-- 分割线 -->
 							<i class="iconfont icon-fengexian" @tap="insertDivider"></i>
-							<i class="iconfont icon-preview" @tap="store" id="2"></i>
 							<i class="iconfont icon-shanchu" @tap="clear"></i>
 							<i class="iconfont icon-baocun" @tap="store" id="1"></i>
 						</view>
@@ -97,7 +96,7 @@
 </template>
 
 <script>
-import { post, get, verifyPhone,navigate,debounce } from '@/utils';
+import { host,post, get, verifyPhone,navigate,debounce } from '@/utils';
 import { pathToBase64 } from '@/utils/image-tools';
 import pickers from '@/components/pickers';
 import {startLevel} from '@/components/starLevel';
@@ -132,7 +131,8 @@ export default {
 			placeholder: '分享你的故事和体验',
 			editorHeight: 300,
 			keyboardHeight: 0,
-			isIOS: false
+			isIOS: false,
+			editorCtx:null,
 		};
 	},
 	onShow() {
@@ -218,7 +218,7 @@ export default {
 		},
 		//提交意见反馈
 		// 星语发布/提交发布
-		async FeedBack(base64Arr) {
+		async FeedBack(base64Arr,content) {
 			let place = ''
 			if(this.place === '不显示位置') {
 				place = ''
@@ -232,7 +232,7 @@ export default {
 					UserId: this.userId,
 					Token: this.token,
 					Title: this.title,
-					ContentDetails: this.Content,
+					ContentDetails: content,
 					PicList: base64Arr,
 					Location: place,
 					ProIdArr: this.ProIdArr
@@ -258,7 +258,7 @@ export default {
 		},
 		
 		verify() {
-			if (this.title.trim().length === 0) {
+			if (this.title.trim().length) {
 				wx.showToast({
 					title: '请输入标题！',
 					icon: 'none',
@@ -266,9 +266,9 @@ export default {
 				});
 				return false;
 			}
-			if (this.Content.trim().length === 0) {
+			if (this.title.trim().length>34) {
 				wx.showToast({
-					title: '请输入发布内容！',
+					title: '标题不能大于34位！',
 					icon: 'none',
 					duration: 2000
 				});
@@ -285,39 +285,76 @@ export default {
 
 			return true;
 		},
-		// debounce(cb,wait =1000,res) {
-		//     // 发送网络请求，就会发送很多次
-		//     // 清除之前定时器
-		// 	console.log('进来了',res,this,this.base64Img)
-		//     return ()=>{
-		//       clearTimeout(timer)
-		//       timer = setTimeout(() => {
-		// 		  console.log('我发不了啦啦啦啦啦啦啦',this.base64Img)
-		//         return cb(this.base64Img)
-		//       }, wait);
-		//     }
-		// 	console.log('出去了')
-		//   },
 		async submit() {
-			if (this.verify() && !this.isSubmit) {
-				let base64Arr = [];
-				if (this.PicList.length > 0) {
-					base64Arr = await this.base64Img(this.PicList);
+			if (!this.verify() || this.isSubmit) return;
+			// 获取富文本内容
+			this.editorCtx.getContents({
+				success: async function(res) {
+					let content = res.html;
+					console.log(content,'拿到的富文本内容')
+					if (!content||content=='<p wx:nodeid="42"><br wx:nodeid="43"></p>') {
+						wx.showToast({
+							title: '请输入发布内容！',
+							icon: 'none',
+							duration: 2000
+						});
+						return false;
+					}
+					let imgArr=[];
+					content = content.replace(/<img [^>]*src=['"]([^'"]+)[^>]*>/g, function (match,capture,index) {
+						let id = `#&${index}&#`
+						imgArr.push({url:capture,id});
+						return match.replace(/src=['"]([^'"]+)/g,`src="${id}`)
+					});
+					let pathToBase64PromiseAll = [];//用于Promise.all的，图片转base64数组
+					let uploadImgs = [];//用于Promise.all的，上传图片到后台数组
+					imgArr.map(item=>{
+						pathToBase64PromiseAll.push(pathToBase64(item.url))
+					})
+					// 图片转base64
+					const base64Arr = await Promise.all(pathToBase64PromiseAll)
+					base64Arr.map(base64ArrItem=>{
+						uploadImgs.push(
+							post('System/UploadFiles',{
+								UserId:that.userId,
+								Token:that.token,
+								SignKey: 'img',
+								Base64String:base64ArrItem
+							})
+						)
+						
+					})
+					// 图片上传
+					const upImgRes = await Promise.all(uploadImgs);
+					upImgRes.map((upImgResItem,upImgResIndex)=>{
+						imgArr[upImgResIndex].url = upImgResItem.data;
+					})
+					imgArr.map(imgArrItem=>{
+						content = content.replace(imgArrItem.id,imgArrItem.url)
+					})
+					console.log(content,'富文本上传图片全部成功了')
+					that.submitData(content);
 				}
-				console.log('点了发布')
+			});
+		},
+		// 上传数据
+		async submitData(content){
+			if (this.PicList.length > 0) {
+				let base64Arr = [];
+				this.PicList.map(item=>{
+					base64Arr.push(pathToBase64(item))
+				})
+				const imgArr = await Promise.all(base64Arr)
 				// 发布防抖
-				this.isSubmit = true
-				this.FeedBack(JSON.stringify(base64Arr))
-				// clearTimeout(timer)
-				// timer = setTimeout(() => {
-				// 	// console.log('发布了')
-				//   return this.FeedBack(JSON.stringify(base64Arr))
-				// }, 1000)
-				// debounce(this.FeedBack,1000,JSON.stringify(base64Arr))
-				// console.log('我出来了') 
-				// this.FeedBack(JSON.stringify(base64Arr));
-				// this.debounce(this.FeedBack(JSON.stringify(base64Arr)))
-				// this.debounce(this.FeedBack,1000,JSON.stringify(this.base64Img))
+				this.isSubmit = true;
+				let upImgArr = [];
+				imgArr.map(item=>{
+					upImgArr.push({
+						PicUrl:item
+					})
+				})
+				console.log('发布的轮播图',upImgArr)
+				this.FeedBack(JSON.stringify(upImgArr),content)
 			}
 		},
 		upLoadImg() {
@@ -345,16 +382,6 @@ export default {
 		delImg(index) {
 			this.PicList.splice(index, 1);
 			this.isUploadBtn = true;
-		},
-		async base64Img(arr) {
-			let base64Arr = [];
-			for (let i = 0; i < arr.length; i += 1) {
-				const res = await pathToBase64(arr[i]);
-				base64Arr.push({
-					PicUrl: res
-				});
-			}
-			return base64Arr;
 		},
 		// 获取预订产品列表
 		async getGoodsList() {
@@ -391,96 +418,100 @@ export default {
 		// 富文本
 		readOnlyChange() {
 				this.readOnly = !this.readOnly
-			},
-			onEditorReady() {
-				uni.createSelectorQuery().select('#editor').context(function(res) {
-					that.editorCtx = res.context;
-				}).exec();
-			},
-			undo() {
-				this.editorCtx.undo();
-			},
+		},
+		onEditorReady() {
+			uni.createSelectorQuery().select('#editor').context(function(res) {
+				that.editorCtx = res.context;
+			}).exec();
+		},
+		undo() {
+			this.editorCtx.undo();
+		},
 
-			redo() {
-				this.editorCtx.redo();
-			},
+		redo() {
+			this.editorCtx.redo();
+		},
 
-			blur() {
-				this.editorCtx.blur();
-			},
+		blur() {
+			this.editorCtx.blur();
+		},
 
-			format(e) {
-				// this.hideKey();
-				let {
-					name,
-					value
-				} = e.target.dataset;
-				if (!name) return; // console.log('format', name, value)
-				this.editorCtx.format(name, value);
-			},
+		format(e) {
+			// this.hideKey();
+			let {
+				name,
+				value
+			} = e.target.dataset;
+			if (!name) return; // console.log('format', name, value)
+			this.editorCtx.format(name, value);
+		},
 
-			onStatusChange(e) {
-				this.formats = e.detail;
-			},
+		onStatusChange(e) {
+			this.formats = e.detail;
+		},
 
-			insertDivider() {
-				this.editorCtx.insertDivider({
-					success: function() {
-						console.log('insert divider success');
+		insertDivider() {
+			this.editorCtx.insertDivider({
+				success: function() {
+					console.log('insert divider success');
+				}
+			});
+		},
+
+		store(e) {
+			console.log(this.editorCtx,'editorCtx')
+			this.editorCtx.getContents({
+				success: function(res) {
+					console.log('保存内容:', res.html)
+				}
+			});
+		},
+
+		clear() {
+			const _this = this;
+			uni.showModal({
+				title:'输入内容将被全部清除',
+				confirmColor:'#5cc69a',
+				success(res){
+					if(res.confirm){
+						_this.editorCtx.clear();
 					}
-				});
-			},
+				}
+			})
+		},
 
-			store(e) {
-				this.editorCtx.getContents({
-					success: function(res) {
-						e.currentTarget.id == 1 ? console.log('保存内容:', res.html) : uni.navigateTo({
-							url: `../preview/preview?rich=${encodeURIComponent(res.html)}`
-						});
-					}
-				});
-			},
+		removeFormat() {
+			this.editorCtx.removeFormat();
+		},
 
-			clear() {
-				this.editorCtx.clear({
-					success: function(res) {
-						console.log("clear success");
-					}
-				});
-			},
+		insertDate() {
+			const date = new Date();
+			const formatDate = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+			this.editorCtx.insertText({
+				text: formatDate
+			});
+		},
 
-			removeFormat() {
-				this.editorCtx.removeFormat();
-			},
-
-			insertDate() {
-				const date = new Date();
-				const formatDate = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
-				this.editorCtx.insertText({
-					text: formatDate
-				});
-			},
-
-			insertImage() {
-				// const that = this;
-				uni.chooseImage({
-					count: 1,
-					success: function(res) {
-						that.editorCtx.insertImage({
-							src: res.tempFilePaths[0],
-							data: {
-								id: 'abcd',
-								role: 'god'
-							},
-							width: '100%',
-							success: function() {
-								console.log('insert image success');
-							}
-						});
-					}
-				});
-			}
-			// 富文本end
+		insertImage() {
+			// const that = this;
+			uni.chooseImage({
+				count: 1,
+				success: function(res) {
+					that.editorCtx.insertImage({
+						src: res.tempFilePaths[0],
+						data: {
+							id: 'abcd',
+							role: 'god'
+						},
+						width: '100%',
+						success: function() {
+							console.log('insert image success');
+						}
+					});
+				}
+			});
+		}
+		// 富文本end
 	}
 };
 </script>

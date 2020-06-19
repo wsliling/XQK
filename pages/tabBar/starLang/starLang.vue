@@ -53,6 +53,7 @@
 		},
 		onShow() {
 			// this.SearchKey = ''
+			this.getUserInfo();
 		},
 		methods: {
 			//返回顶部
