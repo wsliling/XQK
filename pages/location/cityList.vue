@@ -40,7 +40,7 @@
                 
                   <div class="item title pl30">热门城市</div>
                   <div class="flex-center cityhot">
-                      <div class="name" v-for="(item,index) in hotCity" :key="index" :data-city="item.name"  @click="bindCity">{{item.name}}</div>
+                      <div class="name" v-for="(item,index) in hotCity" :key="index" :data-city="item.Name"  @click="bindCity">{{item.Name}}</div>
                   </div>
                   <!--搜索城市-->
                   <div class="citylist" v-for="(item,sindex) in searchlist" :key="sindex">
@@ -84,9 +84,7 @@ export default {
         searchLetter:['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'W', 'X', 'Y', 'Z'],
         citylist:[],//加载城市列表
         searchlist:[],//搜索城市的列表
-        hotCity:[
-          {id:1,name:"深圳市"},{id:2,name:"上海市"},{id:3,name:"杭州市"},{id:4,name:"广州市"},{id:5,name:"南京市"},{id:6,name:"武汉市"},{id:7,name:"成都市"},{id:8,name:"北京市"},
-        ],
+        hotCity:[],
         allCity: city,
     }
   },
@@ -114,7 +112,6 @@ export default {
     async getData(){
       const res = await get('Area/AreaList');
       this.allCity=[];
-      let newHot=[];
       // 获取到数据，改成需要格式
       res.data.map((item,index)=>{
         // 城市拿到首页拼音
@@ -132,17 +129,15 @@ export default {
             'initial': piny[0][0].toLocaleUpperCase(),
             'short': piny2
         })
-        // 只有存在热门城市存在的时候才会展示
-        this.hotCity.map((hot,hotIndex)=>{
-          if(hot.name===item.Name){
-            newHot.push(hot)
-          }
-        })
+        // 热门城市
+        if(item.Istop){
+          console.log(item.Istop)
+          this.hotCity.push(item)
+        }
       })
-      this.hotCity=newHot;
+      console.log(this.hotCity)
       this.cityList()
 
-      console.log(this.allCity)
     },
      bindBlur(e) {
       this.inputName = '';

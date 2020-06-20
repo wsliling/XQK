@@ -7,6 +7,26 @@
 				<input confirm-type="send" @confirm="confirm()" type="text" placeholder="搜索目的地/景点/星语" v-model="SearchKey">
 			</view>
 		</view>
+		<div class="area">
+			<scroll-view class="area-scroll" scroll-x>
+				<div class="list  flex-center">
+					<div class="item" v-for="(item,index) in areaList" :key="index"
+						:class="{'active':areaActive ==item.Code}"
+						@click="tabArea(item)"
+					>{{item.Name}}</div>
+				</div>
+			</scroll-view>
+		</div>
+		<div class="classify">
+			<scroll-view class="classify-scrollr" scroll-x>
+				<div class="list  flex-center">
+					<div class="item" v-for="(item,index) in classify" :key="index"
+						:class="{'active':classifyActive ==item.Id}"
+						@click="tabClassify(item)"
+					>{{item.Name}}</div>
+				</div>
+			</scroll-view>
+		</div>
 		<div class="plr30">
 			<star-lang-list :list="datalist"  @onCollect="onCollect" @onLike="onLike"></star-lang-list>
 		</div>
@@ -14,7 +34,7 @@
 		<!-- 发布按钮 -->
 		<view class="fubuBtn iconfont icon-bianji1"  @click="navigate('starLangSon/release')"></view>
 		<!-- 数据判断显示 -->
-		<not-data v-if="CommnetList.length<1"></not-data>
+		<not-data v-if="datalist.length<1"></not-data>
 		<uni-load-more :loadingType="loadMore" v-else></uni-load-more>
 		<view style="height: 120upx;"></view>
 		<tabbar :current="1"></tabbar>
@@ -22,7 +42,7 @@
 </template>
 
 <script>
-	import {post,navigate} from '@/utils';
+	import {post,get,navigate} from '@/utils';
 	import tabbar from '@/components/tabbar.vue';
 	import starLangList from '@/components/starLangList.vue';
 	import notData from '@/components/notData.vue';
@@ -40,7 +60,11 @@
 				Page: 1,
 				PageSize: 8,
 				isTop:false,//是否显示置顶
-				datalist:[]
+				datalist:[],
+				classify:[],
+				areaList:[],
+				areaActive:'',
+				classifyActive:'',
 			}
 		},
 		onLoad() {
@@ -49,7 +73,9 @@
 			this.datalist = []
 			this.Page = 1;
 			this.getUserInfo();
-			this.getFindList()
+			this.getClassify();
+			this.getFindList();
+			this.getArea();
 		},
 		onShow() {
 			// this.SearchKey = ''
@@ -68,6 +94,27 @@
 				this.userId = uni.getStorageSync('userId');
 				this.token = uni.getStorageSync('token');
 			},
+			// 获取分类
+			getClassify(){
+				post('Find/FindClassList').then(res=>{
+					const data = res.data;
+					this.classify = data;
+					data.map(item=>{
+						if(item.Code==this.$store.state.cityCode){
+							this.areaActive = item.Code;
+						}
+					})
+				})
+			},
+			getArea(){
+				get('Area/AreaList').then(res=>{
+					const data = res.data;
+					data.sort(function(a,b){
+						return b.Istop-a.Istop;
+					})
+					this.areaList = res.data;
+				})
+			},
 			// 获取星语列表
 			async getFindList() {
 				this.loadMore =1;
@@ -77,24 +124,20 @@
 						myType:4,
 						SearchKey:this.SearchKey,
 						PageSize:this.PageSize,
-						Page:this.Page
+						Page:this.Page,
+						AreaSite:this.areaActive,
+						ClassId:this.classifyActive,
 					})
+				if(this.Page===1){
+					this.datalist=[];
+					console.log(this.datalist)
+				}
+				this.datalist.push(...res.data)
 				if(res.data.length<this.PageSize){
 					this.loadMore =2;
 				}else{
 					this.loadMore =0;
 				}
-				// if(res.code == 0) {
-				// 	// 清空输入框
-				// 	this.SearchKey = ""
-				// 	// 如果搜索成功清空
-				// }
-				if(res.code ===0 ){
-					this.datalist.push(...res.data)
-					// 停止下拉动画
-					uni.stopPullDownRefresh()
-				}
-				// console.log('搜索页面用户发现赋值的datalist：',this.datalist)
 			},
 			// 键盘确定按钮事件
 			confirm (){
@@ -103,6 +146,25 @@
 					this.datalist = []
 					this.getFindList()
 			},
+			tabArea(item){
+				if(this.areaActive!=item.Code){
+					this.areaActive = item.Code
+				}else{
+					this.areaActive = ''
+				}
+				this.Page=1;
+				this.getFindList();
+			},
+			tabClassify(item){
+				if(this.classifyActive!=item.Id){
+					this.classifyActive = item.Id
+				}else{
+					this.classifyActive = ''
+				}
+				this.Page=1;
+				this.getFindList();
+			},
+
 			// 点击了星语收藏
 			async onCollect(item){
 				this.datalist.map(async(tem)=>{
@@ -135,6 +197,8 @@
 			this.datalist = []
 			this.Page = 1
 			this.getFindList()
+			// 停止下拉动画
+			uni.stopPullDownRefresh()
 		},
 		// 上拉加载更多
 		onReachBottom(){

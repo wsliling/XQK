@@ -15,8 +15,8 @@
 								<view class="trash" v-if="pageStr==='issue'" @click.stop="$emit('remove',item)">
 									<uni-icons type="trash" color="#fff" size="25"></uni-icons>
 								</view>
-								<image :src="item.PicImg" mode="widthFix" class="pic"></image>
-								<!-- <image :src="item.PicImg" mode="aspectFill" class="pic" :style="{'width':'336rpx','height':'auto'}"></image> -->
+								<!-- <image :src="item.PicImg" mode="widthFix" class="pic"></image> -->
+								<image :src="item.PicImg" mode="aspectFill" class="pic" style="height:460rpx"></image>
 							</view>
 							<view class="txtbox">
 								<view class="title uni-ellipsis uni-mb5">
@@ -54,8 +54,8 @@
 								<view class="trash" v-if="pageStr==='issue'" @click.stop="$emit('remove',item)">
 									<uni-icons type="trash" color="#fff" size="25"></uni-icons>
 								</view>
-								<!-- <image :src="item.pic" mode="aspectFill" class="pic"></image> -->
-								<image :src="item.PicImg" mode="widthFix" class="pic"></image>
+								<image :src="item.PicImg" mode="aspectFill" class="pic"></image>
+								<!-- <image :src="item.PicImg" mode="widthFix" class="pic"></image> -->
 							</view>
 							<view class="txtbox">
 								<view class="title uni-ellipsis uni-mb5">

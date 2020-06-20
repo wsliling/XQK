@@ -96,8 +96,9 @@
 </template>
 
 <script>
-import { host,post, get, verifyPhone,navigate,debounce } from '@/utils';
+import { host,post, get, verifyPhone,navigate,debounce, } from '@/utils';
 import { pathToBase64 } from '@/utils/image-tools';
+import { getCityCode } from '@/utils/location';
 import pickers from '@/components/pickers';
 import {startLevel} from '@/components/starLevel';
 import {relatedProduct} from '@/components/relatedProduct';
@@ -120,6 +121,7 @@ export default {
 			title: '',
 			Content: '',
 			place:'不显示位置',
+			placeCode:'',//选择的定位城市代码
 			goodList:[],
 			isSubmit: false, // 是否已经发布
 
@@ -136,7 +138,13 @@ export default {
 		};
 	},
 	onShow() {
-		this.place = this.$store.state.place
+		this.place = this.$store.state.place;
+		const placeCity = this.$store.state.placeCity;
+		if(placeCity){
+			getCityCode(placeCity).then(res=>{
+				this.placeCode = res.data.Code;
+			})
+		}
 		this.getUserInfo()
 		this.getGoodsList()
 		// console.log('我是发布页onshow的idarr：',this.$store.state.ProIdArr)
@@ -235,7 +243,8 @@ export default {
 					ContentDetails: content,
 					PicList: base64Arr,
 					Location: place,
-					ProIdArr: this.ProIdArr
+					ProIdArr: this.ProIdArr,
+					AreaSite:this.placeCode,
 				},
 				// this.getData
 			);
@@ -315,7 +324,7 @@ export default {
 					const base64Arr = await Promise.all(pathToBase64PromiseAll)
 					base64Arr.map(base64ArrItem=>{
 						uploadImgs.push(
-							post('System/UploadFiles',{
+							post('System/UploadBase64',{
 								UserId:that.userId,
 								Token:that.token,
 								SignKey: 'img',

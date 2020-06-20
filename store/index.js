@@ -74,6 +74,7 @@ export default new Vuex.Store({
         },
         goodsDateTime:[],//产品日期对应的数组
         place: '不显示位置' ,//发布星语的地址
+        placeCity: '' ,//发布星语的坐标城市
         SystemInfoWidth: 0 //屏幕宽度
     },
     getters:{

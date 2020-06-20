@@ -15,6 +15,46 @@
 		}
 	}
 }
+.area{
+	.area-scroll{
+		height:50upx;
+	}
+	.list{
+		.item{
+			flex:0 0 auto;
+			padding:0 20upx;
+			line-height:50upx;
+			font-size:30upx;
+			&.active{
+				font-size:35upx;
+				color:$primary;
+			}
+		}
+	}
+}
+.classify{
+	.classify-scrollr{
+		height:70upx;
+	}
+	.list{
+		padding-top:10upx;
+		padding-left:10upx;
+		.item{
+			flex:0 0 auto;
+			padding:0 15upx;
+			margin:0 15upx;
+			line-height:40upx;
+			background:#f2f2f2;
+			color:#999;
+			font-size:25upx;
+			border-radius:8upx;
+			&.active{
+				background:$primary;
+				color:#fff;
+			}
+		}
+	}
+}
 .fubuBtn{
 	position: fixed;
 	right: 20upx;

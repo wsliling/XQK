@@ -114,7 +114,7 @@
 				<product-item v-for="(item,index) in findList" :key="index" :item="item" @onCollect="onProCollect"></product-item>
 				<!-- <starLangItem :item="item"  v-for="(item,index) in 6" :key="index"></starLangItem> -->
 			</div>
-			<div class="btn-max" @click="switchTab('tabBar/starLang/starLang')">查看更多星语</div>
+			<div class="btn-max" @click="navigate('home/searchList')">查看更多</div>
 		</div>
 	</div>
 </template>
