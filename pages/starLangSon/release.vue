@@ -139,12 +139,14 @@ export default {
 	},
 	onShow() {
 		this.place = this.$store.state.place;
-		const placeCity = this.$store.state.placeCity;
-		if(placeCity){
-			getCityCode(placeCity).then(res=>{
-				this.placeCode = res.data.Code;
-			})
-		}
+		this.placeCode = this.$store.state.placeCity;
+		// 转城市码
+		// const placeCity = this.$store.state.placeCity;
+		// if(placeCity){
+		// 	getCityCode(placeCity).then(res=>{
+		// 		this.placeCode = res.data.Code;
+		// 	})
+		// }
 		this.getUserInfo()
 		this.getGoodsList()
 		// console.log('我是发布页onshow的idarr：',this.$store.state.ProIdArr)
@@ -267,7 +269,7 @@ export default {
 		},
 		
 		verify() {
-			if (this.title.trim().length) {
+			if (!this.title.trim()) {
 				wx.showToast({
 					title: '请输入标题！',
 					icon: 'none',

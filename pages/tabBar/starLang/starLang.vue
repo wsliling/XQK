@@ -11,7 +11,7 @@
 			<scroll-view class="area-scroll" scroll-x>
 				<div class="list  flex-center">
 					<div class="item" v-for="(item,index) in areaList" :key="index"
-						:class="{'active':areaActive ==item.Code}"
+						:class="{'active':areaActive ==item.Name}"
 						@click="tabArea(item)"
 					>{{item.Name}}</div>
 				</div>
@@ -74,12 +74,15 @@
 			this.Page = 1;
 			this.getUserInfo();
 			this.getClassify();
-			this.getFindList();
 			this.getArea();
 		},
 		onShow() {
 			// this.SearchKey = ''
 			this.getUserInfo();
+			// 如果更改了城市
+			if(this.$store.state.cityName!==this.areaActive){
+				this.getArea();
+			}
 		},
 		methods: {
 			//返回顶部
@@ -99,20 +102,25 @@
 				post('Find/FindClassList').then(res=>{
 					const data = res.data;
 					this.classify = data;
-					data.map(item=>{
-						if(item.Code==this.$store.state.cityCode){
-							this.areaActive = item.Code;
-						}
-					})
 				})
 			},
 			getArea(){
 				get('Area/AreaList').then(res=>{
 					const data = res.data;
+					this.areaActive = this.$store.state.cityName;
+					const that =this;
 					data.sort(function(a,b){
-						return b.Istop-a.Istop;
+						if(a.Name===that.areaActive){
+							return -1;
+						}else if(b.Name===that.areaActive){
+							return 1;
+						}
+						else{
+							return b.Istop-a.Istop;
+						}
 					})
 					this.areaList = res.data;
+					this.getFindList();
 				})
 			},
 			// 获取星语列表
@@ -147,8 +155,8 @@
 					this.getFindList()
 			},
 			tabArea(item){
-				if(this.areaActive!=item.Code){
-					this.areaActive = item.Code
+				if(this.areaActive!=item.Name){
+					this.areaActive = item.Name
 				}else{
 					this.areaActive = ''
 				}
