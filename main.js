@@ -1,3 +1,4 @@
+import './common/utils/mtj-wx-sdk';
 import Vue from 'vue'
 import App from './App'
 import store from './store'
