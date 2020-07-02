@@ -47,7 +47,7 @@
 					<view class="">{{orderList.Tel}}</view>
 				</view>
 				<!-- 入住人信息 -->
-				<div class="checkIn">
+				<div class="checkIn" v-if="orderList.dt_uinfo&&orderList.dt_uinfo.length">
 					<div class="tit">入住人</div>
 					<div class="item" v-for="(item,index) in orderList.dt_uinfo" :key="index">
 						<h5>{{item.FullName}}</h5>

@@ -57,12 +57,7 @@
 				OrderNumber:'', //订单号
 				UnitPrice:'',   //一组产品的价格
 				ActualPay:'',   //一组产品的实际支付
-				cancelInfo:{
-					RefundAmout: "0.10",
-					RefundNote: "退款将在3-5个工作日内完成",
-					RefundStr: "您将会收到￥0.10的退款。",
-					msg: "预订已取消"
-				},//取消成功
+				cancelInfo:{},//取消成功
 				refundInfo:{},//退款信息
 			}
 		},
@@ -77,9 +72,9 @@
 			this.getCancelReason()
 		},
 		methods:{
-			cancellation(e){
-				this.cancel = e;
-				navigateBack();
+			cancellation(){
+				this.cancel = 0;
+				navigateBack(100);
 			},
 			gettype(e) {
 				console.log(e)
@@ -88,8 +83,9 @@
 					this.typeTxt = e.message;
 				}
 			},
-			// 获取取消原因
+			// 获取取消信息 
 			getCancelReason(){
+				// 取消原因
 				post('Order/CancelReason',{
 				}).then(res=>{
 					if(res.code === 0){
@@ -97,6 +93,7 @@
 						this.typelist.push(...res.data);
 					}
 				})
+				// 取消信息
 				post('Order/RefundScreen',{
 					UserId: this.userId,
 					Token: this.token,
@@ -107,8 +104,9 @@
 			},
 			// 订单取消预订
 			getCancelReservation(){
-				if(!this.typeTxt||this.typeTxt==='请选择'){
+				if(!this.typeTxt||this.typeTxt=='请选择'){
 					toast('请选择取消原因');
+					return;
 				}
 				post('Order/CancelReservation',{
 					UserId: this.userId,
@@ -116,10 +114,8 @@
 					OrderNo: this.OrderNumber, // 订单号
 					ReMarks: this.typeTxt, // 取消原因
 				}).then(res=>{
-					if(res.code === 0){
-						this.cancelInfo = res.data;
-						this.cancel = e;
-					}
+					this.cancelInfo = res.data;
+					this.cancel = 1;
 				})
 			},
 		}

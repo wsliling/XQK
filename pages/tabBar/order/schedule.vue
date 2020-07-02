@@ -3,7 +3,7 @@
 	<view class="schedule">
 		<!-- <view class="refund">您的退款¥288.00已于2020-05-20 11:40处理完成，款项将退返到您的原支付方式 (微信)到账时长预计为0-5天</view> -->
 		<view class="refund">{{data.RefundNote}}</view>
-		<view class="rate">退款进度：退款完成</view>
+		<view class="rate">退款进度：{{data.RefundState}}</view>
 		<view class="wechat">
 			<view class="price">
 				<view class="">微信</view>

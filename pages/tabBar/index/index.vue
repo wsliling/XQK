@@ -76,9 +76,9 @@
 			<view class="index_hd uni-mb10">
 				<view class="flex-center-between">
 					<view @click="adds" class="title">{{about.Title}}</view>
-					<view :style="'color:' +commonSetting.ThemeColor + ';'" class="more flex-end" @click="navigate('home/introduction',{title:about.Title})">
+					<!-- <view :style="'color:' +commonSetting.ThemeColor + ';'" class="more flex-end" @click="navigate('home/introduction',{title:about.Title})">
 						查看详情<text :style="'color:' +commonSetting.ThemeColor + ';'" class="iconfont icon-you"></text>
-					</view>
+					</view> -->
 				</view>
 				<view class="sutitle">{{about.SubTitle}}</view>
 			</view>

@@ -34,7 +34,7 @@
 					<view
 						class="btn"
 						v-if="val.IsRefund === 1"
-						@click="
+						@click.stop="
 							navigate(
 								'tabBar/order/cancel',{
 									OrderNumber:val.OrderNumber,
