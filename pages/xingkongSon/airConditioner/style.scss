@@ -1,0 +1,193 @@
+view {
+	box-sizing: border-box;
+	line-height: 1;
+}
+
+.big-box {
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 0 375upx;
+}
+// 头部状态盒子
+.status-box {
+		position: relative;
+		top: 0;
+		left: -50%;
+	  width: 1500upx;
+	  height: 611upx;
+	  border-radius: 50% / 0 0 100% 100% ;
+		overflow: hidden;
+	.bg-img {
+		margin-left: 375upx;
+		width: 750upx;
+		height: 611upx;
+	}
+	.mask{
+		position: absolute;
+		content: '';
+		background:rgba(92,198,154,.6);
+		top: 0;
+		left: 0;
+		width: 1500upx;
+		height: 611upx;
+		padding-left: 375upx;
+		border-radius: 50% / 0 0 100% 100% ;
+	}
+	.status-show-box {
+		width: 290upx;
+		height: 365upx;
+		margin: 152upx 0 0 230upx;
+	}
+	.status-img-box {
+		width: 290upx;
+		height: 237upx;
+	}
+	.status {
+		color: #FFFFFF;
+		.model {
+			margin-top: 15upx;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-size: 24upx;
+			.center {
+				margin: 0 20upx;
+			}
+		}
+		.describe {
+			margin-top: 20upx;
+			font-size: 88upx;
+			text-align: center;
+		}
+	}
+}
+// 控制内容盒子
+.content-box {
+	width: 546upx;
+
+}
+// 开关盒子
+.switch-box {
+	margin-top: 60upx;
+	flex-direction: column;
+	.switch {
+		width: 96upx;
+		height: 96upx;
+		background-color: #5CC69A;
+		border-radius: 50%;
+		image {
+			width: 48upx;
+			height: 48upx;
+		}
+	}
+	.switch-text {
+		margin-top: 20upx;
+	}
+}
+// 模式盒子
+.model-box {
+	margin-top: 74upx;
+	.model-item {
+		&.w42 {
+			image {
+				width: 42upx;
+			}
+		}
+		&.w39 {
+			image {
+				width: 39upx;
+			}
+		}
+		image {
+			width: 48upx;
+			height: 48upx;
+		}
+		.model-value {
+			margin-top: 26upx;
+			font-size: 24upx;
+			color: #B9BABF;
+		}
+		&.active {
+			.model-value {
+				color: #5CC69A;
+			}
+		}
+	}
+	
+}
+// 风速盒子
+.wind-speed-box {
+	margin-top: 40upx;
+	.title {
+		font-size: 28upx;
+		width: 100%;
+		flex-shrink: 0;
+	}
+	.wind-speed-grade {
+		
+	}
+	.content {
+		margin-top: 14upx;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.wind-speed-describe {
+		margin-top: 38upx;
+		font-size: 24upx;
+		color: #666666;
+		display: flex;
+		justify-content: space-around;
+	}
+	.progress-bar {
+		width:412upx;
+		height:8upx;
+		background:rgba(233,240,237,1);
+		border-radius:4upx;
+	}
+	.active-progress-bar {
+		position: relative;
+		width:90upx;
+		height:8upx;
+		background:rgba(92,198,154,1);
+		border-radius:4upx;
+		&::after {
+			position: absolute;
+			content: '';
+			right: 0;
+			top: 50%;
+			transform: translate(100%,-50%);
+			width:44upx;
+			height:44upx;
+			background:rgba(246,246,246,1);
+			box-shadow:0upx 3upx 8upx 0upx rgba(123,123,123,0.29);
+			border-radius:50%;
+		}
+	}
+	.right {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		.huan {
+			width: 48upx;
+			height: 48upx;
+			border: 1upx solid #B9BABF;
+			border-radius: 50%;
+			.huan-yuan {
+				width: 36upx;
+				height: 36upx;
+				background-color: #B9BABF;
+				border-radius: 50%;
+			}
+		}
+		.auto-model {
+			margin-top: 18upx;
+			font-size: 24upx;
+			color: #B9BABF;
+		}
+	}
+	
+}
