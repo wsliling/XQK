@@ -105,6 +105,18 @@ view {
 			justify-content: center;
 			align-items: center;
 		}
+		.active-model-img-box {
+			position: relative;
+				&:after {
+				    content: "";
+				    position: absolute;
+				    bottom: 0;
+				    right: 0;
+				    border-width: 0 0 18upx 18upx;
+				    border-style: solid;
+				    border-color: transparent transparent #5CC69A;
+				}
+		}
 		.text {
 			margin-top: 20upx;
 			font-size: 24upx;
@@ -113,7 +125,10 @@ view {
 			width: 48upx;
 			height: 49upx;
 		}
-		.yuedu {
+		// .active-model {
+			
+		// }
+		.active-model-img {
 			width: 40upx;
 			height: 50upx;
 		}
@@ -132,6 +147,47 @@ view {
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+		.img-box {
+			width: 108upx;
+			height: 108upx;
+			border-radius: 50%;
+		}
+		&:nth-child(1){
+			.img-box {
+				image{
+					width: 44upx;
+					height: 56upx;
+				}
+				background-color: #5CC69A;
+			}
+		}
+		&:nth-child(2){
+			.img-box {
+				image{
+					width: 52upx;
+					height: 56upx;
+				}
+				background-color: #FCBA88;
+			}
+		}
+		&:nth-child(3){
+			.img-box {
+				image{
+					width: 49upx;
+					height: 48upx;
+				}
+				background-color: #E7BBF9;
+			}
+		}
+		&:nth-child(4){
+			.img-box {
+				image{
+					width: 49upx;
+					height: 51upx;
+				}
+				background-color: #B4BEFB;
+			}
+		}
 		.text {
 			margin-top: 24upx;
 			font-size: 24upx;

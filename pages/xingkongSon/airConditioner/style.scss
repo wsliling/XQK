@@ -53,6 +53,10 @@ view {
 			justify-content: center;
 			align-items: center;
 			font-size: 24upx;
+			visibility: hidden;
+			&.canSee {
+				visibility: visible;
+			}
 			.center {
 				margin: 0 20upx;
 			}
@@ -61,6 +65,9 @@ view {
 			margin-top: 20upx;
 			font-size: 88upx;
 			text-align: center;
+		}
+		.close-describe {
+			font-size: 68upx;
 		}
 	}
 }
@@ -78,6 +85,9 @@ view {
 		height: 96upx;
 		background-color: #5CC69A;
 		border-radius: 50%;
+		&.close-bg {
+				background-color: #B9BABF;
+		}
 		image {
 			width: 48upx;
 			height: 48upx;
@@ -154,6 +164,9 @@ view {
 		height:8upx;
 		background:rgba(92,198,154,1);
 		border-radius:4upx;
+		&.close-bg {
+				background-color: #B9BABF;
+		}
 		&::after {
 			position: absolute;
 			content: '';
@@ -171,11 +184,24 @@ view {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		&.active {
+			.huan {
+				border-color: #5CC69A;
+				.huan-yuan {
+					background-color: #5CC69A;
+				}
+			}
+			
+			.auto-model {
+				color: #5CC69A;
+			}
+		}
 		.huan {
 			width: 48upx;
 			height: 48upx;
 			border: 1upx solid #B9BABF;
 			border-radius: 50%;
+			
 			.huan-yuan {
 				width: 36upx;
 				height: 36upx;
