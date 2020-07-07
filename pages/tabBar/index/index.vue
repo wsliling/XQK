@@ -580,6 +580,12 @@
 			}
 		},
 		// #endif
+		onShareAppMessage(){
+			return {
+				title: '星球客微服务',
+     			 path: '/pages/tabBar/index/index'
+			}
+		}
 		
 	}
 </script>
