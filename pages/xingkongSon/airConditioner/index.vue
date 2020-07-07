@@ -40,7 +40,7 @@
 			<!-- 控制内容盒子 -->
 			<view class="content-box">
 				<!-- 开关盒子 -->
-				<view @click="switchAir()" class="switch-box flex-center-center">
+				<view @click="switchAir()" class="switch-box flex-center-center"  :class="[!isAir ? 'close' : '']">
 					<view class="switch flex-center-center" :class="[!isAir ? 'close-bg' : '']">
 						<image src="/static/xingkong/switch0.png" mode="widthFix"></image>
 					</view>
@@ -62,31 +62,35 @@
 				</view>
 				<!-- 风速盒子 -->
 				<view class="wind-speed-box">
-					<view class="title">
+					<view class="title" :class="[!isAir ? 'close' : '']">
 						风速
 					</view>
 					<view class="content">
 						<view class="left">
 							<view class="wind-speed-grade">
 								<view class="progress-bar">
-									<view class="active-progress-bar"  :class="[isAir ? 'switch' : 'close-bg']">
-									</view>
+									<!-- <view class="active-progress-bar" :class="[!isAir ? 'close-bg' : '']">
+									</view> -->
+									<!-- 风速进度条 -->
+									<slider :value="slider.value" :aria-valuenow="slider.value" @change="windSliderChange" @changing="windSliderChangeIng" :step="slider.step" :min="slider.min" :max="slider.max" :activeColor="slider.activeColor" :backgroundColor="slider.backgroundColor" :block-size="slider.blockSize" :disabled="slider.disabled"/>
+
 								</view>
-								<view class="wind-speed-describe">
-									<view class="wind-speed-describe-item" v-for="(item,index) in windSpeedList" :key='index'>
-										{{ item }}
+								<view class="wind-speed-describe" :class="[!isAir ? 'close' : '']">
+									<view @click="changeWindSpeedModel(item,index)" v-for="(item,index) in threeWindSpeedList" :key='index' class="wind-speed-describe-item" :class="[item.active ? 'active' : '']">
+										{{ item.value }}
 									</view>
 								</view>
 							</view>
 						</view>
-						<view @click="changeAutoModel()" class="right" :class="[autoModel.active ? 'active' : '']">
+						<view @click="changeWindSpeedModel({},3)" class="right" :class="[windSpeedList[3].active ? 'active' : '']">
 							<view class="huan flex-center-center">
 								<view class="huan-yuan">
 
 								</view>
 							</view>
 							<view class="auto-model">
-								{{ autoModel.value }}
+								<!-- {{ autoModel.value }} -->
+								自动
 							</view>
 						</view>
 					</view>
@@ -106,12 +110,24 @@
 				bgImg: '/static/xingkong/bg1.png',
 				isAir: false,
 				modelIndex: 0,
+				// windSliderValue: 33, // 风速拖动值
+				// 滑动条对象
+				slider: {
+					step: 50, // 步长
+					value: 0, // 当前值
+					min: 0, // 最小值
+					max: 100, // 最大值
+					activeColor: '#5CC69A', // 活动条颜色
+					backgroundColor: '#B9BABF', // 背景条颜色
+					blockSize: 22, // 滑块大小	
+					disabled: false,
+				},
 				activeModel: {},
 				modelList: [{
 						img: '/static/xingkong/cool0.png',
 						activeImg: '/static/xingkong/cool1.png',
 						value: '制冷',
-						active: true,
+						active: false,
 					},
 					{
 						img: '/static/xingkong/zhire0.png',
@@ -139,14 +155,43 @@
 				activeWindSpeed: {
 					value: '低风'
 				},
-				windSpeedList: [
-					'低风',
-					'中风',
-					'高风'
+				threeWindSpeedList:[],
+				windSpeedList: [{
+						value: '低风',
+						active: false,
+					},
+					{
+						value: '中风',
+						active: false,
+					},
+					{
+						value: '高风',
+						active: false,
+					},
+					{
+						value: '自动',
+						active: false,
+					},
 				],
 			};
 		},
+		watch:{
+			'windSpeedList': {
+				immediate: true,
+				handler: function(newVal) {
+					// console.log('更新后的过滤条件：', newVal)
+					// this.fliters = newVal
+					// this.$set(this.fliters, this.fliters, newVal)
+					// this.flitersArr = this.fliters.flitersArr
+				  this.threeWindSpeedList =	this.windSpeedList.slice(0, 3)
+				},
+			},
+		},
 		computed: {
+			// threeWindSpeedList() {
+			// 	console.log('我在切风速数组')
+			// 	return this.windSpeedList.slice(0, 3)
+			// },
 			nowAir() {
 				let model = this.activeModel.value;
 				let wind = this.activeWindSpeed.value;
@@ -159,19 +204,33 @@
 				return res
 			}
 		},
+		onLoad() {
+			this.closeAir()
+		},
 		methods: {
 			// 开关空调
 			switchAir() {
 				this.isAir = !this.isAir
-				// 关闭模式和风速
 				if (!this.isAir) {
+				// 关闭模式和风速
 					this.closeAir()
-				}else {
+				} else {
+					// 开启
 					this.initAll()
 				}
 			},
+			// 关机模式下无法点击
+			// allDisable () {
+			// 	if(!this.isAir) {
+			// 		return false
+			// 	}
+			// },
 			// 模式切换
 			changeModel(item, index) {
+				// this.allDisable()
+				if (!this.isAir) {
+					return false
+				}
 				// console.log(this.modelList)
 				// console.log(Object.prototype.toString.call(this.modelList))
 				// console.log(this.modelList.length)
@@ -185,27 +244,89 @@
 				// this.modelIndex = index
 				// console.log(item, index)
 			},
-			// 自动风
-			changeAutoModel() {
-				this.autoModel.active = !this.autoModel.active
-				this.activeWindSpeed.value = this.autoModel.value
+			// 风速切换-点击切换风速
+			changeWindSpeedModel(item, index) {
+				// this.allDisable()
+				if (!this.isAir) {
+					return false
+				}
+				// this.autoModel.active = !this.autoModel.active
+				// this.activeWindSpeed.value = this.autoModel.value
+				for (let i = 0; i < this.windSpeedList.length; i++) {
+					this.windSpeedList[i].active = false
+					if (index === i) {
+						if(index !== 3 ) {
+							this.slider.value = (i+1) *this.slider.step
+						}
+						this.windSpeedList[i].active = true
+						this.activeWindSpeed = this.windSpeedList[i]
+					}
+				}
+			},
+			// 拖动风速变化的
+			windSliderChange(e) {
+				let _this = this;
+				let step = this.slider.step
+				// console.log('拖动完：', e.detail.value)
+				this.closeSpeedModel()
+				if (e.detail.value === 0) {
+					// this.$nextTick(() => {
+					this.slider.value = 0
+					// console.log('我是无风', this.slider.value)
+					// })
+					this.windSpeedList[0].active = true
+
+				} else if (e.detail.value === step * 1) {
+					this.slider.value = step * 1
+					// console.log('我是低风', this.slider.value)
+					this.windSpeedList[1].active = true
+				} else if (e.detail.value === step * 2) {
+					this.slider.value = step * 2
+					// console.log('我是中风', this.slider.value)
+					this.windSpeedList[2].active = true
+				}
+			},
+			// 拖动风速中
+			windSliderChangeIng(e) {
+				// console.log('拖动中：', e.detail.value)
+				// if (e.detail.value <= 33) {
+				// 	this.slider.value = 33
+				// 	this.$nextTick(() => {
+				// 		console.log('我是低风', this.slider.value)
+				// 	})
+
+				// }
 			},
 			// 初始化模式风速
 			initAll() {
-				this.activeModel=  {
-					img: '/static/xingkong/cool0.png',
-					activeImg: '/static/xingkong/cool1.png',
-					value: '制冷',
-					active: true,
+				// 活动模式
+				for (let i = 0; i < this.modelList.length; i++) {
+					this.modelList[i].active = false
+					if (i === 0) {
+						this.modelList[i].active = true
+						this.activeModel = this.modelList[i]
+					}
 				}
-				this.activeWindSpeed = {
-					value:'低风'
+
+				// 活动风速
+				// this.autoModel.active = true
+				// this.activeWindSpeed.value = this.autoModel.value
+				for (let i = 0; i < this.windSpeedList.length; i++) {
+					this.windSpeedList[i].active = false
+					if (i === 3) {
+						this.windSpeedList[i].active = true
+						this.activeWindSpeed = this.windSpeedList[i]
+					}
 				}
+				// 进度条初始化
+				this.openSlider()
 			},
-			// 关闭
+			// 关闭所有
 			closeAir() {
 				this.closeModel()
-				this.closeAutoModel()
+				this.closeSpeedModel()
+				// 进度条禁用
+				this.closeSlider()
 			},
 			// 关闭所有模式
 			closeModel() {
@@ -214,8 +335,20 @@
 				}
 			},
 			// 关闭所有风速
-			closeAutoModel() {
-				this.autoModel.active = false
+			closeSpeedModel() {
+				for (let i = 0; i < this.windSpeedList.length; i++) {
+					this.windSpeedList[i].active = false
+				}
+			},
+			// 禁用进度条
+			closeSlider() {
+				this.slider.activeColor = '#D2D2D2' // 活动条颜色
+				this.slider.disabled = true
+			},
+			// 启用进度条
+			openSlider() {
+				this.slider.activeColor = '#5CC69A' // 活动条颜色
+				this.slider.disabled = false
 			},
 		}
 	}

@@ -384,8 +384,14 @@
 					"style" : {
 						"navigationBarTitleText": "照明灯"
 					}
+				},
+				{
+					"path" : "huan/index",
+					"style" : {
+						"navigationBarTitleText": "环形"
+					}
 				}
-			]
+       ]
 		}
 		
 	],
