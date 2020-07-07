@@ -81,12 +81,12 @@
 								<view class="switchCircle4 juzhong">
 									<view class="switchCircle5">
 										<view class="box juzhong">
-											<div class="btn-top">空调</div>
+											<div class="btn-top" @click="navigate('xingkongSon/airConditioner/index')">空调</div>
 											<div class="center">
 												<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/switch.png" mode="widthFix"></image>
 												<view class="">开门</view>
 											</div>
-											<div class="btn-down">灯光</div>
+											<div class="btn-down" @click="navigate('xingkongSon/lamplight/index')">灯光</div>
 										</view>
 									</view>
 								</view>
@@ -191,7 +191,7 @@
 	// import imageSrc from "@/static/xingkong-icon/xingkong-bg.png"
 	import circularProgressBar from '@/components/circularProgressBar.vue';
 	import tabbar from '@/components/tabbar.vue';
-
+	import {post,get,navigate,switchTab,judgeLogin,toast,throttle} from '@/utils';
 	// import uCharts from '@'
 	export default {
 		components: {
@@ -200,6 +200,7 @@
 		},
 		data() {
 			return {
+				navigate,
 				imageSrc: 'http://xqk.wtvxin.com/images/wxapp/xingkong-icon/xingkong-bg.png',
 				// 星控的环形图数据
 				process: 1, // 分数 0 ~10

@@ -369,6 +369,29 @@
 					}
 				}
 			]
+		},
+		{
+			"root":"pages/xingkongSon",
+			"pages":[
+				{
+					"path" : "airConditioner/index",
+					"style" : {
+						"navigationBarTitleText": "空调"
+					}
+				},
+				{
+					"path" : "lamplight/index",
+					"style" : {
+						"navigationBarTitleText": "照明灯"
+					}
+				},
+				{
+					"path" : "huan/index",
+					"style" : {
+						"navigationBarTitleText": "环形"
+					}
+				}
+       ]
 		}
 		
 	],
