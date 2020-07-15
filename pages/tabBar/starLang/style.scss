@@ -31,13 +31,52 @@
 			}
 		}
 	}
+	.addArea{
+		width:80upx;
+		text-align:center;
+		font-size:30upx;
+		line-height:50upx;
+		span{
+			line-height:38upx;
+			width:40upx;height:40upx;
+			border-radius:50%;
+			background:$primary;
+			color:#fff;
+			display:inline-block;
+		}
+	}
+	.areaWin{
+		background:#fff;
+		width:90%;
+		margin:0 auto;
+		border-radius:20upx;
+		padding:0 10upx 20upx 30upx;
+		.tit{
+			line-height:110upx;
+			font-size:35upx;
+			font-weight:bold;
+			text-align:left;
+		}
+		.list{
+			flex-flow:row wrap;
+			width:100%;
+			.item{
+				box-shadow:0 0 8upx rgba(0,0,0,.1);
+				border-radius:7upx;
+				line-height:2.5;
+				padding:0 20upx;
+				margin-right:20upx;
+				margin-bottom:20upx;
+			}
+		}
+	}
 }
 .classify{
 	.classify-scrollr{
-		height:70upx;
+		height:80upx;
 	}
 	.list{
-		padding-top:10upx;
+		padding-top:15upx;
 		padding-left:10upx;
 		.item{
 			flex:0 0 auto;

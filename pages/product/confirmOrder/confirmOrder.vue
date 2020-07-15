@@ -233,7 +233,8 @@
 						</view>
 						<view class="couponitem flex-center-between" v-for="(item,index) in invoiceList" :key="index" @click="selectInvoice(item.Id)">
 							<view class="couponname">
-								{{item.HeaderName}}
+								<p>{{item.InvoiceTitleStr}} - {{item.IsVATExclusive?'增值税发票':'普通发票'}}{{item.Invoiceformat?' - 邮寄':''}}</p>
+								<p>{{item.HeaderName}}</p>
 							</view>
 							<view style="margin: 0;" :class="['IconsCK IconsCK-radio',l_invoiceId==item.Id?'checked':'']"></view>
 						</view>

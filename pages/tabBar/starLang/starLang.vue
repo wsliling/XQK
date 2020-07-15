@@ -7,7 +7,7 @@
 				<input confirm-type="send" @confirm="confirm()" type="text" placeholder="搜索目的地/景点/星语" v-model="SearchKey">
 			</view>
 		</view>
-		<div class="area">
+		<div class="area flex-center-between">
 			<scroll-view class="area-scroll" scroll-x>
 				<div class="list  flex-center">
 					<div class="item" v-for="(item,index) in areaList" :key="index"
@@ -16,6 +16,18 @@
 					>{{item.Name}}</div>
 				</div>
 			</scroll-view>
+			<div class="addArea" @click="showAreaWin"><span>+</span></div>
+			<uni-popup ref="areaWin">
+				<div class="areaWin">
+					<div class="tit">地区</div>
+					<div class="list flex-center">
+						<div class="item" v-for="(item,index) in areaList" :key="index" 
+							@click="tabArea(item)">
+							{{item.Name}}	
+						</div>
+					</div>
+				</div>
+			</uni-popup>
 		</div>
 		<div class="classify">
 			<scroll-view class="classify-scrollr" scroll-x>
@@ -35,7 +47,10 @@
 		<view class="fubuBtn iconfont icon-bianji1"  @click="navigate('starLangSon/release')"></view>
 		<!-- 数据判断显示 -->
 		<not-data v-if="datalist.length<1"></not-data>
-		<uni-load-more :loadingType="loadMore" v-else></uni-load-more>
+		<div class="plr30">
+			<star-lang-list :list="recommendList"  @onCollect="onCollect" @onLike="onLike"></star-lang-list>
+		</div>
+		<uni-load-more :loadingType="loadMore"  v-if="datalist.length||recommendList.length"></uni-load-more>
 		<view style="height: 120upx;"></view>
 		<tabbar :current="1"></tabbar>
 	</view>
@@ -65,6 +80,7 @@
 				areaList:[],
 				areaActive:'',
 				classifyActive:'',
+				recommendList:[],//推荐列表
 			}
 		},
 		onLoad() {
@@ -85,6 +101,10 @@
 			}
 		},
 		methods: {
+			// 显示地区分类选择
+			showAreaWin(){
+				this.$refs.areaWin.open();
+			},
 			//返回顶部
 			Top(){
 				uni.pageScrollTo({
@@ -138,9 +158,37 @@
 					})
 				if(this.Page===1){
 					this.datalist=[];
+					this.recommendList=[];
+					if(!res.data.length){
+						this.getRecommendList();
+					}
 					console.log(this.datalist)
 				}
 				this.datalist.push(...res.data)
+				if(res.data.length<this.PageSize){
+					this.loadMore =2;
+				}else{
+					this.loadMore =0;
+				}
+			},
+			// 没有数据-获取推荐星语列表
+			async getRecommendList() {
+				this.loadMore =1;
+				let res = await post('Find/FindList',{
+						userId: this.userId,
+						token: this.token,
+						myType:2,
+						SearchKey:'',
+						PageSize:this.PageSize,
+						Page:this.Page,
+						AreaSite:'',
+						ClassId:'',
+					})
+				if(this.Page===1){
+					this.recommendList=[];
+					console.log(this.recommendList)
+				}
+				this.recommendList.push(...res.data)
 				if(res.data.length<this.PageSize){
 					this.loadMore =2;
 				}else{
@@ -161,6 +209,7 @@
 					this.areaActive = ''
 				}
 				this.Page=1;
+				this.$refs.areaWin&&this.$refs.areaWin.close();
 				this.getFindList();
 			},
 			tabClassify(item){
@@ -203,6 +252,7 @@
 		// 下拉刷新
 		onPullDownRefresh() {
 			this.datalist = []
+			this.recommendList=[];
 			this.Page = 1
 			this.getFindList()
 			// 停止下拉动画
@@ -212,7 +262,12 @@
 		onReachBottom(){
 			if(this.loadMore===2)return;
 			this.Page+=1;
-			this.getFindList()
+			if(this.datalist.length){
+				this.getFindList()
+			}
+			if(this.recommendList.length){
+				this.getRecommendList();
+			}
 		},
 	}
 </script>

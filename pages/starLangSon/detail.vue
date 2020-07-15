@@ -1,43 +1,26 @@
 <template>
 	<div class="bgfff">
-		<!--轮播图-->
-		<!-- <canvas style="width: 100%;height: 500rpx;" canvas-id="myCanvas"> </canvas> -->
-		<!-- <canvas style="width: 100%;height: 500rpx;" canvas-id="myCanvas"></canvas> -->
-		<!-- <canvas canvas-id="myCanvas"></canvas> -->
-		<!-- <canvas style="width: 160rpx; height: 32rpx;" canvas-id="myCanvas" class=""></canvas> -->
-		<!-- 		<start-level :myCanvasId='myCanvas' v-model="score"></start-level>
-
- -->
-<!-- 		<canvas style="width: 160rpx; height: 32rpx;" :canvas-id="score" class=""></canvas>
-		<start-level :myCanvasId="score" v-model="score"></start-level> -->
 		<view class="index_swiper" v-if="detail.ImgList.length">
-			<swiper class="swiper" :indicator-dots="false" autoplay :interval="5000" :duration="500" @change="changeSwiper">
-				<!-- <swiper-item v-for="(item,index) in detail.ImgList" :key="index"> -->
+			<swiper class="swiper" :indicator-dots="false" circular autoplay :interval="5000" :duration="500" @change="changeSwiper">
 				<swiper-item @click='previewImage(index)' v-for="(item,index) in ImgList" :key="index">
 					<view class="swiper-item">
-						<!-- <image class="img" src="/static/of/banner.jpg" mode="aspectFill"></image> -->
 						<image class="img" :src="item" mode="widthFix"></image>
-						<!-- <image class="img" :src="detail.ImgList" mode="aspectFill"></image> -->
 					</view>
 				</swiper-item>
 			</swiper>
 			<view v-if="ImgList.length > 1" class="dots">
-				<!-- <view v-for="(item,index) in detail.ImgList" :key="index" :class="['dot',currentSwiper==index?'active':'']"></view> -->
 				<view v-for="(item,index) in ImgList" :key="index" :class="['dot',currentSwiper==index?'active':'']"></view>
 			</view>
 		</view>
 		<div class="p30">
 			<div class="user flex-center-between">
 				<div class="info flex-center">
-					<!-- <img src="/static/of/banner.jpg" alt=""> -->
-					<!-- <img @click="navigate('starLangSon/homePage',{taUserId:detail.MemberId})" :src="detail.Avatar" alt=""> -->
 					<image @click="navigate('starLangSon/homePage',{taUserId:detail.MemberId})" :src="detail.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'"></image>
 					<h5>{{ detail.NickName }}</h5>
 				</div>
 				<div class="btnBox flex-center">
 					<div class="btn-min solid" v-if='detail.IsFollow' @click="toFolloow">已关注</div>
 					<div class="btn-min" v-else @click="toFolloow">关注</div>
-					<!-- <div class="iconfont icon-fenxiang"></div> -->
 					<button class="iconfont icon-fenxiang1" open-type="share"></button>
 				</div>
 			</div>
@@ -48,16 +31,11 @@
 				 :nodes="detail.ContentDetails" :selectable="true"
 				 >
 				</rich-text>
-				<!-- <view ref='content' id='content' class="content" :class="{'showAll': isShowAll }" v-html="detail.ContentDetails"
-				 :style="{'white-space': 'pre-wrap',height:textHeight+'rpx','font-size':'28rpx','line-hieght': '36rpx'}">
-				</view> -->
 				<view v-if="isShowAll" class="shade" @click="changeIsShowAll">
 					<view class="text">
 						点击展开
-						<!-- <image src="" mode=""></image> -->
 					</view>
 				</view>
-				<!-- <p>2020-04-28发布</p> -->
 				<p>{{ formatTime(detail.Addtime)}} 发布</p>
 			</div>
 			<div class="pro" v-if="detail.ExternalLink">
@@ -67,38 +45,30 @@
 				</div>
 			</div>
 			<div class="good bb1 pb30">
-				<h4>点赞区</h4>
-				<!-- <div v-if="LikeList.length" class="flex-center-between"> -->
+				<h4>收藏</h4>
 				<div class="flex-center-between">
 					<div v-if="LikeList.length > 0" class="avatar flex-center">
 						<block v-for="(item2,index) in LikeList" :key="index">
-							<!-- <img src="/static/of/banner.jpg" alt=""> -->
 							<image v-if='index < 6' :src="item2.Avatar ||'http://xqk.wtvxin.com/images/wxapp/default.png'"></image>
 						</block>
 					</div>
 					<div v-else class="avatar flex-center">
-						<!-- <img src="/static/of/banner.jpg" alt=""> -->
 						<image src="http://xqk.wtvxin.com/images/wxapp/default.png" mode=""></image>
 					</div>
-					<div class="zan-icon flex-center" :class="{active: detail.IsLike}" @click="toZan(Id)">
-						<!-- <div class="iconfont icon-zan" :class="{active: detail.IsLike}"></div>{{ detail.LikeNum}} -->
+					<!-- <div class="zan-icon flex-center" :class="{active: detail.IsLike}" @click="toZan(Id)">
 						<div class="iconfont icon-zan" :class='{"icon-zan1" : detail.IsLike,"active" : detail.IsLike}'></div>
 						<text>{{ detail.LikeNum ? detail.LikeNum : 0 }}</text>
+					</div> -->
+					<div @click="toCollections" class="collect flex-center" :class="{active : detail.CollectionId}">
+						<div class="iconfont" :class='{"icon-aixin2": !detail.CollectionId,"icon-aixin" : detail.CollectionId,"active" : detail.CollectionId}'></div>
+						<text>{{ detail.CollectNum}}</text>
 					</div>
 				</div>
 			</div>
 			<div class="reply">
 				<h4>回复</h4>
 				<div class="add flex-center-between">
-					<!-- <input confirm-type="send" @confirm="confirm(Id)" type="text" placeholder="写评论..." v-model="Comment"> -->
 					<ans-input @confirm="confirm(Id)" class="input"  placeholder="写评论..." v-model="Comment" :align='left' maxlength="250"></ans-input>
-					<div class="line1"></div>
-					<div @click="toCollections" class="collect flex-column-center-center" :class="{active : detail.CollectionId}">
-						<div class="iconfont" :class='{"icon-aixin2": !detail.CollectionId,"icon-aixin" : detail.CollectionId,"active" : detail.CollectionId}'></div>
-						<!-- <div v-show='!detail.CollectionId' class="iconfont icon-aixin2"></div>
-						<div v-show='detail.CollectionId' class="iconfont icon-aixin active"></div> -->
-						<text>{{ detail.CollectNum}}</text>
-					</div>
 				</div>
 				<reply-item v-for="(item,index2) in CommnetList.data" :key="index2" :item="item" :index='index2' :isCheckReply="isCheckReply"
 				 @changeItem="changeItem"></reply-item>
@@ -110,9 +80,7 @@
 			<!-- <h4>其他推荐星语</h4> -->
 			<h4>{{ footTitle }}</h4>
 			<div class="flex-center-between2">
-				<!-- <starLangItem :item="item"  v-for="(item,index) in findList" :key="index"></starLangItem> -->
 				<product-item v-for="(item,index) in findList" :key="index" :item="item" @onCollect="onProCollect"></product-item>
-				<!-- <starLangItem :item="item"  v-for="(item,index) in 6" :key="index"></starLangItem> -->
 			</div>
 			<div class="btn-max" @click="navigate('home/searchList')">查看更多</div>
 		</div>

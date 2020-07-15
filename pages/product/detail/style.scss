@@ -11,7 +11,7 @@
 	.dots{
 		position: absolute;
 		left: 50%;
-		bottom: 40upx;
+		bottom: 0;
 		text-align: center;
 		white-space: nowrap;
 		-webkit-transform: translate(-50%);
@@ -99,7 +99,7 @@ p{
 	.list{
 		padding-right:20upx;
 		.item{
-			width:200upx;height:200upx;
+			width:210upx;height:210upx;
 			margin-left:30upx;
 			flex:0 0 auto;
 			box-shadow:0 0 10upx #eee;
@@ -242,7 +242,8 @@ p{
 	}
 	h5{
 		font-weight:400;
-		line-height:3;
+		line-height:1.5;
+		padding:20upx 0;
 	}
 	.iconfont{
 		font-size:24upx;

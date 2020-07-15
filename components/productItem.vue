@@ -38,11 +38,14 @@
                     </view>
                 </view>
                 <view class="flex-center">
-                    <view class="price">
-                        <text class="yuan">￥</text>{{ item.Price}}
+                    <view class="price" v-if="item.Price*1">
+                        <text class="yuan">￥</text>{{ item.Price}}{{ item.Unit }}
                     </view>
-                    <view class="oldprice line-through fz12">
-                        <text class="yuan">￥</text>{{ item.MarketPrice }}{{ item.Unit }}
+                    <view class="price" v-else>
+                        --/晚
+                    </view>
+                    <view class="oldprice line-through fz12" v-if="item.Price*1">
+                        <text class="yuan">￥</text>{{ item.MarketPrice }}
                     </view>
                 </view>
             </view>

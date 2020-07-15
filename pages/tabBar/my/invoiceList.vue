@@ -10,7 +10,7 @@
 						</view>
 						<view class="type">类型：{{item.InvoiceTitleStr}}</view>
 						<view class="type" v-if="item.TaxNumber">税号：{{item.TaxNumber}}</view>
-						<view class="type">邮箱：{{item.Email}}</view>
+						<!-- <view class="type">邮箱：{{item.Email}}</view> -->
 					</view>
 					<view class="item__ft flex">
 						<view class="flexItem checkedLabel flex flexAlignCneter" @click="setDefaultInvoice(index,item.Id)">

@@ -2,8 +2,9 @@
 	<div class="bgfff">
 		<!--轮播图-->
 		<view class="index_swiper">
-			<swiper class="swiper" :indicator-dots="false" autoplay :interval="5000" :duration="500" @change="changeSwiper">
-				<swiper-item @click="previewImage(index)" v-for="(item,index) in details.PicData" :key="index">
+			<swiper class="swiper"  autoplay :interval="5000" :duration="500" circular @change="changeSwiper"
+			indicator-active-color="#5cc69a">
+				<swiper-item @click="previewImages(index)" v-for="(item,index) in details.PicData" :key="index">
 					<view class="swiper-item">
 						<!-- <image class="img" src="http://xqk.wtvxin.com/images/wxapp/of/banner.jpg" mode="aspectFill"></image> -->
 						<image class="img" :src="item.PicUrl" mode="aspectFill"></image>
@@ -12,7 +13,7 @@
 			</swiper>
 			<view class="dots">
 				<block v-for="(item,index) in details.PicData" :key="index" >
-					<view v-if="index>1" :class="['dot',currentSwiper==index?'active':'']"></view>
+					<view :class="['dot',currentSwiper==index?'active':'']"></view>
 				</block>
 			</view>
 		</view>
@@ -43,6 +44,23 @@
 					'color2':index===3||index===4||index===9||index===10,
 					}" 
 					v-for="(item,index) in tagInit" :key="index" >{{ item }}</div>
+			</div>
+		</div>
+		
+		<div class="gap20"></div>
+		<date-price-picker ref="datePicker" @change="changeDatePicker" :option="calendarOption" :goodsDateTime="goodsDateTime"></date-price-picker>
+		<div class="dateBox plr30 pb30">
+			<h3>入住退房日期</h3>
+			<div class="date-time flex-end-between" @click="$refs.datePicker.open()">
+				<div class="start">
+					<p>入住</p>
+					<div class="text">{{calendarOption.currentRangeStartDate}}</div>
+				</div>
+				<p>- 最少一晚 -</p>
+				<div class="end">
+					<p>退房</p>
+					<div class="text">{{calendarOption.currentRangeEndDate}}</div>
+				</div>
 			</div>
 		</div>
 		<block v-if="details.RecPicList.length">
@@ -148,7 +166,7 @@
 			<div class="plr30">
 				<h3>星球客位置</h3>
 				<!-- <h5 class="flex-center"><i class="iconfont icon-weizhi"></i>武功山风景名胜区麻田办事处大江边村</h5> -->
-				<h5 class="flex-center"><i class="iconfont icon-weizhi"></i>{{ details.Address }}</h5>
+				<h5 class="flex-center" @click="toMap"><i class="iconfont icon-weizhi"></i>{{ details.Address }}</h5>
 			</div>
 			<!-- <img src="http://xqk.wtvxin.com/images/wxapp/of/map-img.png" mode="widthFix" alt=""> -->
 			<div class="mapBox">
@@ -169,22 +187,6 @@
 			</div>
 		</div>
 		<div class="gap20"></div>
-		<date-price-picker ref="datePicker" @change="changeDatePicker" :option="calendarOption" :goodsDateTime="goodsDateTime"></date-price-picker>
-		<div class="dateBox plr30 pb30">
-			<h3>入住退房日期</h3>
-			<div class="date-time flex-end-between" @click="$refs.datePicker.open()">
-				<div class="start">
-					<p>入住</p>
-					<div class="text">{{calendarOption.currentRangeStartDate}}</div>
-				</div>
-				<p>- 最少一晚 -</p>
-				<div class="end">
-					<p>退房</p>
-					<div class="text">{{calendarOption.currentRangeEndDate}}</div>
-				</div>
-			</div>
-		</div>
-		<div class="gap20"></div>
 		<div class="detail plr30">
 			<div class="nav bb1 flex-center">
 				<!-- <div class="item avtive">产品亮点</div>
@@ -198,7 +200,9 @@
 			</div>
 		</div>
 		<div class="gap20"></div>
-		<div class="notice plr30" v-html="details.BookNote">
+		<div class="notice plr30">
+			<h3>预定及使用说明</h3>
+			<p v-html="details.BookNote"></p>
 		</div>
 		<!-- <div class="notice plr30">
 			<h3>预定须知</h3>
@@ -239,18 +243,27 @@
 					<button class="iconfont icon-kefu" open-type="contact"></button>客服
 				</div>
 			</div>
-			<div class="priceBox">
+			<!-- 价格存在 -->
+			<div class="priceBox" v-if="details.Price*1">
 				<div class="price flex-end">
 					<!-- <h2>待定</h2> -->
 					<h2>{{ totalPrice||details.Price }}</h2>
-					<p>/{{totalPrice&&calendarOption.dateNum>1?calendarOption.dateNum:''}}晚</p>
+					<p>元/{{totalPrice&&calendarOption.dateNum>1?calendarOption.dateNum:''}}晚</p>
 				</div>
 				<div class="o-price">
 					￥{{ details.MarketPrice }}/晚
 				</div>
 			</div>
+			<!-- 价格不存在时 -->
+			<div class="priceBox" v-else>
+				<div class="price flex-end">
+					<!-- <h2>待定</h2> -->
+					<!-- <h2>{{ totalPrice||details.Price }}</h2> -->
+					<p>--/晚</p>
+				</div>
+			</div>
 			<!--  -->
-			<div class="btn" :class="{'disable':!isSubmit}" @click="submit">立即预定</div>
+			<div class="btn" :class="{'disable':!isSubmit||!details.Price*1}" @click="submit">{{details.Price*1?'立即预定':'敬请期待'}}</div>
 		</div>
 		<!-- 价格说明 -->
 		<uni-popup type="bottom" ref="priceExplainStatus">
@@ -434,10 +447,21 @@
 		},
 		methods: {
 			toMap() {
-				navigate('product/map/map',{Lat:this.details.Lat,Lng:this.details.Lng})
+				console.log('123',{
+					latitude:this.details.Lat*1,
+					longitude:this.details.Lng*1,
+					address:this.details.Address
+				})
+				uni.openLocation({
+					latitude:this.details.Lat*1,
+					longitude:this.details.Lng*1,
+					address:this.details.Address
+				})
+				// navigate('product/map/map',{Lat:this.details.Lat,Lng:this.details.Lng})
 			},
 			// 全屏预览图片
-			previewImage(index) {
+			previewImages(index) {
+				console.log(this.details.PicData,index)
 				previewImage(this.details.PicData,index)
 			},
 			...mapMutations(['update']),
@@ -558,7 +582,9 @@
 			// 立即预订
 			submit(){
 				if(!this.isSubmit){
-					toast('请选择可预订的日期！');
+					if(this.details.Price*1){
+						toast('请选择可预订的日期！');
+					}
 					return;
 				}
 				navigate('product/confirmOrder/confirmOrder',{id:this.Id})
