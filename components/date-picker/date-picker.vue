@@ -9,7 +9,7 @@
 			<view class="week">
 				<view :class="{ weekend: index == 0 || index == 6 }" v-for="(item, index) in weekData" :key="index">{{ item }}</view>
 			</view>
-			<scroll-view scroll-y class="main" :class="{ init: !option.isModal ,show_submit:option.isShowSubmit}">
+			<scroll-view scroll-y class="main" :class="[{ init: !option.isModal ,show_submit:option.isShowSubmit},{'tabbar':isTabBar}]">
 				<view class="list" v-for="(item, index) in totalDate" :key="index">
 					<view class="title">{{ titleDateFormat(item.info[0].date) }}</view>
 					<view class="date">
@@ -36,7 +36,7 @@
 					</view>
 				</view>
 			</scroll-view>
-			<view v-if="(option.isModal || option.isShowSubmit) && isShow" @click="clickSubmit" class="footer"><view :class="{ disabled: isDisabledBtn }" hover-class="hover">确定</view></view>
+			<cover-view v-if="(option.isModal || option.isShowSubmit) && isShow" @click="clickSubmit" class="footer"><cover-view class="bbtn" :class="{ disabled: isDisabledBtn }" hover-class="hover">确定</cover-view></cover-view>
 		</view>
 	</view>
 </template>
@@ -53,10 +53,20 @@ export default {
 			currentRangeEndDate: '', //区域选择模式当前点击的结束日期
 			outIndex: 0, //当前点击外索引
 			innerIndex: 0, //当前点击内索引
-			isShow: false
+			isShow: false,
+			isTabBar:false,
 		};
 	},
-	mounted() {
+	mounted(e) {
+		let pageArr = getCurrentPages();
+		let page = pageArr[pageArr.length-1].route;
+		console.log('获取日历数据',page);
+		
+		if(page.indexOf('tabBar')!==-1){
+			this.isTabBar = true;
+		}else{
+			this.isTabBar = false;
+		}
 		this.totalDateInit();
 		if(!this.option.isModal){
 			setTimeout(()=>{
@@ -442,7 +452,9 @@ export default {
 		margin: 0 auto;
 		background-color: #fff;
 		overflow: hidden;
-		> view {
+		z-index:999999;
+		position:relative;
+		.bbtn  {
 			background-color: $primary;
 			color: #fff;
 			font-size: 26rpx;
@@ -479,6 +491,9 @@ export default {
 
 	> .main {
 		height: calc(90vh - 240rpx);
+		&.tabbar{
+			height: calc(80vh - 240rpx);
+		}
 		&.init {
 			height: calc(100vh - 80rpx);
 		}

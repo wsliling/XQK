@@ -27,12 +27,12 @@
 						</block>
                     </view>
                     <view class="score flex-center-end">
-<!-- 					<canvas style="width: 160rpx; height: 32rpx;" :canvas-id="item.Id" class=""></canvas>
- -->					<start-level class='canvas' :myCanvasId="item.Id" :value="item.CommentScore"></start-level>
-                        <!-- <view class="iconfont icon-collect"></view> -->
-						<!-- <view class="iconfont icon-collect" v-for="(item3,index3) in item.CommentScore*1" :key="index3"></view>
-						<view class="iconfont icon-collect1" v-for="(item4,index4) in (5-(item.CommentScore))" :key="index4"></view> -->
-                        <!-- <view class="num">{{ item.CommentScore }}</view> -->
+						<div class="star flex-center">
+							<div class="star-no iconfont icon-collect1" v-for="(item2,index2) in 5" :key="index2"></div>
+							<div class="star-active flex-center" :style="{width:(item.CommentScore/5)*100+'%'}">
+								<div class="iconfont icon-collect" v-for="(item,index) in 5" :key="index"></div>
+							</div>
+						</div>
 						<view class="num">{{ CommentScore(item.CommentScore) }}</view>
                         <view class="fz12 c_999">({{ item.CommentNum }})</view>
                     </view>
@@ -51,9 +51,7 @@
 
 <script>
 import {navigate,requestHideLoading,judgeLogin} from '@/utils'
-import {startLevel} from '@/components/starLevel';
 	export default {
-		components:{startLevel},
         props:{
             item:{
                 type:Object,
@@ -227,6 +225,29 @@ import {startLevel} from '@/components/starLevel';
 			}
 		}
 		.num{ color: #fff; margin-left: 10upx;}
+	}
+}
+.star{
+	position:relative;
+	.star-active{
+		position:absolute;
+		top:0;
+		left:0;
+		overflow:hidden;
+		div{
+			margin-right:7upx;
+			font-size:28upx;
+		}
+	}
+	.icon-collect{
+		color:$primary;
+	}
+	.icon-collect1{
+		color:#999;
+	}
+	.star-no{
+		margin-right:7upx;
+		font-size:28upx;
 	}
 }
 </style>

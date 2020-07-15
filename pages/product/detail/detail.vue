@@ -589,7 +589,7 @@
 		},
 		onShareAppMessage: function (res) {
 		    return {
-		      title: '分享',
+		      title: '星球客微服务',
 		      path: getCurrentPageUrlWithArgs(),
 		      success: function (res) {
 			   	// 转发成功
