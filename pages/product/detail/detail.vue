@@ -46,6 +46,35 @@
 					v-for="(item,index) in tagInit" :key="index" >{{ item }}</div>
 			</div>
 		</div>
+		<div class="gap20" v-if="couponList.length"></div>
+		<uni-popup type="bottom" ref="couponWin">
+			<div class="couponWin">
+				<div class="masktitle">优惠券</div>
+				<scroll-view scroll-y class="coupon-scroll">
+					<div class="maskinfo">
+						<div class="maskcouponlist" v-for="(item,couponIndex) in couponList" :key="couponIndex">
+							<img src="/static/icons/pinkbg.png" class="pink" mode="widthFix">
+							<div class="maskser flex-center-between">
+							  <div>
+								<p class="maskprice">￥{{item.Denomination}}</p>
+								<p class="maskask">{{item.MeetConditions?`满${item.MeetConditions}可用`:'无限制条件'}}</p>
+								<p class="maskask">有效期至{{item.EndTime}}</p>
+							  </div>
+							  <div class="maskget" @click="receiveCoupon(item.Id)">立即领取</div>
+							</div>
+						 </div>
+					</div>
+				</scroll-view>
+				<div class="btnget" @click="$refs.couponWin.close()">完成</div>
+			</div>
+		</uni-popup>
+		<div class="coupon flex-center-between" v-if="couponList.length" @click="showCouponWin">
+			优惠券
+			<div class="flex-center">
+				<span>￥{{couponList[0].Denomination}}</span>
+				<i class="icon-arrow_r iconfont"></i>
+			</div>
+		</div>
 		
 		<div class="gap20"></div>
 		<date-price-picker ref="datePicker" @change="changeDatePicker" :option="calendarOption" :goodsDateTime="goodsDateTime"></date-price-picker>
@@ -290,7 +319,7 @@
 <script>
 	import commentItem from '../allComment/commentItem.vue';
 	import datepricePicker from '@/components/date-price-picker/date-price-picker';
-	import { post,navigate,toast,debounce,getCurrentPageUrlWithArgs} from '@/utils';
+	import { post,navigate,toast,debounce,getCurrentPageUrlWithArgs,judgeLogin,throttle} from '@/utils';
 	import { mapState, mapMutations } from "vuex"; //vuex辅助函数
 	import { previewImage } from '@/utils/image-tools';
 	import {startLevel} from '@/components/starLevel';
@@ -344,6 +373,7 @@
 				// 多少分才显示超赞
 				maxScore: 4.5,
 				VideoContext:null,//视频实例
+				couponList:[],//优惠券列表
 			}
 		},
 		onLoad(options) {
@@ -355,7 +385,8 @@
 			this.getDetail()
 			this.getGoodsDateTime(Id)
 			this.getOrderCommentInfo(Id)
-			this.getOrderCommentList()
+			this.getOrderCommentList();
+			this.getProCouponList();
 		},
 		onShow(){
 			this.userId = uni.getStorageSync('userId');
@@ -413,7 +444,8 @@
 					this.isSubmit = true;
 					price = price.toFixed(2);
 				}else{
-					price=0;this.isSubmit = false;
+					price=0;
+					this.isSubmit = false;
 				}
 				return price;
 			},
@@ -546,6 +578,30 @@
 				this.markers[0].longitude = res.data.Lng
 				// 住房价格
 				this.details = res.data
+			},
+			async getProCouponList(){
+				let res = await post('Coupon/CouponCenter',{
+					ProId: this.Id,
+					UserId:this.userId,
+					Token:this.token
+				})
+				this.couponList = res.data;
+			},
+			// 显示优惠券弹窗
+			showCouponWin(){
+				this.$refs.couponWin.open();
+			},
+			// 领取优惠券
+			async receiveCoupon(id){
+				if(!judgeLogin())return;
+				throttle(async ()=>{
+					const res = await post('Coupon/GetCoupon',{
+						UserId:this.userId,
+						Token:this.token,
+						CouponId:id
+					})
+					toast('领取成功',{icon:true})
+				})
 			},
 			changeSwiper(e){
 				this.currentSwiper=e.detail.current;

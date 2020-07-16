@@ -90,6 +90,67 @@ p{
 		}
 	}
 }
+.coupon{
+	line-height:100upx;
+	padding-left:30upx;padding-right:20upx; 
+	span{
+		color:#ff3333;
+		margin-right:15upx;
+	}
+}
+.couponWin{
+	background:#fff;
+	position:relative;
+	z-index:100;
+	padding:0 30upx 30upx;
+	border-radius:30upx 30upx 0 0;
+	.pink,.maskcouponlist,.couponinfo{
+		height:161upx;
+	}
+	.masktitle{
+	    font-weight: bold;
+	    font-size:32upx;
+	    text-align: center;
+	    padding:30upx 0;
+	}
+	.coupon-scroll{
+		height:600upx;
+	}
+	.maskcouponlist{
+	    position: relative;
+	    margin:0 auto 15upx;
+		border-radius: 10upx;
+		overflow: hidden;
+	}
+	.maskser{
+	    position: absolute;
+	    top:0;
+	    left:0;
+	    padding:10upx 35upx 25upx 30upx;
+		color:#ff3333;
+	    width:100%;
+	}
+	.maskprice,.maskget{
+	    font-size:32upx;
+		color:#ff3333;
+	}
+	.maskget{
+		line-height:2;
+	}
+	.maskask{
+	    font-size:22upx;
+	}
+	.btnget{
+	    width:100%;
+	    height:80upx;
+	    line-height: 80upx;
+	    color:#fff;
+	    background: #ff3333;
+	    text-align: center;
+	    margin:0 auto;
+	    border-radius:50upx;
+	}
+}
 .scroll-block{
 	h3{
 		line-height:2;
@@ -323,7 +384,7 @@ p{
 	width:100%;
 	height:130upx;
 	background:#fff;
-	z-index:99;
+	z-index:98;
 	.left{
 		color:#999;
 		margin-top:20upx;

@@ -18,7 +18,7 @@
 					<view class="right flexc">
 						<view>
 							<view class="num">{{item.Denomination}}元</view>
-							<span>满{{item.MeetConditions}}元可使用</span>
+							<span>{{item.MeetConditions*1?`满${item.MeetConditions}元可使用`:'不限制使用条件'}}</span>
 						</view>
 					</view>
 				</view>

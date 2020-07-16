@@ -76,7 +76,7 @@
 			</div>
 		</div>
 		<div class="gap20"></div>
-		<div class="other plr30 pb30">
+		<div class="other plr30 pb30" v-if="findList.length">
 			<!-- <h4>其他推荐星语</h4> -->
 			<h4>{{ footTitle }}</h4>
 			<div class="flex-center-between2">

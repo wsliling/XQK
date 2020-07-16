@@ -260,12 +260,12 @@
 			this.getPosition();
 			this.getSecurity();
 			this.getFindList();
-			this.getCoupon();
 			// this.initCalendarOption();// 初始化日历
 		},
 		onShow(){
 			this.userId = uni.getStorageSync("userId");
 			this.token = uni.getStorageSync("token");
+			this.getCoupon();
 			if(this.nowCityName !== this.cityName){
 				console.log(this.cityName,'更新的定位')
 				this.upDateCityCode(this.cityName)
