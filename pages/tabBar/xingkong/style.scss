@@ -506,7 +506,7 @@
 //             width: 10%;
 //             height: 100%;
 //             background: #2989d8; /* Old browsers */
-//             // background: -moz-linear-gradient(45deg, #2989d8 33%, #7db9e8 34%, #7db9e8 59%, #2989d8 60%); /* FF3.6+ */
+//             // background: -moz-linear-gradient(45deg, #2989d8 33%, #7db9e8 34%, #7db9e8 59%, #2989d8 8%); /* FF3.6+ */
 //             // background: -webkit-gradient(linear, left bottom, right top, color-stop(33%,#2989d8), color-stop(34%,#7db9e8), color-stop(59%,#7db9e8), color-stop(60%,#2989d8)); /* Chrome,Safari4+ */
 //             // background: -webkit-linear-gradient(45deg, #2989d8 33%,#7db9e8 34%,#7db9e8 59%,#2989d8 60%); /* Chrome10+,Safari5.1+ */
 //             // background: -o-linear-gradient(45deg, #2989d8 33%,#7db9e8 34%,#7db9e8 59%,#2989d8 60%); /* Opera 11.10+ */
@@ -618,3 +618,21 @@
 //                 -webkit-transform: rotate(225deg);
 //             }
 //         }
+
+.pop{
+	padding:40upx;
+	width:650upx;
+	background:#fff;
+	input{
+		margin-bottom:20upx;
+		border:1upx solid #f2f2f2;
+		text-align:left;
+		padding:0 20upx;
+		height:80upx;line-height:80upx;
+	}
+	button{
+		border:1upx solid #f2f2f2;
+		text-align:center;
+		width:40%;
+	}
+}

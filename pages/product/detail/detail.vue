@@ -46,6 +46,25 @@
 					v-for="(item,index) in tagInit" :key="index" >{{ item }}</div>
 			</div>
 		</div>
+		<div class="gap20"></div>
+		<div class="sku plr30">
+			<h3>星球客房型</h3>
+			<div class="list">
+				<div class="item ptb30 flex-center-between" v-for="(item,index) in 3" :key="index">
+					<img src="/static/icons/pinkbg.png" alt="" mode="aspectFill">
+					<div class="content flex-column-start-between">
+						<h5>星球客轻奢房</h5>
+						<p class="ellipsis-col2">整体氛围看起来比较轻快，起来比较轻快，给人 一种精致与轻奢的质感</p>
+						<div class="price">￥288</div>
+					</div>
+					<div class="btn">立即预定</div>
+				</div>
+				<div class="more">
+					<p>展示全部</p>	
+					<i class="icon-shuangjiantouxia iconfont"></i>
+				</div>
+			</div>
+		</div>
 		<div class="gap20" v-if="couponList.length"></div>
 		<uni-popup type="bottom" ref="couponWin">
 			<div class="couponWin">
@@ -70,7 +89,7 @@
 		</uni-popup>
 		<div class="coupon flex-center-between" v-if="couponList.length" @click="showCouponWin">
 			优惠券
-			<div class="flex-center">
+			<div class="flex-center"> 
 				<span>￥{{couponList[0].Denomination}}</span>
 				<i class="icon-arrow_r iconfont"></i>
 			</div>

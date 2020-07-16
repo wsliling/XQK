@@ -202,6 +202,7 @@ p{
 			display:flex;
 			align-items:center;
 			justify-content:center;
+			z-index:10;
 			img{
 				width:43upx;height:53upx;
 			}
@@ -454,5 +455,44 @@ p{
 		color:#666;
 		line-height:1.5;
 		padding:40upx 40upx 60upx;
+	}
+}
+.sku{
+	h3{
+		line-height:3;
+	}
+	.list{
+		.item{
+			border-top:1upx solid #f2f2f2;
+			img{
+				width:200upx;height:200upx;
+				border-radius:10upx;
+			}
+			.content{
+				margin:0 20upx;
+				height:200upx;
+				width:365upx;
+				.p{
+					height:30%;
+				}
+				.price{
+					color:#ff3333;
+				}
+			}
+			.btn{
+				background:$primary;
+				border-radius:10upx;
+				color:#fff;
+				padding:5upx;
+				width:88upx;
+				line-height:1.4;
+				text-align:center;
+			}
+		}
+		.more{
+			text-align:center;
+			padding-bottom:20upx;
+			line-height:1;
+		}
 	}
 }

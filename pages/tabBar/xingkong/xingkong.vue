@@ -1,17 +1,5 @@
 <template>
 	<view>
-		<!-- <canvas :style="'width:'+canvasWiidth+'rpx; height:' +canvasHeight +'rpx;'" :canvas-id="myCanvasId" class=""></canvas> -->
-		<!-- <div>
-		      <canvas ref="canvas1" id="myCanvas" :style='{border: "1px solid #000000",width:"200px",height:"200px" }'/>
-		   </div> -->
-		<!-- 		<div class="circleProgress_wrapper">
-		        <div class="wrapper right">
-		            <div class="circleProgress rightcircle"></div>
-		        </div>
-		        <div class="wrapper left">
-		            <div class="circleProgress leftcircle"></div>
-		        </div>
-		 </div> -->
 		<!-- 上面盒子  background:url(bgimg.gif) no-repeat 5px 5px; -->
 		<view class="handleBox" :style="{background:`url(${imageSrc}) no-repeat center / 100%`}">
 			<!-- <view class="handleBox"> -->
@@ -40,7 +28,7 @@
 				<!-- 一键的三个盒子 -->
 				<view class="oneKey">
 					<!-- 报修 -->
-					<view class="repairs">
+					<view class="repairs" @click="callService('一键报修')">
 						<view class="circle1 juzhong">
 							<view class="circle2 juzhong">
 								<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/yijianbaoxiu.png" mode="widthFix"></image>
@@ -51,7 +39,7 @@
 						</view>
 					</view>
 					<!-- 退房 -->
-					<view class="check-out">
+					<view class="check-out" @click="callService('一键退房')">
 						<view class="circle1 juzhong">
 							<view class="circle2 juzhong">
 								<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/yijiantuifang.png" mode="widthFix"></image>
@@ -62,7 +50,7 @@
 						</view>
 					</view>
 					<!-- 打扫 -->
-					<view class="sweep">
+					<view class="sweep" @click="callService('一键打扫')">
 						<view class="circle1 juzhong">
 							<view class="circle2 juzhong">
 								<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/yijiandasao.png" mode="widthFix"></image>
@@ -82,7 +70,7 @@
 									<view class="switchCircle5">
 										<view class="box juzhong">
 											<div class="btn-top" @click="navigate('xingkongSon/airConditioner/index')">空调</div>
-											<div class="center">
+											<div class="center" @click="opemDoor">
 												<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/switch.png" mode="widthFix"></image>
 												<view class="">开门</view>
 											</div>
@@ -94,6 +82,17 @@
 						</view>
 					</view>
 				</view>
+				<uni-popup ref="opemDoor">
+					<div class="pop" >
+						<input type="text" v-model="ip" placeholder="id">
+						<input type="text" v-model="port" placeholder="端口号">
+						<input type="text" v-model="msg" placeholder="要发送的数据/指令">
+						<div class="flex-center-between">
+							<button @click="closeUDP">取消</button>
+							<button @click="sendUDP">发送</button>
+						</div>
+					</div>
+				</uni-popup>
 			</view>
 		</view>
 		<!-- 下面盒子 -->
@@ -201,6 +200,8 @@
 		data() {
 			return {
 				navigate,
+				userId:'',
+				token:'',
 				imageSrc: 'http://xqk.wtvxin.com/images/wxapp/xingkong-icon/xingkong-bg.png',
 				// 星控的环形图数据
 				process: 1, // 分数 0 ~10
@@ -208,12 +209,19 @@
 				color: '#ff0000', // 描述文字颜色
 				canvasHeight: 222, // 固定的高度，不用改
 				canvasWiidth: 222, // 固定的宽度，不用改
-				myCanvasId: 'myCanvasId' // 固定的id，不用改
+				myCanvasId: 'myCanvasId', // 固定的id，不用改
+
+				udp:null,
+				ip:'',
+				port:'',
+				msg:'',
 			}
 		},
 		onLoad() {
-			// console.log('我要花花了')
-			// this.canvas()
+		},
+		onShow(){
+			this.userId = uni.getStorageSync('userId');
+			this.token = uni.getStorageSync('token');
 		},
 		computed: {
 			Rprocess() {
@@ -232,20 +240,64 @@
 					// return process > 5 ? (process - 5)/ 10 * 360 + 135 >> 0 : 135
 				}
 			},
-			// leftProcess (process) {
-			// 		return ()=>{
-			// 			return process > 50 ? (process - 50) / 100 * 360 + 135 >> 0 : 135
-			// 		}
-			// },
-			// rightProcess () {
-			// 	return this.process < 50 ? this.process / 100 * 360 + 135 >> 0 : -45
-			// }
 		},
 		methods: {
-			// add () {
-			// 	this.process--
-			// 	console.log(this.process)
-			// },
+			createUDP(){
+				this.udp = wx.createUDPSocket();
+				this.udp.bind();
+				this.udp.onMessage(res=>{
+					console.log('UDP发生的消息:'+JSON.stringify(res))
+				})
+				this.udp.onListening(res=>{
+					console.log('UDPonListening:'+JSON.stringify(res))
+				})
+				this.udp.onClose(res=>{
+					console.log('关闭UDP:'+JSON.stringify(res))
+				})
+				this.udp.onError(res=>{
+					console.log('错误信息UDP:'+JSON.stringify(res))
+				})
+				this.udp.onClose(res=>{
+					console.log('监听到了UDP关闭了:'+JSON.stringify(res))
+				})
+				this.udp.onClose(res=>{
+					console.log('监听到了UDP关闭了:'+JSON.stringify(res))
+				})
+			},
+			closeUDP(){
+				this.udp.close();
+				this.$refs.opemDoor.close();
+			},
+			// 开门
+			opemDoor(){
+				this.createUDP();
+				this.$refs.opemDoor.open();
+			},
+			sendUDP(){
+				console.log('发送的数据',{
+					address:this.ip,
+					port:this.port,
+					message:this.msg,
+				})
+				this.udp.send({
+					address:this.ip,
+					port:this.port,
+					message:this.msg,
+				})
+			},
+			// 呼叫服务
+			callService(str){
+				post('Udp/CRSaddquestion',{
+					Token:this.token,
+					UserId:this.userId,
+					hotel_id:'cnbjbjlp00',
+					asker_name:'留言人姓名',
+					asker_mobile:'联系姓名',
+					content:str
+				}).then(res=>{
+					toast(`已为您提交${str}服务`,{icon:true})
+				})
+			},
 			// 获取屏幕宽度
 			getRatio() {
 				let w = 0;
