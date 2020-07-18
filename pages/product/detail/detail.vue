@@ -46,23 +46,29 @@
 					v-for="(item,index) in tagInit" :key="index" >{{ item }}</div>
 			</div>
 		</div>
-		<div class="gap20"></div>
-		<div class="sku plr30">
+		<div class="gap20" v-if="proSKUList.length"></div>
+		<div class="sku plr30" v-if="proSKUList.length" id="room">
 			<h3>星球客房型</h3>
 			<div class="list">
-				<div class="item ptb30 flex-center-between" v-for="(item,index) in 3" :key="index">
-					<img src="/static/icons/pinkbg.png" alt="" mode="aspectFill">
+				<div class="item ptb30 flex-center-between" v-for="(item,index) in showProSKUList" :key="index">
+					<img :src="item.Logo" alt="" mode="aspectFill">
 					<div class="content flex-column-start-between">
-						<h5>星球客轻奢房</h5>
-						<p class="ellipsis-col2">整体氛围看起来比较轻快，起来比较轻快，给人 一种精致与轻奢的质感</p>
-						<div class="price">￥288</div>
+						<h5>{{item.Name}}</h5>
+						<p class="ellipsis-col2">{{item.Intro}}</p>
+						<div class="price">￥{{item.Price}}</div>
 					</div>
-					<div class="btn">立即预定</div>
+					<div class="btn" @click="submit(item.Id)">立即预定</div>
 				</div>
-				<div class="more">
+			</div>
+			<div class="more" v-if="proSKUList.length>3" @click="showProSku">
+				<block v-if="showProSKUList.length!==proSKUList.length">
 					<p>展示全部</p>	
 					<i class="icon-shuangjiantouxia iconfont"></i>
-				</div>
+				</block>
+				<block v-else>
+					<p>收起</p>	
+					<i class="icon-shuangjiantouxia iconfont rotate"></i>
+				</block>
 			</div>
 		</div>
 		<div class="gap20" v-if="couponList.length"></div>
@@ -95,9 +101,8 @@
 			</div>
 		</div>
 		
-		<div class="gap20"></div>
-		<date-price-picker ref="datePicker" @change="changeDatePicker" :option="calendarOption" :goodsDateTime="goodsDateTime"></date-price-picker>
-		<div class="dateBox plr30 pb30">
+		<!-- <div class="gap20"></div> -->
+		<!-- <div class="dateBox plr30 pb30">
 			<h3>入住退房日期</h3>
 			<div class="date-time flex-end-between" @click="$refs.datePicker.open()">
 				<div class="start">
@@ -110,7 +115,7 @@
 					<div class="text">{{calendarOption.currentRangeEndDate}}</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 		<block v-if="details.RecPicList.length">
 			<div class="gap20"></div>
 			<div class="scroll-block">
@@ -275,8 +280,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="footer plr30 flex-center-between">
-			<div class="left flex-center">
+		<div class="footer flex-center-between">
+			<div class="left flex-center-between">
 				<div class="item  flex-column-center">
 					<!-- <div class="iconfont icon-fenxiang1"></div>分享 -->
 					<button class="shearch iconfont icon-fenxiang1" open-type="share"></button>分享
@@ -288,11 +293,14 @@
 				</div>
 				<div class="item flex-column-center">
 					<!-- <div class="iconfont icon-kefu"></div>客服 -->
-					<button class="iconfont icon-kefu" open-type="contact"></button>客服
+					<button class="iconfont icon-kefu" open-type="contact"></button>客服{{proSKUList.length}}
 				</div>
 			</div>
+			<div class="btn" :class="{'disable':!(details.Price*1)||!(proSKUList.length)}" @click="viewRoom">
+			{{details.Price*1&&proSKUList.length?'查看房型':'敬请期待'}}
+			</div>
 			<!-- 价格存在 -->
-			<div class="priceBox" v-if="details.Price*1">
+			<div class="priceBox" v-if="false">
 				<div class="price flex-end">
 					<!-- <h2>待定</h2> -->
 					<h2>{{ totalPrice||details.Price }}</h2>
@@ -303,7 +311,7 @@
 				</div>
 			</div>
 			<!-- 价格不存在时 -->
-			<div class="priceBox" v-else>
+			<div class="priceBox"  v-if="false">
 				<div class="price flex-end">
 					<!-- <h2>待定</h2> -->
 					<!-- <h2>{{ totalPrice||details.Price }}</h2> -->
@@ -311,7 +319,7 @@
 				</div>
 			</div>
 			<!--  -->
-			<div class="btn" :class="{'disable':!isSubmit||!details.Price*1}" @click="submit">{{details.Price*1?'立即预定':'敬请期待'}}</div>
+			<div class="btn" v-if="false" :class="{'disable':!isSubmit||!details.Price*1}" @click="viewRoom">{{details.Price*1?'查看房型':'敬请期待'}}</div>
 		</div>
 		<!-- 价格说明 -->
 		<uni-popup type="bottom" ref="priceExplainStatus">
@@ -361,6 +369,8 @@
 					Lat: 0,
 					Lng: 0,
 				},
+				proSKUList:[],//产品sku列表
+				showProSKUList:[],//显示的sku列表
 				isSubmit:false,//是否可以提交
 				tabList:[
 					{
@@ -402,7 +412,7 @@
 			this.token = uni.getStorageSync('token');
 			this.VideoContext = uni.createVideoContext('myVideo');
 			this.getDetail()
-			this.getGoodsDateTime(Id)
+			this.getDetailSKU()
 			this.getOrderCommentInfo(Id)
 			this.getOrderCommentList();
 			this.getProCouponList();
@@ -539,9 +549,12 @@
 				// console.log("产品评论列表：",res)
 				this.commentList = res.data
 			},
-			// 获取产品日期价格
+			// 获取房型日期价格
 			async getGoodsDateTime (Id){
-				let res = await post('Goods/GoodsDateTime', {ProId:Id})
+				let res = await post('Goods/GoodsDateTime', {
+					ProId:this.Id,
+					RoomTypeId:Id
+					})
 				this.goodsDateTime = res.data;
 			},
 			// 收藏
@@ -598,6 +611,23 @@
 				// 住房价格
 				this.details = res.data
 			},
+			async getDetailSKU(){
+				let res = await post('Goods/GoodsList_Sku',{
+					ProId:this.Id,
+					UserId:this.userId,
+					Token:this.token
+				})
+				this.proSKUList = res.data;
+				this.showProSKUList = res.data.slice(0,3);
+			},
+			// 显示全部房型
+			showProSku(){
+				if(this.showProSKUList.length!==this.proSKUList.length){
+					this.showProSKUList = this.proSKUList;
+				}else{
+					this.showProSKUList = this.proSKUList.slice(0,3);
+				}
+			},
 			async getProCouponList(){
 				let res = await post('Coupon/CouponCenter',{
 					ProId: this.Id,
@@ -641,28 +671,15 @@
 					this.$refs['priceExplainStatus'].close();
 				}
 			},
-			// 更改日历
-			changeDatePicker(e) {
-				// console.log("我是日历出现变更",e)
-				let calendarOption = this.calendarOption;
-				calendarOption.currentRangeStartDate = e.startDate;
-				calendarOption.startDate = e.startDate.substring(e.startDate.indexOf('-')+1);
-				calendarOption.currentRangeEndDate = e.endDate;
-				calendarOption.endDate = e.endDate.substring(e.endDate.indexOf('-')+1);
-				calendarOption.dateNum = e.dateNum;
-				this.update({
-					calendarOption:calendarOption
-				})
-			},
 			// 立即预订
-			submit(){
-				if(!this.isSubmit){
-					if(this.details.Price*1){
-						toast('请选择可预订的日期！');
-					}
-					return;
-				}
-				navigate('product/confirmOrder/confirmOrder',{id:this.Id})
+			submit(roomId){
+				// if(!this.isSubmit){
+				// 	if(this.details.Price*1){
+				// 		toast('请选择可预订的日期！');
+				// 	}
+				// 	return;
+				// }
+				navigate('product/confirmOrder/confirmOrder',{id:this.Id,roomId})
 			},
 			// 打开地图
 			openLocation(){
@@ -677,6 +694,23 @@
 				console.log(err)
 					}
 				})
+			},
+			// 查看房型
+			viewRoom(){
+				if(!this.proSKUList.length)return;
+				let that = this;
+				  let query = wx.createSelectorQuery().in(that);
+				  query.selectViewport().scrollOffset()
+				  query.select("#room").boundingClientRect();
+				  query.exec(function (res) {
+					console.log(res);
+					let miss = res[0].scrollTop + res[1].top - 10;
+					wx.pageScrollTo({
+					  scrollTop: miss,
+					  duration: 300
+					});
+					 
+				  });
 			},
 			// 打开视频
 			onOpenVideo(){

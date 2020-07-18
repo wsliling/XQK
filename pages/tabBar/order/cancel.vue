@@ -5,19 +5,19 @@
 			<view class="policy">
 				<view class="call">确认取消</view>
 				<view class="stack">取消政策</view>
-				<view class="limit">{{refundInfo.RefundNote}}</view>
+				<view class="limit" v-if="refundInfo.RefundNote">{{refundInfo.RefundNote}}</view>
 			</view>
 			<view class="cancelflex">
 				<view class="">预订价格</view>
-				<view class="cancelcolor">¥{{UnitPrice}}</view>
+				<view class="cancelcolor" v-if="UnitPrice">¥{{UnitPrice}}</view>
 			</view>
 			<view class="cancelflex">
 				<view class="">已支付</view>
-				<view class="cancelcolor">¥{{refundInfo.Total}}</view>
+				<view class="cancelcolor" v-if="refundInfo.Total">¥{{refundInfo.Total}}</view>
 			</view>
 			<view class="cancelflex">
 				<view class="figure">您的退款总金额</view>
-				<view class="figure">¥{{refundInfo.RefundAmout}}</view>
+				<view class="figure" v-if="refundInfo.RefundAmout">¥{{refundInfo.RefundAmout}}</view>
 			</view>
 			<view class="cancelflex" @click="showEdit = true">
 				<view class="">取消原因</view>
