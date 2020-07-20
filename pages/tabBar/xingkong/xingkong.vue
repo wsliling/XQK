@@ -222,6 +222,7 @@
 		onShow(){
 			this.userId = uni.getStorageSync('userId');
 			this.token = uni.getStorageSync('token');
+			this.getMoor();
 		},
 		computed: {
 			Rprocess() {
@@ -242,6 +243,14 @@
 			},
 		},
 		methods: {
+			getMoor(){
+				post('Udp/GetOrderForRoomNo',{
+					UserId: this.userId,
+					Token:this.token
+				}).then(res=>{
+					
+				})
+			},
 			createUDP(){
 				this.udp = wx.createUDPSocket();
 				this.udp.bind();

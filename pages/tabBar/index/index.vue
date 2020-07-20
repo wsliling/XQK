@@ -385,7 +385,7 @@
 					Token:this.token,
 					Page:1,
 					PageSize:6,
-					IsRecommend:1,
+					IsHot:1,
 				}) 
 				this.hotRecommendList = res.data 
 			},
