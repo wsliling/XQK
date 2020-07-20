@@ -104,9 +104,14 @@
 </template>
 
 <script>
+	import {post,get,navigate,switchTab,judgeLogin,toast,throttle} from '@/utils';
 	export default {
 		data() {
 			return {
+				userId: "",
+				token: "",
+				id:'',
+				roomNo:'',
 				bgImg: '/static/xingkong/bg1.png',
 				isAir: false,
 				modelIndex: 0,
@@ -204,20 +209,44 @@
 				return res
 			}
 		},
-		onLoad() {
-			this.closeAir()
+		onLoad(e) {
+			this.id = e.id;
+			this.roomNo = e.roomNo;
+			this.userId = uni.getStorageSync("userId");
+			this.token = uni.getStorageSync("token");
 		},
 		methods: {
 			// 开关空调
 			switchAir() {
-				this.isAir = !this.isAir
-				if (!this.isAir) {
-				// 关闭模式和风速
-					this.closeAir()
-				} else {
-					// 开启
-					this.initAll()
-				}
+				this.onButton(2,this.isAir?0:1,function(res){
+					this.isAir = !this.isAir
+					if (!this.isAir) {
+					// 关闭模式和风速
+						this.closeAir()
+					} else {
+						// 开启
+						this.initAll()
+					}
+				})
+			},
+			// 设备控制类型
+			// 0://灯光（1-开 0-关）
+			// 1://调光-亮度（0-100）（0-25-50-75-100）
+			// 2://空调（1-开 0-关）
+			// 3://空调-温度（16-30℃）
+			// 4://空调-模式（1 冷2 热3 通风0 停止）
+			// 5://空调-风速手动（1 低速，2 中速，3 高速，0 停止）
+			onButton(type,typeVal,fn){
+				post('Udp/RoomDeviceControl',{
+					UserId:this.userId,
+					Token:this.token,
+					Id:this.id,
+					RoomNo:this.roomNo,
+					Type:type,
+					TypeVal:typeVal
+				}).then(res=>{
+					fn(res);
+				})
 			},
 			// 关机模式下无法点击
 			// allDisable () {

@@ -69,12 +69,12 @@
 								<view class="switchCircle4 juzhong">
 									<view class="switchCircle5">
 										<view class="box juzhong">
-											<div class="btn-top" @click="navigate('xingkongSon/airConditioner/index')">空调</div>
+											<div class="btn-top" @click="navigate('xingkongSon/airConditioner/index',{id,roomNo})">空调</div>
 											<div class="center" @click="opemDoor">
 												<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/switch.png" mode="widthFix"></image>
 												<view class="">开门</view>
 											</div>
-											<div class="btn-down" @click="navigate('xingkongSon/lamplight/index')">灯光</div>
+											<div class="btn-down" @click="navigate('xingkongSon/lamplight/index',{id,roomNo})">灯光</div>
 										</view>
 									</view>
 								</view>
@@ -215,6 +215,9 @@
 				ip:'',
 				port:'',
 				msg:'',
+
+				id:'',
+				roomNo:'',
 			}
 		},
 		onLoad() {
@@ -222,7 +225,7 @@
 		onShow(){
 			this.userId = uni.getStorageSync('userId');
 			this.token = uni.getStorageSync('token');
-			this.getMoor();
+			this.getRoom();
 		},
 		computed: {
 			Rprocess() {
@@ -243,12 +246,13 @@
 			},
 		},
 		methods: {
-			getMoor(){
+			getRoom(){
 				post('Udp/GetOrderForRoomNo',{
 					UserId: this.userId,
 					Token:this.token
 				}).then(res=>{
-					
+					this.id = res.data.Id;
+					this.roomNo = res.data.RoomNo;
 				})
 			},
 			createUDP(){

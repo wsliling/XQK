@@ -1,7 +1,10 @@
 <template>
 	<view>
-		<canvas :style="{width:canvasWiidth+'rpx',height: canvasHeight +'rpx',background: 'rgba(255,255,155,0)'}" :canvas-id="myCanvasId"
-		 class="" @touchstart='handleTouchStart' @touchmove='handletouchmove'></canvas>
+		<canvas :style="{width:canvasWiidth+'rpx',height: canvasHeight +'rpx',background: 'rgba(255,255,155,0)'}" 
+			:canvas-id="myCanvasId"
+		 	class="" 
+			 @touchstart='handleTouchStart' 
+			 @touchmove='handletouchmove'></canvas>
 	</view>
 </template>
 
@@ -23,10 +26,10 @@
 				properties:
 
 				{
-					// startAngle: -Math.PI / 2, // 起始角度
-					// lastAngle: -Math.PI / 2, // 终止角度
-					startAngle: Math.PI / 2, // 起始角度
-					lastAngle: -Math.PI / 2, // 终止角度
+					startAngle: -Math.PI / 1, // 起始角度
+					lastAngle: Math.PI / 0.2, // 终止角度
+					// startAngle: Math.PI *0.8, // 起始角度
+					// lastAngle: Math.PI *0.2, // 终止角度
 					touchCircleR: 8, // 触摸圆的半径
 
 					touchCircleColor: '#ff0000', // 触摸圆颜色
@@ -63,7 +66,7 @@
 			};
 		},
 		mounted() {
-			this.drawInit(0.88)
+			this.drawInit(0.68)
 
 		},
 		methods: {
@@ -73,15 +76,34 @@
 				context.beginPath();
 				context.lineWidth = this.properties.circleCenterWidth; //设置线宽
 				context.strokeStyle = this.properties.circleCenterColor;
-				context.arc(this.properties.circleCenterX, this.properties.circleCenterY, this.properties.circleCenterR, 0, Math.PI *
-					2, false);
+				context.arc(this.properties.circleCenterX, this.properties.circleCenterY, this.properties.circleCenterR, 0.8*Math.PI, Math.PI *
+					0.2, false);
 				context.stroke();
 				context.closePath();
 				context.restore();
 			},
+			// 绘制进度外圈
+			drawWhiteCircle(context, n) {
+				context.save();
+				context.strokeStyle = this.properties.progressCircleColor; //设置描边样式
+				context.lineWidth = this.properties.progressCircleWidth; //设置线宽
+				context.beginPath(); //路径开始
+				console.log(n,'百分比？')
+				// if(n>225){
+				// 	n = n-225;
+				// }else if(n<135){
+				// 	n = n+135;
+				// }
+				let num = Math.PI *( (n-0.25)*2)
+				context.arc(this.properties.circleCenterX, this.properties.circleCenterY, this.properties.circleCenterR, 
+				0.8*Math.PI, num, false); //用于绘制圆弧           context.arc(x坐标，y坐标，半径，起始角度，终止角度，顺时针/逆时针)
+				context.stroke(); //绘制
+				context.closePath(); //路径结束
+				context.restore();
+			},
 			// 绘制齿轮
 			drawGearWheel(context, rateNum) {
-				context.translate(this.properties.circleCenterX, this.properties.circleCenterY);
+				// context.translate(this.properties.circleCenterX, this.properties.circleCenterY);
 				context.save();
 				let hasOver = parseInt(rateNum * 100);
 				for (let i = 0; i < 100; i++) {
@@ -106,28 +128,20 @@
 			},
 			// 绘制触摸圆
 			drawTouchCirclr(context, rateNum) {
+				context.translate(this.properties.circleCenterX, this.properties.circleCenterY);
 				context.save();
 				context.beginPath();
 				context.lineWidth = this.properties.touchCircleR * 2; //设置线宽
 				context.strokeStyle = this.properties.touchCircleColor;
-				context.arc(this.properties.circleCenterX + this.properties.circleR * Math.sin(rateNum * Math.PI * 2), this.properties
-					.circleCenterY -
-					this.properties.circleR * Math.cos(rateNum * Math.PI * 2), this.properties.touchCircleR, 0, Math.PI * 2, false);
+				context.arc(
+						// this.properties.circleCenterX + this.properties.circleR * Math.sin(rateNum * Math.PI * 2), 
+						// this.properties.circleCenterY - this.properties.circleR * Math.cos(rateNum * Math.PI * 2),
+						1+100 * Math.sin(rateNum * Math.PI * 2), 
+						1-100 * Math.cos(rateNum * Math.PI * 2),
+						this.properties.touchCircleR, 
+						0, Math.PI * 2, false);
 				context.stroke();
 				context.closePath();
-				context.restore();
-			},
-			// 绘制进度外圈
-			drawWhiteCircle(context, n) {
-				context.save();
-				context.strokeStyle = this.properties.progressCircleColor; //设置描边样式
-				context.lineWidth = this.properties.progressCircleWidth; //设置线宽
-				context.beginPath(); //路径开始
-				context.arc(this.properties.circleCenterX, this.properties.circleCenterY, this.properties.circleCenterR, this.properties
-					.startAngle, this.properties
-					.startAngle + n * Math.PI * 2, false); //用于绘制圆弧           context.arc(x坐标，y坐标，半径，起始角度，终止角度，顺时针/逆时针)
-				context.stroke(); //绘制
-				context.closePath(); //路径结束
 				context.restore();
 			},
 			// 写文字 
@@ -141,15 +155,15 @@
 			// 重绘canvas
 			drawInit(rateNum) {
 				// 我在重绘了
-				// console.log('我在冲锋号')
+				console.log('绘制角度/360',rateNum)
 				// const ctx = wx.createCanvasContext('myCanvasId', this);
 				let ctx = uni.createCanvasContext(this.myCanvasId, this);
-				ctx.clearRect(0, 0, this.canvasWiidth, this.canvasHeight)
-				this.drawText(ctx, rateNum);
-				// this.whiteRedCircle(ctx);
-				// this.drawWhiteCircle(ctx, rateNum);
+				// ctx.clearRect(0, 0, this.canvasWiidth, this.canvasHeight)
+				// this.drawText(ctx, rateNum);
+				this.whiteRedCircle(ctx,rateNum);
+				this.drawWhiteCircle(ctx, rateNum);
 				this.drawTouchCirclr(ctx, rateNum);
-				this.drawGearWheel(ctx, rateNum);
+				// this.drawGearWheel(ctx, rateNum);
 				ctx.draw();
 				this.properties.progressValue = rateNum
 				this.properties.lastAngle = 360 * rateNum
@@ -187,27 +201,45 @@
 				// console.log('第四象限')
 					angle = 360 - Math.atan(MathX / MathY) * 180 / Math.PI;
 				}
-				if (angle - this.properties.lastAngle > 180) { // 当为零届点向左移动
-					angle = 0;
-				} else if (angle - this.properties.lastAngle < -180) { // 当为临届点向右移动
-					angle = 360;
+				console.log(angle,'转动的角度1',this.properties.lastAngle)
+				// if(parseInt(angle) ==135){
+				// 	angle = 135
+				// }else if(parseInt(angle) ==225){
+				// 	angle = 225
+				// }
+				if(angle<235&&angle>120){
+					if(angle-this.properties.lastAngle>0||angle==135){
+						
+						angle = 120
+					}else if(angle-this.properties.lastAngle<0||angle==235){
+						
+						angle = 235
+					}
 				}
+				// if (angle - this.properties.lastAngle > 180) { // 当为零届点向左移动
+				// 	// angle = 0;
+				// 	angle = 135;
+				// } else if (angle - this.properties.lastAngle < -180) { // 当为临届点向右移动
+				// 	// angle = 360;
+				// 	angle = 225;
+				// }
 				// 转动的进度
 				let rateNum = angle / 360;
 
 				this.drawInit(rateNum);
 
-				this.properties.progressValue = rateNum
-				this.properties.lastAngle =  angle
+				// this.properties.progressValue = rateNum
+				// this.properties.lastAngle =  angle
 				// console.log('计算之后的:progressValue', this.properties.progressValue, '计算之后的:lastAngle',this.properties.lastAngle)
-				// this.setData({
-				// 	progressValue: rateNum,
-				// 	lastAngle: angle
-				// });
+				
 
 			},
 			// 触摸移动方法
 			handletouchmove(event) {
+					console.log('转动的角度',this.properties.lastAngle)
+					if(this.properties.lastAngle>120&&this.properties.lastAngle<235){
+						return;
+					}
 				if (this.properties.isCanTouch) {
 					// console.log(event)
 					this.canculateRate(event.changedTouches[0].x, event.changedTouches[0].y);
@@ -228,15 +260,9 @@
 				if (touchCircleX + this.properties.touchCircleR * 2 < x || x < touchCircleX - this.properties.touchCircleR * 2 ||
 					touchCircleY +
 					this.properties.touchCircleR * 2 < y || y < touchCircleY - this.properties.touchCircleR * 2) {
-					// this.setData({
-					// 	isCanTouch: false
-					// });
 					console.log('我拖不动了')
-					this.properties.isCanTouch = false
+					this.properties.isCanTouch = true
 				} else {
-					// this.setData({
-					// 	isCanTouch: true,
-					// });
 					console.log('我拖的动')
 					this.properties.isCanTouch = true
 				}
