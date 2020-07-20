@@ -50,9 +50,12 @@
 
 					progressCircleWidth: 6, // 进度圆环宽度
 
-					gearWheelDefaultColor: '#45e03c', // 齿轮默认颜色
+					// gearWheelDefaultColor: '#45e03c', // 齿轮默认颜色
+					gearWheelDefaultColor: 'rgba(144, 0, 120, 0)', // 齿轮默认颜色
 
 					gearWheelActiveColor: 'rgba(144, 0, 120, 1.0)', // 齿轮激活颜色
+					// gearWheelActiveColor: '#00FF95', // 齿轮激活颜色
+					
 
 				},
 
@@ -87,6 +90,7 @@
 						context.setStrokeStyle(this.properties.gearWheelDefaultColor);
 						context.moveTo(0, -110);
 					} else if (i >= hasOver - 2 && i <= hasOver + 1) {
+						/*  这是进度末端部 */
 						context.setStrokeStyle(this.properties.gearWheelActiveColor);
 						context.moveTo(0, -115);
 					} else {
@@ -145,10 +149,10 @@
 				// this.drawWhiteCircle(ctx, rateNum);
 				this.drawTouchCirclr(ctx, rateNum);
 				this.drawGearWheel(ctx, rateNum);
-				ctx.draw(0, 0);
+				ctx.draw();
 				this.properties.progressValue = rateNum
 				this.properties.lastAngle = 360 * rateNum
-				console.log('最终角度',this.properties.progressValue,this.properties.lastAngle)
+				// console.log('最终角度',this.properties.progressValue,this.properties.lastAngle)
 				// this.setData({
 				// 	progressValue: rateNum,
 				// 	lastAngle: 360 * rateNum
@@ -158,28 +162,28 @@
 			canculateRate(newX, newY) {
 				const MathX = Math.abs(newX - this.properties.circleCenterX);
 				const MathY = Math.abs(newY - this.properties.circleCenterY);
-				console.log(`计算之后的角度newX:${newX}`)
-				console.log(`计算之后的角度newY:${newY}`)
-				console.log(`计算之后的角度this.properties.circleCenterX:${this.properties.circleCenterX}`)
-				console.log(`计算之后的角度this.properties.circleCenterY:${this.properties.circleCenterY}`)
-				console.log(`计算之后的角度MathX:${MathX}`)
-				console.log(`计算之后的角度MathY:${MathY}`)
+				// console.log(`计算之后的角度newX:${newX}`)
+				// console.log(`计算之后的角度newY:${newY}`)
+				// console.log(`计算之后的角度this.properties.circleCenterX:${this.properties.circleCenterX}`)
+				// console.log(`计算之后的角度this.properties.circleCenterY:${this.properties.circleCenterY}`)
+				// console.log(`计算之后的角度MathX:${MathX}`)
+				// console.log(`计算之后的角度MathY:${MathY}`)
 				if (MathX == 0 || MathY == 0) {
 					return;
 				}
 				// 计算移动终点相对圆心转过的角度
 				let angle;
 				if (newX > this.properties.circleCenterX && newY < this.properties.circleCenterY) { //第一象限
-				console.log('第一象限')
+				// console.log('第一象限')
 					angle = Math.atan(MathX / MathY) * 180 / Math.PI;
 				} else if (newX >= this.properties.circleCenterX && newY >= this.properties.circleCenterY) { // 第二象限
-				console.log('第二象限')
+				// console.log('第二象限')
 					angle = 180 - Math.atan(MathX / MathY) * 180 / Math.PI;
 				} else if (newX <= this.properties.circleCenterX && newY >= this.properties.circleCenterY) { //第三象限
-				console.log('第三象限')
+				// console.log('第三象限')
 					angle = 180 + Math.atan(MathX / MathY) * 180 / Math.PI;
 				} else { // 第四象限
-				console.log('第四象限')
+				// console.log('第四象限')
 					angle = 360 - Math.atan(MathX / MathY) * 180 / Math.PI;
 				}
 				if (angle - this.properties.lastAngle > 180) { // 当为零届点向左移动
@@ -194,7 +198,7 @@
 
 				this.properties.progressValue = rateNum
 				this.properties.lastAngle =  angle
-				console.log('计算之后的:progressValue', this.properties.progressValue, '计算之后的:lastAngle',this.properties.lastAngle)
+				// console.log('计算之后的:progressValue', this.properties.progressValue, '计算之后的:lastAngle',this.properties.lastAngle)
 				// this.setData({
 				// 	progressValue: rateNum,
 				// 	lastAngle: angle
@@ -204,12 +208,12 @@
 			// 触摸移动方法
 			handletouchmove(event) {
 				if (this.properties.isCanTouch) {
-					console.log(event)
+					// console.log(event)
 					this.canculateRate(event.changedTouches[0].x, event.changedTouches[0].y);
-					let detail = event.changedTouches;
-					let option = {};
+					// let detail = event.changedTouches;
+					// let option = {};
 					// this.triggerEvent('handletouchmove', detail, option);
-					this.handletouchmove(event);
+					// this.handletouch	move(event);
 				}
 			},
 			// 触摸开始方法
@@ -226,13 +230,13 @@
 					// this.setData({
 					// 	isCanTouch: false
 					// });
-					console.log('我拖不动了')
+					// console.log('我拖不动了')
 					this.properties.isCanTouch = false
 				} else {
 					// this.setData({
 					// 	isCanTouch: true,
 					// });
-					console.log('我拖的动')
+					// console.log('我拖的动')
 					this.properties.isCanTouch = true
 				}
 			},
