@@ -20,9 +20,13 @@ export function getImgPath(num = 1, sourceType = ["album", "camera"], sizeType =
 	})
 }
 // 全屏浏览图片
-export function previewImage(url,nowImg){
+export function previewImage(url,nowImg){ 
+	let arr =[];
+	url.map(item=>{
+		arr.push(item.PicUrl)
+	})
 	uni.previewImage({
-	  urls:url,//预览的图片数组
+	  urls:arr,//预览的图片数组
 	  current:nowImg,//预览图片的下标/图片链接
 	})
 }

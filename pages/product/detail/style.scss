@@ -11,7 +11,7 @@
 	.dots{
 		position: absolute;
 		left: 50%;
-		bottom: 40upx;
+		bottom: 0;
 		text-align: center;
 		white-space: nowrap;
 		-webkit-transform: translate(-50%);
@@ -90,6 +90,67 @@ p{
 		}
 	}
 }
+.coupon{
+	line-height:100upx;
+	padding-left:30upx;padding-right:20upx; 
+	span{
+		color:#ff3333;
+		margin-right:15upx;
+	}
+}
+.couponWin{
+	background:#fff;
+	position:relative;
+	z-index:100;
+	padding:0 30upx 30upx;
+	border-radius:30upx 30upx 0 0;
+	.pink,.maskcouponlist,.couponinfo{
+		height:161upx;
+	}
+	.masktitle{
+	    font-weight: bold;
+	    font-size:32upx;
+	    text-align: center;
+	    padding:30upx 0;
+	}
+	.coupon-scroll{
+		height:600upx;
+	}
+	.maskcouponlist{
+	    position: relative;
+	    margin:0 auto 15upx;
+		border-radius: 10upx;
+		overflow: hidden;
+	}
+	.maskser{
+	    position: absolute;
+	    top:0;
+	    left:0;
+	    padding:10upx 35upx 25upx 30upx;
+		color:#ff3333;
+	    width:100%;
+	}
+	.maskprice,.maskget{
+	    font-size:32upx;
+		color:#ff3333;
+	}
+	.maskget{
+		line-height:2;
+	}
+	.maskask{
+	    font-size:22upx;
+	}
+	.btnget{
+	    width:100%;
+	    height:80upx;
+	    line-height: 80upx;
+	    color:#fff;
+	    background: #ff3333;
+	    text-align: center;
+	    margin:0 auto;
+	    border-radius:50upx;
+	}
+}
 .scroll-block{
 	h3{
 		line-height:2;
@@ -99,7 +160,7 @@ p{
 	.list{
 		padding-right:20upx;
 		.item{
-			width:200upx;height:200upx;
+			width:210upx;height:210upx;
 			margin-left:30upx;
 			flex:0 0 auto;
 			box-shadow:0 0 10upx #eee;
@@ -141,6 +202,7 @@ p{
 			display:flex;
 			align-items:center;
 			justify-content:center;
+			z-index:10;
 			img{
 				width:43upx;height:53upx;
 			}
@@ -242,7 +304,8 @@ p{
 	}
 	h5{
 		font-weight:400;
-		line-height:3;
+		line-height:1.5;
+		padding:20upx 0;
 	}
 	.iconfont{
 		font-size:24upx;
@@ -318,15 +381,16 @@ p{
 	position:fixed;
 	left:0;
 	bottom:0;
-	border-top:1upx solid #f2f2f2;
 	width:100%;
-	height:130upx;
+	height:100upx;
 	background:#fff;
-	z-index:99;
+	z-index:98;
 	.left{
 		color:#999;
-		margin-top:20upx;
-		border-right:1upx solid #ccc;
+		border-top:1upx solid #ccc;
+		width:50%;
+		height:100upx;
+		padding:0 50upx;
 		button{
 		      padding: 0;
 		      background-color: #fff;
@@ -340,7 +404,6 @@ p{
 		} 
 		.item{
 			font-size:22upx;
-			padding-right:35upx;
 			.iconfont{
 				font-size:40upx;
 				line-height:1;
@@ -376,11 +439,10 @@ p{
 	.btn{
 		background:#ff3333;
 		color:#fff;
-		width:230upx;
-		height:88upx;
-		line-height:88upx;
+		width:50%;
+		height:100upx;
+		line-height:100upx;
 		text-align:center;
-		border-radius:10upx;
 		&.disable{
 			color:#ccc;
 			background:#eff3f6;
@@ -392,5 +454,47 @@ p{
 		color:#666;
 		line-height:1.5;
 		padding:40upx 40upx 60upx;
+	}
+}
+.sku{
+	h3{
+		line-height:3;
+	}
+	.list{
+		.item{
+			border-top:1upx solid #f2f2f2;
+			img{
+				width:200upx;height:200upx;
+				border-radius:10upx;
+			}
+			.content{
+				margin:0 20upx;
+				height:200upx;
+				width:365upx;
+				.p{
+					height:30%;
+				}
+				.price{
+					color:#ff3333;
+				}
+			}
+			.btn{
+				background:$primary;
+				border-radius:10upx;
+				color:#fff;
+				padding:5upx;
+				width:88upx;
+				line-height:1.4;
+				text-align:center;
+			}
+		}
+	}
+	.more{
+		text-align:center;
+		padding-bottom:20upx;
+		line-height:1.4;
+		.rotate{
+			transform:rotate(180deg);
+		}
 	}
 }

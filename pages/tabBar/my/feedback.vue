@@ -3,7 +3,7 @@
 	<div>
 		<div class="feedback">
 			<view class="elect">选择类型</view>
-			<div class="fed_title" @click="option(val.code,key)" v-if="options == key ? 'active' : 'fed_title'" v-for="(val,key) in backType" :key="key">
+			<div class="fed_title" @click="option(val.message,key)" v-if="options == key ? 'active' : 'fed_title'" v-for="(val,key) in backType" :key="key">
 				<p>{{val.message}}</p>
 				<img v-if="options == key" src="http://xqk.wtvxin.com/images/wxapp/icons/success.png" alt="" />
 			</div>
@@ -39,7 +39,7 @@ export default {
 		return {
 			previewImage,
 			backType: [],
-			TypeStr: 0,
+			TypeStr: '',
 			Content: '',
 			PicList: [],
 			maxPicLen: 4, //最多上传
@@ -62,6 +62,7 @@ export default {
 	methods: {
 		option(code,key){
 			this.options = key
+			console.log(code,key)
 			this.TypeStr = code
 		},
 		// 获取意见反馈类型

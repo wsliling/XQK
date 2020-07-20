@@ -38,7 +38,7 @@
 					</view>
 				</view>
 			</scroll-view>
-			<view v-if="(option.isModal || option.isShowSubmit) && isShow" @click="clickSubmit" class="footer"><view :class="{ disabled: isDisabledBtn }" hover-class="hover">确定</view></view>
+			<cover-view v-if="(option.isModal || option.isShowSubmit) && isShow" @click="clickSubmit" class="footer"><cover-view class="bbtn" :class="{ disabled: isDisabledBtn }" hover-class="hover">确定</cover-view></cover-view>
 		</view>
 	</view>
 </template>
@@ -452,7 +452,9 @@ export default {
 		margin: 0 auto;
 		background-color: #fff;
 		overflow: hidden;
-		> view {
+		z-index:999999;
+		position:relative;
+		.bbtn {
 			background-color: $primary;
 			color: #fff;
 			font-size: 26rpx;

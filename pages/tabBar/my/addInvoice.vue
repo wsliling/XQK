@@ -54,22 +54,32 @@
 				<view class="weui-cell__hd"><label class="weui-label">银行账号</label></view>
 				<view class="weui-cell__bd"><input type="text" class="weui-input" v-model="bankAccount" placeholder="请输入公司银行账号" value="" /></view>
 			</view>
-			<!-- <view class="weui-cell" v-if="isOpen && invoiceType === 2">
-				<view class="weui-cell__hd"><label class="weui-label">快递收件人</label></view>
-				<view class="weui-cell__bd"><input type="text" class="weui-input" v-model="bankAccount" placeholder="请输入收货人的姓名" value="" /></view>
+			<!-- 以下是收件地址 -->
+			<view class="weui-cell">
+				<view class="weui-cell__bd">
+					<view class="title">需要邮寄纸质发票</view>
+					<view class="msg">邮寄方式为到付，请确认再开启</view>
+				</view>
+				<view class="weui-cell__ft"><switch :checked="mailStatus" @change="mailChange" color="#5CC69A" /></view>
 			</view>
-			<view class="weui-cell" v-if="isOpen && invoiceType === 2">
-				<view class="weui-cell__hd"><label class="weui-label">收件人电话</label></view>
-				<view class="weui-cell__bd"><input type="text" class="weui-input" v-model="bankAccount" placeholder="请输入收货人的姓名" value="" /></view>
-			</view>
-			<view class="weui-cell" v-if="isOpen && invoiceType === 2">
-				<view class="weui-cell__hd"><label class="weui-label">收件地区</label></view>
-				<view class="weui-cell__bd"><input type="text" class="weui-input" v-model="bankAccount" placeholder="请选择" value="" /></view>
-			</view>
-			<view class="weui-cell" v-if="isOpen && invoiceType === 2">
-				<view class="weui-cell__hd"><label class="weui-label">详细地址</label></view>
-				<view class="weui-cell__bd"><input type="text" class="weui-input" v-model="bankAccount" placeholder="请输入街道门牌等信息" value="" /></view>
-			</view> -->
+			<block v-if="mailStatus">
+				<view class="weui-cell" >
+					<view class="weui-cell__hd"><label class="weui-label">快递收件人</label></view>
+					<view class="weui-cell__bd"><input type="text" class="weui-input" v-model="name" placeholder="请输入收货人的姓名" value="" /></view>
+				</view>
+				<view class="weui-cell">
+					<view class="weui-cell__hd"><label class="weui-label">收件人电话</label></view>
+					<view class="weui-cell__bd"><input type="text" class="weui-input" v-model="phone" placeholder="请输入收货人的姓名" value="" /></view>
+				</view>
+				<!-- <view class="weui-cell">
+					<view class="weui-cell__hd"><label class="weui-label">收件地区</label></view>
+					<view class="weui-cell__bd"><input type="text" class="weui-input" v-model="bankAccount" placeholder="请选择" value="" /></view>
+				</view> -->
+				<view class="weui-cell">
+					<view class="weui-cell__hd"><label class="weui-label">详细地址</label></view>
+					<view class="weui-cell__bd"><input type="text" class="weui-input" v-model="address" placeholder="请输入街道门牌等信息" value="" /></view>
+				</view>
+			</block>
 			<view class="weui-cell">
 				<view class="weui-cell__bd">设为默认发票</view>
 				<view class="weui-cell__ft text_r"><switch :checked="checked" @change="tab" color="#5CC69A" /></view>
@@ -118,11 +128,19 @@ export default {
 			bankAccount: '', //银行账号
 			regAddress: '', //注册地址
 			email:'',//邮箱
+			
+			mailStatus:false,//邮寄地址开启
+			name:'',
+			phone:'',
+			address:'',
 		};
 	},
 	methods: {
 		shiftInvoiceType(index) {
 			this.invoiceType = index;
+		},
+		mailChange(){
+			this.mailStatus =!this.mailStatus;
 		},
 		switchStatus() {
 			this.isOpen = !this.isOpen;
@@ -172,7 +190,7 @@ export default {
 			}
 			if (this.invoiceType === 1) {
 				if (this.regCall != '') {
-					if (!(/^0\d{2,3}-\d{7,8}$/.test(this.regCall) || /^[1][3,4,5,6,7,8][0-9]{9}$/.test(this.regCall))) {
+					if (!(/^0\d{2,3}-\d{7,8}$/.test(this.regCall) || /^[1][3,4,5,6,7,8,9][0-9]{9}$/.test(this.regCall))) {
 						uni.showToast({
 							title: '请输入正确的电话格式！',
 							icon: 'none',
@@ -245,6 +263,44 @@ export default {
 					}
 				}
 			}
+			if(this.mailStatus){
+				if (this.name == '') {
+					uni.showToast({
+						title: '请输入收件人姓名！',
+						icon: 'none',
+						duration: 1500
+					});
+					return false;
+				}
+				
+				if (this.phone == '') {
+					uni.showToast({
+						title: '请输入电话！',
+						icon: 'none',
+						duration: 1500
+					});
+					return false;
+				}
+				if (this.phone != '') {
+					if (!(/^0\d{2,3}-\d{7,8}$/.test(this.phone) || /^[1][3,4,5,6,7,8,9][0-9]{9}$/.test(this.phone))) {
+						uni.showToast({
+							title: '请输入正确的收件人电话格式！',
+							icon: 'none',
+							duration: 1500
+						});
+						return false;
+					}
+				}
+				
+				if (this.address == '') {
+					uni.showToast({
+						title: '请输入收件地址！',
+						icon: 'none',
+						duration: 1500
+					});
+					return false;
+				}
+			}
 			return true;
 		},
 		btnSure() {
@@ -276,6 +332,10 @@ export default {
 			this.bankName = data.BankName;
 			this.regAddress = data.RegAddress;
 			this.isVATExclusive = data.IsVATExclusive;
+			this.mailStatus = Boolean(data.Invoiceformat*1);
+			this.name = data.Consignee;
+			this.phone = data.Phone;
+			this.address = data.Address;
 			if (this.regCall) {
 				this.isOpen = true;
 			}
@@ -297,7 +357,11 @@ export default {
 				BankName: this.bankName,
 				BankAccount: this.bankAccount,
 				RegAddress: this.regAddress,
-				IsVATExclusive: this.isVATExclusive
+				IsVATExclusive: this.isOpen?1:0,
+				Invoiceformat:this.mailStatus?1:0,
+				Consignee:this.mailStatus?this.name:'',
+				Address:this.mailStatus?this.address:'',
+				Phone:this.mailStatus?this.phone:''
 			});
 			let _this = this;
 			if (result.code === 0) {
@@ -323,6 +387,7 @@ export default {
 				UserId: this.userId,
 				Token: this.token,
 				InvoiceTitle: this.invoiceType,
+				IsVATExclusive: this.isOpen?1:0,
 				HeaderName: this.headerName,
 				Email:this.email,
 				RegCall: this.regCall,
@@ -330,7 +395,11 @@ export default {
 				TaxNumber: this.taxNumber,
 				BankName: this.bankName,
 				BankAccount: this.bankAccount,
-				RegAddress: this.regAddress
+				RegAddress: this.regAddress,
+				Invoiceformat:this.mailStatus?1:0,
+				Consignee:this.mailStatus?this.name:'',
+				Address:this.mailStatus?this.address:'',
+				Phone:this.mailStatus?this.phone:''
 			});
 			let _this = this;
 			if (result.code === 0) {

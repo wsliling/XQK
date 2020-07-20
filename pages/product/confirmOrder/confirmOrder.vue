@@ -4,6 +4,7 @@
 			<div class="pro flex-center-between ptb40" v-if="data.ProData">
 				<div class="info">
 					<h4 class="name">{{data.ProData.Name}}</h4>
+					<h5>房型：{{data.ProData.RoomTypeName}}</h5>
 					<h4 class="price">￥{{data.ProData.Price}}</h4>
 					<div class="score bold flex-center">
 						<div class="iconfont icon-collect"></div>{{data.ProData.CommentScore}}<span>({{data.ProData.CommentNum}})</span>
@@ -11,7 +12,7 @@
 				</div>
 				<img :src="data.ProData.PicNo" mode="widthFix" alt="">
 			</div>
-			<div class="date flex-center-between p30">
+			<div class="date flex-center-between p30" @click="$refs.datePicker.open()">
 				<div class="start">
 					<h3>{{calendarOption.startDate}}</h3>
 					<p>入住日期</p>
@@ -233,7 +234,8 @@
 						</view>
 						<view class="couponitem flex-center-between" v-for="(item,index) in invoiceList" :key="index" @click="selectInvoice(item.Id)">
 							<view class="couponname">
-								{{item.HeaderName}}
+								<p>{{item.InvoiceTitleStr}} - {{item.IsVATExclusive?'增值税发票':'普通发票'}}{{item.Invoiceformat?' - 邮寄':''}}</p>
+								<p>{{item.HeaderName}}</p>
 							</view>
 							<view style="margin: 0;" :class="['IconsCK IconsCK-radio',l_invoiceId==item.Id?'checked':'']"></view>
 						</view>
@@ -242,6 +244,9 @@
 				<view class="btn-max" @click="confirmInvoice">完成</view>
 			</view>
 		</uni-popup>
+		<date-price-picker ref="datePicker" @change="changeDatePicker" 
+			:option="calendarOption" :goodsDateTime="goodsDateTime">
+		</date-price-picker>
 	</div>
 </template>
 
@@ -250,9 +255,11 @@
 	import { mapState, mapMutations } from "vuex"; //vuex辅助函数
 	import wpicker from "@/components/w-picker/w-picker.vue";
 	import ansInput from "@/components/ans-input/ans-input.vue";
+	import datepricePicker from '@/components/date-price-picker/date-price-picker';
 	export default {
 		components: {
-			wpicker,ansInput
+			wpicker,ansInput,
+			datepricePicker,
 		},
 		data() {
 			return {
@@ -261,6 +268,7 @@
 				token: "",
 				isSubmit:false,//是否已经点击了提交
 				id:'',
+				roomId:'',
 				couponId:0,
 				useCouponText:'',//使用的优惠券文本
 				llCouponId:0,//临时优惠券id
@@ -286,13 +294,18 @@
 				invoiceId:'',//发票id
 				invoiceTitle:'',//发票抬头
 				l_invoiceId:'',//临时发票id
+				
+				// 产品日期对应价格数组
+				goodsDateTime: [],
 			}
 		},
 		onLoad(option) {
 			this.userId = uni.getStorageSync('userId');
 			this.token = uni.getStorageSync('token');
 			this.id = option.id;
+			this.roomId = option.roomId;
 			this.getData();
+			this.getGoodsDateTime();
 			this.getCheckInInfo();//获取入住人常用信息
 			this.getInvoice();//获取发票列表
 		},
@@ -308,12 +321,21 @@
 		},
 		methods: {
 			...mapMutations(['update']),
+			// 获取房型日期价格
+			async getGoodsDateTime (){
+				let res = await post('Goods/GoodsDateTime', {
+					ProId:this.id,
+					RoomTypeId:this.roomId
+					})
+				this.goodsDateTime = res.data;
+			},
 			async getData(){
 				try{
 					const res = await post('Order/BookOrder',{
 						UserId: this.userId,
 						Token: this.token,
 						ProId:this.id,
+						RoomTypeId:this.roomId,
 						AdultNum:this.AdultNum*1,
 						ChildNum:this.ChildNum*1,
 						MinDate:this.calendarOption.currentRangeStartDate,
@@ -395,6 +417,21 @@
 				}
 				this.$refs.addCheckInInfo.close();
 				this.$refs.selectCheckInInfo.open();
+			},
+			
+			// 更改日历
+			changeDatePicker(e) {
+				// console.log("我是日历出现变更",e)
+				let calendarOption = this.calendarOption;
+				calendarOption.currentRangeStartDate = e.startDate;
+				calendarOption.startDate = e.startDate.substring(e.startDate.indexOf('-')+1);
+				calendarOption.currentRangeEndDate = e.endDate;
+				calendarOption.endDate = e.endDate.substring(e.endDate.indexOf('-')+1);
+				calendarOption.dateNum = e.dateNum;
+				this.update({
+					calendarOption:calendarOption
+				})
+				this.getData();
 			},
 			// 校验常用信息添加
 			checkUserInfo(){
@@ -483,23 +520,28 @@
 				this.useUserInfo.map(item=>{
 					Uid.push(item.Id)
 				})
-				const res = await post('Order/SubmitBookOrder',{
-						UserId: this.userId,
-						Token: this.token,
-						ProId:this.id,
-						AdultNum:this.AdultNum,
-						ChildNum:this.ChildNum,
-						MinDate:this.calendarOption.currentRangeStartDate,
-						MaxDate:this.calendarOption.currentRangeEndDate,
-						CouponId:this.couponId,
-						AreaCode:this.cityCode,
-						ContactName:this.ContactName,
-						Tel:this.Tel,
-						InvoiceId:this.invoiceId,
-						Uid:Uid.join(',')
-				})
-				this.isSubmit = false;
-				this.ConfirmWeiXinSmallPay(res.data);
+				try{
+					const res = await post('Order/SubmitBookOrder',{
+							UserId: this.userId,
+							Token: this.token,
+							ProId:this.id,
+							RoomTypeId:this.roomId,
+							AdultNum:this.AdultNum,
+							ChildNum:this.ChildNum,
+							MinDate:this.calendarOption.currentRangeStartDate,
+							MaxDate:this.calendarOption.currentRangeEndDate,
+							CouponId:this.couponId,
+							AreaCode:this.cityCode,
+							ContactName:this.ContactName,
+							Tel:this.Tel,
+							InvoiceId:this.invoiceId,
+							Uid:Uid.join(',')
+					})
+					this.isSubmit = false;
+					this.ConfirmWeiXinSmallPay(res.data);
+				}catch(err){
+					this.isSubmit = false;
+				}
 			},
 			// 校验预订人
 			checkyuding(){

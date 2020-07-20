@@ -77,10 +77,12 @@
 }
 .searchXQ{
 	position: relative;
-	border-radius: 20upx 20upx 0 0;
-	padding: 0 30upx;
+	border-radius: 20upx 20upx 10upx 10upx;
+	padding: 0 30upx 30upx;
 	overflow: hidden;
-	margin-top: -20upx;
+	width: 90%;
+	margin: -80upx auto 0;
+	box-shadow: 0 0 10upx rgba(0,0,0,.2);
 	.item{
 		border-bottom: 1px solid #eee;
 		padding: 20upx 0;

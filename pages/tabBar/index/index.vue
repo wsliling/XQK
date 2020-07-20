@@ -5,70 +5,72 @@
 		<!-- #endif -->
 		<!--轮播图-->
 		<view class="index_swiper">
-			<swiper v-if="commonSetting.SwitchSeconds" class="swiper" :indicator-dots="false" autoplay :interval="commonSetting.SwitchSeconds * 1000" :duration="500" @change="changeSwiper">
+			<swiper v-if="commonSetting.SwitchSeconds" class="swiper" :indicator-dots="false" autoplay circular :interval="commonSetting.SwitchSeconds * 1000" :duration="500" @change="changeSwiper">
 				<swiper-item v-for="(item,index) in bannerList" :key="index">
 					<view class="swiper-item">
 						<image class="img" :src="item.Pic" mode="aspectFill" @click="updateBannerHits(index)"></image>
 					</view>
 				</swiper-item>
 			</swiper>
-			<view class="dots">
+			<!-- <view class="dots">
 				<view v-for="(item,index) in bannerList" :key="index" :class="['dot',currentSwiper==index?'active':'']"></view>
-			</view>
+			</view> -->
 		</view>
-		<view class="searchXQ uni-bg-white uni-mb10">
-			<view class="item item-start flex-center-between" @click="navigate('location/cityList')">
-				<view class="item-l location-name">
-					{{cityName}}
-				</view>
-				<view class="item-r flex-column-center" @click.stop="getPosition">
-					<view class="iconfont icon-dingwei"></view>
-					<view class="fz12 c_999" >当前定位</view>
-				</view>
-			</view>
-			<view class="item item-end flex-center-between" @click="onClassify">
-				<view class="item-l uni-ellipsis c_999">
-					{{classifyDefault.label}}
-				</view>
-				<view class="iconfont icon-arrow_down-copy"></view>
-			</view>
-			<!-- <calendar @change="change" :startDate="initStartDate" :endDate="initEndDate" :daysCount="daysCount"></calendar> -->
-			<date-picker ref="datePicker" @change="changeDatePicker" :option="calendarOption"></date-picker>
-			<view class="order-time flex-center-between" @click="$refs.datePicker.open()">
-					<view class="flex-column-center">
-						<text class="mintxt">入住</text>
-						<text class="date-wrappper">{{calendarOption.startDate}}</text>
-						<!-- <text class="goInHotel2">今天</text> -->
+		<view class="uni-bg-white">
+			<view class="searchXQ uni-bg-white uni-mb10">
+				<view class="item item-start flex-center-between" @click="navigate('location/cityList')">
+					<view class="item-l location-name">
+						{{cityName}}
 					</view>
-					<text class="sumCount">共{{calendarOption.dateNum}}晚</text>
-					<view class="flex-column-center">
-						<text class="mintxt">离店</text>
-						<text class="date-wrappper">{{calendarOption.endDate}}</text>
-						<!-- <text class="goInHotel2">明天</text> -->
-					</view>
-					<!-- <view class="flex-column-center" @click.stop="showNumlayer = true"> -->
-					<view class="flex-column-center" @click.stop="toChooseNum">
-						<text class="mintxt">人数</text>
-						<text class="date-wrappper">{{nowNum}}人</text>
-					</view>
-			</view>
-			<view class="number-layer" v-if="showNumlayer">
-				<view class="layer-white-space" @tap="showNumlayer = false"></view>
-				<view class="layer-content-number p30">
-					<view class="h4">
-						修改入住人数
-					</view>
-					<view class="numbox">
-						<input type="number" v-model="inputNum" />
-					</view>
-					<view class="btns flex-center-between">
-						<view class="btn btn_1 c_999" @click="showNumlayer = false">取消</view>
-						<view class="btn btn_2" @click="numConfirm">确定</view>	
+					<view class="item-r flex-column-center" @click.stop="getPosition">
+						<view class="iconfont icon-dingwei"></view>
+						<view class="fz12 c_999" >当前定位</view>
 					</view>
 				</view>
-			</view>
-			<view class="btn" @click="searchPro">
-				搜索星球客
+				<view class="item item-end flex-center-between" @click="onClassify">
+					<view class="item-l uni-ellipsis c_999">
+						{{classifyDefault.label}}
+					</view>
+					<view class="iconfont icon-arrow_down-copy"></view>
+				</view>
+				<!-- <calendar @change="change" :startDate="initStartDate" :endDate="initEndDate" :daysCount="daysCount"></calendar> -->
+				<date-picker ref="datePicker" @change="changeDatePicker" :option="calendarOption"></date-picker>
+				<view class="order-time flex-center-between" @click="$refs.datePicker.open()">
+						<view class="flex-column-center">
+							<text class="mintxt">入住</text>
+							<text class="date-wrappper">{{calendarOption.startDate}}</text>
+							<!-- <text class="goInHotel2">今天</text> -->
+						</view>
+						<text class="sumCount">共{{calendarOption.dateNum}}晚</text>
+						<view class="flex-column-center">
+							<text class="mintxt">离店</text>
+							<text class="date-wrappper">{{calendarOption.endDate}}</text>
+							<!-- <text class="goInHotel2">明天</text> -->
+						</view>
+						<!-- <view class="flex-column-center" @click.stop="showNumlayer = true"> -->
+						<view class="flex-column-center" @click.stop="toChooseNum">
+							<text class="mintxt">人数</text>
+							<text class="date-wrappper">{{nowNum}}人</text>
+						</view>
+				</view>
+				<view class="number-layer" v-if="showNumlayer">
+					<view class="layer-white-space" @tap="showNumlayer = false"></view>
+					<view class="layer-content-number p30">
+						<view class="h4">
+							修改入住人数
+						</view>
+						<view class="numbox">
+							<input type="number" v-model="inputNum" />
+						</view>
+						<view class="btns flex-center-between">
+							<view class="btn btn_1 c_999" @click="showNumlayer = false">取消</view>
+							<view class="btn btn_2" @click="numConfirm">确定</view>	
+						</view>
+					</view>
+				</view>
+				<view class="btn" @click="searchPro">
+					搜索星球客
+				</view>
 			</view>
 		</view>
 		<!-- 了解星球客 -->
@@ -258,12 +260,12 @@
 			this.getPosition();
 			this.getSecurity();
 			this.getFindList();
-			this.getCoupon();
 			// this.initCalendarOption();// 初始化日历
 		},
 		onShow(){
 			this.userId = uni.getStorageSync("userId");
 			this.token = uni.getStorageSync("token");
+			this.getCoupon();
 			if(this.nowCityName !== this.cityName){
 				console.log(this.cityName,'更新的定位')
 				this.upDateCityCode(this.cityName)
@@ -580,6 +582,12 @@
 			}
 		},
 		// #endif
+		onShareAppMessage(){
+			return {
+				title: '星球客微服务',
+     			 path: '/pages/tabBar/index/index'
+			}
+		}
 		
 	}
 </script>

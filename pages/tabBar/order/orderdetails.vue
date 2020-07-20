@@ -15,13 +15,16 @@
 					@click="navigate('product/detail/detail',{Id : val.ProductId})">
 						<view class="collect-left"><image :src="val.PicNo" mode=""></image></view>
 						<view class="collect-right">
+							<view class="name">{{val.ProductName}}</view>
+							<view class="name">{{val.RoomTypeName}}-共{{val.Number}}间</view>
 							<view class="collect-flex">
-								<view class="name">{{val.ProductName}}</view>
+								<view class="point" >
+									<block v-for="(item,index) in ServiceKeys" :key="index">
+										<view class="pointkey" v-if="index<4">{{item}}</view>
+									</block>
+								</view>
 								<view class="num">￥{{val.UnitPrice}}</view>
-							</view>
-							<view class="point" >
-								<view class="pointkey" v-for="(item,index) in ServiceKeys" :key="index">{{item}}</view>
-							</view>
+							 </view>
 							<!-- 评分 -->
 							<!-- <view class="font">
 								<view class="iconfont icon-collect"></view>
@@ -35,20 +38,24 @@
 			
 			<view class="check">
 				<view class="checkbottom">
-					<view class="">入住时间</view>
-					<view class="">{{orderList.MakeStartTime}}</view>
+					<view class="bold">入住（离店）时间</view>
+					<view class="">{{orderList.MakeDate}}</view>
 				</view>
 				<view class="checkbottom">
-					<view class="">预定人</view>
+					<view class="bold">入住人</view>
+					<view class="">{{orderList.AdultNum}}成人{{orderList.ChildNum?` - ${orderList.ChildNum}小孩`:''}}</view>
+				</view>
+				<view class="checkbottom">
+					<view class="bold">预定人</view>
 					<view class="">{{orderList.ContactName}}</view>
 				</view>
 				<view class="checkbottom">
-					<view class="">联系方式</view>
+					<view class="bold">联系方式</view>
 					<view class="">{{orderList.Tel}}</view>
 				</view>
 				<!-- 入住人信息 -->
 				<div class="checkIn" v-if="orderList.dt_uinfo&&orderList.dt_uinfo.length">
-					<div class="tit">入住人</div>
+					<div class="tit bold">入住人</div>
 					<div class="item" v-for="(item,index) in orderList.dt_uinfo" :key="index">
 						<h5>{{item.FullName}}</h5>
 						<p>{{item.Idcard}}</p>
@@ -61,29 +68,29 @@
 		<view class="place">
 			<view class="placename">订单信息</view>
 			<view class="placeflex">
-				<view class="">订单编号</view>
+				<view class="bold">订单编号</view>
 				<view class="">{{orderList.OrderNumber}}</view>
 			</view>
 			<view class="placeflex">
-				<view class="">下单时间</view>
+				<view class="bold">下单时间</view>
 				<view class="">{{orderList.OrderTime}}</view>
 			</view>
 		</view>
 		<view class="place mb60">
 			<view class="placeflex">
-				<view class="">总金额：</view>
+				<view class="bold">总金额：</view>
 				<view class="">¥{{orderList.TotalAmount}}</view>
 			</view>
 			<view class="placeflex" v-if="false">
-				<view class="">清洁费：</view>
+				<view class="bold">清洁费：</view>
 				<view class="">¥0.00</view>
 			</view>
 			<view class="placeflex" v-if="false">
-				<view class="">服务费：</view>
+				<view class="bold">服务费：</view>
 				<view class="">¥0.00</view>
 			</view>
 			<view class="placeflex">
-				<view class="">优惠券：</view>
+				<view class="bold">优惠券：</view>
 				<view class="">-¥{{orderList.YhPrice}}</view>
 			</view>
 			<view class="placeflex red">
