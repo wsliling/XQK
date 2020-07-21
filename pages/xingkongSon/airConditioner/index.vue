@@ -8,7 +8,8 @@
 				<view class="mask">
 					<view class="status-show-box">
 						<view class="status-img-box">
-							<image src="/static/xingkong/taiyang2.png" mode="widthFix"></image>
+							<huan :isOpen="isAir" @percentage="onTemp"></huan>
+							<!-- <image src="/static/xingkong/taiyang2.png" mode="widthFix"></image> -->
 						</view>
 						<view class="status">
 							<view class="model" :class="[isAir ? 'canSee' : '']">
@@ -26,7 +27,7 @@
 							</view>
 							<view v-if="isAir" class="describe">
 								<!-- 20° -->
-								{{ nowAir.wendu }}
+								{{temp}}°
 							</view>
 							<view v-else class="describe close-describe">
 								已关机
@@ -104,8 +105,10 @@
 </template>
 
 <script>
-	import {post,get,navigate,switchTab,judgeLogin,toast,throttle} from '@/utils';
+	import {post,get,navigate,switchTab,judgeLogin,toast,debounce} from '@/utils';
+	import huan from '../huan/index.vue'; 
 	export default {
+		components:{huan},
 		data() {
 			return {
 				userId: "",
@@ -115,6 +118,7 @@
 				bgImg: '/static/xingkong/bg1.png',
 				isAir: false,
 				modelIndex: 0,
+				temp:16,
 				// windSliderValue: 33, // 风速拖动值
 				// 滑动条对象
 				slider: {
@@ -203,7 +207,7 @@
 				let res = {
 					model,
 					wind,
-					wendu: '20°'
+					wendu: '20'
 				}
 				// console.log('现在模式', res)
 				return res
@@ -217,17 +221,18 @@
 		},
 		methods: {
 			// 开关空调
-			switchAir() {
-				this.onButton(2,this.isAir?0:1,function(res){
-					this.isAir = !this.isAir
-					if (!this.isAir) {
-					// 关闭模式和风速
-						this.closeAir()
-					} else {
-						// 开启
-						this.initAll()
-					}
-				})
+			async switchAir() {
+				const that= this;
+				const res = await this.onButton(2,this.isAir?0:1)
+				console.log(res,'rrr')
+				that.isAir = !that.isAir
+				if (!that.isAir) {
+				// 关闭模式和风速
+					that.closeAir()
+				} else {
+					// 开启
+					that.initAll()
+				}
 			},
 			// 设备控制类型
 			// 0://灯光（1-开 0-关）
@@ -236,16 +241,14 @@
 			// 3://空调-温度（16-30℃）
 			// 4://空调-模式（1 冷2 热3 通风0 停止）
 			// 5://空调-风速手动（1 低速，2 中速，3 高速，0 停止）
-			onButton(type,typeVal,fn){
-				post('Udp/RoomDeviceControl',{
+			onButton(type,typeVal){
+				return post('Udp/RoomDeviceControl',{
 					UserId:this.userId,
 					Token:this.token,
 					Id:this.id,
 					RoomNo:this.roomNo,
 					Type:type,
 					TypeVal:typeVal
-				}).then(res=>{
-					fn(res);
 				})
 			},
 			// 关机模式下无法点击
@@ -255,7 +258,7 @@
 			// 	}
 			// },
 			// 模式切换
-			changeModel(item, index) {
+			async changeModel(item, index) {
 				// this.allDisable()
 				if (!this.isAir) {
 					return false
@@ -263,6 +266,11 @@
 				// console.log(this.modelList)
 				// console.log(Object.prototype.toString.call(this.modelList))
 				// console.log(this.modelList.length)
+				let n=index*1+1;
+				if(n==5){
+					n =0;
+				}
+				await this.onButton(4,n)
 				for (let i = 0; i < this.modelList.length; i++) {
 					this.modelList[i].active = false
 					if (index === i) {
@@ -274,11 +282,16 @@
 				// console.log(item, index)
 			},
 			// 风速切换-点击切换风速
-			changeWindSpeedModel(item, index) {
+			async changeWindSpeedModel(item, index) {
 				// this.allDisable()
 				if (!this.isAir) {
 					return false
 				}
+				let n=index*1+1;
+				if(n==4){
+					n =0;
+				}
+				await this.onButton(5,n)
 				// this.autoModel.active = !this.autoModel.active
 				// this.activeWindSpeed.value = this.autoModel.value
 				for (let i = 0; i < this.windSpeedList.length; i++) {
@@ -293,12 +306,16 @@
 				}
 			},
 			// 拖动风速变化的
-			windSliderChange(e) {
+			async windSliderChange(e) {
 				let _this = this;
 				let step = this.slider.step
-				// console.log('拖动完：', e.detail.value)
+				console.log('拖动完：', e.detail.value)
 				this.closeSpeedModel()
 				if (e.detail.value === 0) {
+					if (!this.isAir) {
+						return;
+					}
+					await this.onButton(5,1)
 					// this.$nextTick(() => {
 					this.slider.value = 0
 					// console.log('我是无风', this.slider.value)
@@ -306,10 +323,18 @@
 					this.windSpeedList[0].active = true
 
 				} else if (e.detail.value === step * 1) {
+					if (!this.isAir) {
+						return;
+					}
+					await this.onButton(5,2)
 					this.slider.value = step * 1
 					// console.log('我是低风', this.slider.value)
 					this.windSpeedList[1].active = true
 				} else if (e.detail.value === step * 2) {
+					if (!this.isAir) {
+						return;
+					}
+					await this.onButton(5,3)
 					this.slider.value = step * 2
 					// console.log('我是中风', this.slider.value)
 					this.windSpeedList[2].active = true
@@ -349,6 +374,18 @@
 				}
 				// 进度条初始化
 				this.openSlider()
+			},
+			// 调整温度
+			async onTemp(e){
+				console.log('调整温度',e)
+				const that = this;
+				let temp = parseInt(e/100*15+15)
+				this.temp = temp
+				debounce(
+					function(){
+						that.onButton(3,temp)
+					}
+				)
 			},
 			// 关闭所有
 			closeAir() {

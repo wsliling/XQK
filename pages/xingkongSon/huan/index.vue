@@ -1,23 +1,32 @@
 <template>
-	<view>
+<div>
+	<view class="box">
 		<canvas :style="{width:canvasWiidth+'rpx',height: canvasHeight +'rpx',background: 'rgba(255,255,155,0)'}" 
 			:canvas-id="myCanvasId"
 		 	class="" 
 			 @touchstart='handleTouchStart' 
-			 @touchmove='handletouchmove'></canvas>
+			 @touchmove='handletouchmove'>
+		</canvas>
+		<img src="@/static/icons/deng.png" alt="">
 	</view>
+</div>
 </template>
 
 <script>
+	import dengImg from '@/static/icons/deng.png';
 	export default {
 		props: {
 			canvasWiidth: {
 				type: Number,
-				default: 600
+				default: 300
 			},
 			canvasHeight: {
 				type: Number,
-				default: 600
+				default: 300
+			},
+			isOpen:{
+				type:Boolean,
+				default:false
 			},
 		},
 		data() {
@@ -32,7 +41,7 @@
 					// lastAngle: Math.PI *0.2, // 终止角度
 					touchCircleR: 8, // 触摸圆的半径
 
-					touchCircleColor: '#ff0000', // 触摸圆颜色
+					touchCircleColor: '#fff', // 触摸圆颜色
 					isCanTouch: false, // 是否相应触摸事件
 
 
@@ -40,19 +49,19 @@
 
 					progressValue: 0, // 当前进度
 
-					circleCenterX: 150, // 大圆圆心坐标X轴
+					circleCenterX: 75, // 大圆圆心坐标X轴
 
-					circleCenterY: 150, // 大圆圆心坐标Y轴
+					circleCenterY: 75, // 大圆圆心坐标Y轴
 
-					circleCenterR: 100, // 大圆圆心半径
+					circleCenterR: 60, // 大圆圆心半径
 
-					circleCenterColor: '#754ef3', // 大圆圆环颜色
+					circleCenterColor: 'rgba(255,255,255,.4)', // 大圆圆环颜色
 
-					circleCenterWidth: 4, // 大圆圆环宽度
+					circleCenterWidth: 3, // 大圆圆环宽度
 
-					progressCircleColor: '#269073', // 进度圆环颜色
+					progressCircleColor: 'rgba(255,255,255,1)', // 进度圆环颜色
 
-					progressCircleWidth: 6, // 进度圆环宽度
+					progressCircleWidth: 3, // 进度圆环宽度
 
 					// gearWheelDefaultColor: '#45e03c', // 齿轮默认颜色
 					gearWheelDefaultColor: 'rgba(144, 0, 120, 0)', // 齿轮默认颜色
@@ -81,6 +90,8 @@
 				context.stroke();
 				context.closePath();
 				context.restore();
+				// context.drawImage(dengImg,0,0,100,100);
+				// context.draw();
 			},
 			// 绘制进度外圈
 			drawWhiteCircle(context, n) {
@@ -131,16 +142,27 @@
 				context.translate(this.properties.circleCenterX, this.properties.circleCenterY);
 				context.save();
 				context.beginPath();
-				context.lineWidth = this.properties.touchCircleR * 2; //设置线宽
+				context.lineWidth = this.properties.touchCircleR * 1; //设置线宽
 				context.strokeStyle = this.properties.touchCircleColor;
 				context.arc(
 						// this.properties.circleCenterX + this.properties.circleR * Math.sin(rateNum * Math.PI * 2), 
 						// this.properties.circleCenterY - this.properties.circleR * Math.cos(rateNum * Math.PI * 2),
-						1+100 * Math.sin(rateNum * Math.PI * 2), 
-						1-100 * Math.cos(rateNum * Math.PI * 2),
+						1+58 * Math.sin(rateNum * Math.PI * 2), 
+						1-58 * Math.cos(rateNum * Math.PI * 2),
 						this.properties.touchCircleR, 
 						0, Math.PI * 2, false);
 				context.stroke();
+				context.closePath();
+				context.beginPath();
+				context.fillStyle = "#5cc69a";
+				context.arc(
+						// this.properties.circleCenterX + this.properties.circleR * Math.sin(rateNum * Math.PI * 2), 
+						// this.properties.circleCenterY - this.properties.circleR * Math.cos(rateNum * Math.PI * 2),
+						1+58 * Math.sin(rateNum * Math.PI * 2), 
+						1-58 * Math.cos(rateNum * Math.PI * 2),
+						5, 
+						0, Math.PI * 2, false);
+				context.fill();
 				context.closePath();
 				context.restore();
 			},
@@ -207,13 +229,13 @@
 				// }else if(parseInt(angle) ==225){
 				// 	angle = 225
 				// }
-				if(angle<235&&angle>120){
-					if(angle-this.properties.lastAngle>0||angle==135){
+				if(angle<240&&angle>120){
+					if(angle-this.properties.lastAngle>0||angle==120){
 						
 						angle = 120
-					}else if(angle-this.properties.lastAngle<0||angle==235){
+					}else if(angle-this.properties.lastAngle<0||angle==240){
 						
-						angle = 235
+						angle = 240
 					}
 				}
 				// if (angle - this.properties.lastAngle > 180) { // 当为零届点向左移动
@@ -227,7 +249,15 @@
 				let rateNum = angle / 360;
 
 				this.drawInit(rateNum);
-
+				// 转成百分比
+				let percentage=angle;
+				if(percentage<=360&&percentage>=240){
+					percentage-=240;
+				}else if(percentage>=0&&percentage<=120){
+					percentage+=120;
+				}
+				console.log(percentage,'percentage')
+				this.$emit('percentage',parseInt((percentage / 240)*100));
 				// this.properties.progressValue = rateNum
 				// this.properties.lastAngle =  angle
 				// console.log('计算之后的:progressValue', this.properties.progressValue, '计算之后的:lastAngle',this.properties.lastAngle)
@@ -236,10 +266,7 @@
 			},
 			// 触摸移动方法
 			handletouchmove(event) {
-					console.log('转动的角度',this.properties.lastAngle)
-					if(this.properties.lastAngle>120&&this.properties.lastAngle<235){
-						return;
-					}
+				if(!this.isOpen)return
 				if (this.properties.isCanTouch) {
 					// console.log(event)
 					this.canculateRate(event.changedTouches[0].x, event.changedTouches[0].y);
@@ -275,5 +302,17 @@
 <style lang="scss" scoped>
 	.rotate225 {
 		transform: rotate(225deg);
+	}
+	.box{
+		// margin-top:50upx;
+		// margin-left:50upx;
+		position:relative;
+		img{
+			position:absolute;
+			z-index:-1;
+			width:150upx;
+			height:150upx;
+			top:70upx;left:75upx;
+		}
 	}
 </style>

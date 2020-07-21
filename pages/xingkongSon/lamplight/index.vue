@@ -77,12 +77,17 @@
 
 <script>
 	import uniPopup from '@/components/uni-popup/uni-popup.vue'
+	import {post,get,navigate,switchTab,judgeLogin,toast,throttle} from '@/utils';
 	export default {
 		components: {
 			uniPopup
 		},
 		data() {
 			return {
+				userId: "",
+				token: "",
+				id:'',
+				roomNo:'',
 				// 是否关灯
 				isDeng: false,
 				// 滑动条对象
@@ -155,13 +160,35 @@
 				],
 			};
 		},
-		onLoad() {
+		onLoad(e) {
+			this.id = e.id;
+			this.roomNo = e.roomNo;
+			this.userId = uni.getStorageSync("userId");
+			this.token = uni.getStorageSync("token");
 			// 禁用进度条
 			this.closeSlider()
 		},
 		methods: {
+			// 设备控制类型
+			// 0://灯光（1-开 0-关）
+			// 1://调光-亮度（0-100）（0-25-50-75-100）
+			// 2://空调（1-开 0-关）
+			// 3://空调-温度（16-30℃）
+			// 4://空调-模式（1 冷2 热3 通风0 停止）
+			// 5://空调-风速手动（1 低速，2 中速，3 高速，0 停止）
+			onButton(type,typeVal){
+				return post('Udp/RoomDeviceControl',{
+					UserId:this.userId,
+					Token:this.token,
+					Id:this.id,
+					RoomNo:this.roomNo,
+					Type:type,
+					TypeVal:typeVal
+				})
+			},
 			// 开关灯
-			switchDeng() {
+			async switchDeng() {
+				await this.onButton(0,this.isDeng?0:1)
 				this.isDeng = !this.isDeng
 				if(!this.isDeng) {
 					// 关闭
@@ -185,10 +212,11 @@
 				this.$refs[ref].close()
 			},
 			// 切换灯光模式
-			changModel(item, index) {
+			async changModel(item, index) {
 				if(!this.isDeng){
 					return false
 				}
+				await this.onButton(2,index==0?25:index==1?50:index==2?75:index==3?100:0)
 				for (let i = 0; i < this.modelList.length; i++) {
 					this.modelList[i].active = false
 					if (index === i) {
@@ -201,27 +229,31 @@
 				this.close('model')
 			},
 			// 拖动亮度变化的完成
-			windSliderChange(e) {
+			async windSliderChange(e) {
 				let _this = this;
 				let step = this.slider.step
-				// console.log('拖动完：', e.detail.value)
+				console.log('拖动完：', e.detail.value,step)
 				// this.closeSpeedModel()
 				if (e.detail.value === 0) {
 					// this.$nextTick(() => {
+					await this.onButton(1,25);
 					this.slider.value = 0
 					// console.log('我是无亮度', this.slider.value)
 					// })
 					// this.windSpeedList[0].active = true
 
 				} else if (e.detail.value === step * 1) {
+					await this.onButton(1,50);
 					this.slider.value = step * 1
 					// console.log('我是亮度0', this.slider.value)
 					// this.windSpeedList[1].active = true
 				} else if (e.detail.value === step * 2) {
+					await this.onButton(1,75);
 					this.slider.value = step * 2
 					// console.log('我是亮度1', this.slider.value)
 					// this.windSpeedList[2].active = true
 				} else if (e.detail.value === step * 3) {
+					await this.onButton(1,100);
 					this.slider.value = step * 3
 					// console.log('我是亮度2', this.slider.value)
 					// this.windSpeedList[3].active = true
