@@ -275,6 +275,12 @@
 					}
 				},
 				{
+					"path" : "detail/videoPlay",
+					"style" : {
+						"navigationBarTitleText": "视频"
+					}
+				},
+				{
 					"path":"allComment/allComment",
 					"style": {
 						"navigationBarTitleText": "全部评价"

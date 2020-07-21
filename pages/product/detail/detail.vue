@@ -163,7 +163,6 @@
 						<img src="/static/icons/video.png" alt="">
 					</div>
 				</div>
-				<video :src="details.Video" id="myVideo" style="display:none"></video>
 			</div>
 		</block>
 		<div class="gap20"></div>
@@ -403,6 +402,7 @@
 				maxScore: 4.5,
 				VideoContext:null,//视频实例
 				couponList:[],//优惠券列表
+				fullScreen:false,
 			}
 		},
 		onLoad(options) {
@@ -714,10 +714,22 @@
 			},
 			// 打开视频
 			onOpenVideo(){
-				console.log(this.VideoContext,'video')
 				if(this.details.Video){
-					this.VideoContext.requestFullScreen();
-					this.VideoContext.play()
+					navigate('product/detail/videoPlay',{url:this.details.Video})
+					return;
+					this.fullScreen = true;
+					this.$nextTick(()=>{
+						console.log('打开了全屏')
+						this.VideoContext.requestFullScreen();
+						this.VideoContext.play()
+					})
+				}
+			},
+			// 视频打开和退出全屏触发
+			videoChange(e){
+				console.log(e,'e')
+				if(e.detail.fullScreen){
+					this.fullScreen = false;
 				}
 			}
 
@@ -756,5 +768,11 @@
 	width: 100%;
 	height: 150px;
 	top:0;left:0;
+}
+#myVideo{
+	width:100upx;height:100upx;
+}
+.hide{
+	display:none;
 }
 </style>
