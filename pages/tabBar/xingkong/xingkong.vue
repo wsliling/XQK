@@ -12,6 +12,14 @@
 					</view>
 					<view>已办理入住</view>
 				</view>
+				<div class="roomNo" @click="onShowRoomWin">
+					房间号：{{roomData.RoomNo}}
+					<div class="icon" v-if="roomList.length>1"><uni-icons type="arrowdown" color="#5cc69a"></uni-icons></div>
+					<div class="roomWin" v-if="showRoomWin">
+						<p v-for="(item,index) in roomList" :key="index"
+							@click.stop="selectRoom(item)">{{item.RoomNo}}</p>
+					</div>
+				</div>
 				<view class="right">
 					<view class="icon">
 						<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/question.png" mode="widthFix"></image>
@@ -69,12 +77,12 @@
 								<view class="switchCircle4 juzhong">
 									<view class="switchCircle5">
 										<view class="box juzhong">
-											<div class="btn-top" @click="navigate('xingkongSon/airConditioner/index',{id,roomNo})">空调</div>
+											<div class="btn-top" @click="navigate('xingkongSon/airConditioner/index',{id:roomData.Id,roomNo:roomData.RoomNo})">空调</div>
 											<div class="center" @click="opemDoor">
 												<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/switch.png" mode="widthFix"></image>
 												<view class="">开门</view>
 											</div>
-											<div class="btn-down" @click="navigate('xingkongSon/lamplight/index',{id,roomNo})">灯光</div>
+											<div class="btn-down" @click="navigate('xingkongSon/lamplight/index',{id:roomData.Id,roomNo:roomData.RoomNo})">灯光</div>
 										</view>
 									</view>
 								</view>
@@ -215,9 +223,9 @@
 				ip:'',
 				port:'',
 				msg:'',
-
-				id:'',
-				roomNo:'',
+				roomList:[],
+				roomData:{},
+				showRoomWin:false,
 			}
 		},
 		onLoad() {
@@ -246,13 +254,25 @@
 			},
 		},
 		methods: {
+			onShowRoomWin(){
+				if(this.roomList.length>1&&!this.showRoomWin){
+					this.showRoomWin = true;
+				}else{
+					this.showRoomWin = false;
+				}
+			},
+			selectRoom(item){
+				this.roomData = item;
+				this.showRoomWin = false;
+			},
 			getRoom(){
 				post('Udp/GetOrderForRoomNo',{
 					UserId: this.userId,
 					Token:this.token
 				}).then(res=>{
-					this.id = res.data.Id;
-					this.roomNo = res.data.RoomNo;
+					if(!res.data.length)return;
+					this.roomList = res.data;
+					this.roomData = res.data[0];
 				})
 			},
 			createUDP(){

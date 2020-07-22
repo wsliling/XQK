@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<video class="video" :src="url" id="myVideo"></video>
+		<video class="video" :src="url" id="myVideo" :autoplay="true"></video>
 		
 	</view>
 </template>

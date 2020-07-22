@@ -64,6 +64,38 @@
 		}
 		
 	}
+	.roomNo{
+		position:absolute;
+		top:40upx;
+		left:36%;
+		border-radius:60upx;
+		background:#fff;
+		padding:10upx 30upx;
+		line-height:2;
+		color:$primary;
+		.icon{
+			line-height:1;
+			text-align:center;
+		}
+		.roomWin{
+			background:#fff;
+			position:absolute;
+			z-index:100;
+			top:60upx;
+			left:0;
+			line-height:2.5;
+			padding:10upx;
+			border-radius:10upx;
+			width:100%;
+			p{
+				border-bottom:1upx solid #e8e8e8;
+				text-align:center;
+				&:last-child{
+					border-bottom:none;
+				}
+			}
+		}
+	}
 	.right {
 		color: #ffffff;
 		font-size: 24upx;
