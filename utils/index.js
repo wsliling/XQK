@@ -9,7 +9,7 @@
 const host = 'https://xqkapi.wtvxin.com/api/';//
  // const host = 'https://scapi.sc-mall.net/api/';  //发现页面套用社交云商接口地址
 
-const filePath = 'http://dgapi.wtvxin.com';//文件域名
+const filePath = 'https://xqkapi.wtvxin.com';//文件域名
 const hostPath = 'http://hnapi.wtvxin.com/index.html';//主机路径
 const LoginPath = "login/login";//登录路径
 const RegisterPath = "login/register";//注册路径

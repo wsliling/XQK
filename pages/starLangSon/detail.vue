@@ -15,12 +15,14 @@
 		<div class="p30">
 			<div class="user flex-center-between">
 				<div class="info flex-center">
-					<image @click="navigate('starLangSon/homePage',{taUserId:detail.MemberId})" :src="detail.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'"></image>
+					<image @click="!detail.FindType?navigate('starLangSon/homePage',{taUserId:detail.MemberId}):''" :src="detail.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'"></image>
 					<h5>{{ detail.NickName }}</h5>
 				</div>
 				<div class="btnBox flex-center">
-					<div class="btn-min solid" v-if='detail.IsFollow' @click="toFolloow">已关注</div>
-					<div class="btn-min" v-else @click="toFolloow">关注</div>
+					<block v-if="!detail.FindType">
+						<div class="btn-min solid" v-if='detail.IsFollow' @click="toFolloow">已关注</div>
+						<div class="btn-min" v-else @click="toFolloow">关注</div>
+					</block>
 					<button class="iconfont icon-fenxiang1" open-type="share"></button>
 				</div>
 			</div>

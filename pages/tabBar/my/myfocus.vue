@@ -77,6 +77,7 @@ export default {
 			val.IsFollow = val.IsFollow?0:1;
 		},
 		goHonePage(val){
+			if(val.FindType)return;
 			navigate('starLangSon/homePage',{taUserId:val.ToUserId})
 		}
 	},
