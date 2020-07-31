@@ -7,12 +7,13 @@
 			<!-- <image class="bg2" :style="{background:`url(${imageSrc}) no-repeat center / 100%`}"></image> -->
 			<view class="top">
 				<view class="left">
-					<view class="lock">
-						<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/lock.png" mode="widthFix"></image>
+					<view class="lock" :class="{'no-lock':!roomData.Id}">
+						<image v-if="roomData.Id" src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/lock.png" mode="widthFix"></image>
+						<image v-else src="@/static/icons/no-lock.png" mode="widthFix"></image>
 					</view>
-					<view>已办理入住</view>
+					<view :class="{'no-lock':!roomData.Id}">{{roomData.Id?'已':'未'}}办理入住</view>
 				</view>
-				<div class="roomNo" @click="onShowRoomWin">
+				<div class="roomNo" @click="onShowRoomWin" v-if="roomData.RoomNo">
 					房间号：{{roomData.RoomNo}}
 					<div class="icon" v-if="roomList.length>1"><uni-icons type="arrowdown" color="#5cc69a"></uni-icons></div>
 					<div class="roomWin" v-if="showRoomWin">
@@ -77,12 +78,12 @@
 								<view class="switchCircle4 juzhong">
 									<view class="switchCircle5">
 										<view class="box juzhong">
-											<div class="btn-top" @click="navigate('xingkongSon/airConditioner/index',{id:roomData.Id,roomNo:roomData.RoomNo})">空调</div>
+											<div class="btn-top" @click="goUrl('xingkongSon/airConditioner/index')">空调</div>
 											<div class="center" @click="opemDoor">
 												<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/switch.png" mode="widthFix"></image>
-												<view class="">开门</view>
+												<view class="">{{openDoor}}</view>
 											</div>
-											<div class="btn-down" @click="navigate('xingkongSon/lamplight/index',{id:roomData.Id,roomNo:roomData.RoomNo})">灯光</div>
+											<div class="btn-down" @click="goUrl('xingkongSon/lamplight/index')">灯光</div>
 										</view>
 									</view>
 								</view>
@@ -90,7 +91,7 @@
 						</view>
 					</view>
 				</view>
-				<uni-popup ref="opemDoor">
+				<!-- <uni-popup ref="opemDoor">
 					<div class="pop" >
 						<input type="text" v-model="ip" placeholder="id">
 						<input type="text" v-model="port" placeholder="端口号">
@@ -100,7 +101,7 @@
 							<button @click="sendUDP">发送</button>
 						</div>
 					</div>
-				</uni-popup>
+				</uni-popup> -->
 			</view>
 		</view>
 		<!-- 下面盒子 -->
@@ -225,6 +226,7 @@
 				msg:'',
 				roomList:[],
 				roomData:{},
+				openDoor:'开门',
 				showRoomWin:false,
 			}
 		},
@@ -273,6 +275,7 @@
 					if(!res.data.length)return;
 					this.roomList = res.data;
 					this.roomData = res.data[0];
+					console.log(this.roomData)
 				})
 			},
 			createUDP(){
@@ -297,36 +300,76 @@
 					console.log('监听到了UDP关闭了:'+JSON.stringify(res))
 				})
 			},
-			closeUDP(){
-				this.udp.close();
-				this.$refs.opemDoor.close();
-			},
+			// closeUDP(){
+			// 	this.udp.close();
+			// 	this.$refs.opemDoor.close();
+			// },
 			// 开门
 			opemDoor(){
-				this.createUDP();
-				this.$refs.opemDoor.open();
+				// this.createUDP();
+				// this.$refs.opemDoor.open();
+				console.log(this.roomData)
+				if(!this.onIsReserve())return;
+				this.onButton(9,this.openDoor=='开门'?1:0).then(res=>{
+					if(this.openDoor=='关门'){
+						this.openDoor = '关门'
+					}else{
+						this.openDoor = '关门'
+					}
+				})
 			},
-			sendUDP(){
-				console.log('发送的数据',{
-					address:this.ip,
-					port:this.port,
-					message:this.msg,
+			// 设备控制类型
+			// 0://灯光（1-开 0-关）
+			// 1://调光-亮度（0-100）（0-25-50-75-100）
+			// 2://空调（1-开 0-关）
+			// 3://空调-温度（16-30℃）
+			// 4://空调-模式（1 冷2 热3 通风0 停止）
+			// 5://空调-风速手动（1 低速，2 中速，3 高速，0 停止）
+			//9://开关门（1-开；0关）
+			onButton(type,typeVal){
+				return post('Udp/RoomDeviceControl',{
+					UserId:this.userId,
+					Token:this.token,
+					Id:this.roomData.Id,
+					RoomNo:this.roomData.RoomNo,
+					Type:type,
+					TypeVal:typeVal
 				})
-				this.udp.send({
-					address:this.ip,
-					port:this.port,
-					message:this.msg,
-				})
+			},
+			goUrl(url){
+				if(!this.onIsReserve())return;
+				navigate(url,{id:this.roomData.Id,roomNo:this.roomData.RoomNo})
+			},
+			// sendUDP(){
+			// 	console.log('发送的数据',{
+			// 		address:this.ip,
+			// 		port:this.port,
+			// 		message:this.msg,
+			// 	})
+			// 	this.udp.send({
+			// 		address:this.ip,
+			// 		port:this.port,
+			// 		message:this.msg,
+			// 	})
+			// },
+			// 判断是否已办理入住
+			onIsReserve(){
+				if(!this.roomData.Id){
+					toast('未办理入住！')
+					return false;
+				}
+				return true;
 			},
 			// 呼叫服务
 			callService(str){
+				if(!this.onIsReserve())return;
 				post('Udp/CRSaddquestion',{
 					Token:this.token,
 					UserId:this.userId,
 					hotel_id:'cnbjbjlp00',
 					asker_name:'留言人姓名',
 					asker_mobile:'联系姓名',
-					content:str
+					content:`${this.roomData.Hotel_name}${this.roomData.RoomNo}号房请求${str}服务`
 				}).then(res=>{
 					toast(`已为您提交${str}服务`,{icon:true})
 				})

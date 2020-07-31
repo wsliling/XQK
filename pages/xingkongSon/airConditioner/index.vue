@@ -241,6 +241,7 @@
 			// 3://空调-温度（16-30℃）
 			// 4://空调-模式（1 冷2 热3 通风0 停止）
 			// 5://空调-风速手动（1 低速，2 中速，3 高速，0 停止）
+			//9://开关门（1-开；0关）
 			onButton(type,typeVal){
 				return post('Udp/RoomDeviceControl',{
 					UserId:this.userId,
@@ -288,9 +289,6 @@
 					return false
 				}
 				let n=index*1+1;
-				if(n==4){
-					n =0;
-				}
 				await this.onButton(5,n)
 				// this.autoModel.active = !this.autoModel.active
 				// this.activeWindSpeed.value = this.autoModel.value
