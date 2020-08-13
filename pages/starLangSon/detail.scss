@@ -40,6 +40,9 @@
 				width:85upx;height:85upx;
 				border-radius:50%;margin-right:20upx;
 			}
+			p{
+				color:#999;
+			}
 		}
 		.btnBox{
 			// margin-right: 50upx;
@@ -139,9 +142,14 @@
 			// 	width:65upx;height:65upx;
 			// 	border-radius:50%;margin-right:30upx;
 			// }
+			.officialBox{
+				// margin-right:-20upx;
+				margin-right:5upx;
+			}
 			image{
 				width:65upx;height:65upx;
-				border-radius:50%;margin-right:30upx;
+				border-radius:50%;
+				// margin-right:30upx;
 			}
 		}
 		.collect{
@@ -216,4 +224,7 @@
 			border:2upx $primary solid;
 			border-radius:10upx;
 		}
+	}
+	.find-list{
+		flex-flow:row wrap;
 	}

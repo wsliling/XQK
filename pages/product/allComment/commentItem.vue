@@ -11,7 +11,7 @@
 			</div>
 			<div class="score">
 				<!-- <p>4.0</p> -->
-				<p>{{ comment.Rank }}</p>
+				<p>{{ comment.Rank }}分</p>
 				<div class="star flex-center">
 					<!-- <div class="iconfont icon-collect" v-for="(item,index) in 4" :key="index"></div>
 					<div class="iconfont icon-collect1"></div> -->
@@ -56,7 +56,7 @@
 		img{
 			border-radius:50%;
 			margin-right:20upx;
-			width:100upx;height:100upx;
+			width:70upx;height:70upx;
 		}
 		.info{
 			.name{

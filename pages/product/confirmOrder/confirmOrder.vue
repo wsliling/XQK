@@ -302,6 +302,10 @@
 		onLoad(option) {
 			this.userId = uni.getStorageSync('userId');
 			this.token = uni.getStorageSync('token');
+			this.AdultNum = this.$store.state.aduNum||1
+			this.l_AdultNum = this.$store.state.aduNum||1
+			this.ChildNum = this.$store.state.kidNum||0
+			this.l_ChildNum = this.$store.state.kidNum||0
 			this.id = option.id;
 			this.roomId = option.roomId;
 			this.getData();

@@ -2,21 +2,28 @@
 	<div class="bgfff">
 		<view class="index_swiper" v-if="detail.ImgList.length">
 			<swiper class="swiper" :indicator-dots="false" circular autoplay :interval="5000" :duration="500" @change="changeSwiper">
-				<swiper-item @click='previewImage(index)' v-for="(item,index) in ImgList" :key="index">
+				<swiper-item @click='previewImage(detail.ImgList,index)' v-for="(item,index) in detail.ImgList" :key="index">
 					<view class="swiper-item">
-						<image class="img" :src="item" mode="widthFix"></image>
+						<image class="img" :src="item" mode="aspectFill"></image>
 					</view>
 				</swiper-item>
 			</swiper>
-			<view v-if="ImgList.length > 1" class="dots">
-				<view v-for="(item,index) in ImgList" :key="index" :class="['dot',currentSwiper==index?'active':'']"></view>
+			<view v-if="detail.ImgList.length > 1" class="dots">
+				<view v-for="(item,index) in detail.ImgList" :key="index" :class="['dot',currentSwiper==index?'active':'']"></view>
 			</view>
 		</view>
 		<div class="p30">
 			<div class="user flex-center-between">
 				<div class="info flex-center">
-					<image @click="!detail.FindType?navigate('starLangSon/homePage',{taUserId:detail.MemberId}):''" :src="detail.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'"></image>
-					<h5>{{ detail.NickName }}</h5>
+					<view class="officialBox" @click="!detail.FindType?navigate('starLangSon/homePage',{taUserId:detail.MemberId}):''">
+					<!-- <view class="officialBox" @click="navigate('starLangSon/homePage',{taUserId:detail.MemberId})"> -->
+						<image :src="detail.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'"></image>
+						<view class="official" v-if="detail.IsAuthor"><image src="@/static/icons/official.png"></image></view>
+					</view>
+					<view>
+						<h5>{{ detail.NickName }}</h5>
+						<p>{{ editTime(detail.Addtime)}} 发布</p>
+					</view>
 				</div>
 				<div class="btnBox flex-center">
 					<block v-if="!detail.FindType">
@@ -38,7 +45,6 @@
 						点击展开
 					</view>
 				</view>
-				<p>{{ formatTime(detail.Addtime)}} 发布</p>
 			</div>
 			<div class="pro" v-if="detail.ExternalLink">
 				<h4>文中提及</h4>
@@ -46,12 +52,15 @@
 					<pro-item></pro-item>
 				</div>
 			</div>
-			<div class="good bb1 pb30">
-				<h4>收藏</h4>
+			<div class="good bb1 ptb30">
+				<!-- <h4>收藏</h4> -->
 				<div class="flex-center-between">
 					<div v-if="LikeList.length > 0" class="avatar flex-center">
 						<block v-for="(item2,index) in LikeList" :key="index">
-							<image v-if='index < 6' :src="item2.Avatar ||'http://xqk.wtvxin.com/images/wxapp/default.png'"></image>
+							<view class="officialBox" >
+								<image v-if='index < 6' :src="item2.Avatar ||'http://xqk.wtvxin.com/images/wxapp/default.png'"></image>
+								<view class="official" v-if="item2.IsAuthor"><image src="@/static/icons/official.png"></image></view>
+							</view>
 						</block>
 					</div>
 					<div v-else class="avatar flex-center">
@@ -86,6 +95,15 @@
 			</div>
 			<div class="btn-max" @click="navigate('home/searchList')">查看更多</div>
 		</div>
+		<div class="gap20"></div>
+		<div class="other plr30 pb30" v-if="proList.length">
+			<!-- <h4>其他推荐星语</h4> -->
+			<h4>推荐星语</h4>
+			<div class="flex-center-between find-list">
+				<starLangItem v-for="(item,index) in proList" :key="index" :item="item" @onCollect="onCollect" @onLike="onLike"></starLangItem>
+			</div>
+			<div class="btn-max" @click="switchTab('tabBar/starLang/starLang')">查看更多</div>
+		</div>
 	</div>
 </template>
 
@@ -98,12 +116,9 @@
 		navigate,
 		post,
 		switchTab,
-		getCurrentPageUrlWithArgs,
+		getCurrentPageUrlWithArgs,editTime
 	} from '@/utils';
 	import productItem from '@/components/productItem.vue';
-	import {
-		formatTime
-	} from '@/common/util.js'
 	import {
 		previewImage
 	} from '@/utils/image-tools';
@@ -121,6 +136,8 @@
 		},
 		data() {
 			return {
+				editTime,
+				previewImage,
 				score: 3.4,
 				navigate,
 				switchTab,
@@ -156,7 +173,8 @@
 				Comment: '',
 				textHeight: 'auto',
 				findList: [],
-				footTitle: '关联星球客'
+				footTitle: '关联星球客',
+				proList:[],
 			}
 		},
 		onLoad(options) {
@@ -172,7 +190,7 @@
 			// 去了查看评论后,返回需要再次请求评论列表
 			this.getCommnetList(this.Id)
 			// 还需要再次请求detail信息
-			this.getDetail(this.Id)
+			this.getDetail(this.Id);
 		},
 		onShow() {
 			this.getUserInfo()
@@ -240,16 +258,21 @@
 		methods: {
 			// 点击了星语收藏
 			async onCollect(item) {
-				this.findList.map(async (tem) => {
+				this.proList.map(async (tem) => {
 					if (tem.Id === item.Id) {
 						tem.CollectNum = item.CollectNum;
 						tem.CollectionId = item.CollectionId;
 					}
 				})
 			},
-			// 全屏预览图片
-			previewImage(index) {
-				previewImage(this.ImgList, index)
+			// 点击了星语点赞
+			async onLike(item){
+				this.proList.map(async(tem)=>{
+					if(tem.Id===item.Id){
+						tem.IsLike = item.IsLike;
+						tem.LikeNum = item.LikeNum;
+					}
+				})
 			},
 			// 获取富文本高度
 			getReactBox(data) {
@@ -344,10 +367,13 @@
 					// 正则改变富文本
 					res.data.ContentDetails = res.data.ContentDetails.replace(/<img/g, '<img style="max-width:100%;"');
 					this.detail = res.data
+					this.detail.ImgList = res.data.ImgList.split(',')
+					console.log(this.detail,'detail')
 					// 异步需要在这个成功之后,才能根据这个ProIdArr请求
 					this.getFindList()
 					// 更新dom之后
 					this.getReactBox()
+					this.getProList();//获取星语推荐
 					// this.$nextTick().then(() => {
 					// 	this.oneLoad = 0
 					// })
@@ -377,7 +403,7 @@
 					} else {
 						this.detail.LikeNum--
 					}
-					this.getLikeList(this.Id)
+					this.getLikeList()
 				}
 				// uni.showToast({
 				//     title:res.msg,
@@ -385,10 +411,11 @@
 				// });
 			},
 			// 发现点赞列表
-			async getLikeList(Id) {
-				let res = await post('Find/FindLikesList', {
-					FindId: Id,
-					Page: 1
+			async getLikeList() {
+				let res = await post('Find/FindCollectList', {
+					FindId: this.Id,
+					Page: 1,
+					PageSize:10
 				})
 				// console.log('发现点赞列表:',res)
 				if (res.code === 0) {
@@ -471,6 +498,7 @@
 						this.detail.CollectNum--
 					}
 				}
+				this.getLikeList();
 			},
 			// 关注
 			async toFolloow() {
@@ -533,22 +561,29 @@
 					}
 				})
 			},
+			getProList(){
+				post('Find/FindList',{
+					Page: 1,
+					PageSize:12,
+					UserId: this.userId,
+					Token: this.token,
+					myType: 2,
+					AreaSite:this.detail.Location
+				}).then(res=>{
+					this.proList = res.data;
+				})
+			}
 		},
 		computed: {
-			formatTime(time) {
-				return (time) => {
-					if (!time) {
-						return ''
-					}
-					// console.log('格式化时间：',time,formatTime(time))
-					return formatTime(time)
-				}
-			},
-			// 处理返回来的图片数组
-			ImgList() {
-
-				return this.detail.ImgList.split(',')
-			},
+			// formatTimes(time) {
+			// 	return (time) => {
+			// 		if (!time) {
+			// 			return ''
+			// 		}
+			// 		// console.log('格式化时间：',time,formatTime(time))
+			// 		return formatTime(time)
+			// 	}
+			// },
 			// 根据字符长度判断是否需要显示,展开全部
 			isToLong() {
 				return (this.detail.ContentAbstract + this.detail.ContentDetails).length > 48

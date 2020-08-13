@@ -30,7 +30,7 @@
 						<view class="font">
 							<view class="num">￥{{val.Price}}</view>
 							<view class="iconfont icon-collect"></view>
-							<view class="fz12">{{val.CommentScore}}<span>({{val.CommentNum}})</span> </view>
+							<view class="fz12">{{val.CommentScore}}分<span>({{val.CommentNum}})</span> </view>
 						</view>
 					</view>
 				</view>

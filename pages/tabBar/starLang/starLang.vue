@@ -4,7 +4,7 @@
 			<view class="searchbox flex-start">
 				<view class="iconfont icon-sousuo"></view>
 				<!-- <view class="txt">搜索目的地/景点/星语</view> -->
-				<input confirm-type="send" @confirm="confirm()" type="text" placeholder="搜索目的地/景点/星语" v-model="SearchKey">
+				<input confirm-type="send" @confirm="confirm()" type="text" placeholder="搜索目的地/景点/星语等" v-model="SearchKey">
 			</view>
 		</view>
 		<div class="area flex-center-between">
@@ -46,7 +46,7 @@
 		<!-- 发布按钮 -->
 		<view class="fubuBtn iconfont icon-bianji1"  @click="navigate('starLangSon/release')"></view>
 		<!-- 数据判断显示 -->
-		<not-data v-if="datalist.length<1"></not-data>
+		<not-data v-if="datalist.length<1" tipsTitle="本城市暂无星语，期待您的添加"></not-data>
 		<div class="plr30">
 			<star-lang-list :list="recommendList"  @onCollect="onCollect" @onLike="onLike"></star-lang-list>
 		</div>

@@ -3,8 +3,9 @@
 	<view class="myfocus bgfff">
 		<view class="focus" v-for="(val,key) in list" :key="key">
 			<view class="focusleft">
-				<view class="forcusimg" @click="goHonePage(val)">
+				<view class="forcusimg officialBox" @click="goHonePage(val)">
 					<image :src="val.ToMemberHead||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode=""></image>
+					<view class="official" v-if="val.IsAuthor"><image src="@/static/icons/official.png"></image></view>
 				</view>
 				<view class="focuscenter">
 					<view class="focusbox" @click="goHonePage(val)">
@@ -105,7 +106,7 @@ export default {
 				display: flex;
 				.forcusimg{
 					height:88upx;
-					padding: 0 30upx;
+					margin: 0 30upx;
 					image{
 						width:88upx;
 						height:88upx;

@@ -3,7 +3,10 @@
 		<div class="plr30 header pt30">
 			<div class="user flex-center-between">
 				<div class="info flex-center">
-					<img :src="info.Headimgurl||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="aspectFill" alt="">
+					<view class="officialBox">
+						<img :src="info.Headimgurl||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="aspectFill" alt="">
+						<view class="official"><image src="@/static/icons/official.png"></image></view>
+					</view>
 					<div class="name">{{info.NickName}}</div>
 				</div>
 				<div class="btn-min" v-if="type" @click="navigate('tabBar/my/account')">编辑资料</div>

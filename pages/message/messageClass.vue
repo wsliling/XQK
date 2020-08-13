@@ -5,7 +5,8 @@
 				<view class="uni-list-cell" @click="navigate('message/messageList',{id:item.Id})">
 					<view class="uni-media-list">
 						<view class="uni-media-list-logo">
-							<image class="img" :src="item.TypeImg" mode="aspectFill"></image>
+							<image class="img" src="@/static/icons/inform.png" mode="aspectFill"></image>
+							<!-- <image class="img" :src="item.TypeImg" mode="aspectFill"></image> -->
 						</view>
 						<view  class="uni-media-list-body">
 							<view class="uni-media-list-text-top uni-ellipsis">{{item.MsgName}}</view>
@@ -24,7 +25,7 @@
 				<view class="uni-list-cell" @click="navigate('message/messageList',{id:-1})">
 					<view class="uni-media-list">
 						<view class="uni-media-list-logo">
-							<image class="img" src="http://xqk.wtvxin.com/images/wxapp/default.png" mode="aspectFill"></image>
+							<image class="img" src="@/static/icons/xxj.png" mode="aspectFill"></image>
 						</view>
 						<view  class="uni-media-list-body">
 							<view class="uni-media-list-text-top uni-ellipsis">小星君</view>
@@ -43,9 +44,10 @@
 			<block class="mt20" v-for="(item,index) in messageList" :key="index">
 				<view class="uni-list-cell" @click="navigate('starLangSon/detail',{Id:item.FkId})">
 					<view class="uni-media-list">
-						<view class="uni-media-list-logo position" @click.stop="navigate('starLangSon/homePage',{taUserId:item.FromMemberId})">
+						<view class="uni-media-list-logo position officialBox" @click.stop="navigate('starLangSon/homePage',{taUserId:item.FromMemberId})">
 							<image class="img" :src="item.FromHeadimgurl||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="aspectFill"></image>
 							<div class="dot" v-if="!item.IsRead"></div>
+							<view class="official" v-if="item.FromIsAuthor"><image src="@/static/icons/official.png"></image></view>
 						</view>
 						<view  class="uni-media-list-body">
 							<view class="uni-media-list-text-top uni-ellipsis">{{item.Memo}}</view>
@@ -74,7 +76,7 @@
 					<textarea name="" id="" cols="30" rows="10" v-model="replyContent" :maxlength="250" placeholder="输入回复内容" :cursor-spacing="70" @confirm="replaysubmit"></textarea>
 				</div>
 				<div class="btn flex-center-between">
-					<p @click="$refs.popup.close()">取消</p>
+					<p @click="closeReplay">取消</p>
 					<p @click="replaysubmit">回复</p>
 				</div>
 			</div>
@@ -170,8 +172,13 @@
 					newsid:this.replyItem.Id,
 				})
 			},
+			closeReplay(){
+				this.$refs.popup.close();
+				this.replyContent ='';
+			},
 			// 提交回复
 			async replaysubmit(){
+				this.replyContent ='';
 				const replyItem = this.replyItem;
 				const res = await post('Find/CommentOperation',{
 					"UserId": this.userId,
@@ -272,5 +279,9 @@
 		width:13upx;height:13upx;
 		background:#ff3333;
 		border-radius:50%;
+	}
+	.official{
+		top:35upx;
+		left:-10upx;
 	}
 </style>

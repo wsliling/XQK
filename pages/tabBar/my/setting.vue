@@ -24,6 +24,7 @@
 			<view class="settingfzs">电话：{{list.WebTel}}</view>
 			<view class="">邮箱：{{list.Email}}</view>
 		</view>
+		<view class="btn-max mt30" @click="signOut">退出登录</view>
 	</view>
 
 </template>
@@ -48,6 +49,21 @@
 			getWebConfiguration(){
 				post('System/GetWebConfiguration').then( res=> {
 					this.list = res.data
+				})
+			},
+			signOut(){
+				const that = this;
+				uni.showModal({
+					title:'是否退出登录',
+					success(res){
+						if(res.confirm){
+							uni.setStorageSync('userId','')
+							uni.setStorageSync('token','')
+							uni.switchTab({
+								url:'/pages/tabBar/index/index'
+							})
+						}
+					}
 				})
 			}
 		}

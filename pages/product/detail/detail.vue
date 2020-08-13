@@ -46,31 +46,6 @@
 					v-for="(item,index) in tagInit" :key="index" >{{ item }}</div>
 			</div>
 		</div>
-		<div class="gap20" v-if="proSKUList.length"></div>
-		<div class="sku plr30" v-if="proSKUList.length" id="room">
-			<h3>星球客房型</h3>
-			<div class="list">
-				<div class="item ptb30 flex-center-between" v-for="(item,index) in showProSKUList" :key="index">
-					<img :src="item.Logo" alt="" mode="aspectFill">
-					<div class="content flex-column-start-between">
-						<h5>{{item.Name}}</h5>
-						<p class="ellipsis-col2">{{item.Intro}}</p>
-						<div class="price">￥{{item.Price}}</div>
-					</div>
-					<div class="btn" @click="submit(item.Id)">立即预定</div>
-				</div>
-			</div>
-			<div class="more" v-if="proSKUList.length>3" @click="showProSku">
-				<block v-if="showProSKUList.length!==proSKUList.length">
-					<p>展示全部</p>	
-					<i class="icon-shuangjiantouxia iconfont"></i>
-				</block>
-				<block v-else>
-					<p>收起</p>	
-					<i class="icon-shuangjiantouxia iconfont rotate"></i>
-				</block>
-			</div>
-		</div>
 		<div class="gap20" v-if="couponList.length"></div>
 		<uni-popup type="bottom" ref="couponWin">
 			<div class="couponWin">
@@ -236,6 +211,31 @@
 				show-location>
 				</map>
 				<!-- <cover-view class="cover" @click="openLocation"></cover-view> -->
+			</div>
+		</div>
+		<div class="gap20" v-if="proSKUList.length"></div>
+		<div class="sku plr30" v-if="proSKUList.length" id="room">
+			<h3>星球客房型</h3>
+			<div class="list">
+				<div class="item ptb30 flex-center-between" v-for="(item,index) in showProSKUList" :key="index">
+					<img :src="item.Logo" alt="" mode="aspectFill">
+					<div class="content flex-column-start-between">
+						<h5>{{item.Name}}</h5>
+						<p class="ellipsis-col2">{{item.Intro}}</p>
+						<div class="price">￥{{item.Price}}</div>
+					</div>
+					<div class="btn" @click="submit(item.Id)">立即预定</div>
+				</div>
+			</div>
+			<div class="more" v-if="proSKUList.length>3" @click="showProSku">
+				<block v-if="showProSKUList.length!==proSKUList.length">
+					<p>展示全部</p>	
+					<i class="icon-shuangjiantouxia iconfont"></i>
+				</block>
+				<block v-else>
+					<p>收起</p>	
+					<i class="icon-shuangjiantouxia iconfont rotate"></i>
+				</block>
 			</div>
 		</div>
 		<div class="gap20"></div>

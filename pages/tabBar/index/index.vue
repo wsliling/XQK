@@ -498,6 +498,8 @@
 					myType:2,
 					UserId: this.userId,
 					Token: this.token,
+					Page:1,
+					PageSize:6
 					})
 				const data = res.data;
 				this.findList = data;
@@ -533,8 +535,17 @@
 					ShopId:0,
 					Category:-1
 				})
-				this.couponList = res.data;
-				this.showCoupon = true;
+				const data = res.data;
+				let arr=[];
+				data.map(item=>{
+					if(!item.IsMyAlready){
+						arr.push(item)
+					}
+				})
+				this.couponList = arr;
+				if(arr.length){
+					this.showCoupon = true;
+				}
 			},
 			// 领取优惠券
 			async receiveCoupon(id){

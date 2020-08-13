@@ -3,8 +3,9 @@
 // type:'date'--返回日期；'time'--返回日期+时间; 's'--日期+时间+秒
 export function editTime(time, type = 'date') {
     let newTime = ''
+    if(!time)return;
+    console.log(time,'editTime',type)
     if (type === 'time') {
-      console.log(time,'editTime')
       newTime = time.substr(0, time.lastIndexOf(':'))
       newTime = newTime.replace('T', ' ')
     }
@@ -140,4 +141,15 @@ export function initDate(params,type='arr'){
   }else{
     return `${y}${type}${formatNumber(m)}${type}${formatNumber(d)}`
   }
+}
+
+export function	dateSpace(sDate1, sDate2) {
+	//sDate1和sDate2是2006-12-18格式 得出量日期之间的天数
+	var dateSpan, tempDate, iDays;
+	sDate1 = Date.parse(sDate1);
+	sDate2 = Date.parse(sDate2);
+	dateSpan = sDate2 - sDate1;
+	dateSpan = Math.abs(dateSpan);
+	iDays = Math.floor(dateSpan / (24 * 3600 * 1000));
+	return iDays;
 }

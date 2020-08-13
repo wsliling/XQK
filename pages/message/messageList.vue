@@ -3,13 +3,14 @@
 		<!-- :class="['uni-mt10',index==1?'uni-list':'Messagelist']" -->
 		<view class="Messagelist">
 			<block v-for="(item,index) in list" :key="index">
-				<view class="list-item" @click="navigate('message/msgDetail',{id:item.id})">
+				<view class="list-item" @click="goDetail(item)">
 					<view class="center uni-mb10">
 						<text class="time">{{item.PubTime}}</text>
 					</view>
 					<view class="txtbox" :class="{'islook':item.Islook}">
-						<view class="title">
+						<view class="title position">
 							{{item.title}}
+							<div class="dot" v-if="!item.Islook"></div>
 						</view>
 						<view class="uni-list-cell-navigate uni-navigate-right">
 							<view class="desc text-line2">
@@ -109,6 +110,10 @@
 						this.loadingType = 0
 					}
 			},
+			goDetail(item){
+				item.Islook =1;
+				navigate('message/msgDetail',{id:item.id})
+			},
 			gotoMsg(id){
 				uni.navigateTo({
 					url:'/pages/Message/msgDetail/msgDetail?id='+id
@@ -165,5 +170,15 @@
 		.title{
 			color:#888;
 		}
+	}
+	.position{
+		position:relative;
+	}
+	.dot{
+		position:absolute;
+		left:10upx;top:10upx;
+		width:13upx;height:13upx;
+		background:#ff3333;
+		border-radius:50%;
 	}
 </style>

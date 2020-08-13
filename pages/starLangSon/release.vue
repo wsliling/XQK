@@ -297,7 +297,8 @@ export default {
 			return true;
 		},
 		async submit() {
-			if (!this.verify() || this.isSubmit) return;
+			if (!this.verify()) return;
+			// if (!this.verify() || this.isSubmit) return;
 			// 获取富文本内容
 			this.editorCtx.getContents({
 				success: async function(res) {

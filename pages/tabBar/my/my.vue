@@ -95,7 +95,7 @@
 				<view class="section_bd">
 					<view class="li_33">
 						<view class="item" @click="navigate('tabBar/my/coupon')">
-							<view class="iconImg" :class="{'dot':info.CouponNum}">
+							<view class="iconImg" :class="{'dot':newCoupoon}">
 								<image class="myimg coupon" src="http://xqk.wtvxin.com/images/wxapp/icons/coupon.png" mode="widthFix"></image>
 							</view>
 							<view class="txt">优惠券</view>
@@ -190,6 +190,7 @@
 				userId:'',
 				token:'',
 				info:{},
+				newCoupoon:false,//是否有新的优惠券
 			}
 		},
 		onLoad(){
@@ -197,9 +198,11 @@
 		},
 		onShow(){
 			if(!judgeLogin())return;
+			console.log(1111)
 			this.userId = uni.getStorageSync('userId');
 			this.token = uni.getStorageSync('token');
 			this.getUserInfo();
+			this.CouponList();
 		},
 		methods: {
 			tiedphone(){
@@ -214,7 +217,28 @@
 					Token:this.token,
 				})
 				this.info = res.data;
-			}
+			},
+			//我的优惠券
+			CouponList() {
+				post('User/CouponList', {
+					UserId: this.userId,
+					Token: this.token,
+					Page: 1,
+					PageSize: 1,
+					Status: 1
+				}).then(res => {
+					if(res.data.length){
+						const data = res.data[0];
+						const id = uni.getStorageSync('newCouponId');
+						if(data.Id==id){
+							this.newCoupoon = false;
+						}else{
+							this.newCoupoon = true;
+						}
+						uni.setStorageSync('newCouponId',data.Id)
+					}
+				});
+			},
 		}
 	}
 </script>

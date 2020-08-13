@@ -23,8 +23,9 @@ export function getImgPath(num = 1, sourceType = ["album", "camera"], sizeType =
 export function previewImage(url,nowImg){ 
 	let arr =[];
 	url.map(item=>{
-		arr.push(item.PicUrl)
+		arr.push(item.PicUrl||item)
 	})
+	console.log(arr,'arr')
 	uni.previewImage({
 	  urls:arr,//预览的图片数组
 	  current:nowImg,//预览图片的下标/图片链接

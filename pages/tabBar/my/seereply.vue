@@ -8,8 +8,9 @@
 		</view>
 		<view class="focus">
 			<view class="focusleft" v-for="(val,key) in replyList" :key="key" @click="navigate('starLangSon/detail',{Id:val.FkId})">
-				<view class="forcusimg">
+				<view class="forcusimg officialBox">
 					<image :src="val.MemberHead" mode=""></image>
+					<view class="official" v-if="val.IsAuthor"><image src="@/static/icons/official.png"></image></view>
 				</view>
 				<view class="focuscenter">
 					<view class="focusbox">
@@ -19,7 +20,7 @@
 						<view class="focusfz24">回复了{{val.NickName}}的星语</view>
 					</view>
 					<view class="focusright">
-						<image :src="'http://xqk.wtvxin.com' + val.PicNo" mode=""></image>
+						<image :src="autoImg(val.PicNo)" mode=""></image>
 					</view>
 				</view>
 			</view>
@@ -32,13 +33,14 @@
 </template>
 
 <script>
-	import { post, navigate } from '@/utils'
+	import { post, navigate,autoImg } from '@/utils'
 	import noData from '@/components/notData.vue'; //暂无数据
 export default{
 		components:{noData},
 		data(){
 			return{
 				navigate,
+				autoImg,
 				tabList: ['我的回复', '回复我的'],
 				tabIndex: 0,
 				Type:0,  //0-我的回复 1-回复我的

@@ -150,12 +150,12 @@
 						value: '送风',
 						active: false,
 					},
-					{
-						img: '/static/xingkong/chushi0.png',
-						activeImg: '/static/xingkong/chushi1.png',
-						value: '除湿',
-						active: false,
-					},
+					// {
+					// 	img: '/static/xingkong/chushi0.png',
+					// 	activeImg: '/static/xingkong/chushi1.png',
+					// 	value: '除湿',
+					// 	active: false,
+					// },
 				],
 				autoModel: {
 					value: '自动',

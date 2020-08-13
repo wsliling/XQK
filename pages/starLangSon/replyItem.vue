@@ -2,16 +2,18 @@
 	<view class="">
 		<div v-if="!isReply" class="flex-start-between ptb20">
 			<div class="flex-start">
-				<div @click="navigate('starLangSon/homePage',{taUserId:item.MemberId})" class="avatar">
+				<div @click="navigate('starLangSon/homePage',{taUserId:item.MemberId})" class="avatar officialBox">
 					<!-- <img src="/static/of/banner.jpg" alt=""> -->
-					<image :src="item.MemberHead" mode=""></image>
+					<image :src="item.MemberHead" mode=""></image>	
+					<view class="official" v-if="item.IsAuthor"><image src="@/static/icons/official.png"></image></view>
+						
 				</div>
 				<div class="center">
 					<div class="name ">
 						<div @click="navigate('starLangSon/homePage',{taUserId:item.MemberId})" class="bold">{{ item.MemberName }}
 						<!-- <text class="reply" @click="reply(item.Id)">回复</text> -->
 						</div>
-						<p>{{ formatTime(item.AddTime) }}</p>
+						<p>{{ editTime(item.AddTime) }}</p>
 					</div>
 					<div class="content pt10"  @click="toReply">{{ item.Comment }}</div>
 					<div v-if='isCheckReply && item.MyCommnetList.length' class="checkReply"  @click="toReply">点击查看{{ item.ReplyNum }}条回复</div>
@@ -30,9 +32,10 @@
 		<div v-if="isReply" class="flex-start-between ptb20">
 			<!-- 回复别人的 -->
 			<div class="flex-start">
-				<div @click="navigate('starLangSon/homePage',{taUserId:item2.MemberId})" class="avatar">
+				<div @click="navigate('starLangSon/homePage',{taUserId:item2.MemberId})" class="avatar officialBox">
 					<!-- <img src="/static/of/banner.jpg" alt=""> -->
 					<image :src="item2.MemberHead" mode=""></image>
+					<view class="official" v-if="item2.IsAuthor"><image src="@/static/icons/official.png"></image></view>
 				</div>
 				<div class="center">
 					<div class="name ">
@@ -42,7 +45,7 @@
 						{{ item.MemberName }}
 						<!-- <text class="reply" @click="reply(val.Id)">回复</text> -->
 						</div>
-						<p>{{ formatTime(item2.AddTime) }}</p>
+						<p>{{ editTime(item2.AddTime) }}</p>
 					</div>
 					<div class="content pt10">{{ item2.Comment }}</div>
 				</div>
@@ -84,8 +87,7 @@
 
 <script>
 	import { mapState, mapMutations } from "vuex"; //vuex辅助函数
-	import { formatTime } from '@/common/util.js'
-	import {post,navigate,toast} from '@/utils';
+	import {post,navigate,toast,editTime} from '@/utils';
 	export default {
 		props: {
 			isReply:{
@@ -125,6 +127,7 @@
 		// ],
 		data() {
 			return {
+				editTime,
 				navigate,
 				userId:'',
 				token:'',
@@ -270,12 +273,12 @@
 			},
 		},
 		computed:{
-			formatTime (time){
-				return (time)=>{
-					// console.log('格式化时间：',time,formatTime(time))
-					return formatTime(time)
-				}
-			},
+			// formatTime (time){
+			// 	return (time)=>{
+			// 		// console.log('格式化时间：',time,formatTime(time))
+			// 		return formatTime(time)
+			// 	}
+			// },
 		}
 	}
 </script>

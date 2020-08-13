@@ -6,12 +6,10 @@
 					<view class="item" v-if="index%2==0" @click="navigate('starLangSon/detail',{Id:item.Id})">
 						<view class="itembox">
 							<view class="imgbox">
-								<view class="like flex-center" v-if="pageStr!=='issue'" @click.stop="onCollect(item)">
-									<!-- <view class="iconfont bg"> -->
-										<text class="iconfont bg" :class="item.CollectionId?'icon-aixin':'icon-aixin2'"></text>
-									<!-- </view> -->
+								<!-- <view class="like flex-center" v-if="pageStr!=='issue'" @click.stop="onCollect(item)">
+									<text class="iconfont bg" :class="item.CollectionId?'icon-aixin':'icon-aixin2'"></text>
 									<text class="num" :class="{active : item.CollectionId }">{{ item.CollectNum }}</text>
-								</view>
+								</view> -->
 								<view class="trash" v-if="pageStr==='issue'" @click.stop="$emit('remove',item)">
 									<uni-icons type="trash" color="#fff" size="25"></uni-icons>
 								</view>
@@ -27,12 +25,19 @@
 										<!-- <image :src="item.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="widthFix"></image> -->
 										<!-- <image :src="item.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="widthFix"></image> -->
 										<!-- <image :src="isDefaultImg(item.Avatar)" mode="widthFix"></image> -->
-										<image :src="isDefaultImg(item.Avatar)" mode="aspectFill"></image>
+										<view class="officialBox">
+											<image :src="isDefaultImg(item.Avatar)" mode="aspectFill"></image>
+											<view class="official" v-if="item.IsAuthor"><image src="@/static/icons/official.png"></image></view>
+										</view>
 										<text class="author uni-ellipsis">{{ item.NickName }}</text>
 									</view>
-									<view class="zan flex-center" @click.stop="onLike(item)">
+									<!-- <view class="zan flex-center" @click.stop="onLike(item)">
 										<text class="iconfont icon-zan" :class="{'icon-zan1': item.IsLike }"></text>
 										<text class="num" :class="{ active: item.IsLike }">{{ item.LikeNum }}</text>
+									</view> -->
+									<view class="zan flex-center" v-if="pageStr!=='issue'" @click.stop="onCollect(item)">
+										<text class="iconfont bg" :class="item.CollectionId?'icon-aixin':'icon-aixin2'"></text>
+										<text class="num" :class="{active : item.CollectionId }">{{ item.CollectNum }}</text>
 									</view>
 								</view>
 							</view>
@@ -45,12 +50,10 @@
 					<view class="item" v-if="index%2==1" @click="navigate('starLangSon/detail',{Id:item.Id})">
 						<view class="itembox">
 							<view class="imgbox">
-								<view class="like flex-center" v-if="pageStr!=='issue'" @click.stop="onCollect(item)">
-									<!-- <view class="iconfont bg" :class="item.CollectionId?'icon-aixin':'icon-aixin2'"> -->
+								<!-- <view class="like flex-center" v-if="pageStr!=='issue'" @click.stop="onCollect(item)">
 									<text class="iconfont bg" :class="item.CollectionId?'icon-aixin':'icon-aixin2'"></text>
-									<!-- </view> -->
 									<text class="num" :class="{active : item.CollectionId }">{{ item.CollectNum }}</text>
-								</view>
+								</view> -->
 								<view class="trash" v-if="pageStr==='issue'" @click.stop="$emit('remove',item)">
 									<uni-icons type="trash" color="#fff" size="25"></uni-icons>
 								</view>
@@ -65,12 +68,19 @@
 								<view class="flex-center-between" v-if="pageStr!=='issue'">
 									<view class="tx flex-center">
 										<!-- <image :src="item.Avatar||'http://xqk.wtvxin.com/images/wxapp/default.png'" mode="widthFix"></image> -->
-										<image :src="isDefaultImg(item.Avatar)" mode="aspectFill"></image>
+										<view class="officialBox">
+											<image :src="isDefaultImg(item.Avatar)" mode="aspectFill"></image>
+											<view class="official" v-if="item.IsAuthor"><image src="@/static/icons/official.png"></image></view>
+										</view>
 										<text class="author uni-ellipsis">{{ item.NickName }}</text>
 									</view>
-									<view class="zan flex-center" @click.stop="onLike(item)">
+									<!-- <view class="zan flex-center" @click.stop="onLike(item)">
 										<text class="iconfont icon-zan" :class="{'icon-zan1': item.IsLike }"></text>
 										<text class="num" :class="{ active: item.IsLike }">{{ item.LikeNum }}</text>
+									</view> -->
+									<view class="zan flex-center" v-if="pageStr!=='issue'" @click.stop="onCollect(item)">
+										<text class="iconfont bg" :class="item.CollectionId?'icon-aixin':'icon-aixin2'"></text>
+										<text class="num" :class="{active : item.CollectionId }">{{ item.CollectNum }}</text>
 									</view>
 								</view>
 							</view>
@@ -238,7 +248,7 @@
 				
 			}
 			.pic{
-				height:440upx;
+				height:400upx;
 			}
 		}
 		.txtbox{

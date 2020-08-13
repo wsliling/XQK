@@ -429,4 +429,17 @@ p{
   -webkit-justify-content: space-between;
   justify-content:space-between;
 }
+
+.officialBox{
+	position:relative;
+	.official{
+		position:absolute;
+		top:-13upx;
+		left:-10upx;
+		image{
+			width:27upx!important;height:27upx!important;
+			border-radius:50%;
+		}
+	}
+}
 @import './componentStyle.scss';
