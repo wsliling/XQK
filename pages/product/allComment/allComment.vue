@@ -108,6 +108,10 @@
 				if(this.page===1){
 					this.commentList = [];
 				}
+				data.map(item=>{
+					item.AddTime = item.AddTime.substr(0,item.AddTime.indexOf(' '))
+					item.ReplyTime = item.ReplyTime.substr(0,item.ReplyTime.indexOf(' '))
+				})
 				this.commentList.push(...data);
 			},
 			onTag(item){

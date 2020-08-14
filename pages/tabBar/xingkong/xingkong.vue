@@ -108,8 +108,10 @@
 		<view class="infoBox">
 			<view class="score">
 				<view class="left2 juzhong">
-					<circular-progress-bar :canvasWiidth='canvasWiidth' :canvasHeight='canvasHeight' :process='process' :describe='describe'
-					 :color='color' :myCanvasId='myCanvasId'></circular-progress-bar>
+					<circular-progress-bar :canvasWiidth='canvasWiidth' :canvasHeight='canvasHeight' 
+					:process='process'  :describe="process>7.5?'优':process<=7.5&&process>5?'良好':process<=5&&process>2.5?'一般':'差'"
+					:color="process>7.5?'#5cc69a':process<=7.5&&process>5?'#FFDE39':process<=5&&process>2.5?'#ff9513':'#ff3333'"
+					:myCanvasId='myCanvasId'></circular-progress-bar>
 					<!-- <view class="left1 juzhong">
 						<view class="dataBox juzhong">
 							<view class="num">
@@ -138,7 +140,7 @@
 							温度
 						</view>
 						<view class="number">
-							28
+							{{equipment.roomTempl||'--'}}
 							<view class="unit">
 								℃
 							</view>
@@ -151,7 +153,7 @@
 							湿度
 						</view>
 						<view class="number">
-							92
+							{{equipment.roomHumidity1||'--'}}
 							<view class="unit">
 								%
 							</view>
@@ -164,7 +166,7 @@
 							PM2.5
 						</view>
 						<view class="number">
-							45
+							{{equipment.roomPM25_1||'--'}}
 						</view>
 						<view class="rectangle blue1">
 						</view>
@@ -178,7 +180,7 @@
 							浓度
 						</view>
 						<view class="number">
-							28
+							{{equipment.roomC02_1||'--'}}
 						</view>
 						<view class="rectangle yellow1">
 						</view>
@@ -213,9 +215,7 @@
 				token:'',
 				imageSrc: 'http://xqk.wtvxin.com/images/wxapp/xingkong-icon/xingkong-bg.png',
 				// 星控的环形图数据
-				process: 1, // 分数 0 ~10
-				describe: '优', // 描述
-				color: '#ff0000', // 描述文字颜色
+				process: 6, // 分数 0 ~10
 				canvasHeight: 222, // 固定的高度，不用改
 				canvasWiidth: 222, // 固定的宽度，不用改
 				myCanvasId: 'myCanvasId', // 固定的id，不用改
@@ -228,6 +228,7 @@
 				roomData:{},
 				openDoor:'开门',
 				showRoomWin:false,
+				equipment:{},//设备
 			}
 		},
 		onLoad() {
@@ -275,7 +276,30 @@
 					if(!res.data.length)return;
 					this.roomList = res.data;
 					this.roomData = res.data[0];
+					this.getInfo1();
+					this.getInfo2();
 					console.log(this.roomData)
+				})
+			},
+			getInfo1(){
+				this.getInfo(0).then(res=>{
+					this.openDoor = res.data.Door_OnOff*1?'关门':'开门'
+				})
+			},
+			getInfo2(){
+				this.getInfo(2).then(res=>{
+					console.log(res.data,'////')
+					this.equipment = res.data;
+					// this.openDoor = res.data.Door_OnOff*1?'关门':'开门'
+				})
+			},
+			getInfo(type){
+				return post('Udp/GetDeviceDetails',{
+					UserId: this.userId,
+					Token:this.token,
+					Id:this.roomData.Id,
+					RoomNo:this.roomData.RoomNo,
+					Type:type
 				})
 			},
 			createUDP(){
@@ -308,11 +332,11 @@
 			opemDoor(){
 				// this.createUDP();
 				// this.$refs.opemDoor.open();
-				console.log(this.roomData)
+				console.log(this.openDoor)
 				if(!this.onIsReserve())return;
 				this.onButton(9,this.openDoor=='开门'?1:0).then(res=>{
 					if(this.openDoor=='关门'){
-						this.openDoor = '关门'
+						this.openDoor = '开门'	
 					}else{
 						this.openDoor = '关门'
 					}

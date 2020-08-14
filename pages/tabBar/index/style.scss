@@ -1,3 +1,6 @@
+.content{
+	padding-top:500upx;
+}
 .scan{ 
 	position: fixed; 
 	// top: 50upx;
@@ -15,7 +18,10 @@
 	// transform:translateY(50%)
 }
 .index_swiper {
-	position: relative;
+	position: fixed;
+	top:0;
+	left:0;width:100%;
+	z-index:-1;
 	.swiper{
 		height:550upx;
 		.img{
@@ -75,13 +81,24 @@
 		font-size: 24upx; color: #999;
 	}
 }
+.searchHead{
+	position:relative;
+	.c{
+		position:relative;
+		top:-50upx;
+	}
+}
+.h228{
+	height:410upx;
+}
 .searchXQ{
 	position: relative;
+	top:-50upx;
 	border-radius: 20upx 20upx 10upx 10upx;
 	padding: 0 30upx 30upx;
 	overflow: hidden;
 	width: 85%;
-	margin: -50upx auto 0;
+	margin: 0 auto 0;
 	box-shadow: 0 0 10upx rgba(0,0,0,.2);
 	.item{
 		border-bottom: 1px solid #eee;
@@ -128,6 +145,9 @@
 	color: $primary;
 	font-size: 32upx;
 	border: 1px solid $primary;
+}
+.pd-top20{
+	padding-top:40upx;
 }
 .ljXQ{
 	.bd{

@@ -193,7 +193,7 @@ import {navigate,requestHideLoading,judgeLogin} from '@/utils'
 				}
 				.num{margin: 0 4upx;}
 			}
-			.price{ font-size: 32upx; margin-right: 10upx;}
+			.price{ font-size: 30upx; margin-right: 10upx;}
 			.yuan{font-size: 24upx;}
 			.oldprice{ color: #999;}
 		}

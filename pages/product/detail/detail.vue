@@ -547,6 +547,10 @@
 					Type:0,
 					})
 				// console.log("产品评论列表：",res)
+				res.data.map(item=>{
+					item.AddTime = item.AddTime.substr(0,item.AddTime.indexOf(' '))
+					item.ReplyTime = item.ReplyTime.substr(0,item.ReplyTime.indexOf(' '))
+				})
 				this.commentList = res.data
 			},
 			// 获取房型日期价格

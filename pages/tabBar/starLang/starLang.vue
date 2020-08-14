@@ -16,7 +16,8 @@
 					>{{item.Name}}</div>
 				</div>
 			</scroll-view>
-			<div class="addArea" @click="showAreaWin"><span>+</span></div>
+			<!-- 右边加号 -->
+			<!-- <div class="addArea" @click="showAreaWin"><span>+</span></div> -->
 			<uni-popup ref="areaWin">
 				<div class="areaWin">
 					<div class="tit">地区</div>

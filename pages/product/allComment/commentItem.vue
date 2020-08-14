@@ -6,12 +6,12 @@
 				<div class="info">
 					<div class="name">{{ comment.NickName }}</div>
 					<!-- <p>2020-01-20</p> -->
-					<p>{{ comment.AddTime }}</p>
+					<p>{{ comment.AddTime}}</p>
 				</div>
 			</div>
 			<div class="score">
 				<!-- <p>4.0</p> -->
-				<p>{{ comment.Rank }}分</p>
+				<p>{{ comment.Rank&&comment.Rank[1]?comment.Rank:comment.Rank+'.0'}}分</p>
 				<div class="star flex-center">
 					<!-- <div class="iconfont icon-collect" v-for="(item,index) in 4" :key="index"></div>
 					<div class="iconfont icon-collect1"></div> -->
@@ -26,15 +26,22 @@
 		<div class="imgList flex-center-between">
 			<img :src="item.PicUrl" alt="" v-for="(item,index) in comment.PicData" :key="index" @click="onPreviewImage(index)">
 		</div>
+		<!-- 商家回复 -->
+		<div class="reply p20" v-if="comment.Reply">
+			<p>商家回复：{{comment.Reply}}</p>
+			<span>{{comment.ReplyTime}}</span>
+		</div>
 	</div>
 </template>
 
 <script>
 	import {previewImage} from '@/utils/image-tools'
+	import {formatNumber} from '@/utils/date-tools'
 	export default {
 		props:["comment"],
 		data() {
 			return {
+				formatNumber
 			}
 		},
 		onLoad() {
@@ -93,6 +100,14 @@
 		img{
 			width:160upx;height:160upx;
 			border-radius:10upx;
+		}
+	}
+	.reply{
+		background:#f5f5f5;
+		color:#666;
+		font-size:26upx;
+		span{
+			font-size:25upx;
 		}
 	}
 </style>

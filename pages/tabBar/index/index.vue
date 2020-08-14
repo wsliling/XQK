@@ -1,5 +1,5 @@
 <template>
-	<view class="content uni-bg-white">
+	<view class="content">
 		<!-- #ifdef MP -->
 		<view class="scan uni-icon uni-icon-scan" :style="{'top':scanObj.top+'px'}" @click="scan"></view>
 		<!-- #endif -->
@@ -16,7 +16,7 @@
 				<view v-for="(item,index) in bannerList" :key="index" :class="['dot',currentSwiper==index?'active':'']"></view>
 			</view> -->
 		</view>
-		<view class="uni-bg-white">
+		<view class="uni-bg-white h228">
 			<view class="searchXQ uni-bg-white uni-mb10">
 				<view class="item item-start flex-center-between" @click="navigate('location/cityList')">
 					<view class="item-l location-name">
@@ -73,60 +73,63 @@
 				</view>
 			</view>
 		</view>
-		<!-- 了解星球客 -->
-		<view class="ljXQ pd15 mg-top20 uni-mb10" v-if="about.Title">
-			<view class="index_hd uni-mb10">
-				<view class="flex-center-between">
-					<view @click="adds" class="title">{{about.Title}}</view>
-					<!-- <view :style="'color:' +commonSetting.ThemeColor + ';'" class="more flex-end" @click="navigate('home/introduction',{title:about.Title})">
-						查看详情<text :style="'color:' +commonSetting.ThemeColor + ';'" class="iconfont icon-you"></text>
-					</view> -->
+			
+		<view class="uni-bg-white">
+			<!-- 了解星球客 -->
+			<view class="ljXQ pd15 pd-top20 uni-mb10" v-if="about.Title">
+				<view class="index_hd uni-mb10">
+					<view class="flex-center-between">
+						<view @click="adds" class="title">{{about.Title}}</view>
+						<!-- <view :style="'color:' +commonSetting.ThemeColor + ';'" class="more flex-end" @click="navigate('home/introduction',{title:about.Title})">
+							查看详情<text :style="'color:' +commonSetting.ThemeColor + ';'" class="iconfont icon-you"></text>
+						</view> -->
+					</view>
+					<view class="sutitle">{{about.SubTitle}}</view>
 				</view>
-				<view class="sutitle">{{about.SubTitle}}</view>
+				<view class="bd">
+					<image class="xqbg" :src="about.Logo" mode="widthFix"  @click="navigate('home/introduction',{title:about.Title})"></image>
+					<!-- <image class="logo" src="http://xqk.wtvxin.com/images/wxapp/logo.png" mode="aspectFill"></image> -->
+				</view>
 			</view>
-			<view class="bd">
-				<image class="xqbg" :src="about.Logo" mode="widthFix"  @click="navigate('home/introduction',{title:about.Title})"></image>
-				<!-- <image class="logo" src="http://xqk.wtvxin.com/images/wxapp/logo.png" mode="aspectFill"></image> -->
-			</view>
-		</view>
-		<!-- 热门推荐 -->
-		<view class="hotrecomXQ pd15 mg-top20 uni-mb10" v-if="hotRecommendList.length">
-			<view class="index_hd uni-mb10">
-				<view class="flex-between">
-					<view class="title">
-						{{ commonSetting.HotRecTitle }}
+			<!-- 热门推荐 -->
+			<view class="hotrecomXQ pd15 mg-top20 uni-mb10" v-if="hotRecommendList.length">
+				<view class="index_hd uni-mb10">
+					<view class="flex-between">
+						<view class="title">
+							{{ commonSetting.HotRecTitle }}
+						</view>
 					</view>
 				</view>
+				<product-item v-for="(item,index) in hotRecommendList" :key="index" :item="item" @onCollect="onProCollect"></product-item>
+				<view class="btn_line" @click="navigate('home/recommend')">
+					查看更多
+				</view>
 			</view>
-			<product-item v-for="(item,index) in hotRecommendList" :key="index" :item="item" @onCollect="onProCollect"></product-item>
-			<view class="btn_line" @click="navigate('home/recommend')">
-				查看更多
+			<!-- 服务保障 -->
+			<view class="serveXQ pd15 mg-top20 uni-mb10">
+				<!-- <image  @click="navigate('tabBar/my/security')" src="http://xqk.wtvxin.com/images/wxapp/of/2.jpg" mode="widthFix"></image> -->
+				<image  @click="navigate('tabBar/my/security')" :src="securityContent.Logo" mode="widthFix"></image>
+				<!-- <view class="btn_line" @click="navigate('tabBar/my/security')">
+					{{ securityContent.Title }}
+				</view> -->
 			</view>
-		</view>
-		<!-- 服务保障 -->
-		<view class="serveXQ pd15 mg-top20 uni-mb10">
-			<!-- <image  @click="navigate('tabBar/my/security')" src="http://xqk.wtvxin.com/images/wxapp/of/2.jpg" mode="widthFix"></image> -->
-			<image  @click="navigate('tabBar/my/security')" :src="securityContent.Logo" mode="widthFix"></image>
-			<!-- <view class="btn_line" @click="navigate('tabBar/my/security')">
-				{{ securityContent.Title }}
-			</view> -->
-		</view>
-		<!-- 推荐星语 -->
-		<view class="recomXQ pd15 mg-top20 uni-mb10">
-			<view class="index_hd uni-mb10">
-				<view class="flex-between">
-					<view class="title">
-						{{ commonSetting.StarRecTitle }}
+			<!-- 推荐星语 -->
+			<view class="recomXQ pd15 mg-top20 uni-mb10">
+				<view class="index_hd uni-mb10">
+					<view class="flex-between">
+						<view class="title">
+							{{ commonSetting.StarRecTitle }}
+						</view>
 					</view>
 				</view>
-			</view>
-			<view class="bd">
-				<view class="xylist flex-center-between">
-					<star-lang-item v-for="(item,index) in findList" :key="index" :item="item" @onCollect="onCollect" @onLike="onLike"></star-lang-item>
+				<view class="bd">
+					<view class="xylist flex-center-between">
+						<star-lang-item v-for="(item,index) in findList" :key="index" :item="item" @onCollect="onCollect" @onLike="onLike"></star-lang-item>
+					</view>
 				</view>
-			</view>
-			<view class="btn_line uni-mb10" @click="switchTab('tabBar/starLang/starLang')">
-				查看更多
+				<view class="btn_line uni-mb10" @click="switchTab('tabBar/starLang/starLang')">
+					查看更多
+				</view>
 			</view>
 		</view>
 		<!-- 景点选择 -->
