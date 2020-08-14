@@ -68,6 +68,32 @@
 		</view>
 
 		<div class="feedback">
+			
+			<view class="site" @click="showTopic">
+				<view>关联话题</view>
+				<view class="place">
+					<!-- <view class="">展滔科技大厦</view> -->
+					<view class="">
+						{{ tab.Name||'请选择' }}
+					</view>
+					<!-- <input type="text" :placeholder="place" /> -->
+					<img src="http://xqk.wtvxin.com/images/wxapp/icons/arrow.png" alt="" />
+				</view>
+			</view>
+			<uni-popup ref="topic" type="bottom">
+				<view class="topicBox">
+					<!-- <view class="btn-box flex-center-between">
+						<view class="close">取消</view>
+						<view class="confirm">确定</view>
+					</view> -->
+					<view class="content flex-center">
+						<p v-for="(item,index) in tabList" :key="index"
+							:class="{'active':tab.Name==item.Name}" @click="setTab(item)"
+							>{{item.Name}}</p>
+					</view>
+					<view class="max-btn" @click="$refs.topic.close()">确定</view>
+				</view>
+			</uni-popup>
 			<view class="site" @click="tolick('/pages/starLangSon/location')">
 				<view>所在位置</view>
 				<view class="place">
@@ -135,6 +161,10 @@ export default {
 			keyboardHeight: 0,
 			isIOS: false,
 			editorCtx:null,
+			
+			// tab
+			tabList:[],
+			tab:{},
 		};
 	},
 	onShow() {
@@ -149,6 +179,7 @@ export default {
 		// }
 		this.getUserInfo()
 		this.getGoodsList()
+		this.getTab();
 		// console.log('我是发布页onshow的idarr：',this.$store.state.ProIdArr)
 		
 	},
@@ -247,6 +278,7 @@ export default {
 					Location: place,
 					ProIdArr: this.ProIdArr,
 					AreaSite:this.placeCode,
+					ClassId:this.tab.Id
 				},
 				// this.getData
 			);
@@ -522,8 +554,22 @@ export default {
 					});
 				}
 			});
-		}
+		},
 		// 富文本end
+		// 获取标签
+		getTab(){
+			post('Find/FindClassList').then(res=>{
+				this.tabList = res.data;
+			})
+		},
+		setTab(item){
+			this.tab = item;
+			this.$refs.topic.close();
+		},
+		//显示标签选择
+		showTopic(){
+			this.$refs.topic.open();
+		}
 	}
 };
 </script>
@@ -761,5 +807,47 @@ export default {
 	position: fixed;
 	bottom: 0;
 	z-index: 1;
+}
+.topicBox{
+	background:#fff;
+	border-radius:10upx 10upx 0 0;
+	width:100%;
+	padding:20upx;
+	.btn-box{
+		line-height:3;
+		view{
+			padding:0 10upx;
+		}
+		.close{
+			color:#999;
+		}
+		.confirm{
+			color:$primary;
+		}
+	}
+	.content{
+		flex-flow:row wrap;
+		padding:40upx 0 20upx;
+		p{
+			margin:0 20upx 20upx;
+			padding:0 20upx;
+			line-height:2.5;
+			background:#f2f2f2;
+			color:#666;
+			border-radius:8upx;
+			&.active{
+				background:$primary;
+				color:#fff;
+			}
+		}
+	}
+	.max-btn{
+		width:100%;
+		background:$primary;
+		color:#fff;
+		line-height:80upx;
+		text-align:center;
+		border-radius:8upx;
+	}
 }
 </style>

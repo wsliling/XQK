@@ -4,7 +4,6 @@
 export function editTime(time, type = 'date') {
     let newTime = ''
     if(!time)return;
-    console.log(time,'editTime',type)
     if (type === 'time') {
       newTime = time.substr(0, time.lastIndexOf(':'))
       newTime = newTime.replace('T', ' ')
