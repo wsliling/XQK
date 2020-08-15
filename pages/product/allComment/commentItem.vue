@@ -105,7 +105,9 @@
 	.reply{
 		background:#f5f5f5;
 		color:#666;
-		font-size:26upx;
+		p{
+			font-size:26upx;
+		}
 		span{
 			font-size:25upx;
 		}
