@@ -149,7 +149,7 @@
 						:class="(equipment.roomTempl>32||equipment.roomTempl<12)?'red1'
 						:(equipment.roomTempl>=12&&equipment.roomTempl<16)||(equipment.roomTempl<=32&&equipment.roomTempl>29)?'blue1'
 						:(equipment.roomTempl>=16&&equipment.roomTempl<20)||(equipment.roomTempl<=29&&equipment.roomTempl>26)?'yellow1'
-						(equipment.roomTempl>=20&&equipment.roomTempl<=26)?'green1'">
+						:(equipment.roomTempl>=20&&equipment.roomTempl<=26)?'green1':''">
 						</view>
 					</view>
 					<view class="dataItem juzhong">
@@ -166,7 +166,7 @@
 						:class="(equipment.roomHumidity1>90||equipment.roomHumidity1<10)?'red1'
 						:(equipment.roomHumidity1>=10&&equipment.roomHumidity1<25)||(equipment.roomHumidity1<=90&&equipment.roomHumidity1>75)?'blue1'
 						:(equipment.roomHumidity1>=25&&equipment.roomHumidity1<40)||(equipment.roomHumidity1<=75&&equipment.roomHumidity1>60)?'yellow1'
-						(equipment.roomHumidity1>=40&&equipment.roomHumidity1<=60)?'green1'">
+						:(equipment.roomHumidity1>=40&&equipment.roomHumidity1<=60)?'green1':''">
 						</view>
 					</view>
 					<view class="dataItem juzhong">
@@ -183,7 +183,7 @@
 						:class="(equipment.roomPM25_1>200||equipment.roomPM25_1<0)?'red1'
 						:(equipment.roomPM25_1>125&&equipment.roomPM25_1<=200)?'blue1'
 						:(equipment.roomPM25_1>50&&equipment.roomPM25_1<=125)?'yellow1'
-						(equipment.roomPM25_1>0&&equipment.roomPM25_1<=50)?'green1'">
+						:(equipment.roomPM25_1>0&&equipment.roomPM25_1<=50)?'green1':''">
 						</view>
 					</view>
 					<view class="dataItem juzhong">
@@ -204,7 +204,7 @@
 						:class="(equipment.roomC02_1>2000||equipment.roomC02_1<0)?'red1'
 						:(equipment.roomC02_1>1400&&equipment.roomC02_1<=2000)?'blue1'
 						:(equipment.roomC02_1>800&&equipment.roomC02_1<=1400)?'yellow1'
-						(equipment.roomC02_1>0&&equipment.roomC02_1<=800)?'green1'">
+						:(equipment.roomC02_1>0&&equipment.roomC02_1<=800)?'green1':''">
 						</view>
 					</view>
 				</view>
