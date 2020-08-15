@@ -182,6 +182,7 @@
 						active: false,
 					},
 				],
+				info:{},//空调的状态信息
 			};
 		},
 		watch:{
@@ -218,8 +219,31 @@
 			this.roomNo = e.roomNo;
 			this.userId = uni.getStorageSync("userId");
 			this.token = uni.getStorageSync("token");
+			this.getInfo();
 		},
 		methods: {
+			getInfo(){
+				post('Udp/GetDeviceDetails',{
+					UserId: this.userId,
+					Token:this.token,
+					Id:this.id,
+					RoomNo:this.roomNo,
+					Type:2
+				}).then(res=>{
+					if(!res.data)return;
+					const data = res.data;
+					this.isAir = data.onOff1;
+					this.modelList[data.mode1-1].active = true;
+					if(data.fan1*1){
+						this.windSpeedList[data.fan1-1].active = true; 
+					}
+					// 自动
+					if(data.auto1*1){
+						this.changeWindSpeedModel({},3)
+					}
+					this.info = data;
+				})
+			},
 			// 开关空调
 			async switchAir() {
 				const that= this;

@@ -283,12 +283,14 @@
 			},
 			getInfo1(){
 				this.getInfo(0).then(res=>{
+					if(!res.data)return;
 					this.openDoor = res.data.Door_OnOff*1?'关门':'开门'
 				})
 			},
 			getInfo2(){
 				this.getInfo(2).then(res=>{
 					console.log(res.data,'////')
+					if(!res.data)return;
 					this.equipment = res.data;
 					// this.openDoor = res.data.Door_OnOff*1?'关门':'开门'
 				})
