@@ -434,12 +434,16 @@
 			.number {
 				font-size: 48upx;
 				position: relative;
-				width: 80upx;
+				min-width: 65upx;
+				text-align:center;
 				.unit {
 					position: absolute;
-					top: 0;
-					right: 0;
-					font-size: 24upx;
+					top: -10upx;
+					right: -18upx;
+					font-size: 22upx;
+					&.f18{
+					font-size: 18upx;
+					}
 				}
 			}
 			.percentage{

@@ -83,7 +83,7 @@
 								</view>
 							</view>
 						</view>
-						<view @click="changeWindSpeedModel({},3)" class="right" :class="[windSpeedList[3].active ? 'active' : '']">
+						<view @click="changeWindSpeedModel({},4)" class="right" :class="[windSpeedList[4].active ? 'active' : '']">
 							<view class="huan flex-center-center">
 								<view class="huan-yuan">
 
@@ -122,7 +122,7 @@
 				// windSliderValue: 33, // 风速拖动值
 				// 滑动条对象
 				slider: {
-					step: 50, // 步长
+					step: 33, // 步长
 					value: 0, // 当前值
 					min: 0, // 最小值
 					max: 100, // 最大值
@@ -165,7 +165,12 @@
 					value: '低风'
 				},
 				threeWindSpeedList:[],
-				windSpeedList: [{
+				windSpeedList: [
+					{
+						value: '无风',
+						active: false,
+					},
+					{
 						value: '低风',
 						active: false,
 					},
@@ -193,7 +198,7 @@
 					// this.fliters = newVal
 					// this.$set(this.fliters, this.fliters, newVal)
 					// this.flitersArr = this.fliters.flitersArr
-				  this.threeWindSpeedList =	this.windSpeedList.slice(0, 3)
+				  this.threeWindSpeedList =	this.windSpeedList.slice(0, 4)
 				},
 			},
 		},
@@ -210,7 +215,7 @@
 					wind,
 					wendu: '20'
 				}
-				// console.log('现在模式', res)
+				console.log('现在模式', res)
 				return res
 			}
 		},
@@ -239,7 +244,7 @@
 					}
 					// 自动
 					if(data.auto1*1){
-						this.changeWindSpeedModel({},3)
+						this.changeWindSpeedModel({},4)
 					}
 					this.info = data;
 				})
@@ -312,15 +317,15 @@
 				if (!this.isAir) {
 					return false
 				}
-				let n=index*1+1;
-				await this.onButton(5,n)
+				await this.onButton(5,index)
 				// this.autoModel.active = !this.autoModel.active
 				// this.activeWindSpeed.value = this.autoModel.value
 				for (let i = 0; i < this.windSpeedList.length; i++) {
 					this.windSpeedList[i].active = false
 					if (index === i) {
-						if(index !== 3 ) {
-							this.slider.value = (i+1) *this.slider.step
+						if(index !== 4 ) {
+							
+							this.slider.value = i *this.slider.step
 						}
 						this.windSpeedList[i].active = true
 						this.activeWindSpeed = this.windSpeedList[i]
@@ -337,29 +342,40 @@
 					if (!this.isAir) {
 						return;
 					}
-					await this.onButton(5,1)
+					await this.onButton(5,0)
 					// this.$nextTick(() => {
 					this.slider.value = 0
 					// console.log('我是无风', this.slider.value)
 					// })
 					this.windSpeedList[0].active = true
-
+					this.activeWindSpeed =this.windSpeedList[0]
 				} else if (e.detail.value === step * 1) {
 					if (!this.isAir) {
 						return;
 					}
-					await this.onButton(5,2)
+					await this.onButton(5,1)
 					this.slider.value = step * 1
 					// console.log('我是低风', this.slider.value)
 					this.windSpeedList[1].active = true
+					this.activeWindSpeed =this.windSpeedList[1]
 				} else if (e.detail.value === step * 2) {
 					if (!this.isAir) {
 						return;
 					}
-					await this.onButton(5,3)
+					await this.onButton(5,2)
 					this.slider.value = step * 2
 					// console.log('我是中风', this.slider.value)
 					this.windSpeedList[2].active = true
+					this.activeWindSpeed =this.windSpeedList[2]
+				} else if (e.detail.value >= step * 3) {
+					if (!this.isAir) {
+						return;
+					}
+					await this.onButton(5,3)
+					this.slider.value = step * 3
+					// console.log('我是高风', this.slider.value)
+					this.windSpeedList[3].active = true
+					this.activeWindSpeed =this.windSpeedList[3]
 				}
 			},
 			// 拖动风速中
@@ -389,7 +405,7 @@
 				// this.activeWindSpeed.value = this.autoModel.value
 				for (let i = 0; i < this.windSpeedList.length; i++) {
 					this.windSpeedList[i].active = false
-					if (i === 3) {
+					if (i === 4) {
 						this.windSpeedList[i].active = true
 						this.activeWindSpeed = this.windSpeedList[i]
 					}

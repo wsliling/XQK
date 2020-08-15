@@ -140,7 +140,7 @@
 							温度
 						</view>
 						<view class="number">
-							{{equipment.roomTempl||'--'}}
+							{{equipment.roomTempl||'0'}}
 							<view class="unit">
 								℃
 							</view>
@@ -153,7 +153,7 @@
 							湿度
 						</view>
 						<view class="number">
-							{{equipment.roomHumidity1||'--'}}
+							{{equipment.roomHumidity1||'0'}}
 							<view class="unit">
 								%
 							</view>
@@ -166,7 +166,10 @@
 							PM2.5
 						</view>
 						<view class="number">
-							{{equipment.roomPM25_1||'--'}}
+							{{equipment.roomPM25_1||'0'}}
+							<!-- <view class="unit">
+								ug
+							</view> -->
 						</view>
 						<view class="rectangle blue1">
 						</view>
@@ -180,7 +183,10 @@
 							浓度
 						</view>
 						<view class="number">
-							{{equipment.roomC02_1||'--'}}
+							{{equipment.roomC02_1||'0'}}
+							<!-- <view class="unit f18">
+								ppm
+							</view> -->
 						</view>
 						<view class="rectangle yellow1">
 						</view>
@@ -215,7 +221,7 @@
 				token:'',
 				imageSrc: 'http://xqk.wtvxin.com/images/wxapp/xingkong-icon/xingkong-bg.png',
 				// 星控的环形图数据
-				process: 6, // 分数 0 ~10
+				process: 0, // 分数 0 ~10
 				canvasHeight: 222, // 固定的高度，不用改
 				canvasWiidth: 222, // 固定的宽度，不用改
 				myCanvasId: 'myCanvasId', // 固定的id，不用改
@@ -292,7 +298,42 @@
 					console.log(res.data,'////')
 					if(!res.data)return;
 					this.equipment = res.data;
-					// this.openDoor = res.data.Door_OnOff*1?'关门':'开门'
+					const data = res.data;
+					let c= 0;
+					let humidity = 0;
+					let co2 = 0;
+					let pm2_5 = 0;
+					// pm2.5的值
+					if(data.roomPM25_1>2000){
+						pm2_5 = 0;
+					}else{
+						pm2_5 = 100-((data.roomPM25_1/2000)*100);
+					}
+					//co2的百分比
+					if(data.roomC02_1>200){
+						co2 = 0;
+					}else{
+						co2 = 100-((data.roomC02_1/200)*100);
+					}
+					//湿度的百分比
+					if(data.roomHumidity1>50){
+						humidity = 100-(((data.roomHumidity1-50)/50)*100)
+					}else{
+						humidity = (((data.roomHumidity1)/50)*100)
+					}
+					//温度的百分比
+					if(data.roomTempl<140||data.roomTempl>320){
+						c = 0
+					}else{
+						if(data.roomTempl>230){
+							c = 100-(((data.roomTempl-230)/90)*100)
+						}else{
+							c = (((data.roomTempl)/90)*100)
+						}
+						
+					}
+					// 计算平均值
+					this.process = (pm2_5+co2+humidity+c)/4/10
 				})
 			},
 			getInfo(type){
