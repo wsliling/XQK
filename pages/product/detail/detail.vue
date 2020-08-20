@@ -46,35 +46,6 @@
 					v-for="(item,index) in tagInit" :key="index" >{{ item }}</div>
 			</div>
 		</div>
-		<div class="gap20" v-if="couponList.length"></div>
-		<uni-popup type="bottom" ref="couponWin">
-			<div class="couponWin">
-				<div class="masktitle">优惠券</div>
-				<scroll-view scroll-y class="coupon-scroll">
-					<div class="maskinfo">
-						<div class="maskcouponlist" v-for="(item,couponIndex) in couponList" :key="couponIndex">
-							<img src="/static/icons/pinkbg.png" class="pink" mode="widthFix">
-							<div class="maskser flex-center-between">
-							  <div>
-								<p class="maskprice">￥{{item.Denomination}}</p>
-								<p class="maskask">{{item.MeetConditions?`满${item.MeetConditions}可用`:'无限制条件'}}</p>
-								<p class="maskask">有效期至{{item.EndTime}}</p>
-							  </div>
-							  <div class="maskget" @click="receiveCoupon(item.Id)">立即领取</div>
-							</div>
-						 </div>
-					</div>
-				</scroll-view>
-				<div class="btnget" @click="$refs.couponWin.close()">完成</div>
-			</div>
-		</uni-popup>
-		<div class="coupon flex-center-between" v-if="couponList.length" @click="showCouponWin">
-			优惠券
-			<div class="flex-center"> 
-				<span>￥{{couponList[0].Denomination}}</span>
-				<i class="icon-arrow_r iconfont"></i>
-			</div>
-		</div>
 		
 		<!-- <div class="gap20"></div> -->
 		<!-- <div class="dateBox plr30 pb30">
@@ -211,6 +182,36 @@
 				show-location>
 				</map>
 				<!-- <cover-view class="cover" @click="openLocation"></cover-view> -->
+			</div>
+		</div>
+		<div class="gap20" v-if="couponList.length"></div>
+		<uni-popup type="bottom" ref="couponWin">
+			<div class="couponWin">
+				<div class="masktitle">优惠券</div>
+				<scroll-view scroll-y class="coupon-scroll">
+					<div class="maskinfo">
+						<div class="maskcouponlist" v-for="(item,couponIndex) in couponList" :key="couponIndex">
+							<img src="/static/icons/pinkbg.png" class="pink" mode="widthFix">
+							<div class="maskser flex-center-between">
+							  <div>
+								<p class="maskprice">￥{{item.Denomination}}</p>
+								<p class="maskask">{{item.MeetConditions?`满${item.MeetConditions}可用`:'无限制条件'}}</p>
+								<p class="maskask">有效期至{{item.EndTime}}</p>
+							  </div>
+							  <div class="maskget" @click="receiveCoupon(item.Id)">立即领取</div>
+							</div>
+						 </div>
+					</div>
+				</scroll-view>
+				<div class="btnget" @click="$refs.couponWin.close()">完成</div>
+			</div>
+		</uni-popup>
+		<div class="coupon flex-center-between" v-if="couponList.length" @click="showCouponWin">
+			<h3>优惠券</h3>
+			<div class="flex-center">
+				<!-- <span>￥{{couponList[0].Denomination}}</span> -->
+				您有未领取优惠券
+				<i class="icon-arrow_r iconfont"></i>
 			</div>
 		</div>
 		<div class="gap20" v-if="proSKUList.length"></div>

@@ -231,6 +231,7 @@
 				findList:[], // 发现列表
 				showCoupon:false,//领券中心
 				couponList:[],//优惠券弹窗
+				isCouponStatus:false,//是否已弹出优惠券
 				// myInterval: 0
 			}
 		},
@@ -268,7 +269,9 @@
 		onShow(){
 			this.userId = uni.getStorageSync("userId");
 			this.token = uni.getStorageSync("token");
-			this.getCoupon();
+			if(!this.isCouponStatus){
+				this.getCoupon();
+			}
 			if(this.nowCityName !== this.cityName){
 				console.log(this.cityName,'更新的定位')
 				this.upDateCityCode(this.cityName)
@@ -461,6 +464,10 @@
 			},
 			hideCoupon(){
 				this.showCoupon=false;
+				if(this.userId&&this.token){
+					console.log('关闭了优惠券')
+					this.isCouponStatus = true;
+				}
 			},
 			async getAreaCode() {
 				if(this.cityName === this.upCityName)return;

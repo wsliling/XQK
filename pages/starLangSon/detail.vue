@@ -457,20 +457,21 @@ export default {
 					Token: this.token,
 					ProIdArr: this.ProIdArr
 				});
-			} else {
-				// 如果没有关联就推荐
-				this.footTitle = '推荐星球客';
-				res = await post('Goods/GoodsList_yd', {
-					Page: this.Page,
-					PageSize: this.PageSize,
-					UserId: this.userId,
-					Token: this.token,
-					Sort: 3
-				});
+				if (res.code === 0) {
+					this.findList = res.data;
+				}
 			}
-			if (res.code === 0) {
-				this.findList = res.data;
-			}
+			// 如果没有关联就推荐
+			//  else {
+			// 	this.footTitle = '推荐星球客';
+			// 	res = await post('Goods/GoodsList_yd', {
+			// 		Page: this.Page,
+			// 		PageSize: this.PageSize,
+			// 		UserId: this.userId,
+			// 		Token: this.token,
+			// 		Sort: 3
+			// 	});
+			// }
 		},
 		// 推荐产品点击收藏
 		onProCollect(params) {

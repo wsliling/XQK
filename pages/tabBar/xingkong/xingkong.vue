@@ -349,7 +349,7 @@
 						
 					}
 					// 计算平均值
-					this.process = (pm2_5+co2+humidity+c)/4/10
+					this.process = Math.floor((pm2_5+co2+humidity+c)/4/10)
 				})
 			},
 			getInfo(type){

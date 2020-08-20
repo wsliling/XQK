@@ -28,7 +28,7 @@
 		</div>
 		<!-- 商家回复 -->
 		<div class="reply p20" v-if="comment.Reply">
-			<p>商家回复：{{comment.Reply}}</p>
+			<p>官方回复：{{comment.Reply}}</p>
 			<span>{{comment.ReplyTime}}</span>
 		</div>
 	</div>
