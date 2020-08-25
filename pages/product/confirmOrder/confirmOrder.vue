@@ -53,7 +53,7 @@
 			<div class="row flex-center-between">
 				<div class="left">入住人</div>
 				<div class="right flex-center" @click.stop="$refs.selectCheckInInfo.open()">
-					<input type="text" placeholder="选择入住人（选填）" disabled />
+					<input type="text" placeholder="选择入住人（必填）" disabled />
 					<div class="btn-min" @click.stop="$refs.addCheckInInfo.open()">添加</div>
 				</div>
 			</div>
@@ -105,14 +105,14 @@
 			</div>
 		</div>
 		<div class="gap20"></div>
-		<div class="notice plr30 pb20 pt10">
-			<div class="bold">预定须知</div>
+		<div class="notice plr30 pb20 pt10" v-html="data.ProData.BookNote">
+		<!-- 	<div class="bold">预定须知</div>
 			<p>退订规则</p>
 			<span>入住前一天可免费取消；入住当天取消订单，扣除房费的60%作为违约金支付给平台。</span>
 			<p>入住提示</p>
 			<span>平台确认后，可自由入住星球客；平台提供7*24小时客服服务，确保您入住无忧。</span>
 			<p>开具发票</p>
-			<span>若需要开具房费发票，请您与星球客工作人员协商。</span>
+			<span>若需要开具房费发票，请您与星球客工作人员协商。</span> -->
 		</div>
 		<div class="btn-max submit" @click="submit">
 			提交订单
@@ -342,8 +342,10 @@
 						RoomTypeId:this.roomId,
 						AdultNum:this.AdultNum*1,
 						ChildNum:this.ChildNum*1,
-						MinDate:this.calendarOption.currentRangeStartDate,
-						MaxDate:this.calendarOption.currentRangeEndDate,
+						// MinDate:this.calendarOption.currentRangeStartDate,
+						// MaxDate:this.calendarOption.currentRangeEndDate,
+						MinDate:'',
+						MaxDate:'',
 						CouponId:this.couponId
 					})
 					const data= res.data;
@@ -356,6 +358,8 @@
 					if(this.couponId<1){
 						this.useCouponText = '不使用';
 					}
+					
+					data.ProData.BookNote = data.ProData.BookNote.replace(/<img/g, '<img style="max-width:100%;"');
 					this.data = data;
 				}catch{
 					navigateBack();
@@ -557,6 +561,9 @@
 				}
 				if(!verifyPhone(this.Tel)){
 					return '请输入正确的预订人电话'
+				}
+				if(!this.useUserInfo.length){
+					return '请填写入住人信息'
 				}
 				return false;
 			},

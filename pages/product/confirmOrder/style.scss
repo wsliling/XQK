@@ -68,6 +68,7 @@
     }
 }
 .notice{
+	margin-bottom:100upx;
     .bold{
         line-height:2.5;
     }
@@ -87,6 +88,10 @@
     font-size:32upx;
 }
 .submit{
+	position:fixed;
+	bottom:0;left:0;
+	width:100%;
+	z-index:99999;
     .btn-max{
         line-height:100upx;
         height:100upx;

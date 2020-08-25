@@ -98,8 +98,7 @@
 		<div class="column-tab flex-start-between plr30 pb20" v-if="details.DevLogo">
 			<image :src="details.DevLogo" mode="widthFix"></image>
 		</div>
-		<!-- <block v-if="details.IsVideo"> -->
-		<block>
+		<block v-if="details.IsVideo">
 			<div class="gap20"></div>
 			<div class="video plr30 pb30">
 				<h3>实时摄像头</h3>
@@ -293,7 +292,7 @@
 				</div>
 				<div class="item flex-column-center">
 					<!-- <div class="iconfont icon-kefu"></div>客服 -->
-					<button class="iconfont icon-kefu" open-type="contact"></button>客服{{proSKUList.length}}
+					<button class="iconfont icon-kefu" open-type="contact"></button>客服
 				</div>
 			</div>
 			<div class="btn" :class="{'disable':!(details.Price*1)||!(proSKUList.length)}" @click="viewRoom">

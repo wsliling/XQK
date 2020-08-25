@@ -22,14 +22,16 @@
 					</div>
 				</div>
 				<view class="right">
-					<view class="icon">
+					<view class="icon" @click="navigate('xingkongSon/explain')">
 						<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/question.png" mode="widthFix"></image>
 					</view>
-					<view>使用说明</view>
-					<view class="icon">
-						<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/camera.png" mode="widthFix"></image>
-					</view>
-					<view>景区摄像头</view>
+					<view @click="navigate('xingkongSon/explain')">使用说明</view>
+					<block v-if="roomData.IsVideo&&roomData.RoomNo&&roomData.Video">
+						<view class="icon" @click="navigate('product/detail/videoPlay',{url:roomData.Video})">
+							<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/camera.png" mode="widthFix"></image>
+						</view>
+						<view @click="navigate('product/detail/videoPlay',{url:roomData.Video})">景区摄像头</view>
+					</block>
 				</view>
 			</view>
 			<!-- 开关盒子 -->
@@ -254,11 +256,11 @@
 			}
 		},
 		onLoad() {
-		},
-		onShow(){
 			this.userId = uni.getStorageSync('userId');
 			this.token = uni.getStorageSync('token');
 			this.getRoom();
+		},
+		onShow(){
 		},
 		computed: {
 			Rprocess() {
@@ -311,7 +313,6 @@
 			},
 			getInfo2(){
 				this.getInfo(2).then(res=>{
-					console.log(res.data,'////')
 					if(!res.data)return;
 					this.equipment = res.data;
 					const data = res.data;
@@ -590,6 +591,13 @@
 			//     ctx.strokeStyle = "rgb(255, 127, 105)";
 			//     ctx.stroke();
 			// }
+		},
+		onPullDownRefresh() {
+			this.userId = uni.getStorageSync('userId');
+			this.token = uni.getStorageSync('token');
+			this.getRoom();
+			// 停止下拉动画
+			uni.stopPullDownRefresh()
 		}
 	}
 </script>

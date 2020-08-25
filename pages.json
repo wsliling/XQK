@@ -36,7 +36,8 @@
 		,{
 		    "path" : "pages/tabBar/xingkong/xingkong",
 		    "style" : {
-				"navigationBarTitleText": "星控"
+				"navigationBarTitleText": "星控",
+				"enablePullDownRefresh" : true
 			}
 		}
         ,{
@@ -395,6 +396,12 @@
 					"path" : "huan/index",
 					"style" : {
 						"navigationBarTitleText": "环形"
+					}
+				},
+				{
+					"path" : "explain",
+					"style" : {
+						"navigationBarTitleText": "使用说明"
 					}
 				}
        ]
