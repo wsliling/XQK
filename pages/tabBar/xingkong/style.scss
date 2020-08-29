@@ -68,10 +68,14 @@
 		}
 		
 	}
-	.roomNo{
+	.room-box{
+		width:50%;
+		margin:0 auto;
 		position:absolute;
 		top:40upx;
-		left:36%;
+		left:25%;
+	}
+	.roomNo{
 		border-radius:60upx;
 		background:#fff;
 		padding:10upx 30upx;

@@ -222,7 +222,7 @@
 					<div class="content flex-column-start-between">
 						<h5>{{item.Name}}</h5>
 						<p class="ellipsis-col2">{{item.Intro}}</p>
-						<div class="price">￥{{item.Price}}</div>
+						<div class="price">￥{{item.Price}}起</div>
 					</div>
 					<div class="btn" @click="submit(item.Id)">立即预定</div>
 				</div>

@@ -5,7 +5,7 @@
 				<div class="info">
 					<h4 class="name">{{data.ProData.Name}}</h4>
 					<h5>房型：{{data.ProData.RoomTypeName}}</h5>
-					<h4 class="price">￥{{data.ProData.Price}}</h4>
+					<h4 class="price">￥{{data.TotalPrice||data.ProData.Price}}</h4>
 					<div class="score bold flex-center">
 						<div class="iconfont icon-collect"></div>{{data.ProData.CommentScore}}<span>({{data.ProData.CommentNum}})</span>
 					</div>
@@ -342,10 +342,8 @@
 						RoomTypeId:this.roomId,
 						AdultNum:this.AdultNum*1,
 						ChildNum:this.ChildNum*1,
-						// MinDate:this.calendarOption.currentRangeStartDate,
-						// MaxDate:this.calendarOption.currentRangeEndDate,
-						MinDate:'',
-						MaxDate:'',
+						MinDate:this.calendarOption.currentRangeStartDate,
+						MaxDate:this.calendarOption.currentRangeEndDate,
 						CouponId:this.couponId
 					})
 					const data= res.data;
@@ -362,7 +360,10 @@
 					data.ProData.BookNote = data.ProData.BookNote.replace(/<img/g, '<img style="max-width:100%;"');
 					this.data = data;
 				}catch{
-					navigateBack();
+					this.calendarOption.currentRangeStartDate = '';
+					this.calendarOption.currentRangeEndDate = '';
+					this.getData();
+					// navigateBack();
 				}
 			},
 			// 获取用户常用信息

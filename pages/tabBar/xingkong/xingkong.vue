@@ -13,12 +13,14 @@
 					</view>
 					<view :class="{'no-lock':!roomData.Id}">{{roomData.Id?'已':'未'}}办理入住</view>
 				</view>
-				<div class="roomNo" @click="onShowRoomWin" v-if="roomData.RoomNo">
-					房间号：{{roomData.RoomNo}}
-					<div class="icon" v-if="roomList.length>1"><uni-icons type="arrowdown" color="#5cc69a"></uni-icons></div>
-					<div class="roomWin" v-if="showRoomWin">
-						<p v-for="(item,index) in roomList" :key="index"
-							@click.stop="selectRoom(item)">{{item.RoomNo}}</p>
+				<div class="room-box flex-center-center">
+					<div class="roomNo" @click="onShowRoomWin" v-if="roomData.RoomNo">
+						房间号：{{roomData.RoomNo}}
+						<div class="icon" v-if="roomList.length>1"><uni-icons type="arrowdown" color="#5cc69a"></uni-icons></div>
+						<div class="roomWin" v-if="showRoomWin">
+							<p v-for="(item,index) in roomList" :key="index"
+								@click.stop="selectRoom(item)">{{item.RoomNo}}</p>
+						</div>
 					</div>
 				</div>
 				<view class="right">
