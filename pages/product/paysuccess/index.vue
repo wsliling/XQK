@@ -29,6 +29,7 @@
 <script>
 import {post,redirect} from '@/utils'
 	import productItem from '@/components/productItem.vue';
+	import { mapState, mapMutations} from "vuex"; //vuex辅助函数
 export default {
 		components: {
       productItem
@@ -49,6 +50,9 @@ export default {
   },
   onShow(){
   },
+	computed:{
+		...mapState(['lng','lat','cityName','cityCode','calendarOption','commonSetting'])
+	},
   methods: {
 			async getHotGoodsList () {
 				// 热门推荐
@@ -59,6 +63,8 @@ export default {
 					Page:1,
 					PageSize:12,
 					IsRecommend:1,
+					MinDate:this.calendarOption.currentRangeStartDate,
+					MaxDate:this.calendarOption.currentRangeEndDate
 				}) 
 				this.hotRecommendList = res.data 
       },

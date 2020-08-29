@@ -356,8 +356,11 @@
 					Lng:this.lng||0,
 					UserId:this.userId,
 					Token:this.token,
-					Page:1,
+					Page:1,	
 					PageSize:20,
+					MinDate:this.calendarOption.currentRangeStartDate,
+					MaxDate:this.calendarOption.currentRangeEndDate
+					
 				}) 
 				const data = res.data;
 				data.map(item=>{
@@ -392,6 +395,8 @@
 					Page:1,
 					PageSize:6,
 					IsHot:1,
+					MinDate:this.calendarOption.currentRangeStartDate,
+					MaxDate:this.calendarOption.currentRangeEndDate
 				}) 
 				this.hotRecommendList = res.data 
 			},

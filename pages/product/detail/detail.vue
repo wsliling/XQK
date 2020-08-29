@@ -596,8 +596,10 @@
 				let res = await post('Goods/Goodsxq_yd',{
 					Id: this.Id,
 					UserId:this.userId,
-					Token:this.token
-					})
+					Token:this.token,
+					MinDate:this.calendarOption.currentRangeStartDate,
+					MaxDate:this.calendarOption.currentRangeEndDate
+				})
 				// console.log(`详情返回:`,res)
 				// 正则增加富文本的样式
 				res.data.BookNote = res.data.BookNote.replace(/<img/g, '<img style="max-width:100%;"');
@@ -619,7 +621,10 @@
 				let res = await post('Goods/GoodsList_Sku',{
 					ProId:this.Id,
 					UserId:this.userId,
-					Token:this.token
+					Token:this.token,
+					MinDate:this.calendarOption.currentRangeStartDate,
+					MaxDate:this.calendarOption.currentRangeEndDate
+					
 				})
 				this.proSKUList = res.data;
 				this.showProSKUList = res.data.slice(0,3);

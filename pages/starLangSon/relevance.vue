@@ -49,6 +49,7 @@
 		navigate,
 		navigateBack
 	} from '@/utils';
+	import { mapState, mapMutations} from "vuex"; //vuex辅助函数
 	import notData from '@/components/notData.vue';
 	// import {startLevel} from '@/components/starLevel';
 	import {
@@ -167,7 +168,10 @@
 							Keywords: this.Keywords,
 							Page: this.Page,
 							PageSize: this.PageSize,
-							IsNearRecords: 1 // 最近入住记录
+							IsNearRecords: 1 ,// 最近入住记录
+							MinDate:this.calendarOption.currentRangeStartDate,
+							MaxDate:this.calendarOption.currentRangeEndDate
+							
 						})
 					if (res.data.length === 0) {
 						this.IsNearRecords = 0
@@ -186,6 +190,9 @@
 								Keywords: this.Keywords,
 								Page: this.Page,
 								PageSize: this.PageSize,
+								MinDate:this.calendarOption.currentRangeStartDate,
+								MaxDate:this.calendarOption.currentRangeEndDate
+								
 								// Sort:3 ,//排序类型
 								// 0-默认
 								// 1-人气
@@ -256,6 +263,9 @@
 							Page: this.Page2,
 							PageSize: this.PageSize2,
 							IsRecommend: 1,
+							MinDate:this.calendarOption.currentRangeStartDate,
+							MaxDate:this.calendarOption.currentRangeEndDate
+							
 							// Sort:3 ,//排序类型
 							// 0-默认
 							// 1-人气
@@ -308,6 +318,7 @@
 		// 	this.init();
 		// },
 		computed: {
+			...mapState(['lng','lat','cityName','cityCode','calendarOption','commonSetting']),
 			// 分数
 			CommentScore(score) {
 				return (score) => {

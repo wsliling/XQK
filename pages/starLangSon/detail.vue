@@ -116,6 +116,7 @@ import { navigate, post, switchTab, getCurrentPageUrlWithArgs, editTime } from '
 import productItem from '@/components/productItem.vue';
 import { previewImage } from '@/utils/image-tools';
 import { startLevel } from '@/components/starLevel';
+import { mapState, mapMutations} from "vuex"; //vuex辅助函数
 export default {
 	components: { proItem, replyItem, starLangItem, productItem, startLevel, ansInput },
 	data() {
@@ -165,6 +166,7 @@ export default {
 		};
 	},
 	computed: {
+		...mapState(['lng','lat','cityName','cityCode','calendarOption','commonSetting']),
 		// 根据字符长度判断是否需要显示,展开全部
 		isToLong() {
 			return (this.detail.ContentAbstract + this.detail.ContentDetails).length > 48;
@@ -455,7 +457,10 @@ export default {
 					Page: this.Page,
 					UserId: this.userId,
 					Token: this.token,
-					ProIdArr: this.ProIdArr
+					ProIdArr: this.ProIdArr,
+					MinDate:this.calendarOption.currentRangeStartDate,
+					MaxDate:this.calendarOption.currentRangeEndDate
+					
 				});
 				if (res.code === 0) {
 					this.findList = res.data;

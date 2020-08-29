@@ -16,6 +16,7 @@
 <script>
 	import productItem from '@/components/productItem.vue';
 	import notData from '@/components/notData.vue';
+	import { mapState, mapMutations} from "vuex"; //vuex辅助函数
 	// import { mapState } from "vuex"; //vuex辅助函数
 	import {post,get,redirect} from '@/utils';
 	export default {
@@ -46,7 +47,7 @@
 			}
 		},
 		computed:{
-			// ...mapState(['lng','lat','cityName','cityCode'])
+			...mapState(['lng','lat','cityName','cityCode','calendarOption','commonSetting'])
 		},
 		methods: {
 			// 热门推荐
@@ -57,7 +58,9 @@
 					Token:this.token,
 					IsRecommend:1,
 					Page:this.page,
-					PageSize:this.pageSize
+					PageSize:this.pageSize,
+					MinDate:this.calendarOption.currentRangeStartDate,
+					MaxDate:this.calendarOption.currentRangeEndDate
 				}) 
 				if(this.page===1){
 					this.goodsList = [];

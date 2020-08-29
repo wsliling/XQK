@@ -128,6 +128,7 @@ import { getCityCode } from '@/utils/location';
 import pickers from '@/components/pickers';
 import {startLevel} from '@/components/starLevel';
 import {relatedProduct} from '@/components/relatedProduct';
+import { mapState, mapMutations} from "vuex"; //vuex辅助函数
 
 let timer;
 let that;
@@ -197,7 +198,8 @@ export default {
 		this.goodList = []
 		that = this;
 	},
-	computed:{
+	computed:{		
+		...mapState(['lng','lat','cityName','cityCode','calendarOption','commonSetting']),
 		// toNum (str) {
 		// 	return (str)=>{
 		// 		// console.log('评分：',Math.round(str),'str')
@@ -446,7 +448,9 @@ export default {
 			{
 				UserId:this.userId,
 				Token:this.token,
-				ProIdArr: this.ProIdArr
+				ProIdArr: this.ProIdArr,
+				MinDate:this.calendarOption.currentRangeStartDate,
+				MaxDate:this.calendarOption.currentRangeEndDate
 			})
 			// console.log('获取预定产品列表：', res)
 			// 处理字符串标签为数组,处理星星个数

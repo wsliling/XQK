@@ -168,6 +168,7 @@
 				if(this.page===1){
 					this.list = [];
 					if(!data.length){
+						this.recommendList=[];
 						this.getRecommend();
 						return;
 					}
@@ -220,6 +221,8 @@
 					Page:1,
 					PageSize:12,
 					IsRecommend:1,
+					MinDate:this.calendarOption.currentRangeStartDate,
+					MaxDate:this.calendarOption.currentRangeEndDate
 				}) 
 				this.recommendList = res.data;
 			},
