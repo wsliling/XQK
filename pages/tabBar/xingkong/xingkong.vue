@@ -452,9 +452,9 @@
 				post('Udp/CRSaddquestion',{
 					Token:this.token,
 					UserId:this.userId,
-					hotel_id:'cnbjbjlp00',
-					asker_name:'留言人姓名',
-					asker_mobile:'联系姓名',
+					hotel_id:this.roomData.Hotel_id,
+					asker_name:this.roomData.ContactName,
+					asker_mobile:this.roomData.Tel,
 					content:`${this.roomData.Hotel_name}${this.roomData.RoomNo}号房请求${str}服务`
 				}).then(res=>{
 					toast(`已为您提交${str}服务`,{icon:true})
