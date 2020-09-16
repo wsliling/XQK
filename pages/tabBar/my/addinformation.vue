@@ -18,10 +18,10 @@
 				<view class="weui-cell__hd"><label class="weui-label">手机号</label></view>
 				<view class="weui-cell__bd"><input type="text" class="weui-input" maxlength="11" v-model="Mobile" placeholder="请输入入住人的手机号" value="" /></view>
 			</view>
-			<view class="weui-cell">
+			<!-- <view class="weui-cell">
 				<view class="weui-cell__hd"><label class="weui-label">邮箱</label></view>
 				<view class="weui-cell__bd"><input type="text" class="weui-input" v-model="Email" placeholder="请输入入住人的邮箱" value="" /></view>
-			</view>
+			</view> -->
 			<view class="weui-cell">
 				<checkbox :checked="checked" color="#5CC69A" style="transform:scale(0.7)" @click="tab" />
 				<view class="weui-cell__bd">设为默认</view>
@@ -124,21 +124,21 @@ export default {
 				});
 				return false;
 			}
-			if (this.Email == '') {
-				uni.showToast({
-					title: '请输入入住人的邮箱！',
-					icon: 'none',
-					duration: 1500
-				});
-				return false;
-			} else if (!myreg.test(this.Email)) {
-				uni.showToast({
-					title: '请输入正确的邮箱！',
-					icon: 'none',
-					duration: 1500
-				});
-				return false;
-			}
+			// if (this.Email == '') {
+			// 	uni.showToast({
+			// 		title: '请输入入住人的邮箱！',
+			// 		icon: 'none',
+			// 		duration: 1500
+			// 	});
+			// 	return false;
+			// } else if (!myreg.test(this.Email)) {
+			// 	uni.showToast({
+			// 		title: '请输入正确的邮箱！',
+			// 		icon: 'none',
+			// 		duration: 1500
+			// 	});
+			// 	return false;
+			// }
 			return true;
 		},
 		// //点击保存按钮

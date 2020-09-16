@@ -16,10 +16,10 @@
 							<image class="imginfo" src="http://xqk.wtvxin.com/images/wxapp/icons/info1.png" mode=""></image>
 							<view class="type iconfont icon-shenfenxinxi">{{val.Idcard}}</view>
 						</view>
-						<view class="info">
+						<!-- <view class="info">
 							<image class="imgyouxiang" src="http://xqk.wtvxin.com/images/wxapp/icons/youxiang.png" mode=""></image>
 							<view class="type iconfont icon-youxiang">{{val.Email}}</view>
-						</view>
+						</view> -->
 					</view>
 					<view class="item__ft flex">
 						<view class="flexItem checkedLabel flex flexAlignCneter">

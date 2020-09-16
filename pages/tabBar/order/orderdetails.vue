@@ -60,7 +60,7 @@
 						<h5>{{item.FullName}}</h5>
 						<p>{{item.Idcard}}</p>
 						<p>{{item.Mobile}}</p>
-						<p>{{item.Email}}</p>
+						<!-- <p>{{item.Email}}</p> -->
 					</div>
 				</div>
 			</view>

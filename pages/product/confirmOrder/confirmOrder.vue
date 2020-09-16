@@ -61,7 +61,7 @@
 				<div>{{item.FullName}}</div>
 				<p>手机号 {{item.Mobile}}</p>
 				<p>身份证 {{item.Idcard}}</p>
-				<p>邮箱 {{item.Email}}</p>
+				<!-- <p>邮箱 {{item.Email}}</p> -->
 			</div>
 		</div>
 		<div class="gap20"></div>
@@ -158,10 +158,10 @@
 						<p>身份证</p>
 						<input type="number" placeholder="请输入入住人身份证" v-model="UserInfo.Idcard">
 					</div>
-					<div class="flex-center-between item">
+					<!-- <div class="flex-center-between item">
 						<p>邮箱</p>
 						<input type="text" placeholder="请输入入住人邮箱" v-model="UserInfo.Email">
-					</div>
+					</div> -->
 				</div>
 				<view class="btn-max" @click="addUserInfo">确定</view>
 			</div>
@@ -182,7 +182,7 @@
 										<div>{{item.FullName}}</div>
 										<p>手机号 {{item.Mobile}}</p>
 										<p>身份证 {{item.Idcard}}</p>
-										<p>邮箱 {{item.Email}}</p>
+										<!-- <p>邮箱 {{item.Email}}</p> -->
 									</div>
 									<view style="margin: 0;" :class="['IconsCK IconsCK-radio',item.status?'checked':'']"></view>
 								</label>
@@ -457,11 +457,11 @@
 				} else if (!(/^0\d{2,3}-\d{7,8}$/.test(UserInfo.Mobile) || /^[1][3,4,5,6,7,8][0-9]{9}$/.test(UserInfo.Mobile))) {
 					return '请输入正确的手机号！';
 				}
-				if (UserInfo.Email == '') {
-					return '请输入入住人的邮箱！';
-				} else if (!myreg.test(UserInfo.Email)) {
-					return '请输入正确的邮箱！';
-				}
+				// if (UserInfo.Email == '') {
+				// 	return '请输入入住人的邮箱！';
+				// } else if (!myreg.test(UserInfo.Email)) {
+				// 	return '请输入正确的邮箱！';
+				// }
 				return false;
 			},
 			// 改变入住人数

@@ -118,7 +118,7 @@
 					<div class="top flex-center">
 						<div class="score-num bold">
 							<!-- 4.9 -->
-							{{ CommentScore(OrderCommentInfo.RankScore) }}
+							{{ OrderCommentInfo.RankScore }}
 						</div>
 						<div class="right">
 							<div class="tab" :class="{'isHidden': isHidden}">超赞</div>
@@ -138,19 +138,19 @@
 					<div class="bottom flex-center-between">
 						<div class="item flex-center">
 							<p>卫生</p>
-							<span>{{ CommentScore(OrderCommentInfo.HealthScore) }}</span>
+							<span>{{ OrderCommentInfo.HealthScore }}</span>
 						</div>
 						<div class="item flex-center">
 							<p>体验</p>
-							<span>{{ CommentScore(OrderCommentInfo.ProductScore) }}</span>
+							<span>{{ OrderCommentInfo.ProductScore }}</span>
 						</div>
 						<div class="item flex-center">
 							<p>服务</p>
-							<span>{{ CommentScore(OrderCommentInfo.ServiceScore) }}</span>
+							<span>{{ OrderCommentInfo.ServiceScore }}</span>
 						</div>
 						<div class="item flex-center">
 							<p>设施</p>
-							<span>{{ CommentScore(OrderCommentInfo.FacilityScore) }}</span>
+							<span>{{ OrderCommentInfo.FacilityScore }}</span>
 						</div>
 					</div>
 				</div>
