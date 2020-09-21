@@ -6,9 +6,20 @@
 				<view class="weui-cell__hd"><label class="weui-label">入住人</label></view>
 				<view class="weui-cell__bd"><input type="text" class="weui-input" v-model="FullName" placeholder="请输入入住人的姓名" value="" /></view>
 			</view>
-			<view class="weui-cell">
+			<view class="weui-cell" @click="$refs.idType.show()">
 				<view class="weui-cell__hd"><label class="weui-label">证件类型</label></view>
-				<view class="weui-cell__bd">身份证</view>
+				<view class="flex-center-between w100">
+					<view class="weui-cell__bd">{{idType.label}}</view>
+					<i class="iconfont icon-arrow_r"></i>
+				</view>
+				<w-picker
+					mode="selector"
+					:options="idTypeList"
+					:value="idType.label"
+					@confirm="idTypeConfirm"
+					themeColor="#5cc69a"
+					ref="idType"
+				></w-picker>
 			</view>
 			<view class="weui-cell">
 				<view class="weui-cell__hd"><label class="weui-label">证件号码</label></view>
@@ -27,12 +38,13 @@
 				<view class="weui-cell__bd">设为默认</view>
 			</view>
 		</view>
+		<view class="tips">注：所填信息需与入住时所持证件一致。</view>
 		<view class="btnBox" style="padding:60upx 20upx"><button type="primary" class="infos" @click="btnSure">保存</button></view>
 	</view>
 </template>
 
 <script>
-import { post, get, getCurrentPageUrlWithArgs, verifyPhone } from '@/utils';
+import { post, get, getCurrentPageUrlWithArgs, verifyPhone,isCnNewID,checkPassport } from '@/utils';
 
 export default {
 	data() {
@@ -45,11 +57,17 @@ export default {
 			checked: true,
 			IsDefault: 1, // 是否默认 1=是
 			FullName: '', // 入住人姓名
-			Type: 0, // 0-身份证
+			// Type: 0, // 0-身份证
 			Idcard: '', // 证件号码
 			Mobile: '', // 手机号
 			Email: '' ,// 邮箱
 			empty:'',
+			idTypeList:[
+				{label:"身份证",value:"11"},
+				{label:"护照",value:"93"},
+			],
+			idType:{label:"身份证",value:"11"},
+				
 		};
 	},
 	onLoad(e) {
@@ -90,6 +108,9 @@ export default {
 			}
 			this.tacitlyInvoice();
 		},
+		idTypeConfirm(e){
+			this.idType=e.obj;
+		},
 		// 验证输入的信息
 		Authentication() {
 			var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
@@ -108,6 +129,28 @@ export default {
 					duration: 1500
 				});
 				return false;
+			}
+			if(this.idType.value*1==11){
+				// 校验身份证
+				if(!isCnNewID(this.Idcard)){
+					uni.showToast({
+						title: '请输入正确的身份证号码！',
+						icon: 'none',
+						duration: 1500
+					});
+					return;
+				}
+			}
+			if(this.idType.value*1==93){
+				// 校验身份证
+				if(!checkPassport(this.Idcard)){
+					uni.showToast({
+						title: '请输入正确的护照号码！',
+						icon: 'none',
+						duration: 1500
+					});
+					return;
+				}
 			}
 			if (this.Mobile == '') {
 				uni.showToast({
@@ -162,12 +205,18 @@ export default {
 				Uid: this.invoiceId
 			});
 			if (result.code === 0) {
-				this.FullName = result.data.FullName; //入住人姓名
-				this.Type = result.data.Type; //0-身份证
-				this.Idcard = result.data.Idcard; //证件号码
-				this.Mobile = result.data.Mobile; //手机号
-				this.Email = result.data.Email; //邮箱
-				this.IsDefault = result.data.IsDefault; //是否默认 1=是
+				const data = result.data;
+				this.FullName = data.FullName; //入住人姓名
+				// this.Type = data.Type; //0-身份证
+				if(data.Type==11){
+					this.idType = {label:"身份证",value:"11"};
+				}else{
+					this.idType = {label:"护照",value:"93"};
+				}
+				this.Idcard = data.Idcard; //证件号码
+				this.Mobile = data.Mobile; //手机号
+				this.Email = data.Email; //邮箱
+				this.IsDefault = data.IsDefault; //是否默认 1=是
 				if (this.IsDefault === 1) {
 					this.checked = true;
 				}
@@ -203,7 +252,7 @@ export default {
 		async addInvoice() {
 			let UserInfo = {
 				IsDefault: this.IsDefault, //是否默认 1=是
-				Type: this.Type, //0-身份证
+				Type: this.idType.value, //0-身份证
 				FullName: this.FullName, //姓名
 				Idcard: this.Idcard, //身份证号
 				Mobile: this.Mobile, //手机号
@@ -250,7 +299,7 @@ export default {
 			let UserInfo = {
 				Id: this.invoiceId, //修改的用户常用信息Id
 				IsDefault: this.IsDefault, //是否默认 1=是
-				Type: this.Type, //0-身份证
+				Type: this.idType.value, //0-身份证
 				FullName: this.FullName, //姓名
 				Idcard: this.Idcard, //身份证号
 				Mobile: this.Mobile, //手机号
@@ -313,5 +362,13 @@ uni-checkbox .uni-checkbox-input.uni-checkbox-input-checked {
 	background: #5cc69a;
 	color: #fff;
 	border-radius: 10upx;
+}
+.tips{
+	font-size:24upx;
+	color:#ff3333;
+	padding:0 20upx;
+}
+.w100{
+	width:100%;
 }
 </style>

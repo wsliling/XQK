@@ -54,13 +54,14 @@
 				<div class="left">入住人</div>
 				<div class="right flex-center" @click.stop="$refs.selectCheckInInfo.open()">
 					<input type="text" placeholder="选择入住人（必填）" disabled />
-					<div class="btn-min" @click.stop="$refs.addCheckInInfo.open()">添加</div>
+					<!-- <div class="btn-min" @click.stop="$refs.addCheckInInfo.open()">添加</div> -->
+					<div class="btn-min" @click.stop="navigate('tabBar/my/addinformation')">添加</div>
 				</div>
 			</div>
 			<div class="userInfo plr30" v-for="(item,index) in useUserInfo" :key="index">
 				<div>{{item.FullName}}</div>
 				<p>手机号 {{item.Mobile}}</p>
-				<p>身份证 {{item.Idcard}}</p>
+				<p>{{item.Type==93?'护照':'身份证'}} {{item.Idcard}}</p>
 				<!-- <p>邮箱 {{item.Email}}</p> -->
 			</div>
 		</div>
@@ -114,6 +115,7 @@
 			<p>开具发票</p>
 			<span>若需要开具房费发票，请您与星球客工作人员协商。</span> -->
 		</div>
+		<div class="gap100"></div>
 		<div class="btn-max submit" @click="submit">
 			提交订单
 		</div>
@@ -310,12 +312,12 @@
 			this.roomId = option.roomId;
 			this.getData();
 			this.getGoodsDateTime();
-			this.getCheckInInfo();//获取入住人常用信息
 			this.getInvoice();//获取发票列表
 		},
 		onShow(){
 			this.userId = uni.getStorageSync('userId');
 			this.token = uni.getStorageSync('token');
+			this.getCheckInInfo();//获取入住人常用信息
 			// if(!this.data.TotalPrice){
 			// 	this.getData();
 			// }
@@ -377,7 +379,9 @@
 					item.status =0;
 					if(item.IsDefault){
 						item.status =1;
-						this.useUserInfo.push(item)
+						if(this.useUserInfo.length<1){
+							this.useUserInfo.push(item)
+						}
 					}
 				})
 				this.userInfoList = data;
@@ -394,6 +398,10 @@
 						arr.push(item);
 					}
 				})
+				if(arr.length>(this.AdultNum*1+this.ChildNum*1)){
+					toast('您的入住人数为'+(this.AdultNum*1+this.ChildNum*1))
+					return;
+				}
 				this.useUserInfo=arr;
 				this.$refs.selectCheckInInfo.close();
 			},
@@ -473,6 +481,9 @@
 				this.AdultNum = this.l_AdultNum;
 				this.ChildNum = this.l_ChildNum;
 				this.getData();
+				if((this.AdultNum*1+this.ChildNum*1)<this.useUserInfo.length){
+					this.useUserInfo=[];
+				}
 				this.$refs.peopleNum.close();
 			},
 			// 显示优惠券弹窗

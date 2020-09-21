@@ -13,7 +13,7 @@
 					<view class="collect-box" 
 					v-for="(val,key) in orderList.OrderDetails" :key="key"
 					@click="navigate('product/detail/detail',{Id : val.ProductId})">
-						<view class="collect-left"><image :src="val.PicNo" mode=""></image></view>
+						<view class="collect-left"><image :src="val.PicNo" mode="aspectFill"></image></view>
 						<view class="collect-right">
 							<view class="name">{{val.ProductName}}</view>
 							<view class="name">{{val.RoomTypeName}}-共{{val.Number}}间</view>
@@ -58,8 +58,8 @@
 					<div class="tit bold">入住人</div>
 					<div class="item" v-for="(item,index) in orderList.dt_uinfo" :key="index">
 						<h5>{{item.FullName}}</h5>
-						<p>{{item.Idcard}}</p>
-						<p>{{item.Mobile}}</p>
+						<p>{{item.Type==93?'护照':'身份证'}}：{{item.Idcard}}</p>
+						<p>电话：{{item.Mobile}}</p>
 						<!-- <p>{{item.Email}}</p> -->
 					</div>
 				</div>
