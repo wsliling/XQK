@@ -91,7 +91,7 @@ export default new Vuex.Store({
             return state.userId
         },
     },
-    mutations: {
+    mutations: { 
         /**
          * 在main.js例引入
          * import store from './store/index'
