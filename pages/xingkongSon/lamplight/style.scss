@@ -42,13 +42,78 @@ slider{
 	height:222upx;
 	background:rgba(255,255,255,1);
 	border-radius:24upx;
+	
+	&.close {
+		color: #A3A3A3;
+	}
+	.foot-item {
+		display: flex;
+		padding: 20rpx 50rpx;
+		// flex-direction: column;
+	}
+	.img-box {
+		width:96upx;
+		height:96upx;
+		background:rgb(189, 194, 203);
+		border-radius:50%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		&.switch-box.close-bg {
+			background-color: #7D889C;	
+		}
+	}
+	.active-model-img-box {
+		position: relative;
+			.sanjiao {
+			    content: "";
+			    position: absolute;
+			    bottom: 0;
+			    right: 0;
+			    border-width: 0 0 18upx 18upx;
+			    border-style: solid;
+			    border-color: transparent transparent #5CC69A;
+					// 阅读
+					.yuedu {
+						border-color: transparent transparent #5CC69A;
+					}
+					// 明亮
+					.mingliang {
+						border-color: transparent transparent #FCBA88;
+					}
+					// 浪漫
+					.love {
+						border-color: transparent transparent #E7BBF9;
+					}
+					// 睡眠
+					.sleep {
+						border-color: transparent transparent #B4BEFB;
+					}
+			}
+	}
+	.text {
+		margin-top: 20upx;
+		font-size: 24upx;
+	}
+	.switch {
+		width: 48upx;
+		height: 49upx;
+	}
+	// .active-model {
+		
+	// }
+	.active-model-img {
+		width: 40upx;
+		height: 50upx;
+	}
+	
 	.title {
 		margin: 40upx 0 0 30upx;
 		font-size: 28upx;
 		font-weight:bold;
 		&.close {
 			color: #A3A3A3;
-		}
+		}	
 	}
 }
 .lamplight-grade {
@@ -95,78 +160,78 @@ slider{
 		}
 	}
 	
-	.foot {
-		position: fixed;
-		bottom: 0;
-		left: 0;
-		width:750upx;
-		height:196upx;
-		background:rgba(255,255,255,1);
-		display: flex;
-		justify-content: space-around;
-		align-items: center;
-		&.close {
-			color: #A3A3A3;
-		}
-		.foot-item {
-			flex-direction: column;
-		}
-		.img-box {
-			width:96upx;
-			height:96upx;
-			background:rgba(92,198,154,1);
-			border-radius:50%;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			&.switch-box.close-bg {
-				background-color: #7D889C;	
-			}
-		}
-		.active-model-img-box {
-			position: relative;
-				.sanjiao {
-				    content: "";
-				    position: absolute;
-				    bottom: 0;
-				    right: 0;
-				    border-width: 0 0 18upx 18upx;
-				    border-style: solid;
-				    border-color: transparent transparent #5CC69A;
-						// 阅读
-						.yuedu {
-							border-color: transparent transparent #5CC69A;
-						}
-						// 明亮
-						.mingliang {
-							border-color: transparent transparent #FCBA88;
-						}
-						// 浪漫
-						.love {
-							border-color: transparent transparent #E7BBF9;
-						}
-						// 睡眠
-						.sleep {
-							border-color: transparent transparent #B4BEFB;
-						}
-				}
-		}
-		.text {
-			margin-top: 20upx;
-			font-size: 24upx;
-		}
-		.switch {
-			width: 48upx;
-			height: 49upx;
-		}
-		// .active-model {
+	// .foot {
+	// 	position: fixed;
+	// 	bottom: 0;
+	// 	left: 0;
+	// 	width:750upx;
+	// 	height:196upx;
+	// 	background:rgba(255,255,255,1);
+	// 	display: flex;
+	// 	justify-content: space-around;
+	// 	align-items: center;
+	// 	&.close {
+	// 		color: #A3A3A3;
+	// 	}
+	// 	.foot-item {
+	// 		flex-direction: column;
+	// 	}
+	// 	.img-box {
+	// 		width:96upx;
+	// 		height:96upx;
+	// 		background:rgba(92,198,154,1);
+	// 		border-radius:50%;
+	// 		display: flex;
+	// 		justify-content: center;
+	// 		align-items: center;
+	// 		&.switch-box.close-bg {
+	// 			background-color: #7D889C;	
+	// 		}
+	// 	}
+	// 	.active-model-img-box {
+	// 		position: relative;
+	// 			.sanjiao {
+	// 			    content: "";
+	// 			    position: absolute;
+	// 			    bottom: 0;
+	// 			    right: 0;
+	// 			    border-width: 0 0 18upx 18upx;
+	// 			    border-style: solid;
+	// 			    border-color: transparent transparent #5CC69A;
+	// 					// 阅读
+	// 					.yuedu {
+	// 						border-color: transparent transparent #5CC69A;
+	// 					}
+	// 					// 明亮
+	// 					.mingliang {
+	// 						border-color: transparent transparent #FCBA88;
+	// 					}
+	// 					// 浪漫
+	// 					.love {
+	// 						border-color: transparent transparent #E7BBF9;
+	// 					}
+	// 					// 睡眠
+	// 					.sleep {
+	// 						border-color: transparent transparent #B4BEFB;
+	// 					}
+	// 			}
+	// 	}
+	// 	.text {
+	// 		margin-top: 20upx;
+	// 		font-size: 24upx;
+	// 	}
+	// 	.switch {
+	// 		width: 48upx;
+	// 		height: 49upx;
+	// 	}
+	// 	// .active-model {
 			
-		// }
-		.active-model-img {
-			width: 40upx;
-			height: 50upx;
-		}
-	}
+	// 	// }
+	// 	.active-model-img {
+	// 		width: 40upx;
+	// 		height: 50upx;
+	// 	}
+	// }
 	
 // 弹窗
 .popup {

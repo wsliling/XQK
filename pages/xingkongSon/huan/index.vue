@@ -112,6 +112,7 @@
 				context.closePath(); //路径结束
 				context.restore();
 			},
+			
 			// 绘制齿轮
 			drawGearWheel(context, rateNum) {
 				// context.translate(this.properties.circleCenterX, this.properties.circleCenterY);

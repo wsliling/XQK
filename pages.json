@@ -389,7 +389,14 @@
 				{
 					"path" : "lamplight/index",
 					"style" : {
-						"navigationBarTitleText": "灯光"
+						"navigationBarTitleText": "灯光",
+						"app-plus":{
+							"titleNView":{
+								"titleText":"灯光",
+								"titleSize":"20rpx",
+								"titleAlign":"left"
+							}
+						}
 					}
 				},
 				{
@@ -450,6 +457,16 @@
 				"iconPath": "static/tabbar/ft4.png",
 				"selectedIconPath": "static/tabbar/ft4_in.png",
 				"text": "我的"
+			}
+		]
+	},
+	"condition" : { //模式配置，仅开发期间生效
+		"current": 0, //当前激活的模式(list 的索引项)
+		"list": [
+			{
+				"name": "", //模式名称
+				"path": "", //启动页面，必选
+				"query": "" //启动参数，在页面的onLoad函数里面得到
 			}
 		]
 	}

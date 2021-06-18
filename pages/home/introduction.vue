@@ -27,6 +27,7 @@
 	export default {
 		// name:'了解星球客',
 		data() {
+			
 			return {
 				article: {},
 			}

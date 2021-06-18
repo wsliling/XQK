@@ -4,18 +4,17 @@
 			<!-- <view class="head-box close-bg"> -->
 			<view class="head-box" :class="[ isDeng ? '' : 'close-bg']" :style="[isDeng ? activeModel.bgHead : '']">
 				<image v-if="isDeng" class="bg" src="/static/xingkong/lamplight.png" mode="widthFix"></image>
-				<view v-else class="close-deng">
+				<!-- <view v-else class="close-deng">
 					已关闭
-				</view>
+				</view> -->
 				<!-- 亮度盒子 -->
 				<view class="lamplight-box">
-					<view class="title"  :class="[ isDeng ? '' : 'close']">
+					<!-- <view class="title"  :class="[ isDeng ? '' : 'close']">
 						亮度
 					</view>
 					<view class="lamplight-grade">
 						<view class="progress-bar">
-							<!-- <view class="active-progress-bar">
-							</view> -->
+							
 							<slider :value="slider.value" :aria-valuenow="slider.value" @change="windSliderChange" @changing="windSliderChangeIng"
 							 :step="slider.step" :min="slider.min" :max="slider.max" :activeColor="isDeng ? activeModel.bgColor : '#D2D2D2'" :backgroundColor="slider.backgroundColor"
 							 :block-size="slider.blockSize" :disabled="slider.disabled" />
@@ -25,11 +24,39 @@
 								<image :src="item" mode="widthFix"></image>
 							</view>
 						</view>
+					</view> -->
+					
+					
+					
+					
+					
+					<!-- 灯光模式 -->
+					<view @click="open('model')" class="foot-item active-model flex-center-center flex-center-between">
+						<view class="model-item" v-for="(item,index) in modelList" :key='index'>
+							<!-- <block v-if="item.active"> -->
+								<view class="img-box active-model-img-box" :style="{background: isDeng ? item.bgColor : '#FAFAFA'}">
+									<view class="sanjiao" :style="{'border-color':
+									isDeng
+									 ?  
+									 `transparent transparent ${item.bgColor}` 
+									 : 
+									 'transparent'}
+									 "></view>
+									<image class="active-model-img" :src="isDeng ? item.activeImg : item.img " mode="widthFix"></image>
+								</view>
+								<view class="text">
+									{{ item.value }}
+								</view>
+							<!-- </block> -->
+						</view>
 					</view>
 				</view>
 			</view>
+			
+			
+			
 			<!-- 脚部 -->
-			<view class="foot"  :class="[ isDeng ? '' : 'close']">
+			 <!-- <view class="foot"  :class="[ isDeng ? '' : 'close']">
 				<view @click="switchDeng()" class="foot-item flex-center-center">
 					<view class="img-box switch-box" :class="[ isDeng ? '' : 'close-bg']">
 						<image class="switch" src="/static/xingkong/switch0.png" mode="widthFix"></image>
@@ -57,7 +84,7 @@
 						</block>
 					</view>
 				</view>
-			</view>
+			</view> -->
 		</view>
 		<!-- 弹窗 -->
 		<uni-popup ref='model' type="bottom">
@@ -69,6 +96,7 @@
 					<view class="text">
 						{{ item.value }}
 					</view>
+					
 				</view>
 			</view>
 		</uni-popup>
@@ -77,7 +105,15 @@
 
 <script>
 	import uniPopup from '@/components/uni-popup/uni-popup.vue'
-	import {post,get,navigate,switchTab,judgeLogin,toast,throttle} from '@/utils';
+	import {
+		post,
+		get,
+		navigate,
+		switchTab,
+		judgeLogin,
+		toast,
+		throttle
+	} from '@/utils';
 	export default {
 		components: {
 			uniPopup
@@ -86,8 +122,8 @@
 			return {
 				userId: "",
 				token: "",
-				id:'',
-				roomNo:'',
+				id: '',
+				roomNo: '',
 				// 是否关灯
 				isDeng: false,
 				// 滑动条对象
@@ -120,16 +156,6 @@
 						value: '阅读模式',
 						bgColor: '#5CC69A',
 						active: true,
-					},
-					{
-						img: '/static/xingkong/bulb0.png',
-						activeImg: '/static/xingkong/bulb1.png',
-						bgHead: {
-							background: 'linear-gradient(180deg, #FCBA88 0%,#FCBA88 60%,#FBCCA8 80%,rgba(255,0,0,0)) 100%'
-						},
-						value: '明亮模式',
-						bgColor: '#FCBA88',
-						active: false,
 					},
 					{
 						img: '/static/xingkong/love0.png',
@@ -168,6 +194,12 @@
 			// 禁用进度条
 			this.closeSlider()
 		},
+		
+		// 星球客 新增控制、没有查询接口
+		// /api/Udp/RoomDeviceControl
+		// 19:门（0-停 1-开 2-关）
+		// 20:灯光（0-睡眠 1-浪漫 2-阅读）
+		
 		methods: {
 			// 设备控制类型
 			// 0://灯光（1-开 0-关）
@@ -176,26 +208,26 @@
 			// 3://空调-温度（16-30℃）
 			// 4://空调-模式（1 冷2 热3 通风0 停止）
 			// 5://空调-风速手动（1 低速，2 中速，3 高速，0 停止）
-			onButton(type,typeVal){
-				return post('Udp/RoomDeviceControl',{
-					UserId:this.userId,
-					Token:this.token,
-					Id:this.id,
-					RoomNo:this.roomNo,
-					Type:type,
-					TypeVal:typeVal
+			onButton(type, typeVal) {
+				return post('Udp/RoomDeviceControl', {
+					UserId: this.userId,
+					Token: this.token,
+					Id: this.id,
+					RoomNo: this.roomNo,
+					Type: type,
+					TypeVal: typeVal
 				})
 			},
 			// 开关灯
 			async switchDeng() {
-				await this.onButton(0,this.isDeng?0:1)
+				await this.onButton(0, this.isDeng ? 0 : 1)
 				this.isDeng = !this.isDeng
-				if(!this.isDeng) {
+				if (!this.isDeng) {
 					// 关闭
 					this.closeModel()
 					// 禁用进度条
 					this.closeSlider()
-				}else {
+				} else {
 					// 开灯
 					// 启用进度条
 					this.openSlider()
@@ -203,7 +235,7 @@
 			},
 			// 开关弹窗
 			open(ref) {
-				if(!this.isDeng) {
+				if (!this.isDeng) {
 					return false
 				}
 				this.$refs[ref].open()
@@ -213,10 +245,10 @@
 			},
 			// 切换灯光模式
 			async changModel(item, index) {
-				if(!this.isDeng){
+				if (!this.isDeng) {
 					return false
 				}
-				await this.onButton(2,index==0?25:index==1?50:index==2?75:index==3?100:0)
+				await this.onButton(2, index == 0 ? 25 : index == 1 ? 50 : index == 2 ? 75 : index == 3 ? 100 : 0)
 				for (let i = 0; i < this.modelList.length; i++) {
 					this.modelList[i].active = false
 					if (index === i) {
@@ -232,28 +264,28 @@
 			async windSliderChange(e) {
 				let _this = this;
 				let step = this.slider.step
-				console.log('拖动完：', e.detail.value,step)
+				console.log('拖动完：', e.detail.value, step)
 				// this.closeSpeedModel()
 				if (e.detail.value === 0) {
 					// this.$nextTick(() => {
-					await this.onButton(1,25);
+					await this.onButton(1, 25);
 					this.slider.value = 0
 					// console.log('我是无亮度', this.slider.value)
 					// })
 					// this.windSpeedList[0].active = true
 
 				} else if (e.detail.value === step * 1) {
-					await this.onButton(1,50);
+					await this.onButton(1, 50);
 					this.slider.value = step * 1
 					// console.log('我是亮度0', this.slider.value)
 					// this.windSpeedList[1].active = true
 				} else if (e.detail.value === step * 2) {
-					await this.onButton(1,75);
+					await this.onButton(1, 75);
 					this.slider.value = step * 2
 					// console.log('我是亮度1', this.slider.value)
 					// this.windSpeedList[2].active = true
 				} else if (e.detail.value === step * 3) {
-					await this.onButton(1,100);
+					await this.onButton(1, 100);
 					this.slider.value = step * 3
 					// console.log('我是亮度2', this.slider.value)
 					// this.windSpeedList[3].active = true

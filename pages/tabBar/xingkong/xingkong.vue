@@ -8,7 +8,8 @@
 			<view class="top">
 				<view class="left">
 					<view class="lock" :class="{'no-lock':!roomData.Id}">
-						<image v-if="roomData.Id" src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/lock.png" mode="widthFix"></image>
+						<image v-if="roomData.Id" src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/lock.png"
+							mode="widthFix"></image>
 						<image v-else src="@/static/icons/no-lock.png" mode="widthFix"></image>
 					</view>
 					<view :class="{'no-lock':!roomData.Id}">{{roomData.Id?'已':'未'}}办理入住</view>
@@ -16,10 +17,13 @@
 				<div class="room-box flex-center-center">
 					<div class="roomNo" @click="onShowRoomWin" v-if="roomData.RoomNo">
 						房间号：{{roomData.RoomNo}}
-						<div class="icon" v-if="roomList.length>1"><uni-icons type="arrowdown" color="#5cc69a"></uni-icons></div>
+						<div class="icon" v-if="roomList.length>1">
+							<uni-icons type="arrowdown" color="#5cc69a"></uni-icons>
+						</div>
 						<div class="roomWin" v-if="showRoomWin">
-							<p v-for="(item,index) in roomList" :key="index"
-								@click.stop="selectRoom(item)">{{item.RoomNo}}</p>
+							<p v-for="(item,index) in roomList" :key="index" @click.stop="selectRoom(item)">
+								{{item.RoomNo}}
+							</p>
 						</div>
 					</div>
 				</div>
@@ -42,7 +46,8 @@
 					<view class="repairs" @click="callService('一键报修')">
 						<view class="circle1 juzhong">
 							<view class="circle2 juzhong">
-								<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/yijianbaoxiu.png" mode="widthFix"></image>
+								<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/yijianbaoxiu.png"
+									mode="widthFix"></image>
 								<view class="">
 									一键报修
 								</view>
@@ -53,7 +58,8 @@
 					<view class="check-out" @click="callService('一键退房')">
 						<view class="circle1 juzhong">
 							<view class="circle2 juzhong">
-								<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/yijiantuifang.png" mode="widthFix"></image>
+								<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/yijiantuifang.png"
+									mode="widthFix"></image>
 								<view class="">
 									一键退房
 								</view>
@@ -64,7 +70,8 @@
 					<view class="sweep" @click="callService('一键打扫')">
 						<view class="circle1 juzhong">
 							<view class="circle2 juzhong">
-								<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/yijiandasao.png" mode="widthFix"></image>
+								<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/yijiandasao.png"
+									mode="widthFix"></image>
 								<view class="">
 									一键打扫
 								</view>
@@ -77,16 +84,18 @@
 					<view class="switchCircle1 juzhong">
 						<view class="switchCircle2 juzhong">
 							<view class="switchCircle3 juzhong">
-								<view class="switchCircle4 juzhong">
-									<view class="switchCircle5">
-										<view class="box juzhong">
-											<div class="btn-top" @click="goUrl('xingkongSon/airConditioner/index')">空调</div>
-											<div class="center" @click="opemDoor">
-												<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/switch.png" mode="widthFix"></image>
-												<view class="">{{openDoor}}</view>
-											</div>
-											<div class="btn-down" @click="goUrl('xingkongSon/lamplight/index')">灯光</div>
+								<view class="switchCircle5">
+									<view class="box juzhong">
+										<view class="btn-top" @click="goUrl('xingkongSon/airConditioner/index')">空调
 										</view>
+										<view class="center">
+											<view :class="['btn-open',onOpenBg ? 'on':'']" @click="opemDoor">开门</view>
+											<view class="btn-stop">
+												<view :class="['stopCircle',onStopBg ? 'start': '' ]" @click="stopBtn">停止</view>
+											</view>
+											<view :class="['btn-close',onCloseBg ? 'on':'']" @click="closeDoor">关门</view>
+										</view>
+										<view class="btn-down" @click="goUrl('xingkongSon/lamplight/index')">灯光</view>
 									</view>
 								</view>
 							</view>
@@ -110,10 +119,10 @@
 		<view class="infoBox">
 			<view class="score">
 				<view class="left2 juzhong">
-					<circular-progress-bar :canvasWiidth='canvasWiidth' :canvasHeight='canvasHeight' 
-					:process='process'  :describe="process>7.5?'优':process<=7.5&&process>5?'良好':process<=5&&process>2.5?'一般':'差'"
-					:color="process>7.5?'#5cc69a':process<=7.5&&process>5?'#FFDE39':process<=5&&process>2.5?'#ff9513':'#ff3333'"
-					:myCanvasId='myCanvasId'></circular-progress-bar>
+					<circular-progress-bar :canvasWiidth='canvasWiidth' :canvasHeight='canvasHeight' :process='process'
+						:describe="process>7.5?'优':process<=7.5&&process>5?'良好':process<=5&&process>2.5?'一般':'差'"
+						:color="process>7.5?'#5cc69a':process<=7.5&&process>5?'#FFDE39':process<=5&&process>2.5?'#ff9513':'#ff3333'"
+						:myCanvasId='myCanvasId'></circular-progress-bar>
 					<!-- <view class="left1 juzhong">
 						<view class="dataBox juzhong">
 							<view class="num">
@@ -147,8 +156,7 @@
 								℃
 							</view>
 						</view>
-						<view class="rectangle" 
-						:class="(equipment.roomTempl>32||equipment.roomTempl<12)?'red1'
+						<view class="rectangle" :class="(equipment.roomTempl>32||equipment.roomTempl<12)?'red1'
 						:(equipment.roomTempl>=12&&equipment.roomTempl<16)||(equipment.roomTempl<=32&&equipment.roomTempl>29)?'blue1'
 						:(equipment.roomTempl>=16&&equipment.roomTempl<20)||(equipment.roomTempl<=29&&equipment.roomTempl>26)?'yellow1'
 						:(equipment.roomTempl>=20&&equipment.roomTempl<=26)?'green1':''">
@@ -164,8 +172,7 @@
 								%
 							</view>
 						</view>
-						<view class="rectangle" 
-						:class="(equipment.roomHumidity1>90||equipment.roomHumidity1<10)?'red1'
+						<view class="rectangle" :class="(equipment.roomHumidity1>90||equipment.roomHumidity1<10)?'red1'
 						:(equipment.roomHumidity1>=10&&equipment.roomHumidity1<25)||(equipment.roomHumidity1<=90&&equipment.roomHumidity1>75)?'blue1'
 						:(equipment.roomHumidity1>=25&&equipment.roomHumidity1<40)||(equipment.roomHumidity1<=75&&equipment.roomHumidity1>60)?'yellow1'
 						:(equipment.roomHumidity1>=40&&equipment.roomHumidity1<=60)?'green1':''">
@@ -181,8 +188,7 @@
 								ug
 							</view> -->
 						</view>
-						<view class="rectangle"
-						:class="(equipment.roomPM25_1>200||equipment.roomPM25_1<0)?'red1'
+						<view class="rectangle" :class="(equipment.roomPM25_1>200||equipment.roomPM25_1<0)?'red1'
 						:(equipment.roomPM25_1>125&&equipment.roomPM25_1<=200)?'blue1'
 						:(equipment.roomPM25_1>50&&equipment.roomPM25_1<=125)?'yellow1'
 						:(equipment.roomPM25_1>0&&equipment.roomPM25_1<=50)?'green1':''">
@@ -202,8 +208,7 @@
 								ppm
 							</view> -->
 						</view>
-						<view class="rectangle"
-						:class="(equipment.roomC02_1>2000||equipment.roomC02_1<0)?'red1'
+						<view class="rectangle" :class="(equipment.roomC02_1>2000||equipment.roomC02_1<0)?'red1'
 						:(equipment.roomC02_1>1400&&equipment.roomC02_1<=2000)?'blue1'
 						:(equipment.roomC02_1>800&&equipment.roomC02_1<=1400)?'yellow1'
 						:(equipment.roomC02_1>0&&equipment.roomC02_1<=800)?'green1':''">
@@ -225,7 +230,15 @@
 	// import imageSrc from "@/static/xingkong-icon/xingkong-bg.png"
 	import circularProgressBar from '@/components/circularProgressBar.vue';
 	import tabbar from '@/components/tabbar.vue';
-	import {post,get,navigate,switchTab,judgeLogin,toast,throttle} from '@/utils';
+	import {
+		post,
+		get,
+		navigate,
+		switchTab,
+		judgeLogin,
+		toast,
+		throttle
+	} from '@/utils';
 	// import uCharts from '@'
 	export default {
 		components: {
@@ -235,8 +248,8 @@
 		data() {
 			return {
 				navigate,
-				userId:'',
-				token:'',
+				userId: '',
+				token: '',
 				imageSrc: 'http://xqk.wtvxin.com/images/wxapp/xingkong-icon/xingkong-bg.png',
 				// 星控的环形图数据
 				process: 0, // 分数 0 ~10
@@ -244,15 +257,18 @@
 				canvasWiidth: 222, // 固定的宽度，不用改
 				myCanvasId: 'myCanvasId', // 固定的id，不用改
 
-				udp:null,
-				ip:'',
-				port:'',
-				msg:'',
-				roomList:[],
-				roomData:{},
-				openDoor:'开门',
-				showRoomWin:false,
-				equipment:{},//设备
+				udp: null,
+				ip: '',
+				port: '',
+				msg: '',
+				roomList: [],
+				roomData: {},
+				openDoor: [],
+				showRoomWin: false,
+				equipment: {}, //设备
+				onOpenBg:false,
+				onCloseBg:false,
+				onStopBg:false,
 			}
 		},
 		onLoad() {
@@ -260,8 +276,7 @@
 			this.token = uni.getStorageSync('token');
 			this.getRoom();
 		},
-		onShow(){
-		},
+		onShow() {},
 		computed: {
 			Rprocess() {
 				return this.process
@@ -281,23 +296,23 @@
 			},
 		},
 		methods: {
-			onShowRoomWin(){
-				if(this.roomList.length>1&&!this.showRoomWin){
+			onShowRoomWin() {
+				if (this.roomList.length > 1 && !this.showRoomWin) {
 					this.showRoomWin = true;
-				}else{
+				} else {
 					this.showRoomWin = false;
 				}
 			},
-			selectRoom(item){
+			selectRoom(item) {
 				this.roomData = item;
 				this.showRoomWin = false;
 			},
-			getRoom(){
-				post('Udp/GetOrderForRoomNo',{
+			getRoom() {
+				post('Udp/GetOrderForRoomNo', {
 					UserId: this.userId,
-					Token:this.token
-				}).then(res=>{
-					if(!res.data.length)return;
+					Token: this.token
+				}).then(res => {
+					if (!res.data.length) return;
 					this.roomList = res.data;
 					this.roomData = res.data[0];
 					
@@ -306,83 +321,84 @@
 					console.log(this.roomData)
 				})
 			},
-			getInfo1(){
-				this.getInfo(0).then(res=>{
-					if(!res.data)return;
-					this.openDoor = res.data.Door_OnOff*1?'关门':'开门'
+			getInfo1() {
+				this.getInfo(0).then(res => {
+					if (!res.data) return;
+					this.openDoor = res.data.Door_OnOff * 1 ? '关门' : '开门'
+					console.log(res)
 				})
 			},
-			getInfo2(){
-				this.getInfo(2).then(res=>{
-					if(!res.data)return;
+			getInfo2() {
+				this.getInfo(2).then(res => {
+					if (!res.data) return;
 					this.equipment = res.data;
 					const data = res.data;
-					let c= 0;
+					let c = 0;
 					let humidity = 0;
 					let co2 = 0;
 					let pm2_5 = 0;
 					// pm2.5的值
-					if(data.roomPM25_1>2000){
+					if (data.roomPM25_1 > 2000) {
 						pm2_5 = 0;
-					}else{
-						pm2_5 = 100-((data.roomPM25_1/2000)*100);
+					} else {
+						pm2_5 = 100 - ((data.roomPM25_1 / 2000) * 100);
 					}
 					//co2的百分比
-					if(data.roomC02_1>200){
+					if (data.roomC02_1 > 200) {
 						co2 = 0;
-					}else{
-						co2 = 100-((data.roomC02_1/200)*100);
+					} else {
+						co2 = 100 - ((data.roomC02_1 / 200) * 100);
 					}
 					//湿度的百分比
-					if(data.roomHumidity1>50){
-						humidity = 100-(((data.roomHumidity1-50)/50)*100)
-					}else{
-						humidity = (((data.roomHumidity1)/50)*100)
+					if (data.roomHumidity1 > 50) {
+						humidity = 100 - (((data.roomHumidity1 - 50) / 50) * 100)
+					} else {
+						humidity = (((data.roomHumidity1) / 50) * 100)
 					}
 					//温度的百分比
-					if(data.roomTempl<140||data.roomTempl>320){
+					if (data.roomTempl < 140 || data.roomTempl > 320) {
 						c = 0
-					}else{
-						if(data.roomTempl>230){
-							c = 100-(((data.roomTempl-230)/90)*100)
-						}else{
-							c = (((data.roomTempl)/90)*100)
+					} else {
+						if (data.roomTempl > 230) {
+							c = 100 - (((data.roomTempl - 230) / 90) * 100)
+						} else {
+							c = (((data.roomTempl) / 90) * 100)
 						}
-						
+
 					}
 					// 计算平均值
-					this.process = Math.floor((pm2_5+co2+humidity+c)/4/10)
+					this.process = Math.floor((pm2_5 + co2 + humidity + c) / 4 / 10)
 				})
 			},
-			getInfo(type){
-				return post('Udp/GetDeviceDetails',{
+			getInfo(type) {
+				return post('Udp/GetDeviceDetails', {
 					UserId: this.userId,
-					Token:this.token,
-					Id:this.roomData.Id,
-					RoomNo:this.roomData.RoomNo,
-					Type:type
+					Token: this.token,
+					Id: this.roomData.Id,
+					RoomNo: this.roomData.RoomNo,
+					Type: type
 				})
 			},
-			createUDP(){
+			createUDP() {
 				this.udp = wx.createUDPSocket();
 				this.udp.bind();
-				this.udp.onMessage(res=>{
-					console.log('UDP发生的消息:'+JSON.stringify(res))
+				this.udp.onMessage(res => {
+					console.log('UDP发生的消息:' + JSON.stringify(res))
 				})
-				this.udp.onListening(res=>{
-					console.log('UDPonListening:'+JSON.stringify(res))
+				this.udp.onListening(res => {
+					console.log('UDPonListening:' + JSON.stringify(res))
 				})
-				this.udp.onClose(res=>{
-					console.log('关闭UDP:'+JSON.stringify(res))
+				this.udp.onClose(res => {
+					console.log('关闭UDP:' + JSON.stringify(res))
 				})
-				this.udp.onError(res=>{
-					console.log('错误信息UDP:'+JSON.stringify(res))
+				this.udp.onError(res => {
+					console.log('错误信息UDP:' + JSON.stringify(res))
 				})
-				this.udp.onClose(res=>{
-					console.log('监听到了UDP关闭了:'+JSON.stringify(res))
+				this.udp.onClose(res => {
+					console.log('监听到了UDP关闭了:' + JSON.stringify(res))
 				})
-				this.udp.onClose(res=>{
-					console.log('监听到了UDP关闭了:'+JSON.stringify(res))
+				this.udp.onClose(res => {
+					console.log('监听到了UDP关闭了:' + JSON.stringify(res))
 				})
 			},
 			// closeUDP(){
@@ -390,18 +406,23 @@
 			// 	this.$refs.opemDoor.close();
 			// },
 			// 开门
-			opemDoor(){
+			opemDoor() {
 				// this.createUDP();
 				// this.$refs.opemDoor.open();
+				this.onOpenBg = !this.onOpenBg;
 				console.log(this.openDoor)
-				if(!this.onIsReserve())return;
-				this.onButton(9,this.openDoor=='开门'?1:0).then(res=>{
-					if(this.openDoor=='关门'){
-						this.openDoor = '开门'	
-					}else{
-						this.openDoor = '关门'
-					}
+				if (!this.onIsReserve()) return;
+				this.onButton(19, this.openDoor == '开门' ? 1 : 2 ).then(res => {
+						
 				})
+			},
+			stopBtn(){
+				
+				this.onStopBg = !this.onStopBg;
+			},
+			closeDoor(){
+				this.onCloseBg = !this.onCloseBg;
+				
 			},
 			// 设备控制类型
 			// 0://灯光（1-开 0-关）
@@ -411,19 +432,22 @@
 			// 4://空调-模式（1 冷2 热3 通风0 停止）
 			// 5://空调-风速手动（1 低速，2 中速，3 高速，0 停止）
 			//9://开关门（1-开；0关）
-			onButton(type,typeVal){
-				return post('Udp/RoomDeviceControl',{
-					UserId:this.userId,
-					Token:this.token,
-					Id:this.roomData.Id,
-					RoomNo:this.roomData.RoomNo,
-					Type:type,
-					TypeVal:typeVal
+			onButton(type, typeVal) {
+				return post('Udp/RoomDeviceControl', {
+					UserId: this.userId,
+					Token: this.token,
+					Id: this.roomData.Id,
+					RoomNo: this.roomData.RoomNo,
+					Type: type,
+					TypeVal: typeVal
 				})
 			},
-			goUrl(url){
+			goUrl(url) {
 				if(!this.onIsReserve())return;
-				navigate(url,{id:this.roomData.Id,roomNo:this.roomData.RoomNo})
+				navigate(url, {
+					id: this.roomData.Id,
+					roomNo: this.roomData.RoomNo
+				})
 			},
 			// sendUDP(){
 			// 	console.log('发送的数据',{
@@ -438,25 +462,27 @@
 			// 	})
 			// },
 			// 判断是否已办理入住
-			onIsReserve(){
-				if(!this.roomData.Id){
+			onIsReserve() {
+				if (!this.roomData.Id) {
 					toast('未办理入住！')
 					return false;
 				}
 				return true;
 			},
 			// 呼叫服务
-			callService(str){
-				if(!this.onIsReserve())return;
-				post('Udp/CRSaddquestion',{
-					Token:this.token,
-					UserId:this.userId,
-					hotel_id:this.roomData.Hotel_id,
-					asker_name:this.roomData.ContactName,
-					asker_mobile:this.roomData.Tel,
-					content:`${this.roomData.Hotel_name}${this.roomData.RoomNo}号房请求${str}服务`
-				}).then(res=>{
-					toast(`已为您提交${str}服务`,{icon:true})
+			callService(str) {
+				if (!this.onIsReserve()) return;
+				post('Udp/CRSaddquestion', {
+					Token: this.token,
+					UserId: this.userId,
+					hotel_id: this.roomData.Hotel_id,
+					asker_name: this.roomData.ContactName,
+					asker_mobile: this.roomData.Tel,
+					content: `${this.roomData.Hotel_name}${this.roomData.RoomNo}号房请求${str}服务`
+				}).then(res => {
+					toast(`已为您提交${str}服务`, {
+						icon: true
+					})
 				})
 			},
 			// 获取屏幕宽度
