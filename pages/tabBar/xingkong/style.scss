@@ -127,17 +127,17 @@
 		-ms-flex-align: center;
 		align-items: center;
 		flex-direction: column;
+		.iconbtn{
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-direction: column;
+		}
 		.icon {
 			width: 40upx;
 			height: 40upx;
-			image {
-				width: 40upx;
-				height: 40upx;
-			  filter: invert;
-					// filter: Xray;
-					// filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#B5CCFA', EndColorStr='#B5CCFA');
-				// filter: grayscale(0%);
-			}
+			filter: invert;
+			margin-bottom: 10upx;
 		}
 	}
 }

@@ -24,16 +24,14 @@
 					</div>
 				</div>
 				<view class="right">
-					<view class="icon" @click="navigate('xingkongSon/explain')">
-						<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/question.png" mode="widthFix"></image>
+					<view  class="iconbtn" @click="navigate('xingkongSon/explain')">
+						<image class="icon" src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/question.png" mode="widthFix"></image>
+						<view>使用说明</view>
 					</view>
-					<view @click="navigate('xingkongSon/explain')">使用说明</view>
-					<block v-if="roomData.IsVideo&&roomData.RoomNo&&roomData.Video">
-						<view class="icon" @click="navigate('product/detail/videoPlay',{url:roomData.Video})">
-							<image src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/camera.png" mode="widthFix"></image>
-						</view>
-						<view @click="navigate('product/detail/videoPlay',{url:roomData.Video})">景区摄像头</view>
-					</block>
+					<view v-if="roomData.IsVideo&&roomData.RoomNo&&roomData.Video" class="iconbtn" @click="navigate('product/detail/videoPlay',{url:roomData.Video})">
+						<image class="icon" src="http://xqk.wtvxin.com/images/wxapp/xingkong-icon/camera.png" mode="widthFix"></image>
+						<view>景区摄像头</view>
+					</view>
 				</view>
 			</view>
 			<!-- 开关盒子 -->
@@ -302,6 +300,7 @@
 					if(!res.data.length)return;
 					this.roomList = res.data;
 					this.roomData = res.data[0];
+					
 					this.getInfo1();
 					this.getInfo2();
 					console.log(this.roomData)
